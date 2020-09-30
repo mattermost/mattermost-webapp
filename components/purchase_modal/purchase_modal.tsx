@@ -87,7 +87,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     purchaseScreen = () => {
         return (
-            <React.Fragment>
+            <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
                     <div className='title'>
                         <FormattedMessage
@@ -181,7 +181,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         <img src={cloudLogo}/>
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -196,22 +196,26 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         show={Boolean(this.props.show)}
                         onClose={this.props.actions.closeModal}
                         ref={this.modal}
-
                         ariaLabelledBy='purchase_modal_title'
                     >
                         <div className='PurchaseModal'>
-                            { this.state.processing ? <div>
-                                <ProcessPaymentSetup
-                                    stripe={stripePromise}
-                                    billingDetails={this.state.billingDetails}
-                                    addPaymentMethod={this.props.actions.completeStripeAddPaymentMethod}
-                                    isDevMode={this.props.isDevMode}
-                                    onClose={this.props.actions.closeModal}
-                                    onBack={() => {
-                                        this.setState({processing: false});
-                                    }}
-                                /></div> : this.purchaseScreen()
-                            }
+                            {this.state.processing ? (
+                                <div>
+                                    <ProcessPaymentSetup
+                                        stripe={stripePromise}
+                                        billingDetails={this.state.billingDetails}
+                                        addPaymentMethod={
+                                            this.props.actions.completeStripeAddPaymentMethod
+                                        }
+                                        isDevMode={this.props.isDevMode}
+                                        onClose={this.props.actions.closeModal}
+                                        onBack={() => {
+                                            this.setState({processing: false});
+                                        }}
+                                    />
+                                </div>
+                            ) : null}
+                            {this.purchaseScreen()}
                             <div>
                                 <img
                                     className='waves'
