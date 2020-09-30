@@ -3581,6 +3581,7 @@
   "sidebar.types.private": "PRIVATE CHANNELS",
   "sidebar.types.public": "PUBLIC CHANNELS",
   "sidebar.types.recent": "RECENT ACTIVITY",
+  "sidebar.types.unread_channels": "UNREAD CHANNELS",
   "sidebar.types.unreads": "UNREADS",
   "sidebar.unreads": "More unreads",
   "signup_team_system_console": "Go to System Console",

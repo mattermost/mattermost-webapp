@@ -18,15 +18,13 @@ import {
     stopDragging,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
-import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam, getDraggingState, makeGetCollapsedStateForAllCategoriesByTeam} from 'selectors/views/channel_sidebar';
+import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarChannelList from './sidebar_channel_list';
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
-    const getCurrentlyDisplayedChannelsForTeam = makeGetCurrentlyDisplayedChannelsForTeam();
-    const getCollapsedStateForAllCategoriesByTeam = makeGetCollapsedStateForAllCategoriesByTeam();
 
     return (state: GlobalState) => {
         const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
@@ -38,9 +36,8 @@ function makeMapStateToProps() {
             categories: getCategoriesForTeam(state, currentTeam.id),
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
             unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
-            displayedChannels: getCurrentlyDisplayedChannelsForTeam(state, currentTeam.id),
+            displayedChannels: getDisplayedChannels(state),
             draggingState: getDraggingState(state),
-            categoryCollapsedState: getCollapsedStateForAllCategoriesByTeam(state, currentTeam.id),
             newCategoryIds: state.views.channelSidebar.newCategoryIds,
         };
     };
