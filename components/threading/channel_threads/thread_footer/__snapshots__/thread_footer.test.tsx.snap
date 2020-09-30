@@ -71,6 +71,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         "minute",
         "hour",
         "day",
+        "week",
       ]
     }
     useTime={false}
@@ -174,6 +175,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         "minute",
         "hour",
         "day",
+        "week",
       ]
     }
     useTime={false}

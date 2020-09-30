@@ -21,9 +21,8 @@ exports[`components/threading/global_threads/thread_item should report total num
           "now",
           "minute",
           "hour",
-          "today-yesterday",
+          "day",
           "week",
-          "month",
         ]
       }
       useTime={false}
@@ -137,9 +136,8 @@ exports[`components/threading/global_threads/thread_item should report unread me
           "now",
           "minute",
           "hour",
-          "today-yesterday",
+          "day",
           "week",
-          "month",
         ]
       }
       useTime={false}
@@ -251,9 +249,8 @@ exports[`components/threading/global_threads/thread_item should report unread me
           "now",
           "minute",
           "hour",
-          "today-yesterday",
+          "day",
           "week",
-          "month",
         ]
       }
       useTime={false}
