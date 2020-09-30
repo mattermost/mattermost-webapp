@@ -1899,6 +1899,6 @@ export function adjustSelection(inputBox, e) {
 }
 
 export function getNextBillingDate() {
-    const nextBillingDate = moment().add(1, "months").startOf("month");
-    return nextBillingDate.format("MMM D, YYYY");
+    const nextBillingDate = moment().add(1, 'months').startOf('month');
+    return nextBillingDate.format('MMM D, YYYY');
 }

@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import {Stripe, loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
-import moment from 'moment';
-
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
