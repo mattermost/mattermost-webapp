@@ -16,7 +16,7 @@ import configureStore from 'store';
 import {resetTheme} from 'utils/utils';
 
 import state from './state';
-const store = configureStore(state); // TODO better structure: move to a redux/state addDecorator
+const store = configureStore(state);
 
 import 'sass/styles.scss';
 import 'storybook/styles.scss';
