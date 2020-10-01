@@ -8,6 +8,7 @@
 // ***************************************************************
 
 // Group: @messaging
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     let testTeam;
@@ -30,6 +31,9 @@ describe('Messaging', () => {
         });
     });
     it('MM-T134 Visual verification of tooltips on top nav, channel icons, posts', () => {
+        // * Hover effect wraps around Date and New Messages lines
+        cy.get('#postListContent').find('.top').should('be.visible');
+
         // * Members tool-tip is present
         cy.findAllByLabelText('members').should('be.visible').trigger('mouseover');
         cy.get('div.tooltip-inner').should('be.visible').and('contain', 'Members');
