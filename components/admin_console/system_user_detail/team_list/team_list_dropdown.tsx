@@ -46,7 +46,6 @@ export default class TeamListDropdown extends React.PureComponent<Props, State> 
                     type='button'
                     id={`teamListDropdown_${team.id}`}
                     className='dropdown-toggle theme color--link style--none'
-                    type='button'
                     aria-expanded='true'
                 >
                     <span className='SystemUserDetail__actions-menu-icon'><EllipsisHorizontalIcon/></span>

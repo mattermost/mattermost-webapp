@@ -123,7 +123,6 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                     <button
                         type='button'
                         autoFocus={true}
-                        type='button'
                         className='btn btn-primary'
                         onClick={this.handleHide}
                         id='closeModalButton'
