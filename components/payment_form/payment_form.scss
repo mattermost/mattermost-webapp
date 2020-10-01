@@ -33,23 +33,32 @@
         height: 36px;
         position: relative;
         .Input_fieldset {
+            padding: 0;
             .Input_wrapper {
-                height: 36px;
+                height: 100%;
                 margin: 0;
-                .DropdownInput__controlContainer {
-                    height: 36px;
-                    .DropDown__control {
-                        height: 36px;
-                        .DropDown__value-container {
-                            .DropDown__single-value {
-                                position: absolute;
-                            }
-                            .DropDown__input {
-                                height: 32px;
+                box-shadow: inset 0 0 0 2px transparent;
+                .Input {
+                    padding: 0 2px;
+                    height: 100%;
+                    .DropdownInput__controlContainer {
+                        height: 34px;
+                        .DropDown__control {
+                            height: 34px;
+                            min-height: 34px;
+                            .DropDown__value-container {
+                                height: 100%;
+                                .DropDown__single-value {
+                                    position: absolute;
+                                }
+                                .DropDown__input {
+                                    height: 32px;
+                                }
                             }
                         }
                     }
                 }
+
             }
             z-index: 9999;
         }
@@ -74,10 +83,11 @@
 
         .Input_wrapper {
             margin: 0;
+            height: 32px;
         }
 
         &.Input_fieldset___legend {
-            box-shadow: inset 0 0 0 1px transparent;
+            box-shadow: inset 0 0 0 2px transparent;
             >legend {
                 margin-left: 11px;
             }
@@ -105,6 +115,7 @@
         }
 
         .Input {
+            height: 32px;
             &::placeholder{
                 color: var(--center-channel-color);
                 opacity: 0.64;
