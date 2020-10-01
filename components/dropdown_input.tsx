@@ -31,6 +31,7 @@ const baseStyles = {
         border: 'none',
         boxShadow: 'none',
         padding: '0 2px',
+        cursor: 'pointer',
     }),
     indicatorSeparator: (provided: CSSProperties) => ({
         ...provided,

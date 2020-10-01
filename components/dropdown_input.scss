@@ -14,7 +14,7 @@
         &.Input___focus .a11y--focused {
             box-shadow: none;
         }
-    } 
+    }
 
     .Input_legend {
         margin-left: 8px;
@@ -37,6 +37,7 @@
 .DropdownInput__option > div {
     padding: 10px 24px;
     line-height: 16px;
+    cursor: pointer;
 }
 
 .DropdownInput__option.selected > div {
