@@ -6,6 +6,8 @@ import React from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
@@ -66,6 +68,21 @@ describe('components/post_view/post_list_row', () => {
             ...defaultProps,
             channel: {
                 id: '123',
+                name: 'test-channel-1',
+                display_name: 'Test Channel 1',
+                type: ('P' as ChannelType),
+                team_id: 'team-1',
+                header: '',
+                purpose: '',
+                creator_id: '',
+                scheme_id: '',
+                group_constrained: false,
+                create_at: 0,
+                update_at: 0,
+                delete_at: 0,
+                last_post_at: 0,
+                total_msg_count: 0,
+                extra_update_at: 0,
             },
             fullWidth: true,
             listId,

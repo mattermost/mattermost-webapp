@@ -7,6 +7,8 @@ import classNames from 'classnames';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
@@ -15,7 +17,8 @@ import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
 
-type PostListRowProp = {
+export type PostListRowProps = {
+    channel?: Channel;
     listId: string,
     previousListId?: string,
     fullWidth?: boolean,
@@ -50,7 +53,7 @@ type PostListRowProp = {
 
 }
 
-export default class PostListRow extends React.PureComponent<PostListRowProp> {
+export default class PostListRow extends React.PureComponent<PostListRowProps> {
     blockShortcutReactToLastPostForNonMessages(listId:string) {
         const {actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
@@ -60,7 +63,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProp> {
         }
     }
 
-    componentDidUpdate(prevProps: PostListRowProp) {
+    componentDidUpdate(prevProps: PostListRowProps) {
         const {listId, isLastPost, shortcutReactToLastPostEmittedFrom} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
