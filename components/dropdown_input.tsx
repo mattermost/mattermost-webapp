@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, CSSProperties} from 'react';
-import ReactSelect, {components, Props as SelectProps, ActionMeta} from 'react-select';
+import ReactSelect, {Props as SelectProps, ActionMeta, components} from 'react-select';
 import classNames from 'classnames';
 
-import './multi_input.scss';
+import './dropdown_input.scss';
 
-// TODO: This component needs work, should not be used outside of InviteMembersStep until this comment is removed.
+// TODO: This component needs work, should not be used outside of AddressInfo until this comment is removed.
 
 type ValueType = {
     label: string;
@@ -15,9 +15,10 @@ type ValueType = {
 }
 
 type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
-    value: T[];
+    value?: T;
     legend?: string;
-    onChange: (value: T[], action: ActionMeta<T[]>) => void;
+    error?: string;
+    onChange: (value: T, action: ActionMeta<T>) => void;
 };
 
 const baseStyles = {
@@ -25,36 +26,57 @@ const baseStyles = {
         ...provided,
         color: 'var(--center-channel-color)',
     }),
+    control: (provided: CSSProperties) => ({
+        ...provided,
+        border: 'none',
+        boxShadow: 'none',
+        padding: '0 2px',
+        cursor: 'pointer',
+    }),
+    indicatorSeparator: (provided: CSSProperties) => ({
+        ...provided,
+        display: 'none',
+    }),
 };
 
-const MultiValueContainer = (props: any) => {
+const IndicatorsContainer = (props: any) => {
     return (
-        <div className={classNames('MultiInput__multiValueContainer', {error: props.data.error})}>
-            <components.MultiValueContainer {...props}/>
+        <div className='DropdownInput__indicatorsContainer'>
+            <components.IndicatorsContainer {...props}>
+                <i className='icon icon-chevron-down'/>
+            </components.IndicatorsContainer>
         </div>
     );
 };
 
-const MultiValueRemove = (props: any) => {
+const Option = (props: any) => {
     return (
-        <div className='MultiInput__multiValueRemove'>
-            <components.MultiValueRemove {...props}>
-                <i className='icon icon-close-circle'/>
-            </components.MultiValueRemove>
+        <div
+            className={classNames('DropdownInput__option', {
+                selected: props.isSelected,
+                focused: props.isFocused,
+            })}
+        >
+            <components.Option {...props}/>
         </div>
     );
 };
 
-const Placeholder = (props: any) => {
+const renderError = (error?: string) => {
+    if (!error) {
+        return null;
+    }
+
     return (
-        <div className='MultiInput__placeholder'>
-            <components.Placeholder {...props}/>
+        <div className='Input___error'>
+            <i className='icon icon-alert-outline'/>
+            <span>{error}</span>
         </div>
     );
 };
 
-const MultiInput = <T extends ValueType>(props: Props<T>) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, ...otherProps} = props;
+const DropdownInput = <T extends ValueType>(props: Props<T>) => {
+    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, options, error, ...otherProps} = props;
 
     const [focused, setFocused] = useState(false);
 
@@ -78,12 +100,13 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
         }
     };
 
-    const showLegend = Boolean(focused || value.length);
+    const showLegend = Boolean(focused || value);
 
     return (
-        <div className='MultiInput Input_container'>
+        <div className='DropdownInput Input_container'>
             <fieldset
                 className={classNames('Input_fieldset', className, {
+                    Input_fieldset___error: error,
                     Input_fieldset___legend: showLegend,
                 })}
             >
@@ -97,19 +120,13 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
                 >
                     {textPrefix && <span>{textPrefix}</span>}
                     <ReactSelect
-                        id={`MultiInput_${name}`}
-                        components={{
-                            Menu: () => null,
-                            IndicatorsContainer: () => null,
-                            MultiValueContainer,
-                            MultiValueRemove,
-                            Placeholder,
-                        }}
-                        isMulti={true}
-                        isClearable={false}
-                        openMenuOnFocus={false}
-                        menuIsOpen={false}
+                        id={`DropdownInput_${name}`}
+                        options={options}
                         placeholder={focused ? '' : placeholder}
+                        components={{
+                            IndicatorsContainer,
+                            Option,
+                        }}
                         className={classNames('Input', className, {Input__focus: showLegend})}
                         value={value}
                         onChange={onChange as any} // types are not working correctly for multiselect
@@ -119,8 +136,9 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
                 </div>
                 {addon}
             </fieldset>
+            {renderError(error)}
         </div>
     );
 };
 
-export default MultiInput;
+export default DropdownInput;
