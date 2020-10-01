@@ -86,8 +86,8 @@ export default class SearchBar extends React.PureComponent {
 
         return {
             ...state,
-            visibleSearchHintOptions: SearchBar.determineVisibleSearchHintOptions(searchTerms)
-        }
+            visibleSearchHintOptions: SearchBar.determineVisibleSearchHintOptions(searchTerms),
+        };
     }
 
     static determineVisibleSearchHintOptions = (searchTerms) => {
