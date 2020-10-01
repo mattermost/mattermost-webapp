@@ -8,7 +8,6 @@
 // ***************************************************************
 
 // Group: @messaging
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     let testTeam;
