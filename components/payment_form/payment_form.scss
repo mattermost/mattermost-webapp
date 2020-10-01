@@ -44,12 +44,10 @@
     .Input_fieldset {
         background: var(--center-channel-bg);
         height: 40px;
-
-
-
         &.Input_wrapper {
             padding: 0 1px;
             margin: 2px 0;
+            color: black !important;
         }
         &.Input_fieldset___legend {
             >legend {
@@ -61,7 +59,7 @@
             border-color: transparent;
             box-shadow: inset 0 0 0 2px var(--button-bg);
             color: var(--button-bg);
-            padding-top: 1px;
+            padding-top: 2px;
         }
 
 
@@ -75,13 +73,12 @@
         &.Input_fieldset___error:focus-within {
             color: var(--error-text);
             box-shadow: inset 0 0 0 2px var(--error-text);
-            padding-top: 1px;
+            padding-top: 2px;
         }
 
-        .Input::placeholder {
-                color: var(--center-channel-color-72) !important;
-                opacity: 0.5;
-                font-size: 14px;
+        input[placeholder] {
+            // color: black !important;
+            font-size: 14px;
         }
 
     }
