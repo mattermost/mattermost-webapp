@@ -32,35 +32,11 @@
         margin-bottom: 24px;
         height: 36px;
         position: relative;
-        .Input_fieldset {
-            padding: 0;
-            .Input_wrapper {
-                height: 100%;
-                margin: 0;
-                box-shadow: inset 0 0 0 2px transparent;
-                .Input {
-                    padding: 0 2px;
-                    height: 100%;
-                    .DropdownInput__controlContainer {
-                        height: 34px;
-                        .DropDown__control {
-                            height: 34px;
-                            min-height: 34px;
-                            .DropDown__value-container {
-                                height: 100%;
-                                .DropDown__single-value {
-                                    position: absolute;
-                                }
-                                .DropDown__input {
-                                    height: 32px;
-                                }
-                            }
-                        }
-                    }
-                }
 
-            }
-            z-index: 9999;
+        z-index: 9999;
+
+        .DropDown__control {
+            min-height: 0px;
         }
     }
 
@@ -69,12 +45,8 @@
     }
 
     Input{
-        line-height: 40px;
         font-size: 14px;
     }
-
-
-
 
     .Input_fieldset {
         background: var(--center-channel-bg);
@@ -83,7 +55,6 @@
 
         .Input_wrapper {
             margin: 0;
-            height: 32px;
         }
 
         &.Input_fieldset___legend {
