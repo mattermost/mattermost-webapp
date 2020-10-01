@@ -36,20 +36,11 @@
             .Input_wrapper {
                 height: 36px;
                 margin: 0;
-                line-height: 36px;
-                min-height: 36px;
                 .DropdownInput__controlContainer {
                     height: 36px;
-                    line-height: 36px;
-                    min-height: 36px;
                     .DropDown__control {
                         height: 36px;
-                        line-height: 36px;
-                        min-height: 36px;
                         .DropDown__value-container {
-                            height: 36px;
-                            line-height: 36px;
-                            min-height: 36px;
                             .DropDown__single-value {
                                 position: absolute;
                             }
@@ -79,9 +70,14 @@
     .Input_fieldset {
         background: var(--center-channel-bg);
         height: 40px;
-        padding: 0 1px;
+        padding: 2px 1px;
+
+        .Input_wrapper {
+            margin: 0;
+        }
 
         &.Input_fieldset___legend {
+            box-shadow: inset 0 0 0 1px transparent;
             >legend {
                 margin-left: 11px;
             }
@@ -91,7 +87,7 @@
             border-color: transparent;
             box-shadow: inset 0 0 0 2px var(--button-bg);
             color: var(--button-bg);
-            padding-top: 2px;
+            padding-top: 2px
         }
 
 
@@ -106,7 +102,6 @@
         &.Input_fieldset___error:focus-within {
             color: var(--error-text);
             box-shadow: inset 0 0 0 2px var(--error-text);
-            padding-top: 2px;
         }
 
         .Input {
