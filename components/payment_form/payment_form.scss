@@ -28,8 +28,41 @@
         margin-bottom: 24px;
     }
 
-    .selector{
-        font-size:14px;
+    .DropdownInput {
+        margin-bottom: 24px;
+        height: 36px;
+        position: relative;
+        .Input_fieldset {
+            .Input_wrapper {
+                height: 36px;
+                margin: 0;
+                line-height: 36px;
+                min-height: 36px;
+                .DropdownInput__controlContainer {
+                    height: 36px;
+                    line-height: 36px;
+                    min-height: 36px;
+                    .DropDown__control {
+                        height: 36px;
+                        line-height: 36px;
+                        min-height: 36px;
+                        .DropDown__value-container {
+                            height: 36px;
+                            line-height: 36px;
+                            min-height: 36px;
+                            .DropDown__single-value {
+                                position: absolute;
+                                max-height: 20px;
+                            }
+                            .DropDown__input {
+                                height: 32px;
+                            }
+                        }
+                    }
+                }
+            }
+            z-index: 9999;
+        }
     }
 
     .full-width {
@@ -41,14 +74,13 @@
         font-size: 14px;
     }
 
+
+
+
     .Input_fieldset {
         background: var(--center-channel-bg);
         height: 40px;
         padding: 0 1px;
-
-        .Input_wrapper {
-            color: blue !important;
-        }
 
         &.Input_fieldset___legend {
             >legend {

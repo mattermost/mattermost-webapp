@@ -5,9 +5,11 @@ import React from 'react';
 
 import {getName} from 'country-list';
 
-import Select, {StylesConfig} from 'react-select';
+import {StylesConfig} from 'react-select';
 
 import {FormattedMessage} from 'react-intl';
+
+import DropdownInput from 'components/dropdown_input';
 
 import {PaymentMethod} from 'components/cloud/types/customer';
 import {BillingDetails} from 'components/cloud/types/sku';
@@ -172,8 +174,16 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             defaultMessage='Billing address'
                         />
                     </div>
-                    <div className='form-row selector'>
-                        <Select
+                    {/* <div className='form-row selector'> */}
+                    <DropdownInput
+                        onChange={this.handleCountryChange}
+                        value={this.state.country ? {value: this.state.country, label: this.state.country} : undefined}
+                        options={COUNTRIES.map((country) => ({value: country.name, label: country.name}))}
+                        legend={'Country'}
+                        placeholder={'Country'}
+                        name={'billing_dropdown'}
+                    />
+                    {/* <Select
                             placeholder={Utils.localizeMessage('payment_form.country', 'Country')}
                             name='state'
                             className='full-width'
@@ -185,8 +195,8 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             onChange={this.handleCountryChange}
                             value={this.state.country ? {value: this.state.country, label: this.state.country} : null}
                             onBlur={this.onBlur}
-                        />
-                    </div>
+                        /> */}
+                    {/* </div> */}
                     <div className='form-row'>
                         <Input
                             name='address'
