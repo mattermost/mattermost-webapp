@@ -8,32 +8,43 @@
 // ***************************************************************
 
 // Group: @messaging
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 
 describe('Messaging', () => {
     let testTeam;
+    let testUser;
+    let testChannel;
 
     before(() => {
         // # Login as test user and visit the newly created test channel
-
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup().then(({team,channel,user}) => {
             testTeam = team;
-
-            // # Set up test channel
-            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Public channel with a long name');
+            testUser = user;
+            testChannel = channel;
 
             // # Set up Demo plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.8.0/com.mattermost.demo-plugin-0.8.0.tar.gz', true);
-            cy.visit('/admin_console/plugins/plugin_com.mattermost.demo-plugin');
-            cy.get('[data-testid="PluginSettings.PluginStates.com+mattermost+demo-plugin.Enabletrue"]').check().should('be', 'checked');
-            cy.get('#saveSetting').click({force: true});
-            cy.wait(TIMEOUTS.ONE_MIN);
+            cy.apiEnablePluginById('com.mattermost.demo-plugin')
+
+            // # post message as admin in test channel
+            const daysAgo = Cypress.moment().subtract(10, 'days').valueOf();
+            cy.postMessageAs({sender: getAdminAccount(), message: `Hello from admin 10 days ago`, channelId: channel.id, createAt: daysAgo});
+            cy.postMessageAs({sender: getAdminAccount(), message: 'Now from admin', channelId: channel.id});
+
+            // # Login as regular user
+            cy.apiLogin(user);
+
+            // # Set up test channel with a long name
+            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Public channel with a long name');
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
     it('MM-T134 Visual verification of tooltips on top nav, channel icons, posts', () => {
         // * Hover effect wraps around Date and New Messages lines
-        cy.get('#postListContent').find('.top').should('be.visible');
+        //cy.getLastPostId().then((postId) => {
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
+        //});
+        //cy.get('#postListContent').find('.top').should('be.visible');
 
         // * Members tool-tip is present
         cy.findAllByLabelText('members').should('be.visible').trigger('mouseover');
@@ -83,5 +94,11 @@ describe('Messaging', () => {
         // * Check that the Demo plugin tool-tip is present
         cy.get('#channel-header').find('.fa-plug').should('be.visible').trigger('mouseover');
         cy.get('#pluginTooltip').should('be.visible').and('have.text', 'Demo Plugin');
+    
+    after(() => {
+        // # Clean up - remove demo plugin
+        cy.apiAdminLogin()
+        cy.apiRemovePluginById('com.mattermost.demo-plugin');
+        });    
     });
-});
+})
