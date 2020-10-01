@@ -36,9 +36,9 @@ const upgradeMattermostCloud = () => (
                 defaultMessage='The free tier is **limited to 10 users.** Get access to more users, teams and other great features'
             />
         </div>
-        <button 
-               type='button' 
-               className='UpgradeMattermostCloud__upgradeButton'
+        <button
+            type='button'
+            className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
@@ -63,9 +63,9 @@ const privateCloudCard = () => (
                     defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
                 />
             </div>
-            <button 
-                    type='button' 
-                    className='PrivateCloudCard__contactSales'
+            <button
+                type='button'
+                className='PrivateCloudCard__contactSales'
             >
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.contactSales'
@@ -155,21 +155,21 @@ const BillingSubscriptions: React.FC<Props> = () => {
                                 placement='bottom'
                                 overlay={testTooltipLeft}
                             >
-                                <button 
-                                         type='button'
-                                  >
-                                      {'Left Side Test Button'}
-                                 </button>
+                                <button
+                                    type='button'
+                                >
+                                    {'Left Side Test Button'}
+                                </button>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 delayShow={500}
                                 placement='bottom'
                                 overlay={testTooltipRight}
                             >
-                                <button 
-                                     type='button'
+                                <button
+                                    type='button'
                                 >
-                                     {'Right Side Test Button'}
+                                    {'Right Side Test Button'}
                                 </button>
                             </OverlayTrigger>
                         </div>
