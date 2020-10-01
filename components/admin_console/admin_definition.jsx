@@ -184,7 +184,10 @@ const AdminDefinition = {
         icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
-        isHidden: it.not(it.userHasReadPermissionOnResource('about')),
+        isHidden: it.any(
+            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            it.not(it.userHasReadPermissionOnResource('about')),
+        ),
         license: {
             url: 'about/license',
             title: t('admin.sidebar.license'),
@@ -199,10 +202,6 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isHidden: it.any(
-                it.not(it.enterpriseReady),
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
             schema: {
                 id: 'LicenseSettings',
@@ -2392,6 +2391,36 @@ const AdminDefinition = {
                         help_text: t('admin.image.publicLinkDescription'),
                         help_text_default: '32-character salt added to signing of public image links. Randomly generated on install. Click "Regenerate" to create new salt.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                    },
+                ],
+            },
+        },
+        notices: {
+            url: 'site_config/notices',
+            title: t('admin.sidebar.notices'),
+            title_default: 'Notices',
+            schema: {
+                id: 'NoticesSettings',
+                name: t('admin.site.notices'),
+                name_default: 'Notices',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.AdminNoticesEnabled',
+                        label: t('admin.notices.enableAdminNoticesTitle'),
+                        label_default: 'Enable Admin Notices: ',
+                        help_text: t('admin.notices.enableAdminNoticesDescription'),
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.UserNoticesEnabled',
+                        label: t('admin.notices.enableEndUserNoticesTitle'),
+                        label_default: 'Enable End User Notices: ',
+                        help_text: t('admin.notices.enableEndUserNoticesDescription'),
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
                     },
                 ],
             },
@@ -5137,6 +5166,11 @@ const AdminDefinition = {
                                 value: 'default_off',
                                 display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
+                            },
+                            {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.always_on'),
+                                display_name_default: 'Always On',
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),

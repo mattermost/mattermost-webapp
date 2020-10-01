@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {
     ExoticComponent,
     ForwardRefExoticComponent,
@@ -104,16 +103,6 @@ export function mountWithIntl<T extends ReactElement | IntlInjectedElement>(elem
         {
             wrappingComponent: IntlProvider,
             wrappingComponentProps: {...intl},
-
-            // For legacy
-            context: {
-                intl,
-                ...mountOptions.context,
-            },
-            childContextTypes: {
-                intl: PropTypes.any.isRequired,
-                ...mountOptions.childContextTypes,
-            },
 
             // Override options
             ...mountOptions,
