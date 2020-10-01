@@ -141,6 +141,48 @@ describe('Channels', () => {
         // * Assert that archived channel doesn't show up in LHS list
         cy.get('#publicChannelList').should('not.contain', testChannel.display_name);
     });
+
+    it('MM-T1702 Search works when changing public/archived options in the dropdown', () => {
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+
+        // # Go to LHS and click "More..." under Public Channels group
+        cy.get('#publicChannelList').should('be.visible').within(() => {
+            cy.findByText('More...').scrollIntoView().should('be.visible').click();
+        });
+
+        cy.get('#moreChannelsModal').should('be.visible').within(() => {
+            // * Dropdown should be visible, defaulting to "Public Channels"
+            cy.get('#channelsMoreDropdown').should('be.visible').and('contain', 'Show: Public Channels').click().within((el) => {
+                // # Click on archived channels item
+                cy.findByText('Archived Channels').should('be.visible').click();
+
+                // * Modal should show the archived channels list
+                cy.wrap(el).should('contain', 'Show: Archived Channels');
+            });
+
+            // * Users should be able to search
+
+            cy.get('#searchChannelsTextbox').should('be.visible').type('a').wait(TIMEOUTS.HALF_SEC);
+            cy.get('#moreChannelsList').should('be.visible');
+            cy.get('#searchChannelsTextbox').clear();
+
+            // * Users should be able to switch back to public channels
+            cy.get('#channelsMoreDropdown').should('be.visible').click().within((el) => {
+                cy.findByText('Public Channels').should('be.visible').click();
+                cy.wrap(el).should('contain', 'Show: Public Channels');
+            });
+
+            // * Users should be able to type and search
+            cy.get('#searchChannelsTextbox').should('be.visible').type('a').wait(TIMEOUTS.HALF_SEC);
+            cy.get('#moreChannelsList').should('be.visible');
+            cy.get('#searchChannelsTextbox').clear();
+        });
+    });
 });
 
 function verifyMoreChannelsModalWithArchivedSelection(isEnabled, testUser, testTeam) {
