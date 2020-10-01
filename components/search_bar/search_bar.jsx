@@ -60,7 +60,7 @@ export default class SearchBar extends React.PureComponent {
             focused: false,
             keepInputFocused: false,
             highlightedSearchHintIndex: -1,
-            visibleSearchHintOptions: this.determineVisibleSearchHintOptions(props.searchTerms),
+            visibleSearchHintOptions: SearchBar.determineVisibleSearchHintOptions(props.searchTerms),
         };
 
         this.suggestionProviders = [
