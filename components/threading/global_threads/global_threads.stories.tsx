@@ -67,7 +67,7 @@ storiesOf('Features/Threading/Global Threads', module).
     addDecorator(withKnobs).
     add('ThreadItem', () => (
         <StoryGrid>
-            <StoryBox>
+            <StoryBox containerStyle={{width: 600}}>
                 <ThreadItem
                     name={text('team', users[0].name)}
                     teamName={text('teamName', 'Enterprise Team')}
