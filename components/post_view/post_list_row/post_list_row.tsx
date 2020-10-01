@@ -20,9 +20,9 @@ type PostListRowProp = {
     previousListId?: string,
     fullWidth?: boolean,
     shouldHighlight?: boolean,
-    loadOlderPosts: () => any,
-    loadNewerPosts: () => any,
-    togglePostMenu: () => any,
+    loadOlderPosts: () => void,
+    loadNewerPosts: () => void,
+    togglePostMenu: () => void,
 
     /**
      * To Check if the current post is last in the list
@@ -45,7 +45,7 @@ type PostListRowProp = {
         /**
           * Function to set or unset emoji picker for last message
           */
-        emitShortcutReactToLastPostFrom: (location:string) => any
+        emitShortcutReactToLastPostFrom: (location:string) => void
     },
 
 }
