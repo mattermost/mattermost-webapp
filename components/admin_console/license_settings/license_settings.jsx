@@ -332,6 +332,7 @@ export default class LicenseSettings extends React.PureComponent {
                         href='https://about.mattermost.com/enterprise-edition-terms/'
                     >{'Enterprise Edition Terms of Service'}</a>{' and '}
                     <a
+                        data-testid='privacyPolicyLink'
                         rel='noopener noreferrer'
                         target='_blank'
                         href='https://about.mattermost.com/default-privacy-policy/'

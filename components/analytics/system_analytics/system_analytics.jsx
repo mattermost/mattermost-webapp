@@ -92,6 +92,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Total Posts from Bots'
                             />
                         }
+                        id='totalPostsFromBots'
                         data={botPostCountsDay}
                         width={740}
                         height={225}
@@ -108,6 +109,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Total Posts'
                             />
                         }
+                        id='totalPosts'
                         data={postCountsDay}
                         width={740}
                         height={225}
@@ -124,6 +126,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Active Users With Posts'
                             />
                         }
+                        id='activeUsersWithPosts'
                         data={userCountsWithPostsDay}
                         width={740}
                         height={225}
