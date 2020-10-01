@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function LockIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -15,7 +13,7 @@ export default function LockIcon(props) {
                 height='13px'
                 viewBox='0 0 13 15'
                 role='presentation'
-                title={formatMessage({id: t('generic_icons.channel.private'), defaultMessage: 'Private Channel Icon'})}
+                title={formatMessage({id: 'generic_icons.channel.private', defaultMessage: 'Private Channel Icon'})}
             >
                 <g
                     stroke='none'

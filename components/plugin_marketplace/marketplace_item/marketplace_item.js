@@ -270,7 +270,6 @@ export default class MarketplaceItem extends React.PureComponent {
         name: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         version: PropTypes.string.isRequired,
-        downloadUrl: PropTypes.string,
         homepageUrl: PropTypes.string,
         releaseNotesUrl: PropTypes.string,
         labels: PropTypes.array,
@@ -386,7 +385,6 @@ export default class MarketplaceItem extends React.PureComponent {
     }
 
     render() {
-        const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
         let versionLabel = `(${this.props.version})`;
         if (this.props.installedVersion !== '') {
             versionLabel = `(${this.props.installedVersion})`;
@@ -421,34 +419,57 @@ export default class MarketplaceItem extends React.PureComponent {
             <>
                 {this.props.name}
                 <span className='light subtitle'>{versionLabel}</span>
-                {labels}
-                <p className={classNames('more-modal__description', {error_text: this.props.error})}>
-                    {this.props.error ? this.props.error : this.props.description}
-                </p>
             </>
+        );
+
+        const description = (
+            <p className={classNames('more-modal__description', {error_text: this.props.error})}>
+                {this.props.error ? this.props.error : this.props.description}
+            </p>
         );
 
         let pluginDetails;
         if (this.props.homepageUrl) {
             pluginDetails = (
-                <a
-                    aria-label={ariaLabel}
-                    className='style--none more-modal__row--link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.homepageUrl}
-                >
-                    {pluginDetailsInner}
-                </a>
+                <>
+                    <a
+                        aria-label={this.props.name.toLowerCase()}
+                        className='style--none more-modal__row--link'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        href={this.props.homepageUrl}
+                    >
+                        {pluginDetailsInner}
+                    </a>
+                    {labels}
+                    <a
+                        aria-label={this.props.description.toLowerCase()}
+                        className='style--none more-modal__row--link'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        href={this.props.homepageUrl}
+                    >
+                        {description}
+                    </a>
+                </>
             );
         } else {
             pluginDetails = (
-                <span
-                    aria-label={ariaLabel}
-                    className='style--none'
-                >
-                    {pluginDetailsInner}
-                </span>
+                <>
+                    <span
+                        aria-label={this.props.name.toLowerCase()}
+                        className='style--none'
+                    >
+                        {pluginDetailsInner}
+                    </span>
+                    {labels}
+                    <span
+                        aria-label={this.props.description.toLowerCase()}
+                        className='style--none'
+                    >
+                        {description}
+                    </span>
+                </>
             );
         }
 

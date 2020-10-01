@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
+
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import UserSettingsSecurity from './user_settings_security';
 
@@ -17,17 +19,29 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     };
 
     const requiredProps = {
-        user,
+        user: user as UserProfile,
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         setRequireConfirm: jest.fn(),
         updateSection: jest.fn(),
+        authorizedApps: jest.fn(),
         actions: {
             getMe: jest.fn(),
-            updateUserPassword: jest.fn(() => Promise.resolve({})),
+            updateUserPassword: jest.fn(() => Promise.resolve({error: true})),
             getAuthorizedOAuthApps: jest.fn().mockResolvedValue({data: []}),
             deauthorizeOAuthApp: jest.fn().mockResolvedValue({data: true}),
         },
+        canUseAccessTokens: true,
+        enableOAuthServiceProvider: false,
+        enableSignUpWithEmail: true,
+        enableSignUpWithGitLab: false,
+        enableSignUpWithGoogle: true,
+        enableLdap: false,
+        enableSaml: true,
+        enableSignUpWithOffice365: false,
+        experimentalEnableAuthenticationTransfer: true,
+        passwordConfig: {},
+        militaryTime: false,
     };
 
     test('componentDidMount() should have called getAuthorizedOAuthApps', () => {
@@ -48,7 +62,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             enableOAuthServiceProvider: true,
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: ShallowWrapper<any, any, UserSettingsSecurity> = shallow(<UserSettingsSecurity {...props}/>);
 
         await promise;
 
@@ -65,33 +79,44 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             enableOAuthServiceProvider: true,
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: ShallowWrapper<any, any, UserSettingsSecurity> = shallow(<UserSettingsSecurity {...props}/>);
 
         await promise;
 
-        expect(wrapper.state().serverError).toEqual(error.message);
+        expect(wrapper.state('serverError')).toEqual(error.message);
     });
 
     test('submitPassword() should not have called updateUserPassword', async () => {
         const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
 
-        await wrapper.instance().submitPassword();
+        await (wrapper.instance() as UserSettingsSecurity).submitPassword();
         expect(requiredProps.actions.updateUserPassword).toHaveBeenCalledTimes(0);
     });
 
     test('submitPassword() should have called updateUserPassword', async () => {
         const updateUserPassword = jest.fn(() => Promise.resolve({data: true}));
-        const props = {...requiredProps, actions: {...requiredProps.actions, updateUserPassword}};
+        const props = {
+            ...requiredProps,
+            actions: {...requiredProps.actions, updateUserPassword},
+        };
         const wrapper = shallow(<UserSettingsSecurity {...props}/>);
 
         const password = 'psw';
-        const state = {currentPassword: 'currentPassword', newPassword: password, confirmPassword: password};
+        const state = {
+            currentPassword: 'currentPassword',
+            newPassword: password,
+            confirmPassword: password,
+        };
         wrapper.setState(state);
 
-        await wrapper.instance().submitPassword();
+        await (wrapper.instance() as UserSettingsSecurity).submitPassword();
 
         expect(updateUserPassword).toHaveBeenCalled();
-        expect(updateUserPassword).toHaveBeenCalledWith(user.id, state.currentPassword, state.newPassword);
+        expect(updateUserPassword).toHaveBeenCalledWith(
+            user.id,
+            state.currentPassword,
+            state.newPassword,
+        );
 
         expect(requiredProps.updateSection).toHaveBeenCalled();
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
@@ -99,14 +124,19 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('deauthorizeApp() should have called deauthorizeOAuthApp', () => {
         const appId = 'appId';
-        const event = {currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)}, preventDefault: jest.fn()};
+        const event: any = {
+            currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)},
+            preventDefault: jest.fn(),
+        };
 
         const wrapper = shallow(<UserSettingsSecurity {...requiredProps}/>);
         wrapper.setState({authorizedApps: []});
-        wrapper.instance().deauthorizeApp(event);
+        (wrapper.instance() as UserSettingsSecurity).deauthorizeApp(event);
 
         expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalled();
-        expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalledWith(appId);
+        expect(requiredProps.actions.deauthorizeOAuthApp).toHaveBeenCalledWith(
+            appId,
+        );
     });
 
     test('deauthorizeApp() should have updated state.authorizedApps', async () => {
@@ -116,16 +146,16 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             actions: {...requiredProps.actions, deauthorizeOAuthApp: () => promise},
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
 
         const appId = 'appId';
         const apps = [{id: appId}, {id: '2'}];
-        const event = {
+        const event: any = {
             currentTarget: {getAttribute: jest.fn().mockReturnValue(appId)},
             preventDefault: jest.fn(),
         };
         wrapper.setState({authorizedApps: apps});
-        wrapper.instance().deauthorizeApp(event);
+        (wrapper.instance() as UserSettingsSecurity).deauthorizeApp(event);
 
         await promise;
 
@@ -140,16 +170,16 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             actions: {...requiredProps.actions, deauthorizeOAuthApp: () => promise},
         };
 
-        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        const wrapper: any = shallow(<UserSettingsSecurity {...props}/>);
 
-        const event = {
+        const event: any = {
             currentTarget: {getAttribute: jest.fn().mockReturnValue('appId')},
             preventDefault: jest.fn(),
         };
-        wrapper.instance().deauthorizeApp(event);
+        (wrapper.instance() as UserSettingsSecurity).deauthorizeApp(event);
 
         await promise;
 
-        expect(wrapper.state().serverError).toEqual(error.message);
+        expect(wrapper.state('serverError')).toEqual(error.message);
     });
 });
