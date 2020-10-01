@@ -26,8 +26,7 @@
         &:focus {
             background: rgba(var(--center-channel-color-rgb), .08);
         }
-        &.is-active,
-        &:active:not(:active) {
+        &.is-active {
             background: rgba(var(--button-bg-rgb), .08);
             &:focus {
                 position: relative;

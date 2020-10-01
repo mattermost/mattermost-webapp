@@ -133,19 +133,15 @@ storiesOf('Features/Threading/Global Threads', module).
         return (
             <StoryGrid>
                 <StoryBox containerStyle={{width: 500}}>
-                    <ThreadList
-                        posts={
-                            <>
-                                {React.cloneElement(post)}
-                                {React.cloneElement(post)}
-                                {React.cloneElement(post)}
-                                {React.cloneElement(post)}
-                                {React.cloneElement(post)}
-                                {React.cloneElement(post)}
-                                {React.cloneElement(post)}
-                            </>
-                        }
-                    />
+                    <ThreadList>
+                        {React.cloneElement(post)}
+                        {React.cloneElement(post)}
+                        {React.cloneElement(post)}
+                        {React.cloneElement(post)}
+                        {React.cloneElement(post)}
+                        {React.cloneElement(post)}
+                        {React.cloneElement(post)}
+                    </ThreadList>
                 </StoryBox>
             </StoryGrid>
         );

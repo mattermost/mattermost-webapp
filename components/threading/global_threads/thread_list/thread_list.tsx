@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactFragment} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
 import SimpleTooltip from 'components/simple_tooltip';
 
 import Button from '../../common/button';
@@ -12,14 +11,14 @@ import Button from '../../common/button';
 import './thread_list.scss';
 
 type Props = {
-    posts: ReactFragment;
+    children: ReactNode
     actions: {
-
+        setFilter: (filter: string) => void
     },
 };
 
 const ThreadList = ({
-    posts,
+    children,
 }: Props) => {
     const {formatMessage} = useIntl();
     return (
@@ -28,7 +27,6 @@ const ThreadList = ({
                 <Button
                     className={'Button___large Margined'}
                     isActive={true}
-                    onClick={() => open()}
                 >
                     <FormattedMessage
                         id='threading.filters.allThreads'
@@ -49,7 +47,7 @@ const ThreadList = ({
                     <SimpleTooltip
                         id='threadListMarkRead'
                         content={formatMessage({
-                            id: t('threading.threadList.markRead'),
+                            id: 'threading.threadList.markRead',
                             defaultMessage: 'Mark all as read',
                         })}
                     >
@@ -64,7 +62,7 @@ const ThreadList = ({
                 </div>
             </div>
             <div className='threads'>
-                {posts}
+                {children}
             </div>
         </div>
     );
