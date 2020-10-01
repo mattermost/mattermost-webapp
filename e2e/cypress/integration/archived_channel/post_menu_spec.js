@@ -37,7 +37,7 @@ describe('Archived channels', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', header);
             cy.clickPostDotMenu(postId).then(() => {
                 // * Copy link menu item should not be visible
-                cy.get(`#permalink_${postId}`).should('not.be.visible');
+                cy.findByText('Copy Link').should('not.be.visible');
 
                 // * Reply post menu item should not be visible
                 cy.findByText('Reply').should('not.be.visible');
