@@ -44,11 +44,12 @@
     .Input_fieldset {
         background: var(--center-channel-bg);
         height: 40px;
-        &.Input_wrapper {
-            padding: 0 1px;
-            margin: 2px 0;
-            color: black !important;
+        padding: 0 1px;
+
+        .Input_wrapper {
+            color: blue !important;
         }
+
         &.Input_fieldset___legend {
             >legend {
                 margin-left: 11px;
@@ -76,11 +77,12 @@
             padding-top: 2px;
         }
 
-        input[placeholder] {
-            // color: black !important;
-            font-size: 14px;
+        .Input {
+            &::placeholder{
+                color: var(--center-channel-color);
+                opacity: 0.64;
+            }
         }
-
     }
 
 
