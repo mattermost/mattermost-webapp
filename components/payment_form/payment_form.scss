@@ -78,12 +78,10 @@
             padding-top: 1px;
         }
 
-        .Input {
-            & ::placeholder {
-                color: var(--center-channel-color-72);
+        .Input::placeholder {
+                color: var(--center-channel-color-72) !important;
                 opacity: 0.5;
                 font-size: 14px;
-            }
         }
 
     }

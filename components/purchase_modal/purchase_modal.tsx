@@ -14,7 +14,7 @@ import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-
+import Nbsp from 'components/html_entities/nbsp';
 import {areBillingDetailsValid, BillingDetails} from 'components/cloud/types/sku';
 import {getNextBillingDate} from 'utils/utils';
 
@@ -148,11 +148,14 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         <div className='fineprint-text'>
                             <span>
                                 <FormattedMessage
-                                    defaultMessage={'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '}
+                                    defaultMessage={
+                                        'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '
+                                    }
                                     id={'admin.billing.subscription.disclaimer'}
                                 />
                             </span>
                             <a href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'>
+                                {'\u00A0'}
                                 <FormattedMessage
                                     defaultMessage={'See how billing works.'}
                                     id={'admin.billing.subscription.howItWorks'}
@@ -167,7 +170,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Sales'}
-                            id={'admin.billing.subscription.privateCloudCard.contactSales'}
+                            id={
+                                'admin.billing.subscription.privateCloudCard.contactSales'
+                            }
                         />
                     </a>
 

@@ -18,6 +18,7 @@ type Props = {
     linkText?: string;
     linkURL?: string;
     footer?: JSX.Element;
+    className?: string;
 }
 
 export default function IconMessage(props: Props) {
@@ -32,6 +33,7 @@ export default function IconMessage(props: Props) {
         linkText,
         linkURL,
         footer,
+        className,
     } = props;
 
     let button = null;
@@ -72,26 +74,27 @@ export default function IconMessage(props: Props) {
             id='payment_complete_header'
             className='IconMessage'
         >
-            <img
-                className='IconMessage-img'
-                src={icon}
-                alt='Payment icon'
-            />
-            <h3 className='IconMessage-h3'>
-                <FormattedMessage
-                    id={title}
+            <div className={classNames('content', className || '')}>
+                <img
+                    className='IconMessage-img'
+                    src={icon}
+                    alt='Payment icon'
                 />
-            </h3>
-            <div className={classNames('IconMessage-sub', error || '')}>
-                {subtitle ?
-                    <FormattedMessage
-                        id={subtitle}
-                        values={{date}}
-                    /> : null}
+                <h3 className='IconMessage-h3'>
+                    <FormattedMessage id={title}/>
+                </h3>
+                <div className={classNames('IconMessage-sub', error || '')}>
+                    {subtitle ? (
+                        <FormattedMessage
+                            id={subtitle}
+                            values={{date}}
+                        />
+                    ) : null}
+                </div>
+                {button}
+                {link}
+                {footer}
             </div>
-            {button}
-            {link}
-            {footer}
         </div>
     );
 }
@@ -100,4 +103,5 @@ IconMessage.defaultProps = {
     error: false,
     subtitle: '',
     date: '',
+    className: '',
 };

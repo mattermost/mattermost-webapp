@@ -147,6 +147,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     icon={successSvg}
                     buttonText={t('admin.billing.subscription.letsGo')}
                     buttonHandler={this.props.onClose}
+                    className={'success'}
                 />
             );
         case ProcessState.FAILED:
