@@ -6,10 +6,9 @@ import {shallow, ShallowWrapper} from 'enzyme';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {browserHistory} from 'utils/browser_history';
-
 import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook/edit_incoming_webhook';
-
 import {TestHelper} from '../../../utils/test_helper';
 
 describe('components/integrations/EditIncomingWebhook', () => {
