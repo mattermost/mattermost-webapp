@@ -45,7 +45,7 @@ function ThreadFooter({
 }: Props) {
     return (
         <div className='ThreadFooter'>
-            {Boolean(newReplies) && <>
+            {Boolean(newReplies) && (
                 <SimpleTooltip
                     id='threadFooterIndicator'
                     content={
@@ -60,7 +60,7 @@ function ThreadFooter({
                         <div className='dot-unreads'/>
                     </div>
                 </SimpleTooltip>
-            </>}
+            )}
 
             <Avatars
                 users={participants}
