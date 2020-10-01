@@ -1,0 +1,21 @@
+.ThreadList {
+    .header {
+        position: relative;
+        padding: 12px;
+        padding-right: 50px;
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), .08);
+    }
+    .right-anchor {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        padding-right: 12px;
+    }
+
+    .threads {
+        .ThreadItem + .ThreadItem {
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), .08);
+        }
+    }
+
+}

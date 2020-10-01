@@ -1,5 +1,5 @@
 .Button {
-    padding: 4.5px 10px;
+    padding: 4px 10px;
     border-radius: 4px;
     position: relative;
 
@@ -26,7 +26,8 @@
         &:focus {
             background: rgba(var(--center-channel-color-rgb), .08);
         }
-        &.is-active {
+        &.is-active,
+        &:active:not(:active) {
             background: rgba(var(--button-bg-rgb), .08);
             &:focus {
                 position: relative;
@@ -39,9 +40,25 @@
         }
     }
 
+
+    &.Button___large {
+        font-size: 14px;
+
+        &.Button___icon {
+            width: 32px; height: 32px;
+            padding: 7px;
+            font-size: 18px;
+            line-height: 18px;
+        }
+    }
+
+    &.Margined + * {
+        margin-left: 4px;
+    }
+
     .Icon svg {
         width: 12px;
-        height: 10px;
+        height: 12px;
     }
     .Button_prepended {
         margin-right: .75rem;
@@ -52,7 +69,7 @@
     .dot {
         position: absolute;
         width: 4px; height: 4px;
-        right: 4px; top: 3px;
+        right: 6px; top: 6px;
         border-radius: 50%;
 
         background: rgba(var(--sidebar-text-active-border-rgb), 1);
@@ -60,9 +77,9 @@
 }
 
 .Separated,
-.Button:not(:hover):not(:focus):not(.is-active) {
+.Button:not(.Margined):not(:hover):not(:focus):not(.is-active) {
     & + .Separated,
-    & + .Button:not(:hover):not(:focus):not(.is-active) {
+    & + .Button:not(.Margined):not(:hover):not(:focus):not(.is-active) {
         position: relative;
         &::before {
             width: 1px;
@@ -75,7 +92,6 @@
         }
     }
 }
-
 
 %synthetic-block {
     position: absolute;

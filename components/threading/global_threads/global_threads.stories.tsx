@@ -13,6 +13,7 @@ import StoryGrid from 'storybook/story_grid';
 import StoryBox from 'storybook/story_box';
 
 import ThreadItem from './thread_item';
+import ThreadList from './thread_list';
 
 const units: Unit[] = [
     'second',
@@ -97,4 +98,55 @@ storiesOf('Features/Threading/Global Threads', module).
                 />
             </StoryBox>
         </StoryGrid>
-    ));
+    )).
+    add('ThreadList', () => {
+        const post = (
+            <ThreadItem
+                name={text('team', users[0].name)}
+                teamName={text('teamName', 'Enterprise Team')}
+                previewText='Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console?'
+
+                participants={users.slice(0, number('number of participants', 7))}
+                totalReplies={number('total replies', 8)}
+                newReplies={number('new/unread replies', 3)}
+                newMentions={number('new/unread mentions', 1)}
+                lastReplyAt={moment().add(select('unit', units, 'minute'), number('diff', -5)).toDate()}
+
+                isFollowing={boolean('is following', true)}
+                isSaved={boolean('is saved', false)}
+                isSelected={boolean('is selected', false)}
+
+                actions={{
+                    select: action('select'),
+                    follow: action('follow'),
+                    unfollow: action('unfollow'),
+                    openInChannel: action('open in channel'),
+                    markRead: action('mark as read'),
+                    markUnread: action('mark as unread'),
+                    save: action('save'),
+                    unsave: action('unsave'),
+                    copyLink: action('copy link'),
+                }}
+            />
+        );
+
+        return (
+            <StoryGrid>
+                <StoryBox containerStyle={{width: 500}}>
+                    <ThreadList
+                        posts={
+                            <>
+                                {React.cloneElement(post)}
+                                {React.cloneElement(post)}
+                                {React.cloneElement(post)}
+                                {React.cloneElement(post)}
+                                {React.cloneElement(post)}
+                                {React.cloneElement(post)}
+                                {React.cloneElement(post)}
+                            </>
+                        }
+                    />
+                </StoryBox>
+            </StoryGrid>
+        );
+    });
