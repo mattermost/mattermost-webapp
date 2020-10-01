@@ -62,6 +62,10 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
         }
     }
 
+    get isDynamicFaviconSupported() {
+        return UserAgent.isChrome() || UserAgent.isFirefox();
+    }
+
     getBadgeStatus(unreads: Unreads) {
         if (unreads.mentionCount > 0) {
             return BadgeStatus.Mention;
@@ -92,7 +96,7 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
                 }
             }
             const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
-            const unreadTitle = UserAgent.isSafari() && unreads.messageCount > 0 ? '* ' : '';
+            const unreadTitle = !this.isDynamicFaviconSupported && unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + currentTeam.display_name + ' ' + currentSiteName;
         } else {
             document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});

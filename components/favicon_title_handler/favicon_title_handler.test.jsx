@@ -6,7 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
-import {isSafari} from 'utils/user_agent';
+import {isChrome, isFirefox} from 'utils/user_agent';
 
 import FaviconTitleHandler from 'components/favicon_title_handler/favicon_title_handler';
 
@@ -14,8 +14,8 @@ jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
     return {
         ...original,
-        isFirefox: () => true,
-        isSafari: jest.fn(),
+        isFirefox: jest.fn().mockReturnValue(true),
+        isChrome: jest.fn(),
     };
 });
 
@@ -68,7 +68,8 @@ describe('components/FaviconTitleHandler', () => {
     test('should set correct title on mentions on safari', () => {
         // in safari browser, modification of favicon is not
         // supported, hence we need to show * in title on mentions
-        isSafari.mockImplementation(() => true);
+        isFirefox.mockImplementation(() => false);
+        isChrome.mockImplementation(() => false);
         const wrapper = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
         );
