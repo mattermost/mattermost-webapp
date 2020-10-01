@@ -58,7 +58,7 @@ describe('Archived channels', () => {
             cy.clickPostDotMenu(postId);
 
             // * Copy link menu item should be visible
-            cy.get(`#permalink_${postId}`).should('be.visible');
+            cy.findByText('Copy Link').should('be.visible');
 
             // * Reply post menu item should be visible
             cy.findByText('Reply').should('be.visible');
