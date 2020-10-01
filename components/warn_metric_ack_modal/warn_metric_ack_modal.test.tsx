@@ -9,12 +9,6 @@ import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import WarnMetricAckModal from 'components/warn_metric_ack_modal/warn_metric_ack_modal';
 
-jest.mock('react-dom', () => ({
-    findDOMNode: () => ({
-        blur: jest.fn(),
-    }),
-}));
-
 describe('components/WarnMetricAckModal', () => {
     const serverError = 'some error';
 
