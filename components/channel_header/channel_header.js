@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {createRef} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {Tooltip, Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
@@ -96,6 +96,7 @@ class ChannelHeader extends React.PureComponent {
         this.toggleFavoriteRef = React.createRef();
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
+        this.headerOverlayRef = React.createRef();
 
         this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
 
@@ -105,8 +106,6 @@ class ChannelHeader extends React.PureComponent {
         this.getPopoverMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...popoverMarkdownOptions, channelNamesMap}
         ));
-
-        this.headerOverlay = createRef();
     }
 
     componentDidMount() {
@@ -251,8 +250,8 @@ class ChannelHeader extends React.PureComponent {
     }
 
     showEditChannelHeaderModal = () => {
-        if (this.headerOverlay.current) {
-            this.headerOverlay.current.hide();
+        if (this.headerOverlayRef.current) {
+            this.headerOverlayRef.current.hide();
         }
 
         const {actions, channel} = this.props;
@@ -489,7 +488,7 @@ class ChannelHeader extends React.PureComponent {
                             placement='bottom'
                             rootClose={true}
                             target={this.headerDescriptionRef.current}
-                            ref='headerOverlay'
+                            ref={this.headerOverlayRef}
                             onEnter={this.setPopoverOverlayWidth}
                             onHide={() => this.setState({showChannelHeaderPopover: false})}
                         >{popoverContent}</Overlay>
