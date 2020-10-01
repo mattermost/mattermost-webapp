@@ -167,6 +167,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     {schemes.length > 0 && schemes}
                     {schemes.length === (PAGE_SIZE * (this.state.page + 1)) &&
                         <button
+                            type='button'
                             className='more-schemes theme style--none color--link'
                             onClick={this.loadMoreSchemes}
                             disabled={this.props.isDisabled || this.state.loadingMore}

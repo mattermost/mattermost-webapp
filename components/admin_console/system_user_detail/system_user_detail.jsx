@@ -427,6 +427,7 @@ export default class SystemUserDetail extends React.PureComponent {
                             button={(
                                 <div className='add-team-button'>
                                     <button
+                                        type='button'
                                         className='btn btn-primary'
                                         onClick={this.openAddTeam}
                                         disabled={this.props.isDisabled}

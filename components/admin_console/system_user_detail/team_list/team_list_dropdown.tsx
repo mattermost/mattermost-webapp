@@ -43,6 +43,7 @@ export default class TeamListDropdown extends React.PureComponent<Props, State> 
                 isDisabled={this.props.isDisabled}
             >
                 <button
+                    type='button'
                     id={`teamListDropdown_${team.id}`}
                     className='dropdown-toggle theme color--link style--none'
                     type='button'

@@ -85,6 +85,7 @@ export default class FileUploadSetting extends Setting {
                 <div>
                     <div className='file__upload'>
                         <button
+                            type='button'
                             className='btn btn-default'
                             disabled={this.props.disabled}
                         >
@@ -102,6 +103,7 @@ export default class FileUploadSetting extends Setting {
                         />
                     </div>
                     <button
+                        type='button'
                         className={btnClass}
                         disabled={!this.state.fileSelected}
                         onClick={this.handleSubmit}

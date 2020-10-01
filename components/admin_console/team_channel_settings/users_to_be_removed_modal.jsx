@@ -121,6 +121,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
                 </Modal.Body>
                 <Modal.Footer>
                     <button
+                        type='button'
                         autoFocus={true}
                         type='button'
                         className='btn btn-primary'
