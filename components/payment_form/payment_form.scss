@@ -1,7 +1,7 @@
 .PaymentForm {
     margin: 0 auto;
-    width: 75%;
-    max-width: 448px;
+    padding-left: 96px;
+    padding-right: 96px;
 
     .form-row {
         width: 100%;
@@ -43,7 +43,51 @@
 
     .Input_fieldset {
         background: var(--center-channel-bg);
+        height: 40px;
+
+
+
+        &.Input_wrapper {
+            padding: 0 1px;
+            margin: 2px 0;
+        }
+        &.Input_fieldset___legend {
+            >legend {
+                margin-left: 11px;
+            }
+        }
+
+        &.Input_fieldset:focus-within {
+            border-color: transparent;
+            box-shadow: inset 0 0 0 2px var(--button-bg);
+            color: var(--button-bg);
+            padding-top: 1px;
+        }
+
+
+        &.Input_fieldset___error {
+            color: var(--error-text);
+            border-color: transparent;
+            box-shadow: inset 0 0 0 1px var(--error-text);
+            padding-top: 1px;
+        }
+
+        &.Input_fieldset___error:focus-within {
+            color: var(--error-text);
+            box-shadow: inset 0 0 0 2px var(--error-text);
+            padding-top: 1px;
+        }
+
+        .Input {
+            & ::placeholder {
+                color: var(--center-channel-color-72);
+                opacity: 0.5;
+                font-size: 14px;
+            }
+        }
+
     }
+
 
     .PaymentForm-saved {
         width: 442px;

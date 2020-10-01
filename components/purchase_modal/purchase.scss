@@ -3,7 +3,7 @@
         &.processing {
             display: none;
         }
-
+        overflow: hidden;
         color: var(--center-channel-color);
         font-size: 16px;
         font-family: 'Open Sans';
@@ -49,6 +49,10 @@
             width: 50%;
         }
 
+        .full-width {
+            border-color: var(--center-channel-color-16)
+        }
+
         .RHS {
             width: 25%;
             position: sticky;
@@ -73,7 +77,8 @@
             .price-text {
                 font-size: 32px;
                 font-weight: 600;
-                padding: 16px 0px
+                padding: 16px 0px;
+                line-height: 1;
             }
 
             .monthly-text {
@@ -89,6 +94,7 @@
             bottom: 0;
             top: 0;
             z-index: -1;
+            width: 100%;
             stop {
                 stop-color: var(--button-bg);
             }
@@ -130,7 +136,7 @@
 
 .FullScreenModal {
     .close-x {
-        top: 10px;
-        right: 20px;
+        top: 12px;
+        right: 12px;
     }
 }
