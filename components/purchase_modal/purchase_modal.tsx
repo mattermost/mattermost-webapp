@@ -14,7 +14,6 @@ import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import Nbsp from 'components/html_entities/nbsp';
 import {areBillingDetailsValid, BillingDetails} from 'components/cloud/types/sku';
 import {getNextBillingDate} from 'utils/utils';
 

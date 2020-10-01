@@ -25,6 +25,7 @@ const CARD_ELEMENT_OPTIONS = {
 type OwnProps = {
     error?: string;
     required?: boolean;
+    forwardedRef?: any;
     [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
