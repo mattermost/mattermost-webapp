@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {localizeMessage} from 'utils/utils.jsx';
@@ -11,19 +10,30 @@ const MAX_POST_HEIGHT = 600;
 const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 const MARGIN_CHANGE_FOR_COMPACT_POST = 22;
 
-export default class ShowMore extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        checkOverflow: PropTypes.number,
-        isAttachmentText: PropTypes.bool,
-        isRHSExpanded: PropTypes.bool.isRequired,
-        isRHSOpen: PropTypes.bool.isRequired,
-        text: PropTypes.string,
-        compactDisplay: PropTypes.bool.isRequired,
-    }
-    constructor(props) {
+type Props = {
+    children?: React.ReactNode;
+    checkOverflow?: number;
+    isAttachmentText?: boolean;
+    isRHSExpanded: boolean;
+    isRHSOpen: boolean;
+    text?: string;
+    compactDisplay: boolean;
+}
+
+type State = {
+    isCollapsed: boolean;
+    isOverflow: boolean;
+}
+
+export default class ShowMore extends React.PureComponent<Props, State> {
+    private maxHeight: number;
+    private textContainer: React.RefObject<HTMLDivElement>;
+    private overflowRef?: number;
+
+    constructor(props: Props) {
         super(props);
         this.maxHeight = this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT;
+        this.textContainer = React.createRef();
         this.state = {
             isCollapsed: true,
             isOverflow: false,
@@ -36,7 +46,7 @@ export default class ShowMore extends React.PureComponent {
         window.addEventListener('resize', this.handleResize);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (
             this.props.text !== prevProps.text ||
             this.props.isRHSExpanded !== prevProps.isRHSExpanded ||
@@ -54,7 +64,7 @@ export default class ShowMore extends React.PureComponent {
         }
     }
 
-    toggleCollapse = (e) => {
+    toggleCollapse = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         this.setState((prevState) => {
             return {
@@ -68,10 +78,9 @@ export default class ShowMore extends React.PureComponent {
             window.cancelAnimationFrame(this.overflowRef);
         }
         this.overflowRef = window.requestAnimationFrame(() => {
-            const textContainer = this.refs.textContainer;
             let isOverflow = false;
 
-            if (textContainer && textContainer.scrollHeight > this.maxHeight) {
+            if (this.textContainer.current && this.textContainer.current.scrollHeight > this.maxHeight) {
                 isOverflow = true;
             }
 
@@ -100,7 +109,7 @@ export default class ShowMore extends React.PureComponent {
         } = this.props;
 
         let className = 'post-message';
-        let collapsedMaxHeightStyle;
+        let collapsedMaxHeightStyle: number | undefined;
         if (isCollapsed) {
             collapsedMaxHeightStyle = this.maxHeight;
             className += ' post-message--collapsed';
@@ -108,17 +117,15 @@ export default class ShowMore extends React.PureComponent {
             className += ' post-message--expanded';
         }
 
-        let collapseGradientClass = 'post-collapse__gradient';
-        let collapseShowMoreClass = 'post-collapse__show-more';
-        if (isAttachmentText) {
-            collapseGradientClass = 'post-attachment-collapse__gradient';
-            collapseShowMoreClass = 'post-attachment-collapse__show-more';
-        }
+        const collapseGradientClass = isAttachmentText ? 'post-attachment-collapse__gradient' : 'post-collapse__gradient';
+        const collapseShowMoreClass = isAttachmentText ? 'post-attachment-collapse__show-more' : 'post-collapse__show-more';
 
         let attachmentTextOverflow = null;
         if (isOverflow) {
             if (!isAttachmentText && isCollapsed && compactDisplay) {
-                collapsedMaxHeightStyle -= MARGIN_CHANGE_FOR_COMPACT_POST;
+                if (collapsedMaxHeightStyle) {
+                    collapsedMaxHeightStyle -= MARGIN_CHANGE_FOR_COMPACT_POST;
+                }
             }
 
             let showIcon = 'fa fa-angle-up';
@@ -157,7 +164,7 @@ export default class ShowMore extends React.PureComponent {
                 <div
                     style={{maxHeight: collapsedMaxHeightStyle}}
                     className='post-message__text-container'
-                    ref='textContainer'
+                    ref={this.textContainer}
                 >
                     {children}
                 </div>

@@ -249,6 +249,45 @@ describe('Customization', () => {
             });
         });
     });
+
+    it('MM-T1030 - Custom branding removed - Default site name and description, and brand image and text - false', () => {
+        // # Make sure necessary field is true
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomBrand: true}});
+        cy.reload();
+
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
+
+        // # Update both Site Name and Description to store default or empty values
+        const siteName = 'Mattermost';
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear();
+
+        // # Remove the brand image
+        cy.get('button.remove-image__btn').should('be.visible').click();
+
+        // # Set Enable Custom Branding to false
+        cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
+
+        // # Save setting
+        saveSetting();
+
+        // # Logout
+        cy.apiLogout();
+
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', '/login');
+
+        // * Ensure Site Name and Description have the default values
+        cy.get('#site_name').should('have.text', siteName);
+        cy.get('#site_description').should('have.text', 'All team communication in one place, searchable and accessible anywhere');
+
+        // * Ensure that the custom branding img is not visible
+        cy.get('img').should('not.be.visible');
+
+        // * Ensure that the custom branding text is empty
+        cy.get('.signup__markdown').should('be.empty');
+    });
 });
 
 function saveSetting() {

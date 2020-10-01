@@ -94,12 +94,12 @@ describe('at-mention', () => {
                 cy.apiAddUserToTeam(testTeam.id, sender.id);
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                townsquareChannelId = out.channel.id;
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'off-topic').then((res) => {
-                offTopicChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'off-topic').then((out) => {
+                offTopicChannelId = out.channel.id;
             });
 
             // # Login as receiver and visit off-topic channel

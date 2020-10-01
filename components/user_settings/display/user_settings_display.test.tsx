@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
 import {shallow} from 'enzyme';
-import configureStore from 'redux-mock-store';
+import React from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -65,14 +63,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapseDisplay: '',
         linkPreviewDisplay: '',
     };
-    const mockStore = configureStore();
-    const state = {
-        views: {
-            settings: {},
-        },
-    };
-
-    const store = mockStore(state);
 
     test('should match snapshot, no active section', () => {
         const wrapper = shallow(<UserSettingsDisplay {...requiredProps}/>);
@@ -167,10 +157,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {...requiredProps, updateSection};
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...props}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         await (wrapper.instance() as UserSettingsDisplay).handleSubmit();
@@ -182,10 +168,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {...requiredProps, updateSection};
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...props}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).updateSection('');
@@ -200,10 +182,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {...requiredProps, closeModal};
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...props}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         wrapper.find('#closeButton').simulate('click');
@@ -215,10 +193,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {...requiredProps, collapseModal};
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...props}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         wrapper.find('.fa-angle-left').simulate('click');
@@ -228,10 +202,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update militaryTime state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handleClockRadio('false');
@@ -244,10 +214,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update teammateNameDisplay state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handleTeammateNameDisplayRadio('username');
@@ -263,10 +229,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update channelDisplayMode state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handleChannelDisplayModeRadio('full');
@@ -279,10 +241,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update messageDisplay state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handlemessageDisplayRadio('clean');
@@ -295,10 +253,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update collapseDisplay state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handleCollapseRadio('false');
@@ -311,10 +265,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update linkPreviewDisplay state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handleLinkPreviewRadio('false');
@@ -327,10 +277,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should update display state', () => {
         const wrapper = mountWithIntl(
             <UserSettingsDisplay {...requiredProps}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'linkPreviewDisplay'});
