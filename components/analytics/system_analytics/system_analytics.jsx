@@ -277,7 +277,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const userCount = (
             <StatisticCount
-                id="totalActiveUsers"
+                id='totalActiveUsers'
                 title={
                     <FormattedMessage
                         id='analytics.system.totalUsers'
@@ -291,7 +291,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const teamCount = (
             <StatisticCount
-                id="totalTeams"
+                id='totalTeams'
                 title={
                     <FormattedMessage
                         id='analytics.system.totalTeams'

@@ -31,7 +31,7 @@ export default class StatisticCount extends React.PureComponent<Props> {
                         <i className={'fa ' + this.props.icon}/>
                     </div>
                     <div
-                        data-testid={this.props.id} 
+                        data-testid={this.props.id}
                         className='content'
                     >
                         {typeof this.props.count === 'undefined' || isNaN(this.props.count) ? loading : this.props.count}
