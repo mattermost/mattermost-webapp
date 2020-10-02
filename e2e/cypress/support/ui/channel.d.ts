@@ -28,7 +28,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiCreateChannel({prefix: 'private-channel-', isPrivate: true, purpose: 'my private channel', header: 'my private header', isNewSidebar: false});
          */
-        uiCreateChannel(options: object): Chainable;
+        uiCreateChannel(options: Record<string, unknown>): Chainable;
 
         /**
          * Add users to the current channel.
