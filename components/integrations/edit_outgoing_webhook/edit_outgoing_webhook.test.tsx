@@ -4,15 +4,37 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Team} from 'mattermost-redux/types/teams';
+
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
+
+import EditOutgoingWebhook
+    from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook';
+
 import {browserHistory} from 'utils/browser_history';
-import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook.tsx';
 
 describe('components/integrations/EditOutgoingWebhook', () => {
-    const team = {
+    const team: Team = {
         id: 'team_id',
         name: 'test',
+        allowed_domains: '',
+        company_name: '',
+        create_at: 0,
+        delete_at: 0,
+        description: '',
+        display_name: '',
+        email: '',
+        group_constrained: false,
+        invite_id: '',
+        scheme_id: '',
+        type: 'O',
+        update_at: 0,
+        allow_open_invite: false,
+
     };
-    const hook = {
+    const hook: OutgoingWebhook = {
+        icon_url: '',
+        username: '',
         id: 'ne8miib4dtde5jmgwqsoiwxpiy',
         token: 'nbxtx9hkhb8a5q83gw57jzi9cc',
         create_at: 1504447824673,
@@ -71,7 +93,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: { [k: string]: any } = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -82,7 +104,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: { [k: string]: any } = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -93,7 +115,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match renderExtra', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: { [k: string]: any } = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -102,7 +124,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match when editOutgoingHook is called', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: { [k: string]: any } = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -116,14 +138,17 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     });
 
     test('should have match when submitHook is called on success', async () => {
-        const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: 'data'})};
+        const newActions = {
+            ...baseProps.actions,
+            updateOutgoingHook: jest.fn().mockReturnValue({data: 'data'}),
+        };
         browserHistory.push = jest.fn();
         const props = {...baseProps, hook, actions: newActions};
-        const wrapper = shallow(
+        const wrapper: { [k: string]: any } = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance: { [k: string]: any } = wrapper.instance();
         wrapper.setState({showConfirmModal: true});
         await instance.submitHook();
 
@@ -133,13 +158,16 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     });
 
     test('should have match when submitHook is called on error', async () => {
-        const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: ''})};
+        const newActions = {
+            ...baseProps.actions,
+            updateOutgoingHook: jest.fn().mockReturnValue({data: ''}),
+        };
         const props = {...baseProps, hook, actions: newActions};
         const wrapper = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance: { [k: string]: any } = wrapper.instance();
         wrapper.setState({showConfirmModal: true});
         await instance.submitHook();
 

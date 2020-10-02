@@ -10,7 +10,13 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import EditOutgoingWebhook from './edit_outgoing_webhook.js';
 
-function mapStateToProps(state: GlobalState, ownProps) {
+type OwnProps = {
+    location: {
+        search: string | string[][] | Record<string, string> | URLSearchParams | undefined;
+    };
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
@@ -19,7 +25,7 @@ function mapStateToProps(state: GlobalState, ownProps) {
 
     return {
         hookId,
-        hook: state.entities.integrations.outgoingHooks[hookId],
+        hook: state.entities.integrations.outgoingHooks[hookId!],
         enableOutgoingWebhooks,
         enablePostUsernameOverride,
         enablePostIconOverride,

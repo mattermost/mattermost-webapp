@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal';
@@ -26,7 +26,7 @@ interface Props {
     /**
      * The outgoing webhook to edit
      */
-    hook: OutgoingWebhook;
+    hook?: OutgoingWebhook;
 
     /**
      * The id of the outgoing webhook to edit
@@ -37,7 +37,7 @@ interface Props {
         /**
          * The function to call to update an outgoing webhook
          */
-        updateOutgoingHook: (hook: OutgoingWebhook) => ActionFunc;
+        updateOutgoingHook: (hook: OutgoingWebhook) => ActionResult;
 
         /**
          * The function to call to get an outgoing webhook
@@ -66,7 +66,9 @@ interface State {
     serverError: string;
 }
 
-export default class EditOutgoingWebhook extends React.PureComponent<Props> {
+export default class EditOutgoingWebhook extends React.PureComponent<Props, State> {
+    private newHook: OutgoingWebhook | undefined;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -84,21 +86,21 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props> {
     editOutgoingHook = async (hook: OutgoingWebhook): Promise<void> => {
         this.newHook = hook;
 
-        if (this.props.hook.id) {
-            hook.id = this.props.hook.id;
+        if (this.props.hook!.id) {
+            hook.id = this.props.hook!.id;
         }
 
-        if (this.props.hook.token) {
-            hook.token = this.props.hook.token;
+        if (this.props.hook!.token) {
+            hook.token = this.props.hook!.token;
         }
 
-        const triggerWordsSame = (this.props.hook.trigger_words.length === hook.trigger_words.length) &&
-            this.props.hook.trigger_words.every((v, i) => v === hook.trigger_words[i]);
+        const triggerWordsSame = (this.props.hook!.trigger_words.length === hook!.trigger_words.length) &&
+            this.props.hook!.trigger_words.every((v, i) => v === hook.trigger_words[i]);
 
-        const callbackUrlsSame = (this.props.hook.callback_urls.length === hook.callback_urls.length) &&
-            this.props.hook.callback_urls.every((v, i) => v === hook.callback_urls[i]);
+        const callbackUrlsSame = (this.props.hook!.callback_urls.length === hook!.callback_urls.length) &&
+            this.props.hook!.callback_urls.every((v, i) => v === hook.callback_urls[i]);
 
-        if (this.props.hook.content_type !== hook.content_type ||
+        if (this.props.hook!.content_type !== hook.content_type ||
             !triggerWordsSame || !callbackUrlsSame) {
             this.handleConfirmModal();
         } else {
@@ -117,7 +119,7 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props> {
     submitHook = async (): Promise<void> => {
         this.setState({serverError: ''});
 
-        const {data, error} = await this.props.actions.updateOutgoingHook(this.newHook);
+        const {data, error}: any = await this.props.actions.updateOutgoingHook(this.newHook!);
 
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/outgoing_webhooks`);
