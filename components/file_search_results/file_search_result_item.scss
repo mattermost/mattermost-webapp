@@ -1,10 +1,15 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+@import 'utils/variables';
+
 .FileSearchResultItem {
+    @include single-transition(box-shadow, .15s, ease);
+    @include border-radius(4px);
     display: flex;
     flex-direction: row;
     padding: 8px;
     color: var(--center-channel-color);
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-    border-radius: 4px;
     align-items: center;
     margin-bottom: 8px;
     cursor: pointer;
@@ -13,10 +18,14 @@
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     }
     &:hover {
+        @include box-shadow($elevation-1);
         .action-icon {
+            @include single-transition(opacity, .15s, ease);
+            opacity: 1;
             display: flex;
         }
         .MenuWrapper {
+            opacity: 1;
             display: block;
         }
     }
@@ -49,13 +58,14 @@
         }
     }
     .action-icon {
+        @include single-transition(opacity, .15s, ease);
+        @include border-radius(4px)
         display: none;
         align-items: center;
         height: 32px;
         width: 32px;
         min-width: 32px;
-        border-radius: 4px;
-        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        background-color: var(--center-channel-bg);
         color: rgba(var(--center-channel-color-rgb), 0.72);
         fill: rgba(var(--center-channel-color-rgb), 0.72);
         align-items: center;
@@ -63,9 +73,7 @@
         margin-left: 8px;
         cursor: pointer;
         text-decoration: none;
-        &.dots-icon {
-            background-color: var(--center-channel-bg);
-        }
+        opacity: 0;
         svg {
             display: flex
         }
@@ -76,6 +84,7 @@
         }
     }
     .MenuWrapper {
+        opacity: 0;
         display: none;
     }
 }

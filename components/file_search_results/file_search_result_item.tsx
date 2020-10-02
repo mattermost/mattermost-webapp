@@ -8,10 +8,12 @@ import {FileInfo} from 'mattermost-redux/types/files';
 
 import {getFileType, fileSizeToString, copyToClipboard} from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
+import {FileTypes} from 'utils/constants';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import FileThumbnail from 'components/file_attachment/file_thumbnail';
 
 import './file_search_result_item.scss';
 
@@ -32,11 +34,11 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
         copyToClipboard(`${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
-    private onClickHandler = (e: MouseEvent) => {
+    private onClickHandler = () => {
         this.props.onClick(this.props.fileInfo);
     }
 
-    private stopPropagation = (e: MouseEvent) => {
+    private stopPropagation = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.stopPropagation();
     }
 
@@ -47,7 +49,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                 className='FileSearchResultItem'
                 onClick={this.onClickHandler}
             >
-                <div className={`file-icon ${getFileType(fileInfo.extension)}`}/>
+                <FileThumbnail fileInfo={fileInfo}/>
                 <div className='fileData'>
                     <div className='fileDataName'>{fileInfo.name}</div>
                     <div className='fileMetadata'>
