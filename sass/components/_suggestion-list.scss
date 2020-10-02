@@ -110,6 +110,15 @@
         max-height: 205px;
         width: 100%;
     }
+
+    span
+        .status
+            .offline--icon,
+            .online--icon,
+            .away--icon,
+            .dnd--icon {
+                margin: auto 7px auto 7px;
+            }
 }
 
 .slash-command {
