@@ -85,8 +85,8 @@ describe('Archived channels', () => {
         cy.get('.DataGrid', {timeout: TIMEOUTS.TWO_SEC}).scrollIntoView().should('be.visible');
 
         // * Verify via the API that the channel is unarchived
-        cy.apiGetChannel(testChannel.id).then((response) => {
-            expect(response.body.delete_at).to.eq(0);
+        cy.apiGetChannel(testChannel.id).then(({channel}) => {
+            expect(channel.delete_at).to.eq(0);
         });
     });
 });
