@@ -34,6 +34,7 @@ export default class SearchBar extends React.PureComponent {
         isFocus: PropTypes.bool,
         isSideBarRight: PropTypes.bool,
         isRhsOpen: PropTypes.bool,
+        currentChannelId: PropTypes.string,
         getFocus: PropTypes.func,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
@@ -78,6 +79,8 @@ export default class SearchBar extends React.PureComponent {
                     element.classList.remove('visible');
                 }
             });
+        } else {
+            document.addEventListener('keydown', this.searchCurrentChannel);
         }
     }
 
@@ -89,6 +92,29 @@ export default class SearchBar extends React.PureComponent {
         });
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.searchCurrentChannel);
+    }
+
+    /**
+     * On HotKey CMD/Ctrl + Shift + F prefill the search box with "in: {current channel}"
+     * @param {*} e Event
+     */
+    searchCurrentChannel = (e) => {
+        if (
+            !e.altKey &&
+            !e.ctrlKey &&
+            e.shiftKey &&
+            e.metaKey &&
+            Utils.isKeyPressed(e, Constants.KeyCodes.F)
+        ) {
+            e.preventDefault();
+            this.focus();
+
+            // Space added at end to make sure channel related hint is not shown.
+            this.props.actions.updateSearchTerms(`in: ${this.props.currentChannelId} `);
+        }
+    }
     determineVisibleSearchHintOptions = (searchTerms) => {
         let visibleSearchHintOptions = [];
 

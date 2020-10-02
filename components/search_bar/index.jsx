@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+
 import {
     updateSearchTerms,
     showSearchResults,
@@ -21,13 +23,14 @@ import SearchBar from './search_bar.jsx';
 
 function mapStateToProps(state) {
     const rhsState = getRhsState(state);
-
+    const currentChannelId = getCurrentChannel(state).name;
     return {
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isRhsOpen: getIsRhsOpen(state),
+        currentChannelId,
     };
 }
 
