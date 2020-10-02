@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function MenuIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -16,7 +14,7 @@ export default function MenuIcon(props) {
                 viewBox='0 0 16 10'
                 version='1.1'
                 role='img'
-                title={formatMessage({id: t('generic_icons.menu'), defaultMessage: 'Menu Icon'})}
+                title={formatMessage({id: 'generic_icons.menu', defaultMessage: 'Menu Icon'})}
             >
                 <g
                     stroke='none'
