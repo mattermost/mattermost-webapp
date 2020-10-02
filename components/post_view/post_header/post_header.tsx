@@ -58,7 +58,7 @@ export type Props = {
     /*
     * Set to render the post time when not hovering
     */
-    showTimeWithoutHover?: boolean;
+    showTimeWithoutHover: boolean;
 
     /**
      * Whether or not the post username can be overridden.
@@ -84,7 +84,7 @@ export type Props = {
      * Source of image that should be override current user profile.
      */
     overwriteIcon?: string;
-}
+};
 
 export default class PostHeader extends React.PureComponent<Props> {
     render(): JSX.Element {
@@ -183,7 +183,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                         compactDisplay={this.props.compactDisplay}
                         replyCount={this.props.replyCount}
                         isFirstReply={this.props.isFirstReply}
-                        showTimeWithoutHover={this.props.showTimeWithoutHover as boolean}
+                        showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}
                         isLastPost={this.props.isLastPost}
                     />
