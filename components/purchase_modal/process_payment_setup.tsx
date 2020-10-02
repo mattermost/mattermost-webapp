@@ -4,7 +4,7 @@
 import React from 'react';
 import {Stripe} from '@stripe/stripe-js';
 
-import {BillingDetails} from 'components/cloud/types/sku';
+import {BillingDetails} from 'types/cloud/sku';
 
 import successSvg from 'images/cloud/payment_success.svg';
 import failedSvg from 'images/cloud/payment_fail.svg';

@@ -6,7 +6,7 @@ import {StripeCardElement} from '@stripe/stripe-js';
 export type StripeSetupIntent = {
     id: string;
     client_secret: string;
-}
+};
 
 export type BillingDetails = {
     address: string;
@@ -20,18 +20,19 @@ export type BillingDetails = {
     agreedTerms?: boolean;
 };
 
-export const areBillingDetailsValid = (billingDetails: BillingDetails | null | undefined): boolean => {
+export const areBillingDetailsValid = (
+    billingDetails: BillingDetails | null | undefined,
+): boolean => {
     if (billingDetails == null) {
         return false;
     }
 
     return Boolean(
         billingDetails.address &&
-        billingDetails.city &&
-        billingDetails.state &&
-        billingDetails.country &&
-        billingDetails.postalCode &&
-        billingDetails.name,
+      billingDetails.city &&
+      billingDetails.state &&
+      billingDetails.country &&
+      billingDetails.postalCode &&
+      billingDetails.name,
     );
 };
-

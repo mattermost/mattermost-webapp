@@ -7,10 +7,11 @@ import {getName} from 'country-list';
 
 import {FormattedMessage} from 'react-intl';
 
+import {PaymentMethod} from 'mattermost-redux/types/cloud';
+
 import DropdownInput from 'components/dropdown_input';
 
-import {PaymentMethod} from 'components/cloud/types/customer';
-import {BillingDetails} from 'components/cloud/types/sku';
+import {BillingDetails} from 'types/cloud/sku';
 
 import Input from 'components/input';
 

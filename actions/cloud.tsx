@@ -9,7 +9,7 @@ import {Product} from 'mattermost-redux/types/cloud';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
-import {StripeSetupIntent, BillingDetails} from 'components/cloud/types/sku';
+import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 
 export function getProductPrice() {
     return async () => {
