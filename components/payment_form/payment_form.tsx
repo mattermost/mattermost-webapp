@@ -5,8 +5,6 @@ import React from 'react';
 
 import {getName} from 'country-list';
 
-import {StylesConfig} from 'react-select';
-
 import {FormattedMessage} from 'react-intl';
 
 import DropdownInput from 'components/dropdown_input';
@@ -333,17 +331,3 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
         );
     }
 }
-const selectorStyles: StylesConfig = {
-    placeholder: (provided) => ({
-        ...provided,
-
-        color: 'var(--center-channel-color-64)',
-        opacity: 0.5,
-        fontSize: '14px',
-        padding: '2px',
-
-    }),
-    valueContainer: (provided) => ({...provided, height: '40px'}),
-    menu: (provided) => ({...provided, zIndex: 5}),
-};
-

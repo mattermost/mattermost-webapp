@@ -20,29 +20,6 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     error?: string;
     onChange: (value: T, action: ActionMeta<T>) => void;
 };
-const targetHeight = 40;
-
-// const targetHeight = 30;
-
-// const styles = {
-//   control: (base) => ({
-//     ...base,
-//     minHeight: "initial",
-//   }),
-//   valueContainer: (base) => ({
-//     ...base,
-//     height: `${targetHeight - 1 - 1}px`,
-//     padding: "0 8px",
-//   }),
-//   clearIndicator: (base) => ({
-//     ...base,
-//     padding: `${(targetHeight - 20 - 1 - 1) / 2}px`,
-//   }),
-//   dropdownIndicator: (base) => ({
-//     ...base,
-//     padding: `${(targetHeight - 20 - 1 - 1) / 2}px`,
-//   }),
-// };
 
 const baseStyles = {
     input: (provided: CSSProperties) => ({
@@ -55,23 +32,11 @@ const baseStyles = {
         boxShadow: 'none',
         padding: '0 2px',
         cursor: 'pointer',
-
-        // minHeight: 'initial',
     }),
-
-    // valueContainer: (provided: CSSProperties) => ({
-    //     ...provided,
-    //     height: `${targetHeight - 1 - 1}px`,
-    //     minHeight: '40px',
-    // }),
     indicatorSeparator: (provided: CSSProperties) => ({
         ...provided,
         display: 'none',
     }),
-
-    // menu: (provided: CSSProperties) => ({
-    //     ...provided,
-    // }),
 };
 
 const IndicatorsContainer = (props: any) => {

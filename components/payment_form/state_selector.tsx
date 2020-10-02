@@ -4,7 +4,6 @@
 import React from 'react';
 
 import {getName} from 'country-list';
-import Select, {StylesConfig} from 'react-select';
 
 import DropdownInput from 'components/dropdown_input';
 
@@ -48,22 +47,6 @@ export default function StateSelector(props: Props) {
                 name={'billing_dropdown'}
             />
         );
-
-        return (
-            <Select
-                placeholder='State'
-                name='state'
-                components={{IndicatorSeparator: null}}
-                isSearchable={false}
-                id='payment_state'
-                options={stateList.map((stateCode) => ({value: stateCode.code, label: stateCode.name}))}
-                styles={selectorStyles}
-                onChange={onStateSelected}
-                value={props.state ? {value: props.state, label: props.state} : null}
-                menuPlacement={'auto'}
-                onBlur={props.onBlur}
-            />
-        );
     }
 
     return (
@@ -79,18 +62,4 @@ export default function StateSelector(props: Props) {
             required={true}
         />);
 }
-
-const selectorStyles: StylesConfig = {
-    placeholder: (provided) => ({
-        ...provided,
-
-        color: 'var(--center-channel-color-64)',
-        opacity: 0.5,
-        fontSize: '14px',
-        padding: '2px',
-
-    }),
-    valueContainer: (provided) => ({...provided, height: '40px'}),
-    menu: (provided) => ({...provided, zIndex: 5}),
-};
 
