@@ -125,6 +125,12 @@ export default class PostInfo extends React.PureComponent {
         shouldShowDotMenu: PropTypes.bool.isRequired,
     };
 
+    static defaultProps = {
+        actions: {},
+        enableEmojiPicker: false,
+        shouldShowDotMenu: false,
+    }
+
     constructor(props) {
         super(props);
 

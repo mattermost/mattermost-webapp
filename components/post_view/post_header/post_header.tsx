@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {EventHandler, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -23,7 +23,7 @@ export type Props = {
     /*
     * Function called when the comment icon is clicked
     */
-    handleCommentClick: React.EventHandler<React.MouseEvent>;
+    handleCommentClick: EventHandler<MouseEvent>;
 
     /*
     * Function called when the card icon is clicked
