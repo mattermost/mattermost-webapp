@@ -6,6 +6,8 @@ import React from 'react';
 import {getName} from 'country-list';
 import Select, {StylesConfig} from 'react-select';
 
+import DropdownInput from 'components/dropdown_input';
+
 import Input from 'components/input';
 
 import {US_STATES, CA_PROVINCES, StateCode} from 'components/cloud/utils/states';
@@ -33,6 +35,20 @@ export default function StateSelector(props: Props) {
     }
 
     if (stateList.length > 0) {
+        return (
+            <DropdownInput
+                onChange={onStateSelected}
+                value={props.state ? {value: props.state, label: props.state} : undefined}
+                options={stateList.map((stateCode) => ({
+                    value: stateCode.code,
+                    label: stateCode.name,
+                }))}
+                legend={'State/Province'}
+                placeholder={'State/Province'}
+                name={'billing_dropdown'}
+            />
+        );
+
         return (
             <Select
                 placeholder='State'

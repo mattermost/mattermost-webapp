@@ -174,7 +174,6 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             defaultMessage='Billing address'
                         />
                     </div>
-                    {/* <div className='form-row selector'> */}
                     <DropdownInput
                         onChange={this.handleCountryChange}
                         value={this.state.country ? {value: this.state.country, label: this.state.country} : undefined}
@@ -183,20 +182,6 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                         placeholder={'Country'}
                         name={'billing_dropdown'}
                     />
-                    {/* <Select
-                            placeholder={Utils.localizeMessage('payment_form.country', 'Country')}
-                            name='state'
-                            className='full-width'
-                            components={{IndicatorSeparator: null}}
-                            isSearchable={false}
-                            id='payment_country'
-                            options={COUNTRIES.map((country) => ({value: country.name, label: country.name}))}
-                            styles={selectorStyles}
-                            onChange={this.handleCountryChange}
-                            value={this.state.country ? {value: this.state.country, label: this.state.country} : null}
-                            onBlur={this.onBlur}
-                        /> */}
-                    {/* </div> */}
                     <div className='form-row'>
                         <Input
                             name='address'
