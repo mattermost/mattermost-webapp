@@ -30,7 +30,7 @@ interface Props {
     mentions?: number;
     placement?: 'left' | 'right' | 'top' | 'bottom';
     teamIconUrl?: string | null;
-    switchTeam: Function;
+    switchTeam: (url: string) => void;
     intl: IntlShape;
     isDraggable?: boolean;
     teamIndex?: number;

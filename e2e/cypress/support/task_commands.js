@@ -20,6 +20,24 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
 });
 
 /**
+* reactToMessageAs is a task wrapped as command with post-verification
+* that a reaction is added successfully to a message by a user/sender
+* @param {Object} sender - a user object who will post a message
+* @param {String} postId - post on which reaction is intended
+* @param {String} reaction - emoji text eg. smile
+*/
+Cypress.Commands.add('reactToMessageAs', ({sender, postId, reaction}) => {
+    const baseUrl = Cypress.config('baseUrl');
+
+    cy.task('reactToMessageAs', {sender, postId, reaction, baseUrl}).then(({status, data}) => {
+        expect(status).to.equal(200);
+
+        // # Return the response after reaction is added
+        cy.wrap({status, data});
+    });
+});
+
+/**
 * postIncomingWebhook is a task which is wrapped as command with post-verification
 * that the incoming webhook is successfully posted
 * @param {String} url - incoming webhook URL

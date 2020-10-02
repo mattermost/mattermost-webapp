@@ -14,6 +14,10 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
+    body.announcement-banner-tall--fixed & {
+        height: calc(100% - 40px);
+    }
+
     &.sidebar--padded {
         padding-top: 44px;
     }

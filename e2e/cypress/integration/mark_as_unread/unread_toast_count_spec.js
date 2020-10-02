@@ -1,14 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {markAsUnreadByPostIdFromMenu} from './helpers';
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 describe('Verify unread toast appears after repeated manual marking post as unread', () => {
@@ -58,7 +57,8 @@ describe('Verify unread toast appears after repeated manual marking post as unre
     it('MM-T254 Rehydrate mention badge after post is marked as Unread', () => {
         // # Mark the first post as unread
         cy.getNthPostId(1).then((postId) => {
-            markAsUnreadByPostIdFromMenu(postId);
+            cy.get(`#post_${postId}`).scrollIntoView().should('be.visible');
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
         // * Check that the toast is visible

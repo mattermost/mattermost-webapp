@@ -46,10 +46,10 @@ type Props = {
         getTeamStats: (teamId: string) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndReloadTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
+        loadProfilesAndReloadTeamMembers: (page: number, perPage: number, teamId?: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
-        searchProfilesAndTeamMembers: (term: string, options?: {}) => Promise<{
+        searchProfilesAndTeamMembers: (term: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
         getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{

@@ -30,7 +30,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            buttonActive: false
+            buttonActive: false,
         };
     }
 
@@ -102,6 +102,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
             >
                 <button
                     id='channelHeaderUserGuideButton'
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     className={classNames('channel-header__icon', {'channel-header__icon--active': this.state.buttonActive})}
                     type='button'
                     aria-expanded='true'

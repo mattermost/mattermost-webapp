@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default function() {
+export default function SetByEnv() {
     return (
         <div className='alert alert-warning'>
             <FormattedMessage

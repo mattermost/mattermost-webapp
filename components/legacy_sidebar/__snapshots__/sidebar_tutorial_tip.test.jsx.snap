@@ -11,7 +11,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -38,7 +37,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
-            values={Object {}}
           />
         </p>
         <p>
@@ -69,7 +67,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -102,7 +99,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -129,7 +125,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
-            values={Object {}}
           />
         </p>
         <p>
@@ -160,7 +155,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -193,7 +187,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -220,7 +213,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
-            values={Object {}}
           />
         </p>
         <p>
@@ -251,7 +243,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -284,7 +275,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Channels"
             id="sidebar.tutorialScreen1.title"
-            values={Object {}}
           />
         </h4>
         <p>
@@ -311,7 +301,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Here are two public channels to start:"
             id="sidebar.tutorialScreen2.body1"
-            values={Object {}}
           />
         </p>
         <p>
@@ -342,7 +331,6 @@ exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with
           <FormattedMessage
             defaultMessage="Creating and Joining Channels"
             id="sidebar.tutorialScreen3.title"
-            values={Object {}}
           />
         </h4>
         <p>

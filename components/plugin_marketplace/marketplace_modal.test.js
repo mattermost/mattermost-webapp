@@ -4,7 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {trackEvent} from 'actions/telemetry_actions.jsx';
+
 import {AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal';
+
+jest.mock('actions/telemetry_actions.jsx', () => {
+    const original = jest.requireActual('actions/telemetry_actions.jsx');
+    return {
+        ...original,
+        trackEvent: jest.fn(),
+    };
+});
 
 describe('components/marketplace/', () => {
     const samplePlugin = {
@@ -139,6 +149,18 @@ describe('components/marketplace/', () => {
             wrapper.setState({serverError: {message: 'Error test'}});
 
             expect(wrapper).toMatchSnapshot();
+        });
+
+        test('Should call for track event when searching', () => {
+            const wrapper = shallow(
+                <MarketplaceModal {...baseProps}/>,
+            );
+
+            wrapper.setState({filter: 'nps'});
+            wrapper.instance().doSearch();
+
+            expect(trackEvent).toHaveBeenCalledWith('plugins', 'ui_marketplace_opened');
+            expect(trackEvent).toHaveBeenCalledWith('plugins', 'ui_marketplace_search', {filter: 'nps'});
         });
     });
 });

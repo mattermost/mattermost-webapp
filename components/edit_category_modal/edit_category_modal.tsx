@@ -125,6 +125,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 handleCancel={this.handleCancel}
                 confirmButtonText={editButtonText}
                 isConfirmDisabled={this.isConfirmDisabled()}
+                id='editCategoryModal'
             >
                 <QuickInput
                     autoFocus={true}

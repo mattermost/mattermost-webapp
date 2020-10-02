@@ -28,7 +28,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
         currentUsers: state.entities.admin.analytics!.TOTAL_USERS,
         userIsAdmin: isAdmin(
-            getMyTeamMember(state, ownProps.currentTeamId).roles
+            getMyTeamMember(state, ownProps.currentTeamId).roles,
         ),
         show: isModalOpen(state, ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
     };
@@ -41,12 +41,12 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
                 closeModal: () => closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
                 openModal: (modalData) => openModal(modalData),
             },
-            dispatch
+            dispatch,
         ),
     };
 }
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(UserLimitModal);

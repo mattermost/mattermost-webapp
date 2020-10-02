@@ -11,7 +11,7 @@
 
 import {beUnread} from '../../support/assertions';
 
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
+import {verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
 describe('Mark post with mentions as unread', () => {
     let userA;
@@ -26,8 +26,8 @@ describe('Mark post with mentions as unread', () => {
             channelA = channel;
 
             // # Create second channel and add userA
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
+                channelB = out.channel;
                 cy.apiAddUserToChannel(channelB.id, userA.id);
             });
 
@@ -120,7 +120,7 @@ describe('Mark post with mentions as unread', () => {
         // # Get the ID of the last post
         cy.getLastPostId().then((postId) => {
             // # Mark last post as unread from menu
-            markAsUnreadByPostIdFromMenu(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
         // * Verify the new message separator still exists above the unread message
@@ -157,7 +157,7 @@ describe('Mark post with mentions as unread', () => {
         // # Get the ID of the last post
         cy.getLastPostId().then((postId) => {
             // # Mark last post as unread from menu
-            markAsUnreadByPostIdFromMenu(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
         // * Verify the new message separator exists above the unread message

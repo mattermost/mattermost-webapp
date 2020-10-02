@@ -159,7 +159,7 @@ export class MarketplaceModal extends React.PureComponent {
     }
 
     doSearch = async () => {
-        trackEvent('plugins', 'ui_marketplace_search');
+        trackEvent('plugins', 'ui_marketplace_search', {filter: this.state.filter});
 
         const {error} = await this.props.actions.filterPlugins(this.state.filter);
 
