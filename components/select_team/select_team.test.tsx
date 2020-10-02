@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
@@ -23,8 +25,8 @@ describe('components/select_team/SelectTeam', () => {
         currentUserId: 'test',
         isMemberOfTeam: true,
         listableTeams: [
-            {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A', allow_open_invite: true},
-            {id: 'team_id_2', delete_at: 0, name: 'b-team', display_name: 'B Team', allow_open_invite: true},
+            {id: 'team_id_1', delete_at: 0, name: 'team-a', display_name: 'Team A', allow_open_invite: true} as Team,
+            {id: 'team_id_2', delete_at: 0, name: 'b-team', display_name: 'B Team', allow_open_invite: true} as Team,
         ],
         siteName: 'Mattermost',
         canCreateTeams: false,
@@ -95,7 +97,7 @@ describe('components/select_team/SelectTeam', () => {
         const wrapper = shallow<SelectTeam>(
             <SelectTeam {...baseProps}/>,
         );
-        await wrapper.instance().handleTeamClick({id: 'team_id'});
+        await wrapper.instance().handleTeamClick({id: 'team_id'} as any);
         expect(wrapper.state('loadingTeamId')).toEqual('team_id');
         expect(addUserToTeam).toHaveBeenCalledTimes(1);
     });

@@ -7,6 +7,8 @@ import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -34,18 +36,18 @@ export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 type Actions = {
-    getTeams: any,
-    loadRolesIfNeeded: any,
-    addUserToTeam: any,
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => any,
+    loadRolesIfNeeded: (roles: Iterable<string>) => any,
+    addUserToTeam: (teamId: string, userId?: string) => any;
 }
 
 type Props = {
     currentUserId: string,
-    currentUserRoles?: string,
+    currentUserRoles: string,
     currentUserIsGuest?: boolean,
     customDescriptionText?: string,
     isMemberOfTeam: boolean,
-    listableTeams: Array<any>,
+    listableTeams: Array<Team>,
     siteName?: string,
     canCreateTeams: boolean,
     canManageSystem: boolean,
@@ -62,7 +64,7 @@ type State = {
     error: any,
     endofTeamsData: boolean,
     currentPage: number,
-    currentListableTeams: Array<any>,
+    currentListableTeams: Array<Team>,
 }
 
 export default class SelectTeam extends React.PureComponent<Props, State> {
@@ -112,7 +114,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
         }
     }
 
-    handleTeamClick = async (team: any) => {
+    handleTeamClick = async (team: Team) => {
         const {siteURL, currentUserRoles} = this.props;
         this.setState({loadingTeamId: team.id});
 

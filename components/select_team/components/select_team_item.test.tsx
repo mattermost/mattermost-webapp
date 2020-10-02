@@ -4,11 +4,13 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import SelectTeamItem from './select_team_item';
 
 describe('components/select_team/components/SelectTeamItem', () => {
     const baseProps = {
-        team: {display_name: 'team_display_name', allow_open_invite: true},
+        team: {display_name: 'team_display_name', allow_open_invite: true} as Team,
         onTeamClick: jest.fn(),
         loading: false,
         canJoinPublicTeams: true,

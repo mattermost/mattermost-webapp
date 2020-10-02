@@ -44,7 +44,7 @@ export function isLinux() {
 
 export function createSafeId(prop) {
     if (prop === null) {
-        return null;
+        return undefined;
     }
 
     var str = '';

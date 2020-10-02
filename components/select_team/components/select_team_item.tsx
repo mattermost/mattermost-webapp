@@ -4,6 +4,8 @@
 import React, {ReactNode, MouseEvent} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
@@ -12,8 +14,8 @@ import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    team: any,
-    onTeamClick: (team: any) => void,
+    team: Team,
+    onTeamClick: (team: Team) => void,
     loading: boolean,
     canJoinPublicTeams: boolean,
     canJoinPrivateTeams: boolean,
@@ -78,7 +80,7 @@ export default class SelectTeamItem extends React.PureComponent<Props> {
                 {this.renderDescriptionTooltip()}
                 <a
                     href='#'
-                    id={Utils.createSafeId(team.display_name) ?? undefined}
+                    id={Utils.createSafeId(team.display_name)}
                     onClick={canJoin ? this.handleTeamClick : undefined}
                     className={canJoin ? '' : 'disabled'}
                 >
