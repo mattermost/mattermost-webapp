@@ -11,16 +11,6 @@ export function markAsUnreadFromPost(post, rhs = false) {
     cy.get('body').type('{alt}', {release: true});
 }
 
-export function markAsUnreadByPostIdFromMenu(postId, prefix = 'post', location = 'CENTER') {
-    cy.get(`#${prefix}_${postId}`).trigger('mouseover');
-    cy.clickPostDotMenu(postId, location);
-    cy.get('.dropdown-menu').
-        should('be.visible').
-        within(() => {
-            cy.findByText('Mark as Unread').scrollIntoView().should('be.visible').click();
-        });
-}
-
 export function markAsUnreadShouldBeAbsent(postId, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${postId}`).trigger('mouseover');
     cy.clickPostDotMenu(postId, location);
@@ -42,7 +32,7 @@ export function markAsUnreadFromMenu(post, prefix = 'post', location = 'CENTER')
 export function switchToChannel(channel) {
     cy.get(`#sidebarItem_${channel.name}`).click();
 
-    cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+    cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('contain', channel.display_name);
 
     // # Wait some time for the channel to set state
     cy.wait(TIMEOUTS.HALF_SEC);

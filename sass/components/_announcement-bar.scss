@@ -1,6 +1,42 @@
 @charset 'UTF-8';
 
 .announcement-bar {
+    &.tall {
+        height: 40px;
+        max-height: 40px;
+        min-height: 40px;
+        padding: 0;
+        margin: 0;
+        > span {
+            font-size: 14px;
+            line-height: 20px;
+            > span {
+                font-weight: 600;
+            }
+        }
+
+        .announcement-bar__close {
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.08);
+                opacity: 0.72;
+            }
+            font-family: 'compass-icons';
+            font-size: 18px;
+            line-height: 32px;
+            display: inline-block;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            width: 32px;
+            height: 32px;
+            text-decoration: none;
+            padding: 0;
+            font-weight: normal;
+            vertical-align: middle;
+            opacity: 0.56;
+        }
+    }
+
     background-color: #113166;
     color: $white;
     min-height: $announcement-bar-height;
@@ -41,7 +77,6 @@
             right: 0;
             text-decoration: none;
             top: 1px;
-
             &:hover {
                 color: $white;
                 text-decoration: none;
@@ -57,12 +92,51 @@
     .resend-verification-wrapper:before {
         content: "\00a0 ";
     }
+
+    .content__icon {
+        top: 1px;
+        position: relative;
+        align-items: center;
+        display: inline-block;
+        font-family: 'compass-icons';
+        font-size: 18px;
+        line-height: 21px;
+        color: #FFFFFF;
+        height: 18px;
+        margin-right: 8px;
+    }
+
+    .upgrade-button {
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.08)
+        }
+        display: inline-block;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        margin-left: 8px;
+        background-color: #579EFF;
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 4px 8px;
+        border: 1px solid #FFFFFF;
+        height: 24px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        background-color: inherit
+    }
 }
 
 
 
 .announcement-bar-critical {
     background-color: #B0171F;
+}
+
+.announcement-bar-critical-light {
+    background-color: var(--error-text);
 }
 
 .announcement-bar-developer {
