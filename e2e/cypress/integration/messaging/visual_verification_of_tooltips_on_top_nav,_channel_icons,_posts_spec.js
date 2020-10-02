@@ -29,6 +29,12 @@ describe('Messaging', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
+    after(() => {
+        // # Clean up - remove demo plugin
+        cy.apiAdminLogin();
+        cy.apiRemovePluginById('com.mattermost.demo-plugin');
+    });
+
     it('MM-T134 Visual verification of tooltips on top nav, channel icons, posts', () => {
         // * Hover effect wraps around Date and New Messages lines
         cy.get('#postListContent').find('.top').should('be.visible');
@@ -81,11 +87,5 @@ describe('Messaging', () => {
         // * Check that the Demo plugin tool-tip is present
         cy.get('#channel-header').find('.fa-plug').should('be.visible').trigger('mouseover');
         cy.get('#pluginTooltip').should('be.visible').and('have.text', 'Demo Plugin');
-
-        after(() => {
-        // # Clean up - remove demo plugin
-            cy.apiAdminLogin();
-            cy.apiRemovePluginById('com.mattermost.demo-plugin');
-        });
     });
 });
