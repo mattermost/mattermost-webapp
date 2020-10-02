@@ -23,14 +23,14 @@ import SearchBar from './search_bar.jsx';
 
 function mapStateToProps(state) {
     const rhsState = getRhsState(state);
-    const currentChannelId = getCurrentChannel(state).name;
+    const currentChannel = getCurrentChannel(state);
     return {
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isRhsOpen: getIsRhsOpen(state),
-        currentChannelId,
+        currentChannel,
     };
 }
 

@@ -34,7 +34,7 @@ export default class SearchBar extends React.PureComponent {
         isFocus: PropTypes.bool,
         isSideBarRight: PropTypes.bool,
         isRhsOpen: PropTypes.bool,
-        currentChannelId: PropTypes.string,
+        currentChannel: PropTypes.string,
         getFocus: PropTypes.func,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
@@ -109,10 +109,17 @@ export default class SearchBar extends React.PureComponent {
             Utils.isKeyPressed(e, Constants.KeyCodes.F)
         ) {
             e.preventDefault();
+
+            // Check if currently inside a channel and not direct message.
+            // Note: Need confirmation on what to prefill
+            // when the above action is done in direct messages
+            if (!this.props.currentChannel.team_id) {
+                return;
+            }
             this.focus();
 
             // Space added at end to make sure channel related hint is not shown.
-            this.props.actions.updateSearchTerms(`in: ${this.props.currentChannelId} `);
+            this.props.actions.updateSearchTerms(`in: ${this.props.currentChannel.name} `);
         }
     }
     determineVisibleSearchHintOptions = (searchTerms) => {
