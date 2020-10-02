@@ -488,8 +488,8 @@ describe('Plugin Marketplace', () => {
 });
 
 function uninstallAllPlugins() {
-    cy.apiGetAllPlugins().then((response) => {
-        const {active, inactive} = response.body;
+    cy.apiGetAllPlugins().then(({plugins}) => {
+        const {active, inactive} = plugins;
         inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
         active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
     });
