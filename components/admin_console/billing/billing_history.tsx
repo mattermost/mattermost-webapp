@@ -26,6 +26,8 @@ const noBillingHistorySection = (
             />
         </div>
         <a
+            target='_blank'
+            rel='noopener noreferrer'
             href='http://www.google.com'
             className='BillingHistory__noHistory-link'
         >
@@ -36,6 +38,10 @@ const noBillingHistorySection = (
         </a>
     </div>
 );
+
+type BillingHistoryRow = {
+
+}
 
 const BillingHistory: React.FC<Props> = () => {
     return (
