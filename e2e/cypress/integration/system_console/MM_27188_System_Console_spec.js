@@ -172,9 +172,74 @@ describe('Main menu', () => {
     //     });
     // });
 
-    it('MM-T907 - Reporting ➜ Team Statistics - teams listed in alphabetical order', () => {
-        goToAdminConsole();
-        
+    // it('MM-T907 - Reporting ➜ Team Statistics - teams listed in alphabetical order', () => {
+    //     goToAdminConsole();
+    //     cy.get('#reporting\\/team_statistics').click();
+    //     cy.wait(TIMEOUTS.ONE_SEC);
+    //     cy.findByTestId('teamFilter').then((el) => {
+
+    //         // # Get the options and append them to a unsorted array (assume unsorted)
+    //         const unsortedOptionsText = [];
+    //         el[0].childNodes.forEach((child) => unsortedOptionsText.push(child.innerText));
+
+    //         // # Make a copy of the above array and then we sort them 
+    //         const sortedOptionsText = [...unsortedOptionsText].sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+
+    //         // * Compare the unsorted array and sorted array and if it initially was sorted, these should match
+    //         for (let i = 0; i < unsortedOptionsText.length; i++) {
+    //             expect(unsortedOptionsText[i]).equal(sortedOptionsText[i]);
+    //         }
+    //     });
+    // });
+
+
+    it('MM-T903 - Site Statistics > Deactivating a user increments the Daily and Monthly Active Users counts down', () => {
+        cy.apiInitSetup().then(({team, user}) => {
+            const testUser = user;
+            const testTeam = team;
+
+            // # Login as test user and visit town-square
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+
+            // # Wait two seconds then go to admin console
+            cy.wait(TIMEOUTS.TWO_SEC);
+            goToAdminConsole();
+            
+            // # Go to system analytics
+            cy.get('#reporting\\/system_analytics').click();
+            cy.wait(TIMEOUTS.ONE_SEC);
+
+            let totalActiveUsersInitial, dailyActiveUsersInital, monthlyActiveUsersInital, totalActiveUsersFinal, dailyActiveUsersFinal, monthlyActiveUsersFinal;
+            cy.findByTestId('totalActiveUsers').invoke('text').then(text => {
+                totalActiveUsersInitial = parseInt(text, 10);
+                cy.findByTestId('dailyActiveUsers').invoke('text').then(text => {
+                    dailyActiveUsersInital = parseInt(text, 10);
+                    cy.findByTestId('monthlyActiveUsers').invoke('text').then(text => {
+                        monthlyActiveUsersInital = parseInt(text, 10);
+                        cy.externalActivateUser(testUser.id, false);
+                        cy.reload();
+
+                        cy.wait(TIMEOUTS.TWO_SEC);
+                        cy.findByTestId('totalActiveUsers').invoke('text').then(text => {
+                            totalActiveUsersFinal = parseInt(text, 10);
+                            console.log(totalActiveUsersFinal);
+                            cy.findByTestId('dailyActiveUsers').invoke('text').then(text => {
+                                dailyActiveUsersFinal = parseInt(text, 10);
+                                console.log(dailyActiveUsersFinal);
+                                cy.findByTestId('monthlyActiveUsers').invoke('text').then(text => {
+                                    monthlyActiveUsersFinal = parseInt(text, 10);
+                                    console.log(monthlyActiveUsersFinal);
+                                    expect(totalActiveUsersFinal).equal(totalActiveUsersInitial - 1);
+                                    expect(dailyActiveUsersFinal).equal(dailyActiveUsersInital - 1);
+                                    expect(monthlyActiveUsersFinal).equal(monthlyActiveUsersInital - 1);   
+                                });
+                            });
+                        });
+                    });
+                });
+            });       
+        });
     });
  
 });

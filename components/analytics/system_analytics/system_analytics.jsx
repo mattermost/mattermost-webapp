@@ -269,6 +269,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const userCount = (
             <StatisticCount
+                id="totalActiveUsers"
                 title={
                     <FormattedMessage
                         id='analytics.system.totalUsers'
@@ -308,6 +309,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const dailyActiveUsers = (
             <StatisticCount
+                id='dailyActiveUsers'
                 title={
                     <FormattedMessage
                         id='analytics.system.dailyActiveUsers'
@@ -321,6 +323,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const monthlyActiveUsers = (
             <StatisticCount
+                id='monthlyActiveUsers'
                 title={
                     <FormattedMessage
                         id='analytics.system.monthlyActiveUsers'
