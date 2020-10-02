@@ -9,6 +9,10 @@
 
 // Group: @system_console
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {
+    promoteToChannelOrTeamAdmin,
+} from '../enterprise/system_console/channel_moderation/helpers.js';
+
 
 
 // # Goes to the System Scheme page as System Admin
@@ -193,53 +197,156 @@ describe('Main menu', () => {
     // });
 
 
-    it('MM-T903 - Site Statistics > Deactivating a user increments the Daily and Monthly Active Users counts down', () => {
-        cy.apiInitSetup().then(({team, user}) => {
-            const testUser = user;
-            const testTeam = team;
+    // it('MM-T903 - Site Statistics > Deactivating a user increments the Daily and Monthly Active Users counts down', () => {
+    //     cy.apiInitSetup().then(({team, user}) => {
+    //         const testUser = user;
+    //         const testTeam = team;
 
-            // # Login as test user and visit town-square
-            cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+    //         // # Login as test user and visit town-square
+    //         cy.apiLogin(testUser);
+    //         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-            // # Wait two seconds then go to admin console
-            cy.wait(TIMEOUTS.TWO_SEC);
-            goToAdminConsole();
+    //         // # Wait two seconds then go to admin console
+    //         cy.wait(TIMEOUTS.TWO_SEC);
+    //         goToAdminConsole();
             
-            // # Go to system analytics
-            cy.get('#reporting\\/system_analytics').click();
-            cy.wait(TIMEOUTS.ONE_SEC);
+    //         // # Go to system analytics
+    //         cy.get('#reporting\\/system_analytics').click();
+    //         cy.wait(TIMEOUTS.ONE_SEC);
 
-            let totalActiveUsersInitial, dailyActiveUsersInital, monthlyActiveUsersInital, totalActiveUsersFinal, dailyActiveUsersFinal, monthlyActiveUsersFinal;
-            cy.findByTestId('totalActiveUsers').invoke('text').then(text => {
-                totalActiveUsersInitial = parseInt(text, 10);
-                cy.findByTestId('dailyActiveUsers').invoke('text').then(text => {
-                    dailyActiveUsersInital = parseInt(text, 10);
-                    cy.findByTestId('monthlyActiveUsers').invoke('text').then(text => {
-                        monthlyActiveUsersInital = parseInt(text, 10);
-                        cy.externalActivateUser(testUser.id, false);
-                        cy.reload();
+    //         let totalActiveUsersInitial, dailyActiveUsersInital, monthlyActiveUsersInital, totalActiveUsersFinal, dailyActiveUsersFinal, monthlyActiveUsersFinal;
 
-                        cy.wait(TIMEOUTS.TWO_SEC);
-                        cy.findByTestId('totalActiveUsers').invoke('text').then(text => {
-                            totalActiveUsersFinal = parseInt(text, 10);
-                            console.log(totalActiveUsersFinal);
-                            cy.findByTestId('dailyActiveUsers').invoke('text').then(text => {
-                                dailyActiveUsersFinal = parseInt(text, 10);
-                                console.log(dailyActiveUsersFinal);
-                                cy.findByTestId('monthlyActiveUsers').invoke('text').then(text => {
-                                    monthlyActiveUsersFinal = parseInt(text, 10);
-                                    console.log(monthlyActiveUsersFinal);
-                                    expect(totalActiveUsersFinal).equal(totalActiveUsersInitial - 1);
-                                    expect(dailyActiveUsersFinal).equal(dailyActiveUsersInital - 1);
-                                    expect(monthlyActiveUsersFinal).equal(monthlyActiveUsersInital - 1);   
-                                });
-                            });
-                        });
-                    });
+    //         // # Get the number and turn them into numbers 
+    //         cy.findByTestId('totalActiveUsers').invoke('text').then(text => {
+    //             totalActiveUsersInitial = parseInt(text, 10);
+    //             cy.findByTestId('dailyActiveUsers').invoke('text').then(text => {
+    //                 dailyActiveUsersInital = parseInt(text, 10);
+    //                 cy.findByTestId('monthlyActiveUsers').invoke('text').then(text => {
+    //                     monthlyActiveUsersInital = parseInt(text, 10);
+
+    //                     // # Deactivate user and relaod page and then wait 2 seconds
+    //                     cy.externalActivateUser(testUser.id, false);
+    //                     cy.reload();
+    //                     cy.wait(TIMEOUTS.TWO_SEC);
+
+    //                     // # Get the numbers required again
+    //                     cy.findByTestId('totalActiveUsers').invoke('text').then(text => {
+    //                         totalActiveUsersFinal = parseInt(text, 10);
+
+    //                         cy.findByTestId('dailyActiveUsers').invoke('text').then(text => {
+    //                             dailyActiveUsersFinal = parseInt(text, 10);
+
+    //                             cy.findByTestId('monthlyActiveUsers').invoke('text').then(text => {
+    //                                 monthlyActiveUsersFinal = parseInt(text, 10);
+
+    //                                 // * Assert that the final number is the initial number minus one
+    //                                 expect(totalActiveUsersFinal).equal(totalActiveUsersInitial - 1);
+    //                                 expect(dailyActiveUsersFinal).equal(dailyActiveUsersInital - 1);
+    //                                 expect(monthlyActiveUsersFinal).equal(monthlyActiveUsersInital - 1);   
+    //                             });
+    //                         });
+    //                     });
+    //                 });
+    //             });
+    //         });       
+    //     });
+    // });
+
+
+    // it('MM-T905 - Site Statistics card labels in different languages', () => {
+    //     cy.apiInitSetup().then(({team}) => {
+    //         const testTeam = team;
+            
+    //         cy.apiAdminLogin();
+    //         cy.visit(`/${testTeam.name}/channels/town-square`);
+    //         cy.get('#headerUsername').click();
+    //         cy.get('#accountSettings').should('be.visible').click();
+    //         cy.get('#displayButton').click();
+    //         cy.get('#languagesEdit').click();
+    //         cy.get('@inputEl').type('Français{enter}');
+    //         cy.get('#saveSetting').click();
+    //         cy.visit('/admin_console/reporting/system_analytics')
+    //     });
+    // });
+
+    // This test assumes EE license already uploaded!
+    it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {
+        // # Go to admin console and set permissions as listed in the test
+        goToAdminConsole();
+        cy.visit('admin_console/user_management/permissions/system_scheme');
+        cy.findByTestId('resetPermissionsToDefault').click();
+        cy.get('#confirmModalButton').click();
+        cy.findByTestId('all_users-public_channel-create_public_channel-checkbox').click();
+        cy.findByTestId('all_users-private_channel-manage_private_channel_properties-checkbox').click();
+        cy.findByTestId('team_admin-private_channel-manage_private_channel_properties-checkbox').click();
+        cy.findByTestId('saveSetting').click();
+
+        // # Create a user, this will be our non team admin user
+        cy.apiInitSetup().then(({team, user, channel}) => {
+            const testTeam = team;
+            const testUserNonTeamAdmin = user;
+
+
+            // # Make a new user, this will be our team admin
+            cy.apiCreateUser().then(({user: newUser}) => {
+
+                // # Add him to the test team 
+                cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                    const testUserTeamAdmin = newUser;
+                    promoteToChannelOrTeamAdmin(testUserTeamAdmin.id, testTeam.id, 'teams');
+                    
+                    // * Login as system admin and go the channel we created earlier and make sure the create public channel button is visible
+                    cy.apiAdminLogin();
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                    cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+                    cy.wait(TIMEOUTS.FIVE_SEC);
+
+                    // * Login as team admin and go the channel we created earlier and make sure the create public channel button is visible
+                    cy.apiLogin(testUserTeamAdmin);
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                    cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
+                    cy.wait(TIMEOUTS.FIVE_SEC);
+
+                    // * Login as non-team admin and go the channel we created earlier and make sure the create public channel button is not visible
+                    cy.apiLogin(testUserNonTeamAdmin);
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                    cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
+                    cy.wait(TIMEOUTS.FIVE_SEC);
+
+                    // # Login as a Admin and visit the channel
+                    cy.apiAdminLogin();
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+                    // # Click the channel header dropdown
+                    cy.get('#channelHeaderDropdownIcon').click();
+
+                    // * Channel convert to private should be visible and confirm
+                    cy.get('#channelConvertToPrivate').should('be.visible').click();
+                    cy.findByTestId('convertChannelConfirm').should('be.visible').click();
+
+                    // * Click drop down and ensure the channel rename is visible for a system admin
+                    cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+                    cy.get('#channelRename').should('be.visible');
+
+                    cy.apiLogin(testUserTeamAdmin);
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+                    // * Click drop down and ensure the channel rename is visible for a team admin
+                    cy.get('#channelHeaderDropdownIcon',{timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+                    cy.get('#channelRename').should('be.visible');
+
+                    cy.apiLogin(testUserNonTeamAdmin);
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+                    // * Click drop down and ensure the channel rename is not visible for a non team admin
+                    cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+                    cy.get('#channelRename').should('not.be.visible');
+
                 });
-            });       
+            });
+
         });
+
     });
  
 });
