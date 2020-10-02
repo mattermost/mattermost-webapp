@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {trackEvent, pageVisited} from 'actions/diagnostics_actions.jsx';
+import {trackEvent, pageVisited} from 'actions/telemetry_actions.jsx';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
