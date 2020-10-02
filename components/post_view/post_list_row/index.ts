@@ -12,7 +12,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 
-import {GlobalState} from '../../../types/store';
+import {GlobalState} from 'types/store';
 
 import PostListRow from './post_list_row';
 
@@ -21,7 +21,7 @@ type Props = {
     channel: Channel
 }
 
-function mapStateToProps(state:GlobalState, ownProps:Props) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
     return {
@@ -31,7 +31,7 @@ function mapStateToProps(state:GlobalState, ownProps:Props) {
     };
 }
 
-function mapDispatchToProps(dispatch:Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             emitShortcutReactToLastPostFrom,

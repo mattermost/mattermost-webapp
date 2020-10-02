@@ -48,13 +48,13 @@ export type PostListRowProps = {
         /**
           * Function to set or unset emoji picker for last message
           */
-        emitShortcutReactToLastPostFrom: (location:string) => void
+        emitShortcutReactToLastPostFrom: (location: string) => void
     },
 
 }
 
 export default class PostListRow extends React.PureComponent<PostListRowProps> {
-    blockShortcutReactToLastPostForNonMessages(listId:string) {
+    blockShortcutReactToLastPostForNonMessages(listId: string) {
         const {actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
         if (isIdNotPost(listId)) {
