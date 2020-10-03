@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {GlobalState} from 'types/store';
 
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
@@ -15,9 +17,9 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 
-import PostInfo from './post_info.jsx';
+import PostInfo, {Props} from './post_info';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const selectedCard = getSelectedPostCard(state);
     const config = getConfig(state);
     const channel = state.entities.channels.channels[ownProps.post.channel_id];
@@ -38,7 +40,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
             removePost,
