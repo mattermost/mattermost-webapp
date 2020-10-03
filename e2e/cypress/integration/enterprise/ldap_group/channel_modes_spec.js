@@ -37,8 +37,7 @@ describe('Test channel public/private toggle', () => {
     });
 
     it('Verify that System Admin can change channel privacy using toggle', () => {
-        cy.apiCreateChannel(testTeam.id, 'test-channel', 'Test Channel').then((res) => {
-            const channel = res.body;
+        cy.apiCreateChannel(testTeam.id, 'test-channel', 'Test Channel').then(({channel}) => {
             assert(channel.type === 'O');
             cy.visit(`/admin_console/user_management/channels/${channel.id}`);
             cy.get('#channel_profile').contains(channel.display_name);
@@ -46,8 +45,7 @@ describe('Test channel public/private toggle', () => {
             cy.get('#saveSetting').click();
             cy.get('#confirmModalButton').click();
             return cy.apiGetChannel(channel.id);
-        }).then((res) => {
-            const channel = res.body;
+        }).then(({channel}) => {
             assert(channel.type === 'P');
             cy.visit(`/admin_console/user_management/channels/${channel.id}`);
             cy.get('#channel_profile').contains(channel.display_name);
@@ -55,15 +53,13 @@ describe('Test channel public/private toggle', () => {
             cy.get('#saveSetting').click();
             cy.get('#confirmModalButton').click();
             return cy.apiGetChannel(channel.id);
-        }).then((res) => {
-            const channel = res.body;
+        }).then(({channel}) => {
             assert(channel.type === 'O');
         });
     });
 
     it('Verify that resetting sync toggle doesn\'t alter channel privacy toggle', () => {
-        cy.apiCreateChannel(testTeam.id, 'test-channel', 'Test Channel').then((res) => {
-            const channel = res.body;
+        cy.apiCreateChannel(testTeam.id, 'test-channel', 'Test Channel').then(({channel}) => {
             assert(channel.type === 'O');
             cy.visit(`/admin_console/user_management/channels/${channel.id}`);
             cy.get('#channel_profile').contains(channel.display_name);

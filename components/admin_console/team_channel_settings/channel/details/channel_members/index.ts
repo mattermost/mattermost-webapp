@@ -10,7 +10,7 @@ import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-red
 
 import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelStats} from 'mattermost-redux/types/channels';
 
 import {getChannelStats} from 'mattermost-redux/actions/channels';
@@ -36,22 +36,18 @@ type Actions = {
     getChannelStats: (channelId: string) => Promise<{
         data: boolean;
     }>;
-    loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {}) => Promise<{
+    loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {[key: string]: any}) => Promise<{
         data: boolean;
     }>;
-    searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
+    searchProfilesAndChannelMembers: (term: string, options?: {[key: string]: any}) => Promise<{
         data: boolean;
     }>;
     getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
         data?: UsersStats;
         error?: ServerError;
     }>;
-    setUserGridSearch: (term: string) => Promise<{
-        data: boolean;
-    }>;
-    setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
-        data: boolean;
-    }>;
+    setUserGridSearch: (term: string) => ActionResult;
+    setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
 };
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
@@ -116,7 +112,7 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getChannelStats,
             loadProfilesAndReloadChannelMembers,
             searchProfilesAndChannelMembers,

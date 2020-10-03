@@ -34,12 +34,14 @@ describe('components/Menu', () => {
         moreTeamsToJoin: false,
         pluginMenuItems: [],
         isMentionSearch: false,
+        showGettingStarted: false,
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            unhideNextSteps: jest.fn(),
         },
         teamIsGroupConstrained: false,
     };

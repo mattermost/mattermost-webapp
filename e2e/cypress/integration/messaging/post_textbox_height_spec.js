@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -21,7 +22,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18700 - Leave a long draft in reply input box', () => {
+    it('MM-T212 Leave a long draft in reply input box', () => {
         // # Get latest post id
         cy.getLastPostId().then((latestPostId) => {
             // # Click reply icon

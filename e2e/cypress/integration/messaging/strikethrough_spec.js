@@ -20,7 +20,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M18710-Edit post with "strikethrough" and ensure channel auto-complete closes after second tilde (~~)', () => {
+    it('MM-T173 Edit post with "strikethrough" and ensure channel auto-complete closes after second tilde (~~)', () => {
         const message = 'Hello' + Date.now();
 
         // # Post message to use

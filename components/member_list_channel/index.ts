@@ -12,7 +12,7 @@ import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {
     loadProfilesAndTeamMembersAndChannelMembers,
@@ -23,7 +23,7 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';
 
-import MemberListChannel from './member_list_channel';
+import MemberListChannel, {Props} from './member_list_channel';
 
 const getUsersAndActionsToDisplay = createSelector(
     (state: GlobalState, users: Array<UserProfile>) => users,
@@ -82,27 +82,9 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-type Actions = {
-    searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
-    getChannelMembers: (channelId: string) => Promise<{data: ChannelMembership[]}>;
-    getChannelStats: (channelId: string) => Promise<{data: {}}>;
-    setModalSearchTerm: (term: string) => Promise<{
-        data: boolean;
-    }>;
-    loadProfilesAndTeamMembersAndChannelMembers: (page: number, perPage: number, teamId?: string, channelId?: string) => Promise<{
-        data: boolean;
-    }>;
-    loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
-        data: boolean;
-    }>;
-    loadTeamMembersAndChannelMembersForProfilesList: (profiles: any, teamId: string, channelId: string) => Promise<{
-        data: boolean;
-    }>;
-}
-
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Props['actions']>({
             getChannelMembers,
             searchProfiles,
             getChannelStats,

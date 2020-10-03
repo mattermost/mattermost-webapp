@@ -10,26 +10,16 @@ import {searchProfiles, getProfilesInGroup} from 'mattermost-redux/actions/users
 import {getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
 import {getProfilesInGroup as selectProfiles, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';
 
-import MemberListGroup from './member_list_group';
+import MemberListGroup, {Props as MemberListGroupProps} from './member_list_group';
 
 type Props = {
     groupID: string;
-}
-
-type Actions = {
-    getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: {}}>;
-    getGroupStats: (groupID: string) => Promise<{data: {}}>;
-    searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
-    setModalSearchTerm: (term: string) => Promise<{
-        data: boolean;
-    }>;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
@@ -51,7 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, MemberListGroupProps['actions']>({
             getProfilesInGroup,
             searchProfiles,
             setModalSearchTerm,

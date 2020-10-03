@@ -66,7 +66,12 @@ describe('Guest Account - Guest User Removal Experience', () => {
 
     it('MM-18044 Verify behavior when Guest User is removed from channel', () => {
         // # Demote the current member to a guest user
-        cy.demoteUser(guest.id);
+        cy.apiAdminLogin();
+        cy.apiDemoteUserToGuest(guest.id);
+
+        // # Login as guest user
+        cy.apiLogin(guest);
+        cy.reload();
 
         // * Verify team Sidebar is visible
         cy.get('#teamSidebarWrapper').should('be.visible');

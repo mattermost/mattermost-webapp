@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -13,7 +14,7 @@ import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
@@ -41,26 +42,24 @@ type Props = {
     onRemoveCallback: (user: UserProfile) => void;
     updateRole: (userId: string, schemeUser: boolean, schemeAdmin: boolean) => void;
 
+    isDisabled?: boolean;
+
     actions: {
         getChannelStats: (channelId: string) => Promise<{
             data: boolean;
         }>;
-        loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {}) => Promise<{
+        loadProfilesAndReloadChannelMembers: (page: number, perPage: number, channelId?: string, sort?: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
-        searchProfilesAndChannelMembers: (term: string, options?: {}) => Promise<{
+        searchProfilesAndChannelMembers: (term: string, options?: {[key: string]: any}) => Promise<{
             data: boolean;
         }>;
         getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
             data?: UsersStats;
             error?: ServerError;
         }>;
-        setUserGridSearch: (term: string) => Promise<{
-            data: boolean;
-        }>;
-        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => Promise<{
-            data: boolean;
-        }>;
+        setUserGridSearch: (term: string) => ActionResult;
+        setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
     };
 }
 
@@ -187,7 +186,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
     }
 
     render = () => {
-        const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm} = this.props;
+        const {users, channel, channelId, usersToAdd, usersToRemove, channelMembers, totalCount, searchTerm, isDisabled} = this.props;
         const filterOptions: FilterOptions = {
             role: {
                 name: (
@@ -260,10 +259,11 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                         id='addChannelMembers'
                         className='btn btn-primary'
                         dialogType={ChannelInviteModal}
+                        isDisabled={isDisabled}
                         dialogProps={{
                             channel,
                             channelId,
-                            teamId: channel?.team_id, // eslint-disable-line camelcase, @typescript-eslint/camelcase
+                            teamId: channel?.team_id, // eslint-disable-line camelcase
                             onAddCallback: this.onAddCallback,
                             skipCommit: true,
                             excludeUsers: usersToAdd,
@@ -290,6 +290,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     excludeUsers={usersToRemove}
                     term={searchTerm}
                     scope={'channel'}
+                    readOnly={isDisabled}
                     filterProps={filterProps}
                 />
             </AdminPanel>

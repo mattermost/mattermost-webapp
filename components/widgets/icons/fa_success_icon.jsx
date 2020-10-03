@@ -3,22 +3,14 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import LocalizedIcon from 'components/localized_icon';
+import {t} from 'utils/i18n';
 
-export default class SuccessIcon extends React.PureComponent {
-    render() {
-        return (
-            <FormattedMessage
-                id='generic_icons.success'
-                defaultMessage='Success Icon'
-            >
-                {(title) => (
-                    <i
-                        className='fa fa-check'
-                        title={title}
-                    />
-                )}
-            </FormattedMessage>
-        );
-    }
+export default function SuccessIcon() {
+    return (
+        <LocalizedIcon
+            className='fa fa-check'
+            title={{id: t('generic_icons.success'), defaultMessage: 'Success Icon'}}
+        />
+    );
 }

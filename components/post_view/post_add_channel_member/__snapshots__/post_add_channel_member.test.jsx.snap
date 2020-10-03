@@ -35,7 +35,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         defaultMessage=" and "
         id="post_body.check_for_out_of_channel_mentions.link.and"
         key="1"
-        values={Object {}}
       />
       <Connect(AtMention)
         key="username_4"
@@ -46,7 +45,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
     <FormattedMessage
       defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
       id="post_body.check_for_out_of_channel_mentions.message.multiple"
-      values={Object {}}
     />
     <a
       className="PostBody_addChannelMemberLink"
@@ -55,13 +53,11 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
       <FormattedMessage
         defaultMessage="add them to the channel"
         id="post_body.check_for_out_of_channel_mentions.link.public"
-        values={Object {}}
       />
     </a>
     <FormattedMessage
       defaultMessage="? They will have access to all message history."
       id="post_body.check_for_out_of_channel_mentions.message_last"
-      values={Object {}}
     />
   </p>
 </Fragment>
@@ -97,7 +93,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         defaultMessage=" and "
         id="post_body.check_for_out_of_channel_mentions.link.and"
         key="3"
-        values={Object {}}
       />
       <Connect(AtMention)
         key="username_4"
@@ -108,7 +103,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
     <FormattedMessage
       defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
       id="post_body.check_for_out_of_channel_mentions.message.multiple"
-      values={Object {}}
     />
     <a
       className="PostBody_addChannelMemberLink"
@@ -117,13 +111,11 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
       <FormattedMessage
         defaultMessage="add them to the channel"
         id="post_body.check_for_out_of_channel_mentions.link.public"
-        values={Object {}}
       />
     </a>
     <FormattedMessage
       defaultMessage="? They will have access to all message history."
       id="post_body.check_for_out_of_channel_mentions.message_last"
-      values={Object {}}
     />
   </p>
 </Fragment>
@@ -139,7 +131,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, privat
     <FormattedMessage
       defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
       id="post_body.check_for_out_of_channel_mentions.message.one"
-      values={Object {}}
     />
     <a
       className="PostBody_addChannelMemberLink"
@@ -148,13 +139,11 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, privat
       <FormattedMessage
         defaultMessage="add them to this private channel"
         id="post_body.check_for_out_of_channel_mentions.link.private"
-        values={Object {}}
       />
     </a>
     <FormattedMessage
       defaultMessage="? They will have access to all message history."
       id="post_body.check_for_out_of_channel_mentions.message_last"
-      values={Object {}}
     />
   </p>
 </Fragment>
@@ -170,7 +159,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, public
     <FormattedMessage
       defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
       id="post_body.check_for_out_of_channel_mentions.message.one"
-      values={Object {}}
     />
     <a
       className="PostBody_addChannelMemberLink"
@@ -179,13 +167,11 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, public
       <FormattedMessage
         defaultMessage="add them to the channel"
         id="post_body.check_for_out_of_channel_mentions.link.public"
-        values={Object {}}
       />
     </a>
     <FormattedMessage
       defaultMessage="? They will have access to all message history."
       id="post_body.check_for_out_of_channel_mentions.message_last"
-      values={Object {}}
     />
   </p>
 </Fragment>
@@ -201,7 +187,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, with n
     <FormattedMessage
       defaultMessage="did not get notified by this mention because they are not in the channel. Would you like to "
       id="post_body.check_for_out_of_channel_mentions.message.one"
-      values={Object {}}
     />
     <a
       className="PostBody_addChannelMemberLink"
@@ -210,13 +195,11 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, with n
       <FormattedMessage
         defaultMessage="add them to the channel"
         id="post_body.check_for_out_of_channel_mentions.link.public"
-        values={Object {}}
       />
     </a>
     <FormattedMessage
       defaultMessage="? They will have access to all message history."
       id="post_body.check_for_out_of_channel_mentions.message_last"
-      values={Object {}}
     />
   </p>
   <p>
@@ -227,7 +210,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, with n
     <FormattedMessage
       defaultMessage="did not get notified by this mention because they are not in the channel. They cannot be added to the channel because they are not a member of the linked groups. To add them to this channel, they must be added to the linked groups."
       id="post_body.check_for_out_of_channel_groups_mentions.message"
-      values={Object {}}
     />
   </p>
 </Fragment>

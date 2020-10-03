@@ -20,7 +20,7 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "jsx": "react",
-    "baseUrl": "."
+    "baseUrl": ".",
   },
   "include": [
     "./**/*"
@@ -28,6 +28,8 @@
   "exclude": [
     "dist",
     "e2e",
-    "!node_modules/@types"
+    "!node_modules/@types",
+    "storybook-static",
+    "coverage"
   ]
 }

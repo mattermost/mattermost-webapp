@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @accessibility
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Verify Accessibility Support in Post', () => {
@@ -45,10 +46,10 @@ describe('Verify Accessibility Support in Post', () => {
         // # Login as test user and visit the Town Square channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
-    it('MM-22631 Verify Reader reads out the post correctly on Center Channel', () => {
+    it('MM-T1479 Verify Reader reads out the post correctly on Center Channel', () => {
         const {lastMessage} = postMessages(testChannel, otherUser, 1);
         performActionsToLastPost();
 
@@ -63,7 +64,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify Reader reads out the post correctly on RHS', () => {
+    it('MM-T1480 Verify Reader reads out the post correctly on RHS', () => {
         const {lastMessage} = postMessages(testChannel, otherUser, 1);
         performActionsToLastPost();
 
@@ -96,7 +97,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify different Post Focus on Center Channel', () => {
+    it('MM-T1486_1 Verify different Post Focus on Center Channel', () => {
         postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
@@ -119,7 +120,7 @@ describe('Verify Accessibility Support in Post', () => {
         }
     });
 
-    it('MM-22631 Verify different Post Focus on RHS', () => {
+    it('MM-T1486_2 Verify different Post Focus on RHS', () => {
         // # Post Message as Current user
         const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
@@ -159,7 +160,7 @@ describe('Verify Accessibility Support in Post', () => {
         }
     });
 
-    it('MM-22631 Verify Tab support on Post on Center Channel', () => {
+    it('MM-T1486_3 Verify Tab support on Post on Center Channel', () => {
         postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
@@ -199,7 +200,7 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-22631 Verify Tab support on Post on RHS', () => {
+    it('MM-T1486_4 Verify Tab support on Post on RHS', () => {
         // # Post Message as Current user
         const message = `hello from current user: ${getRandomId()}`;
         cy.postMessage(message);
@@ -227,7 +228,7 @@ describe('Verify Accessibility Support in Post', () => {
                 cy.get(`#rhsPostMessageText_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-readonly', 'true');
                 cy.focused().tab({shift: true});
 
-                // * Verify focus is on the flag icon
+                // * Verify focus is on the save icon
                 cy.get(`#RHS_COMMENT_flagIcon_${postId}`).should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'save');
                 cy.focused().tab({shift: true});
 
@@ -250,7 +251,13 @@ describe('Verify Accessibility Support in Post', () => {
         });
     });
 
-    it('MM-24078 Verify incoming messages are read', () => {
+    it('MM-T1462 Verify incoming messages are read', () => {
+        // # Make channel as read by switching back and forth to testChannel
+        cy.get('#sidebarChannelContainer').should('be.visible').findByText('Off-Topic').click();
+        cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.get('#sidebarChannelContainer').should('be.visible').findByText(testChannel.display_name).click();
+        cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
         // # Submit a post as another user
         const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
@@ -300,8 +307,8 @@ function performActionsToLastPost() {
         cy.findByTestId('smile').click();
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
-        // # Flag the post
-        cy.clickPostFlagIcon(postId);
+        // # Save the post
+        cy.clickPostSaveIcon(postId);
 
         // # Pin the post
         cy.clickPostDotMenu(postId);

@@ -31,8 +31,8 @@ describe('Group Synced Team - Bot invitation flow', () => {
         });
 
         // # Get the first bot on the server
-        cy.apiGetBots().then((response) => {
-            bot = response.body[0];
+        cy.apiGetBots().then(({bots}) => {
+            bot = bots[0];
         });
     });
 
@@ -68,7 +68,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         // # Invite the bot
         cy.get('#inviteMembersButton').click();
 
-        // * Ensure that the response messsage was not an error
+        // * Ensure that the response message was not an error
         cy.get('.InvitationModalConfirmStepRow').find('.reason').should('not.contain', 'Error');
 
         // # Visit the group constrained team

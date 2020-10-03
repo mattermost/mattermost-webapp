@@ -12,6 +12,7 @@ export default class EditPostTimeLimitButton extends React.PureComponent {
     static propTypes = {
         timeLimit: PropTypes.number.isRequired,
         onClick: PropTypes.func,
+        isDisabled: PropTypes.bool,
     };
 
     render = () => {
@@ -26,6 +27,7 @@ export default class EditPostTimeLimitButton extends React.PureComponent {
             <button
                 className='edit-post-time-limit-button'
                 onClick={this.props.onClick}
+                disabled={this.props.isDisabled}
             >
                 <i className='fa fa-gear'/>
                 <FormattedMessage

@@ -2,23 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
-import {FormattedMessage} from 'react-intl';
-
-export default class RemoveIcon extends React.PureComponent {
-    render() {
-        return (
-            <FormattedMessage
-                id='generic_icons.remove'
-                defaultMessage='Remove Icon'
-            >
-                {(title) => (
-                    <i
-                        className='fa fa-remove'
-                        title={title}
-                    />
-                )}
-            </FormattedMessage>
-        );
-    }
+export default function RemoveIcon() {
+    const {formatMessage} = useIntl();
+    return (
+        <i
+            className='fa fa-remove'
+            title={formatMessage({id: 'generic_icons.remove', defaultMessage: 'Remove Icon'})}
+        />
+    );
 }
+

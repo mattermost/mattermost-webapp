@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/next_steps_view/steps/team_profile_step should match snapshot 1`] = `
+<div
+  className="NextStepsView__stepWrapper"
+>
+  <div
+    className="TeamProfileStep"
+  >
+    <div
+      className="TeamProfileStep__profilePicture"
+    >
+      <h3>
+        <FormattedMessage
+          defaultMessage="Team image"
+          id="next_steps_view.team_profile_step.teamImage"
+        />
+      </h3>
+      <PictureSelector
+        name="TeamProfileStep__teamIcon"
+        onOpenDialog={[Function]}
+        onRemove={[Function]}
+        onSelect={[Function]}
+        placeholder={
+          <div
+            aria-label="Team Initials"
+            className="TeamIcon__initials TeamIcon__initials__lg"
+            data-testid="teamIconInitial"
+          >
+            na
+          </div>
+        }
+      />
+    </div>
+    <div
+      className="TeamProfileStep__textInputs"
+    >
+      <h3>
+        <FormattedMessage
+          defaultMessage="Enter your team name"
+          id="next_steps_view.team_profile_step.enterYourNameAndURL"
+        />
+      </h3>
+      <Input
+        info="Your team name will be displayed in your sidebar"
+        name="teamName"
+        onChange={[Function]}
+        placeholder="Team name"
+        type="text"
+        value="name"
+      />
+    </div>
+  </div>
+  <div
+    className="NextStepsView__wizardButtons"
+  >
+    <button
+      className="NextStepsView__button NextStepsView__finishButton primary"
+      data-testid="TeamProfileStep__saveTeamButton"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Save team"
+        id="next_steps_view.team_profile_step.saveTeam"
+      />
+    </button>
+  </div>
+</div>
+`;

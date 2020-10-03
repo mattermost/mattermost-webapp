@@ -43,7 +43,6 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="VIEWING:"
         id="sidebar_left.channel_filter.viewing"
-        values={Object {}}
       />
     </div>
     <div
@@ -52,7 +51,6 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="All channels"
         id="sidebar_left.channel_filter.allChannels"
-        values={Object {}}
       />
     </div>
   </div>
@@ -102,7 +100,6 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
       <FormattedMessage
         defaultMessage="FILTERED BY:"
         id="sidebar_left.channel_filter.filteredBy"
-        values={Object {}}
       />
     </div>
     <div
@@ -111,7 +108,6 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
       <FormattedMessage
         defaultMessage="Unread"
         id="sidebar_left.channel_filter.unread"
-        values={Object {}}
       />
     </div>
   </div>

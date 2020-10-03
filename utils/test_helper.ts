@@ -116,7 +116,7 @@ export class TestHelper {
         return Object.assign({}, defaultMembership, override);
     }
 
-    public static getTeamMock(override: Partial<Team>): Team {
+    public static getTeamMock(override?: Partial<Team>): Team {
         const defaultTeam: Team = {
             id: 'team_id',
             create_at: 0,

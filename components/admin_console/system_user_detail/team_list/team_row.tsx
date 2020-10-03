@@ -16,9 +16,10 @@ type Props = {
     doRemoveUserFromTeam: (teamId: string) => Promise<void>;
     doMakeUserTeamAdmin: (teamId: string) => Promise<void>;
     doMakeUserTeamMember: (teamId: string) => Promise<void>;
+    readOnly?: boolean;
 }
 
-export default class TeamRow extends React.PureComponent<Props, {}> {
+export default class TeamRow extends React.PureComponent<Props> {
     private renderTeamType = (team: {[x: string]: string}) => {
         if (team.group_constrained) {
             return (
@@ -108,6 +109,7 @@ export default class TeamRow extends React.PureComponent<Props, {}> {
                             doRemoveUserFromTeam={this.props.doRemoveUserFromTeam}
                             doMakeUserTeamAdmin={this.props.doMakeUserTeamAdmin}
                             doMakeUserTeamMember={this.props.doMakeUserTeamMember}
+                            isDisabled={this.props.readOnly}
                         />
                     </span>
                 </div>

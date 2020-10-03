@@ -30,8 +30,9 @@ function createAndVerifyMessage(message, isCode) {
     if (isCode) {
         aliases.forEach((alias) => {
             cy.get('@' + alias).
-                children().should('have.class', 'post-code').
-                children('code').should('be.visible').contains(message.trim());
+                find('.post-code').should('be.visible').
+                find('code').should('be.visible').
+                contains(message.trim());
         });
     } else {
         aliases.forEach((alias) => {
@@ -51,7 +52,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M17446 - Emojis preceded by 4 or more spaces are treated as Markdown', () => {
+    it('MM-T198 Emojis preceeded by 4 or more spaces are always treated as markdown', () => {
         [
             '    :taco:',
             '     :taco:',

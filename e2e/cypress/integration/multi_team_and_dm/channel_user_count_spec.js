@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 describe('Channel user count', () => {
@@ -38,9 +39,7 @@ describe('Channel user count', () => {
             cy.apiAddUserToTeam(testTeam.id, secondUser.id);
         });
 
-        cy.apiGetChannelByName(testTeam.name, 'off-topic').then((response) => {
-            const channel = response.body;
-
+        cy.apiGetChannelByName(testTeam.name, 'off-topic').then(({channel}) => {
             // # Add secondUser to 'off-topic' channel
             cy.apiAddUserToChannel(channel.id, secondUser.id);
         });
