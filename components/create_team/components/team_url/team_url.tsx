@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {Button, Tooltip} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
@@ -64,7 +63,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         this.state = {
             nameError: '',
             isLoading: false,
-            teamURL: props.state.team.name
+            teamURL: props.state.team.name,
         };
     }
 

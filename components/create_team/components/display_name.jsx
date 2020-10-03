@@ -4,7 +4,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -31,7 +30,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         super(props);
 
         this.state = {
-            teamDisplayName: this.props.state.team.display_name
+            teamDisplayName: this.props.state.team.display_name,
         };
     }
 
@@ -78,7 +77,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
     }
 
     handleDisplayNameChange = (e) => {
-        this.setState({ teamDisplayName: e.target.value });
+        this.setState({teamDisplayName: e.target.value});
     }
 
     render() {

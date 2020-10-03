@@ -51,13 +51,13 @@ describe('/components/create_team/components/display_name', () => {
     test('should pass updated team name to updateParent function', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         const teamDisplayName = 'My Test Team';
-        const newState = { 
+        const newState = {
             ...defaultProps.state,
-            team: { 
+            team: {
                 ...defaultProps.state.team,
                 display_name: teamDisplayName,
-                name: cleanUpUrlable(teamDisplayName)
-            }
+                name: cleanUpUrlable(teamDisplayName),
+            },
         };
 
         wrapper.find('.form-control').instance().value = teamDisplayName;
