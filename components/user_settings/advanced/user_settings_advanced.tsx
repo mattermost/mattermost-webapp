@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants';
@@ -19,28 +20,53 @@ import JoinLeaveSection from './join_leave_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class AdvancedSettingsDisplay extends React.PureComponent {
-    static propTypes = {
-        currentUser: PropTypes.object.isRequired,
-        advancedSettingsCategory: PropTypes.array.isRequired,
-        sendOnCtrlEnter: PropTypes.string.isRequired,
-        codeBlockOnCtrlEnter: PropTypes.bool,
-        formatting: PropTypes.string.isRequired,
-        joinLeave: PropTypes.string.isRequired,
-        updateSection: PropTypes.func,
-        activeSection: PropTypes.string,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        enablePreviewFeatures: PropTypes.bool,
-        enableUserDeactivation: PropTypes.bool,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-            updateUserActive: PropTypes.func.isRequired,
-            revokeAllSessionsForUser: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+class Settings {
+    join_leave: string;
+    code_block_ctrl_enter: boolean;
+    send_on_ctrl_enter: string;
+    formatting: string;
+}
 
-    constructor(props) {
+enum SettingsIndexes {
+    joinLeave = 'join_leave',
+    codeBlockCtrlEnter = 'code_block_ctrl_enter',
+    sendOnCtrlEnter = 'send_on_ctrl_enter',
+    formatting = 'formatting'
+}
+
+type Props = {
+    currentUser: {id: string; username: string; locale: string; auth_service: string; timezone: { useAutomaticTimezone: string; automaticTimezone: string; manualTimezone: string }};
+    advancedSettingsCategory: PreferenceType[];
+    sendOnCtrlEnter: string;
+    codeBlockOnCtrlEnter: boolean;
+    formatting: string;
+    joinLeave: string;
+    updateSection: (section: string) => void;
+    activeSection: string;
+    closeModal: () => void;
+    collapseModal: () => void;
+    enablePreviewFeatures: string;
+    enableUserDeactivation: boolean;
+    actions: {
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+        updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
+        revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
+    };
+}
+
+type State = {
+    settings: Settings;
+    enabledFeatures: number;
+    preReleaseFeatures: {MARKDOWN_PREVIEW: { label: string; description: string} };
+    preReleaseFeaturesKeys: string[];
+    previewFeaturesEnabled: string;
+    isSaving: boolean;
+    showDeactivateAccountModal: boolean;
+    serverError: string;
+};
+
+export default class AdvancedSettingsDisplay extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = this.getStateFromProps();
@@ -59,10 +85,10 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         let enabledFeatures = 0;
         for (const as of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
-                const feature = PreReleaseFeatures[key];
+                const feature = Object(PreReleaseFeatures)[key];
 
                 if (as.name === Constants.FeatureTogglePrefix + feature.label) {
-                    settings[as.name] = as.value;
+                    Object(settings)[as.name] = as.value;
 
                     if (as.value === 'true') {
                         enabledFeatures += 1;
@@ -83,23 +109,23 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             enabledFeatures,
             isSaving,
             previewFeaturesEnabled,
-            showDeactivateAccountModal,
+            showDeactivateAccountModal
         };
     }
 
-    updateSetting = (setting, value) => {
+    updateSetting = (setting: string, value: string) => {
         const settings = this.state.settings;
-        settings[setting] = value;
-        this.setState(settings);
+        Object(settings)[setting] = value;
+        this.setState({settings});
     }
 
-    toggleFeature = (feature, checked) => {
+    toggleFeature = (feature: string, checked: boolean) => {
         const settings = this.state.settings;
-        settings[Constants.FeatureTogglePrefix + feature] = String(checked);
+        Object(settings)[Constants.FeatureTogglePrefix + feature] = String(checked);
 
         let enabledFeatures = 0;
         Object.keys(this.state.settings).forEach((setting) => {
-            if (setting.lastIndexOf(Constants.FeatureTogglePrefix) === 0 && this.state.settings[setting] === 'true') {
+            if (setting.lastIndexOf(Constants.FeatureTogglePrefix) === 0 && Object(this.state.settings)[setting] === 'true') {
                 enabledFeatures++;
             }
         });
@@ -108,8 +134,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     }
 
     saveEnabledFeatures = () => {
-        const features = [];
-        Object.keys(this.state.settings).forEach((setting) => {
+        const features: SettingsIndexes[] = [];
+        Object.keys(this.state.settings).forEach((setting: any) => {
             if (setting.lastIndexOf(Constants.FeatureTogglePrefix) === 0) {
                 features.push(setting);
             }
@@ -118,8 +144,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.handleSubmit(features);
     }
 
-    handleSubmit = async (settings) => {
-        const preferences = [];
+    handleSubmit = async (settings: SettingsIndexes[]) => {
+        const preferences: {user_id: string; category: string; name: string; value: any }[] = [];
         const {actions, currentUser} = this.props;
         const userId = currentUser.id;
 
@@ -171,7 +197,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         });
     }
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section: string) => {
         if (!section) {
             this.setState(this.getStateFromProps());
         }
@@ -213,7 +239,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         };
     }
 
-    renderOnOffLabel(enabled) {
+    renderOnOffLabel(enabled: string) {
         if (enabled === 'false') {
             return (
                 <FormattedMessage
@@ -234,14 +260,14 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     renderCtrlEnterLabel() {
         const ctrlEnter = this.state.settings.send_on_ctrl_enter;
         const codeBlockCtrlEnter = this.state.settings.code_block_ctrl_enter;
-        if (ctrlEnter === 'false' && codeBlockCtrlEnter === 'false') {
+        if (ctrlEnter === 'false' && codeBlockCtrlEnter === false) {
             return (
                 <FormattedMessage
                     id='user.settings.advance.off'
                     defaultMessage='Off'
                 />
             );
-        } else if (ctrlEnter === 'true' && codeBlockCtrlEnter === 'true') {
+        } else if (ctrlEnter === 'true' && codeBlockCtrlEnter === true) {
             return (
                 <FormattedMessage
                     id='user.settings.advance.onForAllMessages'
@@ -318,7 +344,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     setting={'formatting'}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    server_error={(this.state as any).serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -339,7 +365,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         );
     }
 
-    renderFeatureLabel(feature) {
+    renderFeatureLabel(feature: string) {
         switch (feature) {
         case 'MARKDOWN_PREVIEW':
             return (
@@ -354,15 +380,15 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     }
 
     render() {
-        const serverError = this.state.serverError || null;
+        const serverError = (this.state as any).serverError || null;
         let ctrlSendSection;
         const {ctrlSendTitle, ctrlSendDesc} = this.getCtrlSendText();
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
                 this.state.settings.send_on_ctrl_enter === 'true',
-                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === 'true',
-                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === 'false',
+                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === true,
+                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === false,
             ];
 
             const inputs = [
@@ -439,7 +465,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         <FormattedMessage {...ctrlSendTitle}/>
                     }
                     inputs={inputs}
-                    submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
+                    submit={this.handleSubmit.bind(this, [SettingsIndexes.sendOnCtrlEnter, SettingsIndexes.codeBlockCtrlEnter])}
                     saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={this.handleUpdateSection}
@@ -475,7 +501,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 const inputs = [];
 
                 this.state.preReleaseFeaturesKeys.forEach((key) => {
-                    const feature = this.state.preReleaseFeatures[key];
+                    const feature = Object(this.state.preReleaseFeatures)[key];
                     inputs.push(
                         <div key={'advancedPreviewFeatures_' + feature.label}>
                             <div className='checkbox'>
@@ -483,7 +509,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                     <input
                                         id={'advancedPreviewFeatures' + feature.label}
                                         type='checkbox'
-                                        checked={this.state.settings[Constants.FeatureTogglePrefix + feature.label] === 'true'}
+                                        checked={Object(this.state.settings)[Constants.FeatureTogglePrefix + feature.label] === 'true'}
                                         onChange={(e) => {
                                             this.toggleFeature(feature.label, e.target.checked);
                                         }}
@@ -537,8 +563,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             }
         }
 
-        let deactivateAccountSection = '';
-        let makeConfirmationModal = '';
+        let deactivateAccountSection: ReactElement | string = '';
+        let makeConfirmationModal: ReactElement | string = '';
         const currentUser = this.props.currentUser;
 
         if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {
@@ -566,7 +592,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         setting={'deactivateAccount'}
                         submit={this.handleShowDeactivateAccountModal}
                         saving={this.state.isSaving}
-                        server_error={this.state.serverError}
+                        server_error={(this.state as any).serverError}
                         updateSection={this.handleUpdateSection}
                     />
                 );
@@ -621,7 +647,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 />
             );
         }
-
         return (
             <div>
                 <div className='modal-header'>
@@ -663,8 +688,11 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     {formattingSection}
                     <div className='divider-light'/>
                     <JoinLeaveSection
+                        // @ts-ignore
                         activeSection={this.props.activeSection}
+                        // @ts-ignore
                         onUpdateSection={this.handleUpdateSection}
+                        // @ts-ignore
                         renderOnOffLabel={this.renderOnOffLabel}
                     />
                     {previewFeaturesSectionDivider}
@@ -678,4 +706,3 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
