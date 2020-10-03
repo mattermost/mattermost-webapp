@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import DisplayName from 'components/create_team/components/display_name.jsx';
 import Constants from 'utils/constants';
+import {cleanUpUrlable} from 'utils/url';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -35,6 +36,39 @@ describe('/components/create_team/components/display_name', () => {
         });
 
         expect(wrapper.prop('updateParent')).toHaveBeenCalled();
+    });
+
+    test('should pass state to updateParent function', () => {
+        const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
+
+        wrapper.find('button').simulate('click', {
+            preventDefault: () => jest.fn(),
+        });
+
+        expect(wrapper.prop('updateParent')).toHaveBeenCalledWith(defaultProps.state);
+    });
+
+    test('should pass updated team name to updateParent function', () => {
+        const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
+        const teamDisplayName = 'My Test Team';
+        const teamName = 'my-test-team';
+        const newState = { 
+            ...defaultProps.state,
+            team: { 
+                ...defaultProps.state.team,
+                display_name: teamName,
+                name: cleanUpUrlable(teamName)
+            }
+        };
+
+        wrapper.find('.form-control').instance().value = teamName;
+
+        wrapper.find('button').simulate('click', {
+            preventDefault: () => jest.fn(),
+        });
+
+        expect(wrapper.prop('updateParent')).toHaveBeenCalledWith(defaultProps.state);
+        expect(wrapper.prop('updateParent').mock.calls[0][0]).toEqual(newState);
     });
 
     test('should display isRequired error', () => {
