@@ -17,7 +17,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
 
-    const overrideIconUrl = enablePostIconOverride && ownProps.post && ownProps.post.props && ownProps.post.props.override_icon_url;
+    const overrideIconUrl = enablePostIconOverride && ownProps.post?.props?.override_icon_url;
     let overwriteIcon;
     if (overrideIconUrl) {
         overwriteIcon = Client4.getAbsoluteUrl(overrideIconUrl);

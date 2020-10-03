@@ -91,7 +91,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         const {post} = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
+        const fromWebhook = post?.props?.from_webhook === 'true';
 
         let userProfile = (
             <UserProfile
