@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -16,14 +17,15 @@ import {isKeyPressed} from 'utils/utils';
 type Props = {
     currentUserId: string;
     currentTeamId: string;
+    publicChannels: Channel[];
+    privateChannels: Channel[];
     onHide: () => void;
     show: boolean;
     actions: {
         leaveTeam: (teamId: string, userId: string) => ActionFunc;
         toggleSideBarRightMenu: () => void;
     };
-
-}
+};
 
 export default class LeaveTeamModal extends React.PureComponent<Props> {
     componentDidMount() {
@@ -44,13 +46,16 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
 
     handleSubmit = () => {
         this.props.onHide();
-        this.props.actions.leaveTeam(this.props.currentTeamId, this.props.currentUserId);
+        this.props.actions.leaveTeam(
+            this.props.currentTeamId,
+            this.props.currentUserId,
+        );
         this.props.actions.toggleSideBarRightMenu();
     };
 
     render() {
-        const num_of_public_channels = 10;
-        const num_of_private_channels = 20;
+        const numOfPublicChannels = this.props.publicChannels.length;
+        const numOfPrivateChannels = this.props.privateChannels.length;
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -77,8 +82,8 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
                         id='leave_team_modal.desc'
                         defaultMessage='**You will be removed from all {num_of_public_channels} public channels and {num_of_private_channels} private channels on this team**. If the team is private you will not be able to rejoin the team without an invitation. Are you sure?'
                         values={{
-                            num_of_public_channels,
-                            num_of_private_channels,
+                            numOfPublicChannels,
+                            numOfPrivateChannels,
                         }}
                     />
                 </Modal.Body>

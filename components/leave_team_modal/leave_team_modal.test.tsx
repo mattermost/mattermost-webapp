@@ -10,6 +10,8 @@ describe('components/LeaveTeamModal', () => {
     const requiredProps = {
         currentUserId: 'user_id',
         currentTeamId: 'team_id',
+        publicChannels: [],
+        privateChannels: [],
         onHide: jest.fn(),
         show: false,
         isBusy: false,
