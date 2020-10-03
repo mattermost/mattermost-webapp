@@ -24,7 +24,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
 
     return {
-        hookId,
+        hookId: hookId!,
         hook: state.entities.integrations.outgoingHooks[hookId!],
         enableOutgoingWebhooks,
         enablePostUsernameOverride,

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal';
@@ -37,7 +37,7 @@ interface Props {
         /**
          * The function to call to update an outgoing webhook
          */
-        updateOutgoingHook: (hook: OutgoingWebhook) => ActionResult;
+        updateOutgoingHook: (hook: OutgoingWebhook) => ActionFunc;
 
         /**
          * The function to call to get an outgoing webhook
@@ -48,7 +48,7 @@ interface Props {
     /**
      * Whether or not outgoing webhooks are enabled.
      */
-    enableOutgoingWebhooks: boolean;
+    enableOutgoingWebhooks?: boolean;
 
     /**
      * Whether to allow configuration of the default post username.
