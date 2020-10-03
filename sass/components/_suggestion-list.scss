@@ -111,13 +111,13 @@
         width: 100%;
     }
 
-    span
+    .suggestion-list__info_user
         .status
             .offline--icon,
             .online--icon,
             .away--icon,
             .dnd--icon {
-                margin: auto 7px auto 7px;
+                margin: auto 7px;
             }
 }
 
