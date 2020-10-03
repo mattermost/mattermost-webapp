@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {ChangeEvent, ChangeEventHandler} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {Emoji} from 'mattermost-redux/constants';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
 
 import LoadingScreen from 'components/loading_screen';
 import SaveButton from 'components/save_button';
@@ -23,96 +21,80 @@ const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
 interface Props {
+
+    /**
+     * Custom emojis on the system.
+     */
     emojiIds: Array<string>;
+
+    /**
+     * Function to scroll list to top.
+     */
     scrollToTop: () => void;
     actions: {
 
         /**
          * Get pages of custom emojis.
          */
-        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => ActionFunc;
+        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<ActionFunc>;
 
         /**
          * Search custom emojis.
          */
-        searchCustomEmojis: () => void;
+        searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => ActionFunc;
     };
 
 }
 
-export default class EmojiList extends React.PureComponent<Props> {
-    static propTypes = {
+interface State {
+    loading: boolean;
+    page: number;
+    nextLoading: boolean;
+    searchEmojis: Array<string>;
+    missingPages: boolean;
+}
 
-        /**
-     * Custom emojis on the system.
-     */
-        emojiIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-
-        /**
-     * Function to scroll list to top.
-     */
-        scrollToTop: PropTypes.func.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-       * Get pages of custom emojis.
-       */
-            getCustomEmojis: PropTypes.func.isRequired,
-
-            /**
-       * Search custom emojis.
-       */
-            searchCustomEmojis: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-    private searchTimeout: null;
+export default class EmojiList extends React.PureComponent<Props, State> {
+    private searchTimeout: NodeJS.Timeout | null;
 
     constructor(props: Props) {
         super(props);
-
         this.searchTimeout = null;
-
         this.state = {
             loading: true,
             page: 0,
             nextLoading: false,
-            searchEmojis: null,
+            searchEmojis: [],
             missingPages: true,
         };
     }
 
-    componentDidMount(): void {
-        this.props.actions.
-            getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).
-            then(({data: ActionResult}) => {
-                this.setState({loading: false});
-                if (data && data.length < EMOJI_PER_PAGE) {
-                    this.setState({missingPages: false});
-                }
-            });
+    async componentDidMount(): Promise<void> {
+        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).then(({data}: any) => {
+            this.setState({loading: false});
+            if (data && data.length < EMOJI_PER_PAGE) {
+                this.setState({missingPages: false});
+            }
+        });
     }
 
-    nextPage = (e) => {
+    nextPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         if (e) {
             e.preventDefault();
         }
 
         const next = this.state.page + 1;
         this.setState({nextLoading: true});
-        this.props.actions.
-            getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).
-            then(({data}) => {
-                this.setState({page: next, nextLoading: false});
-                if (data && data.length < EMOJI_PER_PAGE) {
-                    this.setState({missingPages: false});
-                }
+        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(({data}: any) => {
+            this.setState({page: next, nextLoading: false});
+            if (data && data.length < EMOJI_PER_PAGE) {
+                this.setState({missingPages: false});
+            }
 
-                this.props.scrollToTop();
-            });
+            this.props.scrollToTop();
+        });
     };
-
-    previousPage = (e) => {
+    previousPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         if (e) {
             e.preventDefault();
         }
@@ -121,24 +103,24 @@ export default class EmojiList extends React.PureComponent<Props> {
         this.props.scrollToTop();
     };
 
-    onSearchChange = (e) => {
+    onSearchChange: ChangeEventHandler = (e: ChangeEvent): void => {
         if (!e || !e.target) {
             return;
         }
 
-        const term = e.target.value || '';
+        const term = (e.target as HTMLInputElement).value || '';
 
-        clearTimeout(this.searchTimeout);
+        clearTimeout(this.searchTimeout!);
 
         this.searchTimeout = setTimeout(async () => {
             if (term.trim() === '') {
-                this.setState({searchEmojis: null, page: 0});
+                this.setState({searchEmojis: [], page: 0});
                 return;
             }
 
             this.setState({loading: true});
 
-            const {data} = await this.props.actions.searchCustomEmojis(
+            const {data}: any = await this.props.actions.searchCustomEmojis(
                 term,
                 {},
                 true,
@@ -146,7 +128,7 @@ export default class EmojiList extends React.PureComponent<Props> {
 
             if (data) {
                 this.setState({
-                    searchEmojis: data.map((em) => em.id),
+                    searchEmojis: data.map((em: CustomEmoji) => em.id),
                     loading: false,
                 });
             } else {
@@ -155,7 +137,7 @@ export default class EmojiList extends React.PureComponent<Props> {
         }, EMOJI_SEARCH_DELAY_MILLISECONDS);
     };
 
-    deleteFromSearch = (emojiId) => {
+    deleteFromSearch = (emojiId: string) => {
         if (!this.state.searchEmojis) {
             return;
         }
@@ -183,21 +165,21 @@ export default class EmojiList extends React.PureComponent<Props> {
                     key='loading'
                     className='backstage-list__item backstage-list__empty'
                 >
-                    <td colSpan='4'>
+                    <td colSpan={4}>
                         <LoadingScreen key='loading'/>
                     </td>
                 </tr>,
             );
         } else if (
             this.props.emojiIds.length === 0 ||
-      (searchEmojis && searchEmojis.length === 0)
+            (searchEmojis && searchEmojis.length === 0)
         ) {
             emojis.push(
                 <tr
                     key='empty'
                     className='backstage-list__item backstage-list__empty'
                 >
-                    <td colSpan='4'>
+                    <td colSpan={4}>
                         <FormattedMessage
                             id='emoji_list.empty'
                             defaultMessage='No custom emoji found'
@@ -206,7 +188,7 @@ export default class EmojiList extends React.PureComponent<Props> {
                 </tr>,
             );
         } else if (searchEmojis) {
-            searchEmojis.forEach((emojiId) => {
+            searchEmojis.forEach((emojiId: string) => {
                 emojis.push(
                     <EmojiListItem
                         key={'emoji_search_item' + emojiId}
@@ -220,7 +202,7 @@ export default class EmojiList extends React.PureComponent<Props> {
             const pageEnd = pageStart + EMOJI_PER_PAGE;
             const emojisToDisplay = this.props.emojiIds.slice(pageStart, pageEnd);
 
-            emojisToDisplay.forEach((emojiId) => {
+            emojisToDisplay.forEach((emojiId: string) => {
                 emojis.push(
                     <EmojiListItem
                         key={'emoji_list_item' + emojiId}
