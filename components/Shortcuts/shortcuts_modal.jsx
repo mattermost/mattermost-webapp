@@ -12,7 +12,7 @@ import {intlShape} from 'utils/react_intl';
 
 import * as Utils from 'utils/utils';
 
-import {allShortcuts} from './shortcuts.ts';
+import {allShortcuts} from './shortcuts.js';
 
 class ShortcutsModal extends React.PureComponent {
     static propTypes = {

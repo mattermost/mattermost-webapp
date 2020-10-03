@@ -8,11 +8,10 @@ import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
-import * as Utils from 'utils/utils';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {allShortcuts} from 'components/Shortcuts/shortcuts.ts';
+import {allShortcuts, getShortcuts} from 'components/Shortcuts/shortcuts.js';
 import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
 
 export default function HeaderIconWrapper({
@@ -52,28 +51,12 @@ export default function HeaderIconWrapper({
         },
     };
 
-    function getShortcuts() {
-        const isMac = Utils.isMac();
-        const shortcuts = {};
-        Object.keys(allShortcuts).forEach((s) => {
-            if (isMac && allShortcuts[s].mac) {
-                shortcuts[s] = allShortcuts[s].mac;
-            } else if (!isMac && allShortcuts[s].default) {
-                shortcuts[s] = allShortcuts[s].default;
-            } else {
-                shortcuts[s] = allShortcuts[s];
-            }
-        });
-
-        return shortcuts;
-    }
-
     function getTooltip(key) {
         if (toolTips[key] == null) {
             return null;
         }
 
-        const shortcuts = getShortcuts();
+        const shortcuts = getShortcuts(allShortcuts);
         return (
             <Tooltip
                 id={toolTips[key].id}

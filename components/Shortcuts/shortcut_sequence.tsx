@@ -2,8 +2,14 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-export default function ShortcutSequence({shortcut}) {
-    if (!shortcut) {
+import {MessageDescriptor} from 'react-intl';
+
+type Props = {
+    shortcut: MessageDescriptor;
+};
+
+export default function ShortcutSequence({shortcut}: Props) {
+    if (!shortcut?.defaultMessage) {
         return null;
     }
 

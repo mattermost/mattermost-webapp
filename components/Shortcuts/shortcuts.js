@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import {defineMessages} from 'react-intl';
 
+import * as Utils from 'utils/utils';
+
 import {t} from 'utils/i18n';
 
 export const allShortcuts = defineMessages({
@@ -291,3 +293,19 @@ export const allShortcuts = defineMessages({
       'Begin a message with / for a list of all the commands at your disposal.',
     },
 });
+
+export function getshortcuts(allshortcuts) {
+    const ismac = Utils.ismac();
+    const shortcuts = {};
+    Object.keys(allshortcuts).foreach((s) => {
+        if (ismac && allshortcuts[s].mac) {
+            shortcuts[s] = allshortcuts[s].mac;
+        } else if (!ismac && allshortcuts[s].default) {
+            shortcuts[s] = allshortcuts[s].default;
+        } else {
+            shortcuts[s] = allshortcuts[s];
+        }
+    });
+
+    return shortcuts;
+}
