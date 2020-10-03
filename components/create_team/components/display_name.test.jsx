@@ -51,17 +51,17 @@ describe('/components/create_team/components/display_name', () => {
     test('should pass updated team name to updateParent function', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         const teamDisplayName = 'My Test Team';
-        const teamName = 'my-test-team';
         const newState = { 
             ...defaultProps.state,
             team: { 
                 ...defaultProps.state.team,
-                display_name: teamName,
-                name: cleanUpUrlable(teamName)
+                display_name: teamDisplayName,
+                name: cleanUpUrlable(teamDisplayName)
             }
         };
 
-        wrapper.find('.form-control').instance().value = teamName;
+        wrapper.find('.form-control').instance().value = teamDisplayName;
+        wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
             preventDefault: () => jest.fn(),
@@ -74,6 +74,8 @@ describe('/components/create_team/components/display_name', () => {
     test('should display isRequired error', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         wrapper.find('.form-control').instance().value = '';
+        wrapper.find('.form-control').simulate('change');
+
         wrapper.find('button').simulate('click', {
             preventDefault: () => jest.fn(),
         });
@@ -90,6 +92,7 @@ describe('/components/create_team/components/display_name', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         const input = wrapper.find('.form-control').instance();
         input.value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
+        wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
             preventDefault: () => jest.fn(),
