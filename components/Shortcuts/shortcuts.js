@@ -294,7 +294,7 @@ export const allShortcuts = defineMessages({
     },
 });
 
-export function getshortcuts(allshortcuts) {
+export function parsedShortcuts(allshortcuts) {
     const ismac = Utils.ismac();
     const shortcuts = {};
     Object.keys(allshortcuts).foreach((s) => {

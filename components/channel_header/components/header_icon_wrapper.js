@@ -11,7 +11,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {allShortcuts, getShortcuts} from 'components/Shortcuts/shortcuts.js';
+import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
 import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
 
 export default function HeaderIconWrapper({
@@ -56,7 +56,7 @@ export default function HeaderIconWrapper({
             return null;
         }
 
-        const shortcuts = getShortcuts(allShortcuts);
+        const shortcuts = parsedShortcuts(allShortcuts);
         return (
             <Tooltip
                 id={toolTips[key].id}
