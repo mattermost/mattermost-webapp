@@ -14,6 +14,10 @@ body {
         padding-top: $announcement-bar-height;
     }
 
+    &.announcement-banner-tall--fixed {
+        padding-top: 40px;
+    }
+
     &.sticky {
         .container-fluid {
             -webkit-overflow-scrolling: touch;

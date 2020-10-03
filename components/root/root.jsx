@@ -15,7 +15,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
-import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
+import {trackLoadTime} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
@@ -85,8 +85,8 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
 
 export default class Root extends React.PureComponent {
     static propTypes = {
-        diagnosticsEnabled: PropTypes.bool,
-        diagnosticId: PropTypes.string,
+        telemetryEnabled: PropTypes.bool,
+        telemetryId: PropTypes.string,
         noAccounts: PropTypes.bool,
         showTermsOfService: PropTypes.bool,
         permalinkRedirectTeamName: PropTypes.string,
@@ -162,21 +162,21 @@ export default class Root extends React.PureComponent {
             enableDevModeFeatures();
         }
 
-        const diagnosticId = this.props.diagnosticId;
+        const telemetryId = this.props.telemetryId;
 
-        let rudderKey = Constants.DIAGNOSTICS_RUDDER_KEY;
-        let rudderUrl = Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL;
+        let rudderKey = Constants.TELEMETRY_RUDDER_KEY;
+        let rudderUrl = Constants.TELEMETRY_RUDDER_DATAPLANE_URL;
 
         if (rudderKey.startsWith('placeholder') && rudderUrl.startsWith('placeholder')) {
             rudderKey = process.env.RUDDER_KEY; //eslint-disable-line no-process-env
             rudderUrl = process.env.RUDDER_DATAPLANE_URL; //eslint-disable-line no-process-env
         }
 
-        if (rudderKey != null && rudderKey !== '' && this.props.diagnosticsEnabled) {
+        if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
             Client4.enableRudderEvents();
             rudderAnalytics.load(rudderKey, rudderUrl);
 
-            rudderAnalytics.identify(diagnosticId, {}, {
+            rudderAnalytics.identify(telemetryId, {}, {
                 context: {
                     ip: '0.0.0.0',
                 },
