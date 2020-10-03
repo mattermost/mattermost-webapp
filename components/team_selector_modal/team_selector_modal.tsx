@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {Team} from 'mattermost-redux/types/teams';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -18,23 +21,37 @@ import {imageURLForTeam} from 'utils/utils';
 
 const TEAMS_PER_PAGE = 50;
 
-export default class TeamSelectorModal extends React.PureComponent {
-    static propTypes = {
-        currentSchemeId: PropTypes.string,
-        alreadySelected: PropTypes.array,
-        searchTerm: PropTypes.string.isRequired,
-        teams: PropTypes.array.isRequired,
-        onModalDismissed: PropTypes.func,
-        onTeamsSelected: PropTypes.func,
-        modalID: PropTypes.string,
-        actions: PropTypes.shape({
-            loadTeams: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
-            searchTeams: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+export type Props = {
+    currentSchemeId?: string;
+    alreadySelected?: Array<string>;
+    searchTerm: string;
+    teams: Array<Team>;
+    onModalDismissed?: () => void;
+    onTeamsSelected?: (a: Array<Team>) => void;
+    modalID?: string;
+    actions: {
+        loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => Promise<ActionResult>;
+        setModalSearchTerm: (searchTerm: string) => void;
+        searchTeams: (searchTerm: string) => void;
+    };
+    data?: any;
+};
 
-    constructor(props) {
+type State = {
+    values: Array<Team>;
+    show: boolean;
+    search: boolean;
+    loadingTeams: boolean;
+    confirmAddModal: boolean;
+    confirmAddTeam: any;
+};
+
+export default class TeamSelectorModal extends React.PureComponent<Props, State> {
+    private searchTimeoutId?: number;
+    private selectedItemRef?: React.RefObject<HTMLDivElement> | undefined;
+    private currentSchemeId: any;
+
+    constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
@@ -57,7 +74,7 @@ export default class TeamSelectorModal extends React.PureComponent {
         });
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.searchTerm !== prevProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
@@ -66,7 +83,7 @@ export default class TeamSelectorModal extends React.PureComponent {
                 return;
             }
 
-            this.searchTimeoutId = setTimeout(
+            this.searchTimeoutId = window.setTimeout(
                 async () => {
                     this.setTeamsLoadingState(true);
                     await this.props.actions.searchTeams(searchTerm);
@@ -88,26 +105,26 @@ export default class TeamSelectorModal extends React.PureComponent {
         }
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: Event | any[] | undefined) => {
         if (e) {
-            e.preventDefault();
+            (e as Event).preventDefault();
         }
 
         if (this.state.values.length === 0) {
             return;
         }
 
-        this.props.onTeamsSelected(this.state.values);
+        this.props.onTeamsSelected?.(this.state.values);
         this.handleHide();
     }
 
-    addValue = (value, confirmed = false) => {
+    addValue = (value: any, confirmed = false) => {
         if (this.props.modalID === ModalIdentifiers.ADD_TEAMS_TO_SCHEME && value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
             this.setState({confirmAddModal: true, confirmAddTeam: value});
             return;
         }
         const values = Object.assign([], this.state.values);
-        const teamIds = values.map((v) => v.id);
+        const teamIds = values.map((v: any) => v.id);
         if (value && value.id && teamIds.indexOf(value.id) === -1) {
             values.push(value);
         }
@@ -115,13 +132,13 @@ export default class TeamSelectorModal extends React.PureComponent {
         this.setState({values, confirmAddModal: false, confirmAddTeam: null});
     }
 
-    setTeamsLoadingState = (loadingState) => {
+    setTeamsLoadingState = (loadingState: boolean) => {
         this.setState({
             loadingTeams: loadingState,
         });
     }
 
-    handlePageChange = (page, prevPage) => {
+    handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             this.setTeamsLoadingState(true);
             this.props.actions.loadTeams(page, TEAMS_PER_PAGE + 1).then(() => {
@@ -130,19 +147,19 @@ export default class TeamSelectorModal extends React.PureComponent {
         }
     }
 
-    handleDelete = (values) => {
+    handleDelete = (values: Array<any>) => {
         this.setState({values});
     }
 
-    search = (term, multiselectComponent) => {
+    search = (term: string, multiselectComponent: { state: { page: number; }; setState: (arg0: { page: number; }) => void; }) => {
         if (multiselectComponent.state.page !== 0) {
             multiselectComponent.setState({page: 0});
         }
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption = (option, isSelected, onAdd, onMouseMove) => {
-        var rowSelected = '';
+    renderOption = (option: any, isSelected: boolean, onAdd: (value: any) => void, onMouseMove: (value: any) => void) => {
+        let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
@@ -177,11 +194,11 @@ export default class TeamSelectorModal extends React.PureComponent {
         );
     }
 
-    renderValue(props) {
+    renderValue(props: { data: any; }) {
         return props.data.display_name;
     }
 
-    renderConfirmModal(show, team) {
+    renderConfirmModal(show: boolean, team: any) {
         const title = (
             <FormattedMessage
                 id='add_teams_to_scheme.confirmation.title'
@@ -223,11 +240,11 @@ export default class TeamSelectorModal extends React.PureComponent {
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        let teams = [];
+        let teams = [] as Array<Team>;
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
-            teams = teams.filter((team) => this.props.alreadySelected.indexOf(team.id) === -1);
+            teams = teams.filter((team) => this.props?.alreadySelected?.indexOf(team.id) === -1);
             teams.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();

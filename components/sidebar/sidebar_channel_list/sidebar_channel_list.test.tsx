@@ -11,6 +11,7 @@ import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
 import {DraggingStates, DraggingStateTypes} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 
 import SidebarChannelList from './sidebar_channel_list';
 
@@ -54,7 +55,7 @@ describe('SidebarChannelList', () => {
     };
 
     const baseProps = {
-        currentTeam: {
+        currentTeam: TestHelper.getTeamMock({
             id: 'kemjcpu9bi877yegqjs18ndp4r',
             invite_id: 'ojsnudhqzbfzpk6e4n6ip1hwae',
             name: 'test',
@@ -70,7 +71,7 @@ describe('SidebarChannelList', () => {
             allow_open_invite: false,
             scheme_id: 'test',
             group_constrained: false,
-        },
+        }),
         currentChannelId: currentChannel.id,
         categories: [
             {

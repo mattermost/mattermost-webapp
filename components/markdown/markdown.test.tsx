@@ -8,6 +8,7 @@ import {TeamType} from 'mattermost-redux/types/teams';
 
 import Markdown from 'components/markdown/markdown';
 import EmojiMap from 'utils/emoji_map';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/Markdown', () => {
     const baseProps = {
@@ -16,7 +17,7 @@ describe('components/Markdown', () => {
         mentionKeys: [],
         message: 'This _is_ some **Markdown**',
         siteURL: 'https://markdown.example.com',
-        team: {
+        team: TestHelper.getTeamMock({
             id: 'id123',
             invite_id: 'invite_id123',
             name: 'yourteamhere',
@@ -32,7 +33,7 @@ describe('components/Markdown', () => {
             allow_open_invite: false,
             scheme_id: 'test',
             group_constrained: false,
-        },
+        }),
         hasImageProxy: false,
         minimumHashtagLength: 3,
         emojiMap: new EmojiMap([]),

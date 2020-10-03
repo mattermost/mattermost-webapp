@@ -6,6 +6,7 @@ import {shallow, ShallowWrapper} from 'enzyme';
 import {TeamType} from 'mattermost-redux/types/teams';
 
 import NeedsTeam from 'components/needs_team/needs_team';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitCloseRightHandSide: jest.fn(),
@@ -35,7 +36,7 @@ describe('components/needs_team', () => {
         push: jest.fn(),
     };
     const teamType: TeamType = 'I';
-    const teamsList = [{
+    const teamsList = [TestHelper.getTeamMock({
         id: 'kemjcpu9bi877yegqjs18ndp4r',
         invite_id: 'ojsnudhqzbfzpk6e4n6ip1hwae',
         name: 'test',
@@ -51,7 +52,7 @@ describe('components/needs_team', () => {
         allow_open_invite: false,
         scheme_id: 'test',
         group_constrained: false,
-    }];
+    })];
 
     const match = {
         params: {
@@ -59,7 +60,7 @@ describe('components/needs_team', () => {
         },
     };
 
-    const teamData = {
+    const teamData = TestHelper.getTeamMock({
         id: 'kemjcpu9bi877yegqjs18ndp4d',
         invite_id: 'kemjcpu9bi877yegqjs18ndp4a',
         name: 'new',
@@ -75,7 +76,7 @@ describe('components/needs_team', () => {
         allow_open_invite: false,
         scheme_id: 'test',
         group_constrained: false,
-    };
+    });
 
     const actions = {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
