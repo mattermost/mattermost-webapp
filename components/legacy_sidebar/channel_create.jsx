@@ -10,6 +10,9 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import * as Utils from 'utils/utils.jsx';
 
+import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
+
 export default class ChannelCreate extends React.PureComponent {
     static propTypes = {
         sectionType: PropTypes.string.isRequired,
@@ -93,6 +96,7 @@ export default class ChannelCreate extends React.PureComponent {
 
     renderDirect = () => {
         const ariaLabelDM = Utils.localizeMessage('sidebar.createDirectMessage', 'Write a direct message').toLowerCase();
+        const shortcuts = parsedShortcuts(allShortcuts);
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -102,6 +106,7 @@ export default class ChannelCreate extends React.PureComponent {
                     id='sidebar.createDirectMessage'
                     defaultMessage='Write a direct message'
                 />
+                <ShortcutSequence shortcut={shortcuts.navDMMenu}/>
             </Tooltip>
         );
 
