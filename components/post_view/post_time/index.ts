@@ -4,12 +4,14 @@
 import {connect} from 'react-redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
-import PostTime from './post_time.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import PostTime from './post_time';
+
+function mapStateToProps(state: GlobalState) {
     return {
         teamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 
-export default connect(mapStateToProps)(PostTime);
+export default connect(mapStateToProps)(PostTime as any);
