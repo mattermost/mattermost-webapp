@@ -99,6 +99,7 @@ export const Preferences = {
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
+    CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
 };
 
 export const ActionTypes = keyMirror({
@@ -219,9 +220,15 @@ export const PostRequestTypes = keyMirror({
 });
 
 export const WarnMetricTypes = {
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_100: 'warn_metric_number_of_active_users_100',
     SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_200: 'warn_metric_number_of_active_users_200',
-    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_400: 'warn_metric_number_of_active_users_400',
+    SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_300: 'warn_metric_number_of_active_users_300',
     SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500: 'warn_metric_number_of_active_users_500',
+    SYSTEM_WARN_METRIC_NUMBER_OF_TEAMS_5: 'warn_metric_number_of_teams_5',
+    SYSTEM_WARN_METRIC_NUMBER_OF_CHANNELS_5: 'warn_metric_number_of_channels_50',
+    SYSTEM_WARN_METRIC_MFA: 'warn_metric_mfa',
+    SYSTEM_WARN_METRIC_EMAIL_DOMAIN: 'warn_metric_email_domain',
+    SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M: 'warn_metric_number_of_posts_2M',
 };
 
 export const ModalIdentifiers = {
@@ -389,6 +396,11 @@ export const RecommendedNextSteps = {
     PREFERENCES_SETUP: 'preferences_setup',
     NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
+    SKIP: 'skip',
+};
+
+export const CloudBanners = {
+    HIDE: 'hide',
 };
 
 export const PostTypes = {
@@ -546,6 +558,7 @@ export const JobStatuses = {
 export const AnnouncementBarTypes = {
     ANNOUNCEMENT: 'announcement',
     CRITICAL: 'critical',
+    CRITICAL_LIGHT: 'critical_light',
     DEVELOPER: 'developer',
     SUCCESS: 'success',
     ADVISOR: 'advisor',
@@ -560,8 +573,10 @@ export const AnnouncementBarMessages = {
     LICENSE_PAST_GRACE: t('announcement_bar.error.past_grace'),
     PREVIEW_MODE: t('announcement_bar.error.preview_mode'),
     WEBSOCKET_PORT_ERROR: t('channel_loader.socketError'),
-    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS: t('announcement_bar.error.number_active_users_warn_metric_status.text'),
-    NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS_ACK: t('announcement_bar.error.number_active_users_warn_metric_status_ack.text'),
+    WARN_METRIC_STATUS_NUMBER_OF_USERS: t('announcement_bar.warn_metric_status.number_of_users.text'),
+    WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK: t('announcement_bar.warn_metric_status.number_of_users_ack.text'),
+    WARN_METRIC_STATUS_NUMBER_OF_POSTS: t('announcement_bar.warn_metric_status.number_of_posts.text'),
+    WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK: t('announcement_bar.warn_metric_status.number_of_posts_ack.text'),
 };
 
 export const VerifyEmailErrors = {
@@ -1509,8 +1524,8 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
-    DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
+    TELEMETRY_RUDDER_KEY: 'placeholder_rudder_key',
+    TELEMETRY_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',

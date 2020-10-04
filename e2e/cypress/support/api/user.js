@@ -298,4 +298,19 @@ Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
     });
 });
 
+Cypress.Commands.add('apiResetPassword', (userId, currentPass, newPass) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/users/${userId}/password`,
+        body: {
+            current_password: currentPass,
+            new_password: newPass,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({user: response.body});
+    });
+});
+
 export {generateRandomUser};
