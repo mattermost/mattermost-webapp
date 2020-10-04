@@ -7,21 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {testWithConfig} from '../../../support/hooks';
-
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
 
 describe('Cloud Onboarding - Sysadmin', () => {
     let townSquarePage;
     let sysadmin;
 
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 
@@ -163,7 +161,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
 
         // # Click 'Getting Started' in the main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').should('be.visible').click();
+        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').scrollIntoView().should('be.visible').click();
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');
@@ -284,7 +282,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.findByTestId('TeamProfileStep__saveTeamButton').should('be.disabled');
     });
 
-    it('MM-T3331_1 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
+    it('MM-T3331_3 Sysadmin - Set team name and team icon - upload file of wrong type', () => {
         // * Make sure channel view has loaded
         cy.url().should('include', townSquarePage);
 

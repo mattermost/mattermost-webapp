@@ -6,38 +6,55 @@ import {useDispatch} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {openModal} from 'actions/views/modals';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import {trackEvent} from 'actions/telemetry_actions';
+import {toggleShortcutsModal} from 'actions/global_actions';
+import {openModal, closeModal} from 'actions/views/modals';
 import Card from 'components/card/card';
 import MoreChannels from 'components/more_channels';
+import TeamMembersModal from 'components/team_members_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
 import Menu from 'components/widgets/menu/menu';
 import downloadApps from 'images/download-app.svg';
 import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
-import {ModalIdentifiers} from 'utils/constants';
+import NewChannelFlow from 'components/new_channel_flow';
+import {
+    ModalIdentifiers,
+    RecommendedNextSteps,
+    Preferences,
+} from 'utils/constants';
+import CloseIcon from 'components/widgets/icons/close_icon';
 import * as Utils from 'utils/utils';
 
-const seeAllApps = () => {
+import {getAnalyticsCategory} from './step_helpers';
+
+const seeAllApps = (isAdmin: boolean) => {
+    trackEvent(getAnalyticsCategory(isAdmin), 'cloud_see_all_apps');
     window.open('https://mattermost.com/download/#mattermostApps', '_blank');
 };
 
-const downloadLatest = () => {
+const downloadLatest = (isAdmin: boolean) => {
     const baseLatestURL = 'https://latest.mattermost.com/mattermost-desktop-';
 
     if (UserAgent.isWindows()) {
+        trackEvent(getAnalyticsCategory(isAdmin), 'click_download_app', {app: 'windows'});
         window.open(`${baseLatestURL}exe`, '_blank');
         return;
     }
 
     if (UserAgent.isMac()) {
+        trackEvent(getAnalyticsCategory(isAdmin), 'click_download_app', {app: 'mac'});
         window.open(`${baseLatestURL}dmg`, '_blank');
         return;
     }
 
     // TODO: isLinux?
 
-    seeAllApps();
+    seeAllApps(isAdmin);
 };
 
 const getDownloadButtonString = () => {
@@ -69,17 +86,67 @@ const getDownloadButtonString = () => {
     );
 };
 
-const openAuthPage = (page: string) => {
+const openAuthPage = (page: string, isAdmin: boolean) => {
+    trackEvent(getAnalyticsCategory(isAdmin), 'click_configure_login', {method: page});
     browserHistory.push(`/admin_console/authentication/${page}`);
 };
 
-export default function NextStepsTips(props: {showFinalScreen: boolean; animating: boolean; stopAnimating: () => void}) {
+type Props = {
+    showFinalScreen: boolean;
+    animating: boolean;
+    currentUserId: string;
+    isFirstAdmin: boolean,
+    stopAnimating: () => void;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+    setShowNextStepsView: (show: boolean) => void;
+}
+
+export default function NextStepsTips(props: Props) {
     const dispatch = useDispatch();
-    const openPluginMarketplace = openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal});
+    const openPluginMarketplace = () => {
+        trackEvent(getAnalyticsCategory(props.isFirstAdmin), 'click_add_plugins');
+        openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal})(dispatch);
+    };
     const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
+    const openNewChannels = openModal({
+        modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
+        dialogType: NewChannelFlow,
+    });
+    const openViewMembersModal = openModal({
+        modalId: ModalIdentifiers.TEAM_MEMBERS,
+        dialogType: TeamMembersModal,
+    });
+
+    const closeCloseNextStepsModal = closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL);
+
+    const onCloseModal = () => closeCloseNextStepsModal(dispatch);
+
+    const closeNextSteps = openModal({
+        modalId: ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL,
+        dialogType: RemoveNextStepsModal,
+        dialogProps: {
+            screenTitle: Utils.localizeMessage(
+                'sidebar_next_steps.tipsAndNextSteps',
+                'Tips & Next Steps',
+            ),
+            onConfirm: () => {
+                props.savePreferences(props.currentUserId, [
+                    {
+                        user_id: props.currentUserId,
+                        category: Preferences.RECOMMENDED_NEXT_STEPS,
+                        name: RecommendedNextSteps.HIDE,
+                        value: 'true',
+                    },
+                ]);
+                props.setShowNextStepsView(false);
+                onCloseModal();
+            },
+            onCancel: onCloseModal,
+        },
+    });
 
     let nonMobileTips;
-    if (!Utils.isMobile()) {
+    if (!Utils.isMobile() && props.isFirstAdmin) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
@@ -106,15 +173,15 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                             </button>
                             <Menu ariaLabel={Utils.localizeMessage('next_steps_view.tips.auth.menuAriaLabel', 'Configure Authentication Menu')}>
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('oauth')}
+                                    onClick={() => openAuthPage('oauth', props.isFirstAdmin)}
                                     text={Utils.localizeMessage('next_steps_view.tips.auth.oauth', 'OAuth')}
                                 />
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('saml')}
+                                    onClick={() => openAuthPage('saml', props.isFirstAdmin)}
                                     text={Utils.localizeMessage('next_steps_view.tips.auth.saml', 'SAML')}
                                 />
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('ldap')}
+                                    onClick={() => openAuthPage('ldap', props.isFirstAdmin)}
                                     text={Utils.localizeMessage('next_steps_view.tips.auth.ldap', 'AD/LDAP')}
                                 />
                             </Menu>
@@ -135,11 +202,62 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={() => openPluginMarketplace(dispatch)}
+                            onClick={openPluginMarketplace}
                         >
                             <FormattedMessage
                                 id='next_steps_view.tips.addPlugins.button'
                                 defaultMessage='Add plugins'
+                            />
+                        </button>
+                    </div>
+                </Card>
+            </>
+        );
+    } else if (!Utils.isMobile() && !props.isFirstAdmin) {
+        nonMobileTips = (
+            <>
+                <Card expanded={true}>
+                    <div className='Card__body'>
+                        <h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.configureLogins'
+                                defaultMessage='See who else is here'
+                            />
+                        </h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.configureLogin.texts'
+                            defaultMessage='Browse or search through the team members directory'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={() => openViewMembersModal(dispatch)}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.viewMembers'
+                                defaultMessage='View team members'
+                            />
+                        </button>
+                    </div>
+                </Card>
+                <Card expanded={true}>
+                    <div className='Card__body'>
+                        <h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPluginss'
+                                defaultMessage='Learn Keyboard Shortcuts'
+                            />
+                        </h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.addPlugins.texts'
+                            defaultMessage='Work more efficiently with Keyboard Shortcuts in Mattermost.'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={toggleShortcutsModal}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPlugins.buttons'
+                                defaultMessage='See shortcuts'
                             />
                         </button>
                     </div>
@@ -177,13 +295,13 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                     <div className='NextStepsView__downloadButtons'>
                         <button
                             className='NextStepsView__button NextStepsView__downloadForPlatformButton secondary'
-                            onClick={downloadLatest}
+                            onClick={() => downloadLatest(props.isFirstAdmin)}
                         >
                             {getDownloadButtonString()}
                         </button>
                         <button
                             className='NextStepsView__button NextStepsView__downloadAnyButton tertiary'
-                            onClick={seeAllApps}
+                            onClick={() => seeAllApps(props.isFirstAdmin)}
                         >
                             <FormattedMessage
                                 id='next_steps_view.seeAllTheApps'
@@ -196,12 +314,39 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
         );
     }
 
+    let channelSection = {
+        titleId: 'next_steps_view.tips.exploreChannels',
+        titleDefault: 'Explore channels',
+        bodyId: 'next_steps_view.tips.exploreChannels.text',
+        bodyDefault:
+            'See the channels in your workspace or create a new channel.',
+        buttonId: 'next_steps_view.tips.exploreChannels.button',
+        buttonDefault: 'Browse channels',
+        buttonAction: () => openMoreChannels(dispatch),
+    };
+
+    if (props.isFirstAdmin) {
+        channelSection = {
+            titleId: 'next_steps_view.tips.createChannels',
+            titleDefault: 'Create a new channel',
+            bodyId: 'next_steps_view.tips.createChannels.text',
+            bodyDefault:
+            "Think of a topic you'd like to organize a conversation around.",
+            buttonId: 'next_steps_view.tips.createChannels.button',
+            buttonDefault: 'Create a channel',
+            buttonAction: () => openNewChannels(dispatch),
+        };
+    }
+
     return (
         <div
-            className={classNames('NextStepsView__viewWrapper NextStepsView__completedView', {
-                completed: props.showFinalScreen,
-                animating: props.animating,
-            })}
+            className={classNames(
+                'NextStepsView__viewWrapper NextStepsView__completedView',
+                {
+                    completed: props.showFinalScreen,
+                    animating: props.animating,
+                },
+            )}
             onTransitionEnd={props.stopAnimating}
         >
             <header className='NextStepsView__header'>
@@ -219,48 +364,33 @@ export default function NextStepsTips(props: {showFinalScreen: boolean; animatin
                         />
                     </h2>
                 </div>
+                <CloseIcon
+                    id='closeIcon'
+                    className='close-icon'
+                    onClick={() => closeNextSteps(dispatch)}
+                />
             </header>
             <div className='NextStepsView__body'>
                 <div className='NextStepsView__nextStepsCards'>
                     <Card expanded={true}>
                         <div className='Card__body'>
-                            {// TODO: Bring back when the tour is working
-                            /* <h3>
-                                <FormattedMessage
-                                    id='next_steps_view.tips.takeATour'
-                                    defaultMessage='Take a tour'
-                                />
-                            </h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.takeATour.text'
-                                defaultMessage='Let us show you around with a guided tour of the interface.'
-                            />
-                            <button
-                                className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={() => {}}
-                            >
-                                <FormattedMessage
-                                    id='next_steps_view.tips.takeATour.button'
-                                    defaultMessage='Take the tour'
-                                />
-                            </button> */}
                             <h3>
                                 <FormattedMessage
-                                    id='next_steps_view.tips.exploreChannels'
-                                    defaultMessage='Explore channels'
+                                    id={channelSection.titleId}
+                                    defaultMessage={channelSection.titleDefault}
                                 />
                             </h3>
                             <FormattedMessage
-                                id='next_steps_view.tips.exploreChannels.text'
-                                defaultMessage='See the channels in your workspace or create a new channel.'
+                                id={channelSection.bodyId}
+                                defaultMessage={channelSection.bodyDefault}
                             />
                             <button
                                 className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={() => openMoreChannels(dispatch)}
+                                onClick={channelSection.buttonAction}
                             >
                                 <FormattedMessage
-                                    id='next_steps_view.tips.exploreChannels.button'
-                                    defaultMessage='Browse channels'
+                                    id={channelSection.buttonId}
+                                    defaultMessage={channelSection.buttonDefault}
                                 />
                             </button>
                         </div>

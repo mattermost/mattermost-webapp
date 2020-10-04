@@ -7,33 +7,36 @@ import {shallow, ShallowWrapper} from 'enzyme';
 import NextStepsView from 'components/next_steps_view/next_steps_view';
 import {TestHelper} from 'utils/test_helper';
 
-jest.mock('components/next_steps_view/steps', () => ({
-    Steps: [
-        {
-            id: 'step_1',
-            title: 'Step_1',
-            component: jest.fn(),
-        },
-        {
-            id: 'step_2',
-            title: 'Step_2',
-            component: jest.fn(),
-        },
-        {
-            id: 'step_3',
-            title: 'Step_3',
-            component: jest.fn(),
-        },
-    ],
-}));
-
 describe('components/next_steps_view', () => {
     const baseProps = {
+        steps: [
+            {
+                id: 'step_1',
+                roles: [],
+                title: 'Step_1',
+                component: jest.fn(),
+            },
+            {
+                id: 'step_2',
+                title: 'Step_2',
+                roles: [],
+                component: jest.fn(),
+            },
+            {
+                id: 'step_3',
+                title: 'Step_3',
+                roles: [],
+                component: jest.fn(),
+            },
+        ],
         currentUser: TestHelper.getUserMock(),
         preferences: [],
+        isFirstAdmin: true,
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),
+            closeRightHandSide: jest.fn(),
+            getProfiles: jest.fn(),
         },
     };
 
@@ -41,6 +44,7 @@ describe('components/next_steps_view', () => {
         const wrapper = shallow(
             <NextStepsView {...baseProps}/>,
         );
+        wrapper.setState({show: true});
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -74,14 +78,14 @@ describe('components/next_steps_view', () => {
         expect(setExpanded).toBeCalledWith('step_2');
     });
 
-    test('should go to final screen when last step is marked complete', () => {
+    test('should go to first incomplete step when last step is marked complete', () => {
         const wrapper: ShallowWrapper<any, any, NextStepsView> = shallow(
             <NextStepsView {...baseProps}/>,
         );
 
-        wrapper.instance().transitionToFinalScreen = jest.fn();
-        wrapper.instance().nextStep(jest.fn(), 'step_3');
-        expect(wrapper.instance().transitionToFinalScreen).toBeCalled();
+        const setExpanded = jest.fn();
+        wrapper.instance().nextStep(setExpanded, 'step_3');
+        expect(setExpanded).toBeCalledWith('step_1');
     });
 
     test('should cascade through all steps when all marked complete', () => {
@@ -108,6 +112,7 @@ describe('components/next_steps_view', () => {
                 },
             ],
         };
+        jest.useFakeTimers();
 
         const wrapper: ShallowWrapper<any, any, NextStepsView> = shallow(
             <NextStepsView {...props}/>,
@@ -115,6 +120,7 @@ describe('components/next_steps_view', () => {
 
         wrapper.instance().transitionToFinalScreen = jest.fn();
         wrapper.instance().nextStep(jest.fn(), 'step_1');
+        jest.runOnlyPendingTimers();
         expect(wrapper.instance().transitionToFinalScreen).toBeCalled();
     });
 });

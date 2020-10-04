@@ -11,7 +11,7 @@ import UserGuideIcon from 'components/widgets/icons/user_guide_icon';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
@@ -30,7 +30,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            buttonActive: false
+            buttonActive: false,
         };
     }
 
@@ -102,6 +102,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
             >
                 <button
                     id='channelHeaderUserGuideButton'
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     className={classNames('channel-header__icon', {'channel-header__icon--active': this.state.buttonActive})}
                     type='button'
                     aria-expanded='true'

@@ -14,6 +14,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
+import Nbsp from 'components/html_entities/nbsp';
 
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
@@ -52,6 +53,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
             addError: null,
             loadingGroups: true,
         };
+
+        this.selectedItemRef = React.createRef();
     }
 
     componentDidMount() {
@@ -167,13 +170,13 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd, onMouseMove) {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -189,7 +192,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
-                        {option.display_name}&nbsp;{'-'}&nbsp;<span className='more-modal__name_sub'>
+                        {option.display_name}<Nbsp/>{'-'}<Nbsp/><span className='more-modal__name_sub'>
                             <FormattedMessage
                                 id='numMembers'
                                 defaultMessage='{num, number} {num, plural, one {member} other {members}}'
@@ -275,6 +278,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
                         key='addGroupsToTeamKey'
                         options={groupsToShow}
                         optionRenderer={this.renderOption}
+                        selectedItemRef={this.selectedItemRef}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
                         perPage={GROUPS_PER_PAGE}

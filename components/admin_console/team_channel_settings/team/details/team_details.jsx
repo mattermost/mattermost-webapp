@@ -10,7 +10,7 @@ import {Groups} from 'mattermost-redux/constants';
 
 import {browserHistory} from 'utils/browser_history';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 
@@ -266,6 +266,8 @@ export default class TeamDetails extends React.PureComponent {
                             <UsersWillBeRemovedError
                                 total={usersToRemoveCount}
                                 users={result.data.users}
+                                scope={'team'}
+                                scopeId={this.props.teamID}
                             />
                         );
                     }

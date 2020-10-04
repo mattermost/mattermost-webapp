@@ -29,8 +29,8 @@ describe('Toast', () => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then(({channel}) => {
+                townsquareChannelId = channel.id;
             });
 
             cy.apiCreateUser().then(({user: user1}) => {
@@ -128,13 +128,8 @@ describe('Toast', () => {
         const oldPostNumber = 28;
 
         cy.getNthPostId(-oldPostNumber).then((postId) => {
-            cy.get(`#post_${postId}`).trigger('mouseover');
-            cy.clickPostDotMenu(postId, 'CENTER');
-
             // # Mark post as unread
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
-                cy.findByText('Mark as Unread').should('be.visible').click();
-            });
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
 
             // # Visit another channel and come back to the same channel again
             cy.get('#sidebarItem_off-topic').should('be.visible').scrollIntoView().click();
@@ -156,5 +151,42 @@ describe('Toast', () => {
                 cy.get('div.toast__message>span').should('be.visible').first().contains(`${oldPostNumber + num + 1} new messages today`);
             });
         });
+    });
+
+    it('MM-T1786 Dismissing the toast using Jump to', () => {
+        // # Have a channel with more than a page of unread messages (have another user post around 30 messages)
+        const randomId = getRandomId();
+        const numberOfPost = 30;
+        Cypress._.times(numberOfPost, (num) => {
+            cy.postMessageAs({sender: otherUser, message: `${num} ${randomId}`, channelId: townsquareChannelId});
+        });
+
+        // # Switch to the channel
+        visitTownSquareAndWaitForPageToLoad();
+
+        // * Verify toast is visible with jump to recent messages button
+        cy.get('div.toast').should('be.visible');
+        cy.get('div.toast').findByText('Jump to recents').should('be.visible').click();
+
+        // * Verify toast is not visible
+        cy.get('div.toast__jump').should('not.be.visible');
+
+        // # Scroll up on the channel
+        scrollUp();
+
+        Cypress._.times(2, (num) => {
+            // # Post messages as otherUser
+            cy.postMessageAs({sender: otherUser, message: `${num} ${randomId}`, channelId: townsquareChannelId});
+        });
+
+        // * Toast should be visible with jump to new messages button
+        cy.get('div.toast').should('be.visible');
+        cy.get('div.toast').findByText('Jump to new messages').should('be.visible');
+
+        // # Scroll down to the bottom to read all messages
+        scrollDown();
+
+        // * Verify toast is not visible
+        cy.get('div.toast').should('not.be.visible');
     });
 });

@@ -12,10 +12,14 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
+
 import OverlayTrigger from 'components/overlay_trigger';
+
 import {DraggingState} from 'types/store';
+
 import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
+import {wrapEmojis} from 'utils/emoji_utils';
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
@@ -383,7 +387,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                         })}
                                                     />
                                                     <div {...provided.dragHandleProps}>
-                                                        {displayName}
+                                                        {wrapEmojis(displayName)}
                                                     </div>
                                                     {newLabel}
                                                     {directMessagesModalButton}
