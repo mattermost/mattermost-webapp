@@ -142,17 +142,17 @@ class SwitchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 className={className}
-                role='list'
+                role='listitem'
                 ref={(node) => {
                     this.node = node;
                 }}
                 id={`switchChannel_${channel.name}`}
                 data-testid={channel.name}
-                aria-label={channel.name}
+                aria-label={displayName || channel.name}
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span role='listitem'>{displayName}</span>
+                <span>{displayName}</span>
                 {tag}
                 {badge}
             </div>
