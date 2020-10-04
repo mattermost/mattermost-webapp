@@ -4,25 +4,27 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddEmoji, { AddEmojiProps } from './add_emoji';
-import { UserProfile } from 'mattermost-redux/types/users';
+import {Team} from 'mattermost-redux/types/teams';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import EmojiMap from 'utils/emoji_map.js';
-import { CustomEmoji } from 'mattermost-redux/types/emojis';
-import { Team } from 'mattermost-redux/types/teams';
+
+import AddEmoji, {AddEmojiProps} from './add_emoji';
 
 const context = {router: {}};
-const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAB3R'+
-    'JTUUH4AcXEyomBnhW6AAAAm9JREFUeNrtnL9vEmEcxj9cCDUSIVhNgGjaTUppOmjrX1BNajs61n+hC5MMrQNOLE7d27GjPxLs0JmSDk2VYNLBCw0yCA0mOBATHXghVu4wYeHCPc'+
-    '94711y30/e732f54Y3sLBbxEUxYAtYA5aB+0yXasAZcAQcAFdON1kuD+eBBvAG2JhCOJiaNkyNDVPzfwGlgBPgJRDCPwqZmk8MA0dAKeAjsIJ/tWIYpJwA7U9pK43Tevv/Asr7f'+
-    'Oc47aR8H1AMyIrJkLJAzDKjPCQejh/uLcv4HMlZa5YxgZKzli1NrtETzRKD0RIgARIgARIgARIgAfKrgl54iUwiwrOlOHOzYQDsZof35w0+ffshQJlEhJ3NxWvX7t66waP5WV69'+
-    '/TxxSBNvsecP74215htA83fCrmv9lvM1oJsh9y4PzwQFqFJvj7XmG0AfzhtjrfkGUMlusXd8gd3sDK7ZzQ57xxeU7NbEAQUWdou/ZQflpAVIgPycxR7P3WbdZLHwTJBKvc3h6aU'+
-    'nspjlBTjZpw9IJ6MDY5hORtnZXCSTiAjQ+lJcWWyU0smostjYJi2gKTYyb3393hGgUXnr8PRSgEp2i0LxC5V6m5/dX4Nd5YW/iZ7xQSW75YlgKictQAKkLKYspiymLKYspiymLK'+
-    'YspiymLCYnraghQAIkCZAACZAACZDHAdWEwVU1i94RMZKzzix65+dIzjqy6B0u1BWLIXWBA4veyUsF8RhSAbjqT7EcUBaTgcqGybUx/0ITrTe5DIshH1QFnvh8J5UNg6qbUawCq'+
+const image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAB3R' +
+    'JTUUH4AcXEyomBnhW6AAAAm9JREFUeNrtnL9vEmEcxj9cCDUSIVhNgGjaTUppOmjrX1BNajs61n+hC5MMrQNOLE7d27GjPxLs0JmSDk2VYNLBCw0yCA0mOBATHXghVu4wYeHCPc' +
+    '94711y30/e732f54Y3sLBbxEUxYAtYA5aB+0yXasAZcAQcAFdON1kuD+eBBvAG2JhCOJiaNkyNDVPzfwGlgBPgJRDCPwqZmk8MA0dAKeAjsIJ/tWIYpJwA7U9pK43Tevv/Asr7f' +
+    'Oc47aR8H1AMyIrJkLJAzDKjPCQejh/uLcv4HMlZa5YxgZKzli1NrtETzRKD0RIgARIgARIgARIgAfKrgl54iUwiwrOlOHOzYQDsZof35w0+ffshQJlEhJ3NxWvX7t66waP5WV69' +
+    '/TxxSBNvsecP74215htA83fCrmv9lvM1oJsh9y4PzwQFqFJvj7XmG0AfzhtjrfkGUMlusXd8gd3sDK7ZzQ57xxeU7NbEAQUWdou/ZQflpAVIgPycxR7P3WbdZLHwTJBKvc3h6aU' +
+    'nspjlBTjZpw9IJ6MDY5hORtnZXCSTiAjQ+lJcWWyU0smostjYJi2gKTYyb3393hGgUXnr8PRSgEp2i0LxC5V6m5/dX4Nd5YW/iZ7xQSW75YlgKictQAKkLKYspiymLKYspiymLK' +
+    'YspiymLCYnraghQAIkCZAACZAACZDHAdWEwVU1i94RMZKzzix65+dIzjqy6B0u1BWLIXWBA4veyUsF8RhSAbjqT7EcUBaTgcqGybUx/0ITrTe5DIshH1QFnvh8J5UNg6qbUawCq' +
     '8Brn324u6bm1b/hjHLSOSAObAPvprT1aqa2bVNrzummPw4OwJf+E7QCAAAAAElFTkSuQmCC';
 
 describe('components/emoji/components/AddEmoji', () => {
     const baseProps: AddEmojiProps = {
-        emojiMap: new EmojiMap(new Map<string, any>([['mycustomemoji', {}]])),
+        emojiMap: new EmojiMap(new Map<string, unknown>([['mycustomemoji', {}]])),
         team: {
             id: 'team-id',
         } as Team,
@@ -31,7 +33,7 @@ describe('components/emoji/components/AddEmoji', () => {
 
         } as UserProfile,
         actions: {
-            createCustomEmoji: jest.fn().mockImplementation((emoji: CustomEmoji, image: File) => ({ data: {name: emoji.name}})),
+            createCustomEmoji: jest.fn().mockImplementation((emoji: CustomEmoji) => ({data: {name: emoji.name}})),
         },
     };
 
@@ -74,9 +76,9 @@ describe('components/emoji/components/AddEmoji', () => {
         Object.defineProperty(global, 'FileReader', {
             writable: true,
             value: jest.fn().mockImplementation(() => ({
-                readAsDataURL: readAsDataURL,
-                onload: onload
-            }))
+                readAsDataURL,
+                onload,
+            })),
         });
 
         const fileInput = wrapper.find('#select-emoji');
@@ -112,10 +114,10 @@ describe('components/emoji/components/AddEmoji', () => {
         Object.defineProperty(global, 'FileReader', {
             writable: true,
             value: jest.fn().mockImplementation(() => ({
-                readAsDataURL: readAsDataURL,
-                onload: onload,
-                result: image
-            }))
+                readAsDataURL,
+                onload,
+                result: image,
+            })),
         });
 
         nameInput.simulate('change', {target: {name: 'name', value: 'emojiName'}});
@@ -136,7 +138,7 @@ describe('components/emoji/components/AddEmoji', () => {
 
         wrapper.setState({saving: true});
         const form = wrapper.find('form').first();
-        
+
         form.simulate('submit', {preventDefault: jest.fn()});
         Promise.resolve();
 
@@ -152,14 +154,14 @@ describe('components/emoji/components/AddEmoji', () => {
         );
 
         const form = wrapper.find('form').first();
-        
+
         form.simulate('submit', {preventDefault: jest.fn()});
 
         expect(wrapper.state('saving')).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.nameRequired')
-    })
+        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.nameRequired');
+    });
 
     test('should show error if image unset', () => {
         const wrapper = shallow<AddEmoji>(
@@ -169,21 +171,21 @@ describe('components/emoji/components/AddEmoji', () => {
 
         const form = wrapper.find('form').first();
         const nameInput = wrapper.find('#name');
-        
+
         nameInput.simulate('change', {target: {name: 'name', value: 'emojiName'}});
         form.simulate('submit', {preventDefault: jest.fn()});
 
         expect(wrapper.state('saving')).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.imageRequired')
-    })
+        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.imageRequired');
+    });
 
     test.each([
         'hyphens-are-allowed',
         'underscores_are_allowed',
         'numb3rsar3all0w3d',
-    ])("%s should be a valid emoji name", (emojiName) => {
+    ])('%s should be a valid emoji name', (emojiName) => {
         const wrapper = shallow<AddEmoji>(
             <AddEmoji {...baseProps}/>,
             {context},
@@ -195,7 +197,7 @@ describe('components/emoji/components/AddEmoji', () => {
         const saveButton = wrapper.find('SpinnerButton').first();
         const nameInput = wrapper.find('#name');
         nameInput.simulate('change', {target: {name: 'name', value: emojiName}});
-        
+
         saveButton.simulate('click', {preventDefault: jest.fn()});
 
         expect(wrapper.state().saving).toEqual(true);
@@ -211,7 +213,7 @@ describe('components/emoji/components/AddEmoji', () => {
         'symbolsnota()owed',
         'symbolsnot^llowed',
         'symbols notallowed',
-        "symbols\"notallowed",
+        'symbols"notallowed',
         "symbols'notallowed",
         'symbols.not.allowed',
     ])("'%s' should not be a valid emoji name", (emojiName) => {
@@ -226,19 +228,19 @@ describe('components/emoji/components/AddEmoji', () => {
         const form = wrapper.find('form').first();
         const nameInput = wrapper.find('#name');
         nameInput.simulate('change', {target: {name: 'name', value: emojiName}});
-        
+
         form.simulate('submit', {preventDefault: jest.fn()});
 
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
         expect(wrapper.state().error?.props['id']).toEqual('add_emoji.nameInvalid');
-    })
+    });
 
     test.each([
-        [ 'UPPERCASE', 'uppercase' ],
-        [ ' trimmed ', 'trimmed' ],
-        [ ':colonstrimmed:', 'colonstrimmed'],
+        ['UPPERCASE', 'uppercase'],
+        [' trimmed ', 'trimmed'],
+        [':colonstrimmed:', 'colonstrimmed'],
     ])("emoji name '%s' should be corrected as '%s'", (emojiName, expectedName) => {
         const wrapper = shallow<AddEmoji>(
             <AddEmoji {...baseProps}/>,
@@ -251,7 +253,7 @@ describe('components/emoji/components/AddEmoji', () => {
         const form = wrapper.find('form').first();
         const nameInput = wrapper.find('#name');
         nameInput.simulate('change', {target: {name: 'name', value: emojiName}});
-        
+
         form.simulate('submit', {preventDefault: jest.fn()});
 
         expect(wrapper.state().saving).toEqual(true);
@@ -309,8 +311,8 @@ describe('components/emoji/components/AddEmoji', () => {
 
         const file = {
             type: 'image/png',
-            size: 1e6 + 1
-        } as Blob
+            size: 1e6 + 1,
+        } as Blob;
 
         wrapper.setState({image: file as File, imageUrl: image});
 
@@ -329,9 +331,9 @@ describe('components/emoji/components/AddEmoji', () => {
     test('should show generic error when action response cannot be parsed', async () => {
         const props = {...baseProps};
         props.actions = {
-            createCustomEmoji: jest.fn().mockImplementation(async (emoji: CustomEmoji, image: File): Promise<any> => {return {}}),
+            createCustomEmoji: jest.fn().mockImplementation(async (): Promise<unknown> => ({})),
         };
-        
+
         const wrapper = shallow<AddEmoji>(
             <AddEmoji {...props}/>,
             {context},
@@ -357,9 +359,9 @@ describe('components/emoji/components/AddEmoji', () => {
         const props = {...baseProps};
         const serverError = 'The server does not like the emoji.';
         props.actions = {
-            createCustomEmoji: jest.fn().mockImplementation(async (emoji: CustomEmoji, image: File): Promise<any> => {return {error:{message: serverError}}}),
+            createCustomEmoji: jest.fn().mockImplementation(async (): Promise<unknown> => ({error: {message: serverError}})),
         };
-        
+
         const wrapper = shallow<AddEmoji>(
             <AddEmoji {...props}/>,
             {context},

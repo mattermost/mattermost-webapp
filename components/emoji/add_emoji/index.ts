@@ -6,15 +6,17 @@ import {connect} from 'react-redux';
 
 import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
+
 import {getEmojiMap} from 'selectors/emojis';
 
+import {GlobalState} from 'types/store';
+
 import AddEmoji from './add_emoji';
-import { GlobalState } from 'types/store';
-import { ActionFunc, GenericAction } from 'mattermost-redux/types/actions';
-import { CustomEmoji } from 'mattermost-redux/types/emojis';
 
 type Actions = {
-    createCustomEmoji: (emoji: CustomEmoji, imageData: File) => Promise<any>;
+    createCustomEmoji: (emoji: CustomEmoji, imageData: File) => Promise<unknown>;
 };
 
 function mapStateToProps(state: GlobalState) {
@@ -26,7 +28,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            createCustomEmoji
+            createCustomEmoji,
         }, dispatch),
     };
 }

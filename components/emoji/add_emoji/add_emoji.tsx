@@ -1,28 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { ChangeEvent, FormEvent, SyntheticEvent } from 'react';
+import React, {ChangeEvent, FormEvent, SyntheticEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {Team} from 'mattermost-redux/types/teams';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils.jsx';
-import { UserProfile } from 'mattermost-redux/types/users';
+
 import EmojiMap from 'utils/emoji_map';
-import { CustomEmoji } from 'mattermost-redux/types/emojis';
-import { Team } from 'mattermost-redux/types/teams';
 
 export interface AddEmojiProps {
     actions: {
-        createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<any>;
+        createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<unknown>;
     },
     emojiMap: EmojiMap,
     user: UserProfile,
     team: Team
-};
+}
 
 type EmojiCreateArgs = {
     creator_id: string,
@@ -34,8 +36,16 @@ type AddEmojiState = {
     image: File | null,
     imageUrl: string | ArrayBuffer | null,
     saving: boolean,
-    error: JSX.Element | null 
+    error: JSX.Element | null,
 };
+
+interface AddErrorResponse {
+    error: Error
+}
+
+interface AddEmojiResponse {
+    data: CustomEmoji
+}
 
 export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmojiState> {
     constructor(props : AddEmojiProps) {
@@ -50,15 +60,15 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
         };
     }
 
-    handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        return await this.handleSubmit(e);
+    handleFormSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+        return this.handleSubmit(e);
     }
 
-    handleSaveButtonClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        return await this.handleSubmit(e);
+    handleSaveButtonClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
+        return this.handleSubmit(e);
     }
 
-    handleSubmit = async (e: SyntheticEvent<any>) => {
+    handleSubmit = async (e: SyntheticEvent<unknown>): Promise<void> => {
         const {actions, emojiMap, user, team} = this.props;
         const {image, name, saving} = this.state;
 
@@ -86,46 +96,54 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
         if (!emoji.name) {
             this.setState({
                 saving: false,
-                error: (<FormattedMessage 
-                    id='add_emoji.nameRequired' 
-                    defaultMessage='A name is required for the emoji'
-                />)
-            });
-
-            return;
-        } 
-        
-        if ((/[^a-z0-9_-]/).test(emoji.name)) {
-            this.setState({
-                saving: false,
-                error: (<FormattedMessage 
-                    id='add_emoji.nameInvalid' 
-                    defaultMessage="An emoji's name can only contain lowercase letters, numbers, and the symbols '-' and '_'."
-                />)
-            });
-
-            return;
-        } 
-        
-        if (emojiMap.hasSystemEmoji(emoji.name)) {
-            this.setState({
-                saving: false,
-                error: (<FormattedMessage 
-                    id='add_emoji.nameTaken' 
-                    defaultMessage='This name is already in use by a system emoji. Please choose another name.'
-                />)
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.nameRequired'
+                        defaultMessage='A name is required for the emoji'
+                    />
+                ),
             });
 
             return;
         }
-        
+
+        if ((/[^a-z0-9_-]/).test(emoji.name)) {
+            this.setState({
+                saving: false,
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.nameInvalid'
+                        defaultMessage="An emoji's name can only contain lowercase letters, numbers, and the symbols '-' and '_'."
+                    />
+                ),
+            });
+
+            return;
+        }
+
+        if (emojiMap.hasSystemEmoji(emoji.name)) {
+            this.setState({
+                saving: false,
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.nameTaken'
+                        defaultMessage='This name is already in use by a system emoji. Please choose another name.'
+                    />
+                ),
+            });
+
+            return;
+        }
+
         if (emojiMap.has(emoji.name)) {
             this.setState({
                 saving: false,
-                error: (<FormattedMessage 
-                    id='add_emoji.customNameTaken' 
-                    defaultMessage='This name is already in use by a custom emoji. Please choose another name.'
-                />)
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.customNameTaken'
+                        defaultMessage='This name is already in use by a custom emoji. Please choose another name.'
+                    />
+                ),
             });
 
             return;
@@ -134,10 +152,12 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
         if (!image) {
             this.setState({
                 saving: false,
-                error: (<FormattedMessage 
-                    id='add_emoji.imageRequired' 
-                    defaultMessage='An image is required for the emoji'
-                />)
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.imageRequired'
+                        defaultMessage='An image is required for the emoji'
+                    />
+                ),
             });
 
             return;
@@ -146,55 +166,61 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
         if (image.size > 1e6) {
             this.setState({
                 saving: false,
-                error: (<FormattedMessage
-                    id='add_emoji.imageToLarge'
-                    defaultMessage='Unable to create emoji. Image must be less than 1 MB in size.'
-                />)
-            })
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.imageToLarge'
+                        defaultMessage='Unable to create emoji. Image must be less than 1 MB in size.'
+                    />
+                ),
+            });
 
             return;
         }
 
         const response = await actions.createCustomEmoji(emoji as CustomEmoji, image);
-        
-        if (response.data) {
-            const savedEmoji = response.data as CustomEmoji;
-            if (savedEmoji && savedEmoji.name === emoji.name) {
-                browserHistory.push('/' + team.name + '/emoji');
-                return;
+
+        if (response instanceof Object) {
+            if ('data' in response) {
+                const savedEmoji = response as AddEmojiResponse;
+                if (savedEmoji && savedEmoji.data.name === emoji.name) {
+                    browserHistory.push('/' + team.name + '/emoji');
+                    return;
+                }
+            }
+
+            if ('error' in response) {
+                const responseError = response as AddErrorResponse;
+                if (responseError) {
+                    this.setState({
+                        saving: false,
+                        error: (<>{responseError.error.message}</>),
+                    });
+
+                    return;
+                }
             }
         }
 
-        if (response.error) {
-            const responseError = response.error as Error;
-            if (responseError) {
-                this.setState({
-                    saving: false,
-                    error: (<>{responseError.message}</>)
-                });
-
-                return;
-            }
-        }
-
-        const genericError = (<FormattedMessage 
-            id='add_emoji.failedToAdd' 
-            defaultMessage='Something when wrong when adding the custom emoji.'
-        />)
+        const genericError = (
+            <FormattedMessage
+                id='add_emoji.failedToAdd'
+                defaultMessage='Something when wrong when adding the custom emoji.'
+            />
+        );
 
         this.setState({
             saving: false,
-            error: (genericError)
+            error: (genericError),
         });
     };
 
-    updateName = (e: ChangeEvent<HTMLInputElement>) => {
+    updateName = (e: ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             name: e.target.value,
         });
     };
 
-    updateImage = (e: ChangeEvent<HTMLInputElement>) => {
+    updateImage = (e: ChangeEvent<HTMLInputElement>): void => {
         if (e.target.files == null || e.target.files.length === 0) {
             this.setState({
                 image: null,
@@ -209,14 +235,14 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
         const reader = new FileReader();
         reader.onload = () => {
             this.setState({
-                image: image,
+                image,
                 imageUrl: reader.result,
             });
         };
         reader.readAsDataURL(image);
     };
 
-    render() {
+    render(): JSX.Element {
         let filename = null;
         if (this.state.image) {
             filename = (
