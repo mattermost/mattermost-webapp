@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function PluginIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -14,7 +12,7 @@ export default function PluginIcon(props) {
                 width='61px'
                 height='61px'
                 viewBox='0 0 61 61'
-                aria-label={formatMessage({id: t('generic_icons.plugin'), defaultMessage: 'Plugin Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.plugin', defaultMessage: 'Plugin Icon'})}
             >
                 <g
                     stroke='none'

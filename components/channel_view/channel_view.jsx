@@ -13,7 +13,7 @@ import FileUploadOverlay from 'components/file_upload_overlay';
 import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
-import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
+import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ChannelView extends React.PureComponent {
@@ -29,12 +29,15 @@ export default class ChannelView extends React.PureComponent {
         }).isRequired,
         showTutorial: PropTypes.bool.isRequired,
         showNextSteps: PropTypes.bool.isRequired,
+        showNextStepsTips: PropTypes.bool.isRequired,
+        isOnboardingHidden: PropTypes.bool.isRequired,
         showNextStepsEphemeral: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         viewArchivedChannels: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             goToLastViewedChannel: PropTypes.func.isRequired,
             setShowNextStepsView: PropTypes.func.isRequired,
+            getProfiles: PropTypes.func.isRequired,
         }),
         isCloud: PropTypes.bool.isRequired,
     };
@@ -97,8 +100,9 @@ export default class ChannelView extends React.PureComponent {
         this.props.actions.goToLastViewedChannel();
     }
 
-    componentDidMount() {
-        if (this.props.showNextSteps) {
+    async componentDidMount() {
+        await this.props.actions.getProfiles();
+        if ((this.props.showNextSteps || this.props.showNextStepsTips) && !this.props.isOnboardingHidden) {
             this.props.actions.setShowNextStepsView(true);
         }
     }

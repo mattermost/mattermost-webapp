@@ -21,7 +21,7 @@ import TeamAnalytics from 'components/analytics/team_analytics';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
@@ -184,7 +184,10 @@ const AdminDefinition = {
         icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
-        isHidden: it.not(it.userHasReadPermissionOnResource('about')),
+        isHidden: it.any(
+            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            it.not(it.userHasReadPermissionOnResource('about')),
+        ),
         license: {
             url: 'about/license',
             title: t('admin.sidebar.license'),
@@ -199,10 +202,6 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isHidden: it.any(
-                it.not(it.enterpriseReady),
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
             schema: {
                 id: 'LicenseSettings',
@@ -338,6 +337,9 @@ const AdminDefinition = {
             url: 'reporting/server_logs',
             title: t('admin.sidebar.logs'),
             title_default: 'Server Logs',
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            ),
             searchableStrings: [
                 'admin.logs.bannerDesc',
                 'admin.logs.title',
@@ -1718,6 +1720,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.termsDesc'),
                         help_text_default: 'Link to the terms under which users may use your online service. By default, this includes the "Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is provided to end users. If you change the default link to add your own terms for using the service you provide, your new terms must include a link to the default terms so end users are aware of the Mattermost Conditions of Use (End User) for Mattermost software.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1727,6 +1730,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.privacyDesc'),
                         help_text_default: 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1736,6 +1740,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.aboutDesc'),
                         help_text_default: 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1745,6 +1750,7 @@ const AdminDefinition = {
                         help_text: t('admin.support.problemDesc'),
                         help_text_default: 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1754,6 +1760,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.appDownloadLinkDesc'),
                         help_text_default: 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1763,6 +1770,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.androidAppDownloadLinkDesc'),
                         help_text_default: 'Add a link to download the Android app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1772,6 +1780,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.iosAppDownloadLinkDesc'),
                         help_text_default: 'Add a link to download the iOS app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     },
                 ],
             },
@@ -1928,7 +1937,10 @@ const AdminDefinition = {
                         help_text: t('admin.team.editOthersPostsDesc'),
                         help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
                         permissions_mapping_name: 'editOthersPosts',
-                        isHidden: it.licensed,
+                        isHidden: it.any(
+                            it.licensed,
+                            it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
@@ -2383,6 +2395,36 @@ const AdminDefinition = {
                 ],
             },
         },
+        notices: {
+            url: 'site_config/notices',
+            title: t('admin.sidebar.notices'),
+            title_default: 'Notices',
+            schema: {
+                id: 'NoticesSettings',
+                name: t('admin.site.notices'),
+                name_default: 'Notices',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.AdminNoticesEnabled',
+                        label: t('admin.notices.enableAdminNoticesTitle'),
+                        label_default: 'Enable Admin Notices: ',
+                        help_text: t('admin.notices.enableAdminNoticesDescription'),
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'AnnouncementSettings.UserNoticesEnabled',
+                        label: t('admin.notices.enableEndUserNoticesTitle'),
+                        label_default: 'Enable End User Notices: ',
+                        help_text: t('admin.notices.enableEndUserNoticesDescription'),
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
+                        help_text_markdown: true,
+                    },
+                ],
+            },
+        },
     },
     authentication: {
         icon: 'fa-shield',
@@ -2438,7 +2480,6 @@ const AdminDefinition = {
                         label_default: 'Enable Open Server: ',
                         help_text: t('admin.team.openServerDescription'),
                         help_text_default: 'When true, anyone can signup for a user account on this server without the need to be invited.',
-                        isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -5125,6 +5166,11 @@ const AdminDefinition = {
                                 value: 'default_off',
                                 display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
+                            },
+                            {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.always_on'),
+                                display_name_default: 'Always On',
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),

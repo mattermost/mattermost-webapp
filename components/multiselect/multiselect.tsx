@@ -41,6 +41,7 @@ export type Props<T extends Value> = {
         onAdd: (value: T) => void,
         onMouseMove: (value: T) => void
     ) => void;
+    selectedItemRef?: React.RefObject<HTMLDivElement>;
     options: T[];
     perPage: number;
     placeholderText?: string;
@@ -422,6 +423,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                     loading={this.props.loading}
+                    selectedItemRef={this.props.selectedItemRef}
                 />
                 <div className='filter-controls'>
                     {previousButton}
