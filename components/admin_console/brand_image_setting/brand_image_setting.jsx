@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -81,7 +80,7 @@ export default class BrandImageSetting extends React.PureComponent {
 
             const img = this.refs.image;
             reader.onload = (e) => {
-                $(img).attr('src', e.target.result); // eslint-disable-line jquery/no-attr
+               img.src = e.target.result; 
             };
 
             reader.readAsDataURL(this.state.brandImage);
@@ -89,7 +88,7 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     handleImageChange = () => {
-        const element = $(this.refs.fileInput);
+        const element = this.refs.fileInput;
         if (element.prop('files').length > 0) {
             this.props.setSaveNeeded();
             this.setState({
