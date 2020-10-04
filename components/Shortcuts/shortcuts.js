@@ -295,9 +295,9 @@ export const allShortcuts = defineMessages({
 });
 
 export function parsedShortcuts(allshortcuts) {
-    const ismac = Utils.ismac();
+    const ismac = Utils.isMac();
     const shortcuts = {};
-    Object.keys(allshortcuts).foreach((s) => {
+    Object.keys(allshortcuts).forEach((s) => {
         if (ismac && allshortcuts[s].mac) {
             shortcuts[s] = allshortcuts[s].mac;
         } else if (!ismac && allshortcuts[s].default) {
