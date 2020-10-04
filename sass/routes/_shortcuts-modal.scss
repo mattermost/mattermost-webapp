@@ -51,7 +51,7 @@
 
                 span {
                     &:first-child {
-                        margin-right: 5px;
+                        margin-right: 4px;
                     }
                 }
 
@@ -60,7 +60,7 @@
                     font-size: 12px;
                     font-weight: 500;
                     margin: 5px 0 5px 5px;
-                    padding: 1px 5px;
+                    padding: 2px 8px;
                 }
             }
         }
@@ -83,20 +83,21 @@
 }
 
 .shortcut-line {
-    padding: 8px 4px;
+    padding: 4px;
 
     span {
         &:first-child {
-            // margin-right: 4px;
+            margin-top: 4px;
         }
     }
 
     .shortcut-key {
         border-radius: 4px;
-        font-size: 1.1em;
+        font-size: 12px;
         font-weight: 500;
-        margin: 4px 0 0px 5px;
-        padding: 1px 5px;
+        margin: 0px 0 0px 2px;
+        padding: 2px 8px;
+        line-height:16px;
     }
 }
 
@@ -114,6 +115,6 @@
     }
 
     .shortcut-line {
-        margin-top: 14px;
+        margin: 4px 0px;
     }
 }
