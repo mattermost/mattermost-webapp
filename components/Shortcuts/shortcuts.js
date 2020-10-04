@@ -271,6 +271,16 @@ export const allShortcuts = defineMessages({
             defaultMessage: 'Zoom out:\t⌘|-',
         },
     },
+    teamSidebarTooltip: {
+        default: {
+            id: t('shortcuts.browser.font_decrease'),
+            defaultMessage: 'shortcut:\tCtrl|Alt|{order}',
+        },
+        mac: {
+            id: t('shortcuts.browser.font_decrease'),
+            defaultMessage: '⌘ |⌥ |{order}',
+        },
+    },
     browserInputHeader: {
         id: t('shortcuts.browser.input.header'),
         defaultMessage: 'Works inside an input field',
@@ -309,3 +319,21 @@ export function parsedShortcuts(allshortcuts) {
 
     return shortcuts;
 }
+
+// if (isMac()) {
+//     toolTipHelp = formatMessage(//         id: 'team.button.tooltip.mac',
+//         defaultMessage: '⌘ ⌥ {order}',
+//     },
+//     {
+//         order: this.props.order,
+//     });
+// } else {
+//     toolTipHelp = formatMessage({
+//         id: 'team.button.tooltip',
+//defaultMessage: 'Ctrl+Alt+{order}',
+//},
+//{
+//order: this.props.order,
+//});
+// }
+
