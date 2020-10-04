@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class CommentedOnFilesMessage extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
-         * The id of the post that was commented on
-         */
-        parentPostId: PropTypes.string.isRequired,
+    /*
+        * The id of the post that was commented on
+        */
+    parentPostId: string,
 
-        /*
-         * An array of file metadata for the parent post
-         */
-        fileInfos: PropTypes.arrayOf(PropTypes.object),
-    }
+    /*
+     * An array of file metadata for the parent post
+     */
+    fileInfos?: Array<any>
+}
+
+export default class CommentedOnFilesMessage extends React.PureComponent<Props> {
 
     render() {
         if (!this.props.fileInfos || this.props.fileInfos.length === 0) {

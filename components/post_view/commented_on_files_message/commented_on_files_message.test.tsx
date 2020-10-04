@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CommentedOnFilesMessage from './commented_on_files_message.jsx';
+import CommentedOnFilesMessage from './commented_on_files_message.js';
 
 describe('components/CommentedOnFilesMessage', () => {
     const baseProps = {
@@ -13,7 +13,7 @@ describe('components/CommentedOnFilesMessage', () => {
 
     test('Snapshot when no files', () => {
         const wrapper = shallow(
-            <CommentedOnFilesMessage {...baseProps}/>,
+            <CommentedOnFilesMessage {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
