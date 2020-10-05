@@ -26,11 +26,14 @@
     line-height: 20px;
 }
 
+.BillingHistory__cardBody {
+    padding: 20px;
+}
+
 .BillingHistory__noHistory {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
 }
 
 .BillingHistory__noHistory-message {
@@ -51,4 +54,79 @@
 
 .BillingHistory__noHistory-graphic {
     margin-top: 28px;
+}
+
+.BillingHistory__table {
+    width: 100%;
+
+    th, td {
+        padding: 8px 12px;
+    }
+}
+
+.BillingHistory__table-header {
+    background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+    line-height: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+
+    &:last-child {
+        border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    }
+}
+
+.BillingHistory__table-row {
+    border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+    &:nth-child(odd) {
+        background: rgba(var(--sys-center-channel-color-rgb), 0.04);
+    }
+}
+
+.BillingHistory__table-bottomDesc {
+    margin-top: 4px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.BillingHistory__table-headerTotal {
+    text-align: right;
+}
+
+.BillingHistory__table-total {
+    font-weight: 600;
+    text-align: right;
+}
+
+.BillingHistory__paymentStatus {
+    color: var(--sys-online-indicator);
+
+    i {
+        font-size: 14.4px;
+        line-height: 17px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    span {
+        font-weight: 600;
+        margin-left: 4px;
+    }
+
+    &.failed {
+        color: var(--sys-error-text);
+    }
+
+    &.pending span {
+        color: rgba(var(--sys-center-channel-color-rgb), 0.48);
+    }
+}
+
+.BillingHistory__table-invoice a {
+    &, &:link, &:visited, &:hover, &:focus, &:active {
+        text-decoration: none;
+    }
 }
