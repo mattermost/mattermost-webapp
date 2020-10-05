@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -13,18 +12,18 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 
 import EmojiList from './emoji_list';
 
-export default class EmojiPage extends React.PureComponent {
-    static propTypes = {
-        teamId: PropTypes.string.isRequired,
-        teamName: PropTypes.string.isRequired,
-        teamDisplayName: PropTypes.string.isRequired,
-        siteName: PropTypes.string,
-        scrollToTop: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            loadRolesIfNeeded: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    teamId: string,
+    teamName?: string,
+    teamDisplayName?: string,
+    siteName?: string,
+    scrollToTop(): void,
+    actions: {
+        loadRolesIfNeeded(roles: Iterable<string>): void
     }
+}
 
+export default class EmojiPage extends React.PureComponent<Props> {
     static defaultProps = {
         teamName: '',
         teamDisplayName: '',
@@ -40,7 +39,7 @@ export default class EmojiPage extends React.PureComponent {
         document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + this.props.teamDisplayName + ' ' + this.props.siteName;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.siteName !== prevProps.siteName) {
             this.updateTitle();
         }
