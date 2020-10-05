@@ -183,7 +183,7 @@ class SearchResults extends React.Component {
         // to avoid loading icon showing infinitely, if the first page
         // has results but no scroll, trigger the second page search
         // to mark search as ended
-        if (this.props.searchPage === 0 && !noResults) {
+        if (this.props.searchPage === 0 && !noResults && !this.props.isSearchAtEnd) {
             this.loadMorePosts();
         }
 
