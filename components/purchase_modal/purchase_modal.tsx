@@ -9,6 +9,7 @@ import {Elements} from '@stripe/react-stripe-js';
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
+import LowerBlueDots from 'images/cloud/blue-lower.svg';
 
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 
@@ -222,6 +223,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 <img
                                     className='blue-dots'
                                     src={blueDotes}
+                                />
+                                <img
+                                    className='lower-blue-dots'
+                                    src={LowerBlueDots}
                                 />
                             </div>
                         </div>
