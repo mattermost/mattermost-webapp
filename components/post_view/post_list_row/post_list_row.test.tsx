@@ -6,6 +6,8 @@ import React from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
@@ -14,12 +16,27 @@ import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 
 import {PostListRowListIds} from 'utils/constants';
 
-import PostListRow from './post_list_row.jsx';
+import PostListRow from './post_list_row';
 
 describe('components/post_view/post_list_row', () => {
+    const defaultProps = {
+        listId: '1234',
+        loadOlderPosts: jest.fn(),
+        loadNewerPosts: jest.fn(),
+        togglePostMenu: jest.fn(),
+        isLastPost: false,
+        shortcutReactToLastPostEmittedFrom: 'NO_WHERE',
+        loadingNewerPosts: false,
+        loadingOlderPosts: false,
+        actions: {
+            emitShortcutReactToLastPostFrom: jest.fn(),
+        },
+    };
+
     test('should render more messages loading indicator', () => {
         const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
         const props = {
+            ...defaultProps,
             listId,
             loadingOlderPosts: true,
         };
@@ -33,6 +50,7 @@ describe('components/post_view/post_list_row', () => {
         const listId = PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER;
         const loadOlderPosts = jest.fn();
         const props = {
+            ...defaultProps,
             listId,
             loadOlderPosts,
         };
@@ -47,8 +65,24 @@ describe('components/post_view/post_list_row', () => {
     test('should render channel intro message', () => {
         const listId = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
         const props = {
+            ...defaultProps,
             channel: {
                 id: '123',
+                name: 'test-channel-1',
+                display_name: 'Test Channel 1',
+                type: ('P' as ChannelType),
+                team_id: 'team-1',
+                header: '',
+                purpose: '',
+                creator_id: '',
+                scheme_id: '',
+                group_constrained: false,
+                create_at: 0,
+                update_at: 0,
+                delete_at: 0,
+                last_post_at: 0,
+                total_msg_count: 0,
+                extra_update_at: 0,
             },
             fullWidth: true,
             listId,
@@ -64,6 +98,7 @@ describe('components/post_view/post_list_row', () => {
     test('should render new messages line', () => {
         const listId = PostListRowListIds.START_OF_NEW_MESSAGES;
         const props = {
+            ...defaultProps,
             listId,
         };
         const wrapper = shallow(
@@ -76,6 +111,7 @@ describe('components/post_view/post_list_row', () => {
     test('should render date line', () => {
         const listId = `${PostListRowListIds.DATE_LINE}1553106600000`;
         const props = {
+            ...defaultProps,
             listId,
         };
         const wrapper = shallow(
@@ -87,6 +123,7 @@ describe('components/post_view/post_list_row', () => {
 
     test('should render combined post', () => {
         const props = {
+            ...defaultProps,
             shouldHighlight: false,
             listId: `${PostListUtils.COMBINED_USER_ACTIVITY}1234-5678`,
             previousListId: 'abcd',
@@ -100,6 +137,7 @@ describe('components/post_view/post_list_row', () => {
 
     test('should render post', () => {
         const props = {
+            ...defaultProps,
             shouldHighlight: false,
             listId: '1234',
             previousListId: 'abcd',
@@ -114,6 +152,7 @@ describe('components/post_view/post_list_row', () => {
     test('should have class hideAnimation for OLDER_MESSAGES_LOADER if loadingOlderPosts is false', () => {
         const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
         const props = {
+            ...defaultProps,
             listId,
             loadingOlderPosts: false,
         };
@@ -126,6 +165,7 @@ describe('components/post_view/post_list_row', () => {
     test('should have class hideAnimation for NEWER_MESSAGES_LOADER if loadingNewerPosts is false', () => {
         const listId = PostListRowListIds.NEWER_MESSAGES_LOADER;
         const props = {
+            ...defaultProps,
             listId,
             loadingNewerPosts: false,
         };
