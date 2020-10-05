@@ -5,6 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import {FormattedMessage} from 'react-intl';
 
 import {injectIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -23,6 +24,10 @@ import NoResultsIndicator from 'components/no_results_indicator/no_results_indic
 import FlagIcon from 'components/widgets/icons/flag_icon';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+
+import MessageOrFileSelector from './messages_or_files_selector';
+
+import './search_results.scss';
 
 const GET_MORE_BUFFER = 30;
 
@@ -126,6 +131,7 @@ class SearchResults extends React.Component {
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
+            searchType: 'messages',
         };
     }
 
@@ -171,6 +177,7 @@ class SearchResults extends React.Component {
     }
 
     loadMorePosts = debounce(() => {
+        console.log("LOADING POSTS")
         this.props.actions.getMorePostsForSearch();
     }, 100);
 
@@ -325,13 +332,17 @@ class SearchResults extends React.Component {
 
         return (
             <div
-                id='searchContainer'
+                id='SearchResults searchContainer'
                 className='sidebar-right__body'
             >
                 <SearchResultsHeader>
                     {formattedTitle}
                     {channelName && <div className='sidebar--right__title__channel'>{channelName}</div>}
                 </SearchResultsHeader>
+                <MessageOrFileSelector
+                    selected={this.state.searchType}
+                    onChange={(searchType) => this.setState({searchType})}
+                />
                 <Scrollbars
                     ref='scrollbars'
                     autoHide={true}

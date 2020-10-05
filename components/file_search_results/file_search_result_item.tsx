@@ -6,9 +6,8 @@ import {FormattedTime} from 'react-intl';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
-import {getFileType, fileSizeToString, copyToClipboard} from 'utils/utils';
+import {fileSizeToString, copyToClipboard} from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
-import {FileTypes} from 'utils/constants';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

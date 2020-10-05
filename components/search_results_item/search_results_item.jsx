@@ -39,6 +39,11 @@ class SearchResultsItem extends React.PureComponent {
         post: PropTypes.object,
 
         /**
+        *  Data used for rendering post
+        */
+        fileInfo: PropTypes.object,
+
+        /**
          * The function to create an aria-label
          */
         createAriaLabel: PropTypes.func,
