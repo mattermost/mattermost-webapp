@@ -28,7 +28,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     return {
         stats: state.entities.admin.analytics,
         user: getCurrentUser(state),
-        diagnosticId: config.DiagnosticId,
+        telemetryId: config.DiagnosticId,
         show: isModalOpen(state, ModalIdentifiers.WARN_METRIC_ACK),
         closeParentComponent: ownProps.closeParentComponent,
     };
