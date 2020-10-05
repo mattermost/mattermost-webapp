@@ -135,9 +135,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
@@ -304,9 +302,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
@@ -473,9 +469,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
@@ -642,9 +636,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
@@ -811,9 +803,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
@@ -980,9 +970,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
@@ -1153,9 +1141,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "manage_shared_channels",
-            "permissions": Array [
-              "manage_shared_channels",
-            ],
+            "permissions": Array [],
           },
         ]
       }
