@@ -185,10 +185,9 @@ export default class PermissionsTree extends React.PureComponent {
         }
         postsGroup.permissions.push(Permissions.CREATE_POST);
 
-        // if (config.ExperimentalSharedChannels === 'true') {
-        sharedChannelsGroup.permissions.push(Permissions.MANAGE_SHARED_CHANNELS);
-
-        // }
+        if (config.ExperimentalSharedChannels === 'true') {
+            sharedChannelsGroup.permissions.push(Permissions.MANAGE_SHARED_CHANNELS);
+        }
     }
 
     openPostTimeLimitModal = () => {
