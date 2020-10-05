@@ -8,7 +8,6 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
 
 import './billing_history.scss';
-import { threadId } from 'worker_threads';
 
 type Props = {
 
