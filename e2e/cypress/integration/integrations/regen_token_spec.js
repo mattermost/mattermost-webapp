@@ -19,8 +19,15 @@ describe('Integrations', () => {
     before(() => {
         // # Login as test user and visit the newly created test channel
         cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
             cy.visit(`/${team.name}/integrations/commands/add`);
         });
+    });
+    after(() => {
+        // # clean up - remove slash command
+        cy.visit(`/${testTeam.name}/integrations/commands/installed`);
+        cy.get(':nth-child(3) > .color--link > span').click();
+        cy.get('#confirmModalButton').click();
     });
     it('MM-T581 Regen token', () => {
         // # setup slash command
@@ -47,7 +54,7 @@ describe('Integrations', () => {
         });
 
         // # return to slash command setup and regenerate the token
-        cy.visit('/ad-1/integrations/commands/installed');
+        cy.visit(`/${testTeam.name}/integrations/commands/installed`);
         cy.get('.item-actions > :nth-child(1) > span').click();
         cy.wait(TIMEOUTS.HALF_SEC);
 
