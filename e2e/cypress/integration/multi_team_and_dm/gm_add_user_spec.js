@@ -4,9 +4,14 @@
 // Stage: @prod
 // Group: @multi_team_and_dm
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Multi-user group messages', () => {
     let testUser;
     let testTeam;
+    const userIds = [];
+    const userList = [];
+    let groupChannel;
 
     before(() => {
         // # Create a new team
@@ -17,6 +22,22 @@ describe('Multi-user group messages', () => {
             // # Add 3 users to the team that should be alphabetically sorted
             ['0aadam', '0aabadam', 'beatrice'].forEach((prefix) => {
                 createTestUser(prefix, team);
+            });
+
+            // # create a GM with at least 3 users
+            ['charlie', 'diana', 'eddie'].forEach((name) => {
+                cy.apiCreateUser({prefix: name, bypassTutorial: true}).then(({user: groupUser}) => {
+                    cy.apiAddUserToTeam(testTeam.id, groupUser.id);
+                    userIds.push(groupUser.id);
+                    userList.push(groupUser);
+                });
+            });
+
+            // # add test user to the list of group members
+            userIds.push(testUser.id);
+
+            cy.apiCreateGroupChannel(userIds).then(({channel}) => {
+                groupChannel = channel;
             });
         });
     });
@@ -29,6 +50,7 @@ describe('Multi-user group messages', () => {
 
         // # Go to town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.contains('#channelHeaderTitle', 'Town Square');
 
         // # Open the 'Direct messages' dialog
         cy.get('#addDirectChannel').
@@ -74,6 +96,57 @@ describe('Multi-user group messages', () => {
             should('be.visible').
             and('contain.text', 'You can add 6 more people');
     });
+
+    it('MM-T468 Group Messaging: Add member to existing GM', () => {
+        cy.apiLogin(testUser);
+
+        // # add some messages to the channel
+        cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
+        cy.postMessage('some');
+        cy.postMessage('historical');
+        cy.postMessage('messages');
+
+        // # Open add member modal
+        cy.get('#channelHeaderDropdownButton button').click();
+        cy.get('#channelAddMembers button').click();
+
+        // * verify message says: "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead."
+        cy.get('#moreDmModal').should('be.visible');
+        const warnMessage = 'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.';
+        cy.contains(warnMessage).should('be.visible');
+
+        // * verify users are listed in the GM box
+        userList.forEach((user) => {
+            cy.get('.react-select__multi-value div').should('contain', user.username);
+        });
+
+        // # Type a search term and select an autocomplete option.
+        cy.get('#selectItems input').click().type('beatrice');
+        cy.get('.loading-screen').should('not.be.visible');
+        cy.contains('#multiSelectList .clickable', 'beatrice').should('be.visible'); // .click(); runs into dettached dom element
+        cy.get('#selectItems input').type('{enter}');
+
+        // # Click Go
+        cy.get('button#saveItems').click({force: true});
+
+        // * modal closes
+        cy.get('#moreDmModal').should('not.be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        // * original messages does not exist
+        cy.contains('.post-message__text', 'historical').should('not.be.visible');
+
+        cy.contains('p.channel-intro-text span', 'This is the start of your group message history with');
+
+        // * new user is added to the GM
+        cy.get('#member_popover').click();
+        cy.get('.more-modal__name').contains(testUser.username).should('be.visible');
+
+        // * other users are still there
+        userList.forEach((user) => {
+            cy.get('.more-modal__name').contains(user.username).should('be.visible');
+        });
+    });
 });
 
 // Helper functions
@@ -102,13 +175,13 @@ const expectUserListSortedAlphabetically = (filterString, excludeFilter = false)
                 expect(stringComparison, `${currentChildText} should be before ${siblingText}`).to.be.lte(0);
             }
 
-            excludeFilter ?
-
+            if (excludeFilter) {
                 // * If a user is selected, ensure remaining users list does not contain the selected user
-                expect(currentChildText).to.not.contain(filterString) :
-
+                expect(currentChildText).to.not.contain(filterString);
+            } else {
                 // * Optionally, ensure all usernames match the autocomplete input
                 expect(currentChildText).to.contain(filterString);
+            }
         });
 };
 

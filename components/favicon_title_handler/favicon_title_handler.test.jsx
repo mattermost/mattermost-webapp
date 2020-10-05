@@ -6,6 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
+import {isChrome, isFirefox} from 'utils/user_agent';
 
 import FaviconTitleHandler from 'components/favicon_title_handler/favicon_title_handler';
 
@@ -13,7 +14,8 @@ jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
     return {
         ...original,
-        isFirefox: () => true,
+        isFirefox: jest.fn().mockReturnValue(true),
+        isChrome: jest.fn(),
     };
 });
 
@@ -57,10 +59,26 @@ describe('components/FaviconTitleHandler', () => {
         expect(document.title).toBe('teammate - Test team display name');
         wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
         instance.updateTitle();
-        expect(document.title).toBe('(3) * teammate - Test team display name');
+        expect(document.title).toBe('(3) teammate - Test team display name');
         wrapper.setProps({currentChannel: {}, currentTeammate: {}});
         instance.updateTitle();
         expect(document.title).toBe('Mattermost - Join a team');
+    });
+
+    test('should set correct title on mentions on safari', () => {
+        // in safari browser, modification of favicon is not
+        // supported, hence we need to show * in title on mentions
+        isFirefox.mockImplementation(() => false);
+        isChrome.mockImplementation(() => false);
+        const wrapper = shallowWithIntl(
+            <FaviconTitleHandler {...defaultProps}/>,
+        );
+        const instance = wrapper.instance();
+        wrapper.setProps({siteName: null});
+        wrapper.setProps({currentChannel: {id: 1, type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
+        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
+        instance.updateTitle();
+        expect(document.title).toBe('(3) * teammate - Test team display name');
     });
 
     test('should display correct favicon', () => {
@@ -76,9 +94,12 @@ describe('components/FaviconTitleHandler', () => {
         instance.updateFavicon = jest.fn();
 
         wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
-        expect(instance.updateFavicon).lastCalledWith(true);
+        expect(instance.updateFavicon).lastCalledWith('Mention');
 
         wrapper.setProps({unreads: {mentionCount: 0, messageCount: 4}});
-        expect(instance.updateFavicon).lastCalledWith(false);
+        expect(instance.updateFavicon).lastCalledWith('Unread');
+
+        wrapper.setProps({unreads: {mentionCount: 0, messageCount: 0}});
+        expect(instance.updateFavicon).lastCalledWith('None');
     });
 });

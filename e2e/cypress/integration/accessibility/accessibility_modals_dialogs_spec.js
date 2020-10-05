@@ -63,7 +63,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
         // * Verify the aria-label in main menu button
-        cy.get('#headerInfo button').should('have.attr', 'aria-label', 'main menu');
+        cy.get('#headerInfo button', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.attr', 'aria-label', 'main menu');
 
         // * Verify the accessibility support in Account Settings Dialog
         verifyMainMenuModal('Account Settings', 'accountSettingsModal', 'accountSettingsModalLabel', 'Account Settings');
@@ -126,51 +126,60 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     });
 
     it('MM-T1467 Accessibility Support in More Channels Dialog screen', () => {
+        function getChannelAriaLabel(channel) {
+            return channel.display_name.toLowerCase() + ', ' + channel.purpose.toLowerCase();
+        }
+
         // # Create atleast 2 channels
-        cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility');
-        cy.apiCreateChannel(testTeam.id, 'accessibility', 'accessibility').then(() => {
+        let otherChannel;
+        cy.apiCreateChannel(testTeam.id, 'z_accessibility', 'Z Accessibility', 'O', 'other purpose').then(({channel}) => {
+            otherChannel = channel;
+        });
+        cy.apiCreateChannel(testTeam.id, 'accessibility', 'Accessibility', 'O', 'some purpose').then(({channel}) => {
             cy.apiLogin(testUser).then(() => {
                 cy.reload();
 
                 // * Verify the aria-label in more public channels button
-                cy.get('#sidebarPublicChannelsMore').should('have.attr', 'aria-label', 'See more public channels').click();
+                cy.get('#sidebarPublicChannelsMore', {timeout: TIMEOUTS.ONE_MIN}).
+                    should('be.visible').
+                    and('have.attr', 'aria-label', 'See more public channels').click();
 
                 // * Verify the accessibility support in More Channels Dialog`
-                cy.get('#moreChannelsModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreChannelsModalLabel').within(() => {
-                    cy.get('#moreChannelsModalLabel').should('be.visible').and('contain', 'More Channels');
-                    cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
+                cy.get('#moreChannelsModal').
+                    should('be.visible').
+                    and('have.attr', 'role', 'dialog').
+                    and('have.attr', 'aria-labelledby', 'moreChannelsModalLabel').
+                    within(() => {
+                        cy.get('#moreChannelsModalLabel').should('be.visible').and('contain', 'More Channels');
+                        cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
-                    // * Verify the accessibility support in search input
-                    cy.get('#searchChannelsTextbox').should('have.attr', 'placeholder', 'Search channels');
+                        // * Verify the accessibility support in search input
+                        cy.get('#searchChannelsTextbox').should('have.attr', 'placeholder', 'Search channels');
 
-                    // # Focus on the Create Channel button and TAB twice
-                    cy.get('#createNewChannel').focus().tab().tab();
+                        cy.waitUntil(() => cy.get('#moreChannelsList').then((el) => {
+                            return el[0].children.length === 2;
+                        }));
 
-                    // * Verify channel name is highlighted and reader reads the channel name and channel description
-                    cy.get('#moreChannelsList').children().eq(0).as('selectedRow');
-                    cy.get('@selectedRow').within(() => {
-                        cy.get('.more-modal__description').invoke('text').then((description) => {
-                            cy.get('.more-modal__details button').
-                                should('have.class', 'a11y--active a11y--focused').invoke('text').then((channel) => {
-                                    selectedRowText = channel.toLowerCase() + ', ' + description.toLowerCase();
-                                    cy.get('.more-modal__details button').should('have.attr', 'aria-label', selectedRowText);
-                                });
+                        // # Focus on the Create Channel button and TAB twice
+                        cy.get('#createNewChannel').focus().tab().tab();
+
+                        // * Verify channel name is highlighted and reader reads the channel name and channel description
+                        cy.get('#moreChannelsList').children().eq(0).within(() => {
+                            const selectedChannel = getChannelAriaLabel(channel);
+                            cy.findByLabelText(selectedChannel).should('have.class', 'a11y--active a11y--focused');
+
+                            // * Press Tab and verify if focus changes to Join button
+                            cy.focused().tab();
+                            cy.findByText('Join').parent().should('have.class', 'a11y--active a11y--focused');
+
+                            // * Verify previous button should no longer be focused
+                            cy.findByLabelText(selectedChannel).should('not.have.class', 'a11y--active a11y--focused');
                         });
 
-                        // * Press Tab and verify if focus changes to Join button
+                        // * Press Tab again and verify if focus changes to next row
                         cy.focused().tab();
-                        cy.get('.more-modal__actions button').should('have.class', 'a11y--active a11y--focused');
-
-                        // * Verify previous button should no longer be focused
-                        cy.get('.more-modal__details button').should('not.have.class', 'a11y--active a11y--focused');
+                        cy.findByLabelText(getChannelAriaLabel(otherChannel)).should('have.class', 'a11y--active a11y--focused');
                     });
-
-                    // * Press Tab again and verify if focus changes to next row
-                    cy.focused().tab();
-                    cy.get('#moreChannelsList').children().eq(1).as('selectedRow').
-                        get('.more-modal__details button').
-                        should('have.class', 'a11y--active a11y--focused');
-                });
             });
         });
     });
