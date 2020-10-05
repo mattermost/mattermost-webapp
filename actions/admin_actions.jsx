@@ -7,7 +7,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
