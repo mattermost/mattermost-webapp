@@ -23,6 +23,7 @@ exports[`components/analytics/line_chart.tsx should match snapshot, loaded with 
             "test3",
           ]
         }
+        data-testid="test"
         height={400}
         width={600}
       />
