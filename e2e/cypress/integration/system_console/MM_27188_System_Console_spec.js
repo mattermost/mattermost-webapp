@@ -13,6 +13,15 @@ import {
     promoteToChannelOrTeamAdmin,
 } from '../enterprise/system_console/channel_moderation/helpers.js';
 
+// # Uninstall all plugins
+const uninstallAllPlugins = () => {
+    cy.apiGetAllPlugins().then(({plugins}) => {
+        const {active, inactive} = plugins;
+        inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+        active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+    });
+}
+
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
@@ -20,113 +29,82 @@ const goToAdminConsole = () => {
 };
 
 describe('System console', () => {
-    it('MM-T897 - Focus should be in System Console search box on opening System Console or refreshing pages in System Console', () => {
+    it('MM-T897_1 - Focus should be in System Console search box on opening System Console or refreshing pages in System Console', () => {
+        const pageIds = ['reporting\\/system_analytics', 'reporting\\/team_statistics', 'reporting\\/server_logs', 'user_management\\/users', 'user_management\\/teams'];
         goToAdminConsole();
 
         // * Assert the ID of the element is the ID of admin sidebar filter
         cy.focused().should('have.id', 'adminSidebarFilter');
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // # Go to another page
-        cy.get('#reporting\\/system_analytics').click();
+        pageIds.forEach((id) => {
+            // # Go to another page
+            cy.get(`#${id}`).click();
 
-        // * Ensure focus is lost
-        cy.focused().should('not.have.id', 'adminSidebarFilter');
+            // * Ensure focus is lost
+            cy.focused().should('not.have.id', 'adminSidebarFilter');
 
-        // *Reload and ensure the focus is back on the search componenet
-        cy.reload();
-        cy.focused().should('have.id', 'adminSidebarFilter');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        // ------------
-
-        // # Go to another page
-        cy.findByTestId('reporting.team_statistics').click();
-
-        // * Ensure focus is lost
-        cy.focused().should('not.have.id', 'adminSidebarFilter');
-
-        // *Reload and ensure the focus is back on the search componenet
-        cy.reload();
-        cy.focused().should('have.id', 'adminSidebarFilter');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        // ------------
-
-        // # Go to another page
-        cy.get('#reporting\\/server_logs').click();
-
-        // * Ensure focus is lost
-        cy.focused().should('not.have.id', 'adminSidebarFilter');
-
-        // *Reload and ensure the focus is back on the search componenet
-        cy.reload();
-        cy.focused().should('have.id', 'adminSidebarFilter');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        // ------------
-
-        // # Go to another page
-        cy.get('#user_management\\/users').click();
-
-        // * Ensure focus is lost
-        cy.focused().should('not.have.id', 'adminSidebarFilter');
-
-        // *Reload and ensure the focus is back on the search componenet
-        cy.reload();
-        cy.focused().should('have.id', 'adminSidebarFilter');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        // ------------
-
-        // # Go to another page
-        cy.get('#user_management\\/teams').click();
-
-        // * Ensure focus is lost
-        cy.focused().should('not.have.id', 'adminSidebarFilter');
-
-        // *Reload and ensure the focus is back on the search componenet
-        cy.reload();
-        cy.focused().should('have.id', 'adminSidebarFilter');
+            // * Reload and ensure the focus is back on the search component
+            cy.reload();
+            cy.focused().should('have.id', 'adminSidebarFilter');
+            cy.wait(TIMEOUTS.ONE_SEC);
+        });
     });
 
-    it('MM-T897 - System Console menu footer should not cut off at the bottom', () => {
+    it('MM-T897_2 - System Console menu footer should not cut off at the bottom', () => {
         goToAdminConsole();
 
-        // * Scroll to it and ensure it can be clicked
+        // * Scroll to the last item of the page and ensure it can be clicked
         cy.findByTestId('experimental.bleve').scrollIntoView().click();
     });
 
-    // ENSURE ANTIVIRUS, AUTOLINK AND AWS SNS ARE INSTALLED PRIOR TO RUNNING THIS TEST!
     it('MM-T898 - Individual plugins can be searched for via the System Console search box', () => {
         goToAdminConsole();
+
+        // # Enable Plugin Marketplace and Remote Marketplace
+        cy.apiUpdateConfig({
+            PluginSettings: {
+                Enable: true,
+                EnableMarketplace: true,
+                EnableRemoteMarketplace: true,
+                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+            },
+        });
+
+        cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-antivirus/releases/download/v0.1.2/antivirus-0.1.2.tar.gz', true);
+        cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-autolink/releases/download/v1.2.1/mattermost-autolink-1.2.1.tar.gz', true);
+        cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-aws-SNS/releases/download/v1.1.0/com.mattermost.aws-sns-1.1.0.tar.gz', true);
+
+        cy.reload();
 
         // # Type first plugin name
         cy.get('#adminSidebarFilter').type('Anti');
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // * ENsure anti virus plugin is highlighted
+        // * Ensure anti virus plugin is highlighted
         cy.get('#plugins\\/plugin_antivirus').then((el) => {
             expect(el[0].innerHTML).includes('markjs');
         });
 
-        // # Type first plugin name
+        // # Type second plugin name
         cy.get('#adminSidebarFilter').clear().type('Auto');
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // * ENsure autolink plugin is highlighted
+        // * Ensure autolink plugin is highlighted
         cy.get('#plugins\\/plugin_mattermost-autolink').then((el) => {
             expect(el[0].innerHTML).includes('markjs');
         });
 
-        // # Type first plugin name
+        // # Type third plugin name
         cy.get('#adminSidebarFilter').clear().type('AWS SN');
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // * ENsure aws sns plugin is highlighted
+        // * Ensure aws sns plugin is highlighted
         cy.get('#plugins\\/plugin_com\\.mattermost\\.aws-sns').then((el) => {
             expect(el[0].innerHTML).includes('markjs');
         });
+
+        uninstallAllPlugins();
     });
 
     it('MM-T1634 - Search box should remain visible / in the header as you scroll down the settings list in the left-hand-side', () => {
@@ -136,7 +114,7 @@ describe('System console', () => {
         cy.findByTestId('experimental.bleve').scrollIntoView().click();
 
         // * To check if the sidebar is in view, try to click it
-        cy.get('#adminSidebarFilter').click();
+        cy.get('#adminSidebarFilter').should('be.visible').click();
     });
 
     it('MM-T899 - Edition and License: Verify Privacy Policy link points to correct URL', () => {
@@ -151,7 +129,7 @@ describe('System console', () => {
     it('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
         goToAdminConsole();
 
-        // * Find site stastics and click it
+        // * Find site statistics and click it
         cy.findByTestId('reporting.system_analytics').click();
 
         let totalPostsDataSet;
@@ -179,6 +157,8 @@ describe('System console', () => {
         goToAdminConsole();
         cy.get('#reporting\\/team_statistics').click();
         cy.wait(TIMEOUTS.ONE_SEC);
+
+        // * Verify Teams are listed in alphabetical order, regardless of who created the team
         cy.findByTestId('teamFilter').then((el) => {
             // # Get the options and append them to a unsorted array (assume unsorted)
             const unsortedOptionsText = [];
@@ -271,69 +251,24 @@ describe('System console', () => {
             // * Once in site statistics, check and make sure the boxes are truncated or not according to image on test
             cy.visit('/admin_console/reporting/system_analytics');
 
-            cy.findByTestId('totalActiveUsersTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
+            const testIds = ['totalActiveUsersTitle', 'totalTeamsTitle', 'totalChannelsTitle', 'totalPostsTitle', 'totalSessionsTitle', 'totalCommandsTitle', 'incomingWebhooksTitle' ,
+                             'outgoingWebhooksTitle', 'dailyActiveUsersTitle', 'monthlyActiveUsersTitle', 'websocketConnsTitle', 'masterDbConnsTitle', 'replicaDbConnsTitle']
 
-            cy.findByTestId('totalTeamsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
 
-            cy.findByTestId('totalChannelsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
+            
+            testIds.forEach((id) => {
+                let expectedResult = false;
+                if (id === 'totalCommandsTitle' || id === 'masterDbConnsTitle' || id === 'replicaDbConnsTitle') {
+                    expectedResult = true;
+                }
 
-            cy.findByTestId('totalPostsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
+                cy.findByTestId(id).then((el) => {
+                    const titleSpan = el[0].childNodes[0];
 
-            cy.findByTestId('totalSessionsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
-
-            cy.findByTestId('totalCommandsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(true);
-            });
-
-            cy.findByTestId('incomingWebhooksTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
-
-            cy.findByTestId('outgoingWebhooksTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
-
-            cy.findByTestId('dailyActiveUsersTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
-
-            cy.findByTestId('monthlyActiveUsersTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
-
-            cy.findByTestId('websocketConnsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(false);
-            });
-
-            cy.findByTestId('masterDbConnsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(true);
-            });
-
-            cy.findByTestId('replicaDbConnsTitle').then((el) => {
-                const titleSpan = el[0].childNodes[0];
-                expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(true);
+                    // * All the boxes on System Statistics page should have UNTRUNCATED titles when in french except Total Commands, Master DB Conns, and Replica DB Conns. 
+                    // * The following asserts if the they are truncated or not. If false, it means they are not truncated. If true, they are truncated.
+                    expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(expectedResult);
+                });
             });
         });
     });
