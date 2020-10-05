@@ -22,9 +22,9 @@ function mapStateToProps(state) {
     const permalinkRedirectTeam = getTeam(state, teamId);
 
     return {
-        diagnosticsEnabled: config.DiagnosticsEnabled === 'true',
+        telemetryEnabled: config.DiagnosticsEnabled === 'true',
         noAccounts: config.NoAccounts === 'true',
-        diagnosticId: config.DiagnosticId,
+        telemetryId: config.DiagnosticId,
         permalinkRedirectTeamName: permalinkRedirectTeam ? permalinkRedirectTeam.name : '',
         showTermsOfService,
         plugins,
