@@ -9,6 +9,8 @@
 
 // Group: @bot_accounts
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {generateRandomUser} from '../../support/api/user';
 
 describe('Managing bot accounts', () => {
@@ -46,7 +48,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse').click();
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
@@ -55,7 +57,7 @@ describe('Managing bot accounts', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Assert that adding bots is not possible
-        cy.get('#addBotAccount').should('not.be.visible');
+        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
     });
 
     it('MM-T1852 Bot creation via API is not permitted when Enable Bot Account Creation is set to False', () => {
@@ -63,7 +65,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse').click();
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
@@ -92,13 +94,13 @@ describe('Managing bot accounts', () => {
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse').click();
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
 
         // # Try to remove the plugin, just in case
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll', false);
+        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
 
         // # Upload and enable "matterpoll" plugin
         cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
@@ -109,7 +111,7 @@ describe('Managing bot accounts', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Validate that plugin installed ok
-        cy.contains('Matterpoll (@matterpoll)');
+        cy.contains('Matterpoll (@matterpoll)', {timeout: TIMEOUTS.ONE_MIN});
     });
 
     it('MM-T1854 Bots can be create when Enable Bot Account Creation is set to True.', () => {
@@ -117,13 +119,13 @@ describe('Managing bot accounts', () => {
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // * Check that creation is enabled
-        cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue').should('be.checked');
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue', {timeout: TIMEOUTS.ONE_MIN}).should('be.checked');
 
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Assert that adding bots is possible
-        cy.get('#addBotAccount').should('be.visible');
+        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
     it('MM-T1855 Bot cannot login', () => {
@@ -131,7 +133,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/login');
 
         // # Enter bot name in the email field
-        cy.findByPlaceholderText('Email, Username or AD/LDAP Username').clear().type(botName);
+        cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);
 
         // # Enter random password in the password field
         cy.findByPlaceholderText('Password').clear().type('invalidPassword@#%(^!');
@@ -150,11 +152,11 @@ describe('Managing bot accounts', () => {
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
-        // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botName})`).then((el) => {
-            // # Make sure it's on the screen
-            cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+        // # Filter bot
+        cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(`${botName}`);
 
+        // * Check that the previously created bot is listed
+        cy.findByText(`Test Bot (@${botName})`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().then((el) => {
             // # Click the disable button
             cy.wrap(el[0].parentElement.parentElement).find('button:nth-child(3)').should('be.visible').click();
 
@@ -171,21 +173,21 @@ describe('Managing bot accounts', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
-        cy.findByText(`Test Bot (@${botName})`).then((el) => {
-            // # Make sure it's on the screen
-            cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
-
+        cy.findByText(`Test Bot (@${botName})`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().then((el) => {
             // # Click the disable button
             cy.wrap(el[0].parentElement.parentElement).find('button:nth-child(3)').should('be.visible').click();
+        });
 
-            // # Re-enable the bot
-            cy.get('.bot-list__disabled').findByText(`Test Bot (@${botName})`).then((el2) => {
-                // # Click the enable button
-                cy.wrap(el2[0].parentElement.parentElement).find('button:nth-child(1)').should('be.visible').click();
+        // # Filter bot
+        cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(`${botName}`);
 
-                // * Check that the bot is in the 'enabled' section
-                cy.get('.bot-list__disabled').siblings(':not([class])').scrollIntoView().findByText(`Test Bot (@${botName})`).scrollIntoView().should('be.visible');
-            });
+        // # Re-enable the bot
+        cy.findByText(`Test Bot (@${botName})`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().then((el) => {
+            // # Click the enable button
+            cy.wrap(el[0].parentElement.parentElement).find('button:nth-child(1)').should('be.visible').click();
+
+            // * Check that the bot is in the 'enabled' section
+            cy.get('.bot-list__disabled').siblings(':not([class])').scrollIntoView().findByText(`Test Bot (@${botName})`).scrollIntoView().should('be.visible');
         });
     });
 
@@ -197,7 +199,7 @@ describe('Managing bot accounts', () => {
         cy.visit(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
-        cy.findByText(`Hello Bot (@${botName2})`).then((el) => {
+        cy.findByText(`Hello Bot (@${botName2})`, {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             // # Make sure it's on the screen
             cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
 
@@ -229,7 +231,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
-        cy.findByTestId('ServiceSettings.DisableBotsWhenOwnerIsDeactivatedfalse').click();
+        cy.findByTestId('ServiceSettings.DisableBotsWhenOwnerIsDeactivatedfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
@@ -253,7 +255,7 @@ describe('Managing bot accounts', () => {
             cy.visit(`/${newTeam.name}/integrations/bots`);
 
             // # Search for the other bot
-            cy.get('#searchInput').type('Bot That Stays Enabled');
+            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type('Bot That Stays Enabled');
 
             // * Validate that the plugin is still active, even though it's owner is disabled
             cy.get('.bot-list__disabled').should('not.be.visible');
@@ -294,7 +296,7 @@ describe('Managing bot accounts', () => {
             cy.visit(`/${newTeam.name}/integrations/bots`);
 
             // # Search for the other bot
-            cy.get('#searchInput').type('Bot That Stays Enabled');
+            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type('Bot That Stays Enabled');
 
             // * Validate that the plugin is disabled since it's owner is deactivate
             cy.get('.bot-list__disabled').scrollIntoView().should('be.visible');
