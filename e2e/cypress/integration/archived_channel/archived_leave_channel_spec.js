@@ -161,39 +161,40 @@ describe('Leave an archived channel', () => {
         cy.apiCreateChannel(testTeam.id, 'archived-is-not', 'archived-is-not');
 
         // # Create another channel with text and archive it
-        createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]);
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        createArchivedChannel({name: 'archive-', teamId: testTeam.id, teamName: testTeam.name}, [messageText]).then(() => {
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
 
-        // # Search for content from an archived channel
-        cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+            // # Search for content from an archived channel
+            cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
 
-        // # Open the channel from search results
-        cy.get('#searchContainer').should('be.visible');
-        cy.get('#loadingSpinner').should('not.be.visible');
+            // # Open the channel from search results
+            cy.get('#searchContainer').should('be.visible');
+            cy.get('#loadingSpinner').should('not.be.visible');
 
-        cy.get('a.search-item__jump').first().click();
+            cy.get('a.search-item__jump').first().click();
 
-        cy.url().should('satisfy', (testUrl) => {
-            return testUrl.endsWith(`${testTeam.name}/channels/${testChannel.name}`); // wait for permalink to turn into channel url
+            cy.url().should('satisfy', (testUrl) => {
+                return testUrl.endsWith(`${testTeam.name}/channels/${testChannel.name}`); // wait for permalink to turn into channel url
+            });
+
+            // # Search for content from a different archived channel
+            cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
+
+            // # Open that channel from search results
+            cy.get('#searchContainer').should('be.visible');
+
+            cy.get('a.search-item__jump').first().click();
+
+            cy.url().should('satisfy', (testUrl) => {
+                return testUrl.match(/\/team-\w+\/channels\/archive-\w+$/); // wait for permalink to turn into channel url
+            });
+
+            // # Select "Close Channel"
+            cy.get('#channelArchivedMessage button').click();
+
+            // * User is returned to previously viewed (non-archived) channel
+            cy.url().should('include', `${testTeam.name}/channels/off-topic`);
         });
-
-        // # Search for content from a different archived channel
-        cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
-
-        // # Open that channel from search results
-        cy.get('#searchContainer').should('be.visible');
-
-        cy.get('a.search-item__jump').first().click();
-
-        cy.url().should('satisfy', (testUrl) => {
-            return testUrl.match(/\/team-\w+\/channels\/archive-\w+$/); // wait for permalink to turn into channel url
-        });
-
-        // # Select "Close Channel"
-        cy.get('#channelArchivedMessage button').click();
-
-        // * User is returned to previously viewed (non-archived) channel
-        cy.url().should('include', `${testTeam.name}/channels/off-topic`);
     });
 
     it('MM-T1674 CTRL/CMD+K list public archived channels you are a member of', () => {
@@ -241,7 +242,6 @@ describe('Leave an archived channel', () => {
 
         // # As another user, create or locate a private channel that the test user is not a member of and archive the channel
         cy.apiLogout();
-        cy.get('#loginButton').should('be.visible');
         cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
@@ -253,23 +253,54 @@ describe('Leave an archived channel', () => {
                 teamName: testTeam.name,
             },
             [`some text message ${getRandomId()}`],
-        );
+        ).then(() => {
+            // # As the test user, select CTRL/CMD+K (or ⌘+k) to open the channel switcher
+            cy.apiLogout();
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.contains('#channelHeaderTitle', 'Off-Topic');
+            cy.typeCmdOrCtrl().type('K', {release: true});
 
-        // # As the test user, select CTRL/CMD+K (or ⌘+k) to open the channel switcher
-        cy.apiLogout();
-        cy.get('#loginButton').should('be.visible');
-        cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
-        cy.contains('#channelHeaderTitle', 'Off-Topic');
-        cy.typeCmdOrCtrl().type('K', {release: true});
+            // # Start typing the name of a private channel located above
+            cy.get('#quickSwitchInput').type('archived-');
 
-        // # Start typing the name of a private channel located above
-        cy.get('#quickSwitchInput').type('archived-');
+            cy.get('#suggestionList').should('be.visible');
 
-        cy.get('#suggestionList').should('be.visible');
+            // * Private archived channels you are not a member above are not available on channel switcher
+            cy.contains('#suggestionList', otherChannelName).should('not.exist');
+            cy.get('#quickSwitchModalLabel button.close').click();
+        });
+    });
 
-        // * Private archived channels you are not a member above are not available on channel switcher
-        cy.contains('#suggestionList', otherChannelName).should('not.exist');
+    it('MM-T1677 Archived channels are not shown as unread in channel switcher', () => {
+        // # As the test user join a public channel then open any other channel in the drawer
+        cy.uiCreateChannel('archived-not-read').then(({name}) => {
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+            // # As another user post in the channel from step 1. then archive it
+            cy.apiLogout();
+            cy.apiLogin(otherUser);
+            cy.visit(`/${testTeam.name}/channels/${name}`);
+            cy.postMessage('this is an message not read by the test user');
+            cy.uiArchiveChannel().then(() => {
+                cy.apiLogout();
+                cy.apiLogin(testUser);
+                cy.visit(`/${testTeam.name}/channels/off-topic`);
+                cy.contains('#channelHeaderTitle', 'Off-Topic');
+
+                // # As the test user hit CTRL/CMD+K (or ⌘+k) and locate the channel
+                cy.typeCmdOrCtrl().type('K', {release: true});
+                cy.get('#quickSwitchInput').type('archived-');
+
+                // * Channel does not appear at the top with other unread channels
+                cy.get('#suggestionList').should('be.visible');
+                cy.findByTestId(name).should('be.visible');
+                cy.contains('div.suggestion-list__divider', 'Unread Channels').should('not.be.visible');
+                cy.contains('div.suggestion-list__divider', 'Archived Channels').should('be.visible');
+
+                cy.get('#quickSwitchModalLabel button.close').click();
+            });
+        });
     });
 });
 
@@ -291,5 +322,5 @@ function createArchivedChannel(channelOptions, messages, memberUsernames) {
         }
         return cy.uiArchiveChannel();
     });
-    return channelName;
+    return cy.wrap({channelName});
 }
