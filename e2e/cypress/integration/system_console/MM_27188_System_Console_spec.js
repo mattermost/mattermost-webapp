@@ -20,7 +20,7 @@ const uninstallAllPlugins = () => {
         inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
         active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
     });
-}
+};
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
@@ -251,11 +251,9 @@ describe('System console', () => {
             // * Once in site statistics, check and make sure the boxes are truncated or not according to image on test
             cy.visit('/admin_console/reporting/system_analytics');
 
-            const testIds = ['totalActiveUsersTitle', 'totalTeamsTitle', 'totalChannelsTitle', 'totalPostsTitle', 'totalSessionsTitle', 'totalCommandsTitle', 'incomingWebhooksTitle' ,
-                             'outgoingWebhooksTitle', 'dailyActiveUsersTitle', 'monthlyActiveUsersTitle', 'websocketConnsTitle', 'masterDbConnsTitle', 'replicaDbConnsTitle']
+            const testIds = ['totalActiveUsersTitle', 'totalTeamsTitle', 'totalChannelsTitle', 'totalPostsTitle', 'totalSessionsTitle', 'totalCommandsTitle', 'incomingWebhooksTitle',
+                'outgoingWebhooksTitle', 'dailyActiveUsersTitle', 'monthlyActiveUsersTitle', 'websocketConnsTitle', 'masterDbConnsTitle', 'replicaDbConnsTitle'];
 
-
-            
             testIds.forEach((id) => {
                 let expectedResult = false;
                 if (id === 'totalCommandsTitle' || id === 'masterDbConnsTitle' || id === 'replicaDbConnsTitle') {
@@ -265,7 +263,7 @@ describe('System console', () => {
                 cy.findByTestId(id).then((el) => {
                     const titleSpan = el[0].childNodes[0];
 
-                    // * All the boxes on System Statistics page should have UNTRUNCATED titles when in french except Total Commands, Master DB Conns, and Replica DB Conns. 
+                    // * All the boxes on System Statistics page should have UNTRUNCATED titles when in french except Total Commands, Master DB Conns, and Replica DB Conns.
                     // * The following asserts if the they are truncated or not. If false, it means they are not truncated. If true, they are truncated.
                     expect(titleSpan.scrollWidth > titleSpan.clientWidth).equal(expectedResult);
                 });
