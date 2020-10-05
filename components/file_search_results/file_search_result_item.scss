@@ -77,9 +77,7 @@
             display: flex
         }
         &:hover {
-            background-color: rgba(var(--button-bg-rgb), 0.08);
-            color: var(--button-bg);
-            fill: var(--button-bg);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
         }
     }
     .MenuWrapper {
