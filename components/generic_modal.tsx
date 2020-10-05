@@ -19,6 +19,7 @@ type Props = {
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
     isConfirmDisabled?: boolean;
+    id: string;
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
 };
@@ -30,6 +31,7 @@ type State = {
 export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
         show: true,
+        id: 'genericModal',
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
     };
@@ -126,6 +128,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 restoreFocus={true}
                 role='dialog'
                 aria-labelledby='genericModalLabel'
+                id={this.props.id}
             >
                 <Modal.Header
                     closeButton={true}

@@ -1220,7 +1220,7 @@ class CreatePost extends React.PureComponent {
                 placement='top'
                 screens={screens}
                 overlayClass='tip-overlay--chat'
-                diagnosticsTag='tutorial_tip_1_sending_messages'
+                telemetryTag='tutorial_tip_1_sending_messages'
             />
         );
     }
