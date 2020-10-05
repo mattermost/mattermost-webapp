@@ -9,7 +9,6 @@ import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/c
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import AlertBanner from 'components/alert_banner';
-import DropdownInput from 'components/dropdown_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import privateCloudImage from 'images/private-cloud-image.svg';
@@ -89,8 +88,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const [showDanger, setShowDanger] = useState(true);
     const [showWarning, setShowWarning] = useState(true);
     const [showInfo, setShowInfo] = useState(true);
-
-    const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
