@@ -20,7 +20,7 @@ import './plan_details.scss';
 
 const features = [
     localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
-    localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.9% uptime'),
+    localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
     localizeMessage('admin.billing.subscription.planDetails.features.selfServiceDocumentation', 'Self-Service documentation and forum support'),
     localizeMessage('admin.billing.subscription.planDetails.features.mfaAuthentication', 'Google, Gitlab, O365 & MFA Authentication'),
     localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),

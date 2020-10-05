@@ -215,7 +215,7 @@
   "admin.billing.subscription.planDetails.currentPlan": "Current Plan",
   "admin.billing.subscription.planDetails.endDate": "End Date: ",
   "admin.billing.subscription.planDetails.features.10GBstoragePerUser": "10 GB storage per user",
-  "admin.billing.subscription.planDetails.features.99uptime": "99.9% uptime",
+  "admin.billing.subscription.planDetails.features.99uptime": "99.0% uptime",
   "admin.billing.subscription.planDetails.features.guestAccounts": "Guest Accounts",
   "admin.billing.subscription.planDetails.features.mfaAuthentication": "Google, Gitlab, O365 & MFA Authentication",
   "admin.billing.subscription.planDetails.features.selfServiceDocumentation": "Self-Service documentation and forum support",
