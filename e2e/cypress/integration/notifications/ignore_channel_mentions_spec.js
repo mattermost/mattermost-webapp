@@ -9,6 +9,8 @@
 
 // Group: @notifications
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function addNumberOfUsersToChannel(num = 1) {
     // # Then click it to access the drop-down menu
     cy.get('#channelHeaderTitle').click();
@@ -79,18 +81,18 @@ describe('CS15445 Join/leave messages', () => {
             });
 
             // # Create two channels
-            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((res) => {
-                channelA = res.body;
+            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+                channelA = channel;
             });
-            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((res) => {
-                channelB = res.body;
+            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+                channelB = channel;
             });
 
             cy.apiLogin(user);
         });
     });
 
-    it('MM-T567 - Turn on Ignore mentions for @channel, @here and @all', () => {
+    it('MM-T567 - Channel Notifications - Turn on Ignore mentions for @channel, @here and @all', () => {
         cy.visit(`/${testTeam.name}/channels/${channelA.name}`);
 
         // # Add users to channel
@@ -113,11 +115,11 @@ describe('CS15445 Join/leave messages', () => {
         cy.postMessageAs({sender: userB, message: '@here test', channelId: channelA.id});
 
         // * Assert the channel is unread with no mentions
-        cy.get(`#sidebarItem_${channelA.name}`).should('have.class', 'unread-title');
+        cy.get(`#sidebarItem_${channelA.name}`).wait(TIMEOUTS.ONE_SEC).should('have.class', 'unread-title');
         cy.get(`#sidebarItem_${channelA.name} > #unreadMentions`).should('not.exist');
     });
 
-    it('MM-T568 - Turn off Ignore mentions for @channel, @here and @all', () => {
+    it('MM-T568 - Channel Notifications - Turn off Ignore mentions for @channel, @here and @all', () => {
         cy.visit(`/${testTeam.name}/channels/${channelA.name}`);
 
         // # Unset ignore mentions
@@ -133,6 +135,6 @@ describe('CS15445 Join/leave messages', () => {
 
         // * Assert the channel is unread with 3 mentions
         cy.get(`#sidebarItem_${channelA.name}`).should('have.class', 'unread-title');
-        cy.get(`#sidebarItem_${channelA.name} > #unreadMentions`).should('exist').should('contain', '3');
+        cy.get(`#sidebarItem_${channelA.name} > #unreadMentions`).should('exist').wait(TIMEOUTS.ONE_SEC).should('contain', '3');
     });
 });
