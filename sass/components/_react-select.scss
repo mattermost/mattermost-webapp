@@ -71,8 +71,7 @@
     }
 
     .react-select__indicator-separator {
-        background-color: rgba(var(--center-channel-color-rgb));
-        opacity: .4;
+        background-color: rgba(var(--center-channel-color-rgb), 0.40);
     }
 
     .react-select__indicator {
