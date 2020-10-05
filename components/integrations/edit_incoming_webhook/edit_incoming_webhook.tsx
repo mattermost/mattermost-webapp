@@ -17,14 +17,47 @@ const FOOTER = {id: t('update_incoming_webhook.update'), defaultMessage: 'Update
 const LOADING = {id: t('update_incoming_webhook.updating'), defaultMessage: 'Updating...'};
 
 type Props = {
+
+    /**
+     * The current team
+     */
     team: Team;
+
+    /**
+     * The incoming webhook to edit
+     */
     hook?: IncomingWebhook;
+
+    /**
+     * The id of the incoming webhook to edit
+     */
     hookId: string;
+
+    /**
+     * Whether or not incoming webhooks are enabled.
+     */
     enableIncomingWebhooks: boolean;
+
+    /**
+     * Whether to allow configuration of the default post username.
+     */
     enablePostUsernameOverride: boolean;
+
+    /**
+     * Whether to allow configuration of the default post icon.
+     */
     enablePostIconOverride: boolean;
+
     actions: {
+
+        /**
+         * The function to call to update an incoming webhook
+         */
         updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
+
+        /**
+         * The function to call to get an incoming webhook
+         */
         getIncomingHook: (hookId: string) => Promise<ActionResult>;
     };
 };
