@@ -39,7 +39,7 @@ describe('Integrations', () => {
         // # return to channel
         cy.visit('/', testTeam);
 
-        // # post first message and assert token1 is present in the message
+        // * post first message and assert token1 is present in the message
         cy.postMessage('/regen testing');
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.getLastPostId().then((lastPostId) => {
@@ -56,8 +56,10 @@ describe('Integrations', () => {
             token2 = number2.text().split(' ').pop();
         });
 
-        // # post second message and assert token2 is present in the message
+        // return to channel
         cy.visit('/', testTeam);
+
+        // * post second message and assert token2 is present in the message
         cy.postMessage('/regen testing 2nd message');
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.getLastPostId().then((lastPostId) => {
