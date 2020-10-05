@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
@@ -16,42 +17,44 @@ import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
 
-export default class PostListRow extends React.PureComponent {
-    static propTypes = {
-        listId: PropTypes.string.isRequired,
-        previousListId: PropTypes.string,
-        fullWidth: PropTypes.bool,
-        shouldHighlight: PropTypes.bool,
-        loadOlderPosts: PropTypes.func,
-        loadNewerPosts: PropTypes.func,
-        togglePostMenu: PropTypes.func,
+export type PostListRowProps = {
+    channel?: Channel;
+    listId: string,
+    previousListId?: string,
+    fullWidth?: boolean,
+    shouldHighlight?: boolean,
+    loadOlderPosts: () => void,
+    loadNewerPosts: () => void,
+    togglePostMenu: () => void,
+
+    /**
+     * To Check if the current post is last in the list
+     */
+    isLastPost: boolean,
+
+    /**
+     * To check if the state of emoji for last message and from where it was emitted
+     */
+    shortcutReactToLastPostEmittedFrom: string,
+
+    /**
+     * is used for hiding animation of loader
+     */
+    loadingNewerPosts: boolean,
+    loadingOlderPosts: boolean,
+
+    actions: {
 
         /**
-         * To Check if the current post is last in the list
-         */
-        isLastPost: PropTypes.bool,
+          * Function to set or unset emoji picker for last message
+          */
+        emitShortcutReactToLastPostFrom: (location: string) => void
+    },
 
-        /**
-         * To check if the state of emoji for last message and from where it was emitted
-         */
-        shortcutReactToLastPostEmittedFrom: PropTypes.string,
+}
 
-        /**
-         * is used for hiding animation of loader
-         */
-        loadingNewerPosts: PropTypes.bool,
-        loadingOlderPosts: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to set or unset emoji picker for last message
-             */
-            emitShortcutReactToLastPostFrom: PropTypes.func,
-        }),
-    }
-
-    blockShortcutReactToLastPostForNonMessages(listId) {
+export default class PostListRow extends React.PureComponent<PostListRowProps> {
+    blockShortcutReactToLastPostForNonMessages(listId: string) {
         const {actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
         if (isIdNotPost(listId)) {
@@ -60,7 +63,7 @@ export default class PostListRow extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: PostListRowProps) {
         const {listId, isLastPost, shortcutReactToLastPostEmittedFrom} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&

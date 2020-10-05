@@ -14,7 +14,7 @@ import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {Constants, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import * as AdminActions from 'actions/admin_actions.jsx';
 
 const StatTypes = Constants.StatTypes;
@@ -26,7 +26,7 @@ import ErrorLink from 'components/error_page/error_link';
 
 type Props = {
     user: UserProfile;
-    diagnosticId?: string;
+    telemetryId?: string;
     show: boolean;
     closeParentComponent?: () => Promise<void>;
     stats?: Dictionary<number | AnalyticsRow[]>;
@@ -127,7 +127,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         mailBody += 'Site URL ' + getSiteURL();
         mailBody += '\r\n';
 
-        mailBody += 'Diagnostic Id ' + this.props.diagnosticId;
+        mailBody += 'Telemetry Id ' + this.props.telemetryId;
         mailBody += '\r\n';
 
         mailBody += 'If you have any additional inquiries, please contact support@mattermost.com';
