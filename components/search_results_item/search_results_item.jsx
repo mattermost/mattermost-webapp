@@ -24,6 +24,7 @@ import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import FileSearchResultItem from 'components/file_search_results/file_search_result_item';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -225,8 +226,22 @@ class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived} = this.props;
+        const {post, fileInfo, channelIsArchived} = this.props;
         const channelName = this.getChannelName();
+        if (fileInfo) {
+            const currentFileDay = Utils.getDateForUnixTicks(fileInfo.create_at);
+            return (
+                <div
+                    data-testid='search-item-container'
+                    className='search-item__container'
+                >
+                    <DateSeparator date={currentFileDay}/>
+                    <FileSearchResultItem
+                        fileInfo={this.props.fileInfo}
+                    />
+                </div>
+            );
+        }
 
         let overrideUsername;
         let disableProfilePopover = false;

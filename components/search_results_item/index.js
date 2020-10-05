@@ -30,29 +30,32 @@ function mapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
-        const config = getConfig(state);
-        const preferences = getMyPreferences(state);
-        const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
         const {post} = ownProps;
-        const user = getUser(state, post.user_id);
-        const channel = getChannel(state, post.channel_id) || {delete_at: 0};
-        const directTeammate = getDirectTeammate(state, channel.id);
+        if (post) {
+            const config = getConfig(state);
+            const preferences = getMyPreferences(state);
+            const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+            const user = getUser(state, post.user_id);
+            const channel = getChannel(state, post.channel_id) || {delete_at: 0};
+            const directTeammate = getDirectTeammate(state, channel.id);
 
-        return {
-            createAriaLabel: createAriaLabelForPost(state, post),
-            channelId: channel.id,
-            channelName: channel.display_name,
-            channelType: channel.type,
-            channelIsArchived: channel.delete_at !== 0,
-            currentTeamName: getCurrentTeam(state).name,
-            commentCountForPost: getCommentCountForPost(state, {post}),
-            enablePostUsernameOverride,
-            isFlagged: isPostFlagged(post.id, preferences),
-            isBot: user ? user.is_bot : false,
-            directTeammate,
-            displayName: getDisplayNameByUser(state, directTeammate),
-            replyCount: getReplyCount(state, post),
-        };
+            return {
+                createAriaLabel: createAriaLabelForPost(state, post),
+                channelId: channel.id,
+                channelName: channel.display_name,
+                channelType: channel.type,
+                channelIsArchived: channel.delete_at !== 0,
+                currentTeamName: getCurrentTeam(state).name,
+                commentCountForPost: getCommentCountForPost(state, {post}),
+                enablePostUsernameOverride,
+                isFlagged: isPostFlagged(post.id, preferences),
+                isBot: user ? user.is_bot : false,
+                directTeammate,
+                displayName: getDisplayNameByUser(state, directTeammate),
+                replyCount: getReplyCount(state, post),
+            };
+        }
+        return {};
     };
 }
 

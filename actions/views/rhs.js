@@ -9,6 +9,7 @@ import {
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
+    searchFilesWithParams,
 } from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -107,7 +108,9 @@ export function performSearch(terms, isMentionSearch) {
         const userTimezone = getUserTimezone(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = (userCurrentTimezone.length > 0 ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
-        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}, true));
+        const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}, true));
+        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms, is_or_search: isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}, true));
+        return Promise.all([filesPromise, messagesPromise]);
     };
 }
 

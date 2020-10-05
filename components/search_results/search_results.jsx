@@ -100,6 +100,7 @@ class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
+        fileResults: PropTypes.array,
         searchTerms: PropTypes.string,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
@@ -183,7 +184,13 @@ class SearchResults extends React.Component {
 
     render() {
         const results = this.props.results;
-        const noResults = (!results || results.length === 0);
+        const fileResults = this.props.fileResults;
+        let noResults = false;
+        if (this.state.searchType === 'messages') {
+            noResults = (!results || results.length === 0);
+        } else {
+            noResults = (!fileResults || fileResults.length === 0);
+        }
         const searchTerms = this.props.searchTerms;
 
         let ctls = null;
@@ -259,40 +266,77 @@ class SearchResults extends React.Component {
                 </div>
             );
         } else {
-            let sortedResults;
-            if (this.props.isPinnedPosts) {
-                sortedResults = [...results];
-                sortedResults.sort((postA, postB) => postB.create_at - postA.create_at);
-            } else {
-                sortedResults = results;
-            }
+            if (this.state.searchType === 'messages') {
+                let sortedResults;
+                if (this.props.isPinnedPosts) {
+                    sortedResults = [...results];
+                    sortedResults.sort((postA, postB) => postB.create_at - postA.create_at);
+                } else {
+                    sortedResults = results;
+                }
 
-            ctls = sortedResults.map((post, index) => {
-                return (
-                    <SearchResultsItem
-                        key={post.id}
-                        compactDisplay={this.props.compactDisplay}
-                        post={post}
-                        matches={this.props.matches[post.id]}
-                        term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
-                        isMentionSearch={this.props.isMentionSearch}
-                        a11yIndex={index}
-                        isFlaggedPosts={this.props.isFlaggedPosts}
-                        isPinnedPosts={this.props.isPinnedPosts}
-                    />
-                );
-            }, this);
+                ctls = sortedResults.map((post, index) => {
+                    return (
+                        <SearchResultsItem
+                            key={post.id}
+                            compactDisplay={this.props.compactDisplay}
+                            post={post}
+                            matches={this.props.matches[post.id]}
+                            term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
+                            isMentionSearch={this.props.isMentionSearch}
+                            a11yIndex={index}
+                            isFlaggedPosts={this.props.isFlaggedPosts}
+                            isPinnedPosts={this.props.isPinnedPosts}
+                        />
+                    );
+                }, this);
 
-            if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
-                loadingMorePostsComponent = (
-                    <div className='loading-screen'>
-                        <div className='loading__content'>
-                            <div className='round round-1'/>
-                            <div className='round round-2'/>
-                            <div className='round round-3'/>
+                if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+                    loadingMorePostsComponent = (
+                        <div className='loading-screen'>
+                            <div className='loading__content'>
+                                <div className='round round-1'/>
+                                <div className='round round-2'/>
+                                <div className='round round-3'/>
+                            </div>
                         </div>
-                    </div>
-                );
+                    );
+                }
+            } else {
+                let sortedResults;
+                if (this.props.isPinnedPosts) {
+                    sortedResults = [...fileResults];
+                    sortedResults.sort((fileA, fileB) => fileB.create_at - fileA.create_at);
+                } else {
+                    sortedResults = fileResults;
+                }
+
+                ctls = sortedResults.map((file, index) => {
+                    return (
+                        <SearchResultsItem
+                            key={file.id}
+                            compactDisplay={this.props.compactDisplay}
+                            fileInfo={file}
+                            term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
+                            isMentionSearch={this.props.isMentionSearch}
+                            a11yIndex={index}
+                            isFlaggedPosts={this.props.isFlaggedPosts}
+                            isPinnedPosts={this.props.isPinnedPosts}
+                        />
+                    );
+                }, this);
+
+                if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+                    loadingMorePostsComponent = (
+                        <div className='loading-screen'>
+                            <div className='loading__content'>
+                                <div className='round round-1'/>
+                                <div className='round round-2'/>
+                                <div className='round round-3'/>
+                            </div>
+                        </div>
+                    );
+                }
             }
         }
 
