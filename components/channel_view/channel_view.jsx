@@ -91,11 +91,11 @@ export default class ChannelView extends React.PureComponent {
             deferredPostView: ChannelView.createDeferredPostView(),
         };
 
-        this.channelView = React.createRef();
+        this.channelViewRef = React.createRef();
     }
 
     getChannelView = () => {
-        return this.channelView.current;
+        return this.channelViewRef.current;
     }
 
     onClickCloseChannel = () => {
@@ -223,7 +223,7 @@ export default class ChannelView extends React.PureComponent {
 
         return (
             <div
-                ref={this.channelView}
+                ref={this.channelViewRef}
                 id='app-content'
                 className='app__content'
             >
