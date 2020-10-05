@@ -29,6 +29,7 @@ describe('Messaging', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
+
     after(() => {
         // # Clean up - remove demo plugin
         cy.apiAdminLogin();
