@@ -153,8 +153,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                     id={'admin.billing.subscription.disclaimer'}
                                 />
                             </span>
+                            {'\u00A0'}
                             <a href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'>
-                                {'\u00A0'}
                                 <FormattedMessage
                                     defaultMessage={'See how billing works.'}
                                     id={'admin.billing.subscription.howItWorks'}

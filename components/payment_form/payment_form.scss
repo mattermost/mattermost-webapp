@@ -62,14 +62,12 @@
         }
 
         &.Input_fieldset___legend {
-            box-shadow: inset 0 0 0 2px transparent;
             >legend {
                 margin-left: 11px;
             }
         }
 
         &.Input_fieldset:focus-within {
-            border-color: transparent;
             box-shadow: inset 0 0 0 2px var(--button-bg);
             color: var(--button-bg);
             padding-top: 2px
@@ -78,7 +76,6 @@
 
         &.Input_fieldset___error {
             color: var(--error-text);
-            border-color: transparent;
             box-shadow: inset 0 0 0 1px var(--error-text);
             padding-top: 1px;
             padding-bottom: 1px;
