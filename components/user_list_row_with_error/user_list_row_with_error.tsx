@@ -45,7 +45,7 @@ type Props = {
     isDisabled?: boolean;
 }
 type State = {
-    error?: ServerError
+    error?: ServerError;
 }
 
 export default class UserListRowWithError extends React.PureComponent<Props, State> {
@@ -54,13 +54,13 @@ export default class UserListRowWithError extends React.PureComponent<Props, Sta
         this.state = {};
     }
 
-    onError = (errorObj: ServerError):void => {
+    onError = (errorObj: ServerError) => {
         this.setState({
             error: errorObj,
         });
     }
 
-    render():JSX.Element {
+    render(): JSX.Element {
         let buttons = null;
         if (this.props.actions) {
             buttons = this.props.actions.map((Action, index) => {
@@ -79,7 +79,7 @@ export default class UserListRowWithError extends React.PureComponent<Props, Sta
         }
 
         // QUICK HACK, NEEDS A PROP FOR TOGGLING STATUS
-        let email:string|null|JSX.Element = this.props.user.email;
+        let email: React.ReactNode = this.props.user.email;
         let emailStyle = 'more-modal__description';
         let status;
         if (this.props.user.is_bot) {
