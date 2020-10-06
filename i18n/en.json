@@ -226,6 +226,7 @@
   "admin.billing.subscription.privateCloudCard.description": "If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.",
   "admin.billing.subscription.privateCloudCard.title": "Looking for a high-trust private cloud?",
   "admin.billing.subscription.questions": "Questions?",
+  "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscriptions",
   "admin.billing.subscription.upgrade": "Upgrade",
   "admin.billing.subscription.upgradeCloudSubscription": "Upgrade your Mattermost Cloud Subscription",
