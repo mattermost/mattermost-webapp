@@ -57,8 +57,7 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.wrap(el[0].parentElement.parentElement).findByText('Edit').should('be.visible').click();
 
             // * Validate redirect to edit screen
-            cy.url().
-                should('include', `/${newTeam.name}/integrations/bots/edit`);
+            cy.url().should('include', `/${newTeam.name}/integrations/bots/edit`);
 
             // # type long string
             const longDescription = 'A'.repeat(1020); // 1024 is the limit
@@ -97,8 +96,7 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.wrap(el[0].parentElement.parentElement).findByText('Edit').should('be.visible').click();
 
             // * Validate redirect to edit screen
-            cy.url().
-                should('include', `/${newTeam.name}/integrations/bots/edit`);
+            cy.url().should('include', `/${newTeam.name}/integrations/bots/edit`);
 
             // # Select sysadmin
             cy.get('select').select('System Admin');
@@ -148,7 +146,7 @@ describe('Bot accounts - CRUD Testing', () => {
         cy.get('#doneButton').click();
     });
 
-    it('MM-T1844 Token is hidden whe you return to the page but ID is still visible', () => {
+    it('MM-T1844 Token is hidden when you return to the page but ID is still visible', () => {
         // # Create the bot and validate token is visible
 
         const botUsername = `bot-${getRandomId()}`;
@@ -228,7 +226,7 @@ describe('Bot accounts - CRUD Testing', () => {
             // # Click Delete button
             cy.wrap(el[0].parentElement.parentElement).findByText('Delete').should('be.visible').click();
 
-            // * Validate that delete button is visible and click it
+            // * Validate that confirmation dialog is visible and click the delete button
             cy.get('#confirmModalButton').should('be.visible').click();
 
             // * Check that token is not visible
@@ -236,7 +234,7 @@ describe('Bot accounts - CRUD Testing', () => {
         });
     });
 
-    it('MM-T1849 Create a Personal Accees Token when email config is invalid', () => {
+    it('MM-T1849 Create a Personal Access Token when email config is invalid', () => {
         // # Make sure that email is now functioning
         const newSettings = {
             EmailSettings: {
