@@ -29,7 +29,6 @@ exports[`PostBodyAdditionalContent with a YouTube video should render correctly 
   </span>
   <Connect(YoutubeVideo)
     link="https://www.youtube.com/watch?v=d-YO3v-wJts"
-    postId="post_id_1"
     show={true}
   />
 </div>
@@ -49,7 +48,6 @@ exports[`PostBodyAdditionalContent with a YouTube video should render the toggle
   />
   <Connect(YoutubeVideo)
     link="https://www.youtube.com/watch?v=d-YO3v-wJts"
-    postId="post_id_1"
     show={true}
   />
 </div>
@@ -147,13 +145,17 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
         "metadata": Object {
           "embeds": Array [
             Object {
+              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
           ],
+          "emojis": Array [],
+          "files": Array [],
           "images": Object {
             "https://example.com/image.png": Object {},
           },
+          "reactions": Array [],
         },
         "root_id": "root_id",
       }
@@ -186,13 +188,17 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
         "metadata": Object {
           "embeds": Array [
             Object {
+              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
           ],
+          "emojis": Array [],
+          "files": Array [],
           "images": Object {
             "https://example.com/image.png": Object {},
           },
+          "reactions": Array [],
         },
         "root_id": "root_id",
       }
