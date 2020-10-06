@@ -22,10 +22,6 @@ export default class AddEmoji extends React.PureComponent {
         user: PropTypes.object,
     };
 
-    static contextTypes = {
-        router: PropTypes.object.isRequired,
-    };
-
     constructor(props) {
         super(props);
 

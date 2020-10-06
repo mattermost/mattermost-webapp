@@ -102,7 +102,6 @@ exports[`components/create_post Show tutorial 1`] = `
         </span>
       </div>
       <Connect(TutorialTip)
-        diagnosticsTag="tutorial_tip_1_sending_messages"
         id="postTextboxTipMessage"
         overlayClass="tip-overlay--chat"
         placement="top"
@@ -130,6 +129,7 @@ exports[`components/create_post Show tutorial 1`] = `
             </div>,
           ]
         }
+        telemetryTag="tutorial_tip_1_sending_messages"
       />
     </div>
     <div

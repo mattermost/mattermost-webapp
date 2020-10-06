@@ -38,6 +38,7 @@ describe('Profile popover', () => {
         cy.apiAdminLogin();
         cy.apiResetRoles();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
     });
 
     it('MM-T2 Add user — Error if already in channel', () => {
@@ -208,7 +209,7 @@ describe('Profile popover', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify that user added message is there.
-        cy.findByTestId('postView').find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
+        cy.findByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
     });
 
     it('MM-T7 Add User — Team admins (Private only)', () => {
@@ -281,7 +282,7 @@ describe('Profile popover', () => {
         cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
 
         // * Verify that user added message is there.
-        cy.findByTestId('postView').find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
+        cy.findByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
     });
 
     it('MM-T9 Add User - Any user (can add users)', () => {
@@ -340,7 +341,7 @@ describe('Profile popover', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify that there are 2 post views now.
-        cy.findAllByTestId('postView').should('have.length', 2);
+        cy.findAllByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).should('have.length', 2);
 
         // * Verify that user added message is there.
         cy.findAllByTestId('postView').last().find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
@@ -438,7 +439,7 @@ const verifyPermissionSubSections = (category, publicOrPrivate, checked) => {
 
 const verifyAddToChannel = (user, visible = true) => {
     // # Open profile popover
-    cy.get('#postListContent').within(() => {
+    cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
         cy.findAllByText(user.username).first().should('have.text', user.username).click();
     });
 
@@ -453,7 +454,7 @@ const verifyAddToChannel = (user, visible = true) => {
 
 const clickAddToChannel = (user) => {
     // # Open profile popover
-    cy.get('#postListContent').within(() => {
+    cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
         cy.findAllByText(user.username).first().should('have.text', user.username).click();
     });
 

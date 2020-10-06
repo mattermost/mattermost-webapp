@@ -23,6 +23,10 @@
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
+
+        .announcement-banner-tall--fixed & {
+            height: calc(100vh - 40px);
+        }
     }
 
     .admin-console__wrapper {
@@ -77,6 +81,10 @@
         height: calc(100vh - 175px);
 
         .announcement-bar--fixed & {
+            height: calc(100vh - 205px);
+        }
+
+        .announcement-banner-tall--fixed & {
             height: calc(100vh - 205px);
         }
     }
@@ -502,7 +510,7 @@
         font-weight: 400;
         margin-top: 10px;
     }
-    .trial-legal-terms {
+    .trial-legal-terms, .upgrade-legal-terms {
         margin-top: 10px;
         margin-bottom: 0;
         color: $dark-gray;
@@ -594,6 +602,11 @@
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
         padding-bottom: $announcement-bar-height;
+    }
+
+    body.announcement-banner-tall--fixed & {
+        top: 40px;
+        padding-bottom: 40px;
     }
 
     .dropdown-menu {
