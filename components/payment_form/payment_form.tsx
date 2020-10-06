@@ -59,13 +59,17 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
 
     public componentDidUpdate(prevProps: Props) {
         if (prevProps.paymentMethod == null && this.props.paymentMethod != null) {
-            this.setState(this.getResetState()); //eslint-disable-line react/no-did-update-set-state
+            this.resetState();
             return;
         }
 
         if (prevProps.initialBillingDetails == null && this.props.initialBillingDetails != null) {
-            this.setState(this.getResetState()); //eslint-disable-line react/no-did-update-set-state
+            this.resetState();
         }
+    }
+
+    private resetState = () => {
+        this.setState(this.getResetState());
     }
 
     private getResetState = (props = this.props) => {

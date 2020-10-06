@@ -9,7 +9,7 @@ import DropdownInput from 'components/dropdown_input';
 
 import Input from 'components/input';
 
-import {US_STATES, CA_PROVINCES, StateCode} from 'components/cloud/utils/states';
+import {US_STATES, CA_PROVINCES, StateCode} from 'utils/states';
 
 type Props = {
     country: string;
