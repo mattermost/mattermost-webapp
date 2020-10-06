@@ -3290,6 +3290,7 @@
   "payment_form.billing_address": "Billing address",
   "payment_form.change_payment_method": "Change Payment Method",
   "payment_form.city": "City",
+  "payment_form.country": "Country",
   "payment_form.credit_card": "Credit Card",
   "payment_form.name_on_card": "Name on Card",
   "payment_form.no_billing_address": "No billing address added",

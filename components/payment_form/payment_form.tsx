@@ -176,8 +176,8 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                         onChange={this.handleCountryChange}
                         value={this.state.country ? {value: this.state.country, label: this.state.country} : undefined}
                         options={COUNTRIES.map((country) => ({value: country.name, label: country.name}))}
-                        legend={'Country'}
-                        placeholder={'Country'}
+                        legend={Utils.localizeMessage('payment_form.country', 'Country')}
+                        placeholder={Utils.localizeMessage('payment_form.country', 'Country')}
                         name={'billing_dropdown'}
                     />
                     <div className='form-row'>
