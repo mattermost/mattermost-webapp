@@ -18,7 +18,7 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Get server config, and assert if it match with the database connection being used by Cypress
+         * Gets server config, and assert if it matches with the database connection being used by Cypress
          *
          * @example
          *   cy.apiRequireServerDBToMatch();
