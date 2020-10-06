@@ -204,6 +204,7 @@
   "admin.billing.company_info_edit.cancel": "Anulează",
   "admin.billing.company_info_edit.save": "Salvați informații",
   "admin.billing.payment_info_edit.cancel": "Anulează",
+  "admin.billing.payment_info_edit.save": "Salvați informații",
   "admin.bleve.bulkIndexingTitle": "Indexarea în vrac:",
   "admin.bleve.createJob.help": "Toți utilizatorii, canalele și postările din baza de date vor fi indexate de la cele mai vechi la cele mai noi. Bleve este disponibil în timpul indexării, dar rezultatele căutării pot fi incomplete până la finalizarea lucrării de indexare.",
   "admin.bleve.createJob.title": "Indicele acum",
