@@ -74,7 +74,7 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
-    private rhspostlist: React.RefObject<HTMLDivElement>;
+    private rhspostlistRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -99,7 +99,7 @@ export default class RhsThread extends React.Component<Props, State> {
             openTime,
         };
 
-        this.rhspostlist = React.createRef();
+        this.rhspostlistRef = React.createRef();
     }
 
     public componentDidMount() {
@@ -222,8 +222,8 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (this.props.posts) {
-            const childNodes = (this.rhspostlist.current as HTMLElement).childNodes;
-            const viewPort = (this.rhspostlist.current as HTMLElement).getBoundingClientRect();
+            const childNodes = (this.rhspostlistRef.current as HTMLElement).childNodes;
+            const viewPort = (this.rhspostlistRef.current as HTMLElement).getBoundingClientRect();
             let topRhsPostId = '';
             const offset = 100;
 
@@ -418,9 +418,9 @@ export default class RhsThread extends React.Component<Props, State> {
                             />
                             {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div
-                                ref={this.rhspostlist}
+                                ref={this.rhspostlistRef}
                                 className='post-right-comments-container'
-                                id='rhsPostList'
+                                id='rhspostlist'
                             >
                                 {commentsLists}
                             </div>
