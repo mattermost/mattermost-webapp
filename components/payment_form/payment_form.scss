@@ -100,7 +100,7 @@
         width: 442px;
         height: fit-content;
         background: #FFFFFF;
-        border: 1px solid rgba(61, 60, 64, 0.08);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
         box-sizing: border-box;
         border-radius: 4px;
         padding: 24px;
