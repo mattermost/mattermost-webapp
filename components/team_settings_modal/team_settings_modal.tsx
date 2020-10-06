@@ -13,7 +13,7 @@ const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 import TeamSettings from 'components/team_settings';
 
 type Props = {
-    onHide: () => any
+    onHide: () => void
 }
 
 export type State = {
