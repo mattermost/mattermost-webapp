@@ -10,8 +10,8 @@
     "env": {
         "adminUsername": "sysadmin",
         "adminPassword": "Sys@dmin-sample1",
-        "dbClient": "mysql",
-        "dbConnection": "mysql://mmuser:mostest@localhost:3306/mattermost_test?charset=utf8mb4&readTimeout=30s&writeTimeout=30s",
+        "dbClient": "postgres",
+        "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
         "enableApplitools": false,
         "enableVisualTest": false,
         "ldapServer": "localhost",

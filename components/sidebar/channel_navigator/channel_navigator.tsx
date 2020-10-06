@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import * as Utils from 'utils/utils';
