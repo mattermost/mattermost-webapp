@@ -11,8 +11,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let token1;
-let token2;
 let testTeam;
 
 describe('Integrations', () => {
@@ -23,54 +21,52 @@ describe('Integrations', () => {
             cy.visit(`/${team.name}/integrations/commands/add`);
         });
     });
-    after(() => {
-        // # clean up - remove slash command
-        cy.visit(`/${testTeam.name}/integrations/commands/installed`);
-        cy.get(':nth-child(3) > .color--link > span').click();
-        cy.get('#confirmModalButton').click();
-    });
+
     it('MM-T581 Regen token', () => {
-        // # setup slash command
-        cy.get('#displayName').type('Token Regen Test');
+        // # Setup slash command
+        cy.get('#displayName', {timeout: TIMEOUTS.ONE_MIN}).type('Token Regen Test');
         cy.get('#description').type('test of token regeneration');
         cy.get('#trigger').type('regen');
         cy.get('#url').type('http://hidden-peak-21733.herokuapp.com/test_inchannel');
         cy.get('#autocomplete').check();
         cy.get('#saveCommand').click();
 
-        // # grab token 1
-        cy.get('p.word-break--all').then(number1 => {
-            token1 = number1.text().split(' ').pop();
+        // # Grab token 1
+        let generatedToken
+        cy.get('p.word-break--all').then((number1) => {
+            generatedToken = number1.text().split(' ').pop();
         });
 
-        // # return to channel
+        // # Return to channel
         cy.visit('/', testTeam);
 
-        // * post first message and assert token1 is present in the message
+        // * Post first message and assert token1 is present in the message
         cy.postMessage('/regen testing');
+        // cy.uiWaitUntilMessagePostedIncludes(testChannel.id);
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#${lastPostId}_message`).contains(token1);
+            cy.get(`#${lastPostId}_message`).contains(generatedToken);
         });
 
-        // # return to slash command setup and regenerate the token
+        // # Return to slash command setup and regenerate the token
         cy.visit(`/${testTeam.name}/integrations/commands/installed`);
-        cy.get('.item-actions > :nth-child(1) > span').click();
+        cy.findByText('Regenerate Token').click();
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        // # grab token 2
-        cy.get('.item-details__token > span').then(number2 => {
-            token2 = number2.text().split(' ').pop();
+        // # Grab token 2
+        let regeneratedToken;
+        cy.get('.item-details__token > span').then((number2) => {
+            regeneratedToken = number2.text().split(' ').pop();
         });
 
-        // return to channel
+        // Return to channel
         cy.visit('/', testTeam);
 
-        // * post second message and assert token2 is present in the message
+        // * Post second message and assert token2 is present in the message
         cy.postMessage('/regen testing 2nd message');
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#${lastPostId}_message`).contains(token2).should('not.contain', token1);
+            cy.get(`#${lastPostId}_message`).contains(regeneratedToken).should('not.contain', generatedToken);
         });
     });
 });
