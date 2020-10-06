@@ -17,7 +17,6 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             deleteAndRemovePost,
         }, dispatch),

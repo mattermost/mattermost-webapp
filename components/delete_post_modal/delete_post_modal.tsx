@@ -34,10 +34,12 @@ type State = {
 }
 
 export default class DeletePostModal extends React.PureComponent<Props, State> {
-    deletePostBtn: React.RefObject<HTMLButtonElement> = React.createRef();
+    deletePostBtn: React.RefObject<HTMLButtonElement>;
 
     constructor(props : Props) {
         super(props);
+        this.deletePostBtn = React.createRef();
+
         this.state = {
             show: true,
         };
@@ -98,7 +100,7 @@ export default class DeletePostModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        let commentWarning : React.ReactNode | string = '';
+        let commentWarning: React.ReactNode = '';
 
         if (this.props.commentCount > 0 && this.props.post.root_id === '') {
             commentWarning = (
