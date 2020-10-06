@@ -8,8 +8,15 @@
     font-size: 12px;
     line-height: 15px;
     white-space: nowrap;
+    color: rgba(var(--center-channel-color-rgb), .64);
+
+    .Icon {
+        fill: rgba(var(--center-channel-color-rgb), .64);
+    }
 
     .indicator {
+        width: 24px;
+        height: 24px;
         padding: 8px;
     }
 
@@ -31,10 +38,6 @@
     &:hover,
     &:focus-within,
     &.is-active {
-        color: rgba(var(--button-bg-rgb), 1);
-        .Icon {
-            fill: rgba(var(--button-bg-rgb), 1);
-        }
         .alt-visible {
             display: unset;
         }

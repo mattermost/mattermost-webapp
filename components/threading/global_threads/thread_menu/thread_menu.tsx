@@ -4,8 +4,6 @@
 import React, {memo, PropsWithChildren} from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
@@ -71,11 +69,11 @@ function ThreadMenu({
                 {isFollowing ? (
                     <Menu.ItemAction
                         text={formatMessage({
-                            id: t('threading.threadMenu.unfollow'),
+                            id: 'threading.threadMenu.unfollow',
                             defaultMessage: 'Unfollow thread',
                         })}
                         extraText={formatMessage({
-                            id: t('threading.threadMenu.unfollowExtra'),
+                            id: 'threading.threadMenu.unfollowExtra',
                             defaultMessage: 'You won’t be notified about replies',
                         })}
                         onClick={unfollow}
@@ -84,15 +82,19 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={follow}
                         text={formatMessage({
-                            id: t('threading.threadMenu.follow'),
-                            defaultMessage: 'Keep following thread',
+                            id: 'threading.threadMenu.follow',
+                            defaultMessage: 'Follow thread',
+                        })}
+                        extraText={formatMessage({
+                            id: 'threading.threadMenu.followExtra',
+                            defaultMessage: 'You will get notified about replies',
                         })}
                     />
                 )}
                 <Menu.ItemAction
                     onClick={openInChannel}
                     text={formatMessage({
-                        id: t('threading.threadMenu.openInChannel'),
+                        id: 'threading.threadMenu.openInChannel',
                         defaultMessage: 'Open in channel',
                     })}
                 />
@@ -100,7 +102,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={markRead}
                         text={formatMessage({
-                            id: t('threading.threadMenu.markRead'),
+                            id: 'threading.threadMenu.markRead',
                             defaultMessage: 'Mark as read',
                         })}
                     />
@@ -108,7 +110,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={markUnread}
                         text={formatMessage({
-                            id: t('threading.threadMenu.markUnread'),
+                            id: 'threading.threadMenu.markUnread',
                             defaultMessage: 'Mark as unread',
                         })}
                     />
@@ -117,7 +119,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={unsave}
                         text={formatMessage({
-                            id: t('threading.threadMenu.unsave'),
+                            id: 'threading.threadMenu.unsave',
                             defaultMessage: 'Unsave',
                         })}
                     />
@@ -125,7 +127,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={save}
                         text={formatMessage({
-                            id: t('threading.threadMenu.save'),
+                            id: 'threading.threadMenu.save',
                             defaultMessage: 'Save',
                         })}
                     />
@@ -133,7 +135,7 @@ function ThreadMenu({
                 <Menu.ItemAction
                     onClick={copyLink}
                     text={formatMessage({
-                        id: t('threading.threadMenu.copy'),
+                        id: 'threading.threadMenu.copy',
                         defaultMessage: 'Copy link',
                     })}
                 />

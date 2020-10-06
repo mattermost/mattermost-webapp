@@ -11,6 +11,7 @@
     &:hover,
     &:active {
         text-decoration: none;
+        color: rgba(var(--center-channel-color-rgb), .72);
     }
 
     &.is-active {

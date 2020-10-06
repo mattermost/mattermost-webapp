@@ -17,6 +17,7 @@ import {THREADING_TIME} from '../../common/options';
 
 type Props = {
     participants: ComponentProps<typeof Avatars>['users'],
+    totalParticipants?: number;
     name: string,
     teamName: string,
     previewText: string,
@@ -37,6 +38,7 @@ type Props = {
 
 const ThreadItem = ({
     participants,
+    totalParticipants,
     name,
     teamName,
     previewText,
@@ -56,19 +58,17 @@ const ThreadItem = ({
     },
 
 }: Props) => {
-    const hasUnreads = Boolean(newMentions || newReplies);
-
     return (
         <div
             className={classNames('ThreadItem', {
-                'has-indicator': hasUnreads,
+                'has-unreads': newReplies,
                 'is-selected': isSelected,
             })}
             tabIndex={0}
             onClick={select}
         >
             <h4>
-                {hasUnreads && (
+                {Boolean(newMentions || newReplies) && (
                     <div className='indicator'>
                         {newMentions ? (
                             <div className='dot-mentions'>
@@ -91,16 +91,15 @@ const ThreadItem = ({
                     useTime={false}
                     units={THREADING_TIME}
                 />
-                <span className='menu-anchor alt-visible'>
-                    <ThreadMenu
-                        isSaved={isSaved}
-                        isFollowing={isFollowing}
-                        hasUnreads={hasUnreads}
-                        actions={menuActions}
-                    />
-                </span>
-
             </h4>
+            <span className='menu-anchor alt-visible'>
+                <ThreadMenu
+                    isSaved={isSaved}
+                    isFollowing={isFollowing}
+                    hasUnreads={Boolean(newReplies)}
+                    actions={menuActions}
+                />
+            </span>
             <p>
                 {previewText}
             </p>
@@ -108,7 +107,8 @@ const ThreadItem = ({
                 <div className='activity'>
                     <Avatars
                         users={participants}
-                        size='sm'
+                        totalUsers={totalParticipants}
+                        size='xs'
                     />
                     {newReplies ? (
                         <FormattedMessage

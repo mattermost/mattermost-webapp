@@ -20,6 +20,7 @@ import {THREADING_TIME} from '../../common/options';
 
 type Props = {
     participants: ComponentProps<typeof Avatars>['users'];
+    totalParticipants?: number;
     totalReplies: number;
     newReplies: number;
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
@@ -33,6 +34,7 @@ type Props = {
 
 function ThreadFooter({
     participants,
+    totalParticipants,
     totalReplies = 0,
     newReplies = 0,
     lastReplyAt,
@@ -45,9 +47,10 @@ function ThreadFooter({
 }: Props) {
     return (
         <div className='ThreadFooter'>
-            {Boolean(newReplies) && (
+            {(Boolean(newReplies) && (
                 <SimpleTooltip
                     id='threadFooterIndicator'
+                    containerPadding={25}
                     content={
                         <FormattedMessage
                             id='threading.numNewMessages'
@@ -60,10 +63,13 @@ function ThreadFooter({
                         <div className='dot-unreads'/>
                     </div>
                 </SimpleTooltip>
+            )) || (
+                <div className='indicator'/>
             )}
 
             <Avatars
                 users={participants}
+                totalUsers={totalParticipants}
                 size='sm'
             />
 

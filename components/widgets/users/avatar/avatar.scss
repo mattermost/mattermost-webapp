@@ -6,11 +6,17 @@
     user-select: none;
     vertical-align: sub;
 
-    &.Avatar-xs {
+    &.Avatar-xxs {
         width: 16px;
         min-width: 16px;
         height: 16px;
         font-size: 8px;
+    }
+    &.Avatar-xs {
+        width: 20px;
+        min-width: 20px;
+        height: 20px;
+        font-size: 9.5px;
     }
     &.Avatar-sm {
         width: 24px;
@@ -56,7 +62,6 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            text-indent: -10%;
             position: absolute;
             width: 100%;
             height: 100%;

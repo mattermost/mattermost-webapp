@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {withKnobs, text} from '@storybook/addon-knobs';
@@ -53,7 +53,7 @@ const users = [
 storiesOf('Widgets/Users Info', module).
     addDecorator(withKnobs).
     add('avatar, per size', () => {
-        const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+        const sizes: ComponentProps<typeof Avatar>['size'][] = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
         const url = text('Image url', './api/v4/users/1/image?_=0');
         const username = text('Username', 'jesus.espino');
         return (
@@ -74,19 +74,22 @@ storiesOf('Widgets/Users Info', module).
             </StoryGrid>
         );
     }).
-    add('avatars, per size', () => (
-        <StoryGrid>
-            {['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].map((size) => (
-                <StoryBox
-                    key={size}
-                    label={`size: ${size}`}
-                >
-                    <Avatars
-                        size={size}
-                        users={users}
-                    />
-                </StoryBox>
+    add('avatars, per size', () => {
+        const sizes: ComponentProps<typeof Avatar>['size'][] = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+        return (
+            <StoryGrid>
+                {sizes.map((size) => (
+                    <StoryBox
+                        key={size}
+                        label={`size: ${size}`}
+                    >
+                        <Avatars
+                            size={size}
+                            users={users}
+                        />
+                    </StoryBox>
 
-            ))}
-        </StoryGrid>
-    ));
+                ))}
+            </StoryGrid>
+        );
+    });

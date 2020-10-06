@@ -5,10 +5,10 @@ import React, {FC, memo} from 'react';
 
 import './avatar.scss';
 
-export type Props = {
+type Props = {
     url?: string;
     username?: string;
-    size?: string;
+    size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
     children?: string;
 };
 
