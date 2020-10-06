@@ -134,6 +134,7 @@ export default class PostInfo extends React.PureComponent {
         };
 
         this.postHeaderRef = React.createRef();
+        this.dotMenu = React.createRef();
     }
 
     toggleEmojiPicker = () => {
@@ -168,7 +169,7 @@ export default class PostInfo extends React.PureComponent {
     };
 
     getDotMenu = () => {
-        return this.refs.dotMenu;
+        return this.dotMenu.current;
     };
 
     buildOptions = (post, isSystemMessage, fromAutoResponder) => {

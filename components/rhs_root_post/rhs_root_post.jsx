@@ -86,6 +86,7 @@ class RhsRootPost extends React.PureComponent {
         };
 
         this.postHeaderRef = React.createRef();
+        this.dotMenu = React.createRef();
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -221,7 +222,7 @@ class RhsRootPost extends React.PureComponent {
     }
 
     getDotMenuRef = () => {
-        return this.refs.dotMenu;
+        return this.dotMenu.current;
     };
 
     render() {
