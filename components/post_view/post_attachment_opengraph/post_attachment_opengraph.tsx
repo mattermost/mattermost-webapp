@@ -1,15 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
+import {Post} from 'mattermost-redux/src/types/posts';
+import {
+    OpenGraphMetadata,
+    PostImage,
+} from 'mattermost-redux/types/posts';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 import React from 'react';
 
-import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
-
+import ExternalImage from 'components/external_image';
 import {PostTypes} from 'utils/constants';
-import {useSafeUrl} from 'utils/url';
 import {isSystemMessage} from 'utils/post_utils.jsx';
+import {useSafeUrl} from 'utils/url';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -18,52 +22,23 @@ const DIMENSIONS_NEAREST_POINT_IMAGE = {
     width: 80,
 };
 
-export default class PostAttachmentOpenGraph extends React.PureComponent {
-    static propTypes = {
+export type Props = {
+    postId?: string;
+    link: string;
+    currentUserId?: string;
+    post: Post;
+    openGraphData?: OpenGraphMetadata;
+    enableLinkPreviews: boolean;
+    previewEnabled: boolean;
+    isEmbedVisible?: boolean;
+    toggleEmbedVisibility: () => void;
+    actions: {
+        editPost: (post: { id: string; props: Record<string, any> }) => void;
+    };
+};
 
-        /**
-         * The link to display the open graph data for
-         */
-        link: PropTypes.string.isRequired,
-
-        /**
-         * The ID of the current user
-         */
-        currentUserId: PropTypes.string,
-
-        /**
-         * The post where this link is included
-         */
-        post: PropTypes.object,
-
-        /**
-         * The open graph data to render
-         */
-        openGraphData: PropTypes.object,
-
-        /**
-         * Whether or not the server has link previews enabled.
-         */
-        enableLinkPreviews: PropTypes.bool.isRequired,
-
-        /**
-         * Whether or not the user has link previews enabled.
-         */
-        previewEnabled: PropTypes.bool.isRequired,
-
-        /**
-         * Whether or not the image in the OpenGraph preview has been collapsed.
-         */
-        isEmbedVisible: PropTypes.bool,
-
-        toggleEmbedVisibility: PropTypes.func.isRequired,
-
-        actions: PropTypes.shape({
-            editPost: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    getImageMetadata = (imageUrl) => {
+export default class PostAttachmentOpenGraph extends React.PureComponent<Props> {
+    getImageMetadata = (imageUrl: string | null) => {
         if (!imageUrl) {
             return null;
         }
@@ -74,9 +49,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return imagesMetadata[imageUrl];
-    }
+    };
 
-    isLargeImage = (dimensions) => {
+    isLargeImage = (dimensions: PostImage | null) => {
         if (!dimensions) {
             return false;
         }
@@ -89,7 +64,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         const imageRatio = width / height;
 
         return width >= largeImageMinWidth && imageRatio >= largeImageMinRatio;
-    }
+    };
 
     renderImageToggle() {
         return (
@@ -102,7 +77,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         );
     }
 
-    renderLargeImage(imageUrl, imageMetadata) {
+    renderLargeImage(imageUrl: string, imageMetadata: PostImage | null) {
         if (!this.props.isEmbedVisible) {
             return null;
         }
@@ -112,7 +87,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 src={imageUrl}
                 imageMetadata={imageMetadata}
             >
-                {(safeImageUrl) => (
+                {(safeImageUrl: string) => (
                     <SizeAwareImage
                         className='attachment__image attachment__image--opengraph large_image'
                         src={safeImageUrl}
@@ -123,7 +98,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         );
     }
 
-    renderSmallImage(imageUrl, imageMetadata) {
+    renderSmallImage(imageUrl: string, imageMetadata: PostImage | null) {
         if (!this.props.isEmbedVisible) {
             return null;
         }
@@ -134,7 +109,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                     src={imageUrl}
                     imageMetadata={imageMetadata}
                 >
-                    {(safeImageUrl) => (
+                    {(safeImageUrl: string) => (
                         <SizeAwareImage
                             className='attachment__image attachment__image--opengraph'
                             src={safeImageUrl}
@@ -146,7 +121,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         );
     }
 
-    truncateText(text) {
+    truncateText(text?: string) {
         const maxLength = 300;
         const ellipsis = '...';
 
@@ -160,13 +135,13 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         const props = Object.assign({}, this.props.post.props);
         props[PostTypes.REMOVE_LINK_PREVIEW] = 'true';
 
-        const patchedPost = ({
+        const patchedPost = {
             id: this.props.post.id,
             props,
-        });
+        };
 
         return this.props.actions.editPost(patchedPost);
-    }
+    };
 
     hasPreviewBeenRemoved() {
         const {post} = this.props;
@@ -224,7 +199,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         {' '}
                         {imageUrl && hasLargeImage && this.renderImageToggle()}
                     </div>
-                    {(imageUrl && hasLargeImage) && this.renderLargeImage(imageUrl, imageMetadata)}
+                    {imageUrl && hasLargeImage && this.renderLargeImage(imageUrl, imageMetadata)}
                 </div>
             );
         }
@@ -234,7 +209,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 <div className='attachment__content'>
                     <div className={'clearfix attachment__container attachment__container--opengraph'}>
                         <div className={'attachment__body__wrap attachment__body__wrap--opengraph'}>
-                            <span className='sitename'>{this.truncateText(data.site_name)}</span>
+                            <span className='sitename'>
+                                {this.truncateText(data.site_name)}
+                            </span>
                             {removePreviewButton}
                             <h1 className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}>
                                 <a
@@ -249,7 +226,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             </h1>
                             {body}
                         </div>
-                        {(imageUrl && !hasLargeImage) && this.renderSmallImage(imageUrl, imageMetadata)}
+                        {imageUrl && !hasLargeImage && this.renderSmallImage(imageUrl, imageMetadata)}
                     </div>
                 </div>
             </div>
@@ -257,7 +234,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 }
 
-export function getBestImageUrl(openGraphData, imagesMetadata) {
+export function getBestImageUrl(openGraphData: OpenGraphMetadata, imagesMetadata: Dictionary<PostImage>) {
     if (!openGraphData || !openGraphData.images || openGraphData.images.length === 0) {
         return null;
     }
@@ -278,6 +255,6 @@ export function getBestImageUrl(openGraphData, imagesMetadata) {
         };
     });
 
-    const bestImage = getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, images, 'width', 'height');
+    const bestImage = getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, images);
     return bestImage.secure_url || bestImage.url;
 }
