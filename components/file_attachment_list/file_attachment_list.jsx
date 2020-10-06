@@ -12,7 +12,7 @@ import {getFileType} from 'utils/utils';
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 import ViewImageModal from 'components/view_image';
-
+import MultipleImageView from 'components/multiple_image_view/multiple_image_view';
 export default class FileAttachmentList extends React.PureComponent {
     static propTypes = {
 
@@ -74,6 +74,25 @@ export default class FileAttachmentList extends React.PureComponent {
                 );
             }
         } else if (fileCount === 1 && this.props.isEmbedVisible) {
+            return (
+                <div style={style.minHeightPlaceholder}/>
+            );
+        }
+
+        if (fileInfos && fileInfos.length === 2) {
+            const fileType = getFileType(fileInfos[1].extension);
+
+            if (fileType === FileTypes.IMAGE || (fileType === FileTypes.SVG && enableSVGs)) {
+                return (
+                    <MultipleImageView
+                        fileInfo={fileInfos[1]}
+                        isEmbedVisible={this.props.isEmbedVisible}
+                        postId={this.props.post.id}
+                        compactDisplay={compactDisplay}
+                    />
+                );
+            }
+        } else if (fileCount === 2 && this.props.isEmbedVisible) {
             return (
                 <div style={style.minHeightPlaceholder}/>
             );

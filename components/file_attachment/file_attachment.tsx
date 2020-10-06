@@ -173,7 +173,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                     handleImageClick={this.onAttachmentClick}
                     iconClass={'post-image__download'}
                 >
-                    <i className='icon icon-download-outline'/>
+            <i className='icon icon-download-outline'/>
                 </FilenameOverlay>
             );
         }
@@ -181,10 +181,10 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         return (
             <div className='post-image__column'>
                 {fileThumbnail}
-                <div className='post-image__details'>
+             <div className='post-image__details'>
                     {fileDetail}
                     {filenameOverlay}
-                </div>
+         </div>
             </div>
         );
     }
