@@ -1,9 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
+import {useIntl} from 'react-intl';
+
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import AlertBanner from 'components/alert_banner';
 import DropdownInput from 'components/dropdown_input';
@@ -15,10 +25,19 @@ import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
 import './billing_subscriptions.scss';
-import BillingSummary from './billing_summary';
+import BillingSummary from '../billing_summary';
 
 type Props = {
-
+    userLimit: number;
+    userIsAdmin: boolean;
+    currentUser: UserProfile;
+    preferences: PreferenceType[];
+    isCloud: boolean;
+    analytics?: Dictionary<number | AnalyticsRow[]>;
+    actions: {
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+        getStandardAnalytics: () => void;
+    };
 };
 
 const upgradeMattermostCloud = () => (
@@ -75,10 +94,13 @@ const privateCloudCard = () => (
     </div>
 );
 
+const WARNING_THRESHOLD = 5;
+
 // TODO: temp
 const isFree = false;
 
-const BillingSubscriptions: React.FC<Props> = () => {
+const BillingSubscriptions: React.FC<Props> = (props: Props) => {
+    const {formatMessage} = useIntl();
     const testTooltipLeft = (
         <Tooltip
             id='BillingSubscriptions__testTooltip'
@@ -107,11 +129,29 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </Tooltip>
     );
 
-    const [showDanger, setShowDanger] = useState(true);
-    const [showWarning, setShowWarning] = useState(true);
-    const [showInfo, setShowInfo] = useState(true);
-
+    const [showDanger, setShowDanger] = useState(false);
+    const [showWarning, setShowWarning] = useState(false);
+    const [showInfoHidden, setShowInfoHidden] = useState(false);
     const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
+
+    useEffect(() => {
+        if (!props.analytics) {
+            (async function getStandardAnalytics() {
+                await props.actions.getStandardAnalytics();
+            }());
+        }
+    }, []);
+
+    const shouldShowWarningBanner = () => {
+        const {analytics, userLimit, isCloud} = props;
+        if (!analytics || !isCloud || !userLimit || showInfoHidden) {
+            return false;
+        }
+
+        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD) {
+            return true;
+        }
+    };
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -121,40 +161,58 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {showDanger &&
+                    {showDanger && (
                         <AlertBanner
                             mode='danger'
                             title='Test Danger Title'
                             message='This is a test danger message'
                             onDismiss={() => setShowDanger(false)}
                         />
-                    }
-                    {showWarning &&
+                    )}
+                    {showWarning && (
                         <AlertBanner
                             mode='warning'
                             title='Test Warning Title'
                             message='This is a test warning message'
                             onDismiss={() => setShowWarning(false)}
                         />
-                    }
-                    {showInfo &&
+                    )}
+                    {shouldShowWarningBanner() && (
                         <AlertBanner
                             mode='info'
-                            title='Test Info Title'
-                            message='This is a test info message'
-                            onDismiss={() => setShowInfo(false)}
+                            title={formatMessage({
+                                id: 'billing.subscription.info.headsup',
+                                defaultMessage: 'Just a heads up',
+                            })}
+                            message={formatMessage({
+                                id: 'billing.subscription.info.headsup.description',
+                                defaultMessage:
+                    'You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.',
+                            })}
+                            onDismiss={() => setShowInfoHidden(true)}
                         />
-                    }
+                    )}
                     <div
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div style={{border: '1px solid #000', width: '568px', padding: '8px', backgroundColor: '#fff'}}>
+                        <div
+                            style={{
+                                border: '1px solid #000',
+                                width: '568px',
+                                padding: '8px',
+                                backgroundColor: '#fff',
+                            }}
+                        >
                             {'Plan Details Card'}
                             <DropdownInput
                                 onChange={(value) => setDropdownValue(value)}
                                 value={dropdownValue}
-                                options={[{label: 'Option 1', value: 'option-1'}, {label: 'Option 2', value: 'option-2'}, {label: 'Option 3', value: 'option-3'}]}
+                                options={[
+                                    {label: 'Option 1', value: 'option-1'},
+                                    {label: 'Option 2', value: 'option-2'},
+                                    {label: 'Option 3', value: 'option-3'},
+                                ]}
                                 legend={'Test dropdown'}
                                 placeholder='Select item here'
                                 name='BillingSubscriptions__testDropdown'
