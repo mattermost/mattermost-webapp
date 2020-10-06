@@ -18,8 +18,7 @@ export function getProductPrice() {
         try {
             cloudProducts = await Client4.getCloudProducts();
         } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error(`Error fetching cloud products: ${error}`);
+            //
         }
 
         let productPrice = 0;
@@ -39,7 +38,6 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
         try {
             paymentSetupIntent = await Client4.createPaymentMethod() as StripeSetupIntent;
         } catch (error) {
-            console.error(error); //eslint-disable-line no-console
             return error;
         }
         const cardSetupFunction = getConfirmCardSetup(isDevMode);
@@ -66,31 +64,26 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
         );
 
         if (!result) {
-            console.error('Stripe confirm card setup failed.'); //eslint-disable-line no-console
             return false;
         }
 
         const {setupIntent, error: stripeError} = result;
 
         if (stripeError) {
-            console.error(`Stripe error. decline_code=${stripeError.decline_code}`); //eslint-disable-line no-console
             return false;
         }
 
         if (setupIntent == null) {
-            console.error('Stripe setup intent not set.'); //eslint-disable-line no-console
             return false;
         }
 
         if (setupIntent.status !== 'succeeded') {
-            console.error(`Payment intent status ${setupIntent?.status} instead of 'succeeded'.`); //eslint-disable-line no-console
             return false;
         }
 
         try {
             await Client4.confirmPaymentMethod(setupIntent.id);
         } catch (error) {
-            console.error(error); //eslint-disable-line no-console
             return false;
         }
 
