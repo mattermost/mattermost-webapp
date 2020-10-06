@@ -57,10 +57,11 @@ export default class ReactionList extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
         };
+        this.addReactionButton=React.createRef();
     }
 
     getTarget = () => {
-        return this.refs.addReactionButton;
+        return this.addReactionButton.current;
     }
 
     handleEmojiClick = (emoji) => {
