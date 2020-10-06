@@ -91,7 +91,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
 
     handleCreateToken = async () => {
         this.handleCancelConfirm();
-        this.newtokendescription = React.createRef();
+        this.newtokendescriptionRef = React.createRef();
 
         const description = this.newtokendescription ? this.newtokendescription.current.value : '';
 
