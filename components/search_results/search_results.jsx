@@ -107,6 +107,7 @@ class SearchResults extends React.Component {
         isSearchingPinnedPost: PropTypes.bool,
         isSearchGettingMore: PropTypes.bool,
         isSearchAtEnd: PropTypes.bool,
+        isSearchFilesAtEnd: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -117,6 +118,7 @@ class SearchResults extends React.Component {
         updateSearchTerms: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
+            getMoreFilesForSearch: PropTypes.func.isRequired,
         }),
         intl: intlShape.isRequired,
         isSideBarExpanded: PropTypes.bool,
@@ -133,6 +135,7 @@ class SearchResults extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             searchType: 'messages',
+            filterType: 'all',
         };
     }
 
@@ -172,14 +175,21 @@ class SearchResults extends React.Component {
             const scrollTop = this.refs.scrollbars.getScrollTop();
             const clientHeight = this.refs.scrollbars.getClientHeight();
             if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
-                this.loadMorePosts();
+                if (this.state.searchType === 'messages') {
+                    this.loadMorePosts();
+                } else {
+                    this.loadMoreFiles();
+                }
             }
         }
     }
 
     loadMorePosts = debounce(() => {
-        console.log("LOADING POSTS")
         this.props.actions.getMorePostsForSearch();
+    }, 100);
+
+    loadMoreFiles = debounce(() => {
+        this.props.actions.getMoreFilesForSearch();
     }, 100);
 
     render() {
@@ -326,7 +336,9 @@ class SearchResults extends React.Component {
                     );
                 }, this);
 
-                if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+                const isAtEnd = (this.props.isSearchAtEnd && this.state.searchType === "messages") || (this.props.isSearchFilesAtEnd && this.state.searchType === "files");
+
+                if (!isAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
                     loadingMorePostsComponent = (
                         <div className='loading-screen'>
                             <div className='loading__content'>
@@ -385,7 +397,9 @@ class SearchResults extends React.Component {
                 </SearchResultsHeader>
                 <MessageOrFileSelector
                     selected={this.state.searchType}
+                    selectedFilter={this.state.filterType}
                     onChange={(searchType) => this.setState({searchType})}
+                    onFilter={(filterType) => this.setState({filterType})}
                 />
                 <Scrollbars
                     ref='scrollbars'

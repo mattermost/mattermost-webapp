@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
+import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
@@ -87,6 +87,7 @@ function makeMapStateToProps() {
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             isSearchGettingMore: getIsSearchGettingMore(state),
             isSearchAtEnd: currentSearch.isEnd,
+            isSearchFilesAtEnd: currentSearch.isFilesEnd,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         };
     };
@@ -96,6 +97,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getMorePostsForSearch,
+            getMoreFilesForSearch,
         }, dispatch),
     };
 }

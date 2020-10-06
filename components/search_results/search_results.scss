@@ -1,0 +1,12 @@
+.SearchResults {
+    .messages-or-files {
+        .active {
+            background-color: rgba(var(--buton-bg-rgb), 0.08)
+        }
+        a {
+            text-decoration: none;
+            padding: 4px 12px;
+            margin-left: 10px;
+        }
+    }
+}

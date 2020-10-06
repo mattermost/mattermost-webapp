@@ -1,0 +1,39 @@
+.MessagesOrFilesSelector {
+    display: flex;
+    padding: 14px;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    align-items: center;
+    justify-content: space-between;
+    .active {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        border-radius: 4px;
+    }
+    a {
+        text-decoration: none;
+        padding: 4px 12px;
+        margin-right: 4px;
+    }
+    .MenuWrapper {
+        align-self: end;
+        z-index: 100;
+        .action-icon {
+            cursor: pointer;
+            .icon-dot {
+                position: absolute;
+                right: 2px;
+                background-color: var(--button-bg);
+                border-radius: 50%;
+                border: 2px solid var(--center-channel-bg);
+                width: 10px;
+                height: 10px;
+            }
+        }
+    }
+    .MenuItem {
+        span.icon {
+            position: absolute;
+            right: 13px;
+            color: var(--button-bg);
+        }
+    }
+}
