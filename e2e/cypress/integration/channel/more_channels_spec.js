@@ -155,8 +155,19 @@ describe('Channels', () => {
             cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
+        // * Dropdown should be visible, defaulting to "Public Channels"
+        cy.get('#channelsMoreDropdown').should('be.visible').click().within((el) => {
+            cy.findByText('Public Channels').should('be.visible').click();
+            cy.wrap(el).should('contain', 'Show: Public Channels');
+        });
+
+        // * Users should be able to type and search
+        cy.get('#searchChannelsTextbox').should('be.visible').type('a').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#moreChannelsList').should('be.visible');
+        cy.get('#searchChannelsTextbox').clear();
+
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
-            // * Dropdown should be visible, defaulting to "Public Channels"
+            // * Users should be able to switch to "Archived Channels" list
             cy.get('#channelsMoreDropdown').should('be.visible').and('contain', 'Show: Public Channels').click().within((el) => {
                 // # Click on archived channels item
                 cy.findByText('Archived Channels').should('be.visible').click();
@@ -164,23 +175,6 @@ describe('Channels', () => {
                 // * Modal should show the archived channels list
                 cy.wrap(el).should('contain', 'Show: Archived Channels');
             });
-
-            // * Users should be able to search
-
-            cy.get('#searchChannelsTextbox').should('be.visible').type('a').wait(TIMEOUTS.HALF_SEC);
-            cy.get('#moreChannelsList').should('be.visible');
-            cy.get('#searchChannelsTextbox').clear();
-
-            // * Users should be able to switch back to public channels
-            cy.get('#channelsMoreDropdown').should('be.visible').click().within((el) => {
-                cy.findByText('Public Channels').should('be.visible').click();
-                cy.wrap(el).should('contain', 'Show: Public Channels');
-            });
-
-            // * Users should be able to type and search
-            cy.get('#searchChannelsTextbox').should('be.visible').type('a').wait(TIMEOUTS.HALF_SEC);
-            cy.get('#moreChannelsList').should('be.visible');
-            cy.get('#searchChannelsTextbox').clear();
         });
     });
 });
