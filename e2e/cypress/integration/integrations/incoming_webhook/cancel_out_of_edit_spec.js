@@ -44,6 +44,6 @@ describe('Integrations', () => {
         cy.findAllByText('Test Webhook Description').should('be.visible');
         cy.findByText('Delete').should('be.visible');
         cy.findByText('Edit').click();
-        cy.get('#channelLocked').should('be.checked')
+        cy.get('#channelLocked').should('be.checked');
     });
 });
