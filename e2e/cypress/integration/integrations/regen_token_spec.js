@@ -12,12 +12,14 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 let testTeam;
+let testChannel;
 
 describe('Integrations', () => {
     before(() => {
         // # Login as test user and visit the newly created test channel
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
+            testChannel = channel;
             cy.visit(`/${team.name}/integrations/commands/add`);
         });
     });
@@ -32,18 +34,17 @@ describe('Integrations', () => {
         cy.get('#saveCommand').click();
 
         // # Grab token 1
-        let generatedToken
+        let generatedToken;
         cy.get('p.word-break--all').then((number1) => {
             generatedToken = number1.text().split(' ').pop();
         });
 
         // # Return to channel
-        cy.visit('/', testTeam);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Post first message and assert token1 is present in the message
         cy.postMessage('/regen testing');
-        // cy.uiWaitUntilMessagePostedIncludes(testChannel.id);
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.uiWaitUntilMessagePostedIncludes(testChannel.id);
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).contains(generatedToken);
         });
@@ -60,11 +61,11 @@ describe('Integrations', () => {
         });
 
         // Return to channel
-        cy.visit('/', testTeam);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Post second message and assert token2 is present in the message
         cy.postMessage('/regen testing 2nd message');
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.uiWaitUntilMessagePostedIncludes(testChannel.id);
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).contains(regeneratedToken).should('not.contain', generatedToken);
         });
