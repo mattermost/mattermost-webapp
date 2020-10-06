@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import AlertBanner from 'components/alert_banner';
+import DropdownInput from 'components/dropdown_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -106,6 +107,8 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const [showWarning, setShowWarning] = useState(true);
     const [showInfo, setShowInfo] = useState(true);
 
+    const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
+
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
@@ -142,8 +145,18 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div style={{border: '1px solid #000', width: '568px'}}>
+                        <div style={{border: '1px solid #000', width: '568px', padding: '8px', backgroundColor: '#fff'}}>
                             {'Plan Details Card'}
+                            <DropdownInput
+                                onChange={(value) => setDropdownValue(value)}
+                                value={dropdownValue}
+                                options={[{label: 'Option 1', value: 'option-1'}, {label: 'Option 2', value: 'option-2'}, {label: 'Option 3', value: 'option-3'}]}
+                                legend={'Test dropdown'}
+                                placeholder='Select item here'
+                                name='BillingSubscriptions__testDropdown'
+                                error={dropdownValue ? undefined : 'This field is required'}
+                            />
+                            <br/>
                             <OverlayTrigger
                                 delayShow={500}
                                 placement='bottom'
