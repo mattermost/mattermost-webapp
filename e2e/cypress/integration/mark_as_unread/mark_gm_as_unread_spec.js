@@ -9,7 +9,7 @@
 
 // Group: @mark_as_unread
 
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator} from './helpers';
+import {verifyPostNextToNewMessageSeparator} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -60,7 +60,7 @@ describe('Mark as Unread', () => {
 
             // # Mark the post to be unread
             cy.getNthPostId(-2).then((postId) => {
-                markAsUnreadByPostIdFromMenu(postId);
+                cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
             });
 
             // * Verify the notification separator line exists and present before the unread message
