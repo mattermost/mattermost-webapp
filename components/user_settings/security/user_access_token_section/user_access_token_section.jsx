@@ -4,12 +4,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
-import { trackEvent } from 'actions/telemetry_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
-import { isMobile } from 'utils/user_agent';
+import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -78,38 +78,38 @@ export default class UserAccessTokenSection extends React.PureComponent {
                 saving: false,
             };
         }
-        return { active: nextProps.active };
+        return {active: nextProps.active};
     }
 
     startCreatingToken = () => {
-        this.setState({ tokenCreationState: TOKEN_CREATING });
+        this.setState({tokenCreationState: TOKEN_CREATING});
     }
 
     stopCreatingToken = () => {
-        this.setState({ tokenCreationState: TOKEN_NOT_CREATING, saving: false });
+        this.setState({tokenCreationState: TOKEN_NOT_CREATING, saving: false});
     }
 
     handleCreateToken = async () => {
         this.handleCancelConfirm();
         this.newtokendescriptionRef = React.createRef();
 
-        const description = this.newtokendescription ? this.newtokendescription.current.value : '';
+        const description = this.newtokendescriptionRef ? this.newtokendescriptionRef.current.value : '';
 
         if (description === '') {
-            this.setState({ tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.') });
+            this.setState({tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')});
             return;
         }
 
-        this.setState({ tokenError: '', saving: true });
+        this.setState({tokenError: '', saving: true});
         this.props.setRequireConfirm(true, this.confirmCopyToken);
 
         const userId = this.props.user ? this.props.user.id : '';
-        const { data, error } = await this.props.actions.createUserAccessToken(userId, description);
+        const {data, error} = await this.props.actions.createUserAccessToken(userId, description);
 
         if (data && this.state.tokenCreationState === TOKEN_CREATING) {
-            this.setState({ tokenCreationState: TOKEN_CREATED, newToken: data, saving: false });
+            this.setState({tokenCreationState: TOKEN_CREATED, newToken: data, saving: false});
         } else if (error) {
-            this.setState({ serverError: error.message, saving: false });
+            this.setState({serverError: error.message, saving: false});
         }
     }
 
@@ -128,8 +128,8 @@ export default class UserAccessTokenSection extends React.PureComponent {
                         id='user.settings.tokens.confirmCopyMessage'
                         defaultMessage="Make sure you have copied and saved the access token below. You won't be able to see it again!"
                     />
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     {state.tokenCreationState === TOKEN_CREATING ? (
                         <div>
                             <strong className='word-break--all'>
@@ -144,14 +144,14 @@ export default class UserAccessTokenSection extends React.PureComponent {
                             />
                         </div>
                     ) : (
-                            <strong className='word-break--all'>
-                                <FormattedMessage
-                                    id='user.settings.tokens.token'
-                                    defaultMessage='Access Token: '
-                                />
-                                {state.newToken.token}
-                            </strong>
-                        )}
+                        <strong className='word-break--all'>
+                            <FormattedMessage
+                                id='user.settings.tokens.token'
+                                defaultMessage='Access Token: '
+                            />
+                            {state.newToken.token}
+                        </strong>
+                    )}
                 </div>
             ),
             confirmButton: (
@@ -256,26 +256,26 @@ export default class UserAccessTokenSection extends React.PureComponent {
     }
 
     revokeToken = async (tokenId) => {
-        const { error } = await this.props.actions.revokeUserAccessToken(tokenId);
+        const {error} = await this.props.actions.revokeUserAccessToken(tokenId);
         if (error) {
-            this.setState({ serverError: error.message });
+            this.setState({serverError: error.message});
         }
         this.handleCancelConfirm();
     }
 
     activateToken = async (tokenId) => {
-        const { error } = await this.props.actions.enableUserAccessToken(tokenId);
+        const {error} = await this.props.actions.enableUserAccessToken(tokenId);
         if (error) {
-            this.setState({ serverError: error.message });
+            this.setState({serverError: error.message});
         } else {
             trackEvent('settings', 'activate_user_access_token');
         }
     }
 
     deactivateToken = async (tokenId) => {
-        const { error } = await this.props.actions.disableUserAccessToken(tokenId);
+        const {error} = await this.props.actions.disableUserAccessToken(tokenId);
         if (error) {
-            this.setState({ serverError: error.message });
+            this.setState({serverError: error.message});
         } else {
             trackEvent('settings', 'deactivate_user_access_token');
         }
@@ -384,7 +384,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                             />
                         </a>
                     </div>
-                    <hr className='mb-3 mt-3' />
+                    <hr className='mb-3 mt-3'/>
                 </div>,
             );
         });
@@ -490,13 +490,13 @@ export default class UserAccessTokenSection extends React.PureComponent {
                 <div
                     className='alert alert-warning'
                 >
-                    <WarningIcon additionalClassName='mr-2' />
+                    <WarningIcon additionalClassName='mr-2'/>
                     <FormattedMessage
                         id='user.settings.tokens.copy'
                         defaultMessage="Please copy the access token below. You won't be able to see it again!"
                     />
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <div className='whitespace--nowrap overflow--ellipsis'>
                         <FormattedMessage
                             id='user.settings.tokens.name'
