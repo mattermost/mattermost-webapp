@@ -67,7 +67,7 @@ describe('Archived channels', () => {
             cy.clickPostCommentIcon(postId);
 
             cy.get(`#rhsPost_${postId}`).within(() => {
-                // * Should have add reaction button
+                // * Should not have add reaction button
                 cy.get(`#addReaction-${postId}`).should('not.exist');
 
                 // # Click on existing "slightly_frowning_face" emoji
