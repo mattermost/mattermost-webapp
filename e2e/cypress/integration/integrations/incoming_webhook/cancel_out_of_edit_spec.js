@@ -29,15 +29,21 @@ describe('Integrations', () => {
     });
 
     it('MM-T640 Cancel out of edit', () => {
-        //# Click Delete
-        cy.findByText('Delete').click();
+        // # Make an edit to the webhook
+        cy.findByText('Edit').click();
+        cy.get('#displayName').type('name changed');
+        cy.get('#description').type('description changed ');
+        cy.get('#channelSelect').select('Town Square');
+        cy.get('#channelLocked').uncheck();
 
-        //# Click Cancel
+        //# Click cancel to cancel the edits
         cy.findByText('Cancel').click();
 
-        // # Assert the webhook is still present
+        // # Assert the webhook's previous values are present
         cy.findAllByText('Test Webhook Name').should('be.visible');
         cy.findAllByText('Test Webhook Description').should('be.visible');
         cy.findByText('Delete').should('be.visible');
+        cy.findByText('Edit').click();
+        cy.get('#channelLocked').should('be.checked')
     });
 });
