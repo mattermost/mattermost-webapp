@@ -1,29 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import ViewImageModal from 'components/view_image';
 
-export default class PostImage extends React.PureComponent {
-    static propTypes = {
-        imageMetadata: PropTypes.object.isRequired,
-        link: PropTypes.string.isRequired,
-        post: PropTypes.object.isRequired,
-    }
+type Props = {
+    imageMetadata: {
+        format: string
+    },
+    link: string,
+    post: object,
+}
 
-    constructor(props) {
+export default class PostImage extends React.PureComponent<Props> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
-            showModal: false,
+            showModal: false
         };
     }
 
-    showModal = (e) => {
+    showModal = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.setState({showModal: true});
@@ -40,7 +41,7 @@ export default class PostImage extends React.PureComponent {
                     src={this.props.link}
                     imageMetadata={this.props.imageMetadata}
                 >
-                    {(safeLink) => (
+                    {(safeLink: string) => (
                         <React.Fragment>
                             <SizeAwareImage
                                 className='img-div attachment__image cursor--pointer'
