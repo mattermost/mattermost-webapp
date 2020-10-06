@@ -7,6 +7,7 @@ import {Stripe, loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
 import {Product} from 'mattermost-redux/types/cloud';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
@@ -34,11 +35,11 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 type Props = {
     show: boolean;
     isDevMode: boolean;
-    products: {[name: string]: Product};
+    products?: Dictionary<Product>;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
-        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => any;
         getClientConfig: () => void;
     };
 }

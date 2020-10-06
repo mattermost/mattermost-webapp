@@ -24,3 +24,4 @@ function devConfirmCardSetup(confirmCardSetup: ConfirmCardSetupType): ConfirmCar
 }
 
 export const getConfirmCardSetup = (isDevMode: boolean) => (isDevMode ? devConfirmCardSetup : prodConfirmCardSetup);
+
