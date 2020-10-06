@@ -227,6 +227,7 @@ export default class SuggestionList extends React.PureComponent {
         return (<div className={mainClass}>
             <div
                 id='suggestionList'
+                role='list'
                 ref={this.contentRef}
                 style={{...contentStyle}}
                 className={contentClass}
