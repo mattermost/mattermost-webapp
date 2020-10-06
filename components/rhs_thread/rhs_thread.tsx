@@ -387,6 +387,8 @@ export default class RhsThread extends React.Component<Props, State> {
                     autoHideTimeout={500}
                     autoHideDuration={500}
                     autoHeight={true}
+
+                    // Calculates viewport size minus header, comment box and button
                     autoHeightMax={'calc(100vh - 190px - 56px - 62px)'}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
