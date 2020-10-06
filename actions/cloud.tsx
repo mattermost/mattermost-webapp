@@ -5,31 +5,10 @@ import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
 import {Client4} from 'mattermost-redux/client';
-import {Product} from 'mattermost-redux/types/cloud';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
-
-export function getProductPrice() {
-    return async () => {
-        let cloudProducts = [] as Product[];
-
-        try {
-            cloudProducts = await Client4.getCloudProducts();
-        } catch (error) {
-            //
-        }
-
-        let productPrice = 0;
-        if (cloudProducts.length > 0) {
-            // Assuming the first and only one for now.
-            productPrice = cloudProducts[0].price_per_seat;
-        }
-
-        return productPrice;
-    };
-}
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) {

@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import {Stripe, loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
+import {Product} from 'mattermost-redux/types/cloud';
+
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
@@ -32,9 +34,10 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 type Props = {
     show: boolean;
     isDevMode: boolean;
+    products: {[name: string]: Product};
     actions: {
         closeModal: () => void;
-        getProductPrice: () => Promise<number>;
+        getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
         getClientConfig: () => void;
     };
@@ -60,14 +63,24 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidMount() {
-        this.fetchProductPrice();
-        this.props.actions.getClientConfig();
+    static getDerivedStateFromProps(props: Props, state: State) {
+        let productPrice = 0;
+        if (props.products) {
+            const keys = Object.keys(props.products);
+            if (keys.length > 0) {
+                // Assuming the first and only one for now.
+                productPrice = props.products[keys[0]].price_per_seat;
+            }
+        }
+
+        return {...state, productPrice};
     }
 
-    async fetchProductPrice() {
-        const productPrice = await this.props.actions.getProductPrice();
-        this.setState({productPrice});
+    componentDidMount() {
+        this.props.actions.getCloudProducts();
+
+        // this.fetchProductPrice();
+        this.props.actions.getClientConfig();
     }
 
     onPaymentInput = (billing: BillingDetails) => {
@@ -127,7 +140,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             />
                         </div>
                         <div className='price-text'>
-                            {`$${this.state.productPrice}`}
+                            {`$${this.state.productPrice || 0}`}
                             <span className='monthly-text'>
                                 <FormattedMessage
                                     defaultMessage={' /user/month'}

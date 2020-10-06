@@ -138,8 +138,8 @@
             border: 0;
 
             &:disabled {
-                background: var(--center-channel-color-08);
-                color: var(--center-channel-color-32);
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
             }
         }
     }
