@@ -6,10 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
-import {ActionTypes} from 'react-select';
-
 import {Post} from 'mattermost-redux/types/posts';
 
 import * as Utils from 'utils/utils.jsx';
@@ -24,10 +20,6 @@ type Props = {
     parentPostUser?: UserProfileType;
     onCommentClick?: React.EventHandler<React.MouseEvent>;
     post: Post;
-    actions: {
-        showSearchResults: (isMentionSearch: boolean) => ActionFunc;
-        updateSearchTerms: (terms: any) => { type: ActionTypes, terms: any };
-    }
 }
 
 export default class CommentedOn extends PureComponent<Props> {
