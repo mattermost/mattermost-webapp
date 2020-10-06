@@ -61,7 +61,7 @@ export default class ReactionList extends React.PureComponent {
     }
 
     getTarget = () => {
-        return this.addReactionButton.current;
+        return this.addReactionButtonRef.current;
     }
 
     handleEmojiClick = (emoji) => {
@@ -160,7 +160,7 @@ export default class ReactionList extends React.PureComponent {
                                 <span
                                     id={`addReaction-${this.props.post.id}`}
                                     className='Reaction__add'
-                                    ref='addReactionButton'
+                                    ref={this.addReactionButtonRef}
                                 >
                                     <AddReactionIcon/>
                                 </span>
