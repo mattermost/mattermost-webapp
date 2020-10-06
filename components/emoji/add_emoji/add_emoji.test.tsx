@@ -37,6 +37,12 @@ describe('components/emoji/components/AddEmoji', () => {
         },
     };
 
+    const assertErrorIsElementWithMatchingId = (error: React.ReactNode, expectedId: string) => {
+        const errorElement = error as JSX.Element;
+        expect(errorElement).not.toBeUndefined();
+        expect(errorElement.props.id).toEqual(expectedId);
+    };
+
     test('should match snapshot', () => {
         const wrapper = shallow(
             <AddEmoji {...baseProps}/>,
@@ -160,7 +166,7 @@ describe('components/emoji/components/AddEmoji', () => {
         expect(wrapper.state('saving')).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.nameRequired');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.nameRequired');
     });
 
     test('should show error if image unset', () => {
@@ -178,7 +184,7 @@ describe('components/emoji/components/AddEmoji', () => {
         expect(wrapper.state('saving')).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.imageRequired');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.imageRequired');
     });
 
     test.each([
@@ -234,7 +240,7 @@ describe('components/emoji/components/AddEmoji', () => {
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.nameInvalid');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.nameInvalid');
     });
 
     test.each([
@@ -279,7 +285,7 @@ describe('components/emoji/components/AddEmoji', () => {
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.nameTaken');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.nameTaken');
     });
 
     test('should show error when emoji name is taken by an existing custom emoji', () => {
@@ -300,7 +306,7 @@ describe('components/emoji/components/AddEmoji', () => {
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.customNameTaken');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.customNameTaken');
     });
 
     test('should show error when image is too large', () => {
@@ -311,7 +317,7 @@ describe('components/emoji/components/AddEmoji', () => {
 
         const file = {
             type: 'image/png',
-            size: 1e6 + 1,
+            size: (1024 * 1024) + 1,
         } as Blob;
 
         wrapper.setState({image: file as File, imageUrl: image});
@@ -325,7 +331,7 @@ describe('components/emoji/components/AddEmoji', () => {
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.imageToLarge');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.imageTooLarge');
     });
 
     test('should show generic error when action response cannot be parsed', async () => {
@@ -350,7 +356,7 @@ describe('components/emoji/components/AddEmoji', () => {
         await Promise.resolve();
 
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error?.props['id']).toEqual('add_emoji.failedToAdd');
+        assertErrorIsElementWithMatchingId(wrapper.state().error, 'add_emoji.failedToAdd');
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
     });
@@ -378,7 +384,7 @@ describe('components/emoji/components/AddEmoji', () => {
         await Promise.resolve();
 
         expect(wrapper.state().error).not.toBeNull();
-        expect(wrapper.state().error).toEqual((<>{serverError}</>));
+        expect(wrapper.state().error).toEqual(serverError);
         expect(wrapper.state().saving).toEqual(false);
         expect(baseProps.actions.createCustomEmoji).not.toBeCalled();
     });

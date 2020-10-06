@@ -9,6 +9,8 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {Team} from 'mattermost-redux/types/teams';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
@@ -19,7 +21,7 @@ import EmojiMap from 'utils/emoji_map';
 
 export interface AddEmojiProps {
     actions: {
-        createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<unknown>;
+        createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<ActionResult>;
     },
     emojiMap: EmojiMap,
     user: UserProfile,
@@ -36,7 +38,7 @@ type AddEmojiState = {
     image: File | null,
     imageUrl: string | ArrayBuffer | null,
     saving: boolean,
-    error: JSX.Element | null,
+    error: React.ReactNode,
 };
 
 interface AddErrorResponse {
@@ -163,12 +165,13 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
             return;
         }
 
-        if (image.size > 1e6) {
+        const maxFileSizeBytes = 1024 * 1024;
+        if (image.size > maxFileSizeBytes) {
             this.setState({
                 saving: false,
                 error: (
                     <FormattedMessage
-                        id='add_emoji.imageToLarge'
+                        id='add_emoji.imageTooLarge'
                         defaultMessage='Unable to create emoji. Image must be less than 1 MB in size.'
                     />
                 ),
@@ -179,25 +182,23 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
 
         const response = await actions.createCustomEmoji(emoji as CustomEmoji, image);
 
-        if (response instanceof Object) {
-            if ('data' in response) {
-                const savedEmoji = response as AddEmojiResponse;
-                if (savedEmoji && savedEmoji.data.name === emoji.name) {
-                    browserHistory.push('/' + team.name + '/emoji');
-                    return;
-                }
+        if ('data' in response) {
+            const savedEmoji = response as AddEmojiResponse;
+            if (savedEmoji && savedEmoji.data.name === emoji.name) {
+                browserHistory.push('/' + team.name + '/emoji');
+                return;
             }
+        }
 
-            if ('error' in response) {
-                const responseError = response as AddErrorResponse;
-                if (responseError) {
-                    this.setState({
-                        saving: false,
-                        error: (<>{responseError.error.message}</>),
-                    });
+        if ('error' in response) {
+            const responseError = response as AddErrorResponse;
+            if (responseError) {
+                this.setState({
+                    saving: false,
+                    error: responseError.error.message,
+                });
 
-                    return;
-                }
+                return;
             }
         }
 
@@ -382,6 +383,8 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
                                 />
                             </Link>
                             <SpinnerButton
+                                className='btn btn-primary'
+                                type='submit'
                                 spinning={this.state.saving}
                                 spinningText={localizeMessage('add_emoji.saving', 'Saving...')}
                                 onClick={this.handleSaveButtonClick}
