@@ -420,7 +420,7 @@ export default class RhsThread extends React.Component<Props, State> {
                             <div
                                 ref={this.rhspostlistRef}
                                 className='post-right-comments-container'
-                                id='rhspostlist'
+                                id='rhsPostList'
                             >
                                 {commentsLists}
                             </div>
