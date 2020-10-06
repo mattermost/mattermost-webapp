@@ -157,7 +157,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     subtitle={t('admin.billing.subscription.paymentFailed')}
                     icon={failedSvg}
                     error={error}
-                    buttonText={t('admin.billing.subscription.goBackTryAgain')} //formatMessage({id: 'process_payment.try_again'})}
+                    buttonText={t('admin.billing.subscription.goBackTryAgain')}
                     buttonHandler={this.handleGoBack}
                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
                     linkURL='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
