@@ -742,11 +742,11 @@ class CreatePost extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
-        if (this.textbox && postTextboxDisabled) {
+        if (this.textbox.current && postTextboxDisabled) {
             this.textbox.current.blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
             return;
         }
-        if (this.textbox && (keepFocus || !UserAgent.isMobile())) {
+        if (this.textbox.current && (keepFocus || !UserAgent.isMobile())) {
             this.textbox.current.focus();
         }
     }
@@ -766,7 +766,7 @@ class CreatePost extends React.PureComponent {
             if (e.persist) {
                 e.persist();
             }
-            if (this.textbox) {
+            if (this.textbox.current) {
                 this.textbox.current.blur();
             }
 
@@ -996,7 +996,7 @@ class CreatePost extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        if (this.textbox) {
+        if (this.textbox.current) {
             return this.textbox.current;
         }
 
@@ -1069,7 +1069,7 @@ class CreatePost extends React.PureComponent {
         } else {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
-        if (this.textbox) {
+        if (this.textbox.current) {
             this.textbox.currrent.blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
@@ -1236,7 +1236,7 @@ class CreatePost extends React.PureComponent {
         });
 
         window.requestAnimationFrame(() => {
-            if (this.textbox) {
+            if (this.textbox.current) {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textbox.current.getInputBox())});
             }
         });
@@ -1516,7 +1516,7 @@ class CreatePost extends React.PureComponent {
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 id='post_textbox'
-                                ref='textbox'
+                                ref={this.textbox}
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
