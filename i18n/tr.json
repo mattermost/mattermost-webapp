@@ -1,5 +1,6 @@
 {
   "about.buildnumber": "Yapım Numarası:",
+  "about.cloudEdition": "Bulut",
   "about.copyright": "Telif Hakkı 2015 - {currentYear} Mattermost, Inc. Tüm hakları saklıdır",
   "about.database": "Veritabanı:",
   "about.date": "Yapım Tarihi:",
