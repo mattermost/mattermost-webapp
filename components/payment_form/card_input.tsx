@@ -26,6 +26,8 @@ type OwnProps = {
     error?: string;
     required?: boolean;
     forwardedRef?: any;
+
+    // Stripe doesn't give type exports
     [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
@@ -92,8 +94,6 @@ class CardInput extends React.PureComponent<Props, State> {
         this.setState({error: ''});
         if (required && empty) {
             error = REQUIRED_FIELD_TEXT;
-
-            //t('shortcuts.header'),
         } else if (!complete) {
             error = VALID_CARD_TEXT;
         }

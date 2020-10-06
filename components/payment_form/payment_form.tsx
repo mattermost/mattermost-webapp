@@ -2,22 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {getName} from 'country-list';
-
 import {FormattedMessage} from 'react-intl';
 
 import {PaymentMethod} from 'mattermost-redux/types/cloud';
 
-import DropdownInput from 'components/dropdown_input';
-
 import {BillingDetails} from 'types/cloud/sku';
 
+import DropdownInput from 'components/dropdown_input';
 import Input from 'components/input';
-
 import * as Utils from 'utils/utils';
-
-import {COUNTRIES} from 'components/cloud/utils/countries';
+import {COUNTRIES} from 'utils/countries';
 
 import StateSelector from './state_selector';
 import CardInput, {CardInputType} from './card_input';
@@ -242,12 +237,11 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
 
             if (paymentMethod) {
                 let cardDetails = (
-                    <i>
-                        <FormattedMessage
-                            id='payment_form.no_credit_card'
-                            defaultMessage='No credit card added'
-                        />
-                    </i>);
+                    <FormattedMessage
+                        id='payment_form.no_credit_card'
+                        defaultMessage='No credit card added'
+                    />
+                );
                 if (paymentMethod.last_four) {
                     cardDetails = (
                         <React.Fragment>
@@ -268,9 +262,8 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                 if (this.state.state) {
                     addressDetails = (
                         <React.Fragment>
-                            {this.state.address2}
-                            {this.state.address2 ? <br/> : null}
                             {this.state.address}
+                            {this.state.address2}
                             <br/>
                             {`${this.state.city}, ${this.state.state}, ${this.state.country}`}
                             <br/>
