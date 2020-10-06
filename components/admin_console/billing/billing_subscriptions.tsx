@@ -15,6 +15,7 @@ import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
 import './billing_subscriptions.scss';
+import BillingSummary from './billing_summary';
 
 type Props = {
 
@@ -73,6 +74,9 @@ const privateCloudCard = () => (
         </div>
     </div>
 );
+
+// TODO: temp
+const isFree = false;
 
 const BillingSubscriptions: React.FC<Props> = () => {
     const testTooltipLeft = (
@@ -172,7 +176,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                                 <button>{'Right Side Test Button'}</button>
                             </OverlayTrigger>
                         </div>
-                        {upgradeMattermostCloud()}
+                        {isFree ? upgradeMattermostCloud() : <BillingSummary/>}
                     </div>
                     {privateCloudCard()}
                 </div>
