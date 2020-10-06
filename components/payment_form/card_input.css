@@ -23,7 +23,7 @@
 }
 
 .StripeElement::placeholder {
-    color: var(--center-channel-color-72);
+    color: rgba(var(--center-channel-color-rgb), 0.72);
     opacity: 0.5;
     font-size: 14px;
 }
