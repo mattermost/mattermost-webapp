@@ -130,3 +130,29 @@
         text-decoration: none;
     }
 }
+
+.BillingHistory__paging {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 12px;
+
+    > span {
+        margin-right: 8px;
+    }
+
+    button {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0 4px;
+
+        > i {
+            font-size: 28px;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+        }
+    }
+}

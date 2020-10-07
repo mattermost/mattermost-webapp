@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
 
 import './billing_history.scss';
@@ -39,6 +40,7 @@ const noBillingHistorySection = (
     </div>
 );
 
+// TODO: Temp data
 const billingInfo: any = [
     {
         id: 1,
@@ -120,6 +122,9 @@ const BillingHistory: React.FC<Props> = () => {
     const showNoBillingHistoryView = () => {
         setBillingHistory(undefined);
     };
+
+    const previousPage = () => {};
+    const nextPage = () => {};
 
     const billingHistoryTable = billingHistory && (
         <table className='BillingHistory__table'>
@@ -217,6 +222,29 @@ const BillingHistory: React.FC<Props> = () => {
                         </div>
                         <div className='BillingHistory__cardBody'>
                             {billingHistory ? billingHistoryTable : noBillingHistorySection}
+                            <div className='BillingHistory__paging'>
+                                <FormattedMarkdownMessage
+                                    id='admin.billing.history.pageInfo'
+                                    defaultMessage='{startRecord} - {endRecord} of {totalRecords}'
+                                    values={{
+                                        startRecord: 1,
+                                        endRecord: 4,
+                                        totalRecords: 4,
+                                    }}
+                                />
+                                <button
+                                    onClick={previousPage}
+                                    disabled={true}
+                                >
+                                    <i className='icon icon-chevron-left'/>
+                                </button>
+                                <button
+                                    onClick={nextPage}
+                                    disabled={false}
+                                >
+                                    <i className='icon icon-chevron-right'/>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <button onClick={showNoBillingHistoryView}>{'Show No Billing History View'}</button>
