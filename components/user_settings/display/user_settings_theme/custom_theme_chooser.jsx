@@ -129,6 +129,11 @@ export default class CustomThemeChooser extends React.PureComponent {
         this.state = {
             copyTheme,
         };
+
+        this.textarea = React.createRef();
+        this.sidebarStylesHeader = React.createRef();
+        this.centerChannelStyles = React.createRef();
+        this.linkAndButtonStyles = React.createRef();
     }
 
     componentDidMount() {
@@ -206,7 +211,7 @@ export default class CustomThemeChooser extends React.PureComponent {
     }
 
     selectTheme = () => {
-        const textarea = this.refs.textarea;
+        const textarea = this.textarea.current;
         textarea.focus();
         textarea.setSelectionRange(0, this.state.copyTheme.length);
     }
@@ -214,22 +219,22 @@ export default class CustomThemeChooser extends React.PureComponent {
     toggleSidebarStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.sidebarStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
-        this.toggleSection(this.refs.sidebarStyles);
+        $(this.sidebarStylesHeader.current).toggleClass('open'); // eslint-disable-line jquery/no-class
+        this.toggleSection(this.sidebarStyles.current);
     }
 
     toggleCenterChannelStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.centerChannelStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
-        this.toggleSection(this.refs.centerChannelStyles);
+        $(this.centerChannelStylesHeader.current).toggleClass('open'); // eslint-disable-line jquery/no-class
+        this.toggleSection(this.centerChannelStyles.current);
     }
 
     toggleLinkAndButtonStyles = (e) => {
         e.preventDefault();
 
-        $(this.refs.linkAndButtonStylesHeader).toggleClass('open'); // eslint-disable-line jquery/no-class
-        this.toggleSection(this.refs.linkAndButtonStyles);
+        $(this.linkAndButtonStylesHeader.current).toggleClass('open'); // eslint-disable-line jquery/no-class
+        this.toggleSection(this.linkAndButtonStyles.current);
     }
 
     toggleSection(node) {
