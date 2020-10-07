@@ -609,7 +609,7 @@ export default class NotificationsTab extends React.PureComponent {
                         <label>
                             <input
                                 id='notificationTriggerCustom'
-                                ref='customcheck'
+                                ref={this.customcheck}
                                 type='checkbox'
                                 checked={this.state.customKeysChecked}
                                 onChange={this.updateCustomMentionKeys}
@@ -623,7 +623,7 @@ export default class NotificationsTab extends React.PureComponent {
                     <input
                         id='notificationTriggerCustomText'
                         autoFocus={this.state.customKeysChecked}
-                        ref='custommentions'
+                        ref={this.custommentions}
                         className='form-control mentions-input'
                         type='text'
                         defaultValue={this.state.customKeys}
