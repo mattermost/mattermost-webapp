@@ -141,8 +141,8 @@ export default class NotificationsTab extends React.PureComponent {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
-        this.customcheck = React.createRef();
-        this.custommentions = React.createRef();
+        this.customCheck = React.createRef();
+        this.customMentions = React.createRef();
     }
 
     handleSubmit = () => {
@@ -245,10 +245,10 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     updateCustomMentionKeys = () => {
-        const checked = this.customcheck.current.checked;
+        const checked = this.customCheck.current.checked;
 
         if (checked) {
-            const text = this.custommentions.current.value;
+            const text = this.customMentions.current.value;
 
             // remove all spaces and split string into individual keys
             this.setState({customKeys: text.replace(/ /g, ''), customKeysChecked: true});
@@ -258,7 +258,7 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     onCustomChange = () => {
-        this.customcheck.current.checked = true;
+        this.customCheck.current.checked = true;
         this.updateCustomMentionKeys();
     }
 
@@ -609,7 +609,7 @@ export default class NotificationsTab extends React.PureComponent {
                         <label>
                             <input
                                 id='notificationTriggerCustom'
-                                ref={this.customcheck}
+                                ref={this.customCheck}
                                 type='checkbox'
                                 checked={this.state.customKeysChecked}
                                 onChange={this.updateCustomMentionKeys}
@@ -623,7 +623,7 @@ export default class NotificationsTab extends React.PureComponent {
                     <input
                         id='notificationTriggerCustomText'
                         autoFocus={this.state.customKeysChecked}
-                        ref={this.custommentions}
+                        ref={this.customMentions}
                         className='form-control mentions-input'
                         type='text'
                         defaultValue={this.state.customKeys}
