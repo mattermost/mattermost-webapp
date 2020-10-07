@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
-import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -27,7 +27,6 @@ function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
     return (state: GlobalState) => {
-        const lastUnreadChannel = state.views.channel.lastUnreadChannel;
         const currentTeam = getCurrentTeam(state);
 
         return {
@@ -35,7 +34,7 @@ function makeMapStateToProps() {
             currentChannel: getCurrentChannel(state),
             categories: getCategoriesForTeam(state, currentTeam.id),
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
-            unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
+            unreadChannelIds: getUnreadChannelIds(state),
             displayedChannels: getDisplayedChannels(state),
             draggingState: getDraggingState(state),
             newCategoryIds: state.views.channelSidebar.newCategoryIds,
