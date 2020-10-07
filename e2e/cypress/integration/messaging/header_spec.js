@@ -94,6 +94,33 @@ describe('Header', () => {
         // # Verify that the Search term input box is still cleared and search term does not reappear when RHS opens
         cy.get('#searchBox').should('have.attr', 'value', '').and('be.empty');
     });
+
+    it('MM-T1837 - DM channel with bot displays a normal header', () => {
+        cy.apiAdminLogin();
+
+        // # Enable Bots
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableBotAccountCreation: true,
+            },
+        });
+
+        // # Create a bot
+        const botUsername = 'a-bot-to-dm' + Date.now();
+        const description = 'A bot to DM';
+        cy.apiCreateBot(botUsername, 'Bot To DM', description);
+
+        // # Open a DM with the bot
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type(botUsername, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+
+        // * Verify Channel Header is visible
+        cy.get('#channelHeaderInfo').should('be.visible');
+
+        // # Verify header content
+        cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', description);
+    });
 });
 
 function updateAndVerifyChannelHeader(prefix, header) {
