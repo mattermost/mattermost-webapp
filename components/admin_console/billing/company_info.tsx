@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {useDispatch, useStore} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
@@ -17,10 +17,9 @@ type Props = {
 
 const CompanyInfo: React.FC<Props> = () => {
     const dispatch = useDispatch<DispatchFunc>();
-    const store = useStore();
 
     useEffect(() => {
-        getCloudCustomer()(dispatch, store.getState());
+        dispatch(getCloudCustomer());
     }, []);
 
     return (
