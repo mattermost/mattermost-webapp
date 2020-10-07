@@ -32,10 +32,11 @@ export default class FileUploadSetting extends Setting {
             fileName: null,
             serverError: props.error,
         };
+        this.fileInputRef = React.createRef();
     }
 
     handleChange = () => {
-        const files = this.refs.fileInput.files;
+        const files = this.fileInput.current.files;
         if (files && files.length > 0) {
             this.setState({fileSelected: true, fileName: files[0].name});
         }
@@ -45,10 +46,10 @@ export default class FileUploadSetting extends Setting {
         e.preventDefault();
 
         $(this.refs.upload_button).button('loading');
-        this.props.onSubmit(this.props.id, this.refs.fileInput.files[0], (error) => {
+        this.props.onSubmit(this.props.id, this.fileInput.current.files[0], (error) => {
             $(this.refs.upload_button).button('reset');
             if (error) {
-                Utils.clearFileInput(this.refs.fileInput);
+                Utils.clearFileInput(this.fileInput.current);
             }
         });
     }
@@ -94,7 +95,7 @@ export default class FileUploadSetting extends Setting {
                             />
                         </button>
                         <input
-                            ref='fileInput'
+                            ref={this.fileInput}
                             type='file'
                             disabled={this.props.disabled}
                             accept={this.props.fileType}
