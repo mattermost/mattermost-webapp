@@ -18,7 +18,7 @@ const goToAdminConsole = () => {
 describe('Main menu', () => {
     before(() => {
         cy.apiRequireLicense();
-        
+
         goToAdminConsole();
 
         // # Open the hamburger menu
