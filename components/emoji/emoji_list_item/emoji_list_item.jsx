@@ -19,8 +19,8 @@ export default class EmojiListItem extends React.PureComponent {
         currentTeam: PropTypes.object,
         onDelete: PropTypes.func,
         actions: PropTypes.shape({
-            deleteCustomEmoji: PropTypes.func.isRequired,
-        }).isRequired,
+            deleteCustomEmoji: PropTypes.func,
+        }),
     }
 
     static defaultProps = {
