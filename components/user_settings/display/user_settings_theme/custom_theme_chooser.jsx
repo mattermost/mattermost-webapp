@@ -134,6 +134,7 @@ export default class CustomThemeChooser extends React.PureComponent {
         this.sidebarStylesHeaderRef = React.createRef();
         this.centerChannelStylesRef = React.createRef();
         this.linkAndButtonStylesRef = React.createRef();
+        this.headerOverlayRef = React.createRef();
     }
 
     componentDidMount() {
@@ -333,7 +334,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                             <OverlayTrigger
                                 placement='top'
                                 overlay={popoverContent}
-                                ref='headerOverlay'
+                                ref={this.headerOverlayRef}
                             >
                                 <span className='input-group-addon'>
                                     <img
