@@ -27,7 +27,7 @@ function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
     return (state: GlobalState) => {
-        const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
+        const lastUnreadChannel = state.views.channel.lastUnreadChannel;
         const currentTeam = getCurrentTeam(state);
 
         return {

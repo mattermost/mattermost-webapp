@@ -63,6 +63,14 @@ describe('getUnreadChannels', () => {
                 currentTeamId: 'team1',
             },
         },
+        views: {
+            channel: {
+                lastUnreadChannel: {
+                    id: 'unreadChannel1',
+                    hadMentions: false,
+                },
+            },
+        },
     };
 
     test('should return channels sorted by recency', () => {
@@ -79,6 +87,16 @@ describe('getUnreadChannels', () => {
                     myMembers: {
                         ...baseState.entities.channels.myMembers,
                         unreadChannel1: {notify_props: {}, mention_count: 2, msg_count: 8},
+                    },
+                },
+            },
+            views: {
+                ...baseState.views,
+                channel: {
+                    ...baseState.views.channel,
+                    lastUnreadChannel: {
+                        id: 'unreadChannel1',
+                        hadMentions: true,
                     },
                 },
             },
@@ -117,5 +135,52 @@ describe('getUnreadChannels', () => {
         };
 
         expect(Selectors.getUnreadChannels(state)).toEqual([readChannel, unreadChannel2, unreadChannel1]);
+    });
+
+    test('should look at lastUnreadChannel to determine if the current channel had mentions before it was read', () => {
+        let state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channels: {
+                    ...baseState.entities.channels,
+                    currentChannelId: 'readChannel',
+                    myMembers: {
+                        ...baseState.entities.channels.myMembers,
+                        unreadChannel1: {notify_props: {}, mention_count: 2, msg_count: 8},
+                    },
+                },
+            },
+            views: {
+                ...baseState.views,
+                channel: {
+                    ...baseState.views.channel,
+                    lastUnreadChannel: {
+                        id: 'readChannel',
+                        hadMentions: false,
+                    },
+                },
+            },
+        };
+
+        // readChannel previously had no mentions, so it should be sorted with the non-mentions
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, readChannel, unreadChannel2]);
+
+        state = {
+            ...state,
+            views: {
+                ...state.views,
+                channel: {
+                    ...state.views.channel,
+                    lastUnreadChannel: {
+                        id: 'readChannel',
+                        hadMentions: true,
+                    },
+                },
+            },
+        };
+
+        // readChannel previously had a mention, so it should be sorted with the mentions
+        expect(Selectors.getUnreadChannels(state)).toEqual([readChannel, unreadChannel1, unreadChannel2]);
     });
 });

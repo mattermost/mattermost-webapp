@@ -98,8 +98,13 @@ export const getUnreadChannels = (() => {
         (state: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
         getLastPostPerChannel,
-        (channels, myMembers, lastPosts) => {
+        (state: GlobalState) => state.views.channel.lastUnreadChannel,
+        (channels, myMembers, lastPosts, lastUnreadChannel) => {
             function hasMentions(channel: Channel) {
+                if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
+                    return true;
+                }
+
                 const member = myMembers[channel.id];
                 return member?.mention_count !== 0 && !isChannelMuted(member);
             }
