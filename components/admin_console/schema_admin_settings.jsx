@@ -86,7 +86,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             showConfirmId: '',
             clientWarning: '',
         };
-        this.errorMessage = React.createRef();
+        this.errorMessageRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -1060,7 +1060,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     <div
                         className='error-message'
                         data-testid='errorMessage'
-                        ref={this.errorMessage}
+                        ref={this.errorMessageRef}
                         onMouseOver={this.openTooltip}
                         onMouseOut={this.closeTooltip}
                     >
@@ -1076,7 +1076,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                         show={this.state.errorTooltip}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
-                        target={this.errorMessage.current}
+                        target={this.errorMessageRef.current}
                     >
                         <Tooltip id='error-tooltip' >
                             {this.state.serverError}
