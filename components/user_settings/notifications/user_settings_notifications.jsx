@@ -141,6 +141,8 @@ export default class NotificationsTab extends React.PureComponent {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
+        this.customcheck = React.createRef();
+        this.custommentions = React.createRef();
     }
 
     handleSubmit = () => {
@@ -243,10 +245,10 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     updateCustomMentionKeys = () => {
-        const checked = this.refs.customcheck.checked;
+        const checked = this.customcheck.current.checked;
 
         if (checked) {
-            const text = this.refs.custommentions.value;
+            const text = this.custommentions.current.value;
 
             // remove all spaces and split string into individual keys
             this.setState({customKeys: text.replace(/ /g, ''), customKeysChecked: true});
@@ -256,7 +258,7 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     onCustomChange = () => {
-        this.refs.customcheck.checked = true;
+        this.customcheck.current.checked = true;
         this.updateCustomMentionKeys();
     }
 
