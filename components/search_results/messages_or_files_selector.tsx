@@ -12,6 +12,8 @@ import './messages_or_files_selector.scss';
 type Props = {
     selected: string;
     selectedFilter: string;
+    messagesCounter: number;
+    filesCounter: number;
     onChange: (value: string) => void;
     onFilter: (filter: string) => void;
 };
@@ -20,24 +22,26 @@ export default function MessagesOrFilesSelector(props: Props): React.ReactNode {
     return (
         <div className='MessagesOrFilesSelector'>
             <div>
-                <a
+                <span
                     onClick={() => props.onChange('messages')}
-                    className={props.selected === 'messages' ? 'active' : ''}
+                    className={props.selected === 'messages' ? 'active tab' : 'tab'}
                 >
                     <FormattedMessage
                         id='search_bar.messages_tab'
                         defaultMessage='Messages'
                     />
-                </a>
-                <a
+                    <span className='counter'>{props.messagesCounter}</span>
+                </span>
+                <span
                     onClick={() => props.onChange('files')}
-                    className={props.selected === 'files' ? 'active' : ''}
+                    className={props.selected === 'files' ? 'active tab' : 'tab'}
                 >
                     <FormattedMessage
                         id='search_bar.files_tab'
                         defaultMessage='Files'
                     />
-                </a>
+                    <span className='counter'>{props.filesCounter}</span>
+                </span>
             </div>
             {props.selected === 'files' &&
                 <MenuWrapper>

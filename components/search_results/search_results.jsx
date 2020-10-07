@@ -5,7 +5,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import {FormattedMessage} from 'react-intl';
 
 import {injectIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -22,6 +21,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
 import FlagIcon from 'components/widgets/icons/flag_icon';
+import LoadingScreen from 'components/loading_screen';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
@@ -30,6 +30,8 @@ import MessageOrFileSelector from './messages_or_files_selector';
 import './search_results.scss';
 
 const GET_MORE_BUFFER = 30;
+const FILES_SEARCH_TYPE = 'files';
+const MESSAGES_SEARCH_TYPE = 'messages';
 
 export function renderView(props) {
     return (
@@ -56,9 +58,13 @@ export function renderThumbVertical(props) {
 }
 
 export function shouldRenderFromPropsAndState(props, nextProps, state, nextState) {
-    // Shallow compare for all props except 'results'
+    // Shallow compare for all props except 'results' and 'fileResults'
     for (const key in nextProps) {
         if (!nextProps.hasOwnProperty(key) || key === 'results') {
+            continue;
+        }
+
+        if (!nextProps.hasOwnProperty(key) || key === 'fileResults') {
             continue;
         }
 
@@ -90,6 +96,22 @@ export function shouldRenderFromPropsAndState(props, nextProps, state, nextState
     for (let i = 0; i < results.length; i++) {
         // Only need a shallow compare on each post
         if (results[i] !== nextResults[i]) {
+            return true;
+        }
+    }
+
+    // Here we do a slightly deeper compare on 'fileResults' because it is frequently a new
+    // array but without any actual changes
+    const fileResults = props.fileResults;
+    const nextFileResults = nextProps.fileResults;
+
+    if (fileResults.length !== nextFileResults.length) {
+        return true;
+    }
+
+    for (let i = 0; i < results.length; i++) {
+        // Only need a shallow compare on each file
+        if (fileResults[i] !== nextFileResults[i]) {
             return true;
         }
     }
@@ -134,7 +156,7 @@ class SearchResults extends React.Component {
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
-            searchType: 'messages',
+            searchType: MESSAGES_SEARCH_TYPE,
             filterType: 'all',
         };
     }
@@ -175,7 +197,7 @@ class SearchResults extends React.Component {
             const scrollTop = this.refs.scrollbars.getScrollTop();
             const clientHeight = this.refs.scrollbars.getClientHeight();
             if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
-                if (this.state.searchType === 'messages') {
+                if (this.state.searchType === MESSAGES_SEARCH_TYPE) {
                     this.loadMorePosts();
                 } else {
                     this.loadMoreFiles();
@@ -196,7 +218,7 @@ class SearchResults extends React.Component {
         const results = this.props.results;
         const fileResults = this.props.fileResults;
         let noResults = false;
-        if (this.state.searchType === 'messages') {
+        if (this.state.searchType === MESSAGES_SEARCH_TYPE) {
             noResults = (!results || results.length === 0);
         } else {
             noResults = (!fileResults || fileResults.length === 0);
@@ -276,79 +298,39 @@ class SearchResults extends React.Component {
                 </div>
             );
         } else {
-            if (this.state.searchType === 'messages') {
-                let sortedResults;
+            let sortedResults;
+            if (this.state.searchType === MESSAGES_SEARCH_TYPE) {
                 if (this.props.isPinnedPosts) {
                     sortedResults = [...results];
-                    sortedResults.sort((postA, postB) => postB.create_at - postA.create_at);
+                    sortedResults.sort((fileA, fileB) => fileB.create_at - fileA.create_at);
                 } else {
                     sortedResults = results;
                 }
-
-                ctls = sortedResults.map((post, index) => {
-                    return (
-                        <SearchResultsItem
-                            key={post.id}
-                            compactDisplay={this.props.compactDisplay}
-                            post={post}
-                            matches={this.props.matches[post.id]}
-                            term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
-                            isMentionSearch={this.props.isMentionSearch}
-                            a11yIndex={index}
-                            isFlaggedPosts={this.props.isFlaggedPosts}
-                            isPinnedPosts={this.props.isPinnedPosts}
-                        />
-                    );
-                }, this);
-
-                if (!this.props.isSearchAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
-                    loadingMorePostsComponent = (
-                        <div className='loading-screen'>
-                            <div className='loading__content'>
-                                <div className='round round-1'/>
-                                <div className='round round-2'/>
-                                <div className='round round-3'/>
-                            </div>
-                        </div>
-                    );
-                }
             } else {
-                let sortedResults;
-                if (this.props.isPinnedPosts) {
-                    sortedResults = [...fileResults];
-                    sortedResults.sort((fileA, fileB) => fileB.create_at - fileA.create_at);
-                } else {
-                    sortedResults = fileResults;
-                }
+                sortedResults = fileResults;
+            }
 
-                ctls = sortedResults.map((file, index) => {
-                    return (
-                        <SearchResultsItem
-                            key={file.id}
-                            compactDisplay={this.props.compactDisplay}
-                            fileInfo={file}
-                            term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
-                            isMentionSearch={this.props.isMentionSearch}
-                            a11yIndex={index}
-                            isFlaggedPosts={this.props.isFlaggedPosts}
-                            isPinnedPosts={this.props.isPinnedPosts}
-                        />
-                    );
-                }, this);
+            ctls = sortedResults.map((item, index) => {
+                return (
+                    <SearchResultsItem
+                        key={item.id}
+                        compactDisplay={this.props.compactDisplay}
+                        post={this.state.searchType === MESSAGES_SEARCH_TYPE && item}
+                        fileInfo={this.state.searchType === FILES_SEARCH_TYPE && item}
+                        matches={this.props.matches[item.id]}
+                        term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
+                        isMentionSearch={this.props.isMentionSearch}
+                        a11yIndex={index}
+                        isFlaggedPosts={this.props.isFlaggedPosts}
+                        isPinnedPosts={this.props.isPinnedPosts}
+                    />
+                );
+            }, this);
 
-                const isAtEnd = (this.props.isSearchAtEnd && this.state.searchType === "messages") || (this.props.isSearchFilesAtEnd && this.state.searchType === "files");
+            const isAtEnd = (this.props.isSearchAtEnd && this.state.searchType === MESSAGES_SEARCH_TYPE) || (this.props.isSearchFilesAtEnd && this.state.searchType === FILES_SEARCH_TYPE);
 
-                if (!isAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
-                    loadingMorePostsComponent = (
-                        <div className='loading-screen'>
-                            <div className='loading__content'>
-                                <div className='round round-1'/>
-                                <div className='round round-2'/>
-                                <div className='round round-3'/>
-                            </div>
-                        </div>
-                    );
-                }
+            if (!isAtEnd && !this.props.isFlaggedPosts && !this.props.isPinnedPosts) {
+                loadingMorePostsComponent = <LoadingScreen message=' '/>;
             }
         }
 
@@ -388,8 +370,8 @@ class SearchResults extends React.Component {
 
         return (
             <div
-                id='SearchResults searchContainer'
-                className='sidebar-right__body'
+                id='searchContainer'
+                className='SearchResults sidebar-right__body'
             >
                 <SearchResultsHeader>
                     {formattedTitle}
@@ -398,6 +380,8 @@ class SearchResults extends React.Component {
                 <MessageOrFileSelector
                     selected={this.state.searchType}
                     selectedFilter={this.state.filterType}
+                    messagesCounter={this.props.isSearchAtEnd ? results.length : `${results.length}+`}
+                    filesCounter={this.props.isSearchFilesAtEnd ? fileResults.length : `${fileResults.length}+`}
                     onChange={(searchType) => this.setState({searchType})}
                     onFilter={(filterType) => this.setState({filterType})}
                 />

@@ -4,14 +4,29 @@
     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     align-items: center;
     justify-content: space-between;
-    .active {
-        background-color: rgba(var(--button-bg-rgb), 0.08);
-        border-radius: 4px;
-    }
-    a {
+    .tab {
         text-decoration: none;
         padding: 4px 12px;
         margin-right: 4px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-weight: 600;
+        cursor: pointer;
+        &.active {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            border-radius: 4px;
+            color: var(--button-bg);
+            .counter {
+                background-color: rgba(var(--button-bg-rgb), 0.08);
+            }
+        }
+        .counter {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            border-radius: 50%;
+            padding: 2px 5px;
+            margin-left: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
     }
     .MenuWrapper {
         align-self: end;
