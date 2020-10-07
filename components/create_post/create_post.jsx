@@ -327,6 +327,8 @@ class CreatePost extends React.PureComponent {
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
         this.lastOrientation = null;
+
+        this.topDiv = React.createRef();
         this.textboxRef = React.createRef();
         this.fileUploadRef = React.createRef();
         this.createPostControlsRef = React.createRef();
@@ -1421,7 +1423,7 @@ class CreatePost extends React.PureComponent {
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
-                    ref='fileUpload'
+                    ref={this.fileUploadRef}
                     fileCount={this.getFileCount()}
                     getTarget={this.getFileUploadTarget}
                     onFileUploadChange={this.handleFileUploadChange}
@@ -1485,7 +1487,7 @@ class CreatePost extends React.PureComponent {
         return (
             <form
                 id='create_post'
-                ref='topDiv'
+                ref={this.topDiv}
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
@@ -1527,7 +1529,7 @@ class CreatePost extends React.PureComponent {
                                 useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
-                                ref='createPostControls'
+                                ref={this.createPostControlsRef}
                                 className='post-body__actions'
                             >
                                 {callButton}
