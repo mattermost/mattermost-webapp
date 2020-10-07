@@ -1302,7 +1302,7 @@ describe('components/create_post', () => {
     testComponentForMarkdownHotkeys(
         (value) => createPost({draft: {...draftProp, message: value}}),
         (wrapper, setSelectionRangeFn) => {
-            wrapper.instance().textbox = {
+            wrapper.instance().textboxRef = {
                 current: {
                     getInputBox: jest.fn(() => {
                         return {
@@ -1322,7 +1322,7 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: value}}));
 
         const setSelectionRangeFn = jest.fn();
-        wrapper.instance().textbox = {
+        wrapper.instance().textboxRef = {
             current: {
                 getInputBox: jest.fn(() => {
                     return {
