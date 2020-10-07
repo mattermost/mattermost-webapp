@@ -45,7 +45,6 @@ function mapStateToProps() {
                 channelName: channel.display_name,
                 channelType: channel.type,
                 channelIsArchived: channel.delete_at !== 0,
-                currentTeamName: getCurrentTeam(state).name,
                 commentCountForPost: getCommentCountForPost(state, {post}),
                 enablePostUsernameOverride,
                 isFlagged: isPostFlagged(post.id, preferences),
@@ -55,7 +54,9 @@ function mapStateToProps() {
                 replyCount: getReplyCount(state, post),
             };
         }
-        return {};
+        return {
+            currentTeamName: getCurrentTeam(state).name,
+        };
     };
 }
 

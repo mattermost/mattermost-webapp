@@ -229,15 +229,14 @@ class SearchResultsItem extends React.PureComponent {
         const {post, fileInfo, channelIsArchived} = this.props;
         const channelName = this.getChannelName();
         if (fileInfo) {
-            const currentFileDay = Utils.getDateForUnixTicks(fileInfo.create_at);
             return (
                 <div
                     data-testid='search-item-container'
                     className='search-item__container'
                 >
-                    <DateSeparator date={currentFileDay}/>
                     <FileSearchResultItem
                         fileInfo={this.props.fileInfo}
+                        teamName={this.props.currentTeamName}
                     />
                 </div>
             );

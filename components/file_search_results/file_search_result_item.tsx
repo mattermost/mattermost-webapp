@@ -2,16 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedTime} from 'react-intl';
+import {FormattedDate, FormattedTime} from 'react-intl';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import {fileSizeToString, copyToClipboard} from 'utils/utils';
+import {isSameYear} from 'utils/datetime';
 import {browserHistory} from 'utils/browser_history';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import FileThumbnail from 'components/file_attachment/file_thumbnail';
 
 import './file_search_result_item.scss';
@@ -54,6 +54,12 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                     <div className='fileMetadata'>
                         <span>{fileSizeToString(fileInfo.size)}</span>
                         <span>{' • '}</span>
+                        <FormattedDate
+                            value={fileInfo.create_at}
+                            year={isSameYear(new Date(fileInfo.create_at), new Date()) ? undefined : 'numeric'}
+                            month='short'
+                            day='2-digit'
+                        />
                         <FormattedTime
                             value={fileInfo.create_at}
                             hour='2-digit'
@@ -64,7 +70,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                 <div onClick={this.stopPropagation}>
                     <MenuWrapper>
                         <span className='action-icon dots-icon'>
-                            <DotsHorizontalIcon/>
+                            <i className='icon icon-dots-vertical'/>
                         </span>
                         <Menu
                             ariaLabel={'file menu'}
