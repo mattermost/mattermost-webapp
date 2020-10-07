@@ -118,7 +118,7 @@ describe('Header', () => {
         // * Verify Channel Header is visible
         cy.get('#channelHeaderInfo').should('be.visible');
 
-        // # Verify header content
+        // * Verify header content
         cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', description);
     });
 });
