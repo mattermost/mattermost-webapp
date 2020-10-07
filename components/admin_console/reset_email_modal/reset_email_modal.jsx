@@ -31,14 +31,14 @@ export default class ResetEmailModal extends React.PureComponent {
             error: null,
         };
 
-        this.email = React.createRef();
+        this.emailRef = React.createRef();
     }
 
     doSubmit = (e) => {
         e.preventDefault();
 
-        if (this.email.current) {
-            const email = this.email.current.value;
+        if (this.emailRef.current) {
+            const email = this.emailRef.current.value;
             if (!isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
@@ -52,7 +52,7 @@ export default class ResetEmailModal extends React.PureComponent {
         }
 
         const user = Object.assign({}, this.props.user);
-        const email = this.email.current.value.trim().toLowerCase();
+        const email = this.emailRef.current.value.trim().toLowerCase();
         user.email = email;
 
         this.setState({error: null});
@@ -133,7 +133,7 @@ export default class ResetEmailModal extends React.PureComponent {
                                     </span>
                                     <input
                                         type='email'
-                                        ref='email'
+                                        ref={this.emailRef}
                                         className='form-control'
                                         maxLength='128'
                                         autoFocus={true}
