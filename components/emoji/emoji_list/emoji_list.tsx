@@ -37,7 +37,11 @@ interface Props {
         /**
          * Get pages of custom emojis.
          */
+<<<<<<< HEAD
         getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
+=======
+        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => ActionFunc;
+>>>>>>> 2aaae10fa... Fixed index.ts file
 
         /**
          * Search custom emojis.
@@ -72,7 +76,11 @@ export default class EmojiList extends React.PureComponent<Props, State> {
 
     async componentDidMount(): Promise<void> {
         this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).
+<<<<<<< HEAD
             then(({data}: { data: CustomEmoji[] }) => {
+=======
+            then(({data}: any) => {
+>>>>>>> 2aaae10fa... Fixed index.ts file
                 this.setState({loading: false});
                 if (data && data.length < EMOJI_PER_PAGE) {
                     this.setState({missingPages: false});
