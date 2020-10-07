@@ -9,7 +9,7 @@
 // Group: @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
-import TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
@@ -47,7 +47,7 @@ describe('Group Mentions', () => {
 
         // # Link the LDAP Group - board
         cy.visit('/admin_console/user_management/groups');
-        cy.get('#board_group').then((el) => {
+        cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
                 if (el.find('.icon.fa-unlink').length > 0) {
@@ -100,7 +100,7 @@ describe('Group Mentions', () => {
 
         // # Enable Group Mention for the group - board
         cy.visit('/admin_console/user_management/groups');
-        cy.get('#board_group').then((el) => {
+        cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
                 if (el.find('.icon.fa-unlink').length > 0) {
@@ -119,7 +119,7 @@ describe('Group Mentions', () => {
 
         // # Unlink the group
         cy.visit('/admin_console/user_management/groups');
-        cy.get('#board_group').then((el) => {
+        cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             el.find('.icon.fa-link').click();
         });
 
@@ -130,6 +130,7 @@ describe('Group Mentions', () => {
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Type the Group Name to check if Autocomplete dropdown is not displayed
             cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -160,6 +161,7 @@ describe('Group Mentions', () => {
         // # Login as a regular user
         cy.apiLogin(regularUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with a user
         cy.get('#addDirectChannel').click();
@@ -200,6 +202,7 @@ describe('Group Mentions', () => {
         // # Login as a regular user
         cy.apiLogin(regularUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with couple of users
         cy.get('#addDirectChannel').click();
@@ -236,7 +239,7 @@ describe('Group Mentions', () => {
         cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
         // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
-        cy.get('#group_users').scrollIntoView();
+        cy.get('#group_users', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView();
         cy.findByText(boardUser.email).should('be.visible');
         cy.get('#group_profile').scrollIntoView().wait(TIMEOUTS.TWO_SEC);
 
