@@ -227,8 +227,6 @@
   "admin.billing.subscription.planDetails.prolongedOverages": "Prolonged overages may result in additional charges. [See how billing works](!https://google.com)",
   "admin.billing.subscription.planDetails.seatCountOverages": "Seat count overages",
   "admin.billing.subscription.planDetails.startDate": "Start Date: ",
-  "admin.billing.subscription.planDetails.tiers.annual": "Annual Subscription",
-  "admin.billing.subscription.planDetails.tiers.beta": "Beta Subscription",
   "admin.billing.subscription.planDetails.tiers.free": "Free",
   "admin.billing.subscription.planDetails.upToXUsers": "up to {userLimit} users",
   "admin.billing.subscription.planDetails.userCount": "{userCount} users",
