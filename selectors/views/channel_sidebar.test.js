@@ -34,26 +34,29 @@ describe('isCategoryCollapsed', () => {
 });
 
 describe('getUnreadChannels', () => {
+    const currentChanenl = {id: 'currentChanenl', total_msg_count: 0, last_post_at: 0};
+    const readChannel = {id: 'readChannel', total_msg_count: 10, last_post_at: 300};
     const unreadChannel1 = {id: 'unreadChannel1', total_msg_count: 10, last_post_at: 100};
     const unreadChannel2 = {id: 'unreadChannel2', total_msg_count: 10, last_post_at: 200};
-    const readChannel = {id: 'readChannel', total_msg_count: 10, last_post_at: 300};
 
     const baseState = {
         entities: {
             channels: {
                 channels: {
+                    currentChanenl,
+                    readChannel,
                     unreadChannel1,
                     unreadChannel2,
-                    readChannel,
                 },
                 channelsInTeam: {
                     team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
                 },
-                currentChannelId: 'unreadChannel1',
+                currentChannelId: 'currentChanenl',
                 myMembers: {
+                    currentChanenl: {notify_props: {}, mention_count: 0, msg_count: 0},
+                    readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
                     unreadChannel1: {notify_props: {}, mention_count: 0, msg_count: 8},
                     unreadChannel2: {notify_props: {}, mention_count: 0, msg_count: 8},
-                    readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
                 },
             },
             posts: {
@@ -66,7 +69,7 @@ describe('getUnreadChannels', () => {
         views: {
             channel: {
                 lastUnreadChannel: {
-                    id: 'unreadChannel1',
+                    id: 'currentChanenl',
                     hadMentions: false,
                 },
             },
@@ -74,7 +77,7 @@ describe('getUnreadChannels', () => {
     };
 
     test('should return channels sorted by recency', () => {
-        expect(Selectors.getUnreadChannels(baseState)).toEqual([unreadChannel2, unreadChannel1]);
+        expect(Selectors.getUnreadChannels(baseState)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
     });
 
     test('should return channels with mentions before those without', () => {
@@ -90,19 +93,9 @@ describe('getUnreadChannels', () => {
                     },
                 },
             },
-            views: {
-                ...baseState.views,
-                channel: {
-                    ...baseState.views.channel,
-                    lastUnreadChannel: {
-                        id: 'unreadChannel1',
-                        hadMentions: true,
-                    },
-                },
-            },
         };
 
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, unreadChannel2]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, unreadChannel2, currentChanenl]);
 
         state = {
             ...baseState,
@@ -119,7 +112,7 @@ describe('getUnreadChannels', () => {
             },
         };
 
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
     });
 
     test('should always return the current channel, even if it is not unread', () => {
@@ -182,5 +175,41 @@ describe('getUnreadChannels', () => {
 
         // readChannel previously had a mention, so it should be sorted with the mentions
         expect(Selectors.getUnreadChannels(state)).toEqual([readChannel, unreadChannel1, unreadChannel2]);
+    });
+
+    test('should sort muted channels last', () => {
+        let state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channels: {
+                    ...baseState.entities.channels,
+                    myMembers: {
+                        ...baseState.entities.channels.myMembers,
+                        unreadChannel2: {notify_props: {mark_unread: 'all'}, total_msg_count: 10, mention_count: 2},
+                    },
+                },
+            },
+        };
+
+        // No channels are muted
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
+
+        state = {
+            ...state,
+            entities: {
+                ...state.entities,
+                channels: {
+                    ...state.entities.channels,
+                    myMembers: {
+                        ...state.entities.channels.myMembers,
+                        unreadChannel2: {notify_props: {mark_unread: 'mention'}, total_msg_count: 10, mention_count: 2},
+                    },
+                },
+            },
+        };
+
+        // unreadChannel2 is muted and has a mention
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, currentChanenl, unreadChannel2]);
     });
 });

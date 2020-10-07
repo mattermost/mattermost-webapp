@@ -100,17 +100,29 @@ export const getUnreadChannels = (() => {
         getLastPostPerChannel,
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         (channels, myMembers, lastPosts, lastUnreadChannel) => {
+            function isMuted(channel: Channel) {
+                return isChannelMuted(myMembers[channel.id]);
+            }
+
             function hasMentions(channel: Channel) {
                 if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
                     return true;
                 }
 
                 const member = myMembers[channel.id];
-                return member?.mention_count !== 0 && !isChannelMuted(member);
+                return member?.mention_count !== 0;
             }
 
             // Sort channels with mentions first and then sort by recency
             return [...channels].sort((a, b) => {
+                // Sort muted channels last
+                if (isMuted(a) && !isMuted(b)) {
+                    return 1;
+                } else if (!isMuted(a) && isMuted(b)) {
+                    return -1;
+                }
+
+                // Sort non-muted mentions first
                 if (hasMentions(a) && !hasMentions(b)) {
                     return -1;
                 } else if (!hasMentions(a) && hasMentions(b)) {
