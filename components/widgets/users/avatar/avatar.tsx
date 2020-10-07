@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FC, memo} from 'react';
+import React, {memo, HTMLAttributes} from 'react';
 
 import './avatar.scss';
 
@@ -12,17 +12,21 @@ type Props = {
     children?: string;
 };
 
-const Avatar: FC<Props> = ({
+type Attrs = Pick<HTMLAttributes<HTMLElement>, 'tabIndex'>
+
+const Avatar = ({
     url,
     username,
     size = 'md',
     children,
-}: Props) => {
+    ...attrs
+}: Props & Attrs) => {
     const classes = `Avatar Avatar-${size}`;
 
     if (children) {
         return (
             <div
+                {...attrs}
                 className={classes + ' Avatar-plain'}
                 data-content={children}
             />
@@ -31,6 +35,7 @@ const Avatar: FC<Props> = ({
 
     return (
         <img
+            {...attrs}
             className={classes}
             alt={`${username || 'user'} profile image`}
             src={url}

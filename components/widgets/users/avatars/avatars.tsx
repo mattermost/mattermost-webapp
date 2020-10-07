@@ -4,6 +4,8 @@
 import React, {memo, ComponentProps} from 'react';
 import {useIntl} from 'react-intl';
 
+import {t} from 'utils/i18n';
+
 import SimpleTooltip, {useSynchronizedImmediate} from 'components/simple_tooltip';
 
 import Avatar from 'components/widgets/users/avatar';
@@ -27,8 +29,8 @@ function Avatars({
     users,
     totalUsers = users.length,
     breakAt = Math.min(
-        Math.max(users.length, totalUsers) > 4 ? 3 : 4,
-        Math.min(users.length, totalUsers),
+        users.length > 4 ? 3 : 4,
+        Math.max(users.length, totalUsers),
     ),
 }: Props) {
     const displayUsers = users.slice(0, breakAt);
@@ -39,7 +41,7 @@ function Avatars({
     );
     const nonDisplayCount = others.length + othersOverflowCount;
 
-    const [immSync, setImmediate] = useSynchronizedImmediate();
+    const [overlayProps, setImmediate] = useSynchronizedImmediate();
 
     const {formatMessage} = useIntl();
 
@@ -53,11 +55,12 @@ function Avatars({
                     key={user.url}
                     id={`name-${user.username}`}
                     content={name}
-                    {...immSync}
+                    {...overlayProps}
                 >
                     <div>
                         <Avatar
                             size={size}
+                            tabIndex={0}
                             {...user}
                         />
                     </div>
@@ -66,31 +69,27 @@ function Avatars({
             {Boolean(others.length || othersOverflowCount) && (
                 <SimpleTooltip
                     id={'names-overflow'}
-                    {...immSync}
+                    {...overlayProps}
                     content={others.length ? formatMessage(
                         {
-                            id: 'threading.avatars.overflowNames',
-                            defaultMessage: `
-                                {othersOverflowCount, plural,
-                                    =0 {{overflowNames}}
-                                    =1 {{overflowNames} and one other}
-                                    other {{overflowNames} and # others}
-                                }
-                            `,
+                            id: t('threading.avatars.overflowNames'),
+                            defaultMessage: `{othersOverflowCount, plural,
+                                =0 {{overflowNames}}
+                                =1 {{overflowNames} and one other}
+                                other {{overflowNames} and # others}
+                            }`,
                         },
                         {
-                            overflowNames: others.map((user) => user.name).join(', '),
                             othersOverflowCount,
+                            overflowNames: others.map((user) => user.name).join(', '),
                         },
                     ) : formatMessage(
                         {
-                            id: 'threading.avatars.othersOverflow',
-                            defaultMessage: `
-                                {othersOverflowCount, plural,
-                                    =1 {one other}
-                                    other {# others}
-                                }
-                            `,
+                            id: t('threading.avatars.othersOverflowOnly'),
+                            defaultMessage: `{othersOverflowCount, plural,
+                                =1 {one other}
+                                other {# others}
+                            }`,
                         },
                         {othersOverflowCount},
                     )}
@@ -98,6 +97,7 @@ function Avatars({
                     <div>
                         <Avatar
                             size={size}
+                            tabIndex={0}
                         >
                             {nonDisplayCount > OTHERS_DISPLAY_LIMIT ?
                                 `${OTHERS_DISPLAY_LIMIT}+` :

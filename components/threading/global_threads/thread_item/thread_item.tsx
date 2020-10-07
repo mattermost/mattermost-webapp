@@ -71,8 +71,9 @@ const ThreadItem = ({
                 {Boolean(newMentions || newReplies) && (
                     <div className='indicator'>
                         {newMentions ? (
-                            <div className='dot-mentions'>
-                                {newMentions}
+                            <div className={classNames('dot-mentions', {over: newMentions > 99})}>
+                                {Math.min(newMentions, 99)}
+                                {newMentions > 99 && '+'}
                             </div>
                         ) : (
                             <div className='dot-unreads'/>

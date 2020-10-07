@@ -4,6 +4,8 @@
 import React, {memo, PropsWithChildren} from 'react';
 import {useIntl} from 'react-intl';
 
+import {t} from 'utils/i18n';
+
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
@@ -55,7 +57,7 @@ function ThreadMenu({
             <SimpleTooltip
                 id='threadActionMenu'
                 content={formatMessage({
-                    id: 'threading.threadItem.menu',
+                    id: t('threading.threadItem.menu'),
                     defaultMessage: 'Actions',
                 })}
             >
@@ -69,11 +71,11 @@ function ThreadMenu({
                 {isFollowing ? (
                     <Menu.ItemAction
                         text={formatMessage({
-                            id: 'threading.threadMenu.unfollow',
+                            id: t('threading.threadMenu.unfollow'),
                             defaultMessage: 'Unfollow thread',
                         })}
                         extraText={formatMessage({
-                            id: 'threading.threadMenu.unfollowExtra',
+                            id: t('threading.threadMenu.unfollowExtra'),
                             defaultMessage: 'You won’t be notified about replies',
                         })}
                         onClick={unfollow}
@@ -82,19 +84,19 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={follow}
                         text={formatMessage({
-                            id: 'threading.threadMenu.follow',
+                            id: t('threading.threadMenu.follow'),
                             defaultMessage: 'Follow thread',
                         })}
                         extraText={formatMessage({
-                            id: 'threading.threadMenu.followExtra',
-                            defaultMessage: 'You will get notified about replies',
+                            id: t('threading.threadMenu.followExtra'),
+                            defaultMessage: 'You will be notified about replies',
                         })}
                     />
                 )}
                 <Menu.ItemAction
                     onClick={openInChannel}
                     text={formatMessage({
-                        id: 'threading.threadMenu.openInChannel',
+                        id: t('threading.threadMenu.openInChannel'),
                         defaultMessage: 'Open in channel',
                     })}
                 />
@@ -102,7 +104,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={markRead}
                         text={formatMessage({
-                            id: 'threading.threadMenu.markRead',
+                            id: t('threading.threadMenu.markRead'),
                             defaultMessage: 'Mark as read',
                         })}
                     />
@@ -110,7 +112,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={markUnread}
                         text={formatMessage({
-                            id: 'threading.threadMenu.markUnread',
+                            id: t('threading.threadMenu.markUnread'),
                             defaultMessage: 'Mark as unread',
                         })}
                     />
@@ -119,7 +121,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={unsave}
                         text={formatMessage({
-                            id: 'threading.threadMenu.unsave',
+                            id: t('threading.threadMenu.unsave'),
                             defaultMessage: 'Unsave',
                         })}
                     />
@@ -127,7 +129,7 @@ function ThreadMenu({
                     <Menu.ItemAction
                         onClick={save}
                         text={formatMessage({
-                            id: 'threading.threadMenu.save',
+                            id: t('threading.threadMenu.save'),
                             defaultMessage: 'Save',
                         })}
                     />
@@ -135,7 +137,7 @@ function ThreadMenu({
                 <Menu.ItemAction
                     onClick={copyLink}
                     text={formatMessage({
-                        id: 'threading.threadMenu.copy',
+                        id: t('threading.threadMenu.copy'),
                         defaultMessage: 'Copy link',
                     })}
                 />

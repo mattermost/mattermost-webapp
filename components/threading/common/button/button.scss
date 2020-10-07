@@ -9,7 +9,7 @@
     font-weight: 600;
 
     &:hover,
-    &:active {
+    &:focus {
         text-decoration: none;
         color: rgba(var(--center-channel-color-rgb), .72);
     }
@@ -17,7 +17,6 @@
     &.is-active {
         color: rgba(var(--button-bg-rgb), 1);
     }
-
 
     &.Button___transparent {
         background: transparent;
@@ -76,7 +75,6 @@
         }
     }
 }
-
 
 %synthetic-block {
     position: absolute;

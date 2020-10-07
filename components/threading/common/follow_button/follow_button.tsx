@@ -4,7 +4,7 @@
 import React, {memo, ComponentProps, MouseEventHandler} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Button from './button';
+import Button from '../button';
 
 type Props = {
     isFollowing: boolean;

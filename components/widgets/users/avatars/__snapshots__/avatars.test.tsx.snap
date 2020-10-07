@@ -35,15 +35,20 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
 >
   <div
     className="Avatars Avatars___xl"
+    onMouseLeave={[Function]}
   >
     <Memo(SimpleTooltip)
+      animation={true}
       content="Jesus Espino"
       id="name-jesus.espino"
       key="test-url-1"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -63,14 +68,48 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="name-jesus.espino"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Jesus Espino
@@ -93,6 +132,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
               url="test-url-1"
               username="jesus.espino"
             >
@@ -100,6 +140,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
                 alt="jesus.espino profile image"
                 className="Avatar Avatar-xl"
                 src="test-url-1"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -107,13 +148,17 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
     <Memo(SimpleTooltip)
+      animation={true}
       content="Johnny Depp"
       id="name-johnny.depp"
       key="test-url-2"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -133,14 +178,48 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="name-johnny.depp"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Johnny Depp
@@ -163,6 +242,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
               url="test-url-2"
               username="johnny.depp"
             >
@@ -170,6 +250,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
                 alt="johnny.depp profile image"
                 className="Avatar Avatar-xl"
                 src="test-url-2"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -177,13 +258,17 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
     <Memo(SimpleTooltip)
+      animation={true}
       content="Bilbo Baggins"
       id="name-bilbo.baggins"
       key="test-url-3"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -203,14 +288,48 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="name-bilbo.baggins"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Bilbo Baggins
@@ -233,6 +352,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
               url="test-url-3"
               username="bilbo.baggins"
             >
@@ -240,6 +360,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
                 alt="bilbo.baggins profile image"
                 className="Avatar Avatar-xl"
                 src="test-url-3"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -247,12 +368,16 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
     <Memo(SimpleTooltip)
+      animation={true}
       content="Anthony Michael Hall, Kathy Baker"
       id="names-overflow"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -272,14 +397,48 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="names-overflow"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Anthony Michael Hall, Kathy Baker
@@ -302,10 +461,12 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
             >
               <div
                 className="Avatar Avatar-xl Avatar-plain"
                 data-content="+2"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -351,15 +512,20 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
 >
   <div
     className="Avatars Avatars___xl"
+    onMouseLeave={[Function]}
   >
     <Memo(SimpleTooltip)
+      animation={true}
       content="Jesus Espino"
       id="name-jesus.espino"
       key="test-url-1"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -379,14 +545,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="name-jesus.espino"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Jesus Espino
@@ -409,6 +609,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
               url="test-url-1"
               username="jesus.espino"
             >
@@ -416,6 +617,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 alt="jesus.espino profile image"
                 className="Avatar Avatar-xl"
                 src="test-url-1"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -423,13 +625,17 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
     <Memo(SimpleTooltip)
+      animation={true}
       content="Johnny Depp"
       id="name-johnny.depp"
       key="test-url-2"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -449,14 +655,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="name-johnny.depp"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Johnny Depp
@@ -479,6 +719,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
               url="test-url-2"
               username="johnny.depp"
             >
@@ -486,6 +727,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 alt="johnny.depp profile image"
                 className="Avatar Avatar-xl"
                 src="test-url-2"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -493,13 +735,17 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
     <Memo(SimpleTooltip)
+      animation={true}
       content="Bilbo Baggins"
       id="name-bilbo.baggins"
       key="test-url-3"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -519,14 +765,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="name-bilbo.baggins"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Bilbo Baggins
@@ -549,6 +829,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
               url="test-url-3"
               username="bilbo.baggins"
             >
@@ -556,6 +837,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 alt="bilbo.baggins profile image"
                 className="Avatar Avatar-xl"
                 src="test-url-3"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>
@@ -563,12 +845,16 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
     <Memo(SimpleTooltip)
+      animation={true}
       content="Anthony Michael Hall, Kathy Baker"
       id="names-overflow"
+      onEntered={[Function]}
     >
       <OverlayTrigger
+        animation={true}
         defaultOverlayShown={false}
         delayShow={500}
+        onEntered={[Function]}
         overlay={
           <Tooltip
             bsClass="tooltip"
@@ -588,14 +874,48 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       >
         <OverlayTrigger
+          animation={true}
           defaultOverlayShown={false}
           delayShow={500}
+          onEntered={[Function]}
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
               className="hidden-xs"
               id="names-overflow"
-              intl={null}
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
               placement="top"
             >
               Anthony Michael Hall, Kathy Baker
@@ -618,10 +938,12 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
           >
             <Memo(Avatar)
               size="xl"
+              tabIndex={0}
             >
               <div
                 className="Avatar Avatar-xl Avatar-plain"
                 data-content="+2"
+                tabIndex={0}
               />
             </Memo(Avatar)>
           </div>

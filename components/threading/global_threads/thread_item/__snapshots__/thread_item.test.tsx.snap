@@ -28,28 +28,28 @@ exports[`components/threading/global_threads/thread_item should report total num
       useTime={false}
       value={2020-09-29T02:30:15.701Z}
     />
-    <span
-      className="menu-anchor alt-visible"
-    >
-      <Memo(ThreadMenu)
-        actions={
-          Object {
-            "copyLink": [MockFunction],
-            "follow": [MockFunction],
-            "markRead": [MockFunction],
-            "markUnread": [MockFunction],
-            "openInChannel": [MockFunction],
-            "save": [MockFunction],
-            "unfollow": [MockFunction],
-            "unsave": [MockFunction],
-          }
-        }
-        hasUnreads={false}
-        isFollowing={true}
-        isSaved={false}
-      />
-    </span>
   </h4>
+  <span
+    className="menu-anchor alt-visible"
+  >
+    <Memo(ThreadMenu)
+      actions={
+        Object {
+          "copyLink": [MockFunction],
+          "follow": [MockFunction],
+          "markRead": [MockFunction],
+          "markUnread": [MockFunction],
+          "openInChannel": [MockFunction],
+          "save": [MockFunction],
+          "unfollow": [MockFunction],
+          "unsave": [MockFunction],
+        }
+      }
+      hasUnreads={false}
+      isFollowing={true}
+      isSaved={false}
+    />
+  </span>
   <p>
     Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
   </p>
@@ -57,7 +57,7 @@ exports[`components/threading/global_threads/thread_item should report total num
     className="activity"
   >
     <Memo(Avatars)
-      size="sm"
+      size="xs"
       users={
         Array [
           Object {
@@ -108,7 +108,7 @@ exports[`components/threading/global_threads/thread_item should report total num
 
 exports[`components/threading/global_threads/thread_item should report unread mentions 1`] = `
 <div
-  className="ThreadItem has-indicator"
+  className="ThreadItem has-unreads"
   onClick={[MockFunction]}
   tabIndex={0}
 >
@@ -143,28 +143,28 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
       value={2020-09-29T02:30:15.701Z}
     />
-    <span
-      className="menu-anchor alt-visible"
-    >
-      <Memo(ThreadMenu)
-        actions={
-          Object {
-            "copyLink": [MockFunction],
-            "follow": [MockFunction],
-            "markRead": [MockFunction],
-            "markUnread": [MockFunction],
-            "openInChannel": [MockFunction],
-            "save": [MockFunction],
-            "unfollow": [MockFunction],
-            "unsave": [MockFunction],
-          }
-        }
-        hasUnreads={true}
-        isFollowing={true}
-        isSaved={false}
-      />
-    </span>
   </h4>
+  <span
+    className="menu-anchor alt-visible"
+  >
+    <Memo(ThreadMenu)
+      actions={
+        Object {
+          "copyLink": [MockFunction],
+          "follow": [MockFunction],
+          "markRead": [MockFunction],
+          "markUnread": [MockFunction],
+          "openInChannel": [MockFunction],
+          "save": [MockFunction],
+          "unfollow": [MockFunction],
+          "unsave": [MockFunction],
+        }
+      }
+      hasUnreads={true}
+      isFollowing={true}
+      isSaved={false}
+    />
+  </span>
   <p>
     Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
   </p>
@@ -172,7 +172,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     className="activity"
   >
     <Memo(Avatars)
-      size="sm"
+      size="xs"
       users={
         Array [
           Object {
@@ -223,7 +223,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
 
 exports[`components/threading/global_threads/thread_item should report unread messages 1`] = `
 <div
-  className="ThreadItem has-indicator"
+  className="ThreadItem has-unreads"
   onClick={[MockFunction]}
   tabIndex={0}
 >
@@ -256,28 +256,28 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
       value={2020-09-29T02:30:15.701Z}
     />
-    <span
-      className="menu-anchor alt-visible"
-    >
-      <Memo(ThreadMenu)
-        actions={
-          Object {
-            "copyLink": [MockFunction],
-            "follow": [MockFunction],
-            "markRead": [MockFunction],
-            "markUnread": [MockFunction],
-            "openInChannel": [MockFunction],
-            "save": [MockFunction],
-            "unfollow": [MockFunction],
-            "unsave": [MockFunction],
-          }
-        }
-        hasUnreads={true}
-        isFollowing={true}
-        isSaved={false}
-      />
-    </span>
   </h4>
+  <span
+    className="menu-anchor alt-visible"
+  >
+    <Memo(ThreadMenu)
+      actions={
+        Object {
+          "copyLink": [MockFunction],
+          "follow": [MockFunction],
+          "markRead": [MockFunction],
+          "markUnread": [MockFunction],
+          "openInChannel": [MockFunction],
+          "save": [MockFunction],
+          "unfollow": [MockFunction],
+          "unsave": [MockFunction],
+        }
+      }
+      hasUnreads={true}
+      isFollowing={true}
+      isSaved={false}
+    />
+  </span>
   <p>
     Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
   </p>
@@ -285,7 +285,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     className="activity"
   >
     <Memo(Avatars)
-      size="sm"
+      size="xs"
       users={
         Array [
           Object {

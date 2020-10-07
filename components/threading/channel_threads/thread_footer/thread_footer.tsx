@@ -59,7 +59,10 @@ function ThreadFooter({
                         />
                     }
                 >
-                    <div className='indicator'>
+                    <div
+                        className='indicator'
+                        tabIndex={0}
+                    >
                         <div className='dot-unreads'/>
                     </div>
                 </SimpleTooltip>
