@@ -23,7 +23,7 @@ import 'components/input.css';
 
 type Props = {
     className: string;
-    initialBillingDetails?: BillingDetails | null;
+    initialBillingDetails?: BillingDetails;
     paymentMethod?: PaymentMethod;
     onInputChange?: (billing: BillingDetails) => void;
     onInputBlur?: (billing: BillingDetails) => void;
@@ -63,7 +63,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (prevProps.initialBillingDetails == null && this.props.initialBillingDetails != null) {
+        if (prevProps.initialBillingDetails === undefined && this.props.initialBillingDetails !== undefined) {
             this.resetState();
         }
     }

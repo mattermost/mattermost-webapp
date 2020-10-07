@@ -2,15 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {Stripe} from '@stripe/stripe-js';
+
 import {getCloudProducts} from 'mattermost-redux/actions/cloud';
 
 import {
     getClientConfig,
 } from 'mattermost-redux/actions/general';
+
+import {BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
@@ -29,15 +33,24 @@ function mapStateToProps(state: GlobalState) {
         isDevMode: getConfig(state).EnableDeveloper === 'true',
     };
 }
+type Actions = {
+    closeModal: () => void;
+    getCloudProducts: () => void;
+    completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+    getClientConfig: () => void;
+}
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
-            closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
-            getCloudProducts,
-            completeStripeAddPaymentMethod,
-            getClientConfig,
-        }, dispatch),
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>(
+            {
+                closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
+                getCloudProducts,
+                completeStripeAddPaymentMethod,
+                getClientConfig,
+            },
+            dispatch,
+        ),
     };
 }
 
