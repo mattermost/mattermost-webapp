@@ -328,6 +328,8 @@ class CreatePost extends React.PureComponent {
         this.draftsForChannel = {};
         this.lastOrientation = null;
         this.textboxRef = React.createRef();
+        this.fileUploadRef = React.createRef();
+        this.createPostControlsRef = React.createRef();
     }
 
     componentDidMount() {
@@ -935,8 +937,8 @@ class CreatePost extends React.PureComponent {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload) {
-                    this.refs.fileUpload.cancelUpload(id);
+                if (this.fileUploadRef.current && this.fileUploadRef.current) {
+                    this.fileUploadRef.current.cancelUpload(id);
                 }
             }
         } else {
@@ -1004,7 +1006,7 @@ class CreatePost extends React.PureComponent {
     }
 
     getCreatePostControls = () => {
-        return this.refs.createPostControls;
+        return this.createPostControlsRef.current;
     }
 
     fillMessageFromHistory() {
