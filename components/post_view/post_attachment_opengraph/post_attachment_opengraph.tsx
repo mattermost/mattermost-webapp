@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Post} from 'mattermost-redux/types/posts';
+import {OpenGraphMetadataImage, Post} from 'mattermost-redux/types/posts';
 import {
     OpenGraphMetadata,
     PostImage,
@@ -240,7 +240,7 @@ export function getBestImageUrl(openGraphData: OpenGraphMetadata | null, imagesM
     }
 
     // Get the dimensions from the post metadata if they weren't provided by the website as part of the OpenGraph data
-    const images = openGraphData.images.map((image) => {
+    const images = openGraphData.images.map((image: OpenGraphMetadataImage) => {
         const imageUrl = image.secure_url || image.url;
 
         if ((image.width && image.height) || !(imagesMetadata && imagesMetadata[imageUrl])) {
@@ -255,6 +255,6 @@ export function getBestImageUrl(openGraphData: OpenGraphMetadata | null, imagesM
         };
     });
 
-    const bestImage = getNearestPoint(DIMENSIONS_NEAREST_POINT_IMAGE, images);
+    const bestImage = getNearestPoint<OpenGraphMetadataImage>(DIMENSIONS_NEAREST_POINT_IMAGE, images);
     return bestImage.secure_url || bestImage.url;
 }
