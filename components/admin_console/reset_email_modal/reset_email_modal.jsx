@@ -31,7 +31,7 @@ export default class ResetEmailModal extends React.PureComponent {
             error: null,
         };
 
-        this.email = React.createRef()
+        this.email = React.createRef();
     }
 
     doSubmit = (e) => {
