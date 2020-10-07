@@ -8,6 +8,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -25,7 +26,7 @@ function mapStateToProps(state: GlobalState) {
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
         isCloud: getLicense(state).Cloud === 'true',
-        preferences: getCategory(state, Preferences.CLOUD_UPGRADE_BANNER),
+        preferences: getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL),
     };
 }
 
@@ -34,6 +35,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 getStandardAnalytics,
+                savePreferences,
             },
             dispatch,
         ),

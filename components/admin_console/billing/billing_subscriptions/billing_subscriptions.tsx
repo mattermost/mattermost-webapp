@@ -21,6 +21,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
+import {Preferences, CloudBanners} from 'utils/constants';
+
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
@@ -94,7 +96,7 @@ const privateCloudCard = () => (
     </div>
 );
 
-const WARNING_THRESHOLD = 5;
+const WARNING_THRESHOLD = 3;
 
 // TODO: temp
 const isFree = false;
@@ -131,7 +133,6 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
 
     const [showDanger, setShowDanger] = useState(false);
     const [showWarning, setShowWarning] = useState(false);
-    const [showInfoHidden, setShowInfoHidden] = useState(false);
     const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
 
     useEffect(() => {
@@ -142,15 +143,26 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
         }
     }, []);
 
-    const shouldShowWarningBanner = () => {
-        const {analytics, userLimit, isCloud} = props;
-        if (!analytics || !isCloud || !userLimit || showInfoHidden) {
+    const shouldShowWarningBanner = (): boolean => {
+        const {analytics, userLimit, isCloud, preferences} = props;
+        if (!analytics || !isCloud || !userLimit || preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return false;
         }
 
         if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD) {
             return true;
         }
+
+        return false;
+    };
+
+    const handleHide = async () => {
+        await props.actions.savePreferences(props.currentUser.id, [{
+            category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
+            user_id: props.currentUser.id,
+            name: CloudBanners.HIDE,
+            value: 'true',
+        }]);
     };
 
     return (
@@ -189,7 +201,7 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
                                 defaultMessage:
                     'You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.',
                             })}
-                            onDismiss={() => setShowInfoHidden(true)}
+                            onDismiss={() => handleHide()}
                         />
                     )}
                     <div

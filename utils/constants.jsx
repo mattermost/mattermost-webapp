@@ -100,6 +100,7 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
 export const ActionTypes = keyMirror({
