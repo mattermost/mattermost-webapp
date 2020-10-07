@@ -22,8 +22,8 @@ export function getDistanceBW2Points(point1: Point, point2: Point) {
  */
 export function getNearestPoint<T extends PartialPoint>(pivot: Point, points: T[]): T {
     return points.reduce((nearest, point) => {
-        if (isPointDefined(nearest) && isPointDefined(point)
-            && getDistanceBW2Points(point, pivot) >= getDistanceBW2Points(nearest, pivot)) {
+        if (isPointDefined(nearest) && isPointDefined(point) &&
+            getDistanceBW2Points(point, pivot) >= getDistanceBW2Points(nearest, pivot)) {
             return nearest;
         }
         return point;
