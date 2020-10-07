@@ -7,6 +7,7 @@ import React from 'react';
 import ExternalImage from 'components/external_image';
 
 import PostAttachmentOpenGraph, {getBestImageUrl} from './post_attachment_opengraph';
+import { OpenGraphMetadata, Post } from 'mattermost-redux/types/posts';
 
 describe('PostAttachmentOpenGraph', () => {
     const imageUrl = 'http://mattermost.com/OpenGraphImage.jpg';
@@ -24,10 +25,11 @@ describe('PostAttachmentOpenGraph', () => {
                 },
             },
         },
-    };
+    } as unknown as Post;
 
     const baseProps = {
         post,
+        postId: '',
         link: 'http://mattermost.com',
         previewEnabled: true,
         isEmbedVisible: true,
@@ -83,13 +85,13 @@ describe('PostAttachmentOpenGraph', () => {
 
     describe('isLargeImage', () => {
         test('should be a large image', () => {
-            const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
+            const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
 
             expect(wrapper.instance().isLargeImage({width: 400, height: 180})).toBe(true);
         });
 
         test('should not be a large image', () => {
-            const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
+            const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
 
             expect(wrapper.instance().isLargeImage({width: 100, height: 100})).toBe(false);
         });
@@ -159,7 +161,7 @@ describe('getBestImageUrl', () => {
     });
 
     test('should return nothing with missing OpenGraph images', () => {
-        const openGraphData = {};
+        const openGraphData = {} as OpenGraphMetadata;
         const imagesMetadata = null;
 
         expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(null);

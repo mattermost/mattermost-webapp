@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Post} from 'mattermost-redux/src/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 import {
     OpenGraphMetadata,
     PostImage,
@@ -23,11 +23,11 @@ const DIMENSIONS_NEAREST_POINT_IMAGE = {
 };
 
 export type Props = {
-    postId?: string;
+    postId: string;
     link: string;
     currentUserId?: string;
     post: Post;
-    openGraphData?: OpenGraphMetadata;
+    openGraphData?: OpenGraphMetadata | null;
     enableLinkPreviews: boolean;
     previewEnabled: boolean;
     isEmbedVisible?: boolean;
@@ -234,7 +234,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
     }
 }
 
-export function getBestImageUrl(openGraphData: OpenGraphMetadata, imagesMetadata: Dictionary<PostImage>) {
+export function getBestImageUrl(openGraphData: OpenGraphMetadata | null, imagesMetadata: Dictionary<PostImage> | null) {
     if (!openGraphData || !openGraphData.images || openGraphData.images.length === 0) {
         return null;
     }
