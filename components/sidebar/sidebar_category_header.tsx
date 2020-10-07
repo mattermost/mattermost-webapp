@@ -18,19 +18,18 @@ type Props = {
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
+const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement & HTMLButtonElement>) => {
+    const Element = props.onClick ? 'button' : 'div';
+
     return (
         <div className='SidebarChannelGroupHeader'>
-            <div
+            <Element
                 ref={ref}
                 className={classNames('SidebarChannelGroupHeader_groupButton', {
-                    clickable: Boolean(props.onClick),
                     dragging: props.isDragging,
                 })}
                 aria-label={props.displayName}
                 onClick={props.onClick}
-                role='button'
-                tabIndex={0}
             >
                 <i
                     className={classNames('icon icon-chevron-down', {
@@ -41,7 +40,7 @@ const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HT
                 <div {...props.dragHandleProps}>
                     {wrapEmojis(props.displayName)}
                 </div>
-            </div>
+            </Element>
             {props.children}
         </div>
     );

@@ -643,11 +643,6 @@
             width: 100%;
         }
 
-        &.clickable > div {
-            // This overrides react-beautiful-dnd's grab cursor
-            cursor: pointer;
-        }
-
         &.dragging {
             border-radius: 4px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
@@ -661,6 +656,11 @@
                 visibility: hidden;
             }
         }
+    }
+
+    button.SidebarChannelGroupHeader_groupButton > div {
+        // This overrides react-beautiful-dnd's grab cursor
+        cursor: pointer;
     }
 
     .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
