@@ -143,7 +143,7 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
         }
     }, []);
 
-    const shouldShowWarningBanner = (): boolean => {
+    const shouldShowInfoBanner = (): boolean => {
         const {analytics, userLimit, isCloud, preferences} = props;
         if (!analytics || !isCloud || !userLimit || preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return false;
@@ -189,7 +189,7 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
                             onDismiss={() => setShowWarning(false)}
                         />
                     )}
-                    {shouldShowWarningBanner() && (
+                    {shouldShowInfoBanner() && (
                         <AlertBanner
                             mode='info'
                             title={formatMessage({
