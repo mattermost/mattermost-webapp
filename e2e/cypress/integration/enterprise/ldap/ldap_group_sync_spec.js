@@ -380,7 +380,7 @@ context('ldap', () => {
             cy.get('#showInviteModal').should('not.exist');
         });
 
-        it.only('MM-T2640 - Channel appears in channel switcher before conversion but not after (for non-members of the channel)', () => {
+        it('MM-T2640 - Channel appears in channel switcher before conversion but not after (for non-members of the channel)', () => {
             // # Reset system scheme permissions
             cy.uiResetPermissionsToDefault();
 
