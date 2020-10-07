@@ -33,6 +33,7 @@ export default class FileUploadSetting extends Setting {
             serverError: props.error,
         };
         this.fileInputRef = React.createRef();
+        this.uploadButtonRef = React.createRef();
     }
 
     handleChange = () => {
@@ -45,9 +46,9 @@ export default class FileUploadSetting extends Setting {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        $(this.refs.upload_button).button('loading');
+        $(this.uploadButtonRef.current).button('loading');
         this.props.onSubmit(this.props.id, this.fileInput.current.files[0], (error) => {
-            $(this.refs.upload_button).button('reset');
+            $(this.uploadButtonRef.current).button('reset');
             if (error) {
                 Utils.clearFileInput(this.fileInput.current);
             }
@@ -106,7 +107,7 @@ export default class FileUploadSetting extends Setting {
                         className={btnClass}
                         disabled={!this.state.fileSelected}
                         onClick={this.handleSubmit}
-                        ref='upload_button'
+                        ref={this.uploadButtonRef}
                         data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.uploadingText}`}
                     >
                         <FormattedMessage
