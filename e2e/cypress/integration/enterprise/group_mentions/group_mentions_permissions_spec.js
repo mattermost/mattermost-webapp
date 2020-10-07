@@ -134,10 +134,9 @@ describe('Group Mentions', () => {
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Type the Group Name
-            cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is not displayed
             cy.get('#suggestionList').should('not.be.visible');
@@ -166,10 +165,9 @@ describe('Group Mentions', () => {
             // # Login as a regular user and visit the channel
             cy.apiLogin(regularUser);
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Type the Group Name
-            cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is displayed
             cy.get('#suggestionList').should('be.visible').children().within((el) => {
@@ -213,10 +211,9 @@ describe('Group Mentions', () => {
             cy.apiCreateChannel(team.id, 'group-mention', 'Group Mentions').then(({channel}) => {
                 // # Visit the channel
                 cy.visit(`/${team.name}/channels/${channel.name}`);
-                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Type the Group Name
-                cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is not displayed
                 cy.get('#suggestionList').should('not.be.visible');
@@ -245,10 +242,9 @@ describe('Group Mentions', () => {
                 // # Login as a regular user and visit the channel
                 cy.apiLogin(regularUser);
                 cy.visit(`/${team.name}/channels/${channel.name}`);
-                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Type the Group Name
-                cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is displayed
                 cy.get('#suggestionList').should('be.visible').children().within((el) => {
@@ -303,10 +299,9 @@ describe('Group Mentions', () => {
 
                 // # Visit the channel
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Type the Group Name
-                cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is not displayed
                 cy.get('#suggestionList').should('not.be.visible');
@@ -335,10 +330,9 @@ describe('Group Mentions', () => {
                 // # Login as guest user again and visit the channel
                 cy.apiLogin(user);
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Type the Group Name
-                cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is displayed
                 cy.get('#suggestionList').should('be.visible').children().within((el) => {
