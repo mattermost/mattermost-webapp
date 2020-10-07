@@ -37,7 +37,7 @@ interface Props {
         /**
          * Get pages of custom emojis.
          */
-        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<ActionFunc>;
+        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => ActionFunc;
 
         /**
          * Search custom emojis.
@@ -71,12 +71,13 @@ export default class EmojiList extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount(): Promise<void> {
-        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).then(({data}: any) => {
-            this.setState({loading: false});
-            if (data && data.length < EMOJI_PER_PAGE) {
-                this.setState({missingPages: false});
-            }
-        });
+        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).
+            then(({data}: any) => {
+                this.setState({loading: false});
+                if (data && data.length < EMOJI_PER_PAGE) {
+                    this.setState({missingPages: false});
+                }
+            });
     }
 
     nextPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
