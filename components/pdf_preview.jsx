@@ -40,6 +40,8 @@ export default class PDFPreview extends React.PureComponent {
             loading: true,
             success: false,
         };
+
+        this.pdfCanvas = React.createRef();
     }
 
     componentDidMount() {
@@ -79,7 +81,7 @@ export default class PDFPreview extends React.PureComponent {
             return;
         }
 
-        const canvas = this.refs['pdfCanvas' + pageIndex];
+        const canvas = this.pdfCanvas[pageIndex];
         const context = canvas.getContext('2d');
         const viewport = this.state.pdfPages[pageIndex].getViewport(1);
 
@@ -148,7 +150,7 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 0; i < this.state.numPages; i++) {
             pdfCanvases.push(
                 <canvas
-                    ref={'pdfCanvas' + i}
+                    ref={this.pdfCanvas[i]}
                     key={'previewpdfcanvas' + i}
                 />,
             );
