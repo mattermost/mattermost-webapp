@@ -30,13 +30,15 @@ export default class ResetEmailModal extends React.PureComponent {
         this.state = {
             error: null,
         };
+
+        this.email = React.createRef()
     }
 
     doSubmit = (e) => {
         e.preventDefault();
 
-        if (this.refs.email) {
-            const email = this.refs.email.value;
+        if (this.email.current) {
+            const email = this.email.current.value;
             if (!isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
@@ -50,7 +52,7 @@ export default class ResetEmailModal extends React.PureComponent {
         }
 
         const user = Object.assign({}, this.props.user);
-        const email = this.refs.email.value.trim().toLowerCase();
+        const email = this.email.current.value.trim().toLowerCase();
         user.email = email;
 
         this.setState({error: null});
