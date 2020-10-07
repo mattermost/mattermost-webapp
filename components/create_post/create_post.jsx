@@ -327,7 +327,7 @@ class CreatePost extends React.PureComponent {
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
         this.lastOrientation = null;
-        this.textboxRefRef = React.createRef();
+        this.textboxRef = React.createRef();
     }
 
     componentDidMount() {
