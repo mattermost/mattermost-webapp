@@ -149,7 +149,7 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
             return false;
         }
 
-        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD) {
+        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD && (userLimit - Number(analytics.TOTAL_USERS) >= 0)) {
             return true;
         }
 
