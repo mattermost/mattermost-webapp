@@ -86,6 +86,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             showConfirmId: '',
             clientWarning: '',
         };
+        this.errorMessage = React.createRef();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -1075,7 +1076,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                         show={this.state.errorTooltip}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
-                        target={this.refs.errorMessage}
+                        target={this.errorMessage.current}
                     >
                         <Tooltip id='error-tooltip' >
                             {this.state.serverError}
