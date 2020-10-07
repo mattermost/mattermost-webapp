@@ -39,27 +39,13 @@ exports[`components/WarnMetricAckModal error display 1`] = `
       bsClass="modal-title"
       componentClass="h1"
       id="warnMetricAckHeaderModalLabel"
-    >
-      <FormattedMessage
-        defaultMessage="Scaling with Mattermost"
-        id="warn_metric_ack_modal.header.title"
-      />
-    </ModalTitle>
+    />
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
   >
     <div>
-      <FormattedMessage
-        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring"
-        id="warn_metric_ack_modal.number_of_active_users.description"
-        values={
-          Object {
-            "limit": 500,
-          }
-        }
-      />
       <br />
       <div
         className="form-group has-error"
@@ -78,7 +64,7 @@ exports[`components/WarnMetricAckModal error display 1`] = `
                   forceAck={true}
                   messageId="warn_metric_ack_modal.mailto.link"
                   onClickHandler={[Function]}
-                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20Contact%20Us%20request&body=Mattermost%20Contact%20Us%20request.%20My%20team%20now%20has%20500%20users%20and%20I%20am%20considering%20Mattermost%20Enterprise%20Edition.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0ADiagnostic%20Id%20diag_0%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
+                  url="mailto:support@mattermost.com?cc=a@test.com&subject=Mattermost%20Contact%20Us%20request&body=Mattermost%20Contact%20Us%20request.%0D%0AContact%20Fake%20Person%0D%0AEmail%20a%40test.com%0D%0ASite%20URL%20http%3A%2F%2Flocalhost%3A8065%0D%0ATelemetry%20Id%20diag_0%0D%0AIf%20you%20have%20any%20additional%20inquiries%2C%20please%20contact%20support%40mattermost.com"
                 />,
               }
             }
@@ -97,12 +83,12 @@ exports[`components/WarnMetricAckModal error display 1`] = `
         }
       >
         <FormattedMessage
-          defaultMessage="By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}"
-          id="warn_metric_ack_modal.number_of_active_users.subtext"
+          defaultMessage="By clicking Acknowledge, you will be sharing your information with Mattermost Inc. {link}"
+          id="warn_metric_ack_modal.subtext"
           values={
             Object {
               "link": <ErrorLink
-                defaultMessage="Learn More"
+                defaultMessage="Learn more"
                 messageId="warn_metric_ack_modal.learn_more.link"
                 url="https://mattermost.com/pl/default-admin-advisory"
               />,
@@ -176,27 +162,13 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
       bsClass="modal-title"
       componentClass="h1"
       id="warnMetricAckHeaderModalLabel"
-    >
-      <FormattedMessage
-        defaultMessage="Scaling with Mattermost"
-        id="warn_metric_ack_modal.header.title"
-      />
-    </ModalTitle>
+    />
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
   >
     <div>
-      <FormattedMessage
-        defaultMessage="Mattermost strongly recommends that deployments of over {limit} users upgrade to Mattermost Enterprise Edition, which offers features such as user management, server clustering, and performance monitoring"
-        id="warn_metric_ack_modal.number_of_active_users.description"
-        values={
-          Object {
-            "limit": 500,
-          }
-        }
-      />
       <br />
       <br />
       <div
@@ -210,12 +182,12 @@ exports[`components/WarnMetricAckModal should match snapshot, init 1`] = `
         }
       >
         <FormattedMessage
-          defaultMessage="By clicking Acknowledge, you will be sharing your information with Mattermost Inc., to learn more about upgrading. {link}"
-          id="warn_metric_ack_modal.number_of_active_users.subtext"
+          defaultMessage="By clicking Acknowledge, you will be sharing your information with Mattermost Inc. {link}"
+          id="warn_metric_ack_modal.subtext"
           values={
             Object {
               "link": <ErrorLink
-                defaultMessage="Learn More"
+                defaultMessage="Learn more"
                 messageId="warn_metric_ack_modal.learn_more.link"
                 url="https://mattermost.com/pl/default-admin-advisory"
               />,

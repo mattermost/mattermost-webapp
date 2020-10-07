@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import AlertBanner from 'components/alert_banner';
+import DropdownInput from 'components/dropdown_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -14,6 +15,7 @@ import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
 import './billing_subscriptions.scss';
+import BillingSummary from './billing_summary';
 
 type Props = {
 
@@ -73,6 +75,9 @@ const privateCloudCard = () => (
     </div>
 );
 
+// TODO: temp
+const isFree = false;
+
 const BillingSubscriptions: React.FC<Props> = () => {
     const testTooltipLeft = (
         <Tooltip
@@ -105,6 +110,8 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const [showDanger, setShowDanger] = useState(true);
     const [showWarning, setShowWarning] = useState(true);
     const [showInfo, setShowInfo] = useState(true);
+
+    const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -142,8 +149,18 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div style={{border: '1px solid #000', width: '568px'}}>
+                        <div style={{border: '1px solid #000', width: '568px', padding: '8px', backgroundColor: '#fff'}}>
                             {'Plan Details Card'}
+                            <DropdownInput
+                                onChange={(value) => setDropdownValue(value)}
+                                value={dropdownValue}
+                                options={[{label: 'Option 1', value: 'option-1'}, {label: 'Option 2', value: 'option-2'}, {label: 'Option 3', value: 'option-3'}]}
+                                legend={'Test dropdown'}
+                                placeholder='Select item here'
+                                name='BillingSubscriptions__testDropdown'
+                                error={dropdownValue ? undefined : 'This field is required'}
+                            />
+                            <br/>
                             <OverlayTrigger
                                 delayShow={500}
                                 placement='bottom'
@@ -159,7 +176,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                                 <button>{'Right Side Test Button'}</button>
                             </OverlayTrigger>
                         </div>
-                        {upgradeMattermostCloud()}
+                        {isFree ? upgradeMattermostCloud() : <BillingSummary/>}
                     </div>
                     {privateCloudCard()}
                 </div>
