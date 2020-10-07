@@ -183,6 +183,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         if (!inputValue) {
             return null;
         }
+
         return (
             <div className='users-emails-input__option users-emails-input__option--no-matches'>
                 <FormattedMarkdownMessage

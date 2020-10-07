@@ -10,7 +10,6 @@ import EmailIcon from 'components/widgets/icons/mail_icon';
 import AlertIcon from 'components/widgets/icons/alert_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-
 import Avatar from 'components/widgets/users/avatar';
 
 import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
