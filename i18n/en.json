@@ -210,6 +210,7 @@
   "admin.billing.history.date": "Date",
   "admin.billing.history.description": "Description",
   "admin.billing.history.noBillingHistory": "In the future, this is where your billing history will show.",
+  "admin.billing.history.pageInfo": "{startRecord} - {endRecord} of {totalRecords}",
   "admin.billing.history.paid": "Paid",
   "admin.billing.history.paymentFailed": "Payment failed",
   "admin.billing.history.pending": "Pending",
