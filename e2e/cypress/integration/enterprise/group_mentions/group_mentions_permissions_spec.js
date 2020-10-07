@@ -9,7 +9,7 @@
 // Group: @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
-import TIMEOUTS from '../../../fixtures/timeouts';
+import * TIMEOUTS from '../../../fixtures/timeouts';
 
 import {
     disablePermission,
