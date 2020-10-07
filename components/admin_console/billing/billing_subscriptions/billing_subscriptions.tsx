@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
-
-import {useIntl} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
