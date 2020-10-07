@@ -21,6 +21,7 @@ const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
 interface Props {
+    bik: Array<() => void>
 
     /**
      * Custom emojis on the system.
