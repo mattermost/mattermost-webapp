@@ -243,7 +243,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 handlePostError={this.handlePostError}
                                 channelId={this.props.channel.id}
                                 id='edit_textbox'
-                                ref='editChannelHeaderTextbox'
+                                ref={this.editChannelHeaderTextboxRef}
                                 characterLimit={1024}
                                 preview={this.props.shouldShowPreview}
                             />
