@@ -35,17 +35,17 @@ describe('Integrations', () => {
 
         //# Return to app and confirm outgoing webhook is working
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.uiPostMessageQuickly('testing');
+        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
         cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
 
         // # Delete the webhook
         cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks`);
-        cy.findAllByText('Delete').click();
+        cy.findAllByText('Delete', {timeout: TIMEOUTS.ONE_MIN}).click();
         cy.get('#confirmModalButton').click();
 
         //# Return to app and confirm trigger word no longer works
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.uiPostMessageQuickly('testing');
+        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
 
         // Wait for BOT message
         cy.wait(TIMEOUTS.TWO_SEC);
