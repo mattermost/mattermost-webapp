@@ -8,7 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import EditOutgoingWebhook from './edit_outgoing_webhook.js';
+import EditOutgoingWebhook from './edit_outgoing_webhook';
 
 type OwnProps = {
     location: {
