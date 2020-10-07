@@ -3,6 +3,7 @@
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
   animation={false}
+  aria-describedby="quickSwitchHint"
   aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
   backdrop={true}
@@ -53,7 +54,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         id="quickSwitchHint"
       >
         <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss."
+          defaultMessage="Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss."
           id="quick_switch_modal.help_no_team"
         />
       </div>
