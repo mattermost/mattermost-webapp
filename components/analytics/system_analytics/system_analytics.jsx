@@ -93,8 +93,8 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Total Posts from Bots'
                             />
                         }
-                        id='totalPostsFromBots'
                         data={botPostCountsDay}
+                        id='totalPostsFromBotsLineChart'
                         width={740}
                         height={225}
                     />
@@ -110,7 +110,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Total Posts'
                             />
                         }
-                        id='totalPosts'
+                        id='totalPostsLineChart'
                         data={postCountsDay}
                         width={740}
                         height={225}
@@ -127,7 +127,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Active Users With Posts'
                             />
                         }
-                        id='activeUsersWithPosts'
+                        id='activeUsersWithPostsLineChart'
                         data={userCountsWithPostsDay}
                         width={740}
                         height={225}

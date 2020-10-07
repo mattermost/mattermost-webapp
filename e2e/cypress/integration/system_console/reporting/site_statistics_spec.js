@@ -92,11 +92,11 @@ describe('System Console > Site Statistics', () => {
         let activeUsersWithPosts;
 
         // # Grab all data from the 3 charts from there data labels
-        cy.findByTestId('totalPosts').then((el) => {
+        cy.findByTestId('totalPostsLineChart').then((el) => {
             totalPostsDataSet = el[0].dataset.labels;
-            cy.findByTestId('totalPostsFromBots').then((el2) => {
+            cy.findByTestId('totalPostsFromBotsLineChart').then((el2) => {
                 totalPostsFromBots = el2[0].dataset.labels;
-                cy.findByTestId('activeUsersWithPosts').then((el3) => {
+                cy.findByTestId('activeUsersWithPostsLineChart').then((el3) => {
                     activeUsersWithPosts = el3[0].dataset.labels;
 
                     // * Assert that all the dates are the same

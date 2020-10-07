@@ -8,10 +8,10 @@
 // ***************************************************************
 
 // Group: @system_console
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {
     promoteToChannelOrTeamAdmin,
-} from '../enterprise/system_console/channel_moderation/helpers.js';
+} from '../../enterprise/system_console/channel_moderation/helpers.js';
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
