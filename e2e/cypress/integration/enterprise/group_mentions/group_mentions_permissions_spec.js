@@ -50,6 +50,17 @@ describe('Group Mentions', () => {
         cy.apiLDAPTest();
         cy.apiLDAPSync();
 
+        // # Link the LDAP Group - board
+        cy.visit('/admin_console/user_management/groups');
+        cy.get('#board_group').then((el) => {
+            if (!el.text().includes('Edit')) {
+                // # Link the Group if its not linked before
+                if (el.find('.icon.fa-unlink').length > 0) {
+                    el.find('.icon.fa-unlink').click();
+                }
+            }
+        });
+
         // # Get board group id
         cy.apiGetGroups().then((res) => {
             res.body.forEach((group) => {
@@ -61,17 +72,6 @@ describe('Group Mentions', () => {
                     cy.apiPatchGroup(groupID, {allow_reference: false});
                 }
             });
-        });
-
-        // # Enable Group Mention for the group - board
-        cy.visit('/admin_console/user_management/groups');
-        cy.get('#board_group').then((el) => {
-            if (!el.text().includes('Edit')) {
-                // # Link the Group if its not linked before
-                if (el.find('.icon.fa-unlink').length > 0) {
-                    el.find('.icon.fa-unlink').click();
-                }
-            }
         });
 
         // # Login once as board user to ensure the user is created in the system
