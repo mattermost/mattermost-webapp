@@ -17,6 +17,7 @@ import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.s
 import PlanDetails from './plan_details';
 
 import './billing_subscriptions.scss';
+import BillingSummary from './billing_summary';
 
 type Props = {
 
@@ -76,6 +77,9 @@ const privateCloudCard = () => (
     </div>
 );
 
+// TODO: temp
+const isFree = false;
+
 const BillingSubscriptions: React.FC<Props> = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
@@ -126,7 +130,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         style={{marginTop: '20px'}}
                     >
                         <PlanDetails/>
-                        {upgradeMattermostCloud()}
+                        {isFree ? upgradeMattermostCloud() : <BillingSummary/>}
                     </div>
                     {privateCloudCard()}
                 </div>
