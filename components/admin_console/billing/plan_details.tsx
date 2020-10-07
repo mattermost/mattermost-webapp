@@ -106,9 +106,6 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
     );
 };
 
-// TODO Temp
-const cloudSku = 'annual' as string;
-
 const PlanDetails: React.FC = () => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
@@ -126,10 +123,11 @@ const PlanDetails: React.FC = () => {
     }
 
     let planPricing;
-    let showSeatsAndSubscriptionDates = false;
+
+    const showSeatsAndSubscriptionDates = false;
     let userCountDisplay;
-    switch (cloudSku) {
-    case 'free':
+    switch (subscription.is_paid_tier) {
+    case 'false':
         planPricing = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails__planName'>
@@ -162,7 +160,7 @@ const PlanDetails: React.FC = () => {
             </div>
         );
         break;
-    case 'monthly':
+    case 'true':
         planPricing = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails__planName'>
@@ -186,32 +184,33 @@ const PlanDetails: React.FC = () => {
             </div>
         );
         break;
-    case 'annual':
-        planPricing = (
-            <div className='PlanDetails__plan'>
-                <div className='PlanDetails__planName'>
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.tiers.annual'
-                        defaultMessage='Annual Subscription'
-                    />
-                </div>
-            </div>
-        );
-        showSeatsAndSubscriptionDates = true;
-        break;
-    case 'beta':
-        planPricing = (
-            <div className='PlanDetails__plan'>
-                <div className='PlanDetails__planName'>
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.tiers.beta'
-                        defaultMessage='Beta Subscription'
-                    />
-                </div>
-            </div>
-        );
-        showSeatsAndSubscriptionDates = true;
-        break;
+
+    // case 'annual':
+    //     planPricing = (
+    //         <div className='PlanDetails__plan'>
+    //             <div className='PlanDetails__planName'>
+    //                 <FormattedMessage
+    //                     id='admin.billing.subscription.planDetails.tiers.annual'
+    //                     defaultMessage='Annual Subscription'
+    //                 />
+    //             </div>
+    //         </div>
+    //     );
+    //     showSeatsAndSubscriptionDates = true;
+    //     break;
+    // case 'beta':
+    //     planPricing = (
+    //         <div className='PlanDetails__plan'>
+    //             <div className='PlanDetails__planName'>
+    //                 <FormattedMessage
+    //                     id='admin.billing.subscription.planDetails.tiers.beta'
+    //                     defaultMessage='Beta Subscription'
+    //                 />
+    //             </div>
+    //         </div>
+    //     );
+    //     showSeatsAndSubscriptionDates = true;
+    //     break;
     }
 
     const featureList = features.map((feature, i) => (
@@ -228,7 +227,7 @@ const PlanDetails: React.FC = () => {
         <div className='PlanDetails'>
             <div className='PlanDetails__top'>
                 <div className='PlanDetails__productName'>
-                    {'Mattermost Cloud'}
+                    {product.name}
                 </div>
                 {userCountDisplay}
             </div>

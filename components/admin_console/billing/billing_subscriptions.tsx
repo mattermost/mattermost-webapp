@@ -125,12 +125,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div style={{border: '1px solid #000', width: '100%', height: '217px', marginTop: '20px'}}>
-                            <PlanDetails/>
-                            {upgradeMattermostCloud()}
-                        </div>
-                        {privateCloudCard()}
+                        <PlanDetails/>
+                        {upgradeMattermostCloud()}
                     </div>
+                    {privateCloudCard()}
                 </div>
             </div>
         </div>
