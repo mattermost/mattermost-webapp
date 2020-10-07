@@ -21,7 +21,6 @@ describe('MM-T2575 Extend Session - Email Login', () => {
     before(() => {
         // # Check if with license and has matching database
         cy.apiRequireLicense();
-        cy.requireServerDBToMatch();
 
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
