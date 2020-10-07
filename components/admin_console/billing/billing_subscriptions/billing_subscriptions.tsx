@@ -6,11 +6,8 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-
 import {UserProfile} from 'mattermost-redux/types/users';
-
 import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import AlertBanner from 'components/alert_banner';
