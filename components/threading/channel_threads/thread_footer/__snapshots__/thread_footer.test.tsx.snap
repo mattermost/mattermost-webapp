@@ -90,7 +90,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
   className="ThreadFooter"
 >
   <Memo(SimpleTooltip)
-    containerPadding={25}
     content={
       <FormattedMessage
         defaultMessage="{newReplies, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}"

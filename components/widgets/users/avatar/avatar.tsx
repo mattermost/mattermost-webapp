@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, HTMLAttributes} from 'react';
+import classNames from 'classnames';
 
 import './avatar.scss';
 
@@ -12,7 +13,7 @@ type Props = {
     text?: string;
 };
 
-type Attrs = Pick<HTMLAttributes<HTMLElement>, 'tabIndex'>
+type Attrs = HTMLAttributes<HTMLElement>;
 
 const Avatar = ({
     url,
@@ -21,7 +22,7 @@ const Avatar = ({
     text,
     ...attrs
 }: Props & Attrs) => {
-    const classes = `Avatar Avatar-${size}`;
+    const classes = classNames(`Avatar Avatar-${size}`, attrs.className);
 
     if (text) {
         return (
