@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps, useCallback, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -19,7 +19,7 @@ type Props = {
     participants: ComponentProps<typeof Avatars>['users'],
     totalParticipants?: number;
     name: string,
-    teamName: string,
+    channelName: string,
     previewText: string,
 
     lastReplyAt: ComponentProps<typeof Timestamp>['value'],
@@ -33,6 +33,7 @@ type Props = {
 
     actions: {
         select: () => void,
+        openInChannel: () => void,
     },
 } & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
 
@@ -40,7 +41,7 @@ const ThreadItem = ({
     participants,
     totalParticipants,
     name,
-    teamName,
+    channelName,
     previewText,
 
     lastReplyAt,
@@ -52,10 +53,7 @@ const ThreadItem = ({
     isSaved,
     isFollowing,
 
-    actions: {
-        select,
-        ...menuActions
-    },
+    actions,
 
 }: Props) => {
     return (
@@ -65,7 +63,7 @@ const ThreadItem = ({
                 'is-selected': isSelected,
             })}
             tabIndex={0}
-            onClick={select}
+            onClick={actions.select}
         >
             <h4>
                 {Boolean(newMentions || newReplies) && (
@@ -81,9 +79,14 @@ const ThreadItem = ({
                     </div>
                 )}
                 {name || participants[0].name}
-                {Boolean(teamName) && (
-                    <Badge>
-                        {teamName}
+                {Boolean(channelName) && (
+                    <Badge
+                        onClick={useCallback((e: MouseEvent) => {
+                            e.stopPropagation();
+                            actions.openInChannel();
+                        }, [])}
+                    >
+                        {channelName}
                     </Badge>
                 )}
                 <Timestamp
@@ -98,7 +101,7 @@ const ThreadItem = ({
                     isSaved={isSaved}
                     isFollowing={isFollowing}
                     hasUnreads={Boolean(newReplies)}
-                    actions={menuActions}
+                    actions={actions}
                 />
             </span>
             <p>

@@ -57,7 +57,7 @@ storiesOf('Features/Threading/Global Threads', module).
             <StoryBox containerStyle={{width: 600}}>
                 <ThreadItem
                     name={text('team', users[0].name)}
-                    teamName={text('teamName', 'Enterprise Team')}
+                    channelName={text('channelName', 'Enterprise Team')}
                     previewText='Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console?'
 
                     participants={users.slice(0, number('number of named participants (max 200)', 7))}

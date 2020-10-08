@@ -76,7 +76,7 @@ function ThreadFooter({
             />
 
             <Button
-                onClick={() => open()}
+                onClick={open}
                 prepend={<ReplyIcon className='Icon'/>}
             >
                 <FormattedMessage
@@ -88,8 +88,8 @@ function ThreadFooter({
 
             <FollowButton
                 isFollowing={isFollowing}
-                start={() => follow()}
-                stop={() => unfollow()}
+                start={follow}
+                stop={unfollow}
             />
 
             {lastReplyAt && (

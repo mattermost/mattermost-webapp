@@ -45,7 +45,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     }
   />
   <Memo(Button)
-    onClick={[Function]}
+    onClick={[MockFunction]}
     prepend={
       <ReplyIcon
         className="Icon"
@@ -64,8 +64,8 @@ exports[`components/threading/channel_threads/thread_footer should report total 
   </Memo(Button)>
   <Memo(FollowButton)
     isFollowing={true}
-    start={[Function]}
-    stop={[Function]}
+    start={[MockFunction]}
+    stop={[MockFunction]}
   />
   <Connect(injectIntl(Timestamp))
     units={
@@ -150,7 +150,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     }
   />
   <Memo(Button)
-    onClick={[Function]}
+    onClick={[MockFunction]}
     prepend={
       <ReplyIcon
         className="Icon"
@@ -169,8 +169,8 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
   </Memo(Button)>
   <Memo(FollowButton)
     isFollowing={true}
-    start={[Function]}
-    stop={[Function]}
+    start={[MockFunction]}
+    stop={[MockFunction]}
   />
   <Connect(injectIntl(Timestamp))
     units={

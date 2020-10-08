@@ -13,6 +13,10 @@
     line-height: 14px;
     background: var(--center-channel-color-16);
 
+    &[aria-role='button'] {
+        cursor: pointer;
+    }
+
     &.BotBadge, &.GuestBadge {
         padding: 2px 4px;
     }
