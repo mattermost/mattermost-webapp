@@ -31,6 +31,10 @@
             border-color: v(center-channel-color-16);
             color: v(center-channel-color);
         }
+
+        .modal-header {
+            background: var(--sidebar-header-bg);
+        }
     }
 
     .edit-modal-body {
