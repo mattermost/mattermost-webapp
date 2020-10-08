@@ -1,0 +1,31 @@
+.PaymentInfoEdit__card {
+    background-color: var(--sys-center-channel-bg);
+    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-top: 20px;
+}
+
+.PaymentInfoEdit__paymentForm {
+    padding: 0;
+    margin: 0;
+    max-width: 480px;
+
+    .section-title:not(:first-child) {
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
+.PaymentInfoEdit__error {
+    display: flex;
+    color: var(--sys-error-text);
+    font-size: 12px;
+    align-items: center;
+
+    i {
+        font-size: 14.4px;
+        margin-right: 4px;
+    }
+}

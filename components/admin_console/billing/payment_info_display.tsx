@@ -57,7 +57,7 @@ const PaymentInfoDisplay: React.FC = () => {
 
     let body = noPaymentInfoSection;
 
-    if (paymentInfo?.payment_method) {
+    if (paymentInfo?.payment_method && paymentInfo?.billing_address) {
         const address = paymentInfo.billing_address;
         body = (
             <div className='PaymentInfoDisplay__paymentInfo'>
@@ -96,13 +96,14 @@ const PaymentInfoDisplay: React.FC = () => {
                     </div>
                 </div>
                 <div className='PaymentInfoDisplay__paymentInfo-edit'>
-                    <a
+                    { // TODO: remove payment info?
+                    /* <a
                         href='#'
                         onClick={() => null}
                         className='PaymentInfoDisplay__paymentInfo-editButton'
                     >
                         <i className='icon icon-trash-can-outline'/>
-                    </a>
+                    </a> */}
                     <BlockableLink
                         to='/admin_console/billing/payment_info_edit'
                         className='PaymentInfoDisplay__paymentInfo-editButton'
@@ -131,7 +132,7 @@ const PaymentInfoDisplay: React.FC = () => {
                         />
                     </div>
                 </div>
-                {!paymentInfo?.payment_method && addInfoButton}
+                {!(paymentInfo?.payment_method && paymentInfo?.billing_address) && addInfoButton}
             </div>
             <div className='PaymentInfoDisplay__body'>
                 {body}
