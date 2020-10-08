@@ -110,7 +110,7 @@ button {
     color: v(center-channel-color-56);
 
     &:hover {
-        background: v(center-channel-color-08);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         fill: v(center-channel-color-72);
         color: v(center-channel-color-72);
     }
@@ -118,7 +118,7 @@ button {
     &:active,
     &--active,
     &--active:hover {
-        background: v(button-bg-08);
+        background: rgba(var(--button-bg-rgb), 0.08);
         fill: v(button-bg);
         color: v(button-bg);
     }

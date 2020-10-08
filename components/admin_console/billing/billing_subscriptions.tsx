@@ -4,8 +4,11 @@
 import React, {useState, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+import {useDispatch, useStore, useSelector} from 'react-redux';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
@@ -16,15 +19,15 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 import AlertBanner from 'components/alert_banner';
-import DropdownInput from 'components/dropdown_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import OverlayTrigger from 'components/overlay_trigger';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import {Preferences, CloudBanners} from 'utils/constants';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
+
+import PlanDetails from './plan_details';
 
 import './billing_subscriptions.scss';
 import BillingSummary from './billing_summary';
@@ -93,7 +96,8 @@ type Props = {
 
 const BillingSubscriptions: React.FC<Props> = () => {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<DispatchFunc>();
+    const store = useStore();
     const userLimit = useSelector((state: GlobalState) => parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10));
     const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
@@ -115,19 +119,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </Tooltip>
     );
 
-    const testTooltipRight = (
-        <Tooltip
-            id='BillingSubscriptions__testTooltip'
-            className='BillingSubscriptions__tooltip BillingSubscriptions__tooltip-right'
-        >
-            <div className='BillingSubscriptions__tooltipTitle'>
-                {'What are partial charges?'}
-            </div>
-            <div className='BillingSubscriptions__tooltipMessage'>
-                {'Users who have not been enabled for the full duration of the month are charged at a prorated monthly rate.'}
-            </div>
-        </Tooltip>
-    );
+    useEffect(() => {
+        getCloudSubscription()(dispatch, store.getState());
+        getCloudProducts()(dispatch, store.getState());
+    }, []);
 
     const [showDanger, setShowDanger] = useState(false);
     const [showWarning, setShowWarning] = useState(false);
@@ -207,44 +202,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}
                     >
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                width: '568px',
-                                padding: '8px',
-                                backgroundColor: '#fff',
-                            }}
-                        >
-                            {'Plan Details Card'}
-                            <DropdownInput
-                                onChange={(value) => setDropdownValue(value)}
-                                value={dropdownValue}
-                                options={[
-                                    {label: 'Option 1', value: 'option-1'},
-                                    {label: 'Option 2', value: 'option-2'},
-                                    {label: 'Option 3', value: 'option-3'},
-                                ]}
-                                legend={'Test dropdown'}
-                                placeholder='Select item here'
-                                name='BillingSubscriptions__testDropdown'
-                                error={dropdownValue ? undefined : 'This field is required'}
-                            />
-                            <br/>
-                            <OverlayTrigger
-                                delayShow={500}
-                                placement='bottom'
-                                overlay={testTooltipLeft}
-                            >
-                                <button>{'Left Side Test Button'}</button>
-                            </OverlayTrigger>
-                            <OverlayTrigger
-                                delayShow={500}
-                                placement='bottom'
-                                overlay={testTooltipRight}
-                            >
-                                <button>{'Right Side Test Button'}</button>
-                            </OverlayTrigger>
-                        </div>
+                        <PlanDetails/>
                         {isFree ? upgradeMattermostCloud() : <BillingSummary/>}
                     </div>
                     {privateCloudCard()}
