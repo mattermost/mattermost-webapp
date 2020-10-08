@@ -13,13 +13,14 @@ import Button from 'components/threading/common/button';
 import FollowButton from 'components/threading/common/follow_button';
 
 import Timestamp from 'components/timestamp';
-import SimpleTooltip from 'components/simple_tooltip';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 import {THREADING_TIME} from '../../common/options';
 
 type Props = {
     participants: ComponentProps<typeof Avatars>['users'];
+    totalParticipants?: number;
     totalReplies: number;
     newReplies: number;
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
@@ -33,6 +34,7 @@ type Props = {
 
 function ThreadFooter({
     participants,
+    totalParticipants,
     totalReplies = 0,
     newReplies = 0,
     lastReplyAt,
@@ -45,7 +47,7 @@ function ThreadFooter({
 }: Props) {
     return (
         <div className='ThreadFooter'>
-            {Boolean(newReplies) && (
+            {newReplies ? (
                 <SimpleTooltip
                     id='threadFooterIndicator'
                     content={
@@ -56,19 +58,25 @@ function ThreadFooter({
                         />
                     }
                 >
-                    <div className='indicator'>
+                    <div
+                        className='indicator'
+                        tabIndex={0}
+                    >
                         <div className='dot-unreads'/>
                     </div>
                 </SimpleTooltip>
+            ) : (
+                <div className='indicator'/>
             )}
 
             <Avatars
                 users={participants}
+                totalUsers={totalParticipants}
                 size='sm'
             />
 
             <Button
-                onClick={() => open()}
+                onClick={open}
                 prepend={<ReplyIcon className='Icon'/>}
             >
                 <FormattedMessage
@@ -80,11 +88,11 @@ function ThreadFooter({
 
             <FollowButton
                 isFollowing={isFollowing}
-                start={() => follow()}
-                stop={() => unfollow()}
+                start={follow}
+                stop={unfollow}
             />
 
-            {lastReplyAt && (
+            {Boolean(lastReplyAt) && (
                 <Timestamp
                     value={lastReplyAt}
                     useTime={false}

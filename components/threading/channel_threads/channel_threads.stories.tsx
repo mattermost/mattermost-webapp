@@ -2,29 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import moment from 'moment-timezone';
-
-import {Unit} from '@formatjs/intl-relativetimeformat';
 
 import {storiesOf} from '@storybook/react';
-import {withKnobs, boolean, number, select} from '@storybook/addon-knobs';
+import {withKnobs, boolean, number, date} from '@storybook/addon-knobs';
 import {action} from '@storybook/addon-actions';
 
 import StoryGrid from 'storybook/story_grid';
 import StoryBox from 'storybook/story_box';
 
 import ThreadFooter from './thread_footer';
-
-const units: Unit[] = [
-    'second',
-    'minute',
-    'hour',
-    'day',
-    'week',
-    'month',
-    'quarter',
-    'year',
-];
 
 const users = [
     {
@@ -57,11 +43,11 @@ const users = [
         username: 'vincent.price',
         name: 'Vincent Price',
     },
-    {
+    ...new Array(194).fill({
         url: './api/v4/users/7/image?_=0',
         username: 'alan.arkin',
         name: 'Alan Arkin',
-    },
+    }),
 ];
 
 storiesOf('Features/Threading/Channel Threads', module).
@@ -70,10 +56,11 @@ storiesOf('Features/Threading/Channel Threads', module).
         <StoryGrid>
             <StoryBox>
                 <ThreadFooter
-                    participants={users.slice(0, number('number of users', 7))}
+                    participants={users.slice(0, number('number of named participants (max 200)', 7))}
+                    totalParticipants={number('number of total participants (unlimited)', 24)}
                     totalReplies={number('total replies', 8)}
                     newReplies={number('new/unread replies', 3)}
-                    lastReplyAt={moment().add(select('unit', units, 'second'), number('diff', 0)).toDate()}
+                    lastReplyAt={date('last reply at')}
                     isFollowing={boolean('is following', false)}
                     actions={{
                         follow: action('start following'),

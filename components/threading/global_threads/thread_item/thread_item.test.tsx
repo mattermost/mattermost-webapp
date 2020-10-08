@@ -49,7 +49,7 @@ describe('components/threading/global_threads/thread_item', () => {
     beforeEach(() => {
         props = {
             name: 'Johnny Depp',
-            teamName: 'Enterprise Team',
+            channelName: 'Enterprise Team',
             previewText: 'Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.',
             participants: users,
             totalReplies: 9,
@@ -111,7 +111,7 @@ describe('components/threading/global_threads/thread_item', () => {
         expect(wrapper.find('.activity FormattedMessage').props()).toHaveProperty('values.newReplies', 2);
     });
 
-    test('should show team name (if provided)', () => {
+    test('should show channel name (if provided)', () => {
         const wrapper = shallow(
             <ThreadItem
                 {...props}
@@ -119,8 +119,8 @@ describe('components/threading/global_threads/thread_item', () => {
                 newMentions={1}
             />,
         );
-        expect(wrapper.find(Badge).childAt(0).text()).toContain(props.teamName);
-        wrapper.setProps({teamName: ''});
+        expect(wrapper.find(Badge).childAt(0).text()).toContain(props.channelName);
+        wrapper.setProps({channelName: ''});
         expect(wrapper.exists(Badge)).toBe(false);
     });
 

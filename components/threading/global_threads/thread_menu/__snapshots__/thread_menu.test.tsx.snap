@@ -347,26 +347,33 @@ exports[`components/threading/common/thread_menu should match snapshot after ope
                   }
                 >
                   <MenuItemAction
+                    extraText="You will be notified about replies"
                     onClick={[MockFunction]}
                     show={true}
-                    text="Keep following thread"
+                    text="Follow thread"
                   >
                     <li
                       className="MenuItem"
                       role="menuitem"
                     >
                       <MenuItemActionImpl
+                        extraText="You will be notified about replies"
                         onClick={[MockFunction]}
-                        text="Keep following thread"
+                        text="Follow thread"
                       >
                         <button
-                          className="style--none"
+                          className="style--none MenuItem__with-help"
                           onClick={[MockFunction]}
                         >
                           <span
                             className="MenuItem__primary-text"
                           >
-                            Keep following thread
+                            Follow thread
+                          </span>
+                          <span
+                            className="MenuItem__help-text"
+                          >
+                            You will be notified about replies
                           </span>
                         </button>
                       </MenuItemActionImpl>

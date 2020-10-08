@@ -1,8 +1,11 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 .ThreadItem {
-    padding: 16px 28px;
+    padding: 18px 18px 18px 28px;
     text-align: left;
     cursor: pointer;
+    position: relative;
 
     .alt-visible {
         display: none;
@@ -30,7 +33,7 @@
         }
     }
 
-    &.has-indicator {
+    &.has-unreads {
         .activity {
             color: rgba(var(--sidebar-text-active-border-rgb), 1);
         }
@@ -56,6 +59,9 @@
         font-size: 10px;
         line-height: 16px;
         font-weight: 700;
+        &.over {
+            font-size: 8px;
+        }
     }
 
     .indicator {
@@ -74,6 +80,7 @@
         font-weight: 600;
         display: flex;
         position: relative;
+        white-space: nowrap;
     }
 
     .Badge {
@@ -87,6 +94,7 @@
         text-transform: uppercase;
         padding: 0px 4px;
         background: rgba(var(--center-channel-color-rgb), .08);
+        color: rgba(var(--center-channel-color-rgb), 1);
         &:hover,
         &:focus {
             cursor: pointer;
@@ -97,6 +105,7 @@
     p {
         text-overflow: ellipsis;
         overflow: hidden;
+        color: rgba(var(--center-channel-color-rgb), 1);
 
         // cross-browser multi-line text-overflow support
         display: -webkit-box;
@@ -114,8 +123,8 @@
 
     .menu-anchor {
         position: absolute;
-        right: 0;
-        top: -5px;
+        right: 8px;
+        top: 8px;
 
         .Button {
             width: 28px;
@@ -124,6 +133,10 @@
             font-size: 18px;
             color: rgba(var(--center-channel-color-rgb), .64)
         }
+    }
+
+    .MenuWrapper .dropdown-menu {
+        min-width: 250px;
     }
 
     .Avatars {

@@ -10,7 +10,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import Button from 'components/threading/common/button';
-import SimpleTooltip from 'components/simple_tooltip';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 type Props = {
     isFollowing: boolean,
@@ -57,7 +57,7 @@ function ThreadMenu({
             <SimpleTooltip
                 id='threadActionMenu'
                 content={formatMessage({
-                    id: 'threading.threadItem.menu',
+                    id: t('threading.threadItem.menu'),
                     defaultMessage: 'Actions',
                 })}
             >
@@ -85,7 +85,11 @@ function ThreadMenu({
                         onClick={follow}
                         text={formatMessage({
                             id: t('threading.threadMenu.follow'),
-                            defaultMessage: 'Keep following thread',
+                            defaultMessage: 'Follow thread',
+                        })}
+                        extraText={formatMessage({
+                            id: t('threading.threadMenu.followExtra'),
+                            defaultMessage: 'You will be notified about replies',
                         })}
                     />
                 )}

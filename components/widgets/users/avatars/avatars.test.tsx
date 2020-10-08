@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {mount} from 'enzyme';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import Avatars from './avatars';
 
@@ -37,7 +37,7 @@ const users = [
 
 describe('components/widgets/users/Avatars', () => {
     test('should match the snapshot', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <Avatars
                 size='xl'
                 users={users}
@@ -48,7 +48,7 @@ describe('components/widgets/users/Avatars', () => {
     });
 
     test('should properly count overflow', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <Avatars
                 size='xl'
                 users={users}

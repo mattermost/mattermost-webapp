@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps, useCallback, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -17,8 +17,9 @@ import {THREADING_TIME} from '../../common/options';
 
 type Props = {
     participants: ComponentProps<typeof Avatars>['users'],
+    totalParticipants?: number;
     name: string,
-    teamName: string,
+    channelName: string,
     previewText: string,
 
     lastReplyAt: ComponentProps<typeof Timestamp>['value'],
@@ -32,13 +33,15 @@ type Props = {
 
     actions: {
         select: () => void,
+        openInChannel: () => void,
     },
 } & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
 
 const ThreadItem = ({
     participants,
+    totalParticipants,
     name,
-    teamName,
+    channelName,
     previewText,
 
     lastReplyAt,
@@ -50,29 +53,25 @@ const ThreadItem = ({
     isSaved,
     isFollowing,
 
-    actions: {
-        select,
-        ...menuActions
-    },
+    actions,
 
 }: Props) => {
-    const hasUnreads = Boolean(newMentions || newReplies);
-
     return (
         <div
             className={classNames('ThreadItem', {
-                'has-indicator': hasUnreads,
+                'has-unreads': newReplies,
                 'is-selected': isSelected,
             })}
             tabIndex={0}
-            onClick={select}
+            onClick={actions.select}
         >
             <h4>
-                {hasUnreads && (
+                {Boolean(newMentions || newReplies) && (
                     <div className='indicator'>
                         {newMentions ? (
-                            <div className='dot-mentions'>
-                                {newMentions}
+                            <div className={classNames('dot-mentions', {over: newMentions > 99})}>
+                                {Math.min(newMentions, 99)}
+                                {newMentions > 99 && '+'}
                             </div>
                         ) : (
                             <div className='dot-unreads'/>
@@ -80,9 +79,14 @@ const ThreadItem = ({
                     </div>
                 )}
                 {name || participants[0].name}
-                {Boolean(teamName) && (
-                    <Badge>
-                        {teamName}
+                {Boolean(channelName) && (
+                    <Badge
+                        onClick={useCallback((e: MouseEvent) => {
+                            e.stopPropagation();
+                            actions.openInChannel();
+                        }, [])}
+                    >
+                        {channelName}
                     </Badge>
                 )}
                 <Timestamp
@@ -91,16 +95,15 @@ const ThreadItem = ({
                     useTime={false}
                     units={THREADING_TIME}
                 />
-                <span className='menu-anchor alt-visible'>
-                    <ThreadMenu
-                        isSaved={isSaved}
-                        isFollowing={isFollowing}
-                        hasUnreads={hasUnreads}
-                        actions={menuActions}
-                    />
-                </span>
-
             </h4>
+            <span className='menu-anchor alt-visible'>
+                <ThreadMenu
+                    isSaved={isSaved}
+                    isFollowing={isFollowing}
+                    hasUnreads={Boolean(newReplies)}
+                    actions={actions}
+                />
+            </span>
             <p>
                 {previewText}
             </p>
@@ -108,7 +111,8 @@ const ThreadItem = ({
                 <div className='activity'>
                     <Avatars
                         users={participants}
-                        size='sm'
+                        totalUsers={totalParticipants}
+                        size='xs'
                     />
                     {newReplies ? (
                         <FormattedMessage

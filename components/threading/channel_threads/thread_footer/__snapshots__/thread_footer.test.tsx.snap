@@ -4,6 +4,9 @@ exports[`components/threading/channel_threads/thread_footer should report total 
 <div
   className="ThreadFooter"
 >
+  <div
+    className="indicator"
+  />
   <Memo(Avatars)
     size="sm"
     users={
@@ -42,7 +45,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     }
   />
   <Memo(Button)
-    onClick={[Function]}
+    onClick={[MockFunction]}
     prepend={
       <ReplyIcon
         className="Icon"
@@ -61,8 +64,8 @@ exports[`components/threading/channel_threads/thread_footer should report total 
   </Memo(Button)>
   <Memo(FollowButton)
     isFollowing={true}
-    start={[Function]}
-    stop={[Function]}
+    start={[MockFunction]}
+    stop={[MockFunction]}
   />
   <Connect(injectIntl(Timestamp))
     units={
@@ -102,6 +105,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
   >
     <div
       className="indicator"
+      tabIndex={0}
     >
       <div
         className="dot-unreads"
@@ -146,7 +150,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     }
   />
   <Memo(Button)
-    onClick={[Function]}
+    onClick={[MockFunction]}
     prepend={
       <ReplyIcon
         className="Icon"
@@ -165,8 +169,8 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
   </Memo(Button)>
   <Memo(FollowButton)
     isFollowing={true}
-    start={[Function]}
-    stop={[Function]}
+    start={[MockFunction]}
+    stop={[MockFunction]}
   />
   <Connect(injectIntl(Timestamp))
     units={
