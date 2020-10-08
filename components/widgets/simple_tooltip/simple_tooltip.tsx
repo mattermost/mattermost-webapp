@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactNode, ComponentProps, useState} from 'react';
+import React, {memo, ReactNode, ComponentProps, useState, CSSProperties} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
@@ -12,6 +12,7 @@ type Props = {
     children: ReactNode;
     className?: string;
     arrowOffsetTop?: number | string;
+    style?: CSSProperties
 }
 
 const SimpleTooltip = ({
@@ -21,7 +22,7 @@ const SimpleTooltip = ({
     placement = 'top',
     className = 'hidden-xs',
     delayShow = 500,
-    arrowOffsetTop,
+    style,
     ...props
 }: Props & Omit<ComponentProps<typeof OverlayTrigger>, 'overlay'>) => {
     return (
@@ -32,7 +33,7 @@ const SimpleTooltip = ({
             overlay={
                 <Tooltip
                     id={id}
-                    arrowOffsetTop={arrowOffsetTop}
+                    style={style}
                     className={className}
                     placement={placement}
                 >

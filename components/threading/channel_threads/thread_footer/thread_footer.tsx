@@ -50,7 +50,6 @@ function ThreadFooter({
             {(Boolean(newReplies) && (
                 <SimpleTooltip
                     id='threadFooterIndicator'
-                    containerPadding={25}
                     content={
                         <FormattedMessage
                             id='threading.numNewMessages'
