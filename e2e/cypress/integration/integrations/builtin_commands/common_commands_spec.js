@@ -156,7 +156,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T683 /join', () => {
-       // # Login as another user and create a new channel
+        // # Login as another user and create a new channel
         cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'new-channel', 'New Channel').then(({channel}) => {
             // # Login as test user and visit test channel
