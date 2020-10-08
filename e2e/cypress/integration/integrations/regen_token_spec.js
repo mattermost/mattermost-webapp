@@ -7,14 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging
+// Group: @integrations
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-let testTeam;
-let testChannel;
-
 describe('Integrations', () => {
+    let testTeam;
+    let testChannel;
+
     before(() => {
         // # Login as test user and visit the newly created test channel
         cy.apiInitSetup().then(({team, channel}) => {
