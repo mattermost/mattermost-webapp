@@ -154,6 +154,9 @@ describe('Header', () => {
 
         // * Verify header content
         cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', 'Poll Bot');
+
+        // # Clean up, uninstall "matterpoll" plugin
+        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
     });
 });
 
