@@ -32,10 +32,7 @@ function Avatars({
 }: Props) {
     const displayUsers = users.slice(0, breakAt);
     const overflowUsers = users.slice(breakAt);
-    const overflowUnnamedCount = Math.max(
-        totalUsers - displayUsers.length - overflowUsers.length,
-        0,
-    );
+    const overflowUnnamedCount = Math.max(totalUsers - displayUsers.length - overflowUsers.length, 0);
     const nonDisplayCount = overflowUsers.length + overflowUnnamedCount;
 
     const [overlayProps, setImmediate] = useSynchronizedImmediate();
