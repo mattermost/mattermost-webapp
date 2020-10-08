@@ -285,6 +285,10 @@
 
                 .status {
                     flex: 0 0 auto;
+
+                    &.status--group {
+                        background: rgba(var(--sidebar-text-rgb), 0.3);
+                    }
                 }
 
                 .icon {
