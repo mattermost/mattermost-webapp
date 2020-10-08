@@ -25,7 +25,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
             state,
             ownProps.postId,
             ownProps.link,
-        ) as OpenGraphMetadata,
+        ),
         previewEnabled: getBool(
             state,
             Preferences.CATEGORY_DISPLAY_SETTINGS,

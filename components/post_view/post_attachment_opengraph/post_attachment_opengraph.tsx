@@ -28,7 +28,7 @@ export type Props = {
     link: string;
     currentUserId?: string;
     post: Post;
-    openGraphData?: OpenGraphMetadata | null;
+    openGraphData?: OpenGraphMetadata;
     enableLinkPreviews: boolean;
     previewEnabled: boolean;
     isEmbedVisible?: boolean;
@@ -39,20 +39,20 @@ export type Props = {
 };
 
 export default class PostAttachmentOpenGraph extends React.PureComponent<Props> {
-    getImageMetadata = (imageUrl: string | null) => {
+    getImageMetadata = (imageUrl?: string) => {
         if (!imageUrl) {
-            return null;
+            return undefined;
         }
 
         const imagesMetadata = this.props.post.metadata.images;
         if (!imagesMetadata) {
-            return null;
+            return undefined;
         }
 
         return imagesMetadata[imageUrl];
     };
 
-    isLargeImage = (dimensions: PostImage | null) => {
+    isLargeImage = (dimensions?: PostImage) => {
         if (!dimensions) {
             return false;
         }
@@ -78,9 +78,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         );
     }
 
-    renderLargeImage(imageUrl: string, imageMetadata: PostImage | null) {
+    renderLargeImage(imageUrl: string, imageMetadata?: PostImage) {
         if (!this.props.isEmbedVisible) {
-            return null;
+            return undefined;
         }
 
         return (
@@ -99,9 +99,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         );
     }
 
-    renderSmallImage(imageUrl: string, imageMetadata: PostImage | null) {
+    renderSmallImage(imageUrl: string, imageMetadata?: PostImage) {
         if (!this.props.isEmbedVisible) {
-            return null;
+            return undefined;
         }
 
         return (
@@ -235,9 +235,9 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
     }
 }
 
-export function getBestImageUrl(openGraphData: OpenGraphMetadata | null, imagesMetadata: Dictionary<PostImage> | null) {
-    if (!openGraphData || !openGraphData.images || openGraphData.images.length === 0) {
-        return null;
+export function getBestImageUrl(openGraphData?: OpenGraphMetadata, imagesMetadata?: Dictionary<PostImage>) {
+    if (!openGraphData?.images?.length) {
+        return undefined;
     }
 
     // Get the dimensions from the post metadata if they weren't provided by the website as part of the OpenGraph data
