@@ -4,7 +4,7 @@
 import React, {memo, ReactNode} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import SimpleTooltip from 'components/simple_tooltip';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 import Button from '../../common/button';
 

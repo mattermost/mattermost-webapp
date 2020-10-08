@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {withKnobs, boolean, number, text, date} from '@storybook/addon-knobs';
@@ -91,14 +91,15 @@ storiesOf('Features/Threading/Global Threads', module).
         const post = (
             <ThreadItem
                 name={text('team', users[0].name)}
-                teamName={text('teamName', 'Enterprise Team')}
+                channelName={text('channelName', 'Enterprise Team')}
                 previewText='Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console?'
 
-                participants={users.slice(0, number('number of participants', 7))}
+                participants={users.slice(0, number('number of named participants (max 200)', 7))}
+                totalParticipants={number('number of total participants (unlimited)', 24)}
                 totalReplies={number('total replies', 8)}
                 newReplies={number('new/unread replies', 3)}
                 newMentions={number('new/unread mentions', 1)}
-                lastReplyAt={moment().add(select('unit', units, 'minute'), number('diff', -5)).toDate()}
+                lastReplyAt={date('last reply at')}
 
                 isFollowing={boolean('is following', true)}
                 isSaved={boolean('is saved', false)}
@@ -117,6 +118,8 @@ storiesOf('Features/Threading/Global Threads', module).
                 }}
             />
         );
+
+        const [is, set] = useState();
 
         return (
             <StoryGrid>
