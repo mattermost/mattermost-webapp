@@ -39,8 +39,6 @@ export default class PDFPreview extends React.PureComponent {
             loading: true,
             success: false,
         };
-
-        this.pdfCanvasRef = React.createRef();
     }
 
     componentDidMount() {
@@ -80,12 +78,12 @@ export default class PDFPreview extends React.PureComponent {
             return;
         }
 
-        const canvas = this.pdfCanvasRef[pageIndex];
-        const context = canvas.getContext('2d');
+        this[`pdfCanvasRef-${pageIndex}`] = React.createRef();
+        const context = this[`pdfCanvasRef-${pageIndex}`].getContext('2d');
         const viewport = this.state.pdfPages[pageIndex].getViewport(1);
 
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        this[`pdfCanvasRef-${pageIndex}`].height = viewport.height;
+        this[`pdfCanvasRef-${pageIndex}`].width = viewport.width;
 
         const renderContext = {
             canvasContext: context,
@@ -150,14 +148,14 @@ export default class PDFPreview extends React.PureComponent {
             pdfCanvases.push(
                 <canvas
                     ref={this.pdfCanvasRef[i]}
-                    key={'previewpdfcanvas' + i}
+                    key={this[`pdfCanvasRef-${i}`]}
                 />,
             );
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
                 pdfCanvases.push(
                     <div
-                        key={'previewpdfspacer' + i}
+                        key={this[`pdfCanvasRef-${i}`]}
                         className='pdf-preview-spacer'
                     />,
                 );
@@ -188,4 +186,3 @@ export default class PDFPreview extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
