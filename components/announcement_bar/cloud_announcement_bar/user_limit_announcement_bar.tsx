@@ -29,7 +29,7 @@ type Props = {
     preferences: PreferenceType[];
     isCloud: boolean;
     analytics?: Dictionary<number | AnalyticsRow[]>;
-    subscription: Subscription;
+    subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getStandardAnalytics: () => void;
