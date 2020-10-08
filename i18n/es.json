@@ -335,6 +335,7 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Exceso en cantidad de asientos",
   "admin.billing.subscription.planDetails.startDate": "Fecha de inicio: ",
   "admin.billing.subscription.planDetails.tiers.free": "Gratis",
+  "admin.billing.subscription.planDetails.upToXUsers": "",
   "admin.billing.subscription.planDetails.userCount": "{userCount} usuarios",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} usuarios",
   "admin.billing.subscription.price.contactSales": "contactar a ventas",
