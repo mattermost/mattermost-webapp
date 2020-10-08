@@ -127,7 +127,7 @@ describe('Integrations', () => {
         cy.postMessage('/help');
 
         // * Verify that a new tag opens
-        cy.window().its('open').should('be.called');
+        cy.window().its('open').should('have.been.calledWithMatch', 'https://about.mattermost.com/default-help/');
     });
 
     it('MM-T681 /invite_people error message with no text or text that is not an email address', () => {
@@ -156,10 +156,12 @@ describe('Integrations', () => {
     });
 
     it('MM-T683 /join', () => {
-        loginAndVisitChannel(user1, testChannelUrl);
-
-        // # Create New Channel
+       // # Login as another user and create a new channel
+        cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'new-channel', 'New Channel').then(({channel}) => {
+            // # Login as test user and visit test channel
+            loginAndVisitChannel(user1, testChannelUrl);
+
             // # Type "/join ~new-channel"
             cy.postMessage(`/join ~${channel.name}`);
 
@@ -178,6 +180,9 @@ describe('Integrations', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', 'test');
+
+            // * The message should match other system message formatting.
+            cy.get(`#post_${postId}`).should('have.class', 'post--system');
         });
     });
 
