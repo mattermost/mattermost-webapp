@@ -47,7 +47,7 @@ function ThreadFooter({
 }: Props) {
     return (
         <div className='ThreadFooter'>
-            {(Boolean(newReplies) && (
+            {newReplies ? (
                 <SimpleTooltip
                     id='threadFooterIndicator'
                     content={
@@ -65,7 +65,7 @@ function ThreadFooter({
                         <div className='dot-unreads'/>
                     </div>
                 </SimpleTooltip>
-            )) || (
+            ) : (
                 <div className='indicator'/>
             )}
 
@@ -92,7 +92,7 @@ function ThreadFooter({
                 stop={unfollow}
             />
 
-            {lastReplyAt && (
+            {Boolean(lastReplyAt) && (
                 <Timestamp
                     value={lastReplyAt}
                     useTime={false}
