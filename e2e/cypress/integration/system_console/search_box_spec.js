@@ -76,7 +76,11 @@ describe('System console', () => {
         cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-autolink/releases/download/v1.2.1/mattermost-autolink-1.2.1.tar.gz', true);
         cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-aws-SNS/releases/download/v1.1.0/com.mattermost.aws-sns-1.1.0.tar.gz', true);
 
-        cy.reload();
+        // # A bug with the endpoint used for downloading plugins which doesn't send websocket events out so state is not updated
+        // # Therefore, we visit town-square to update the state of our app then re-visit admin console
+        cy.visit('ad-1/channels/town-square');
+        cy.wait(TIMEOUTS.FIVE_SEC);
+        goToAdminConsole();
 
         // # Type first plugin name
         cy.get('#adminSidebarFilter').type('Anti');
