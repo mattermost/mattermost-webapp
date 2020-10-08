@@ -142,6 +142,8 @@ export default class NotificationsTab extends React.PureComponent {
         this.state = getNotificationsStateFromProps(props);
         this.customCheckRef = React.createRef();
         this.customMentionsRef = React.createRef();
+        this.drawerRef = React.createRef();
+        this.wrapperRef = React.createRef();
     }
 
     handleSubmit = () => {
@@ -888,7 +890,7 @@ export default class NotificationsTab extends React.PureComponent {
                     </button>
                     <h4
                         className='modal-title'
-                        ref='title'
+                        ref={this.drawerRef}
                     >
                         <div className='modal-back'>
                             <FormattedMessage
@@ -911,7 +913,7 @@ export default class NotificationsTab extends React.PureComponent {
                     </h4>
                 </div>
                 <div
-                    ref='wrapper'
+                    ref={this.wrapperRef}
                     className='user-settings'
                 >
                     <h3
