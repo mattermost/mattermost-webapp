@@ -32,9 +32,14 @@ export default class UserList extends React.PureComponent {
         rowComponentType: UserListRow,
     }
 
+    constructor(props) {
+        super(props);
+        this.container = React.createRef();
+    }
+
     scrollToTop = () => {
-        if (this.refs.container) {
-            this.refs.container.scrollTop = 0;
+        if (this.container.current) {
+            this.container.current.scrollTop = 0;
         }
     }
 
@@ -80,7 +85,7 @@ export default class UserList extends React.PureComponent {
         }
 
         return (
-            <div ref='container'>
+            <div ref={this.container}>
                 {content}
             </div>
         );
