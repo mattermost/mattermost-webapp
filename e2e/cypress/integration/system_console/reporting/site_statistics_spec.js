@@ -10,6 +10,7 @@
 // Group: @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {getAdminAccount} from '../../../support/env';
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
@@ -92,30 +93,59 @@ describe('System Console > Site Statistics', () => {
     });
 
     it('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
+        const sysadmin = getAdminAccount();
+
         // # Require license.
         cy.apiRequireLicense();
 
-        goToAdminConsole();
+        let newChannel;
 
-        // * Find site statistics and click it
-        cy.findByTestId('reporting.system_analytics').click();
+        // # Create and visit new channel
+        cy.apiInitSetup().then(({channel}) => {
+            newChannel = channel;
+        });
 
-        let totalPostsDataSet;
-        let totalPostsFromBots;
-        let activeUsersWithPosts;
+        // # Create a bot and get userID
+        cy.apiCreateBot('bot-' + Date.now(), 'Test Bot', 'test bot for E2E test replying to older bot post').then(({bot}) => {
+            const botUserId = bot.user_id;
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
-        // # Grab all data from the 3 charts from there data labels
-        cy.findByTestId('totalPostsLineChart').then((el) => {
-            totalPostsDataSet = el[0].dataset.labels;
-            cy.findByTestId('totalPostsFromBotsLineChart').then((el2) => {
-                totalPostsFromBots = el2[0].dataset.labels;
-                cy.findByTestId('activeUsersWithPostsLineChart').then((el3) => {
-                    activeUsersWithPosts = el3[0].dataset.labels;
+            // # Get token from bots id
+            cy.apiAccessToken(botUserId, 'Create token').then((token) => {
+                //# Add bot to team
+                cy.apiAddUserToTeam(newChannel.team_id, botUserId);
 
-                    // * Assert that all the dates are the same
-                    expect(totalPostsDataSet).equal(totalPostsFromBots);
-                    expect(totalPostsDataSet).equal(activeUsersWithPosts);
-                    expect(totalPostsFromBots).equal(activeUsersWithPosts);
+                const today = new Date();
+                const yesterday = new Date(today);
+
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                // # Post message as bot to the new channel
+                cy.postBotMessage({token, channelId: newChannel.id, message: 'this is bot message', createAt: yesterday.getTime()}).then(() => {
+                    goToAdminConsole();
+
+                    // * Find site statistics and click it
+                    cy.findByTestId('reporting.system_analytics').click();
+
+                    let totalPostsDataSet;
+                    let totalPostsFromBots;
+                    let activeUsersWithPosts;
+
+                    // # Grab all data from the 3 charts from there data labels
+                    cy.findByTestId('totalPostsLineChart').then((el) => {
+                        totalPostsDataSet = el[0].dataset.labels;
+                        cy.findByTestId('totalPostsFromBotsLineChart').then((el2) => {
+                            totalPostsFromBots = el2[0].dataset.labels;
+                            cy.findByTestId('activeUsersWithPostsLineChart').then((el3) => {
+                                activeUsersWithPosts = el3[0].dataset.labels;
+
+                                // * Assert that all the dates are the same
+                                expect(totalPostsDataSet).equal(totalPostsFromBots);
+                                expect(totalPostsDataSet).equal(activeUsersWithPosts);
+                                expect(totalPostsFromBots).equal(activeUsersWithPosts);
+                            });
+                        });
+                    });
                 });
             });
         });
@@ -125,7 +155,7 @@ describe('System Console > Site Statistics', () => {
         cy.apiInitSetup().then(({team, user}) => {
             const testUser = user;
             testTeam = team;
-            
+
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -183,7 +213,7 @@ describe('System Console > Site Statistics', () => {
 
     it('MM-T905 - Site Statistics card labels in different languages', () => {
         cy.apiInitSetup().then(({team}) => {
-            const testTeam = team;
+            testTeam = team;
 
             // # Login as admin and set the langauge to french
             cy.apiAdminLogin();
