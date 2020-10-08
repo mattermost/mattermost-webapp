@@ -65,6 +65,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
     shouldShowBanner = () => {
         const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
 
+        // Prevents banner flashes if the subscription hasn't been loaded yet
         if (subscription === null) {
             return false;
         }
