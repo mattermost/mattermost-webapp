@@ -88,6 +88,12 @@ describe('Integrations', () => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
             cy.get(`#postMessageText_${postId}`).get('code').should('have.text', '1. Not a list item, **not bolded**, http://notalink.com, ~off-topic is not a link to the channel.');
         });
+
+        // # Type "/code" with no text
+        cy.postMessage('/code');
+
+        // * Verify that an error message is shown
+        verifyEphemeralMessage('A message must be provided with the /code command.');
     });
 
     it('MM-T679 /echo', () => {
