@@ -10,7 +10,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import Button from 'components/threading/common/button';
-import SimpleTooltip from 'components/simple_tooltip';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 type Props = {
     isFollowing: boolean,

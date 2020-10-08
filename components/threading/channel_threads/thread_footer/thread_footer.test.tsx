@@ -4,7 +4,7 @@
 import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
-import SimpleTooltip from 'components/simple_tooltip';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';

@@ -462,6 +462,7 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             <Memo(Avatar)
               size="xl"
               tabIndex={0}
+              text="+2"
             >
               <div
                 className="Avatar Avatar-xl Avatar-plain"
@@ -939,6 +940,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             <Memo(Avatar)
               size="xl"
               tabIndex={0}
+              text="+2"
             >
               <div
                 className="Avatar Avatar-xl Avatar-plain"

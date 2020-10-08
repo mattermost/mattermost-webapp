@@ -9,7 +9,7 @@ type Props = {
     url?: string;
     username?: string;
     size?: 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-    children?: string;
+    text?: string;
 };
 
 type Attrs = Pick<HTMLAttributes<HTMLElement>, 'tabIndex'>
@@ -18,17 +18,17 @@ const Avatar = ({
     url,
     username,
     size = 'md',
-    children,
+    text,
     ...attrs
 }: Props & Attrs) => {
     const classes = `Avatar Avatar-${size}`;
 
-    if (children) {
+    if (text) {
         return (
             <div
                 {...attrs}
                 className={classes + ' Avatar-plain'}
-                data-content={children}
+                data-content={text}
             />
         );
     }

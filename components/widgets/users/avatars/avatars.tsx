@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-import SimpleTooltip, {useSynchronizedImmediate} from 'components/simple_tooltip';
+import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple_tooltip';
 
 import Avatar from 'components/widgets/users/avatar';
 
@@ -28,18 +28,15 @@ function Avatars({
     size,
     users,
     totalUsers = users.length,
-    breakAt = Math.min(
-        users.length > 4 ? 3 : 4,
-        Math.max(users.length, totalUsers),
-    ),
+    breakAt = Math.max(users.length, totalUsers) > 4 ? 3 : 4,
 }: Props) {
     const displayUsers = users.slice(0, breakAt);
-    const others = users.slice(breakAt);
-    const othersOverflowCount = Math.max(
-        totalUsers - displayUsers.length - others.length,
+    const overflowUsers = users.slice(breakAt);
+    const overflowUnnamedCount = Math.max(
+        totalUsers - displayUsers.length - overflowUsers.length,
         0,
     );
-    const nonDisplayCount = others.length + othersOverflowCount;
+    const nonDisplayCount = overflowUsers.length + overflowUnnamedCount;
 
     const [overlayProps, setImmediate] = useSynchronizedImmediate();
 
@@ -66,43 +63,36 @@ function Avatars({
                     </div>
                 </SimpleTooltip>
             ))}
-            {Boolean(others.length || othersOverflowCount) && (
+            {Boolean(nonDisplayCount) && (
                 <SimpleTooltip
                     id={'names-overflow'}
                     {...overlayProps}
-                    content={others.length ? formatMessage(
+                    content={overflowUsers.length ? formatMessage(
                         {
-                            id: t('threading.avatars.overflowNames'),
-                            defaultMessage: `{othersOverflowCount, plural,
-                                =0 {{overflowNames}}
-                                =1 {{overflowNames} and one other}
-                                other {{overflowNames} and # others}
-                            }`,
+                            id: t('avatars.overflowUsers'),
+                            defaultMessage: '{overflowUnnamedCount, plural, =0 {{names}} =1 {{names} and one other} other {{names} and # others}}',
                         },
                         {
-                            othersOverflowCount,
-                            overflowNames: others.map((user) => user.name).join(', '),
+                            overflowUnnamedCount,
+                            names: overflowUsers.map((user) => user.name).join(', '),
                         },
                     ) : formatMessage(
                         {
-                            id: t('threading.avatars.othersOverflowOnly'),
-                            defaultMessage: `{othersOverflowCount, plural,
-                                =1 {one other}
-                                other {# others}
-                            }`,
+                            id: t('avatars.overflowUnnamedOnly'),
+                            defaultMessage: '{overflowUnnamedCount, plural, =1 {one other} other {# others}}',
                         },
-                        {othersOverflowCount},
+                        {overflowUnnamedCount},
                     )}
                 >
                     <div>
                         <Avatar
                             size={size}
                             tabIndex={0}
-                        >
-                            {nonDisplayCount > OTHERS_DISPLAY_LIMIT ?
+                            text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ?
                                 `${OTHERS_DISPLAY_LIMIT}+` :
-                                `+${nonDisplayCount}`}
-                        </Avatar>
+                                `+${nonDisplayCount}`
+                            }
+                        />
                     </div>
                 </SimpleTooltip>
             )}
