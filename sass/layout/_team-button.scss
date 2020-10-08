@@ -22,3 +22,9 @@
         background-color: alpha-color($black, .3);
     }
 }
+
+.app__body {
+    .team-btn {
+        border-color: rgba(var(--sidebar-header-text-color-rgb), 0.3);
+    }
+}
