@@ -121,6 +121,40 @@ describe('Header', () => {
         // * Verify header content
         cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', description);
     });
+
+    it('MM-T1837 - DM channel with bot from plugin displays a normal header', () => {
+        cy.apiAdminLogin();
+
+        // # Enable Bots and plugins
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableBotAccountCreation: true,
+            },
+            PluginSettings: {
+                Enable: true,
+                RequirePluginSignature: false,
+            },
+        });
+
+        // # Try to remove the plugin, just in case
+        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
+
+        // # Upload and enable "matterpoll" plugin
+        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
+            cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
+        });
+
+        // # Open a DM with the bot
+        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type('matterpoll', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+
+        // * Verify Channel Header is visible
+        cy.get('#channelHeaderInfo').should('be.visible');
+
+        // * Verify header content
+        cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', 'Poll Bot');
+    });
 });
 
 function updateAndVerifyChannelHeader(prefix, header) {
