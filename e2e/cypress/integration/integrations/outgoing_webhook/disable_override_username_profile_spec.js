@@ -89,7 +89,6 @@ describe('Outgoing webhook', () => {
             cy.get('#displayName').type('Webhook Title');
             cy.get('#description').type('Webhook Description');
             cy.get('#channelSelect').select(testChannel.display_name);
-            cy.get('#triggerWords').type(triggerWord);
             cy.get('#callbackUrls').type(callbackUrl);
             cy.findByText('Save').scrollIntoView().click();
         });
