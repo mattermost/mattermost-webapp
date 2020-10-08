@@ -435,7 +435,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                         <div className='col-sm-5'>
                             <input
                                 autoFocus={true}
-                                ref='newtokendescription'
+                                ref='newtokendescriptionRef'
                                 className='form-control'
                                 type='text'
                                 maxLength={64}
