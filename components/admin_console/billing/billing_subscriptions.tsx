@@ -3,7 +3,6 @@
 
 import React, {useState, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 
 import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
@@ -102,22 +101,9 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
-
-    const testTooltipLeft = (
-        <Tooltip
-            id='BillingSubscriptions__testTooltip'
-            className='BillingSubscriptions__tooltip BillingSubscriptions__tooltip-left'
-        >
-            <div className='BillingSubscriptions__tooltipTitle'>
-                {'Seat count overages'}
-            </div>
-            <div className='BillingSubscriptions__tooltipMessage'>
-                {'Prolonged overages may result in additional charges. See how billing works'}
-            </div>
-        </Tooltip>
-    );
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
@@ -126,7 +112,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const [showDanger, setShowDanger] = useState(false);
     const [showWarning, setShowWarning] = useState(false);
-    const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
 
     useEffect(() => {
         if (!analytics) {
@@ -137,7 +122,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     }, []);
 
     const shouldShowInfoBanner = (): boolean => {
-        if (!analytics || !isCloud || !userLimit || !preferences || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+        if (!analytics || !isCloud || !userLimit || !preferences || !subscription || subscription.is_paid_tier === 'true' || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return false;
         }
 
