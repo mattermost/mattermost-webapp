@@ -123,27 +123,29 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            url="test-url-1"
+            username="jesus.espino"
           >
-            <Memo(Avatar)
-              size="xl"
+            <img
+              alt="jesus.espino profile image"
+              className="Avatar Avatar-xl"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              src="test-url-1"
               tabIndex={0}
-              url="test-url-1"
-              username="jesus.espino"
-            >
-              <img
-                alt="jesus.espino profile image"
-                className="Avatar Avatar-xl"
-                src="test-url-1"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -233,27 +235,29 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            url="test-url-2"
+            username="johnny.depp"
           >
-            <Memo(Avatar)
-              size="xl"
+            <img
+              alt="johnny.depp profile image"
+              className="Avatar Avatar-xl"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              src="test-url-2"
               tabIndex={0}
-              url="test-url-2"
-              username="johnny.depp"
-            >
-              <img
-                alt="johnny.depp profile image"
-                className="Avatar Avatar-xl"
-                src="test-url-2"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -343,27 +347,29 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            url="test-url-3"
+            username="bilbo.baggins"
           >
-            <Memo(Avatar)
-              size="xl"
+            <img
+              alt="bilbo.baggins profile image"
+              className="Avatar Avatar-xl"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              src="test-url-3"
               tabIndex={0}
-              url="test-url-3"
-              username="bilbo.baggins"
-            >
-              <img
-                alt="bilbo.baggins profile image"
-                className="Avatar Avatar-xl"
-                src="test-url-3"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -452,25 +458,27 @@ exports[`components/widgets/users/Avatars should match the snapshot 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            text="+2"
           >
-            <Memo(Avatar)
-              size="xl"
+            <div
+              className="Avatar Avatar-xl Avatar-plain"
+              data-content="+2"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               tabIndex={0}
-              text="+2"
-            >
-              <div
-                className="Avatar Avatar-xl Avatar-plain"
-                data-content="+2"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -601,27 +609,29 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            url="test-url-1"
+            username="jesus.espino"
           >
-            <Memo(Avatar)
-              size="xl"
+            <img
+              alt="jesus.espino profile image"
+              className="Avatar Avatar-xl"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              src="test-url-1"
               tabIndex={0}
-              url="test-url-1"
-              username="jesus.espino"
-            >
-              <img
-                alt="jesus.espino profile image"
-                className="Avatar Avatar-xl"
-                src="test-url-1"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -711,27 +721,29 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            url="test-url-2"
+            username="johnny.depp"
           >
-            <Memo(Avatar)
-              size="xl"
+            <img
+              alt="johnny.depp profile image"
+              className="Avatar Avatar-xl"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              src="test-url-2"
               tabIndex={0}
-              url="test-url-2"
-              username="johnny.depp"
-            >
-              <img
-                alt="johnny.depp profile image"
-                className="Avatar Avatar-xl"
-                src="test-url-2"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -821,27 +833,29 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            url="test-url-3"
+            username="bilbo.baggins"
           >
-            <Memo(Avatar)
-              size="xl"
+            <img
+              alt="bilbo.baggins profile image"
+              className="Avatar Avatar-xl"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              src="test-url-3"
               tabIndex={0}
-              url="test-url-3"
-              username="bilbo.baggins"
-            >
-              <img
-                alt="bilbo.baggins profile image"
-                className="Avatar Avatar-xl"
-                src="test-url-3"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>
@@ -930,25 +944,27 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             ]
           }
         >
-          <div
+          <Memo(Avatar)
             onBlur={[Function]}
             onClick={null}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
+            size="xl"
+            tabIndex={0}
+            text="+2"
           >
-            <Memo(Avatar)
-              size="xl"
+            <div
+              className="Avatar Avatar-xl Avatar-plain"
+              data-content="+2"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
               tabIndex={0}
-              text="+2"
-            >
-              <div
-                className="Avatar Avatar-xl Avatar-plain"
-                data-content="+2"
-                tabIndex={0}
-              />
-            </Memo(Avatar)>
-          </div>
+            />
+          </Memo(Avatar)>
         </OverlayTrigger>
       </OverlayTrigger>
     </Memo(SimpleTooltip)>

@@ -51,13 +51,11 @@ function Avatars({
                     content={name}
                     {...overlayProps}
                 >
-                    <div>
-                        <Avatar
-                            size={size}
-                            tabIndex={0}
-                            {...user}
-                        />
-                    </div>
+                    <Avatar
+                        size={size}
+                        tabIndex={0}
+                        {...user}
+                    />
                 </SimpleTooltip>
             ))}
             {Boolean(nonDisplayCount) && (
@@ -81,16 +79,14 @@ function Avatars({
                         {overflowUnnamedCount},
                     )}
                 >
-                    <div>
-                        <Avatar
-                            size={size}
-                            tabIndex={0}
-                            text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ?
-                                `${OTHERS_DISPLAY_LIMIT}+` :
-                                `+${nonDisplayCount}`
-                            }
-                        />
-                    </div>
+                    <Avatar
+                        size={size}
+                        tabIndex={0}
+                        text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ?
+                            `${OTHERS_DISPLAY_LIMIT}+` :
+                            `+${nonDisplayCount}`
+                        }
+                    />
                 </SimpleTooltip>
             )}
         </div>

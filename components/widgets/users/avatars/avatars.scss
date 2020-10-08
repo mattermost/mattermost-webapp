@@ -36,25 +36,18 @@
         --border-width: 5px;
     }
 
-    > *:not(:first-child) {
-        margin-left: var(--offset);
-    }
+    .Avatar {
+        border: var(--border-width) solid rgba(var(--center-channel-bg-rgb), 1);
 
-    .status-wrapper {
-        height: unset;
-    }
+        &:not(:first-child) {
+            margin-left: var(--offset);
+        }
 
-    > * {
         &:hover,
-        &:focus,
-        &:active {
+        &:focus {
             z-index: 1;
             filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.08))
         }
-    }
-
-    .Avatar {
-        border: var(--border-width) solid rgba(var(--center-channel-bg-rgb), 1);
 
         &.Avatar-plain {
             &[data-content^='+']::before {
