@@ -5,11 +5,16 @@ import React, {useState, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
+import {useDispatch, useSelector} from 'react-redux';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
+import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+
+import {GlobalState} from 'types/store';
 import AlertBanner from 'components/alert_banner';
 import DropdownInput from 'components/dropdown_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -22,20 +27,7 @@ import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
 import './billing_subscriptions.scss';
-import BillingSummary from '../billing_summary';
-
-type Props = {
-    userLimit: number;
-    userIsAdmin: boolean;
-    currentUser: UserProfile;
-    preferences: PreferenceType[];
-    isCloud: boolean;
-    analytics?: Dictionary<number | AnalyticsRow[]>;
-    actions: {
-        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-        getStandardAnalytics: () => void;
-    };
-};
+import BillingSummary from './billing_summary';
 
 const upgradeMattermostCloud = () => (
     <div className='UpgradeMattermostCloud'>
@@ -96,8 +88,19 @@ const WARNING_THRESHOLD = 3;
 // TODO: temp
 const isFree = false;
 
-const BillingSubscriptions: React.FC<Props> = (props: Props) => {
+type Props = {
+};
+
+const BillingSubscriptions: React.FC<Props> = () => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
+    const userLimit = useSelector((state: GlobalState) => parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10));
+    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
+    const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
+    const getCategory = makeGetCategory();
+    const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
+
     const testTooltipLeft = (
         <Tooltip
             id='BillingSubscriptions__testTooltip'
@@ -131,16 +134,15 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
     const [dropdownValue, setDropdownValue] = useState<{label: string, value: string} | undefined>(undefined);
 
     useEffect(() => {
-        if (!props.analytics) {
-            (async function getStandardAnalytics() {
-                await props.actions.getStandardAnalytics();
+        if (!analytics) {
+            (async function getAllAnalytics() {
+                await dispatch(getStandardAnalytics());
             }());
         }
     }, []);
 
     const shouldShowInfoBanner = (): boolean => {
-        const {analytics, userLimit, isCloud, preferences} = props;
-        if (!analytics || !isCloud || !userLimit || preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+        if (!analytics || !isCloud || !userLimit || !preferences || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
             return false;
         }
 
@@ -152,12 +154,14 @@ const BillingSubscriptions: React.FC<Props> = (props: Props) => {
     };
 
     const handleHide = async () => {
-        await props.actions.savePreferences(props.currentUser.id, [{
-            category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
-            user_id: props.currentUser.id,
-            name: CloudBanners.HIDE,
-            value: 'true',
-        }]);
+        dispatch(savePreferences(currentUser.id, [
+            {
+                category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
+                user_id: currentUser.id,
+                name: CloudBanners.HIDE,
+                value: 'true',
+            },
+        ]));
     };
 
     return (
