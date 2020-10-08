@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -435,7 +434,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                         <div className='col-sm-5'>
                             <input
                                 autoFocus={true}
-                                ref='newtokendescriptionRef'
+                                ref={this.newtokendescriptionRef}
                                 className='form-control'
                                 type='text'
                                 maxLength={64}
