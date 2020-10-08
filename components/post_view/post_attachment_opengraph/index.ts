@@ -6,7 +6,6 @@ import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/po
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {OpenGraphMetadata} from 'mattermost-redux/types/posts';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
@@ -38,16 +37,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators(
-            {
-                editPost,
-            },
-            dispatch,
-        ),
+        actions: bindActionCreators({editPost}, dispatch),
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(PostAttachmentOpenGraph);
+export default connect(mapStateToProps, mapDispatchToProps)(PostAttachmentOpenGraph);
