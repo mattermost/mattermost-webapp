@@ -18,6 +18,19 @@ const goToAdminConsole = () => {
 };
 
 describe('System Console > Site Statistics', () => {
+    let testTeam;
+    after(() => {
+        // # Login as admin and set the langauge back to ENGLISH!
+        cy.apiAdminLogin();
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#headerUsername').click();
+        cy.get('#accountSettings').should('be.visible').click();
+        cy.get('#displayButton').click();
+        cy.get('#languagesEdit').click();
+        cy.get('#displayLanguage').type('English{enter}');
+        cy.get('#saveSetting').click();
+    });
+
     it('MM-T904_1 Site Statistics displays expected content categories', () => {
         // # Require license.
         cy.apiRequireLicense();
@@ -111,8 +124,8 @@ describe('System Console > Site Statistics', () => {
     it('MM-T903 - Site Statistics > Deactivating a user increments the Daily and Monthly Active Users counts down', () => {
         cy.apiInitSetup().then(({team, user}) => {
             const testUser = user;
-            const testTeam = team;
-
+            testTeam = team;
+            
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
