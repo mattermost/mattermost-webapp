@@ -10,10 +10,13 @@
 // Group: @integrations
 
 describe('Integrations', () => {
+
+    let newIncomingHook
+
     before(() => {
         // # Create test team, channel, and webhook
         cy.apiInitSetup().then(({team, channel}) => {
-            const newIncomingHook = {
+            newIncomingHook = {
                 channel_id: channel.id,
                 channel_locked: true,
                 description: 'Test Webhook Description',
@@ -40,8 +43,8 @@ describe('Integrations', () => {
         cy.findByText('Cancel').click();
 
         // # Assert the webhook's previous values are present
-        cy.findAllByText('Test Webhook Name').should('be.visible');
-        cy.findAllByText('Test Webhook Description').should('be.visible');
+        cy.findAllByText(newIncomingHook.display_name).should('be.visible');
+        cy.findAllByText(newIncomingHook.description).should('be.visible');
         cy.findByText('Delete').should('be.visible');
         cy.findByText('Edit').click();
         cy.get('#channelLocked').should('be.checked');
