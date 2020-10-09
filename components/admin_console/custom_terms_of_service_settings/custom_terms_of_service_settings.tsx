@@ -3,10 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
-import AdminSettings from 'components/admin_console/admin_settings';
+import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
 
+import AdminSettings, {BaseProps, BaseState} from 'components/admin_console/admin_settings';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting';
@@ -15,27 +15,40 @@ import LoadingScreen from 'components/loading_screen';
 
 import {Constants} from 'utils/constants';
 
-export default class CustomTermsOfServiceSettings extends AdminSettings {
-    static propTypes = {
-        actions: PropTypes.shape({
-            getTermsOfService: PropTypes.func.isRequired,
-            createTermsOfService: PropTypes.func.isRequired,
-        }).isRequired,
-        config: PropTypes.object,
-        license: PropTypes.object,
-        setNavigationBlocked: PropTypes.func,
-
-        /*
-        * Action to save config file
-        */
-        updateConfig: PropTypes.func,
+type Props = BaseProps & {
+    actions: {
+        getTermsOfService: () => {data: {id: string, text: string}};
+        createTermsOfService: (text: string) => {error: Error};
     };
+    config: DeepPartial<AdminConfig>;
+    license: ClientLicense,
+    setNavigationBlocked: () => void,
 
-    constructor(props) {
+    /*
+     * Action to save config file
+     */
+    updateConfig: () => void
+};
+
+type State = BaseState & {
+    termsEnabled: boolean;
+    reAcceptancePeriod: number;
+    loadingTermsText: boolean;
+    receivedTermsText: string;
+    termsText: string;
+    saveNeeded: boolean;
+    saving: boolean;
+    serverError: JSX.Element | string | null;
+    errorTooltip: boolean;
+}
+
+export default class CustomTermsOfServiceSettings extends AdminSettings<Props, State> {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
-            termsEnabled: props.config.SupportSettings.CustomTermsOfServiceEnabled,
-            reAcceptancePeriod: props.config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod,
+            termsEnabled: Boolean(props.config.SupportSettings?.CustomTermsOfServiceEnabled),
+            reAcceptancePeriod: this.parseIntNonZero(String(props.config.SupportSettings?.CustomTermsOfServiceReAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD),
             loadingTermsText: true,
             receivedTermsText: '',
             termsText: '',
@@ -46,17 +59,18 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         };
     }
 
-    getStateFromConfig(config) {
+    getStateFromConfig(config: Props['config']) {
         return {
-            termsEnabled: config.SupportSettings.CustomTermsOfServiceEnabled,
-            reAcceptancePeriod: config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod,
+            termsEnabled: Boolean(config.SupportSettings?.CustomTermsOfServiceEnabled),
+            reAcceptancePeriod: this.parseIntNonZero(String(config.SupportSettings?.CustomTermsOfServiceReAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD),
         };
     }
 
-    getConfigFromState = (config) => {
-        config.SupportSettings.CustomTermsOfServiceEnabled = this.state.termsEnabled;
-        config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod = this.parseIntNonZero(this.state.reAcceptancePeriod, Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD);
-
+    getConfigFromState = (config: Props['config']) => {
+        if (config && config.SupportSettings) {
+            config.SupportSettings.CustomTermsOfServiceEnabled = this.state.termsEnabled;
+            config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod = this.parseIntNonZero(String(this.state.reAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD);
+        }
         return config;
     }
 
@@ -64,13 +78,13 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         this.getTermsOfService();
     }
 
-    doSubmit = async (callback) => {
+    doSubmit = async (callback?: () => void) => {
         this.setState({
             saving: true,
             serverError: null,
         });
 
-        if (this.state.termsEnabled && (this.state.receivedTermsText !== this.state.termsText || !this.props.config.SupportSettings.CustomTermsOfServiceEnabled)) {
+        if (this.state.termsEnabled && (this.state.receivedTermsText !== this.state.termsText || !this.props.config?.SupportSettings?.CustomTermsOfServiceEnabled)) {
             const result = await this.props.actions.createTermsOfService(this.state.termsText);
             if (result.error) {
                 this.handleAPIError(result.error, callback);
@@ -106,7 +120,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         }
     };
 
-    handleAPIError = (err, callback, config) => {
+    handleAPIError = (err: any, callback: (() => void) | undefined, config?: Props['config']) => {
         this.setState({
             saving: false,
             serverError: err.message,
@@ -118,7 +132,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         }
 
         if (this.handleSaved && config) {
-            this.handleSaved(config);
+            this.handleSaved(config as AdminConfig);
         }
     };
 
@@ -136,15 +150,15 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         this.setState({loadingTermsText: false});
     };
 
-    handleTermsTextChange = (id, value) => {
+    handleTermsTextChange = (id: string, value: boolean) => {
         this.handleChange('termsText', value);
     };
 
-    handleTermsEnabledChange = (id, value) => {
+    handleTermsEnabledChange = (id: string, value: boolean) => {
         this.handleChange('termsEnabled', value);
     };
 
-    handleReAcceptancePeriodChange = (id, value) => {
+    handleReAcceptancePeriodChange = (id: string, value: boolean) => {
         this.handleChange('reAcceptancePeriod', value);
     };
 
