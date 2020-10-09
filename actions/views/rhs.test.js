@@ -26,7 +26,7 @@ import {
     closeMenu,
     openAtPrevious,
 } from 'actions/views/rhs';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 
@@ -61,7 +61,7 @@ jest.mock('mattermost-redux/actions/search', () => ({
     getPinnedPosts: jest.fn(),
 }));
 
-jest.mock('actions/diagnostics_actions.jsx', () => ({
+jest.mock('actions/telemetry_actions.jsx', () => ({
     trackEvent: jest.fn(),
 }));
 
