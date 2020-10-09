@@ -19,6 +19,8 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
+import moment from 'moment';
+
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
@@ -1894,4 +1896,9 @@ export function adjustSelection(inputBox, e) {
     if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
         setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
     }
+}
+
+export function getNextBillingDate() {
+    const nextBillingDate = moment().add(1, 'months').startOf('month');
+    return nextBillingDate.format('MMM D, YYYY');
 }
