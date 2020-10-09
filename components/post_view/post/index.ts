@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -11,17 +10,26 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
+import {bindActionCreators, Dispatch} from 'redux';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {Post} from 'mattermost-redux/types/posts';
+
+import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
+
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 
-import Post from './post.jsx';
+import PostComponent from './post';
 
 // isFirstReply returns true when the given post a comment that isn't part of the same thread as the previous post.
-export function isFirstReply(post, previousPost) {
+export function isFirstReply(post: Post, previousPost: Post | null): boolean {
     if (post.root_id) {
         if (previousPost) {
             // Returns true as long as the previous post is part of a different thread
@@ -36,12 +44,18 @@ export function isFirstReply(post, previousPost) {
     return false;
 }
 
-function makeMapStateToProps() {
-    const getReplyCount = makeGetReplyCount();
-    const isPostCommentMention = makeIsPostCommentMention();
-    const createAriaLabelForPost = makeCreateAriaLabelForPost();
+type OwnProps = {
+    post?: Post;
+    postId: string
+    previousPostId?: string;
+}
 
-    return (state, ownProps) => {
+function makeMapStateToProps() {
+    const getReplyCount = makeGetReplyCount() as ((sate: GlobalState, post: Post) => number);
+    const isPostCommentMention = makeIsPostCommentMention();
+    const createAriaLabelForPost = makeCreateAriaLabelForPost() as ((sate: GlobalState, post: Post) => (...args: any[]) => any);
+
+    return (state: GlobalState, ownProps: OwnProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
         const channel = getChannel(state, post.channel_id);
 
@@ -79,7 +93,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             selectPost,
@@ -89,4 +103,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(Post);
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostComponent);

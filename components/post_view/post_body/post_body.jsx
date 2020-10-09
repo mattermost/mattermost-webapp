@@ -71,7 +71,7 @@ export default class PostBody extends React.PureComponent {
         /**
          * Whether or not the post username can be overridden.
          */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+        enablePostUsernameOverride: PropTypes.bool,
 
         /**
          * Set not to allow edits on post

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {isFirstReply} from './index';
 
 describe('isFirstReply', () => {
@@ -55,7 +57,7 @@ describe('isFirstReply', () => {
         },
     ]) {
         test(testCase.name, () => {
-            expect(isFirstReply(testCase.post, testCase.previousPost)).toBe(testCase.expected);
+            expect(isFirstReply(testCase.post as Post, (testCase.previousPost as any) as Post)).toBe(testCase.expected);
         });
     }
 });

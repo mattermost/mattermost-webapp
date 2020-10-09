@@ -14,8 +14,8 @@ import * as Utils from 'utils/utils';
 export default class PostProfilePicture extends React.PureComponent {
     static propTypes = {
         compactDisplay: PropTypes.bool.isRequired,
-        enablePostIconOverride: PropTypes.bool.isRequired,
-        hasImageProxy: PropTypes.bool.isRequired,
+        enablePostIconOverride: PropTypes.bool,
+        hasImageProxy: PropTypes.bool,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         post: PropTypes.object.isRequired,
@@ -24,6 +24,7 @@ export default class PostProfilePicture extends React.PureComponent {
         isBot: PropTypes.bool,
         postIconOverrideURL: PropTypes.string,
         overwriteIcon: PropTypes.string,
+        userId: PropTypes.string,
     };
 
     static defaultProps = {

@@ -63,17 +63,17 @@ export default class PostHeader extends React.PureComponent {
         /**
          * Whether or not the post username can be overridden.
          */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+        enablePostUsernameOverride: PropTypes.bool,
 
         /**
          * If the user that made the post is a bot.
          */
-        isBot: PropTypes.bool.isRequired,
+        isBot: PropTypes.bool,
 
         /**
          * If the user that made the post is a guest.
          */
-        isGuest: PropTypes.bool.isRequired,
+        isGuest: PropTypes.bool,
 
         /**
          * To Check if the current post is last in the list

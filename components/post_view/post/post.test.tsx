@@ -3,6 +3,10 @@
 
 import React from 'react';
 
+import {Post as IPost} from 'mattermost-redux/types/posts';
+
+import {ShallowWrapper} from 'enzyme';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PostPreHeader from 'components/post_view/post_pre_header';
@@ -11,7 +15,7 @@ import Post from './post';
 
 describe('Post', () => {
     const baseProps = {
-        post: {id: 'post1', is_pinned: false},
+        post: {id: 'post1', is_pinned: false} as IPost,
         createAriaLabel: jest.fn(),
         currentUserId: 'user1',
         center: false,
@@ -63,13 +67,13 @@ describe('Post', () => {
 
     describe('getClassName', () => {
         test('should not show cursor pointer normally', () => {
-            const wrapper = shallowWithIntl(<Post {...baseProps}/>);
+            const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(<Post {...baseProps}/>);
 
             expect(wrapper.instance().getClassName(baseProps.post, false, false, false, false, false)).not.toContain('cursor--pointer');
         });
 
         test('should show cursor pointer when alt is held', () => {
-            const wrapper = shallowWithIntl(<Post {...baseProps}/>);
+            const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(<Post {...baseProps}/>);
 
             wrapper.setState({alt: true});
 
@@ -82,7 +86,7 @@ describe('Post', () => {
                 channelIsArchived: true,
             };
 
-            const wrapper = shallowWithIntl(<Post {...props}/>);
+            const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(<Post {...props}/>);
 
             wrapper.setState({alt: true});
 
