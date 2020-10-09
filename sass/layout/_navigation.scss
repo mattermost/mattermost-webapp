@@ -201,4 +201,14 @@
     }
 }
 
-
+.app__body {
+    #navbar_wrapper {
+        .navbar-default {
+            .navbar-toggle{
+                .icon-bar{
+                    background: var(--sidebar-header-text-color);
+                }
+            }
+        }
+    }
+}
