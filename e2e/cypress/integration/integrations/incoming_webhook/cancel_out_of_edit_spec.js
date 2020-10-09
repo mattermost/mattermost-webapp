@@ -10,8 +10,7 @@
 // Group: @integrations
 
 describe('Integrations', () => {
-
-    let newIncomingHook
+    let newIncomingHook;
 
     before(() => {
         // # Create test team, channel, and webhook
