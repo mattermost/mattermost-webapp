@@ -4,13 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {postProps} from 'tests/helpers/props';
+import {TestHelper} from 'utils/test_helper';
 
 import FailedPostOptions from 'components/post_view/failed_post_options/failed_post_options';
 
 describe('components/post_view/FailedPostOptions', () => {
     const baseProps = {
-        post: postProps,
+        post: TestHelper.getPostMock(),
         actions: {
             createPost: jest.fn(),
             removePost: jest.fn(),
