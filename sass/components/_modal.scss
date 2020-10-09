@@ -31,6 +31,10 @@
             border-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
+
+        .modal-header {
+            background: var(--sidebar-header-bg);
+        }
     }
 
     .edit-modal-body {
