@@ -104,6 +104,14 @@
         align-items: center;
         padding: 0 2.4rem;
     }
+        .mention--align
+            .status
+                .offline--icon,
+                .online--icon,
+                .away--icon,
+                .dnd--icon {
+                    margin: auto 7px;
+                }
 
     .modal & {
         max-height: 205px;
