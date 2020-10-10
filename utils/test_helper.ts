@@ -202,12 +202,18 @@ export class TestHelper {
             parent_id: 'parent_id',
             original_id: 'original_id',
             message: 'message',
-            type: 'type',
+            type: 'system_add_remove',
             props: {props: 'props'},
             hashtags: 'hashtags',
             pending_post_id: 'pending_post_id',
             reply_count: 1,
-            metadata: 'metadata',
+            metadata: {
+                embeds: [],
+                emojis: [],
+                files: [],
+                images: {'image-1': {height: 30, width: 30}},
+                reactions: [],
+            },
         };
         return Object.assign({}, defaultPost, override);
     }
