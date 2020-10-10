@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {browserHistory} from 'utils/browser_history';
@@ -38,12 +37,12 @@ interface Props {
         /**
          * The function to call to update an outgoing webhook
          */
-        updateOutgoingHook: (hook: OutgoingWebhook) => ActionFunc;
+        updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
 
         /**
          * The function to call to get an outgoing webhook
          */
-        getOutgoingHook: (hookId: string) => ActionFunc;
+        getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
     };
 
     /**
@@ -120,7 +119,7 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props, Stat
     submitHook = async (): Promise<void> => {
         this.setState({serverError: ''});
 
-        const {data, error}: any = await this.props.actions.updateOutgoingHook(this.newHook!);
+        const {data, error}: {data: OutgoingWebhook, error: ServerError} = await this.props.actions.updateOutgoingHook(this.newHook!);
 
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/outgoing_webhooks`);
