@@ -1,10 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {ConnectedComponent} from 'react-redux';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
@@ -12,39 +16,51 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class UserListRowWithError extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        status: PropTypes.string,
-        extraInfo: PropTypes.array,
-        actions: PropTypes.arrayOf(PropTypes.func),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        index: PropTypes.number,
-        totalUsers: PropTypes.number,
-        userCount: PropTypes.number,
-        isDisabled: PropTypes.bool,
+type Props = {
+    user: UserProfile;
+    status?: string;
+    extraInfo?: (string | JSX.Element)[];
+    actions?: ConnectedComponent<any, any>[];
+    actionProps?: {
+        mfaEnabled: boolean;
+        enableUserAccessTokens: boolean;
+        experimentalEnableAuthenticationTransfer: boolean;
+        doPasswordReset: (user: UserProfile) => void;
+        doEmailReset: (user: UserProfile) => void;
+        doManageTeams: (user: UserProfile) => void;
+        doManageRoles: (user: UserProfile) => void;
+        doManageTokens: (user: UserProfile) => void;
+        isDisabled?: boolean;
     };
-
-    static defaultProps = {
-        extraInfo: [],
-        actions: [],
-        actionProps: {},
-        actionUserProps: {},
+    actionUserProps?: {
+        [userId: string]: {
+            channel: Channel;
+            teamMember: any;
+            channelMember: ChannelMembership;
+        };
     };
+    index?: number;
+    userCount?: number;
+    totalUsers?: number;
+    isDisabled?: boolean;
+}
+type State = {
+    error?: ServerError;
+}
 
-    constructor(props) {
+export default class UserListRowWithError extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {};
     }
 
-    onError = (errorObj) => {
+    onError = (errorObj: ServerError) => {
         this.setState({
             error: errorObj,
         });
     }
 
-    render() {
+    render(): JSX.Element {
         let buttons = null;
         if (this.props.actions) {
             buttons = this.props.actions.map((Action, index) => {
@@ -63,7 +79,7 @@ export default class UserListRowWithError extends React.PureComponent {
         }
 
         // QUICK HACK, NEEDS A PROP FOR TOGGLING STATUS
-        let email = this.props.user.email;
+        let email: React.ReactNode = this.props.user.email;
         let emailStyle = 'more-modal__description';
         let status;
         if (this.props.user.is_bot) {
@@ -79,8 +95,6 @@ export default class UserListRowWithError extends React.PureComponent {
                 />
             );
             emailStyle = '';
-        } else if (this.props.user.status) {
-            status = this.props.user.status;
         } else {
             status = this.props.status;
         }
@@ -91,7 +105,7 @@ export default class UserListRowWithError extends React.PureComponent {
 
         let userCountID = null;
         let userCountEmail = null;
-        if (this.props.userCount >= 0) {
+        if (this.props.userCount && this.props.userCount >= 0) {
             userCountID = Utils.createSafeId('userListRowName' + this.props.userCount);
             userCountEmail = Utils.createSafeId('userListRowEmail' + this.props.userCount);
         }
@@ -113,14 +127,14 @@ export default class UserListRowWithError extends React.PureComponent {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
-                    status={status}
+                    status={status || undefined}
                     size='md'
                 />
                 <div className='more-modal__right'>
                     <div className='more-modal__top'>
                         <div className='more-modal__details'>
                             <div
-                                id={userCountID}
+                                id={userCountID || undefined}
                                 className='more-modal__name'
                             >
                                 <Link to={'/admin_console/user_management/user/' + this.props.user.id}>
@@ -132,7 +146,7 @@ export default class UserListRowWithError extends React.PureComponent {
                                 />
                             </div>
                             <div
-                                id={userCountEmail}
+                                id={userCountEmail || undefined}
                                 className={emailStyle}
                             >
                                 {email}

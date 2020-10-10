@@ -273,6 +273,7 @@ export const ModalIdentifiers = {
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
+    CLOUD_PURCHASE: 'cloud_purchase',
 };
 
 export const UserStatuses = {
@@ -1560,3 +1561,4 @@ t('suggestion.archive');
 t('suggestion.mention.groups');
 
 export default Constants;
+
