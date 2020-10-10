@@ -12,15 +12,19 @@ type Props = {
         format: string
     },
     link: string,
-    post: object,
+    post: any,
 }
 
-export default class PostImage extends React.PureComponent<Props> {
+type State = {
+    showModal: boolean;
+};
+
+export default class PostImage extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            showModal: false
+            showModal: false,
         };
     }
 
