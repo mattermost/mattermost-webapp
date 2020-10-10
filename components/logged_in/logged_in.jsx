@@ -88,13 +88,13 @@ export default class LoggedIn extends React.PureComponent {
 
         // Device tracking setup
         if (UserAgent.isIos()) {
-            $('body').addClass('ios'); // eslint-disable-line jquery/no-class
+            document.body.classList.add('ios');
         } else if (UserAgent.isAndroid()) {
-            $('body').addClass('android'); // eslint-disable-line jquery/no-class
+            document.body.classList.add('android');
         }
 
         if (!this.props.currentUser) {
-            $('#root').attr('class', ''); // eslint-disable-line jquery/no-attr
+            document.getElementById('root').setAttribute('class', '');
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
@@ -221,7 +221,7 @@ export default class LoggedIn extends React.PureComponent {
     handleBackSpace(e) {
         const excludedElements = ['input', 'textarea'];
 
-        if ( e.which === BACKSPACE_CHAR && !( excludedElements.includes(e.target.tagName.toLowerCase()) ) ) {
+        if (e.which === BACKSPACE_CHAR && !(excludedElements.includes(e.target.tagName.toLowerCase()))) {
             e.preventDefault();
         }
     }
