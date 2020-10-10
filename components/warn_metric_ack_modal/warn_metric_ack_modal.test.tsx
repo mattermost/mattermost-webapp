@@ -9,12 +9,6 @@ import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import WarnMetricAckModal from 'components/warn_metric_ack_modal/warn_metric_ack_modal';
 
-jest.mock('react-dom', () => ({
-    findDOMNode: () => ({
-        blur: jest.fn(),
-    }),
-}));
-
 describe('components/WarnMetricAckModal', () => {
     const serverError = 'some error';
 
@@ -29,7 +23,7 @@ describe('components/WarnMetricAckModal', () => {
             email: 'a@test.com',
         } as UserProfile,
         show: false,
-        diagnosticId: 'diag_0',
+        telemetryId: 'diag_0',
         closeParentComponent: jest.fn(),
         warnMetricStatus: {
             id: 'metric1',

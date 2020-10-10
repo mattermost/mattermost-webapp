@@ -191,6 +191,14 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                     </LoadingWrapper>
                   </button>
                 </p>
+                <p
+                  className="upgrade-legal-terms"
+                >
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
+                    id="admin.license.enterprise.upgrade.accept-terms"
+                  />
+                </p>
               </div>
             </div>
           </div>
@@ -979,6 +987,14 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                     </LoadingWrapper>
                   </button>
                 </p>
+                <p
+                  className="upgrade-legal-terms"
+                >
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
+                    id="admin.license.enterprise.upgrade.accept-terms"
+                  />
+                </p>
               </div>
             </div>
           </div>
@@ -1109,6 +1125,14 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                       />
                     </LoadingWrapper>
                   </button>
+                </p>
+                <p
+                  className="upgrade-legal-terms"
+                >
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
+                    id="admin.license.enterprise.upgrade.accept-terms"
+                  />
                 </p>
               </div>
             </div>
