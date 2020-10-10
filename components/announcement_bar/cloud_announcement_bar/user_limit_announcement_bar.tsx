@@ -10,8 +10,14 @@ import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {isEmpty} from 'lodash';
 
 import {t} from 'utils/i18n';
+import PurchaseModal from 'components/purchase_modal';
 
-import {Preferences, CloudBanners, AnnouncementBarTypes} from 'utils/constants';
+import {
+    Preferences,
+    CloudBanners,
+    AnnouncementBarTypes,
+    ModalIdentifiers,
+} from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
 
@@ -25,6 +31,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getStandardAnalytics: () => void;
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
     };
 };
 
@@ -95,7 +102,12 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
                 type={dismissable ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL_LIGHT}
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
-                showModal={() => {}}
+                showModal={() =>
+                    this.props.actions.openModal({
+                        modalId: ModalIdentifiers.CLOUD_PURCHASE,
+                        dialogType: PurchaseModal,
+                    })
+                }
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}
                 modalButtonDefaultText={'Upgrade Mattermost Cloud'}
                 message={dismissable ? t('upgrade.cloud_banner_reached') : t('upgrade.cloud_banner_over')}
