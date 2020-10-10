@@ -7,6 +7,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
 import {FileInfo} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -185,6 +186,36 @@ export class TestHelper {
             allow_reference: true,
         };
         return Object.assign({}, defaultGroup, override);
+    }
+
+    public static getPostMock(override: Partial<Post>): Post {
+        const defaultPost: Post = {
+            id: 'post_id',
+            create_at: 1,
+            update_at: 1,
+            edit_at: 1,
+            delete_at: 1,
+            is_pinned: false,
+            user_id: 'user_id',
+            channel_id: 'channel_id',
+            root_id: 'root_id',
+            parent_id: 'parent_id',
+            original_id: 'original_id',
+            message: 'message',
+            type: 'system_add_remove',
+            props: {props: 'props'},
+            hashtags: 'hashtags',
+            pending_post_id: 'pending_post_id',
+            reply_count: 1,
+            metadata: {
+                embeds: [],
+                emojis: [],
+                files: [],
+                images: {'image-1': {height: 30, width: 30}},
+                reactions: [],
+            },
+        };
+        return Object.assign({}, defaultPost, override);
     }
 
     public static getFileInfoMock(override: Partial<FileInfo>): FileInfo {

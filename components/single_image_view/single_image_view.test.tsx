@@ -10,7 +10,7 @@ import {TestHelper} from 'utils/test_helper';
 
 describe('components/SingleImageView', () => {
     const baseProps = {
-        postId: 'original_post_id',
+        post: TestHelper.getPostMock({id: 'original_post_id'}),
         fileInfo: TestHelper.getFileInfoMock({id: 'file_info_id'}),
         isRhsOpen: false,
         isEmbedVisible: true,
@@ -54,8 +54,7 @@ describe('components/SingleImageView', () => {
         );
 
         wrapper.setState({showPreviewModal: false});
-        // const instance = wrapper.instance() as SingleImageView;
-        // instance.handleImageClick({preventDefault: jest.fn()});
+        wrapper.find('SizeAwareImage').at(0).simulate('click', {preventDefault: () => {}});
         expect(wrapper.state('showPreviewModal')).toEqual(true);
     });
 

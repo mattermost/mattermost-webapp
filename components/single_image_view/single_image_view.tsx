@@ -181,7 +181,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.showPreviewModal}
                     fileInfos={[fileInfo]}
-                    startIndex={0}
                     post={this.props.post}
                 />
             );

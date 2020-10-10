@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {GlobalState} from 'types/store';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
@@ -20,7 +22,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             toggleEmbedVisibility,
