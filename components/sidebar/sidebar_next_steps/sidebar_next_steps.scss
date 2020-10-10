@@ -82,7 +82,7 @@
     margin-top: 8px;
     height: 4px;
     border-radius: 4px;
-    background-color: var(--sidebar-text-16);
+    background-color: rgba(var(--sidebar-text-rgb), 0.16);
 
     .ProgressBar {
         border-radius: 4px;

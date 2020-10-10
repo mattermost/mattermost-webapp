@@ -13,7 +13,7 @@ import FileUploadOverlay from 'components/file_upload_overlay';
 import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
-import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
+import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ChannelView extends React.PureComponent {
@@ -90,10 +90,12 @@ export default class ChannelView extends React.PureComponent {
             channelId: props.channelId,
             deferredPostView: ChannelView.createDeferredPostView(),
         };
+
+        this.channelViewRef = React.createRef();
     }
 
     getChannelView = () => {
-        return this.refs.channelView;
+        return this.channelViewRef.current;
     }
 
     onClickCloseChannel = () => {
@@ -221,7 +223,7 @@ export default class ChannelView extends React.PureComponent {
 
         return (
             <div
-                ref='channelView'
+                ref={this.channelViewRef}
                 id='app-content'
                 className='app__content'
             >
