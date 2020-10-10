@@ -17,7 +17,7 @@ import {autocompleteUsersInTeam} from 'actions/user_actions';
 import {getRhsState, getSearchTerms, getIsSearchingTerm, getIsRhsOpen} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
-import SearchBar from './search_bar.jsx';
+import SearchBar from './search_bar.tsx';
 
 function mapStateToProps(state) {
     const rhsState = getRhsState(state);
