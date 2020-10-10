@@ -41,7 +41,7 @@ function mapStateToProps(state: GlobalState) {
         channelSwitcherOption,
         channelSidebarOrganizationOption: String(channelSidebarOrganizationOption),
         showChannelOrganization: config.ExperimentalChannelOrganization === 'true',
-        showChannelSidebarOrganization: config.ExperimentalChannelSidebarOrganization !== 'disabled',
+        showChannelSidebarOrganization: config.ExperimentalChannelSidebarOrganization !== 'disabled' && config.ExperimentalChannelSidebarOrganization !== 'always_on',
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         user: getCurrentUser(state),
     };

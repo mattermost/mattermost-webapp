@@ -209,8 +209,6 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
                     continue;
                 } else if (!members[channel.id]) {
                     continue;
-                } else if (channelIsArchived && !members[channel.id]) {
-                    continue;
                 } else if (channel.type === Constants.OPEN_CHANNEL) {
                     wrappedChannel.type = Constants.OPEN_CHANNEL;
                 } else if (channel.type === Constants.PRIVATE_CHANNEL) {

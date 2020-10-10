@@ -72,7 +72,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -330,7 +330,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_CREATED:
-        handleChannelCreatedEvent(msg);
+        dispatch(handleChannelCreatedEvent(msg));
         break;
 
     case SocketEvents.CHANNEL_DELETED:
@@ -1001,13 +1001,23 @@ function handleRoleUpdatedEvent(msg) {
 }
 
 function handleChannelCreatedEvent(msg) {
-    const channelId = msg.data.channel_id;
-    const teamId = msg.data.team_id;
-    const state = getState();
+    return async (myDispatch, myGetState) => {
+        const channelId = msg.data.channel_id;
+        const teamId = msg.data.team_id;
+        const state = myGetState();
 
-    if (getCurrentTeamId(state) === teamId && !getChannel(state, channelId)) {
-        dispatch(getChannelAndMyMember(channelId));
-    }
+        if (getCurrentTeamId(state) === teamId) {
+            let channel = getChannel(state, channelId);
+
+            if (!channel) {
+                await myDispatch(getChannelAndMyMember(channelId));
+
+                channel = getChannel(myGetState(), channelId);
+            }
+
+            myDispatch(addChannelToInitialCategory(channel, false));
+        }
+    };
 }
 
 function handleChannelDeletedEvent(msg) {
@@ -1246,14 +1256,21 @@ function handleGroupNotAssociatedToChannelEvent(msg) {
 }
 
 function handleWarnMetricStatusReceivedEvent(msg) {
+    var receivedData = JSON.parse(msg.data.warnMetricStatus);
+    let bannerData;
+    if (receivedData.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
+        bannerData = AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS;
+    } else if (receivedData.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
+        bannerData = AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS;
+    }
     store.dispatch(batchActions([
         {
             type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED,
-            data: JSON.parse(msg.data.warnMetricStatus),
+            data: receivedData,
         },
         {
             type: ActionTypes.SHOW_NOTICE,
-            data: [AnnouncementBarMessages.NUMBER_OF_ACTIVE_USERS_WARN_METRIC_STATUS],
+            data: [bannerData],
         },
     ]));
 }

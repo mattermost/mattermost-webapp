@@ -1,5 +1,139 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="aboutModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal about-modal cloud"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[MockFunction]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="aboutModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="About {appTitle}"
+        id="about.title"
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="about-modal__content"
+    >
+      <div
+        className="about-modal__logo"
+      >
+        <MattermostLogo />
+      </div>
+      <div>
+        <h3
+          className="about-modal__title"
+        >
+          Mattermost
+           
+          <FormattedMessage
+            defaultMessage="Cloud"
+            id="about.cloudEdition"
+          />
+        </h3>
+        <p
+          className="subtitle"
+        >
+          <FormattedMessage
+            defaultMessage="High trust messaging for the enterprise"
+            id="about.enterpriseEditionSst"
+          />
+        </p>
+        <div
+          className="description"
+        >
+          <div>
+            <FormattedMessage
+              defaultMessage="Mattermost Version:"
+              id="about.version"
+            />
+            <span
+              id="versionString"
+            >
+               3.6.2
+            </span>
+          </div>
+        </div>
+        <div
+          className="form-group"
+        >
+          <FormattedMessage
+            defaultMessage="Licensed to:"
+            id="about.licensed"
+          />
+           Mattermost Inc
+        </div>
+        <div
+          className="about-footer"
+        >
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
+            id="about.notice"
+          />
+          <div
+            className="copy-right"
+          >
+            <FormattedMessage
+              defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
+              id="about.copyright"
+              values={
+                Object {
+                  "currentYear": 2017,
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+      <div />
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
 exports[`components/AboutBuildModal should match snapshot for enterprise edition 1`] = `
 <Modal
   animation={true}
@@ -72,7 +206,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           <FormattedMessage
             defaultMessage="Enterprise Edition"
             id="about.enterpriseEditione1"
-            values={Object {}}
           />
         </h3>
         <p
@@ -81,7 +214,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           <FormattedMessage
             defaultMessage="Modern communication from behind your firewall."
             id="about.enterpriseEditionSt"
-            values={Object {}}
           />
         </p>
         <div
@@ -91,7 +223,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <FormattedMessage
               defaultMessage="Mattermost Version:"
               id="about.version"
-              values={Object {}}
             />
             <span
               id="versionString"
@@ -103,7 +234,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <FormattedMessage
               defaultMessage="Database Schema Version:"
               id="about.dbversion"
-              values={Object {}}
             />
             <span
               id="dbversionString"
@@ -115,7 +245,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <FormattedMessage
               defaultMessage="Database:"
               id="about.database"
-              values={Object {}}
             />
              Postgres
           </div>
@@ -126,9 +255,8 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           <FormattedMessage
             defaultMessage="Licensed to:"
             id="about.licensed"
-            values={Object {}}
           />
-           
+          <Nbsp />
           Mattermost Inc
         </div>
       </div>
@@ -140,7 +268,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         <FormattedMessage
           defaultMessage="Learn more about Enterprise Edition at "
           id="about.enterpriseEditionLearn"
-          values={Object {}}
         />
         <a
           href="http://about.mattermost.com/"
@@ -178,7 +305,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <FormattedMessage
               defaultMessage="Terms of Service"
               id="about.tos"
-              values={Object {}}
             />
           </a>
            - 
@@ -191,7 +317,6 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <FormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
-              values={Object {}}
             />
           </a>
         </div>
@@ -214,34 +339,30 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         <FormattedMessage
           defaultMessage="Build Hash:"
           id="about.hash"
-          values={Object {}}
         />
-         
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
-          values={Object {}}
         />
-         
+        <Nbsp />
         0123456789abcdef
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
-          values={Object {}}
         />
-         
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
           defaultMessage="Build Date:"
           id="about.date"
-          values={Object {}}
         />
-         
+        <Nbsp />
         21 January 2017
       </p>
     </div>
@@ -321,7 +442,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           <FormattedMessage
             defaultMessage="Team Edition"
             id="about.teamEditiont0"
-            values={Object {}}
           />
         </h3>
         <p
@@ -330,7 +450,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           <FormattedMessage
             defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
             id="about.teamEditionSt"
-            values={Object {}}
           />
         </p>
         <div
@@ -340,7 +459,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <FormattedMessage
               defaultMessage="Mattermost Version:"
               id="about.version"
-              values={Object {}}
             />
             <span
               id="versionString"
@@ -352,7 +470,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <FormattedMessage
               defaultMessage="Database Schema Version:"
               id="about.dbversion"
-              values={Object {}}
             />
             <span
               id="dbversionString"
@@ -364,7 +481,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <FormattedMessage
               defaultMessage="Database:"
               id="about.database"
-              values={Object {}}
             />
              Postgres
           </div>
@@ -378,7 +494,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         <FormattedMessage
           defaultMessage="Join the Mattermost community at "
           id="about.teamEditionLearn"
-          values={Object {}}
         />
         <a
           href="http://www.mattermost.org/"
@@ -416,7 +531,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <FormattedMessage
               defaultMessage="Terms of Service"
               id="about.tos"
-              values={Object {}}
             />
           </a>
            - 
@@ -429,7 +543,6 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <FormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
-              values={Object {}}
             />
           </a>
         </div>
@@ -452,33 +565,29 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         <FormattedMessage
           defaultMessage="Build Hash:"
           id="about.hash"
-          values={Object {}}
         />
-         
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
-          values={Object {}}
         />
-         
+        <Nbsp />
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
-          values={Object {}}
         />
-         
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
           defaultMessage="Build Date:"
           id="about.date"
-          values={Object {}}
         />
-         
+        <Nbsp />
         21 January 2017
       </p>
     </div>
@@ -558,7 +667,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           <FormattedMessage
             defaultMessage="Team Edition"
             id="about.teamEditiont0"
-            values={Object {}}
           />
         </h3>
         <p
@@ -567,7 +675,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           <FormattedMessage
             defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
             id="about.teamEditionSt"
-            values={Object {}}
           />
         </p>
         <div
@@ -577,7 +684,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <FormattedMessage
               defaultMessage="Mattermost Version:"
               id="about.version"
-              values={Object {}}
             />
             <span
               id="versionString"
@@ -589,7 +695,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <FormattedMessage
               defaultMessage="Database Schema Version:"
               id="about.dbversion"
-              values={Object {}}
             />
             <span
               id="dbversionString"
@@ -601,7 +706,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <FormattedMessage
               defaultMessage="Build Number:"
               id="about.buildnumber"
-              values={Object {}}
             />
             <span
               id="buildnumberString"
@@ -613,7 +717,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <FormattedMessage
               defaultMessage="Database:"
               id="about.database"
-              values={Object {}}
             />
              Postgres
           </div>
@@ -627,7 +730,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         <FormattedMessage
           defaultMessage="Join the Mattermost community at "
           id="about.teamEditionLearn"
-          values={Object {}}
         />
         <a
           href="http://www.mattermost.org/"
@@ -665,7 +767,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <FormattedMessage
               defaultMessage="Terms of Service"
               id="about.tos"
-              values={Object {}}
             />
           </a>
            - 
@@ -678,7 +779,6 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
             <FormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
-              values={Object {}}
             />
           </a>
         </div>
@@ -701,33 +801,29 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         <FormattedMessage
           defaultMessage="Build Hash:"
           id="about.hash"
-          values={Object {}}
         />
-         
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
-          values={Object {}}
         />
-         
+        <Nbsp />
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
-          values={Object {}}
         />
-         
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
           defaultMessage="Build Date:"
           id="about.date"
-          values={Object {}}
         />
-         
+        <Nbsp />
         21 January 2017
       </p>
     </div>
@@ -807,7 +903,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           <FormattedMessage
             defaultMessage="Team Edition"
             id="about.teamEditiont0"
-            values={Object {}}
           />
         </h3>
         <p
@@ -816,7 +911,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           <FormattedMessage
             defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
             id="about.teamEditionSt"
-            values={Object {}}
           />
         </p>
         <div
@@ -826,7 +920,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             <FormattedMessage
               defaultMessage="Mattermost Version:"
               id="about.version"
-              values={Object {}}
             />
             <span
               id="versionString"
@@ -838,7 +931,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             <FormattedMessage
               defaultMessage="Database Schema Version:"
               id="about.dbversion"
-              values={Object {}}
             />
             <span
               id="dbversionString"
@@ -850,7 +942,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             <FormattedMessage
               defaultMessage="Database:"
               id="about.database"
-              values={Object {}}
             />
              Postgres
           </div>
@@ -864,7 +955,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         <FormattedMessage
           defaultMessage="Join the Mattermost community at "
           id="about.teamEditionLearn"
-          values={Object {}}
         />
         <a
           href="http://www.mattermost.org/"
@@ -902,7 +992,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             <FormattedMessage
               defaultMessage="Terms of Service"
               id="about.tos"
-              values={Object {}}
             />
           </a>
            - 
@@ -915,7 +1004,6 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
             <FormattedMessage
               defaultMessage="Privacy Policy"
               id="about.privacy"
-              values={Object {}}
             />
           </a>
         </div>
@@ -938,33 +1026,29 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         <FormattedMessage
           defaultMessage="Build Hash:"
           id="about.hash"
-          values={Object {}}
         />
-         
+        <Nbsp />
         abcdef1234567890
         <br />
         <FormattedMessage
           defaultMessage="EE Build Hash:"
           id="about.hashee"
-          values={Object {}}
         />
-         
+        <Nbsp />
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
-          values={Object {}}
         />
-         
+        <Nbsp />
         0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
           defaultMessage="Build Date:"
           id="about.date"
-          values={Object {}}
         />
-         
+        <Nbsp />
         21 January 2017
       </p>
     </div>

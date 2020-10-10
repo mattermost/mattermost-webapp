@@ -49,7 +49,7 @@
                 }
 
                 &:active {
-                    background-color: v(button-bg-08);
+                    background-color: rgba(var(--button-bg-rgb), 0.08);
                     color: v(button-bg);
                 }
             }
@@ -57,7 +57,7 @@
     }
 
     .channel-switcher__suggestion-box {
-        height: 344px;
+        height: 362px;
         position: relative;
         padding: 0;
 

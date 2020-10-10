@@ -44,7 +44,6 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       <FormattedMessage
         defaultMessage="Confirm ARCHIVE Channel"
         id="delete_channel.confirm"
-        values={Object {}}
       />
     </ModalTitle>
   </ModalHeader>
@@ -78,7 +77,6 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       <FormattedMessage
         defaultMessage="Cancel"
         id="delete_channel.cancel"
-        values={Object {}}
       />
     </button>
     <button
@@ -92,7 +90,6 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       <FormattedMessage
         defaultMessage="Archive"
         id="delete_channel.del"
-        values={Object {}}
       />
     </button>
   </ModalFooter>

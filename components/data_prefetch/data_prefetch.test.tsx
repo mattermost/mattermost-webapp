@@ -14,7 +14,7 @@ jest.mock('actions/user_actions.jsx', () => ({
     loadProfilesForSidebar: jest.fn(() => Promise.resolve({})),
 }));
 
-describe('/components/create_team', () => {
+describe('/components/data_prefetch', () => {
     const defaultProps = {
         currentChannelId: '',
         actions: {
@@ -64,10 +64,10 @@ describe('/components/create_team', () => {
     };
 
     test('should call posts of current channel when it is set', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<DataPrefetch>(
             <DataPrefetch {...defaultProps}/>,
         );
-        const instance = wrapper.instance() as DataPrefetch;
+        const instance = wrapper.instance();
 
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
@@ -77,10 +77,10 @@ describe('/components/create_team', () => {
     });
 
     test('should call for LHS profiles and also call for posts based on prefetchQueueObj', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<DataPrefetch>(
             <DataPrefetch {...defaultProps}/>,
         );
-        const instance = wrapper.instance() as DataPrefetch;
+        const instance = wrapper.instance();
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
@@ -102,10 +102,10 @@ describe('/components/create_team', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<DataPrefetch>(
             <DataPrefetch {...props}/>,
         );
-        const instance = wrapper.instance() as DataPrefetch;
+        const instance = wrapper.instance();
         instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
 
         wrapper.setProps({currentChannelId: 'currentChannelId'});
@@ -120,42 +120,6 @@ describe('/components/create_team', () => {
         await props.actions.prefetchChannelPosts();
         expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel2');
         expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel3');
-        expect(instance.prefetchPosts).toHaveBeenCalledTimes(5);
-    });
-
-    test('Should call for new prefetchQueueObj channels on change of prop and cancel previous ones', async () => {
-        const props = {
-            ...defaultProps,
-            prefetchQueueObj: {
-                1: ['mentionChannel0', 'mentionChannel1', 'mentionChannel2', 'mentionChannel3', 'mentionChannel4'],
-                2: [],
-            },
-        };
-
-        const wrapper = shallow(
-            <DataPrefetch {...props}/>,
-        );
-        const instance = wrapper.instance() as DataPrefetch;
-        instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
-
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
-
-        await props.actions.prefetchChannelPosts();
-        await loadProfilesForSidebar();
-        expect(instance.prefetchPosts).toHaveBeenCalledTimes(3);
-        wrapper.setProps({
-            prefetchQueueObj: {
-                1: ['mentionChannel5', 'mentionChannel6'],
-                2: [],
-                3: [],
-            },
-
-        });
-
-        await props.actions.prefetchChannelPosts();
-        expect(instance.prefetchPosts).toHaveBeenCalledTimes(5);
-        expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel5');
-        expect(instance.prefetchPosts).toHaveBeenCalledWith('mentionChannel6');
     });
 
     test('Should call for new prefetchQueueObj channels on change of prop and cancel previous ones', async () => {
@@ -200,10 +164,10 @@ describe('/components/create_team', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<DataPrefetch>(
             <DataPrefetch {...props}/>,
         );
-        const instance = wrapper.instance() as DataPrefetch;
+        const instance = wrapper.instance();
         instance.prefetchPosts = jest.fn();
         wrapper.setProps({currentChannelId: 'currentChannelId'});
 
@@ -280,7 +244,7 @@ describe('/components/create_team', () => {
             }],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<DataPrefetch>(
             <DataPrefetch {...props}/>,
         );
         wrapper.setProps({currentChannelId: 'currentChannelId'});
