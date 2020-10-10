@@ -12,9 +12,12 @@ declare namespace Cypress {
     type ChannelMembership = import('mattermost-redux/types/channels').ChannelMembership;
     type ChannelType = import('mattermost-redux/types/channels').ChannelType;
     type Permissions = Array<string>;
+    type PluginManifest = import('mattermost-redux/types/plugins').PluginManifest;
+    type PluginsResponse = import('mattermost-redux/types/plugins').PluginsResponse;
     type PreferenceType = import('mattermost-redux/types/preferences').PreferenceType;
     type Role = import('mattermost-redux/types/roles').Role;
     type Scheme = import('mattermost-redux/types/schemes').Scheme;
+    type Session = import('mattermost-redux/types/sessions').Session;
     type Team = import('mattermost-redux/types/teams').Team;
     type TeamMembership = import('mattermost-redux/types/teams').TeamMembership;
     type TermsOfService = import('mattermost-redux/types/terms_of_service').TermsOfService;
