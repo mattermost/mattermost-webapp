@@ -18,7 +18,6 @@ type Props = {
 }
 
 export default class CommentedOnFilesMessage extends React.PureComponent<Props> {
-
     render() {
         if (!this.props.fileInfos || this.props.fileInfos.length === 0) {
             return null;
