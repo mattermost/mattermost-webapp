@@ -13,32 +13,7 @@ import {TestHelper} from 'utils/test_helper';
 import RhsThread from './rhs_thread';
 
 describe('components/RhsThread', () => {
-    const post: Post = {
-        edit_at: 0,
-        original_id: '',
-        hashtags: '',
-        pending_post_id: '',
-        reply_count: 0,
-        metadata: {
-            embeds: [],
-            emojis: [],
-            files: [],
-            images: {},
-            reactions: [],
-        },
-        channel_id: 'channel_id',
-        create_at: 1502715365009,
-        delete_at: 0,
-        id: 'id',
-        is_pinned: false,
-        message: 'post message',
-        parent_id: '',
-        props: {},
-        root_id: '',
-        type: 'system_add_remove',
-        update_at: 1502715372443,
-        user_id: 'user_id',
-    };
+    const post: Post = TestHelper.getPostMock({});
 
     const channel: Channel = {
         id: 'channel_id',
