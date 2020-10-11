@@ -37,8 +37,7 @@ describe('Keyboard Shortcuts', () => {
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);
 
         // click on the body to remove focus from the input key
-        cy.get('#post_textbox').clear().type('This is a normal sentence.')
-            .type('{backspace}{backspace}{backspace}{backspace}').blur();
+        cy.get('#post_textbox').clear().type('This is a normal sentence.').type('{backspace}{backspace}').blur();
         cy.get('body').type('{backspace}');
         cy.get('body').type('{backspace}');
 
