@@ -40,7 +40,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         joinLeave: '',
         enablePreviewFeatures: '',
         codeBlockOnCtrlEnter: false,
-        enableUserDeactivation: true
+        enableUserDeactivation: true,
     };
 
     test('should have called handleSubmit', async () => {
@@ -68,7 +68,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should have called updateUserActive', () => {
         const updateUserActive = jest.fn(() => Promise.resolve({}));
         const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
-        // @ts-ignore
+
         const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
 
         (wrapper.instance() as AdvancedSettingsDisplay).handleDeactivateAccountSubmit();
@@ -88,7 +88,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const error = {message: 'error'};
         const revokeAllSessionsForUser = () => Promise.resolve({error});
         const props = {...requiredProps, actions: {...requiredProps.actions, revokeAllSessionsForUser}};
-        // @ts-ignore
+
         const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
 
         await (wrapper.instance() as AdvancedSettingsDisplay).handleDeactivateAccountSubmit();

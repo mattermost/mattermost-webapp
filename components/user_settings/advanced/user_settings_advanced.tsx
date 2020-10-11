@@ -109,7 +109,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             enabledFeatures,
             isSaving,
             previewFeaturesEnabled,
-            showDeactivateAccountModal
+            showDeactivateAccountModal,
         };
     }
 
@@ -688,11 +688,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     {formattingSection}
                     <div className='divider-light'/>
                     <JoinLeaveSection
-                        // @ts-ignore
                         activeSection={this.props.activeSection}
-                        // @ts-ignore
                         onUpdateSection={this.handleUpdateSection}
-                        // @ts-ignore
                         renderOnOffLabel={this.renderOnOffLabel}
                     />
                     {previewFeaturesSectionDivider}
