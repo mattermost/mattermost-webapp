@@ -697,9 +697,7 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft, serverError}, () => {
-            this.scrollToBottom();
-        });
+        this.setState({draft: updatedDraft, serverError});
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
