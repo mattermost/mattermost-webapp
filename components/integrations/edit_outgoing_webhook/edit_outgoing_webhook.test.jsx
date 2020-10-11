@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {browserHistory} from 'utils/browser_history';
-import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook.tsx';
+import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook.jsx';
 
 describe('components/integrations/EditOutgoingWebhook', () => {
     const team = {
