@@ -10,11 +10,41 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
+describe('Messaging', () => {
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
+
+    it('MM-T198 Emojis preceeded by 4 or more spaces are always treated as markdown', () => {
+        [
+            '    :taco:',
+            '     :taco:',
+            '    :D',
+            '     :D',
+        ].forEach((message) => {
+            createAndVerifyMessage(message, true);
+        });
+
+        [
+            '   :taco:',
+            '   :D',
+        ].forEach((message) => {
+            createAndVerifyMessage(message, false);
+        });
+    });
+});
+
 function createMessages(message, aliases) {
     cy.postMessage(message);
     cy.getLastPostId().then((postId) => {
         cy.get(`#postMessageText_${postId}`).as(aliases[0]);
         cy.clickPostCommentIcon(postId);
+        cy.wait(TIMEOUTS.HALF_SEC);
     });
 
     cy.postMessageReplyInRHS(message);
@@ -43,30 +73,3 @@ function createAndVerifyMessage(message, isCode) {
         });
     }
 }
-
-describe('Messaging', () => {
-    before(() => {
-        // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
-        });
-    });
-
-    it('MM-T198 Emojis preceeded by 4 or more spaces are always treated as markdown', () => {
-        [
-            '    :taco:',
-            '     :taco:',
-            '    :D',
-            '     :D',
-        ].forEach((message) => {
-            createAndVerifyMessage(message, true);
-        });
-
-        [
-            '   :taco:',
-            '   :D',
-        ].forEach((message) => {
-            createAndVerifyMessage(message, false);
-        });
-    });
-});
