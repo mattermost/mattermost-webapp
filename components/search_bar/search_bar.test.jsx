@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SearchBar from './search_bar';
+import SearchBar from './search_bar.tsx';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
