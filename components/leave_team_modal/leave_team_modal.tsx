@@ -56,7 +56,6 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
     render() {
         const numOfPublicChannels = this.props.publicChannels.length;
         const numOfPrivateChannels = this.props.privateChannels.length;
-        console.log(this.props);
         return (
             <Modal
                 dialogClassName='a11y__modal'
