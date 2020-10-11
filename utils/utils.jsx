@@ -665,7 +665,6 @@ export function applyTheme(theme) {
             `background-color:${theme.centerChannelBg}`,
         );
 
-        changeCss('.app__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
         changeCss('.app__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
     }
 
