@@ -178,7 +178,7 @@ export default class LoggedIn extends React.PureComponent {
         }
     }
 
-    handleBeforeUnload(e) {
+    handleBeforeUnload() {
         // Turn off to prevent getting stuck in a loop
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         if (document.cookie.indexOf('MMUSERID=') > -1) {
