@@ -46,8 +46,8 @@ export default class EditOutgoingWebhook extends React.PureComponent {
         }).isRequired,
 
         /**
-         * Whether or not outgoing webhooks are enabled.
-         */
+        * Whether or not outgoing webhooks are enabled.
+        */
         enableOutgoingWebhooks: PropTypes.bool,
 
         /**
