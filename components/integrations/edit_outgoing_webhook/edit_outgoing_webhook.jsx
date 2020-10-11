@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Team} from 'mattermost-redux/types/teams';
-import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal';
@@ -16,72 +14,69 @@ const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
 const FOOTER = {id: 'update_outgoing_webhook.update', defaultMessage: 'Update'};
 const LOADING = {id: 'update_outgoing_webhook.updating', defaultMessage: 'Updating...'};
 
-interface Props {
-
-    /**
-     * The current team
-     */
-    team: Team;
-
-    /**
-     * The outgoing webhook to edit
-     */
-    hook: OutgoingWebhook;
-
-    /**
-     * The id of the outgoing webhook to edit
-     */
-    hookId: string;
-    actions: {
+export default class EditOutgoingWebhook extends React.PureComponent {
+    static propTypes = {
 
         /**
-         * The function to call to update an outgoing webhook
+         * The current team
          */
-        updateOutgoingHook: (hook: OutgoingWebhook) => ActionFunc;
+        team: PropTypes.object.isRequired,
 
         /**
-         * The function to call to get an outgoing webhook
+         * The outgoing webhook to edit
          */
-        getOutgoingHook: (hookId: string) => ActionFunc;
-    };
+        hook: PropTypes.object,
 
-    /**
-     * Whether or not outgoing webhooks are enabled.
-     */
-    enableOutgoingWebhooks: boolean;
+        /**
+         * The id of the outgoing webhook to edit
+         */
+        hookId: PropTypes.string.isRequired,
 
-    /**
-     * Whether to allow configuration of the default post username.
-     */
-    enablePostUsernameOverride: boolean;
+        actions: PropTypes.shape({
 
-    /**
-     * Whether to allow configuration of the default post icon.
-     */
-    enablePostIconOverride: boolean;
-}
+            /**
+             * The function to call to update an outgoing webhook
+             */
+            updateOutgoingHook: PropTypes.func.isRequired,
 
-interface State {
-    showConfirmModal: boolean;
-    serverError: string;
-}
+            /**
+             * The function to call to get an outgoing webhook
+             */
+            getOutgoingHook: PropTypes.func.isRequired,
+        }).isRequired,
 
-export default class EditOutgoingWebhook extends React.PureComponent<Props> {
-    constructor(props: Props) {
+        /**
+         * Whether or not outgoing webhooks are enabled.
+         */
+        enableOutgoingWebhooks: PropTypes.bool,
+
+        /**
+         * Whether to allow configuration of the default post username.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to allow configuration of the default post icon.
+         */
+        enablePostIconOverride: PropTypes.bool.isRequired,
+    }
+
+    constructor(props) {
         super(props);
+
         this.state = {
             showConfirmModal: false,
             serverError: '',
         };
     }
 
-    componentDidMount(): void {
+    componentDidMount() {
         if (this.props.enableOutgoingWebhooks) {
             this.props.actions.getOutgoingHook(this.props.hookId);
         }
     }
 
-    editOutgoingHook = async (hook: OutgoingWebhook): Promise<void> => {
+    editOutgoingHook = async (hook) => {
         this.newHook = hook;
 
         if (this.props.hook.id) {
@@ -106,15 +101,15 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props> {
         }
     }
 
-    handleConfirmModal = (): void => {
+    handleConfirmModal = () => {
         this.setState({showConfirmModal: true});
     }
 
-    confirmModalDismissed = (): void => {
+    confirmModalDismissed = () => {
         this.setState({showConfirmModal: false});
     }
 
-    submitHook = async (): Promise<void> => {
+    submitHook = async () => {
         this.setState({serverError: ''});
 
         const {data, error} = await this.props.actions.updateOutgoingHook(this.newHook);
@@ -131,7 +126,7 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props> {
         }
     }
 
-    renderExtra = (): JSX.Element => {
+    renderExtra = () => {
         const confirmButton = (
             <FormattedMessage
                 id='update_outgoing_webhook.update'
@@ -165,7 +160,7 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props> {
         );
     }
 
-    render(): JSX.Element {
+    render() {
         if (!this.props.hook) {
             return <LoadingScreen/>;
         }
