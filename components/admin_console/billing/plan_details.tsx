@@ -68,7 +68,7 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
                                     <div className='BillingSubscriptions__tooltipMessage'>
                                         <FormattedMarkdownMessage
                                             id='admin.billing.subscription.planDetails.prolongedOverages'
-                                            defaultMessage='Prolonged overages may result in additional charges. [See how billing works](!https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works)'
+                                            defaultMessage='Prolonged overages may result in additional charges.'
                                         />
                                         <a
                                             target='_blank'
