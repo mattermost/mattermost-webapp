@@ -6,15 +6,14 @@ import {shallow} from 'enzyme';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';
+import PostMessageView from 'components/post_view/post_message_view/post_message_view';
+import { Post, PostType } from 'mattermost-redux/src/types/posts';
 
 describe('components/post_view/PostAttachment', () => {
     const post = {
         id: 'post_id',
         message: 'post message',
-        state: '',
-        type: '',
-    };
+    } as Post;
 
     const baseProps = {
         post,
@@ -49,23 +48,25 @@ describe('components/post_view/PostAttachment', () => {
     });
 
     test('should match snapshot, on deleted post', () => {
-        const props = {...baseProps, post: {...post, state: Posts.POST_DELETED}};
+        const props = {...baseProps, post: {...post, state: Posts.POST_DELETED as "DELETED"}};
         const wrapper = shallow(<PostMessageView {...props}/>);
+        const instance = wrapper.instance() as PostMessageView;
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.instance().renderDeletedPost()).toMatchSnapshot();
+        expect(instance.renderDeletedPost()).toMatchSnapshot();
     });
 
     test('should match snapshot, on edited post', () => {
         const props = {...baseProps, post: {...post, edit_at: 1}};
         const wrapper = shallow(<PostMessageView {...props}/>);
+        const instance = wrapper.instance() as PostMessageView;
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.instance().renderEditedIndicator()).toMatchSnapshot();
+        expect(instance.renderEditedIndicator()).toMatchSnapshot();
     });
 
     test('should match snapshot, on ephemeral post', () => {
-        const props = {...baseProps, post: {...post, type: Posts.POST_TYPES.EPHEMERAL}};
+        const props = {...baseProps, post: {...post, type: Posts.POST_TYPES.EPHEMERAL as PostType}};
         const wrapper = shallow(<PostMessageView {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
@@ -73,8 +74,8 @@ describe('components/post_view/PostAttachment', () => {
 
     test('should match checkOverflow state on handleHeightReceived change', () => {
         const wrapper = shallow(<PostMessageView {...baseProps}/>);
-        const instance = wrapper.instance();
-        instance.checkOverflow = jest.fn();
+        const instance = wrapper.instance() as PostMessageView;
+        //instance.checkOverflow = jest.fn();
 
         wrapper.setState({checkOverflow: 0});
         instance.handleHeightReceived(1);

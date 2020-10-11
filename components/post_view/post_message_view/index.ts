@@ -8,9 +8,11 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 
-import PostMessageView from './post_message_view.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import PostMessageView from './post_message_view';
+
+function mapStateToProps(state: GlobalState) {
     return {
         enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
         isRHSExpanded: getIsRhsExpanded(state),

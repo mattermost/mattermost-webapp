@@ -10,7 +10,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(PostMarkdown)
       imageProps={
@@ -19,14 +19,13 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
         }
       }
       isRHS={false}
+      mentionKeys={Array []}
       message="post message"
       options={Object {}}
       post={
         Object {
           "id": "post_id",
           "message": "post message",
-          "state": "",
-          "type": "",
         }
       }
     />
@@ -49,7 +48,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(PostMarkdown)
       imageProps={
@@ -58,14 +57,13 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
         }
       }
       isRHS={false}
+      mentionKeys={Array []}
       message="post message"
       options={Object {}}
       post={
         Object {
           "id": "post_id",
           "message": "post message",
-          "state": "",
-          "type": "",
         }
       }
     />
@@ -88,7 +86,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(PostMarkdown)
       imageProps={
@@ -97,14 +95,13 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
         }
       }
       isRHS={false}
+      mentionKeys={Array []}
       message="post message"
       options={Object {}}
       post={
         Object {
           "id": "post_id",
           "message": "post message",
-          "state": "",
-          "type": "",
         }
       }
     />
@@ -145,7 +142,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(PostMarkdown)
       imageProps={
@@ -154,6 +151,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
         }
       }
       isRHS={false}
+      mentionKeys={Array []}
       message="post message"
       options={Object {}}
       post={
@@ -161,8 +159,6 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
           "edit_at": 1,
           "id": "post_id",
           "message": "post message",
-          "state": "",
-          "type": "",
         }
       }
     />
@@ -206,7 +202,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
     className="post-message__text"
     id="postMessageText_post_id"
     onClick={[Function]}
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(PostMarkdown)
       imageProps={
@@ -215,13 +211,13 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
         }
       }
       isRHS={false}
+      mentionKeys={Array []}
       message="post message"
       options={Object {}}
       post={
         Object {
           "id": "post_id",
           "message": "post message",
-          "state": "",
           "type": "system_ephemeral",
         }
       }
