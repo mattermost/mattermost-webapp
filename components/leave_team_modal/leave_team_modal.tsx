@@ -56,6 +56,7 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
     render() {
         const numOfPublicChannels = this.props.publicChannels.length;
         const numOfPrivateChannels = this.props.privateChannels.length;
+        console.log(this.props);
         return (
             <Modal
                 dialogClassName='a11y__modal'
@@ -80,10 +81,10 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
                 <Modal.Body>
                     <FormattedMarkdownMessage
                         id='leave_team_modal.desc'
-                        defaultMessage='**You will be removed from all {num_of_public_channels} public channels and {num_of_private_channels} private channels on this team**. If the team is private you will not be able to rejoin the team without an invitation. Are you sure?'
+                        defaultMessage='**You will be removed from all {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels} } and {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team**. If the team is private you will not be able to rejoin the team without an invitation. Are you sure?'
                         values={{
-                            numOfPublicChannels,
-                            numOfPrivateChannels,
+                            num_of_public_channels: numOfPublicChannels,
+                            num_of_private_channels: numOfPrivateChannels,
                         }}
                     />
                 </Modal.Body>
