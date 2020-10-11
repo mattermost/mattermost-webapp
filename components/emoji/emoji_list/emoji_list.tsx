@@ -4,8 +4,8 @@
 import React, {ChangeEvent, ChangeEventHandler} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Emoji} from 'mattermost-redux/constants';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import LoadingScreen from 'components/loading_screen';
 import SaveButton from 'components/save_button';
@@ -37,12 +37,12 @@ interface Props {
         /**
          * Get pages of custom emojis.
          */
-        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => ActionFunc;
+        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
 
         /**
          * Search custom emojis.
          */
-        searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => ActionFunc;
+        searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
     };
 
 }
@@ -72,7 +72,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
 
     async componentDidMount(): Promise<void> {
         this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).
-            then(({data}: any) => {
+            then(({data}: { data: CustomEmoji[] }) => {
                 this.setState({loading: false});
                 if (data && data.length < EMOJI_PER_PAGE) {
                     this.setState({missingPages: false});
@@ -87,14 +87,15 @@ export default class EmojiList extends React.PureComponent<Props, State> {
 
         const next = this.state.page + 1;
         this.setState({nextLoading: true});
-        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(({data}: any) => {
-            this.setState({page: next, nextLoading: false});
-            if (data && data.length < EMOJI_PER_PAGE) {
-                this.setState({missingPages: false});
-            }
+        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).
+            then(({data}: { data: CustomEmoji[] }) => {
+                this.setState({page: next, nextLoading: false});
+                if (data && data.length < EMOJI_PER_PAGE) {
+                    this.setState({missingPages: false});
+                }
 
-            this.props.scrollToTop();
-        });
+                this.props.scrollToTop();
+            });
     };
     previousPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         if (e) {
@@ -122,7 +123,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
 
             this.setState({loading: true});
 
-            const {data}: any = await this.props.actions.searchCustomEmojis(
+            const {data}: { data: CustomEmoji[] } = await this.props.actions.searchCustomEmojis(
                 term,
                 {},
                 true,
@@ -139,7 +140,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
         }, EMOJI_SEARCH_DELAY_MILLISECONDS);
     };
 
-    deleteFromSearch = (emojiId: string) => {
+    deleteFromSearch = (emojiId: string): void => {
         if (!this.state.searchEmojis) {
             return;
         }
@@ -155,7 +156,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
         this.setState({searchEmojis: newSearchEmojis});
     };
 
-    render() {
+    render(): JSX.Element {
         const searchEmojis = this.state.searchEmojis;
         const emojis = [];
         let nextButton;
