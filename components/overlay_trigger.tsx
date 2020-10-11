@@ -11,7 +11,9 @@ import store from 'stores/redux_store.jsx';
 
 export {BaseOverlayTrigger};
 
-type Props = OverlayTriggerProps;
+interface Props extends OverlayTriggerProps {
+    className?: string;
+}
 
 const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
     const {overlay, ...otherProps} = props;
