@@ -4,7 +4,6 @@
 
 import React from 'react';
 import {Button, Tooltip} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
@@ -22,6 +21,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 type State = {
     isLoading: boolean;
     nameError: string | JSX.Element;
+    teamURL: string
 }
 
 type Props = {
@@ -63,6 +63,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         this.state = {
             nameError: '',
             isLoading: false,
+            teamURL: props.state.team.name,
         };
     }
 
@@ -82,7 +83,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         e.preventDefault();
         trackEvent('signup', 'click_finish');
 
-        const name = (ReactDOM.findDOMNode(this.refs.name) as HTMLInputElement)?.value.trim();
+        const name = this.state.teamURL.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
         const {actions: {checkIfTeamExists, createTeam}} = this.props;
@@ -170,6 +171,10 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         e.currentTarget.select();
     }
 
+    public handleTeamURLInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({teamURL: e.target.value});
+    }
+
     render() {
         let nameError = null;
         let nameDivClass = 'form-group';
@@ -229,13 +234,13 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                                     <input
                                         id='teamURLInput'
                                         type='text'
-                                        ref='name'
                                         className='form-control'
                                         placeholder=''
                                         maxLength={128}
-                                        defaultValue={this.props.state.team.name}
+                                        value={this.state.teamURL}
                                         autoFocus={true}
                                         onFocus={this.handleFocus}
+                                        onChange={this.handleTeamURLInputChange}
                                         spellCheck='false'
                                     />
                                 </div>
