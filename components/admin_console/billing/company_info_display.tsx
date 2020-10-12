@@ -69,6 +69,7 @@ const CompanyInfoDisplay: React.FC = () => {
                     <div className='CompanyInfoDisplay__companyInfo-name'>
                         {companyInfo.name}
                     </div>
+                    {supportAddCompanyInfo &&
                     <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
                         <FormattedMarkdownMessage
                             id='admin.billing.company_info.employees'
@@ -76,6 +77,7 @@ const CompanyInfoDisplay: React.FC = () => {
                             values={{employees: companyInfo.num_employees}}
                         />
                     </div>
+                    }
                     <div className='CompanyInfoDisplay__companyInfo-addressTitle'>
                         <FormattedMessage
                             id='admin.billing.company_info.companyAddress'
