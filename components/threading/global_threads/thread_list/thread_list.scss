@@ -1,9 +1,10 @@
 .ThreadList {
+    --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
     .header {
         position: relative;
         padding: 12px;
         padding-right: 50px;
-        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), .08);
+        border-bottom: var(--border);
     }
     .right-anchor {
         position: absolute;
@@ -12,10 +13,7 @@
         padding-right: 12px;
     }
 
-    .threads {
-        .ThreadItem + .ThreadItem {
-            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), .08);
-        }
+    .ThreadItem {
+        border-bottom: var(--border);
     }
-
 }
