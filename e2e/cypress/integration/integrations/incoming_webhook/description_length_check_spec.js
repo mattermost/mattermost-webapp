@@ -9,11 +9,11 @@
 
 // Group: @integrations
 
-let testTeam;
-
 describe('Integrations', () => {
     const maxDescription = '1234567890'.repeat(50);
     const overMaxDescription = `${maxDescription}123`;
+
+    let testTeam;
 
     before(() => {
         // # Login as test user and visit the newly created test channel
