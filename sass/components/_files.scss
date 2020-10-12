@@ -62,7 +62,7 @@
         }
 
         &:active {
-            background: v(button-bg-08);
+            background: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
         }
     }
@@ -480,7 +480,7 @@
             }
 
             &:active {
-                background: v(button-bg-08);
+                background: rgba(var(--button-bg-rgb), 0.08);
                 color: v(button-bg);
             }
         }
