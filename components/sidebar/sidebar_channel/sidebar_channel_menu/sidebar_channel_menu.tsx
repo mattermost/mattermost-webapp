@@ -8,7 +8,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
