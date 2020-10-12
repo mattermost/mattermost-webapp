@@ -56,7 +56,6 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
     render() {
         const numOfPublicChannels = this.props.publicChannels.length;
         const numOfPrivateChannels = this.props.privateChannels.length;
-        const zero = 0;
         let modalMessage;
         if (numOfPublicChannels !== 0 && numOfPrivateChannels !== 0) {
             modalMessage = (
@@ -68,7 +67,7 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
                         num_of_private_channels: numOfPrivateChannels,
                     }}
                 />);
-        } else if (numOfPublicChannels === zero) {
+        } else if (numOfPublicChannels === 0) {
             modalMessage = (
                 <FormattedMarkdownMessage
                     id='leave_team_modal_private.desc'
