@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {TermsOfService} from 'mattermost-redux/types/terms_of_service';
 
 import AdminSettings, {BaseProps, BaseState} from 'components/admin_console/admin_settings';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
@@ -17,8 +18,8 @@ import {Constants} from 'utils/constants';
 
 type Props = BaseProps & {
     actions: {
-        getTermsOfService: () => {data: {id: string, text: string}};
-        createTermsOfService: (text: string) => {error: Error};
+        getTermsOfService: () => Promise<{data: TermsOfService}>;
+        createTermsOfService: (text: string) => Promise<{data: TermsOfService, error?: Error}>;
     };
     config: DeepPartial<AdminConfig>;
     license: ClientLicense,
@@ -139,11 +140,11 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
     getTermsOfService = async () => {
         this.setState({loadingTermsText: true});
 
-        const res = await this.props.actions.getTermsOfService();
-        if (res.data) {
+        const {data} = await this.props.actions.getTermsOfService();
+        if (data) {
             this.setState({
-                termsText: res.data.text,
-                receivedTermsText: res.data.text,
+                termsText: data.text,
+                receivedTermsText: data.text,
             });
         }
 
