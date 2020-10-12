@@ -18,7 +18,7 @@ describe('Integrations', () => {
     const badUrl = 'testurl.mm';
 
     before(() => {
-        // # Login as test user and visit the newly created test channel
+        // # Login then visit the integrations slash commands add page
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
             cy.visit(`/${team.name}/integrations/commands/add`);
