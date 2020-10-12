@@ -130,7 +130,7 @@ class MainMenu extends React.PureComponent {
     }
 
     shouldShowUpgradeModal = () => {
-        if (this.props.subscription?.is_paid_tier === 'true') {
+        if (this.props.subscription?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
 
