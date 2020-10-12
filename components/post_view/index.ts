@@ -6,12 +6,24 @@ import {withRouter} from 'react-router-dom';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Constants} from 'utils/constants';
 
-import PostView from './post_view.jsx';
+import {GlobalState} from 'types/store';
 
-export const isChannelLoading = (params, channel, team, teammate, teamMemberships) => {
+import PostView from './post_view.js';
+
+type Params = {
+    identifier: string;
+    team: string;
+    postid?: string;
+    path: string;
+}
+
+export const isChannelLoading = (params: Params, channel: Channel, team: Team, teammate: UserProfile, teamMemberships:TeamMembership) => {
     if (params.postid) {
         return false;
     }
@@ -34,8 +46,26 @@ export const isChannelLoading = (params, channel, team, teammate, teamMembership
     return true;
 };
 
+type Props = {
+    lastViewedAt: number;
+    channelLoading: boolean;
+    channelId: string;
+    focusedPostId: string;
+    match: {
+        params: {
+            team: string;
+        };
+    };
+}
+
+type State ={
+    unreadChunkTimeStamp: number;
+    loaderForChangeOfPostsChunk: boolean;
+    channelLoading: boolean;
+}
+
 function makeMapStateToProps() {
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const team = getTeamByName(state, ownProps.match.params.team);
         let teammate;
 

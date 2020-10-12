@@ -8,15 +8,28 @@ import LoadingScreen from 'components/loading_screen';
 
 import PostList from './post_list';
 
-export default class PostView extends React.PureComponent {
+type Props = {
+    lastViewedAt: number;
+    channelLoading: boolean;
+    channelId: string;
+    focusedPostId: string;
+}
+
+type State ={
+    unreadChunkTimeStamp: number;
+    loaderForChangeOfPostsChunk: boolean;
+    channelLoading: boolean;
+}
+
+export default class PostView extends React.PureComponent<Props, State> {
     static propTypes = {
         lastViewedAt: PropTypes.number,
         channelLoading: PropTypes.bool,
         channelId: PropTypes.string,
         focusedPostId: PropTypes.string,
-    }
+    };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             unreadChunkTimeStamp: props.lastViewedAt,
@@ -25,7 +38,7 @@ export default class PostView extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (state.unreadChunkTimeStamp === null && props.lastViewedAt) {
             return {
                 unreadChunkTimeStamp: props.lastViewedAt,
@@ -41,18 +54,21 @@ export default class PostView extends React.PureComponent {
         return null;
     }
 
-    changeUnreadChunkTimeStamp = (unreadChunkTimeStamp) => {
-        this.setState({
-            unreadChunkTimeStamp,
-            loaderForChangeOfPostsChunk: true,
-        }, () => {
-            window.requestAnimationFrame(() => {
-                this.setState({
-                    loaderForChangeOfPostsChunk: false,
+    changeUnreadChunkTimeStamp = (unreadChunkTimeStamp: number) => {
+        this.setState(
+            {
+                unreadChunkTimeStamp,
+                loaderForChangeOfPostsChunk: true,
+            },
+            () => {
+                window.requestAnimationFrame(() => {
+                    this.setState({
+                        loaderForChangeOfPostsChunk: false,
+                    });
                 });
-            });
-        });
-    }
+            },
+        );
+    };
 
     render() {
         if (this.props.channelLoading || this.state.loaderForChangeOfPostsChunk) {
