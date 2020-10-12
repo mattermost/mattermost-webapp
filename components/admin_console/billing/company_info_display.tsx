@@ -42,7 +42,7 @@ const noCompanyInfoSection = (
                 defaultMessage='There is currently no company information on file.'
             />
         </div>
-        { supportAddCompanyInfo &&
+        {supportAddCompanyInfo &&
             <BlockableLink
                 to='/admin_console/billing/company_info_edit'
                 className='CompanyInfoDisplay__noCompanyInfo-link'
@@ -89,7 +89,7 @@ const CompanyInfoDisplay: React.FC = () => {
                         <div>{address.country}</div>
                     </div>
                 </div>
-                { supportAddCompanyInfo &&
+                {supportAddCompanyInfo &&
                 <div className='CompanyInfoDisplay__companyInfo-edit'>
                     <BlockableLink
                         to='/admin_console/billing/company_info_edit'
