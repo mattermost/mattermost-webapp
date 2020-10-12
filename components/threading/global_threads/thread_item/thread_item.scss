@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+@import "sass/utils/_mixins";
+
 .ThreadItem {
     padding: 18px 18px 18px 28px;
     text-align: left;
@@ -107,10 +109,7 @@
         overflow: hidden;
         color: rgba(var(--center-channel-color-rgb), 1);
 
-        // cross-browser multi-line text-overflow support
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+        @include text-clamp(2, 20);
     }
 
     time {

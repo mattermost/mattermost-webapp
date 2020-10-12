@@ -57,7 +57,7 @@ storiesOf('Features/Threading/Global Threads', module).
         <StoryGrid>
             <StoryBox containerStyle={{width: 600}}>
                 <ThreadItem
-                    name={text('team', users[0].name)}
+                    name={text('name', users[0].name)}
                     channelName={text('channelName', 'Enterprise Team')}
                     previewText='Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console?'
 
