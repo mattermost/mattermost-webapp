@@ -12,7 +12,8 @@
 let testTeam;
 
 describe('Integrations', () => {
-    const maxDescription = '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
+    const maxDescription = '1234567890'.repeat(50);
+    const overMaxDescription = `${maxDescription}123`;
 
     before(() => {
         // # Login as test user and visit the newly created test channel
@@ -26,10 +27,12 @@ describe('Integrations', () => {
 
     it('MM-T636 Description field length check', () => {
         // * Check incoming description field only accepts 500 characters
-        cy.get('#description').clear().type(`${maxDescription}123`).should('have.value', maxDescription);
+        cy.get('#description').clear().type(maxDescription).should('have.value', maxDescription);
+        cy.get('#description').clear().type(overMaxDescription).should('have.value', maxDescription);
 
         // * Check outgoing description field only accepts 500 characters
         cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
-        cy.get('#description').clear().type(`${maxDescription}123`).should('have.value', maxDescription);
+        cy.get('#description').clear().type(maxDescription).should('have.value', maxDescription);
+        cy.get('#description').clear().type(overMaxDescription).should('have.value', maxDescription);
     });
 });
