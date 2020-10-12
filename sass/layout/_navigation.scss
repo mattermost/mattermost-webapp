@@ -201,4 +201,8 @@
     }
 }
 
-
+.app__body {
+    .navbar-right__icon {
+        background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
+    }
+}
