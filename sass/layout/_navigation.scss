@@ -104,7 +104,7 @@
             }
 
             .icon-bar {
-                background: $white;
+                background: var(--sidebar-header-text-color);
                 width: 21px;
             }
 
@@ -198,17 +198,5 @@
 
     .badge-notify {
         background: $red;
-    }
-}
-
-.app__body {
-    #navbar_wrapper {
-        .navbar-default {
-            .navbar-toggle{
-                .icon-bar{
-                    background: var(--sidebar-header-text-color);
-                }
-            }
-        }
     }
 }
