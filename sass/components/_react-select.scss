@@ -20,7 +20,7 @@
 
     .react-select__multi-value {
         align-items: center;
-        background: var(--center-channel-color-08);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         padding: 2px;
         border-radius: 16px;
         color: var(--center-channel-color);
@@ -71,8 +71,7 @@
     }
 
     .react-select__indicator-separator {
-        background-color: v(center-channel-color);
-        opacity: .4;
+        background-color: rgba(var(--center-channel-color-rgb), 0.40);
     }
 
     .react-select__indicator {
@@ -100,7 +99,7 @@
     }
 
     .react-select__option--is-focused {
-        background: v(button-bg-24);
+        background: rgba(var(--button-bg-rgb), 0.24);
     }
 
     .react-select__option--is-selected {

@@ -49,7 +49,7 @@
                 }
 
                 &:active {
-                    background-color: v(button-bg-08);
+                    background-color: rgba(var(--button-bg-rgb), 0.08);
                     color: v(button-bg);
                 }
             }
