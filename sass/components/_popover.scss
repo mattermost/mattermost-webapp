@@ -75,7 +75,7 @@
 
             &:after {
                 border-color: transparent;
-                border-bottom-color: v(center-channel-bg);
+                border-bottom-color: var(--center-channel-bg);
             }
         }
     }
