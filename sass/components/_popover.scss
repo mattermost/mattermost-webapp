@@ -277,6 +277,10 @@
     text-transform: uppercase;
     font-weight: 600;
 
+    span {
+        background: v(center-channel-bg);
+    }
+
     &:first-child {
         &:before {
             display: none;
@@ -491,11 +495,11 @@
                     height: 2em;
 
                     &:hover {
-                        background-color: v(button-bg-24);
+                        background-color: rgba(var(--button-bg-rgb), 0.24);
                     }
 
                     &:active {
-                        background-color: v(button-bg-32);
+                        background-color: rgba(var(--button-bg-rgb), 0.32);
                     }
 
                     &.a11y--focused {

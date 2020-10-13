@@ -2144,6 +2144,8 @@
   "backstage_sidebar.integrations.incoming_webhooks": "Incoming Webhooks",
   "backstage_sidebar.integrations.oauthApps": "OAuth 2.0 Applications",
   "backstage_sidebar.integrations.outgoing_webhooks": "Outgoing Webhooks",
+  "billing.subscription.info.headsup": "Just a heads up",
+  "billing.subscription.info.headsup.description": "You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.",
   "bot.add.description": "Description",
   "bot.add.description.help": "(Optional) Let others know what this bot does.",
   "bot.add.display_name.help": "(Optional) You can choose to display your bot's full name rather than its username.",
