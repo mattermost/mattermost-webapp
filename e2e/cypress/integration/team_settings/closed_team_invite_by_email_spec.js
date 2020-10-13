@@ -24,8 +24,10 @@ describe('Team Settings', () => {
     let isLicensed;
 
     before(() => {
-        // * Check if server has license for Cloud
-        cy.apiRequireLicenseForFeature('Cloud');
+        // # If the instance the test is running on is licensed, assign true to isLicensed variable
+        cy.apiGetClientLicense().then(({license}) => {
+            isLicensed = license.IsLicensed === 'true';
+        });
 
         // # Disable LDAP and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
