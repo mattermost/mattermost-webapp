@@ -13,10 +13,11 @@ import {
     getSortedUnreadChannelIds,
     makeGetChannel,
     getMyChannelMemberships,
+    getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting, getBool, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUserId,
@@ -27,12 +28,7 @@ import {
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 
-import {
-    sortChannelsByTypeAndDisplayName,
-    isDirectChannelVisible,
-    isGroupChannelVisible,
-    isUnreadChannel,
-} from 'mattermost-redux/utils/channel_utils';
+import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -183,23 +179,28 @@ const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannel
 
 let prefix = '';
 
-function quickSwitchSorter(wrappedA, wrappedB) {
+export function quickSwitchSorter(wrappedA, wrappedB) {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
+
     if (aIsArchived && !bIsArchived) {
         return 1;
     } else if (!aIsArchived && bIsArchived) {
         return -1;
-    } else if (wrappedA.type === Constants.MENTION_CHANNELS && wrappedB.type === Constants.MENTION_MORE_CHANNELS) {
-        return -1;
-    } else if (wrappedB.type === Constants.MENTION_CHANNELS && wrappedA.type === Constants.MENTION_MORE_CHANNELS) {
-        return 1;
     }
 
     if (wrappedA.deactivated && !wrappedB.deactivated) {
         return 1;
     } else if (wrappedB.deactivated && !wrappedA.deactivated) {
         return -1;
+    }
+
+    if (wrappedA.last_viewed_at && !wrappedB.last_viewed_at) {
+        return -1;
+    } else if (!wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+        return 1;
+    } else if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+        return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
     }
 
     const a = wrappedA.channel;
@@ -280,7 +281,7 @@ export default class SwitchChannelProvider extends Provider {
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
-            this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels, users, true);
+            this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels, users);
 
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
@@ -379,7 +380,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatChannelsAndDispatch(channelPrefix, resultsCallback, allChannels, users, skipNotInChannel = false) {
+    formatChannelsAndDispatch(channelPrefix, resultsCallback, allChannels, users) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -408,6 +409,10 @@ export default class SwitchChannelProvider extends Provider {
                 const channelIsArchived = channel.delete_at !== 0;
 
                 let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
+                if (members[channel.id]) {
+                    wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
+                }
+
                 if (!viewArchivedChannels && channelIsArchived) {
                     continue;
                 } else if (channelIsArchived && members[channel.id]) {
@@ -417,15 +422,6 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
-                    const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
-                    if (isGMVisible) {
-                        wrappedChannel.type = Constants.MENTION_CHANNELS;
-                    } else {
-                        wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
-                        if (skipNotInChannel) {
-                            continue;
-                        }
-                    }
                 } else if (newChannel.type === Constants.DM_CHANNEL) {
                     const userId = Utils.getUserIdFromChannelId(newChannel.name);
                     const user = users.find((u) => u.id === userId);
@@ -436,23 +432,10 @@ export default class SwitchChannelProvider extends Provider {
                             user,
                             newChannel,
                         );
-                        const isDMVisible = isDirectChannelVisible(user.id, config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
-                        if (isDMVisible) {
-                            wrappedChannel.type = Constants.MENTION_CHANNELS;
-                        } else {
-                            wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
-                            if (skipNotInChannel) {
-                                continue;
-                            }
+                        if (members[channel.id]) {
+                            wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
                         }
                     } else {
-                        continue;
-                    }
-                } else if (members[channel.id]) {
-                    wrappedChannel.type = Constants.MENTION_CHANNELS;
-                } else {
-                    wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
-                    if (skipNotInChannel || !newChannel.display_name.toLowerCase().startsWith(channelPrefix)) {
                         continue;
                     }
                 }
@@ -469,33 +452,23 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
-
             const wrappedChannel = this.userWrappedChannel(user);
 
-            if (isDMVisible) {
-                wrappedChannel.type = Constants.MENTION_CHANNELS;
-            } else {
-                wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;
-                if (skipNotInChannel) {
-                    continue;
-                }
+            const currentUserId = getCurrentUserId(getState());
+
+            const channelName = Utils.getDirectChannelName(currentUserId, user.id);
+            const channel = getChannelByName(getState(), channelName);
+
+            if (channel && members[channel.id]) {
+                wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
             }
 
             completedChannels[user.id] = true;
             channels.push(wrappedChannel);
         }
-
         const channelNames = channels.
             sort(quickSwitchSorter).
             map((wrappedChannel) => wrappedChannel.channel.id);
-
-        if (skipNotInChannel) {
-            channels.push({
-                type: Constants.MENTION_MORE_CHANNELS,
-                loading: true,
-            });
-        }
 
         resultsCallback({
             matchedPretext: channelPrefix,
