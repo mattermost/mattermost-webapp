@@ -121,6 +121,24 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         return dismissable;
     }
 
+    showModal = () => {
+        if (this.isDismissable()) {
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                'click_upgrade_banner_user_limit_reached',
+            );
+        } else {
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                'click_upgrade_banner_user_limit_exceeded',
+            );
+        }
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
+    }
+
     render() {
         const {userLimit, analytics, preferences} = this.props;
 
@@ -146,24 +164,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
                 type={dismissable ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL_LIGHT}
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
-                showModal={() => {
-                    if (dismissable) {
-                        trackEvent(
-                            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                            'click_upgrade_banner_user_limit_reached',
-                        );
-                    } else {
-                        trackEvent(
-                            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                            'click_upgrade_banner_user_limit_exceeded',
-                        );
-                    }
-                    this.props.actions.openModal({
-                        modalId: ModalIdentifiers.CLOUD_PURCHASE,
-                        dialogType: PurchaseModal,
-                    });
-                }
-                }
+                showModal={this.showModal}
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}
                 modalButtonDefaultText={'Upgrade Mattermost Cloud'}
                 message={dismissable ? t('upgrade.cloud_banner_reached') : t('upgrade.cloud_banner_over')}
