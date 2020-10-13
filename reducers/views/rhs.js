@@ -39,6 +39,17 @@ function selectedPostFocussedAt(state = 0, action) {
     }
 }
 
+// selectedPostFocussedAt keeps track of the last time a post was selected, whether or not it
+// is currently selected.
+function filesSearchExtFilter(state = [], action) {
+    switch (action.type) {
+    case ActionTypes.SET_FILES_FILTER_BY_EXT:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 function selectedPostCardId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST_CARD:
@@ -233,6 +244,7 @@ export default combineReducers({
     selectedPostCardId,
     selectedChannelId,
     previousRhsState,
+    filesSearchExtFilter,
     rhsState,
     searchTerms,
     searchResultsTerms,

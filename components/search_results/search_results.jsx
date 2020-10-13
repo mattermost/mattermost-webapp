@@ -141,6 +141,8 @@ class SearchResults extends React.Component {
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
             getMoreFilesForSearch: PropTypes.func.isRequired,
+            filterFilesSearchByExt: PropTypes.func.isRequired,
+            showSearchResults: PropTypes.func.isRequired,
         }),
         intl: intlShape.isRequired,
         isSideBarExpanded: PropTypes.bool,
@@ -169,6 +171,7 @@ class SearchResults extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+        this.filterFilesSearchByExt([]);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -205,6 +208,37 @@ class SearchResults extends React.Component {
                 }
             }
         }
+    }
+
+    handleFilterChange = (filterType) => {
+        const {filterFilesSearchByExt, showSearchResults} = this.props.actions;
+        this.setState({filterType});
+        switch (filterType) {
+        case 'documents':
+            filterFilesSearchByExt(['doc', 'pdf', 'docx', 'odt', 'rtf']);
+            break;
+        case 'spreadsheets':
+            filterFilesSearchByExt(['xls', 'xlsx', 'ods']);
+            break;
+        case 'presentations':
+            filterFilesSearchByExt(['ppt', 'pptx', 'odp']);
+            break;
+        case 'code':
+            filterFilesSearchByExt(['py', 'go', 'java', 'kt', 'c', 'cpp', 'h', 'html', 'js', 'ts', 'cs', 'vb', 'php', 'pl', 'r', 'rb', 'sql', 'swift', 'json']);
+            break;
+        case 'images':
+            filterFilesSearchByExt(['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'svg', 'psd', 'xcf']);
+            break;
+        case 'audio':
+            filterFilesSearchByExt(['ogg', 'mp3', 'wav', 'flac']);
+            break;
+        case 'video':
+            filterFilesSearchByExt(['ogm', 'mp4', 'avi', 'webm', 'mov', 'mkv', 'mpeg', 'mpg']);
+            break;
+        default:
+            filterFilesSearchByExt([]);
+        }
+        showSearchResults();
     }
 
     loadMorePosts = debounce(() => {
@@ -384,7 +418,7 @@ class SearchResults extends React.Component {
                     messagesCounter={this.props.isSearchAtEnd ? results.length : `${results.length}+`}
                     filesCounter={this.props.isSearchFilesAtEnd ? fileResults.length : `${fileResults.length}+`}
                     onChange={(searchType) => this.setState({searchType})}
-                    onFilter={(filterType) => this.setState({filterType})}
+                    onFilter={this.handleFilterChange}
                 />
                 <Scrollbars
                     ref={this.scrollbars}

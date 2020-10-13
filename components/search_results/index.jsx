@@ -19,6 +19,7 @@ import {
     getIsSearchingPinnedPost,
     getIsSearchGettingMore,
 } from 'selectors/rhs';
+import {filterFilesSearchByExt, showSearchResults} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
 import SearchResults from './search_results.jsx';
@@ -98,6 +99,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getMorePostsForSearch,
             getMoreFilesForSearch,
+            filterFilesSearchByExt,
+            showSearchResults,
         }, dispatch),
     };
 }

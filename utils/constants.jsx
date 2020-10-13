@@ -212,6 +212,7 @@ export const ActionTypes = keyMirror({
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
     SET_SHOW_NEXT_STEPS_VIEW: null,
+    SET_FILES_FILTER_BY_EXT: null,
 });
 
 export const PostRequestTypes = keyMirror({

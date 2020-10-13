@@ -25,6 +25,10 @@ export function getSelectedPostCardId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostCardId;
 }
 
+export function getFilesSearchExtFilter(state: GlobalState): string[] {
+    return state.views.rhs.filesSearchExtFilter;
+}
+
 export function getSelectedPostCard(state: GlobalState) {
     return state.entities.posts.posts[getSelectedPostCardId(state)];
 }

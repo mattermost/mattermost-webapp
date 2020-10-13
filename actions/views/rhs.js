@@ -21,7 +21,7 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -102,6 +102,9 @@ export function performSearch(terms, isMentionSearch) {
         const teamId = getCurrentTeamId(getState());
         const config = getConfig(getState());
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+        const extensionsFilters = getFilesSearchExtFilter(getState());
+
+        const termsWithExtensionsFilteres = terms + extensionsFilters.map((ext) => `ext:${ext}`).join(' ');
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());
@@ -109,8 +112,17 @@ export function performSearch(terms, isMentionSearch) {
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = (userCurrentTimezone.length > 0 ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
         const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}, true));
-        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms, is_or_search: isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}, true));
+        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilteres, is_or_search: isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}, true));
         return Promise.all([filesPromise, messagesPromise]);
+    };
+}
+
+export function filterFilesSearchByExt(extensions) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.SET_FILES_FILTER_BY_EXT,
+            data: extensions,
+        });
     };
 }
 

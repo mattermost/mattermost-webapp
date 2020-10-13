@@ -28,6 +28,7 @@ export type RhsViewState = {
     selectedPostCardId: $ID<Post>;
     selectedChannelId: $ID<Channel>;
     previousRhsState: RhsState;
+    filesSearchExtFilter: string[],
     rhsState: RhsState;
     searchTerms: string;
     pluggableId: string;
