@@ -18,9 +18,10 @@ describe('Integrations', () => {
         let testChannel;
         let team_id;
 
-        //const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
 
-        //cy.requireWebhookServer();
+        const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
+
+        cy.requireWebhookServer();
 
         // # Create test team, channel, and webhook
         cy.apiInitSetup().then(({team, channel}) => {
@@ -35,7 +36,7 @@ describe('Integrations', () => {
             callback_urls: callbackUrl
             }
             
-            //cy.apiCreateWebhook(newOutgoingHook, false);
+            cy.apiCreateWebhook(newOutgoingHook, false);
 
             // # Visit the webhook page
             cy.visit(`/${team.name}/integrations/outgoing_webhooks`, {timeout: TIMEOUTS.ONE_MIN});
