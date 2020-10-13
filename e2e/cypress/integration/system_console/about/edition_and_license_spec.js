@@ -8,6 +8,7 @@
 // ***************************************************************
 
 // Group: @system_console
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {
     promoteToChannelOrTeamAdmin,
