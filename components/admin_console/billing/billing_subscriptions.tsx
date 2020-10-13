@@ -15,12 +15,14 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
-import {Preferences, CloudBanners} from 'utils/constants';
+import {Preferences, CloudBanners, ModalIdentifiers} from 'utils/constants';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
@@ -30,14 +32,7 @@ import PlanDetails from './plan_details';
 
 import './billing_subscriptions.scss';
 
-const onUpgradeMattermostCloud = () => {
-    trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-};
-
 const WARNING_THRESHOLD = 3;
-
-// TODO: temp
-const isFree = false;
 
 type Props = {
 };
@@ -56,6 +51,15 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
+    const onUpgradeMattermostCloud = () => {
+        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
+
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
@@ -68,9 +72,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
         pageVisited('cloud_admin', 'pageview_billing_subscription');
     }, []);
-
-    const [showDanger, setShowDanger] = useState(false);
-    const [showWarning, setShowWarning] = useState(false);
 
     const shouldShowInfoBanner = (): boolean => {
         if (!analytics || !isCloud || !userLimit || !preferences || !subscription || subscription.is_paid_tier === 'true' || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
@@ -166,22 +167,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {showDanger && (
-                        <AlertBanner
-                            mode='danger'
-                            title='Test Danger Title'
-                            message='This is a test danger message'
-                            onDismiss={() => setShowDanger(false)}
-                        />
-                    )}
-                    {showWarning && (
-                        <AlertBanner
-                            mode='warning'
-                            title='Test Warning Title'
-                            message='This is a test warning message'
-                            onDismiss={() => setShowWarning(false)}
-                        />
-                    )}
                     {shouldShowInfoBanner() && (
                         <AlertBanner
                             mode='info'
@@ -202,7 +187,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         style={{marginTop: '20px'}}
                     >
                         <PlanDetails/>
-                        {isFree ? upgradeMattermostCloud() : <BillingSummary/>}
+                        {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
                     {privateCloudCard()}
                 </div>

@@ -34,7 +34,7 @@ const noBillingHistory = (
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
-            onClick={() => trackEvent('cloud_admin', 'click_how_billiing_works', {screen: 'subscriptions'})}
+            onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'subscriptions'})}
         >
             <FormattedMessage
                 id='admin.billing.subscriptions.billing_summary.noBillingHistory.link'
