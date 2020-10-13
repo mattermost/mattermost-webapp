@@ -19,6 +19,7 @@ import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe'
 import SaveButton from 'components/save_button';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 import {GlobalState} from 'types/store';
+import {CloudLinks} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import './payment_info_edit.scss';
@@ -96,10 +97,22 @@ const PaymentInfoEdit: React.FC = () => {
                                 />
                             }
                             message={
-                                <FormattedMarkdownMessage
-                                    id='admin.billing.payment_info_edit.creditCardWarningDescription'
-                                    defaultMessage='Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. [See how billing works](!https://www.google.com)'
-                                />
+                                <>
+                                    <FormattedMarkdownMessage
+                                        id='admin.billing.payment_info_edit.creditCardWarningDescription'
+                                        defaultMessage='Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. '
+                                    />
+                                    <a
+                                        target='_new'
+                                        rel='noopener noreferrer'
+                                        href={CloudLinks.BILLING_DOCS}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.billing.subscription.planDetails.howBillingWorks'
+                                            defaultMessage='See how billing works'
+                                        />
+                                    </a>
+                                </>
                             }
                             onDismiss={() => setShowCreditCardWarning(false)}
                         />
