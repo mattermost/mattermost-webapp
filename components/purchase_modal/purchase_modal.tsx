@@ -120,7 +120,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         onClick={() =>
                             trackEvent(
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_contact _support',
+                                'click_contact_support',
                             )
                         }
                     >
@@ -190,7 +190,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         onClick={() => {
                             trackEvent(
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_contact _sales',
+                                'click_contact_sales',
                             );
                         }}
                     >

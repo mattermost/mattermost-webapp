@@ -32,7 +32,7 @@ export default function UserLimitModal(props: Props) {
     const onSubmit = () => {
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-            'click_modal_user_limit_updrade',
+            'click_modal_user_limit_upgrade',
         );
         props.actions.closeModal();
         props.actions.openModal({
