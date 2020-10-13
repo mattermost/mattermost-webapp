@@ -1,66 +1,76 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {Team} from 'mattermost-redux/types/teams';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
-import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
 import LoadingScreen from 'components/loading_screen';
 
 const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
 const FOOTER = {id: t('update_incoming_webhook.update'), defaultMessage: 'Update'};
 const LOADING = {id: t('update_incoming_webhook.updating'), defaultMessage: 'Updating...'};
 
-export default class EditIncomingWebhook extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+     * The current team
+     */
+    team: Team;
+
+    /**
+     * The incoming webhook to edit
+     */
+    hook?: IncomingWebhook;
+
+    /**
+     * The id of the incoming webhook to edit
+     */
+    hookId: string;
+
+    /**
+     * Whether or not incoming webhooks are enabled.
+     */
+    enableIncomingWebhooks: boolean;
+
+    /**
+     * Whether to allow configuration of the default post username.
+     */
+    enablePostUsernameOverride: boolean;
+
+    /**
+     * Whether to allow configuration of the default post icon.
+     */
+    enablePostIconOverride: boolean;
+
+    actions: {
 
         /**
-        * The current team
-        */
-        team: PropTypes.object.isRequired,
+         * The function to call to update an incoming webhook
+         */
+        updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
 
         /**
-        * The incoming webhook to edit
-        */
-        hook: PropTypes.object,
+         * The function to call to get an incoming webhook
+         */
+        getIncomingHook: (hookId: string) => Promise<ActionResult>;
+    };
+};
 
-        /**
-        * The id of the incoming webhook to edit
-        */
-        hookId: PropTypes.string.isRequired,
+type State = {
+    showConfirmModal: boolean;
+    serverError: string;
+};
 
-        /**
-        * Whether or not incoming webhooks are enabled.
-        */
-        enableIncomingWebhooks: PropTypes.bool.isRequired,
+export default class EditIncomingWebhook extends React.PureComponent<Props, State> {
+    private newHook?: IncomingWebhook;
 
-        /**
-        * Whether to allow configuration of the default post username.
-        */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
-
-        /**
-        * Whether to allow configuration of the default post icon.
-        */
-        enablePostIconOverride: PropTypes.bool.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call to update an incoming webhook
-            */
-            updateIncomingHook: PropTypes.func.isRequired,
-
-            /**
-            * The function to call to get an incoming webhook
-            */
-            getIncomingHook: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -75,34 +85,35 @@ export default class EditIncomingWebhook extends React.PureComponent {
         }
     }
 
-    editIncomingHook = async (hook) => {
+    editIncomingHook = async (hook: IncomingWebhook) => {
         this.newHook = hook;
 
-        if (this.props.hook.id) {
+        if (this.props.hook?.id) {
             hook.id = this.props.hook.id;
         }
 
-        if (this.props.hook.token) {
-            hook.token = this.props.hook.token;
-        }
-
         await this.submitHook();
-    }
+    };
 
     submitHook = async () => {
         this.setState({serverError: ''});
 
-        const {data, error} = await this.props.actions.updateIncomingHook(this.newHook);
+        if (!this.newHook) {
+            return;
+        }
 
-        if (data) {
+        const result = await this.props.actions.updateIncomingHook(this.newHook);
+
+        if ('data' in result) {
             browserHistory.push(`/${this.props.team.name}/integrations/incoming_webhooks`);
             return;
         }
 
-        if (error) {
+        if ('error' in result) {
+            const {error} = result;
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     render() {
         if (!this.props.hook) {
