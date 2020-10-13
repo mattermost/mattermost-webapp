@@ -15,14 +15,13 @@ import blueDotes from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 import {getNextBillingDate} from 'utils/utils';
-import {CloudLinks} from 'utils/constants';
+import {CloudLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import PaymentForm from '../payment_form/payment_form';
 
