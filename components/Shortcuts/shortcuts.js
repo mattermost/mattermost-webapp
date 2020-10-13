@@ -273,11 +273,11 @@ export const allShortcuts = defineMessages({
     },
     teamSidebarTooltip: {
         default: {
-            id: t('shortcuts.browser.font_decrease'),
+            id: t('team.button.tooltip'),
             defaultMessage: 'shortcut:\tCtrl|Alt|{order}',
         },
         mac: {
-            id: t('shortcuts.browser.font_decrease'),
+            id: t('team.button.tooltip.mac'),
             defaultMessage: '⌘ |⌥ |{order}',
         },
     },

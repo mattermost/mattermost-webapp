@@ -1426,10 +1426,9 @@ class CreatePost extends React.PureComponent {
         const tooltip = (
             <Tooltip
                 id='upload-tooltip'
-                className=''
             >
                 <FormattedMessage
-                    id='create_post.fileUpload' 
+                    id='create_post.fileUpload'
                     defaultMessage='Upload a file'
                 />
                 <ShortcutSequence shortcut={shortcuts.filesUpload}/>
