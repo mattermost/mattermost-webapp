@@ -18,6 +18,10 @@ describe('Onboarding', () => {
     const {username, email, password} = generateRandomUser();
 
     before(() => {
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
+
+        // # Disable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
 
         cy.apiInitSetup().then(({team}) => {

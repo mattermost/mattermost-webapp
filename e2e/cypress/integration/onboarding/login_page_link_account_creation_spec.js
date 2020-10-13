@@ -22,6 +22,9 @@ describe('Onboarding', () => {
     const mailUrl = getEmailUrl(baseUrl);
 
     before(() => {
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
+
         // # Disable LDAP, require email invitation, and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}, EmailSettings: {RequireEmailVerification: true}});
         cy.apiEmailTest();

@@ -27,10 +27,8 @@ describe('Onboarding', () => {
     let isLicensed;
 
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
-        });
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
 
         // # Disable LDAP and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});

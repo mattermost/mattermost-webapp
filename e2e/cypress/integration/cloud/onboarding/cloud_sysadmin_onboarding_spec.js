@@ -14,14 +14,14 @@ describe('Cloud Onboarding - Sysadmin', () => {
     let sysadmin;
 
     before(() => {
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelSidebarOrganization: 'default_on',
             },
         });
-
-        // # Check if with license and has matching database
-        cy.apiRequireLicenseForFeature('Cloud');
 
         cy.apiInitSetup().then(({team}) => {
             townSquarePage = `/${team.name}/channels/town-square`;

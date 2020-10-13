@@ -23,9 +23,8 @@ describe('Onboarding', () => {
     let isLicensed;
 
     before(() => {
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
-        });
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
 
         // # Do email test if setup properly
         cy.apiEmailTest();
