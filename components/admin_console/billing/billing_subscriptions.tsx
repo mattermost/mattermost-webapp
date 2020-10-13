@@ -172,6 +172,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </div>
     );
 
+    if (!subscription) {
+        return null;
+    }
+
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
