@@ -1772,7 +1772,7 @@
 }
 
 .post--pinned-or-flagged {
-    background-color: var(--mention-highlight-bg-12);
+    background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
 }
 
 .Badge {
@@ -1986,7 +1986,7 @@
 @keyframes postPinnedOrFlaggedHighlight {
     100% {
       background: initial;
-      background-color: var(--mention-highlight-bg-12);
+      background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
     }
 }
 
