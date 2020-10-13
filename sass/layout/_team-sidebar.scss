@@ -188,6 +188,10 @@
         .team-wrapper {
             .team-container {
             }
+
+            .team-container::before {
+                background: var(--sidebar-text-active-border);
+            }
         }
     }
 }
