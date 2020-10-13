@@ -3,26 +3,23 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {Stripe} from '@stripe/stripe-js';
-
 import {getCloudProducts} from 'mattermost-redux/actions/cloud';
+import {getClientConfig} from 'mattermost-redux/actions/general';
 
-import {
-    getClientConfig,
-} from 'mattermost-redux/actions/general';
-
+import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod} from 'actions/cloud';
-
-import {GlobalState} from 'types/store';
 
 import PurchaseModal from './purchase_modal';
 
@@ -31,6 +28,8 @@ function mapStateToProps(state: GlobalState) {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
         isDevMode: getConfig(state).EnableDeveloper === 'true',
+        contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
+        contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
     };
 }
 type Actions = {
