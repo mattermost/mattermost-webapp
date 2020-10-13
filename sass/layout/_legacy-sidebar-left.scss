@@ -167,6 +167,7 @@
         transform: translateX(-50%);
         opacity: 0;
         visibility: hidden;
+        color: var(--mention-color);
 
         .icon {
             display: inline-flex;
