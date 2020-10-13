@@ -220,7 +220,7 @@
         .dropdown-menu {
             >li {
                 >div {
-                    border-top-color: var(--center-channel-color-08) !important;
+                    border-top-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
 
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
