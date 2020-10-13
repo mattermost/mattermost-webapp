@@ -92,12 +92,15 @@
     }
 
     .shortcut-key {
+        background:rgba(255,255,255,0.08);
+        color:rgba(255,255,255,0.72);
         border-radius: 4px;
         font-size: 12px;
         font-weight: 500;
         margin: 0px 0 0px 2px;
         padding: 2px 8px;
         line-height:16px;
+        font-family: 'Open Sans';
     }
 }
 

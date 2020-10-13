@@ -69,7 +69,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                     id='shortcuts.browser.channel_prev'
                     defaultMessage='Upload a file'
                 />
-                <ShortcutSequence shortcut={shortcuts.browserChannelPrev} />
+                <ShortcutSequence shortcut={shortcuts.browserChannelPrev}/>
             </Tooltip>
         );
 
@@ -81,7 +81,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                     id='shortcuts.browser.channel_next'
                     defaultMessage='Upload a file'
                 />
-                <ShortcutSequence shortcut={shortcuts.browserChannelNext} />
+                <ShortcutSequence shortcut={shortcuts.browserChannelNext}/>
             </Tooltip>
         );
 
