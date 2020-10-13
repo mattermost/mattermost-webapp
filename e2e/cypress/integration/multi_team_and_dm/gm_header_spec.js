@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+
 import {beRead, beUnread} from '../../support/assertions';
 
 describe('Multi-user group header', () => {
