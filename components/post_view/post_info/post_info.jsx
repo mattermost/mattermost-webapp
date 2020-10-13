@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -134,7 +133,7 @@ export default class PostInfo extends React.PureComponent {
         };
 
         this.postHeaderRef = React.createRef();
-        this.dotMenu = React.createRef();
+        this.dotMenuRef = React.createRef();
     }
 
     toggleEmojiPicker = () => {
@@ -169,7 +168,7 @@ export default class PostInfo extends React.PureComponent {
     };
 
     getDotMenu = () => {
-        return this.dotMenu.current;
+        return this.dotMenuRef.current;
     };
 
     buildOptions = (post, isSystemMessage, fromAutoResponder) => {
@@ -241,7 +240,7 @@ export default class PostInfo extends React.PureComponent {
 
         return (
             <div
-                ref='dotMenu'
+                ref={this.dotMenuRef}
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
@@ -385,4 +384,3 @@ export default class PostInfo extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

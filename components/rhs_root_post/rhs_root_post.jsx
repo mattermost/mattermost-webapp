@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -86,7 +85,7 @@ class RhsRootPost extends React.PureComponent {
         };
 
         this.postHeaderRef = React.createRef();
-        this.dotMenu = React.createRef();
+        this.dotMenuRef = React.createRef();
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -222,7 +221,7 @@ class RhsRootPost extends React.PureComponent {
     }
 
     getDotMenuRef = () => {
-        return this.dotMenu.current;
+        return this.dotMenuRef.current;
     };
 
     render() {
@@ -343,7 +342,7 @@ class RhsRootPost extends React.PureComponent {
         if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
-                    ref='dotMenu'
+                    ref={this.dotMenuRef}
                     className='col post-menu'
                 >
                     {dotMenu}
@@ -452,4 +451,3 @@ class RhsRootPost extends React.PureComponent {
 }
 
 export default injectIntl(RhsRootPost);
-/* eslint-enable react/no-string-refs */
