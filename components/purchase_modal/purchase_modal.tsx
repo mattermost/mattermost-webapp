@@ -13,9 +13,11 @@ import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
-
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
+import {trackEvent, pageVisited} from 'actions/telemetry_actions';
+import {TELEMETRY_CATEGORIES, CloudLinks} from 'utils/constants';
 
+import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
@@ -23,12 +25,10 @@ import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
-import './purchase.scss';
-import 'components/payment_form/payment_form.scss';
 import ProcessPaymentSetup from './process_payment_setup';
 
-const STRIPE_CSS_SRC = 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i&display=swap';
-const STRIPE_PUBLIC_KEY = 'pk_test_ttEpW6dCHksKyfAFzh6MvgBj';
+import './purchase.scss';
+import 'components/payment_form/payment_form.scss';
 
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
@@ -36,6 +36,8 @@ type Props = {
     show: boolean;
     isDevMode: boolean;
     products?: Dictionary<Product>;
+    contactSupportLink: string;
+    contactSalesLink: string;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -78,6 +80,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
+        pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         this.props.actions.getCloudProducts();
 
         // this.fetchProductPrice();
@@ -116,7 +119,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </div>
                     <a
                         className='footer-text'
-                        href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                        onClick={() =>
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_contact_support',
+                            )
+                        }
+                        href={this.props.contactSupportLink}
+                        rel='noopener noreferrer'
+                        target='_new'
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Support'}
@@ -169,7 +180,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                             {'\u00A0'}
-                            <a href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'>
+                            <a
+                                href={CloudLinks.BILLING_DOCS}
+                                target='_new'
+                                rel='noopener noreferrer'
+                            >
                                 <FormattedMessage
                                     defaultMessage={'See how billing works.'}
                                     id={'admin.billing.subscription.howItWorks'}
@@ -180,7 +195,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <div className='footer-text'>{'Need other billing options?'}</div>
                     <a
                         className='footer-text'
-                        href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                        onClick={() => {
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_contact_sales',
+                            );
+                        }}
+                        href={this.props.contactSalesLink}
+                        target='_new'
+                        rel='noopener noreferrer'
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Sales'}
@@ -207,7 +230,13 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 <RootPortal>
                     <FullScreenModal
                         show={Boolean(this.props.show)}
-                        onClose={this.props.actions.closeModal}
+                        onClose={() => {
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_close_purchasing_screen',
+                            );
+                            this.props.actions.closeModal();
+                        }}
                         ref={this.modal}
                         ariaLabelledBy='purchase_modal_title'
                     >
