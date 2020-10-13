@@ -8,6 +8,8 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
 
+import {CloudLinks} from 'utils/constants';
+
 import './billing_history.scss';
 
 type Props = {
@@ -27,9 +29,9 @@ const noBillingHistorySection = (
             />
         </div>
         <a
-            target='_blank'
+            target='_new'
             rel='noopener noreferrer'
-            href='http://www.google.com'
+            href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'
         >
             <FormattedMessage

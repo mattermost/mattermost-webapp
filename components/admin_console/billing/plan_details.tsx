@@ -14,6 +14,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 import {getMonthLong} from 'utils/i18n';
+import {CloudLinks} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import './plan_details.scss';
@@ -67,8 +68,18 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
                                     <div className='BillingSubscriptions__tooltipMessage'>
                                         <FormattedMarkdownMessage
                                             id='admin.billing.subscription.planDetails.prolongedOverages'
-                                            defaultMessage='Prolonged overages may result in additional charges. [See how billing works](!https://google.com)'
+                                            defaultMessage='Prolonged overages may result in additional charges.'
                                         />
+                                        <a
+                                            target='_new'
+                                            rel='noopener noreferrer'
+                                            href={CloudLinks.BILLING_DOCS}
+                                        >
+                                            <FormattedMarkdownMessage
+                                                id='admin.billing.subscription.planDetails.howBillingWorks'
+                                                defaultMessage='See how billing works'
+                                            />
+                                        </a>
                                     </div>
                                 </Tooltip>
                             )}
