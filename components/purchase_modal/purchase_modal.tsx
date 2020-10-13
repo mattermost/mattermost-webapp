@@ -13,9 +13,9 @@ import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
-
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 
+import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
@@ -26,9 +26,6 @@ import PaymentForm from '../payment_form/payment_form';
 import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
 import ProcessPaymentSetup from './process_payment_setup';
-
-const STRIPE_CSS_SRC = 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i&display=swap';
-const STRIPE_PUBLIC_KEY = 'pk_test_ttEpW6dCHksKyfAFzh6MvgBj';
 
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
