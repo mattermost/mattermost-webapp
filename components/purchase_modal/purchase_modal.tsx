@@ -14,6 +14,8 @@ import wavesBackground from 'images/cloud/waves.svg';
 import blueDotes from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
+import {trackEvent, pageVisited} from 'actions/telemetry_actions';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
@@ -75,6 +77,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
+        pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         this.props.actions.getCloudProducts();
 
         // this.fetchProductPrice();
@@ -114,6 +117,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <a
                         className='footer-text'
                         href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                        onClick={() =>
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_contact _support',
+                            )
+                        }
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Support'}
@@ -178,6 +187,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <a
                         className='footer-text'
                         href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                        onClick={() => {
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_contact _sales',
+                            );
+                        }}
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Sales'}
@@ -204,7 +219,13 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 <RootPortal>
                     <FullScreenModal
                         show={Boolean(this.props.show)}
-                        onClose={this.props.actions.closeModal}
+                        onClose={() => {
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_close_purchasing_screen',
+                            );
+                            this.props.actions.closeModal();
+                        }}
                         ref={this.modal}
                         ariaLabelledBy='purchase_modal_title'
                     >
