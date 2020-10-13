@@ -89,7 +89,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     <a
                         href={contactSalesLink}
                         rel='noopener noreferrer'
-                        target='_blank'
+                        target='_new'
                     >
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.contactSales'

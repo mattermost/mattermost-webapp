@@ -29,7 +29,7 @@ const noBillingHistorySection = (
             />
         </div>
         <a
-            target='_blank'
+            target='_new'
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'

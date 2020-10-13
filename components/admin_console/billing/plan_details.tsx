@@ -71,7 +71,7 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
                                             defaultMessage='Prolonged overages may result in additional charges.'
                                         />
                                         <a
-                                            target='_blank'
+                                            target='_new'
                                             rel='noopener noreferrer'
                                             href={CloudLinks.BILLING_DOCS}
                                         >

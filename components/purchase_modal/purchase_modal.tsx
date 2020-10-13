@@ -122,7 +122,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         className='footer-text'
                         href={this.props.contactSupportLink}
                         rel='noopener noreferrer'
-                        target='_blank'
+                        target='_new'
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Support'}
@@ -177,7 +177,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {'\u00A0'}
                             <a
                                 href={CloudLinks.BILLING_DOCS}
-                                target='_blank'
+                                target='_new'
                                 rel='noopener noreferrer'
                             >
                                 <FormattedMessage
@@ -191,7 +191,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <a
                         className='footer-text'
                         href={this.props.contactSalesLink}
-                        target='_blank'
+                        target='_new'
                         rel='noopener noreferrer'
                     >
                         <FormattedMessage
