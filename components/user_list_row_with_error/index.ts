@@ -3,11 +3,18 @@
 
 import {connect} from 'react-redux';
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-import UserListRow from './user_list_row_with_error.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state, ownProps) {
-    const user = ownProps.user || {};
+import UserListRow from './user_list_row_with_error';
+
+type OwnProps = {
+    user: UserProfile;
+};
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const user = ownProps.user;
     return {
         status: getStatusForUserId(state, user.id),
     };
