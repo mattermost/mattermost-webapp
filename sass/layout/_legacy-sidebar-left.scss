@@ -181,6 +181,10 @@
             @include transition-delay(0s);
             @include transition-timing-function(ease-in, step-end);
         }
+
+        svg {
+            fill: var(--mention-color);
+        }
     }
 
     .nav-pills__unread-indicator-top {
