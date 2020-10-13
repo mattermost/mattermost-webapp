@@ -228,7 +228,7 @@
   "admin.billing.payment_info_display.noPaymentInfo": "There are currently no credit cards on file.",
   "admin.billing.payment_info_display.savedPaymentDetails": "Your saved payment details",
   "admin.billing.payment_info_edit.cancel": "Cancel",
-  "admin.billing.payment_info_edit.creditCardWarningDescription": "Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. [See how billing works](!https://www.google.com)",
+  "admin.billing.payment_info_edit.creditCardWarningDescription": "Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. ",
   "admin.billing.payment_info_edit.creditCardWarningTitle": "NOTE: Your card will not be charged at this time",
   "admin.billing.payment_info_edit.formError": "There are errors in the form above",
   "admin.billing.payment_info_edit.save": "Save credit card",
