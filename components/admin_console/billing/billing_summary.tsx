@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks} from 'utils/constants';
 
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
@@ -33,6 +34,7 @@ const noBillingHistory = (
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
+            onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'subscriptions'})}
         >
             <FormattedMessage
                 id='admin.billing.subscriptions.billing_summary.noBillingHistory.link'
