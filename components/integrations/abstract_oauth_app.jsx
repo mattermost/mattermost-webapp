@@ -83,7 +83,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
     imageLoaded = () => {
         this.setState({
             has_icon: true,
-            icon_url: this.refs.icon_url.value,
+            icon_url: this.icon_url.current.value,
         });
     }
 
