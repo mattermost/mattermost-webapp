@@ -22,7 +22,7 @@ body {
         scrollbar-face-color: rgba(0, 0, 0, .1);
         scrollbar-highlight-color: #7D7E94;
         scrollbar-shadow-color: #2D2C4D;
-        scrollbar-track-color: rgba(0, 0, 0, .1);
+        scrollbar-track-color: rgba(var(--center-channel-bg-rgb), .1);
     }
 
     .ps {
