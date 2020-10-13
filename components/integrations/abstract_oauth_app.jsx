@@ -63,6 +63,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
 
         this.image = new Image();
         this.image.onload = this.imageLoaded;
+        this.icon_url = React.createRef();
         this.state = this.getStateFromApp(this.props.initialApp || {});
     }
 
