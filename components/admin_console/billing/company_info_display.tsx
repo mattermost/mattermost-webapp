@@ -59,51 +59,52 @@ const noCompanyInfoSection = (
 const CompanyInfoDisplay: React.FC = () => {
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
-    let body = noCompanyInfoSection;
+    if (!companyInfo) {
+        return null;
+    }
 
-    if (companyInfo) {
-        const address = companyInfo.company_address || companyInfo.billing_address;
-        body = (
-            <div className='CompanyInfoDisplay__companyInfo'>
-                <div className='CompanyInfoDisplay__companyInfo-text'>
-                    <div className='CompanyInfoDisplay__companyInfo-name'>
-                        {companyInfo.name}
-                    </div>
-                    {supportAddCompanyInfo &&
-                    <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
-                        <FormattedMarkdownMessage
-                            id='admin.billing.company_info.employees'
-                            defaultMessage='{employees} employees'
-                            values={{employees: companyInfo.num_employees}}
-                        />
-                    </div>
-                    }
-                    <div className='CompanyInfoDisplay__companyInfo-addressTitle'>
-                        <FormattedMessage
-                            id='admin.billing.company_info.companyAddress'
-                            defaultMessage='Company Address'
-                        />
-                    </div>
-                    <div className='CompanyInfoDisplay__companyInfo-address'>
-                        <div>{address.line1}</div>
-                        {address.line2 && <div>{address.line2}</div>}
-                        <div>{`${address.city}, ${address.state}, ${address.postal_code}`}</div>
-                        <div>{address.country}</div>
-                    </div>
+    let body = noCompanyInfoSection;
+    const address = companyInfo.company_address.line1 ? companyInfo.company_address : companyInfo.billing_address;
+    body = (
+        <div className='CompanyInfoDisplay__companyInfo'>
+            <div className='CompanyInfoDisplay__companyInfo-text'>
+                <div className='CompanyInfoDisplay__companyInfo-name'>
+                    {companyInfo.name}
                 </div>
                 {supportAddCompanyInfo &&
-                <div className='CompanyInfoDisplay__companyInfo-edit'>
-                    <BlockableLink
-                        to='/admin_console/billing/company_info_edit'
-                        className='CompanyInfoDisplay__companyInfo-editButton'
-                    >
-                        <i className='icon icon-pencil-outline'/>
-                    </BlockableLink>
+                <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
+                    <FormattedMarkdownMessage
+                        id='admin.billing.company_info.employees'
+                        defaultMessage='{employees} employees'
+                        values={{employees: companyInfo.num_employees}}
+                    />
                 </div>
                 }
+                <div className='CompanyInfoDisplay__companyInfo-addressTitle'>
+                    <FormattedMessage
+                        id='admin.billing.company_info.companyAddress'
+                        defaultMessage='Company Address'
+                    />
+                </div>
+                <div className='CompanyInfoDisplay__companyInfo-address'>
+                    <div>{address.line1}</div>
+                    {address.line2 && <div>{address.line2}</div>}
+                    <div>{`${address.city}, ${address.state}, ${address.postal_code}`}</div>
+                    <div>{address.country}</div>
+                </div>
             </div>
-        );
-    }
+            {supportAddCompanyInfo &&
+            <div className='CompanyInfoDisplay__companyInfo-edit'>
+                <BlockableLink
+                    to='/admin_console/billing/company_info_edit'
+                    className='CompanyInfoDisplay__companyInfo-editButton'
+                >
+                    <i className='icon icon-pencil-outline'/>
+                </BlockableLink>
+            </div>
+            }
+        </div>
+    );
 
     return (
         <div className='CompanyInfoDisplay'>
