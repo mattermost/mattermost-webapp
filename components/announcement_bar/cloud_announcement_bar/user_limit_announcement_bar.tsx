@@ -10,6 +10,8 @@ import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
 import {isEmpty} from 'lodash';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {t} from 'utils/i18n';
 import PurchaseModal from 'components/purchase_modal';
 
@@ -18,6 +20,7 @@ import {
     CloudBanners,
     AnnouncementBarTypes,
     ModalIdentifiers,
+    TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
@@ -54,6 +57,10 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
     }
 
     handleClose = async () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+            'click_close_banner_user_limit_reached',
+        );
         await this.props.actions.savePreferences(this.props.currentUser.id, [{
             category: Preferences.CLOUD_UPGRADE_BANNER,
             user_id: this.props.currentUser.id,
@@ -119,11 +126,23 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
                 type={dismissable ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL_LIGHT}
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
-                showModal={() =>
+                showModal={() => {
+                    if (dismissable) {
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                            'click_upgrade_banner_user_limit_reached',
+                        );
+                    } else {
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                            'click_upgrade_banner_user_limit_exceeded',
+                        );
+                    }
                     this.props.actions.openModal({
                         modalId: ModalIdentifiers.CLOUD_PURCHASE,
                         dialogType: PurchaseModal,
-                    })
+                    });
+                }
                 }
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}
                 modalButtonDefaultText={'Upgrade Mattermost Cloud'}
