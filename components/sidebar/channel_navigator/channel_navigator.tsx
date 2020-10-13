@@ -4,12 +4,17 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {Tooltip} from 'react-bootstrap';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
+
+import OverlayTrigger from 'components/overlay_trigger';
+import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+import ShortcutSequence from 'components/Shortcuts/shortcut_sequence';
 
 type Props = {
     canGoForward: boolean;
@@ -53,26 +58,67 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             channelSwitchTextShortcutDefault = '⌘K';
         }
 
+        const shortcuts = parsedShortcuts(allShortcuts);
         let historyArrows;
+
+        const tooltipLeft = (
+            <Tooltip
+                id='upload-tooltip'
+            >
+                <FormattedMessage
+                    id='shortcuts.browser.channel_prev'
+                    defaultMessage='Upload a file'
+                />
+                <ShortcutSequence shortcut={shortcuts.browserChannelPrev} />
+            </Tooltip>
+        );
+
+        const tooltipRight = (
+            <Tooltip
+                id='upload-tooltip'
+            >
+                <FormattedMessage
+                    id='shortcuts.browser.channel_next'
+                    defaultMessage='Upload a file'
+                />
+                <ShortcutSequence shortcut={shortcuts.browserChannelNext} />
+            </Tooltip>
+        );
+
         if (isDesktopApp()) {
             historyArrows = (
                 <React.Fragment>
-                    <button
-                        className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
-                        disabled={!this.props.canGoBack}
-                        onClick={this.goBack}
-                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
+                    <OverlayTrigger
+                        trigger={['hover']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={tooltipLeft}
                     >
-                        <i className='icon icon-arrow-left'/>
-                    </button>
-                    <button
-                        className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
-                        disabled={!this.props.canGoForward}
-                        onClick={this.goForward}
-                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
+                        <button
+                            className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
+                            disabled={!this.props.canGoBack}
+                            onClick={this.goBack}
+                            aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
+                        >
+                            <i className='icon icon-arrow-left'/>
+                        </button>
+                    </OverlayTrigger>
+
+                    <OverlayTrigger
+                        trigger={['hover']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={tooltipRight}
                     >
-                        <i className='icon icon-arrow-right'/>
-                    </button>
+                        <button
+                            className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
+                            disabled={!this.props.canGoForward}
+                            onClick={this.goForward}
+                            aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
+                        >
+                            <i className='icon icon-arrow-right'/>
+                        </button>
+                    </OverlayTrigger>
                 </React.Fragment>
             );
         }
