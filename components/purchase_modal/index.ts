@@ -8,11 +8,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {Stripe} from '@stripe/stripe-js';
 
-import {getCloudProducts} from 'mattermost-redux/actions/cloud';
-
-import {
-    getClientConfig,
-} from 'mattermost-redux/actions/general';
+import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getClientConfig} from 'mattermost-redux/actions/general';
 
 import {BillingDetails} from 'types/cloud/sku';
 
@@ -38,6 +35,7 @@ type Actions = {
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     getClientConfig: () => void;
+    getCloudSubscription: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -48,6 +46,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
                 getClientConfig,
+                getCloudSubscription,
             },
             dispatch,
         ),
