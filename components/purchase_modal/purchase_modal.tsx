@@ -15,7 +15,7 @@ import blueDotes from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES, CloudLinks} from 'utils/constants';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
@@ -35,6 +35,8 @@ type Props = {
     show: boolean;
     isDevMode: boolean;
     products?: Dictionary<Product>;
+    contactSupportLink: string;
+    contactSalesLink: string;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
