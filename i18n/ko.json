@@ -204,6 +204,7 @@
   "admin.billing.company_info.title": "회사 정보",
   "admin.billing.company_info_edit.cancel": "취소",
   "admin.billing.company_info_edit.save": "정보 저장",
+  "admin.billing.company_info_edit.title": "회사 정보 수정",
   "admin.billing.payment_info_edit.cancel": "취소",
   "admin.billing.payment_info_edit.save": "정보 저장",
   "admin.bleve.bulkIndexingTitle": "벌크 색인:",
