@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {CloudLinks} from 'utils/constants';
+
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
 
 import './billing_summary.scss';
@@ -27,9 +29,9 @@ const noBillingHistory = (
             />
         </div>
         <a
-            target='_blank'
+            target='_new'
             rel='noopener noreferrer'
-            href='http://www.google.com'
+            href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
         >
             <FormattedMessage
