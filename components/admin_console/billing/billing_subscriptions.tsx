@@ -19,11 +19,17 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import {Preferences, CloudBanners} from 'utils/constants';
+import {
+    Preferences,
+    CloudBanners,
+    TELEMETRY_CATEGORIES,
+} from 'utils/constants';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
@@ -69,6 +75,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
                 await dispatch(getStandardAnalytics());
             }());
         }
+
+        if (analytics && shouldShowInfoBanner()) {
+            trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
+        }
     }, []);
 
     const shouldShowInfoBanner = (): boolean => {
@@ -84,6 +94,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
     };
 
     const handleHide = async () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+            'click_close_banner_user_limit_warning',
+        );
         dispatch(savePreferences(currentUser.id, [
             {
                 category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
