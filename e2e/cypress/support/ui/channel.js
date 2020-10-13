@@ -3,7 +3,13 @@
 
 import {getRandomId} from '../../utils';
 
-Cypress.Commands.add('uiCreateChannel', (name, isPrivate, purpose, header, isNewSidebar) => {
+Cypress.Commands.add('uiCreateChannel', ({
+    prefix = 'channel-',
+    isPrivate = false,
+    purpose = '',
+    header = '',
+    isNewSidebar = false,
+}) => {
     if (isNewSidebar) {
         cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
         cy.get('#showNewChannel button').click();
@@ -17,7 +23,7 @@ Cypress.Commands.add('uiCreateChannel', (name, isPrivate, purpose, header, isNew
     } else {
         cy.get('#public').click();
     }
-    const channelName = `${(name || 'channel-')}${getRandomId()}`;
+    const channelName = `${prefix}${getRandomId()}`;
     cy.get('#newChannelName').clear().type(channelName);
     if (purpose) {
         cy.get('#newChannelPurpose').clear().type(purpose);
