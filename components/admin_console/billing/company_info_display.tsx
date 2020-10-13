@@ -59,10 +59,13 @@ const noCompanyInfoSection = (
 const CompanyInfoDisplay: React.FC = () => {
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
-    let body = noCompanyInfoSection;
+    if (!companyInfo) {
+        return null;
+    }
 
-    if (companyInfo) {
-        const address = companyInfo.company_address || companyInfo.billing_address;
+    let body = noCompanyInfoSection;
+    const address = companyInfo.company_address.line1 ? companyInfo.company_address : companyInfo.billing_address;
+    if (address.line1) {
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
