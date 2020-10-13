@@ -28,7 +28,7 @@
     .modal {
         .modal-content {
             background: v(center-channel-bg);
-            border-color: v(center-channel-color-16);
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
     }
@@ -813,7 +813,7 @@
         }
 
         &.more-modal__row--selected {
-            background: v(center-channel-color-08);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
 
             .more-modal__actions--round {
                 opacity: .5;
