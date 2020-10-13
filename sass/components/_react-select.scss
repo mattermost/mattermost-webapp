@@ -99,7 +99,7 @@
     }
 
     .react-select__option--is-focused {
-        background: v(button-bg-24);
+        background: rgba(var(--button-bg-rgb), 0.24);
     }
 
     .react-select__option--is-selected {
