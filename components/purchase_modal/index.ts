@@ -7,7 +7,7 @@ import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {getCloudProducts} from 'mattermost-redux/actions/cloud';
+import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig} from 'mattermost-redux/actions/general';
 
 import {GlobalState} from 'types/store';
@@ -47,6 +47,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
                 getClientConfig,
+                getCloudSubscription,
             },
             dispatch,
         ),

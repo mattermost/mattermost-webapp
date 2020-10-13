@@ -43,6 +43,7 @@ type Props = {
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
         getClientConfig: () => void;
+        getCloudSubscription: () => void;
     };
 }
 
@@ -250,7 +251,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
                                         isDevMode={this.props.isDevMode}
-                                        onClose={this.props.actions.closeModal}
+                                        onClose={() => {
+                                            this.props.actions.getCloudSubscription();
+                                            this.props.actions.closeModal();
+                                        }}
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
