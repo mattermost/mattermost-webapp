@@ -1,0 +1,153 @@
+.PurchaseModal {
+    height: 100%;
+    overflow: hidden;
+
+    >div {
+        &.processing {
+            display: none;
+        }
+        overflow: hidden;
+        color: var(--center-channel-color);
+        font-size: 16px;
+        font-family: 'Open Sans';
+        padding: 77px 107px;
+        font-weight: 600;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+
+        .footer-text {
+            font-size: 14px;
+        }
+
+        .fineprint-text {
+            margin-top: 24px;
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        .bold-text {
+            font-weight: 600;
+        }
+
+        .normal-text {
+            font-weight: normal;
+        }
+
+        .LHS {
+            width: 25%;
+
+            .title {
+                font-size: 24px;
+            }
+
+            .image {
+                padding: 32px 0px;
+            }
+        }
+
+        .central-panel {
+            width: 50%;
+        }
+
+        .full-width {
+            border-color: rgba(var(--center-channel-color-rgb), 0.16)
+        }
+
+        .RHS {
+            width: 25%;
+            position: sticky;
+
+            .price-container {
+                font-weight: normal;
+                padding: 24px;
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                box-sizing: border-box;
+                box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+                border-radius: 4px;
+                background-color: var(--center-channel-bg);
+                margin-bottom: 24px;
+                min-width: 270px;
+
+                .footer-text {
+                    font-size: 14px;
+                    margin-bottom: 24px;
+                }
+            }
+
+            .price-text {
+                font-size: 32px;
+                font-weight: 600;
+                padding: 16px 0px;
+                line-height: 1;
+            }
+
+            .monthly-text {
+                font-size: 14px;
+                font-weight: normal;
+            }
+        }
+
+        .waves {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: -1;
+            width: 100%;
+            stop {
+                stop-color: var(--button-bg);
+            }
+        }
+
+        .blue-dots {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: -1;
+        }
+
+        .lower-blue-dots {
+            position: absolute;
+            right: 0;
+            bottom: 100px;
+            z-index: -1;
+        }
+
+        .logo {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+        }
+
+        button {
+            background: #0058CC;
+            width: 100%;
+            height: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 4px;
+            background: var(--button-bg);
+            color: var(--button-color);
+            border: 0;
+
+            &:disabled {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
+            }
+        }
+    }
+}
+
+.FullScreenModal {
+    .close-x {
+        top: 12px;
+        right: 12px;
+    }
+}
