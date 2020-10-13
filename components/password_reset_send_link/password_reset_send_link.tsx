@@ -14,7 +14,7 @@ import {t} from 'utils/i18n.jsx';
 
 interface Props {
     actions: {
-        sendPasswordResetEmail: (emal: string) => Promise<{data: any; error: ServerError}>;
+        sendPasswordResetEmail: (email: string) => Promise<{data: any; error: ServerError}>;
     };
 }
 
