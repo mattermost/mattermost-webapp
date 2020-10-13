@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
@@ -33,6 +34,7 @@ const noBillingHistorySection = (
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'
+            onClick={() => trackEvent('cloud_admin', 'click_billing_history', {screen: 'billing'})}
         >
             <FormattedMessage
                 id='admin.billing.history.seeHowBillingWorks'
@@ -123,6 +125,10 @@ const BillingHistory: React.FC<Props> = () => {
     let billingHistory: undefined | Array<any>;
     const previousPage = () => {};
     const nextPage = () => {};
+
+    useEffect(() => {
+        pageVisited('cloud_admin', 'pageview_billing_history');
+    }, []);
 
     const paging = (
         <div className='BillingHistory__paging'>
