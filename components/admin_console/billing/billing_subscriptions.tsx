@@ -5,31 +5,33 @@ import React, {useState, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 
-import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {GlobalState} from 'types/store';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-
+import {GlobalState} from 'types/store';
 import {Preferences, CloudBanners} from 'utils/constants';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
+import BillingSummary from './billing_summary';
 import PlanDetails from './plan_details';
 
 import './billing_subscriptions.scss';
-import BillingSummary from './billing_summary';
+
+const onUpgradeMattermostCloud = () => {
+    trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+};
 
 const upgradeMattermostCloud = () => (
     <div className='UpgradeMattermostCloud'>
@@ -48,7 +50,10 @@ const upgradeMattermostCloud = () => (
                 defaultMessage='The free tier is **limited to 10 users.** Get access to more users, teams and other great features'
             />
         </div>
-        <button className='UpgradeMattermostCloud__upgradeButton'>
+        <button
+            onClick={onUpgradeMattermostCloud}
+            className='UpgradeMattermostCloud__upgradeButton'
+        >
             <FormattedMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
                 defaultMessage='Upgrade Mattermost Cloud'
@@ -56,6 +61,10 @@ const upgradeMattermostCloud = () => (
         </button>
     </div>
 );
+
+const onContactSales = () => {
+    trackEvent('cloud_admin', 'click_contact_sales');
+};
 
 const privateCloudCard = () => (
     <div className='PrivateCloudCard'>
@@ -72,7 +81,10 @@ const privateCloudCard = () => (
                     defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
                 />
             </div>
-            <button className='PrivateCloudCard__contactSales'>
+            <button
+                onClick={onContactSales}
+                className='PrivateCloudCard__contactSales'
+            >
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.contactSales'
                     defaultMessage='Contact Sales'
@@ -108,18 +120,18 @@ const BillingSubscriptions: React.FC<Props> = () => {
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
-    }, []);
 
-    const [showDanger, setShowDanger] = useState(false);
-    const [showWarning, setShowWarning] = useState(false);
-
-    useEffect(() => {
         if (!analytics) {
             (async function getAllAnalytics() {
                 await dispatch(getStandardAnalytics());
             }());
         }
+
+        pageVisited('cloud_admin', 'pageview_billing_subscription');
     }, []);
+
+    const [showDanger, setShowDanger] = useState(false);
+    const [showWarning, setShowWarning] = useState(false);
 
     const shouldShowInfoBanner = (): boolean => {
         if (!analytics || !isCloud || !userLimit || !preferences || !subscription || subscription.is_paid_tier === 'true' || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {

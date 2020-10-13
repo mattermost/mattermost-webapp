@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
 
 import './billing_summary.scss';
@@ -31,6 +32,7 @@ const noBillingHistory = (
             rel='noopener noreferrer'
             href='http://www.google.com'
             className='BillingSummary__noBillingHistory-link'
+            onClick={() => trackEvent('cloud_admin', 'click_how_billiing_works', {screen: 'subscriptions'})}
         >
             <FormattedMessage
                 id='admin.billing.subscriptions.billing_summary.noBillingHistory.link'
