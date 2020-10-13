@@ -30,6 +30,11 @@ export default class PostInfo extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
+        * The number of emoji reactions this post has received
+        */
+        emojiReactionCount: PropTypes.number,
+
+        /*
          * The id of the team which belongs the post
          */
         teamId: PropTypes.string,
@@ -176,7 +181,7 @@ export default class PostInfo extends React.PureComponent {
             return null;
         }
 
-        const {isMobile, isReadOnly} = this.props;
+        const {isMobile, isReadOnly, emojiReactionCount} = this.props;
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
@@ -194,7 +199,7 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
+        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker && emojiReactionCount < Constants.EMOJI_REACTIONS_LIMIT;
         let postReaction;
         if (showReactionIcon) {
             postReaction = (

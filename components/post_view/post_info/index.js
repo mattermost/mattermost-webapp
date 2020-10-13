@@ -8,10 +8,13 @@ import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/chan
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {getEmojiReactionsCount} from "utils/emoji_reaction";
+
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 
@@ -25,6 +28,8 @@ function mapStateToProps(state, ownProps) {
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+    const getReactionsForPost = makeGetReactionsForPost();
+    const emojiReactionCount = getEmojiReactionsCount(getReactionsForPost(state, ownProps.post.id));
 
     return {
         teamId,
@@ -35,6 +40,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
         shortcutReactToLastPostEmittedFrom,
+        emojiReactionCount
     };
 }
 

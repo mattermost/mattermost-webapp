@@ -15,6 +15,7 @@ import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {localizeMessage} from 'utils/utils.jsx';
+import {getEmojiReactionsMap} from "utils/emoji_reaction";
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -78,21 +79,7 @@ export default class ReactionList extends React.PureComponent {
     }
 
     render() {
-        const reactionsByName = new Map();
-        const emojiNames = [];
-
-        if (this.props.reactions) {
-            for (const reaction of Object.values(this.props.reactions)) {
-                const emojiName = reaction.emoji_name;
-
-                if (reactionsByName.has(emojiName)) {
-                    reactionsByName.get(emojiName).push(reaction);
-                } else {
-                    emojiNames.push(emojiName);
-                    reactionsByName.set(emojiName, [reaction]);
-                }
-            }
-        }
+        const {reactionsByName, emojiNames} = getEmojiReactionsMap(this.props.reactions);
 
         if (reactionsByName.size === 0) {
             return null;
@@ -120,7 +107,7 @@ export default class ReactionList extends React.PureComponent {
         }
 
         let emojiPicker = null;
-        if (this.props.enableEmojiPicker) {
+        if (this.props.enableEmojiPicker && emojiNames?.length < Constants.EMOJI_REACTIONS_LIMIT) {
             const addReactionTooltip = (
                 <Tooltip id='addReactionTooltip'>
                     <FormattedMessage
