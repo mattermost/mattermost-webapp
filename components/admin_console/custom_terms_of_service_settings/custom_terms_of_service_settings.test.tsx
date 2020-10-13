@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {AdminConfig} from 'mattermost-redux/types/config';
+
 import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings';
 
 describe('components/admin_console/CustomTermsOfServiceSettings', () => {
@@ -17,7 +19,7 @@ describe('components/admin_console/CustomTermsOfServiceSettings', () => {
                 CustomTermsOfServiceEnabled: true,
                 CustomTermsOfServiceReAcceptancePeriod: 365,
             },
-        },
+        } as AdminConfig,
         license: {
             IsLicensed: 'true',
             CustomTermsOfService: 'true',

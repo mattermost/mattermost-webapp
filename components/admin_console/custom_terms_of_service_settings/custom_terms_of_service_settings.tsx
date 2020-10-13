@@ -21,7 +21,7 @@ type Props = BaseProps & {
         getTermsOfService: () => Promise<{data: TermsOfService}>;
         createTermsOfService: (text: string) => Promise<{data: TermsOfService, error?: Error}>;
     };
-    config: DeepPartial<AdminConfig>;
+    config: AdminConfig;
     license: ClientLicense,
     setNavigationBlocked: () => void,
 
@@ -121,7 +121,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
         }
     };
 
-    handleAPIError = (err: any, callback: (() => void) | undefined, config?: Props['config']) => {
+    handleAPIError = (err: any, callback?: (() => void), config?: Props['config']) => {
         this.setState({
             saving: false,
             serverError: err.message,
