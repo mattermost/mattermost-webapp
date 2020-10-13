@@ -90,6 +90,7 @@
             &.navbar-right__icon {
                 @include border-radius(50px);
                 display: flex;
+                background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
                 align-items: center;
                 justify-content: center;
                 height: 32px;
