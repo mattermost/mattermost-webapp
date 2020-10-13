@@ -50,6 +50,20 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         if (isEmpty(this.props.subscription)) {
             await this.props.actions.getCloudSubscription();
         }
+
+        if (!isEmpty(this.props.subscription) && !isEmpty(this.props.analytics) && this.shouldShowBanner()) {
+            if (this.isDismissable()) {
+                trackEvent(
+                    TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                    'bannerview_user_limit_reached',
+                );
+            } else {
+                trackEvent(
+                    TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                    'bannerview_user_limit_exceeded',
+                );
+            }
+        }
     }
 
     handleButtonClick = () => {
@@ -96,6 +110,17 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         return true;
     }
 
+    isDismissable = () => {
+        const {userLimit, analytics} = this.props;
+        let dismissable = true;
+
+        // If the user limit is less than the current number of users, the banner is not dismissable
+        if (userLimit < analytics!.TOTAL_USERS) {
+            dismissable = false;
+        }
+        return dismissable;
+    }
+
     render() {
         const {userLimit, analytics, preferences} = this.props;
 
@@ -114,12 +139,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
             return null;
         }
 
-        let dismissable = true;
-
-        // If the user limit is less than the current number of users, the banner is not dismissable
-        if (userLimit < analytics!.TOTAL_USERS) {
-            dismissable = false;
-        }
+        const dismissable = this.isDismissable();
 
         return (
             <AnnouncementBar
