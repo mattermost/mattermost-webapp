@@ -22,7 +22,12 @@ import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
-import {Preferences, CloudBanners, ModalIdentifiers} from 'utils/constants';
+import {
+    Preferences,
+    CloudBanners,
+    ModalIdentifiers,
+    TELEMETRY_CATEGORIES,
+} from 'utils/constants';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
@@ -71,6 +76,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
         }
 
         pageVisited('cloud_admin', 'pageview_billing_subscription');
+
+        if (analytics && shouldShowInfoBanner()) {
+            trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
+        }
     }, []);
 
     const shouldShowInfoBanner = (): boolean => {
@@ -86,6 +95,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
     };
 
     const handleHide = async () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+            'click_close_banner_user_limit_warning',
+        );
         dispatch(savePreferences(currentUser.id, [
             {
                 category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
@@ -158,6 +171,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
             </div>
         </div>
     );
+
+    if (!subscription) {
+        return null;
+    }
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
