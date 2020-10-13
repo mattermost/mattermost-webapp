@@ -2,15 +2,27 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, useEffect} from 'react';
-import {useDispatch, useStore} from 'react-redux';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
+import {useDispatch, useStore, useSelector} from 'react-redux';
 
 import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+
+import {GlobalState} from 'types/store';
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+
+import {Preferences, CloudBanners} from 'utils/constants';
+
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
@@ -18,10 +30,6 @@ import PlanDetails from './plan_details';
 
 import './billing_subscriptions.scss';
 import BillingSummary from './billing_summary';
-
-type Props = {
-
-};
 
 const upgradeMattermostCloud = () => (
     <div className='UpgradeMattermostCloud'>
@@ -77,21 +85,64 @@ const privateCloudCard = () => (
     </div>
 );
 
+const WARNING_THRESHOLD = 3;
+
 // TODO: temp
 const isFree = false;
 
+type Props = {
+};
+
 const BillingSubscriptions: React.FC<Props> = () => {
+    const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
+    const userLimit = useSelector((state: GlobalState) => parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10));
+    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
+    const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const getCategory = makeGetCategory();
+    const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
     }, []);
 
-    const [showDanger, setShowDanger] = useState(true);
-    const [showWarning, setShowWarning] = useState(true);
-    const [showInfo, setShowInfo] = useState(true);
+    const [showDanger, setShowDanger] = useState(false);
+    const [showWarning, setShowWarning] = useState(false);
+
+    useEffect(() => {
+        if (!analytics) {
+            (async function getAllAnalytics() {
+                await dispatch(getStandardAnalytics());
+            }());
+        }
+    }, []);
+
+    const shouldShowInfoBanner = (): boolean => {
+        if (!analytics || !isCloud || !userLimit || !preferences || !subscription || subscription.is_paid_tier === 'true' || preferences.some((pref: PreferenceType) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+            return false;
+        }
+
+        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD && (userLimit - Number(analytics.TOTAL_USERS) >= 0)) {
+            return true;
+        }
+
+        return false;
+    };
+
+    const handleHide = async () => {
+        dispatch(savePreferences(currentUser.id, [
+            {
+                category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
+                user_id: currentUser.id,
+                name: CloudBanners.HIDE,
+                value: 'true',
+            },
+        ]));
+    };
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -101,30 +152,37 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {showDanger &&
+                    {showDanger && (
                         <AlertBanner
                             mode='danger'
                             title='Test Danger Title'
                             message='This is a test danger message'
                             onDismiss={() => setShowDanger(false)}
                         />
-                    }
-                    {showWarning &&
+                    )}
+                    {showWarning && (
                         <AlertBanner
                             mode='warning'
                             title='Test Warning Title'
                             message='This is a test warning message'
                             onDismiss={() => setShowWarning(false)}
                         />
-                    }
-                    {showInfo &&
+                    )}
+                    {shouldShowInfoBanner() && (
                         <AlertBanner
                             mode='info'
-                            title='Test Info Title'
-                            message='This is a test info message'
-                            onDismiss={() => setShowInfo(false)}
+                            title={formatMessage({
+                                id: 'billing.subscription.info.headsup',
+                                defaultMessage: 'Just a heads up',
+                            })}
+                            message={formatMessage({
+                                id: 'billing.subscription.info.headsup.description',
+                                defaultMessage:
+                    'You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.',
+                            })}
+                            onDismiss={() => handleHide()}
                         />
-                    }
+                    )}
                     <div
                         className='BillingSubscriptions__topWrapper'
                         style={{marginTop: '20px'}}

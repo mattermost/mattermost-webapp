@@ -31,9 +31,11 @@ const CompanyInfo: React.FC<Props> = () => {
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
                     <CompanyInfoDisplay/>
-                    <div style={{border: '1px solid #000', width: '100%', height: '194px', marginTop: '20px'}}>
+                    { /* Billing Admins section
+                        <div style={{border: '1px solid #000', width: '100%', height: '194px', marginTop: '20px'}}>
                         {'Billing Admins Card'}
-                    </div>
+                        </div>
+                    */}
                 </div>
             </div>
         </div>
