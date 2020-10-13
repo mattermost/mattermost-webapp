@@ -2,8 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
+import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
@@ -11,19 +14,15 @@ import {stripMarkdown} from 'utils/markdown';
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
 import UserProfile from '../../user_profile/user_profile';
 
-export default class CommentedOn extends PureComponent {
-    static propTypes = {
-        displayName: PropTypes.string,
-        enablePostUsernameOverride: PropTypes.bool,
-        parentPostUser: PropTypes.object,
-        onCommentClick: PropTypes.func.isRequired,
-        post: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            showSearchResults: PropTypes.func.isRequired,
-            updateSearchTerms: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    displayName?: string;
+    enablePostUsernameOverride?: boolean;
+    parentPostUser?: UserProfileType;
+    onCommentClick?: React.EventHandler<React.MouseEvent>;
+    post: Post;
+}
 
+export default class CommentedOn extends PureComponent<Props> {
     makeUsername = () => {
         const postProps = this.props.post.props;
         let username = this.props.displayName;
@@ -35,7 +34,7 @@ export default class CommentedOn extends PureComponent {
 
     makeCommentedOnMessage = () => {
         const {post} = this.props;
-        let message = '';
+        let message: React.ReactNode = '';
         if (post.message) {
             message = Utils.replaceHtmlEntities(post.message);
         } else if (post.file_ids && post.file_ids.length > 0) {
@@ -84,7 +83,7 @@ export default class CommentedOn extends PureComponent {
                         className='theme'
                         onClick={this.props.onCommentClick}
                     >
-                        {stripMarkdown(message)}
+                        {typeof message === 'string' ? stripMarkdown(message) : message}
                     </a>
                 </span>
             </div>
