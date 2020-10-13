@@ -95,7 +95,7 @@ describe('Header', () => {
         cy.get('#searchBox').should('have.attr', 'value', '').and('be.empty');
     });
 
-    it('MM-T1837 - DM channel with bot displays a normal header', () => {
+    it('MM-T1837_1 - DM channel with bot displays a normal header', () => {
         cy.apiAdminLogin();
 
         // # Enable Bots
@@ -122,7 +122,7 @@ describe('Header', () => {
         cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', description);
     });
 
-    it('MM-T1837 - DM channel with bot from plugin displays a normal header', () => {
+    it('MM-T1837_2 - DM channel with bot from plugin displays a normal header', () => {
         cy.apiAdminLogin();
 
         // # Enable Bots and plugins
