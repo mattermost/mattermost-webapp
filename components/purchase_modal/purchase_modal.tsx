@@ -20,12 +20,14 @@ import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 import {getNextBillingDate} from 'utils/utils';
+import {CloudLinks} from 'utils/constants';
 
 import PaymentForm from '../payment_form/payment_form';
 
+import ProcessPaymentSetup from './process_payment_setup';
+
 import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
-import ProcessPaymentSetup from './process_payment_setup';
 
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
@@ -33,6 +35,8 @@ type Props = {
     show: boolean;
     isDevMode: boolean;
     products?: Dictionary<Product>;
+    contactSupportLink: string;
+    contactSalesLink: string;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -113,7 +117,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </div>
                     <a
                         className='footer-text'
-                        href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                        href={this.props.contactSupportLink}
+                        rel='noopener noreferrer'
+                        target='_new'
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Support'}
@@ -166,7 +172,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                             {'\u00A0'}
-                            <a href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'>
+                            <a
+                                href={CloudLinks.BILLING_DOCS}
+                                target='_new'
+                                rel='noopener noreferrer'
+                            >
                                 <FormattedMessage
                                     defaultMessage={'See how billing works.'}
                                     id={'admin.billing.subscription.howItWorks'}
@@ -177,7 +187,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <div className='footer-text'>{'Need other billing options?'}</div>
                     <a
                         className='footer-text'
-                        href='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                        href={this.props.contactSalesLink}
+                        target='_new'
+                        rel='noopener noreferrer'
                     >
                         <FormattedMessage
                             defaultMessage={'Contact Sales'}

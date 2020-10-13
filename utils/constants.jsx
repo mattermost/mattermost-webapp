@@ -671,6 +671,10 @@ export const AboutLinks = {
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
 };
 
+export const CloudLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
+};
+
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
     [Permissions.INVITE_GUEST]: 'team_scope',
