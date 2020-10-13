@@ -40,3 +40,75 @@
     margin-top: 16px;
     margin-bottom: 24px;
 }
+
+.BillingSummary__lastInvoice {
+    color: var(--sys-center-channel-color);
+
+    hr {
+        margin: 12px 0;
+        border-color: rgba(var(--sys-center-channel-color-rgb), 0.32);
+    }
+}
+
+.BillingSummary__lastInvoice-header {
+    display: flex;
+    align-items: center;
+}
+
+.BillingSummary__lastInvoice-headerTitle {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.BillingSummary__lastInvoice-headerStatus {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color: var(--sys-online-indicator);
+
+    i {
+        margin-left: 4px;
+        font-size: 14.4px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+}
+
+.BillingSummary__lastInvoice-date {
+    margin-top: 8px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+}
+
+.BillingSummary__lastInvoice-productName {
+    margin-top: 32px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.BillingSummary__lastInvoice-charge {
+    display: flex;
+    margin: 12px 0;
+
+    &.total {
+        font-weight: 600;
+    }
+}
+
+.BillingSummary__lastInvoice-chargeAmount {
+    margin-left: auto;
+}
+
+.BillingSummary__lastInvoice-partialCharges {
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+    & + .BillingSummary__lastInvoice-charge {
+        margin-top: 4px;
+    }
+}
