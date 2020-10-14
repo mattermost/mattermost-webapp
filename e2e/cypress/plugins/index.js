@@ -18,6 +18,8 @@ const postIncomingWebhook = require('./post_incoming_webhook');
 const postMessageAs = require('./post_message_as');
 const urlHealthCheck = require('./url_health_check');
 const reactToMessageAs = require('./react_to_message_as');
+const getOutgoingWebhook = require('./get_outgoing_webhook');
+
 
 const log = (message) => {
     console.log(message);
@@ -40,6 +42,7 @@ module.exports = (on, config) => {
         postMessageAs,
         urlHealthCheck,
         reactToMessageAs,
+        getOutgoingWebhook,
     });
 
     on('before:browser:launch', (browser = {}, launchOptions) => {

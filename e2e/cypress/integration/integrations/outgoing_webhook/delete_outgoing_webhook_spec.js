@@ -12,65 +12,64 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Integrations', () => {
+    let testTeam;
+    let testChannel;
+    let testUser
+    let callbackUrl
+
     before(() => {
-
-        let testTeam;
-        let testChannel;
-        let team_id;
-
 
         const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
 
         cy.requireWebhookServer();
 
         // # Create test team, channel, and webhook
-        cy.apiInitSetup().then(({team, channel}) => {
-            testTeam = team;
-            testChannel = channel;
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testTeam = team.name;
+            testChannel = channel.name;
+            testUser = user;
 
             const newOutgoingHook = {
             team_id: team.id,
-            channel_id: channel.id,
             display_name: "New Outgoing Webhook",
-            trigger_words: "testing",
-            callback_urls: callbackUrl
+            trigger_words: ["testing"],
+            callback_urls: [callbackUrl]
             }
             
             cy.apiCreateWebhook(newOutgoingHook, false);
 
-            // # Visit the webhook page
-            cy.visit(`/${team.name}/integrations/outgoing_webhooks`, {timeout: TIMEOUTS.ONE_MIN});
+            cy.apiLogin(user)
         });
     });
 
     it('MM-T617 Delete outgoing webhook', () => {
-        //cy.visit(`/${team.name}/integrations/outgoing_webhooks`, {timeout: TIMEOUTS.ONE_MIN});
-
-        // # Create an outgoing webhook with trigger word "testing"
-        //cy.get('#displayName', {timeout: TIMEOUTS.ONE_MIN}).type('New Outgoing Webhook');
-        //cy.get('#description').type('Description');
-        //cy.get('#channelSelect').select('Town Square');
-        //cy.get('#triggerWords').type('testing');
-        //cy.get('#callbackUrls').type('https://outgoing-webhook-01snptsk6qvz.runkit.sh/');
-        //cy.get('#saveWebhook').click();
-
-        //# Return to app and confirm outgoing webhook is working
-        //cy.visit(`/${testTeam.name}/channels/town-square`);
-        //cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
-        //cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
+        // # Confirm outgoing webhook is working
+        cy.visit(`/${testTeam}/channels/${testChannel}`);
+        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+        cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
 
         // # Delete the webhook
-        //cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks`);
-        //cy.findAllByText('Delete', {timeout: TIMEOUTS.ONE_MIN}).click();
-        //cy.get('#confirmModalButton').click();
+        cy.apiAdminLogin();
+        cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
+        cy.findAllByText('Delete', {timeout: TIMEOUTS.ONE_MIN}).click();
+        cy.get('#confirmModalButton').click();
+        cy.findByText('No outgoing webhooks found').should('exist');
 
-        //# Return to app and confirm trigger word no longer works
-        //cy.visit(`/${testTeam.name}/channels/town-square`);
-        //cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+        // * Return to app and confirm trigger word no longer works
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam}/channels/${testChannel}`);
+        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
 
         // Wait for BOT message
-        //cy.wait(TIMEOUTS.TWO_SEC);
-        //cy.getLastPostId().then((lastPostId) => {
-          //  cy.get(`#${lastPostId}_message`).should('not.contain', 'Outgoing Webhook Payload');
+        cy.wait(TIMEOUTS.TWO_SEC);
+        cy.getLastPostId().then((lastPostId) => {
+        cy.get(`#${lastPostId}_message`).should('not.contain', 'Outgoing Webhook Payload');
+        });
+
+
+        cy.task('getOutgoingWebhook', {url: callbackUrl}).then((res) => {
+            expect(res.status).equal(404);
+            expect(res.data.message).equal(message);
         });
     });
+});
