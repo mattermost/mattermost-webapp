@@ -320,60 +320,54 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return <></>;
     };
 
-    const {
-        channelDisplayName,
-        getFocus,
-        isFocus,
-        isSideBarRight,
-        isSideBarRightOpen,
-        isSearchingTerm,
-        isRhsExpanded,
-        isMentionSearch,
-        isFlaggedPosts,
-        isPinnedPosts,
-    } = props;
+    const renderSearchBar = ():JSX.Element => (
+        <>
+            <div className='sidebar-collapse__container'>
+                <div
+                    id={props.isSideBarRight ? 'sbrSidebarCollapse' : 'sidebarCollapse'}
+                    className='sidebar-collapse'
+                    onClick={handleClose}
+                >
+                    <FormattedMessage
+                        id='generic_icons.back'
+                        defaultMessage='Back Icon'
+                    >
+                        {(title: string) => (
+                            <span
+                                className='fa fa-2x fa-angle-left'
+                                title={title}
+                            />
+                        )}
+                    </FormattedMessage>
+                </div>
+            </div>
+            <SearchBar
+                updateHighlightedSearchHint={updateHighlightedSearchHint}
+                handleEnterKey={handleEnterKey}
+                handleClear={handleClear}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                handleFocus={handleFocus}
+                handleBlur={handleBlur}
+                keepFocussed={keepInputFocussed}
+                isFocussed={focussed}
+                suggestionProviders={suggestionProviders}
+                isSideBarRight={props.isSideBarRight}
+                isSearchingTerm={props.isSearchingTerm}
+                isFocus={props.isFocus}
+                getFocus={props.getFocus}
+                searchTerms={searchTerms}
+            >
+                {!Utils.isMobile() && renderHintPopover()}
+            </SearchBar>
+        </>
+    );
 
-    if (!isSideBarRight) {
+    // when inserted in the `ChannelHeader` component just return the for with `SearchBar`
+    if (!props.isSideBarRight) {
         return (
             <div className='sidebar-right__table'>
-                <div className='sidebar-collapse__container'>
-                    <div
-                        id={isSideBarRight ? 'sbrSidebarCollapse' : 'sidebarCollapse'}
-                        className='sidebar-collapse'
-                        onClick={handleClose}
-                    >
-                        <FormattedMessage
-                            id='generic_icons.back'
-                            defaultMessage='Back Icon'
-                        >
-                            {(title: string) => (
-                                <span
-                                    className='fa fa-2x fa-angle-left'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
-                    </div>
-                </div>
-                <SearchBar
-                    updateHighlightedSearchHint={updateHighlightedSearchHint}
-                    handleEnterKey={handleEnterKey}
-                    handleClear={handleClear}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    handleFocus={handleFocus}
-                    handleBlur={handleBlur}
-                    keepFocussed={keepInputFocussed}
-                    isFocussed={focussed}
-                    suggestionProviders={suggestionProviders}
-                    isSideBarRight={isSideBarRight}
-                    isSearchingTerm={isSearchingTerm}
-                    isFocus={isFocus}
-                    getFocus={getFocus}
-                    searchTerms={searchTerms}
-                >
-                    {!Utils.isMobile() && renderHintPopover()}
-                </SearchBar>
+                {renderSearchBar()}
             </div>
         );
     }
@@ -382,63 +376,22 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         <div className='sidebar--right__content'>
             <div className='search-bar__container channel-header alt'>
                 <div className='sidebar-right__table'>
-                    <div className='sidebar-collapse__container'>
-                        <div
-                            id={isSideBarRight ? 'sbrSidebarCollapse' : 'sidebarCollapse'}
-                            className='sidebar-collapse'
-                            onClick={handleClose}
-                        >
-                            <FormattedMessage
-                                id='generic_icons.back'
-                                defaultMessage='Back Icon'
-                            >
-                                {(title: string) => (
-                                    <span
-                                        className='fa fa-2x fa-angle-left'
-                                        title={title}
-                                    />
-                                )}
-                            </FormattedMessage>
-                        </div>
-                    </div>
-                    <SearchBar
-                        updateHighlightedSearchHint={updateHighlightedSearchHint}
-                        handleEnterKey={handleEnterKey}
-                        handleClear={handleClear}
-                        handleChange={handleChange}
-                        handleSubmit={handleSubmit}
-                        handleFocus={handleFocus}
-                        handleBlur={handleBlur}
-                        keepFocussed={keepInputFocussed}
-                        isFocussed={focussed}
-                        suggestionProviders={suggestionProviders}
-                        isSideBarRight={isSideBarRight}
-                        isSearchingTerm={isSearchingTerm}
-                        isFocus={isFocus}
-                        getFocus={getFocus}
-                        searchTerms={searchTerms}
-                    >
-                        {!Utils.isMobile() && renderHintPopover()}
-                    </SearchBar>
-                    {props.isSideBarRight && (
-                        <>
-                            {renderMentionButton()}
-                            {renderFlagBtn()}
-                            <UserGuideDropdown/>
-                        </>
-                    )}
+                    {renderSearchBar()}
+                    {renderMentionButton()}
+                    {renderFlagBtn()}
+                    <UserGuideDropdown/>
                 </div>
             </div>
             {props.searchVisible ? (
                 <SearchResults
-                    isMentionSearch={isMentionSearch}
-                    isFlaggedPosts={isFlaggedPosts}
-                    isPinnedPosts={isPinnedPosts}
+                    isMentionSearch={props.isMentionSearch}
+                    isFlaggedPosts={props.isFlaggedPosts}
+                    isPinnedPosts={props.isPinnedPosts}
                     shrink={handleShrink}
-                    channelDisplayName={channelDisplayName}
-                    isOpened={isSideBarRightOpen}
+                    channelDisplayName={props.channelDisplayName}
+                    isOpened={props.isSideBarRightOpen}
                     updateSearchTerms={handleUpdateSearchTerms}
-                    isSideBarExpanded={isRhsExpanded}
+                    isSideBarExpanded={props.isRhsExpanded}
                 />
             ) : props.children}
         </div>
