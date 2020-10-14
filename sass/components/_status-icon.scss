@@ -211,7 +211,7 @@
 
 .app__body{
     .status{
-        .status--online{
+        &.status--online{
             color: var(--online-indicator);
         }
         .online--icon{
