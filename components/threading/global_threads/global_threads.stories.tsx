@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {withKnobs, boolean, number, text, date} from '@storybook/addon-knobs';
@@ -12,6 +12,7 @@ import StoryBox from 'storybook/story_box';
 
 import ThreadItem from './thread_item';
 import ThreadList from './thread_list';
+import ThreadHeader from './thread_header';
 
 const users = [
     {
@@ -119,8 +120,6 @@ storiesOf('Features/Threading/Global Threads', module).
             />
         );
 
-        const [is, set] = useState();
-
         return (
             <StoryGrid>
                 <StoryBox containerStyle={{width: 500}}>
@@ -133,6 +132,32 @@ storiesOf('Features/Threading/Global Threads', module).
                         {React.cloneElement(post)}
                         {React.cloneElement(post)}
                     </ThreadList>
+                </StoryBox>
+            </StoryGrid>
+        );
+    }).
+    add('ThreadHeader', () => {
+        return (
+            <StoryGrid>
+                <StoryBox containerStyle={{width: 900}}>
+                    <ThreadHeader
+                        channelName={text('channelName', 'Enterprise Team')}
+
+                        isFollowing={boolean('is following', true)}
+                        isSaved={boolean('is saved', false)}
+                        isSelected={boolean('is selected', false)}
+
+                        actions={{
+                            follow: action('follow'),
+                            unfollow: action('unfollow'),
+                            openInChannel: action('open in channel'),
+                            markRead: action('mark as read'),
+                            markUnread: action('mark as unread'),
+                            save: action('save'),
+                            unsave: action('unsave'),
+                            copyLink: action('copy link'),
+                        }}
+                    />
                 </StoryBox>
             </StoryGrid>
         );

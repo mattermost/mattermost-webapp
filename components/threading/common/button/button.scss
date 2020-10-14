@@ -45,7 +45,7 @@
 
         &.Button___icon {
             width: 32px; height: 32px;
-            padding: 7px;
+            padding: 7px 0;
             font-size: 18px;
             line-height: 18px;
         }
@@ -82,8 +82,9 @@
         position: relative;
         &::before {
             width: 1px;
-            height: 15px;
+            height: var(--button-separator-height, 100%);
             position: absolute;
+            top: 0;
             left: -.5px;
             background: rgba(var(--center-channel-color-rgb), .16);
             content: '';
