@@ -67,8 +67,8 @@ const CompanyInfoDisplay: React.FC = () => {
     }
 
     let body = noCompanyInfoSection;
-    const address = companyInfo.company_address.line1 ? companyInfo.company_address : companyInfo.billing_address;
-    if (address.line1) {
+    const address = companyInfo.company_address?.line1 ? companyInfo.company_address : companyInfo.billing_address;
+    if (address?.line1) {
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
