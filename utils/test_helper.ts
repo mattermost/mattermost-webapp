@@ -6,7 +6,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
-import {Post} from 'mattermost-redux/src/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -187,7 +187,7 @@ export class TestHelper {
         return Object.assign({}, defaultGroup, override);
     }
 
-    public static getPostMock(override: Partial<Post>): Post {
+    public static getPostMock(override: Partial<Post> = {}): Post {
         const defaultPost: Post = {
             edit_at: 0,
             original_id: '',
@@ -201,8 +201,8 @@ export class TestHelper {
                 images: {},
                 reactions: [],
             },
-            channel_id: 'channel_id',
-            create_at: 1502715365009,
+            channel_id: '',
+            create_at: 0,
             delete_at: 0,
             id: 'id',
             is_pinned: false,
@@ -211,7 +211,7 @@ export class TestHelper {
             props: {},
             root_id: '',
             type: 'system_add_remove',
-            update_at: 1502715372443,
+            update_at: 0,
             user_id: 'user_id',
         };
         return Object.assign({}, defaultPost, override);

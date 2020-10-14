@@ -13,30 +13,24 @@ import {TestHelper} from 'utils/test_helper';
 import RhsThread from './rhs_thread';
 
 describe('components/RhsThread', () => {
-    const post: Post = TestHelper.getPostMock({});
+    const post: Post = TestHelper.getPostMock({
+        channel_id: 'channel_id',
+        create_at: 1502715365009,
+        update_at: 1502715372443,
+    });
 
-    const channel: Channel = {
-        id: 'channel_id',
-        create_at: 0,
-        update_at: 0,
-        team_id: 'team_id',
-        delete_at: 0,
-        type: 'O',
+    const channel: Channel = TestHelper.getChannelMock({
         display_name: '',
         name: '',
         header: '',
         purpose: '',
-        last_post_at: 0,
-        total_msg_count: 0,
-        extra_update_at: 0,
         creator_id: '',
         scheme_id: '',
         isCurrent: false,
         teammate_id: '',
         status: '',
         fake: false,
-        group_constrained: false,
-    };
+    });
 
     const actions = {
         removePost: jest.fn(),
