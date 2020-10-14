@@ -38,6 +38,13 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       <UsersEmailsInput
         ariaLabel="Invite People"
         emailInvitationsEnabled={true}
+        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
+        errorMessageValues={
+          Object {
+            "text": "0",
+          }
+        }
         inputValue=""
         loadingMessageDefault="Loading"
         loadingMessageId="widgets.users_emails_input.loading"
@@ -166,15 +173,22 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     >
       <UsersEmailsInput
         ariaLabel="Invite People"
-        emailInvitationsEnabled={false}
+        emailInvitationsEnabled={true}
+        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
+        errorMessageValues={
+          Object {
+            "text": "0",
+          }
+        }
         inputValue=""
         loadingMessageDefault="Loading"
         loadingMessageId="widgets.users_emails_input.loading"
-        noMatchMessageDefault="No one found matching **{text}**"
-        noMatchMessageId="invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled"
+        noMatchMessageDefault="No one found matching **{text}**, type email to invite"
+        noMatchMessageId="invitation_modal.guests.users_emails_input.no_user_found_matching"
         onChange={[Function]}
         onInputChange={[Function]}
-        placeholder="Add guests"
+        placeholder="Add guests or email addresses"
         showError={false}
         usersLoader={[Function]}
         validAddressMessageDefault="Invite **{email}** as a guest"
@@ -186,8 +200,8 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Add existing guests."
-        id="invitation_modal.guests.add_people.description-email-disabled"
+        defaultMessage="Add existing guests or send email invites to new guests."
+        id="invitation_modal.guests.add_people.description"
       />
     </div>
   </div>
