@@ -17,6 +17,8 @@ const goToAdminConsole = () => {
 
 describe('Main menu', () => {
     before(() => {
+        cy.apiRequireLicense();
+
         goToAdminConsole();
 
         // # Open the hamburger menu
@@ -74,6 +76,15 @@ describe('Main menu', () => {
 
         // * Verify licensed to exists in modal
         cy.findByText('Licensed to:').should('be.visible');
+    });
+
+    it('MM-T899 - Edition and License: Verify Privacy Policy link points to correct URL', () => {
+        goToAdminConsole();
+
+        // * Find privacy link and then assert that the href is what we expect it to be
+        cy.findByTestId('privacyPolicyLink').then((el) => {
+            expect(el[0].href).equal('https://about.mattermost.com/default-privacy-policy/');
+        });
     });
 });
 

@@ -14,6 +14,7 @@ type Props = {
     width: number;
     height: number;
     data?: any;
+    id: string;
 }
 
 export default class LineChart extends React.PureComponent<Props> {
@@ -118,6 +119,7 @@ export default class LineChart extends React.PureComponent<Props> {
                     ref={this.canvasRef}
                     width={this.props.width}
                     height={this.props.height}
+                    data-labels={this.props.data.labels}
                 />
             );
         }

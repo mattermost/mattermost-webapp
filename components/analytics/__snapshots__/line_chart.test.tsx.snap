@@ -16,6 +16,14 @@ exports[`components/analytics/line_chart.tsx should match snapshot, loaded with 
       className="content"
     >
       <canvas
+        data-labels={
+          Array [
+            "test1",
+            "test2",
+            "test3",
+          ]
+        }
+        data-testid="test"
         height={400}
         width={600}
       />
