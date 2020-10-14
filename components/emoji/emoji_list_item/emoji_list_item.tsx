@@ -23,6 +23,13 @@ export type Props = {
     }
 }
 export default class EmojiListItem extends React.PureComponent<Props> {
+    static defaultProps = {
+        emoji: {},
+        currentUserId: '',
+        currentTeam: {},
+        creatorDisplayName: '',
+    }
+
     handleDelete = (): void => {
         if (this.props.onDelete) {
             this.props.onDelete(this.props.emoji.id);
@@ -50,7 +57,7 @@ export default class EmojiListItem extends React.PureComponent<Props> {
         } else {
             deleteButton = (
                 <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
-                    <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
+                    <AnyTeamPermissionGate permissions={[Permissions.DELETE_OTHERS_EMOJIS]}>
                         <DeleteEmoji onDelete={this.handleDelete}/>
                     </AnyTeamPermissionGate>
                 </AnyTeamPermissionGate>
