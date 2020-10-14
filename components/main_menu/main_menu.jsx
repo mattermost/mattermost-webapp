@@ -133,9 +133,8 @@ class MainMenu extends React.PureComponent {
         if (this.props.subscription?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
-        return false;
 
-        // return (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+        return (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
     }
 
     render() {
