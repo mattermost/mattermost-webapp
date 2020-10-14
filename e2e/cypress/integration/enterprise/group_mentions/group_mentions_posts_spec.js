@@ -37,9 +37,6 @@ describe('Group Mentions', () => {
             testTeam = team;
         });
 
-        // # Login as admin
-        cy.apiAdminLogin();
-
         // # Test LDAP configuration and server connection
         // # Synchronize user attributes
         cy.apiLDAPTest();
@@ -84,13 +81,7 @@ describe('Group Mentions', () => {
                 });
             });
 
-            const preferences = [{
-                user_id: user.id,
-                category: 'tutorial_step',
-                name: user.id,
-                value: '999',
-            }];
-            cy.apiSaveUserPreference(preferences, user.id);
+            cy.apiSaveTutorialStep(user.id, '999');
         });
     });
 
