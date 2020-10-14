@@ -7,16 +7,17 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Client4} from 'mattermost-redux/client';
 
+import {GlobalState} from 'types/store';
 import {isGuest} from 'utils/utils.jsx';
 
-import PostHeader from './post_header.jsx';
+import PostHeader, {Props} from './post_header';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
 
-    const overrideIconUrl = enablePostIconOverride && ownProps.post && ownProps.post.props && ownProps.post.props.override_icon_url;
+    const overrideIconUrl = enablePostIconOverride && ownProps.post?.props?.override_icon_url;
     let overwriteIcon;
     if (overrideIconUrl) {
         overwriteIcon = Client4.getAbsoluteUrl(overrideIconUrl);

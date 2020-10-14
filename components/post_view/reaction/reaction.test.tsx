@@ -9,11 +9,11 @@ import {getSortedUsers} from 'utils/utils';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/post_view/Reaction', () => {
-    const post = Object.assign(TestHelper.getPostMock({id: 'post_id_1'}));
-    const profiles = [Object.assign(TestHelper.getUserMock({id: 'user_id_2', username: 'username_2'}))];
+    const post = TestHelper.getPostMock({id: 'post_id_1'});
+    const profiles = [TestHelper.getUserMock({id: 'user_id_2', username: 'username_2'})];
     const reactions = [
-        Object.assign(TestHelper.getReactionMock({user_id: 'user_id_2'})),
-        Object.assign(TestHelper.getReactionMock({user_id: 'user_id_3'})),
+        TestHelper.getReactionMock({user_id: 'user_id_2'}),
+        TestHelper.getReactionMock({user_id: 'user_id_3'}),
     ];
     const emojiName = 'smile';
     const actions = {

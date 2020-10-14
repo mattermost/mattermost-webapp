@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ServerError} from 'mattermost-redux/types/errors';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import BackButton from 'components/common/back_button';
@@ -12,30 +12,35 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 
-export default class PasswordResetSendLink extends React.PureComponent {
-    static propTypes = {
-        actions: PropTypes.shape({
-            sendPasswordResetEmail: PropTypes.func.isRequired,
-        }).isRequired,
+interface Props {
+    actions: {
+        sendPasswordResetEmail: (email: string) => Promise<{data: any; error: ServerError}>;
     };
+}
 
+interface State {
+    error: React.ReactNode;
+    updateText: React.ReactNode;
+}
+
+export default class PasswordResetSendLink extends React.PureComponent<Props, State> {
     state = {
         error: null,
         updateText: null,
     };
-    resetForm = React.createRef();
-    emailInput = React.createRef();
+    resetForm = React.createRef<HTMLFormElement>();
+    emailInput = React.createRef<HTMLInputElement>();
 
-    handleSendLink = async (e) => {
+    handleSendLink = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const email = this.emailInput.current.value.trim().toLowerCase();
+        const email = this.emailInput.current!.value.trim().toLowerCase();
         if (!email || !isEmail(email)) {
             this.setState({
                 error: (
                     <FormattedMessage
-                        id={'password_send.error'}
-                        defaultMessage={'Please enter a valid email address.'}
+                        id='password_send.error'
+                        defaultMessage='Please enter a valid email address.'
                     />
                 ),
             });
@@ -75,10 +80,10 @@ export default class PasswordResetSendLink extends React.PureComponent {
         } else if (error) {
             this.setState({
                 error: error.message,
-                update_text: null,
+                updateText: null,
             });
         }
-    }
+    };
 
     render() {
         let error = null;
@@ -123,7 +128,10 @@ export default class PasswordResetSendLink extends React.PureComponent {
                                     type='email'
                                     className='form-control'
                                     name='email'
-                                    placeholder={{id: t('password_send.email'), defaultMessage: 'Email'}}
+                                    placeholder={{
+                                        id: t('password_send.email'),
+                                        defaultMessage: 'Email',
+                                    }}
                                     ref={this.emailInput}
                                     spellCheck='false'
                                     autoFocus={true}
