@@ -268,6 +268,7 @@
   "admin.billing.subscription.planDetails.upToXUsers": "up to {userLimit} users",
   "admin.billing.subscription.planDetails.userCount": "{userCount} users",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} users",
+  "admin.billing.subscription.planDetails.freeForTenUsers": "Always free for up to 10 users",
   "admin.billing.subscription.privateCloudCard.contactSales": "Contact Sales",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Contact Support",
   "admin.billing.subscription.privateCloudCard.description": "If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.",
