@@ -55,5 +55,8 @@
     "test": "start-test start:webhook 3000 test:ci",
     "test:ci": "node run_tests.js",
     "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq"
+  },
+  "dependencies": {
+    "authenticator": "^1.1.5"
   }
 }
