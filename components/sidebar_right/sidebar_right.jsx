@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
-import Search from 'components/search';
+import Search from 'components/search/index.tsx';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
