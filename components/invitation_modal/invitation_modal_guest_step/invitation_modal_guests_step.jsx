@@ -31,6 +31,16 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
+        userLimit: PropTypes.string.isRequired,
+        currentUsers: PropTypes.number.isRequired,
+        userIsAdmin: PropTypes.bool.isRequired,
+        isCloud: PropTypes.bool.isRequired,
+        analytics: PropTypes.object.isRequired,
+        subscription: PropTypes.object.isRequired,
+        actions: PropTypes.shape({
+            getStandardAnalytics: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -135,6 +145,48 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
         this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '', this.state.usersInputValue, this.state.channelsInputValue);
     }
 
+    shouldShowPickerError = () => {
+        const {
+            userLimit,
+            analytics,
+            userIsAdmin,
+            isCloud,
+            subscription,
+        } = this.props;
+
+        if (subscription === null) {
+            return false;
+        }
+
+        if (subscription.is_paid_tier === 'true') {
+            return false;
+        }
+
+        if (userLimit === '0' || !userIsAdmin || !isCloud) {
+            return false;
+        }
+
+        // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
+        const usersRemaining =
+            userLimit -
+            (analytics.TOTAL_USERS + this.state.usersAndEmails.length);
+        if (usersRemaining === 0 && this.state.usersInputValue !== '') {
+            return true;
+        } else if (usersRemaining < 0) {
+            return true;
+        }
+        return false;
+    };
+
+    componentDidMount() {
+        if (!this.props.analytics) {
+            this.props.actions.getStandardAnalytics();
+        }
+        if (!this.props.subscription) {
+            this.props.actions.getCloudSubscription();
+        }
+    }
+
     render() {
         let inputPlaceholder = localizeMessage('invitation_modal.guests.search-and-add.placeholder', 'Add guests or email addresses');
         let noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching');
@@ -145,6 +197,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
             noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled');
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
+        const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
         return (
             <div className='InvitationModalGuestsStep'>
                 <div className='modal-icon'>
@@ -171,32 +224,48 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                         <UsersEmailsInput
                             usersLoader={this.usersLoader}
                             placeholder={inputPlaceholder}
-                            ariaLabel={localizeMessage('invitation_modal.guests.add_people.title', 'Invite People')}
+                            ariaLabel={localizeMessage(
+                                'invitation_modal.guests.add_people.title',
+                                'Invite People',
+                            )}
+                            showError={this.shouldShowPickerError()}
+                            errorMessageId={t(
+                                'invitation_modal.invite_members.hit_cloud_user_limit',
+                            )}
+                            errorMessageDefault={
+                                'You have reached the user limit for your tier'
+                            }
+                            errorMessageValues={{
+                                text: remainingUsers < 0 ? '0' : remainingUsers,
+                            }}
                             onChange={this.onUsersEmailsChange}
                             value={this.state.usersAndEmails}
                             onInputChange={this.onUsersInputChange}
                             inputValue={this.state.usersInputValue}
-                            validAddressMessageId={t('invitation_modal.guests.users_emails_input.valid_email')}
+                            validAddressMessageId={t(
+                                'invitation_modal.guests.users_emails_input.valid_email',
+                            )}
                             validAddressMessageDefault='Invite **{email}** as a guest'
                             noMatchMessageId={noMatchMessageId}
                             noMatchMessageDefault={noMatchMessageDefault}
-                            emailInvitationsEnabled={this.props.emailInvitationsEnabled}
+                            emailInvitationsEnabled={
+                                this.props.emailInvitationsEnabled
+                            }
                         />
                     </div>
                     <div className='help-text'>
-
-                        {this.props.emailInvitationsEnabled &&
-                        <FormattedMessage
-                            id='invitation_modal.guests.add_people.description'
-                            defaultMessage='Add existing guests or send email invites to new guests.'
-                        />
-                        }
-                        {!this.props.emailInvitationsEnabled &&
-                        <FormattedMessage
-                            id='invitation_modal.guests.add_people.description-email-disabled'
-                            defaultMessage='Add existing guests.'
-                        />
-                        }
+                        {this.props.emailInvitationsEnabled && (
+                            <FormattedMessage
+                                id='invitation_modal.guests.add_people.description'
+                                defaultMessage='Add existing guests or send email invites to new guests.'
+                            />
+                        )}
+                        {!this.props.emailInvitationsEnabled && (
+                            <FormattedMessage
+                                id='invitation_modal.guests.add_people.description-email-disabled'
+                                defaultMessage='Add existing guests.'
+                            />
+                        )}
                     </div>
                 </div>
                 <div
@@ -217,7 +286,10 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                             {(placeholder) => (
                                 <ChannelsInput
                                     placeholder={placeholder}
-                                    ariaLabel={localizeMessage('invitation_modal.guests.add_channels.title', 'Search and Add Channels')}
+                                    ariaLabel={localizeMessage(
+                                        'invitation_modal.guests.add_channels.title',
+                                        'Search and Add Channels',
+                                    )}
                                     channelsLoader={this.channelsLoader}
                                     onChange={this.onChannelsChange}
                                     onInputChange={this.onChannelsInputChange}
@@ -238,7 +310,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                     className='custom-message'
                     data-testid='customMessage'
                 >
-                    {!this.state.customMessageOpen &&
+                    {!this.state.customMessageOpen && (
                         <a
                             onClick={this.openCustomMessage}
                             href='#'
@@ -248,15 +320,17 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                                 defaultMessage='Set a custom message'
                             />
                         </a>
-                    }
-                    {this.state.customMessageOpen &&
+                    )}
+                    {this.state.customMessageOpen && (
                         <React.Fragment>
                             <div>
                                 <FormattedMessage
                                     id='invitation_modal.guests.custom-message.title'
                                     defaultMessage='Custom message'
                                 />
-                                <CloseCircleIcon onClick={this.closeCustomMessage}/>
+                                <CloseCircleIcon
+                                    onClick={this.closeCustomMessage}
+                                />
                             </div>
                             <textarea
                                 ref={this.textareaRef}
@@ -264,7 +338,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                                 value={this.state.customMessage}
                             />
                         </React.Fragment>
-                    }
+                    )}
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.guests.custom-message.description'
@@ -274,8 +348,17 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                 </div>
                 <div className='invite-guests'>
                     <button
-                        className={'btn ' + (this.state.channels.length === 0 || this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
-                        disabled={this.state.channels.length === 0 || this.state.usersAndEmails.length === 0}
+                        className={
+                            'btn ' +
+                            (this.state.channels.length === 0 ||
+                            this.state.usersAndEmails.length === 0 ?
+                                'btn-inactive' :
+                                'btn-primary')
+                        }
+                        disabled={
+                            this.state.channels.length === 0 ||
+                            this.state.usersAndEmails.length === 0
+                        }
                         onClick={this.sendInvites}
                         id='inviteGuestButton'
                     >
