@@ -106,10 +106,15 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return newVisibleSearchHintOptions;
     }
 
+    // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
 
+    // focus the search input
     const handleFocus = (): void => setFocussed(true);
 
+    // release focus from the search input or unset `keepInputFocussed` value
+    // `keepInputFocussed` is used to keep the search input focussed when a
+    // user selects a suggestion from `SearchHint` with a click
     const handleBlur = (): void => {
         // add time out so that the pinned and member buttons are clickable
         // when focus is released from the search box.
@@ -158,7 +163,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         case -1:
             // KEY.UP
             // is it at the start of the list (or initial value)?
-            newIndex = newIndex < 0 ? visibleSearchHintOptions.length : newIndex;
+            newIndex = newIndex < 0 ? visibleSearchHintOptions.length - 1 : newIndex;
             break;
         case 0:
         default:
