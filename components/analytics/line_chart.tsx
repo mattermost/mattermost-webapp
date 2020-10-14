@@ -116,6 +116,7 @@ export default class LineChart extends React.PureComponent<Props> {
         } else {
             content = (
                 <canvas
+                    data-testid={this.props.id}
                     ref={this.canvasRef}
                     width={this.props.width}
                     height={this.props.height}
