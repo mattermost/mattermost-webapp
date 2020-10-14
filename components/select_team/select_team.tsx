@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
+
+import {Team} from 'mattermost-redux/types/teams';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -29,35 +30,45 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import InfiniteScroll from '../common/infinite_scroll.jsx';
 
-import SelectTeamItem from './components/select_team_item.jsx';
+import SelectTeamItem from './components/select_team_item';
 
 export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
-export default class SelectTeam extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        currentUserRoles: PropTypes.string,
-        currentUserIsGuest: PropTypes.bool,
-        customDescriptionText: PropTypes.string,
-        isMemberOfTeam: PropTypes.bool.isRequired,
-        listableTeams: PropTypes.array,
-        siteName: PropTypes.string,
-        canCreateTeams: PropTypes.bool.isRequired,
-        canManageSystem: PropTypes.bool.isRequired,
-        canJoinPublicTeams: PropTypes.bool.isRequired,
-        canJoinPrivateTeams: PropTypes.bool.isRequired,
-        history: PropTypes.object,
-        siteURL: PropTypes.string,
-        actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired,
-            loadRolesIfNeeded: PropTypes.func.isRequired,
-            addUserToTeam: PropTypes.func.isRequired,
-        }).isRequired,
-        totalTeamsCount: PropTypes.number.isRequired,
-    };
+type Actions = {
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => any,
+    loadRolesIfNeeded: (roles: Iterable<string>) => any,
+    addUserToTeam: (teamId: string, userId?: string) => any;
+}
 
-    constructor(props) {
+type Props = {
+    currentUserId: string,
+    currentUserRoles: string,
+    currentUserIsGuest?: boolean,
+    customDescriptionText?: string,
+    isMemberOfTeam: boolean,
+    listableTeams: Array<Team>,
+    siteName?: string,
+    canCreateTeams: boolean,
+    canManageSystem: boolean,
+    canJoinPublicTeams: boolean,
+    canJoinPrivateTeams: boolean,
+    history?: any,
+    siteURL?: string,
+    actions: Actions,
+    totalTeamsCount: number,
+};
+
+type State = {
+    loadingTeamId?: string,
+    error: any,
+    endofTeamsData: boolean,
+    currentPage: number,
+    currentListableTeams: Array<Team>,
+}
+
+export default class SelectTeam extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -69,7 +80,7 @@ export default class SelectTeam extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (props.listableTeams.length !== state.currentListableTeams.length) {
             return {
                 currentListableTeams: props.listableTeams.slice(0, TEAMS_PER_PAGE * state.currentPage),
@@ -81,7 +92,9 @@ export default class SelectTeam extends React.PureComponent {
     componentDidMount() {
         trackEvent('signup', 'signup_select_team', {userId: this.props.currentUserId});
         this.fetchMoreTeams();
-        this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
+        if (this.props.currentUserRoles !== undefined) {
+            this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
+        }
     }
 
     fetchMoreTeams = async () => {
@@ -101,18 +114,18 @@ export default class SelectTeam extends React.PureComponent {
         }
     }
 
-    handleTeamClick = async (team) => {
+    handleTeamClick = async (team: Team) => {
         const {siteURL, currentUserRoles} = this.props;
         this.setState({loadingTeamId: team.id});
 
         const {data, error} = await this.props.actions.addUserToTeam(team.id, this.props.currentUserId);
-        if (data) {
+        if (data && this.props.history !== undefined) {
             this.props.history.push(`/${team.name}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else if (error) {
             let errorMsg = error.message;
 
             if (error.server_error_id === TEAM_MEMBERSHIP_DENIAL_ERROR_ID) {
-                if (currentUserRoles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN)) {
+                if (currentUserRoles !== undefined && currentUserRoles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN)) {
                     errorMsg = (
                         <FormattedMarkdownMessage
                             id='join_team_group_constrained_denied_admin'
@@ -137,13 +150,13 @@ export default class SelectTeam extends React.PureComponent {
         }
     };
 
-    handleLogoutClick = (e) => {
+    handleLogoutClick = (e: MouseEvent): void => {
         e.preventDefault();
         trackEvent('select_team', 'click_logout');
         emitUserLoggedOutEvent('/login');
     };
 
-    clearError = (e) => {
+    clearError = (e: MouseEvent): void => {
         e.preventDefault();
 
         this.setState({
@@ -151,7 +164,7 @@ export default class SelectTeam extends React.PureComponent {
         });
     };
 
-    render() {
+    render(): ReactNode {
         const {currentPage, currentListableTeams} = this.state;
         const {
             currentUserIsGuest,
@@ -190,7 +203,7 @@ export default class SelectTeam extends React.PureComponent {
                 </div>
             );
         } else {
-            let joinableTeamContents = [];
+            let joinableTeamContents: any = [];
             currentListableTeams.forEach((listableTeam) => {
                 if ((listableTeam.allow_open_invite && canJoinPublicTeams) || (!listableTeam.allow_open_invite && canJoinPrivateTeams)) {
                     joinableTeamContents.push(

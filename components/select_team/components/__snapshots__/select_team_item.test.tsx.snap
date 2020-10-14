@@ -75,7 +75,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     className="disabled"
     href="#"
     id="team_display_name"
-    onClick={null}
   >
     <span
       className="signup-team-dir__name"
@@ -132,7 +131,6 @@ exports[`components/select_team/components/SelectTeamItem should match snapshot,
     className="disabled"
     href="#"
     id="team_display_name"
-    onClick={null}
   >
     <span
       className="signup-team-dir__name"
