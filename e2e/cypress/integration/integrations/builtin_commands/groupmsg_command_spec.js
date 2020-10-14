@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
 
 import {getRandomId} from '../../../utils';
@@ -89,6 +88,20 @@ describe('Integrations', () => {
             usernames2.forEach((username) => {
                 cy.contains('.channel-header__top', username).should('be.visible');
             });
+        });
+    });
+
+    it('MM-T665 /groupmsg with users only and without message', () => {
+        loginAndVisitChannel(testUser, townSquareUrl);
+
+        // # Use /groupmsg command to open group message - "/groupmsg [usernames]"
+        const usernames = Cypress._.map(userGroup, 'username').slice(0, 3);
+        const message = '/groupmsg @' + usernames.join(', @') + '{enter}';
+        cy.postMessage(message);
+
+        // * Verify that the channel header contains each group member
+        usernames.forEach((username) => {
+            cy.contains('.channel-header__top', username).should('be.visible');
         });
     });
 
