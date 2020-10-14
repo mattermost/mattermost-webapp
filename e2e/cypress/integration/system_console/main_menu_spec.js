@@ -60,9 +60,6 @@ describe('Main menu', () => {
         // # click to open about modal
         cy.findByText('About Mattermost').click();
 
-        // * Verify about.mattermost.com link text has correct link destination and opens in a new tab
-        verifyLink('about.mattermost.com', 'http://about.mattermost.com/');
-
         // * Verify server link text has correct link destination and opens in a new tab
         verifyLink('server', 'https://about.mattermost.com/platform-notice-txt/');
 
@@ -75,11 +72,8 @@ describe('Main menu', () => {
         // * Verify version exists in modal
         cy.findByText('Mattermost Version:').should('be.visible');
 
-        // * Verify build hash exists in modal
-        cy.findByText('Build Hash:').should('be.visible');
-
-        // * Verify build date exists in modal
-        cy.findByText('Build Date:').should('be.visible');
+        // * Verify licensed to exists in modal
+        cy.findByText('Licensed to:').should('be.visible');
     });
 });
 
