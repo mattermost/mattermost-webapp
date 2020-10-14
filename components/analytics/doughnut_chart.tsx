@@ -37,11 +37,9 @@ export default class DoughnutChart extends React.PureComponent<Props> {
     }
 
     public initChart = (update?: boolean): void => {
-        console.log("AAAAA");
         if (!this.canvasRef.current) {
             return;
         }
-        console.log(this.canvasRef.current);
         const ctx = this.canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
         const dataCopy = JSON.parse(JSON.stringify(this.props.data));
         this.chart = new Chart(ctx, {type: 'doughnut', data: dataCopy, options: {}});

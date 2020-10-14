@@ -81,9 +81,6 @@ export default class LineChart extends React.PureComponent<Props> {
     }
 
     public initChart = (update?: boolean): void => {
-        console.log('BBBBBB');
-        console.log(this.canvasRef);
-        console.log(this.canvasRef.current);
         if (!this.canvasRef.current) {
             return;
         }
