@@ -530,7 +530,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .multi-teams .team-sidebar, .app__body #navbar_wrapper .navbar-default', 'background:' + theme.sidebarHeaderBg);
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'background:' + theme.sidebarHeaderBg);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + theme.sidebarHeaderBg);
-        changeCss('.emoji-picker .emoji-picker__header', 'background:' + theme.sidebarHeaderBg);
     }
 
     if (theme.sidebarHeaderTextColor) {
