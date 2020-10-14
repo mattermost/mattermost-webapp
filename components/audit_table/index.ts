@@ -7,6 +7,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannelByName} from 'mattermost-redux/selectors/entities/channels';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 
@@ -23,7 +24,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getMissingProfilesByIds,

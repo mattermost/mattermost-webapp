@@ -17,7 +17,7 @@ describe('components/audit_table/AuditTable', () => {
         showUserId: true,
         showIp: true,
         showSession: true,
-        currentUser: Object.assign(TestHelper.getUserMock({id: 'user-1'})),
+        currentUser: TestHelper.getUserMock({id: 'user-1'}),
         getUser: jest.fn(),
         getByName: jest.fn(),
         actions,
