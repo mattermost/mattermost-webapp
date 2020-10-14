@@ -17,7 +17,7 @@ type Props = {
 }
 
 export default class LineChart extends React.PureComponent<Props> {
-    private canvasRef = React.createRef<HTMLCanvasElement>();
+    private canvasRef = React.createRef<HTMLCanvasElement>()
     public static propTypes = {
 
         /*
