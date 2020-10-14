@@ -127,6 +127,7 @@ class SearchResults extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         };
+        this.scrollbars = React.createRef();
     }
 
     componentDidMount() {
@@ -156,14 +157,14 @@ class SearchResults extends React.Component {
     }
 
     scrollToTop = () => {
-        this.refs.scrollbars.scrollToTop();
+        this.scrollbars.current.scrollToTop();
     }
 
     handleScroll = () => {
         if (!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isSearchingTerm && !this.props.isSearchGettingMore) {
-            const scrollHeight = this.refs.scrollbars.getScrollHeight();
-            const scrollTop = this.refs.scrollbars.getScrollTop();
-            const clientHeight = this.refs.scrollbars.getClientHeight();
+            const scrollHeight = this.scrollbars.current.getScrollHeight();
+            const scrollTop = this.scrollbars.current.getScrollTop();
+            const clientHeight = this.scrollbars.current.getClientHeight();
             if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
                 this.loadMorePosts();
             }
@@ -333,7 +334,7 @@ class SearchResults extends React.Component {
                     {channelName && <div className='sidebar--right__title__channel'>{channelName}</div>}
                 </SearchResultsHeader>
                 <Scrollbars
-                    ref='scrollbars'
+                    ref={this.scrollbars}
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
