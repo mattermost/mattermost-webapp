@@ -11,19 +11,44 @@ type Props = {
     children?: React.ReactNode;
     displayName: string;
     dragHandleProps?: DraggableProvidedDragHandleProps;
-    isCollapsed?: boolean;
-    isCollapsible?: boolean;
     isDragging?: boolean;
     isDraggingOver?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement & HTMLButtonElement>) => {
-    const Element = props.onClick ? 'button' : 'div';
-
+export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
     return (
         <div className='SidebarChannelGroupHeader'>
-            <Element
+            <div
+                ref={ref}
+                className={classNames('SidebarChannelGroupHeader_groupButton', {
+                    dragging: props.isDragging,
+                })}
+                aria-label={props.displayName}
+            >
+                <div {...props.dragHandleProps}>
+                    {wrapEmojis(props.displayName)}
+                </div>
+            </div>
+            {props.children}
+        </div>
+    );
+});
+SidebarCategoryHeader.defaultProps = {
+    isDragging: false,
+    isDraggingOver: false,
+};
+SidebarCategoryHeader.displayName = 'SidebarCategoryHeader';
+
+type PropsCollapsible = Props & {
+    isCollapsed: boolean,
+    isCollapsible: boolean,
+    onClick: (event: React.MouseEvent<HTMLElement>) => void;
+}
+
+export const SidebarCategoryHeaderCollapsible = React.forwardRef((props: PropsCollapsible, ref?: React.Ref<HTMLButtonElement>) => {
+    return (
+        <div className='SidebarChannelGroupHeader'>
+            <button
                 ref={ref}
                 className={classNames('SidebarChannelGroupHeader_groupButton', {
                     dragging: props.isDragging,
@@ -40,16 +65,14 @@ const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HT
                 <div {...props.dragHandleProps}>
                     {wrapEmojis(props.displayName)}
                 </div>
-            </Element>
+            </button>
             {props.children}
         </div>
     );
 });
-SidebarCategoryHeader.defaultProps = {
+SidebarCategoryHeaderCollapsible.defaultProps = {
     isCollapsible: true,
     isDragging: false,
     isDraggingOver: false,
 };
-SidebarCategoryHeader.displayName = 'SidebarCategoryHeader';
-
-export default SidebarCategoryHeader;
+SidebarCategoryHeaderCollapsible.displayName = 'SidebarCategoryHeaderCollapsible';

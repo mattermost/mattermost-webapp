@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import SidebarCategoryHeader from '../sidebar_category_header';
+import {SidebarCategoryHeader} from '../sidebar_category_header';
 import SidebarChannel from '../sidebar_channel';
 
 type Props = {
@@ -20,10 +20,7 @@ export default function UnreadChannels(props: Props) {
 
     return (
         <div className='SidebarChannelGroup a11y__section'>
-            <SidebarCategoryHeader
-                displayName={intl.formatMessage({id: 'sidebar.types.all_unreads', defaultMessage: 'ALL UNREADS'})}
-                isCollapsible={false}
-            />
+            <SidebarCategoryHeader displayName={intl.formatMessage({id: 'sidebar.types.all_unreads', defaultMessage: 'ALL UNREADS'})}/>
             {props.unreadChannels.map((channel, index) => {
                 return (
                     <SidebarChannel

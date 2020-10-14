@@ -23,7 +23,7 @@ import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
-import SidebarCategoryHeader from '../sidebar_category_header';
+import {SidebarCategoryHeaderCollapsible} from '../sidebar_category_header';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
@@ -48,7 +48,7 @@ type State = {
 }
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
-    categoryTitleRef: React.RefObject<HTMLElement>;
+    categoryTitleRef: React.RefObject<HTMLButtonElement>;
     newDropBoxRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
@@ -368,7 +368,8 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 draggingOver: droppableSnapshot.isDraggingOver,
                                             })}
                                         >
-                                            <SidebarCategoryHeader
+                                            <SidebarCategoryHeaderCollapsible
+                                                ref={this.categoryTitleRef}
                                                 displayName={displayName}
                                                 dragHandleProps={provided.dragHandleProps}
                                                 isCollapsed={isCollapsed}
@@ -380,7 +381,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 {newLabel}
                                                 {directMessagesModalButton}
                                                 {categoryMenu}
-                                            </SidebarCategoryHeader>
+                                            </SidebarCategoryHeaderCollapsible>
                                             <div className='SidebarChannelGroup_content'>
                                                 <ul
                                                     role='list'
