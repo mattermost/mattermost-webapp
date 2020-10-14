@@ -138,19 +138,19 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     createActionButton = (plugAction) => {
         return (
             <HeaderIconWrapper
-                key={'channelHeaderButton' + plugAction.id}
+                key={'channelHeaderButton' + plugAction.location_id}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={(
                     <img
-                        src={plugAction.extra.icon}
+                        src={plugAction.icon}
                         width='24'
                         height='24'
                     />
                 )}
-                onClick={() => doPluginAction(plugAction.id, plugAction.request_url, {channel_id: this.props.channel.id})}
-                buttonId={plugAction.id}
+                onClick={() => doPluginAction(plugAction.wish.app_id, plugAction.wish.url, {channel_id: this.props.channel.id})}
+                buttonId={plugAction.location_id}
                 tooltipKey={'plugin'}
-                tooltipText={plugAction.text}
+                tooltipText={plugAction.aria_text}
             />
         );
     }
@@ -176,14 +176,14 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         const items = componentItems.concat(integrations.map((plug) => {
             return (
                 <li
-                    key={'channelHeaderPlug' + plug.id}
+                    key={'channelHeaderPlug' + plug.location_id}
                 >
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => doPluginAction(plug.id, plug.request_url, {channel_id: this.props.channel.id}))}
+                        onClick={() => this.fireActionAndClose(() => doPluginAction(plug.wish.app_id, plug.wish.url, {channel_id: this.props.channel.id}))}
                     >
-                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.extra.icon}/>)}</span>
+                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.icon}/>)}</span>
                         <span>{plug.text}</span>
                     </a>
                 </li>

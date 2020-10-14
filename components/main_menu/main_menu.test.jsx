@@ -33,7 +33,6 @@ describe('components/Menu', () => {
         reportAProblemLink: null,
         moreTeamsToJoin: false,
         pluginMenuItems: [],
-        integrationMenuItems: [],
         isMentionSearch: false,
         showGettingStarted: false,
         actions: {

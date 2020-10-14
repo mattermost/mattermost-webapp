@@ -14,8 +14,6 @@ import {
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
-import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
-import PluginLocation from 'mattermost-redux/constants/plugins';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {isAdmin} from 'utils/utils.jsx';
@@ -89,7 +87,6 @@ function mapStateToProps(state) {
         helpLink,
         reportAProblemLink,
         pluginMenuItems: state.plugins.components.MainMenu,
-        integrationMenuItems: getPluginIntegrations(state, PluginLocation.PLUGIN_LOCATION_SETTINGS),
         canCreateOrDeleteCustomEmoji,
         moreTeamsToJoin,
         siteName,

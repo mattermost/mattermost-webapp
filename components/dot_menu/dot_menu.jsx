@@ -292,16 +292,16 @@ export default class DotMenu extends React.PureComponent {
             });
 
         const pluginIntegrationsItems = this.props.pluginIntegrations.filter((item) => {
-            return item.location === PluginLocation.PLUGIN_LOCATION_POST_ACTION;
+            return item.location_type === PluginLocation.PLUGIN_LOCATION_POST_ACTION;
         }).map((item) => {
             return (
                 <Menu.ItemAction
-                    text={item.extra.text}
-                    key={item.id + '_' + item.extra.text}
+                    text={item.text}
+                    key={item.location_id + '_' + item.text}
                     onClick={() => {
-                        doPluginAction(item.id, item.request_url, {post_id: this.props.post.id});
+                        doPluginAction(item.wish.app_id, item.wish.url, {post_id: this.props.post.id});
                     }}
-                    icon={(<img src={item.extra.icon}/>)}
+                    icon={(<img src={item.icon}/>)}
                 />
             );
         });

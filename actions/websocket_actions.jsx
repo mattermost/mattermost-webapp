@@ -55,7 +55,6 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -244,7 +243,6 @@ function handleFirstConnect() {
         },
         clearErrors(),
     ]));
-    store.dispatch(fetchMobilePluginIntegrations());
 }
 
 function handleClose(failCount) {
@@ -405,12 +403,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_ENABLED:
         handlePluginEnabled(msg);
-        store.dispatch(fetchMobilePluginIntegrations());
         break;
 
     case SocketEvents.PLUGIN_DISABLED:
         handlePluginDisabled(msg);
-        store.dispatch(fetchMobilePluginIntegrations());
         break;
 
     case SocketEvents.USER_ROLE_UPDATED:
@@ -427,7 +423,6 @@ export function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_STATUSES_CHANGED:
         handlePluginStatusesChangedEvent(msg);
-        store.dispatch(fetchMobilePluginIntegrations());
         break;
 
     case SocketEvents.OPEN_DIALOG:

@@ -4,7 +4,6 @@
 import regeneratorRuntime from 'regenerator-runtime';
 
 import {Client4} from 'mattermost-redux/client';
-import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
@@ -204,6 +203,4 @@ export async function loadPluginsIfNecessary() {
             removePlugin(oldManifest);
         }
     });
-
-    store.dispatch(fetchMobilePluginIntegrations());
 }

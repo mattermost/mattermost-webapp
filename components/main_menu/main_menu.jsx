@@ -9,7 +9,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {isEmpty} from 'lodash';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {doPluginAction} from 'actions/plugins';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
@@ -60,7 +59,6 @@ class MainMenu extends React.PureComponent {
         reportAProblemLink: PropTypes.string,
         moreTeamsToJoin: PropTypes.bool.isRequired,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        integrationMenuItems: PropTypes.arrayOf(PropTypes.object),
         isMentionSearch: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool.isRequired,
         isLicensedForLDAPGroups: PropTypes.bool,
@@ -158,18 +156,6 @@ class MainMenu extends React.PureComponent {
                     }}
                     text={item.text}
                     icon={this.props.mobile && item.mobileIcon}
-                />
-            );
-        });
-
-        const integrationItems = this.props.integrationMenuItems.map((item) => {
-            return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={() => doPluginAction(item.id, item.request_url, {team_id: this.props.teamId})}
-                    text={item.extra.text}
-                    icon={this.props.mobile && (<img src={item.extra.icon}/>)}
                 />
             );
         });
@@ -347,7 +333,6 @@ class MainMenu extends React.PureComponent {
                 </Menu.Group>
                 <Menu.Group>
                     {pluginItems}
-                    {integrationItems}
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemLink
