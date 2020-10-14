@@ -8,6 +8,8 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {Post, PostType} from 'mattermost-redux/src/types/posts';
 
+import {Theme} from 'mattermost-redux/types/preferences';
+
 import PostMessageView from 'components/post_view/post_message_view/post_message_view';
 
 describe('components/post_view/PostAttachment', () => {
@@ -24,7 +26,7 @@ describe('components/post_view/PostAttachment', () => {
         isRHS: false,
         isRHSOpen: false,
         isRHSExpanded: false,
-        theme: {},
+        theme: {} as Theme,
         pluginPostTypes: {},
         currentRelativeTeamUrl: 'dummy_team_url',
     };
@@ -76,8 +78,6 @@ describe('components/post_view/PostAttachment', () => {
     test('should match checkOverflow state on handleHeightReceived change', () => {
         const wrapper = shallow(<PostMessageView {...baseProps}/>);
         const instance = wrapper.instance() as PostMessageView;
-
-        //instance.checkOverflow = jest.fn();
 
         wrapper.setState({checkOverflow: 0});
         instance.handleHeightReceived(1);

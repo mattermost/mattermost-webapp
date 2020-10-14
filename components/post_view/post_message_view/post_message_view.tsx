@@ -6,22 +6,25 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {Post} from 'mattermost-redux/types/posts';
 
+import {Theme} from 'mattermost-redux/types/preferences';
+
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
 import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
+import {TextFormattingOptions} from 'utils/text_formatting';
 
 type Props = {
     post: Post; /* The post to render the message for */
     enableFormatting?: boolean; /* Set to enable Markdown formatting */
-    options?: any; /* Options specific to text formatting */
+    options?: TextFormattingOptions; /* Options specific to text formatting */
     compactDisplay?: boolean; /* Set to render post body compactly */
     isRHS?: boolean; /* Flags if the post_message_view is for the RHS (Reply). */
     isRHSOpen?: boolean; /* Whether or not the RHS is visible */
     isRHSExpanded?: boolean; /* Whether or not the RHS is expanded */
-    theme: any; /* Logged in user's theme */
+    theme: Theme; /* Logged in user's theme */
     pluginPostTypes?: any; /* Post type components from plugins */
     currentRelativeTeamUrl: string;
 }
@@ -119,7 +122,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
 
         const postType = post.props && post.props.type ? post.props.type : post.type;
 
-        if (pluginPostTypes.hasOwnProperty(postType)) {
+        if (pluginPostTypes && pluginPostTypes.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostTypes[postType].component;
             return (
                 <PluginComponent
