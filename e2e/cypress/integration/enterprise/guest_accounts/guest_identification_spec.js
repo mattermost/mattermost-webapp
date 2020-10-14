@@ -136,18 +136,18 @@ describe('Guest Accounts', () => {
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
 
-        // * Verify no email notification received for the mention.
+        // Get invitation link.
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
             const {data, status} = response;
 
-            // # Should return success status.
+            // Should return success status.
             expect(status).to.equal(200);
 
-            // # Verify that only joining to mattermost e-mail exist.
+            // Verify that guest account invitation.
             expect(data.to.length).to.equal(1);
             expect(data.to[0]).to.contain(guestEmail);
 
-            // # Verify that the email subject is about joining.
+            // Verify that the email subject is about joining.
             expect(data.subject).to.contain(`sysadmin invited you to join the team ${testTeam.display_name} as a guest`);
 
             // Extract invitation link from the invitation e-mail.
