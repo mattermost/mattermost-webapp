@@ -55,13 +55,14 @@ exports[`/components/create_team/components/display_name should match snapshot 1
             <input
               autoFocus={true}
               className="form-control"
-              defaultValue="test-team"
               id="teamURLInput"
               maxLength={128}
+              onChange={[Function]}
               onFocus={[Function]}
               placeholder=""
               spellCheck="false"
               type="text"
+              value="test-team"
             />
           </div>
         </div>

@@ -21,7 +21,7 @@ import TeamAnalytics from 'components/analytics/team_analytics';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
@@ -52,7 +52,7 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
-import BillingSubscriptions from './billing/billing_subscriptions';
+import BillingSubscriptions from './billing/billing_subscriptions.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
