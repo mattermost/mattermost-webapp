@@ -4,12 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal';
 
-jest.mock('actions/diagnostics_actions.jsx', () => {
-    const original = jest.requireActual('actions/diagnostics_actions.jsx');
+jest.mock('actions/telemetry_actions.jsx', () => {
+    const original = jest.requireActual('actions/telemetry_actions.jsx');
     return {
         ...original,
         trackEvent: jest.fn(),
