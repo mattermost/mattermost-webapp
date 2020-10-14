@@ -167,7 +167,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             break;
         case 0:
         default:
-            // reset the index
+            // reset the index (e.g. on blur)
             newIndex = -1;
         }
 
@@ -175,17 +175,19 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         setIndexChangedViaKeyPress(changedViaKeyPress);
     };
 
-    const handleEnterKey = (): void => {
+    const handleEnterKey = (e: ChangeEvent<HTMLInputElement>): void => {
+        // only prevent default-behaviour, when one of the conditions is true
+        // when both are false just submit the form (default behaviour) with
+        // `handleSubmit` function called from the `form`
         if (indexChangedViaKeyPress) {
+            e.preventDefault();
             handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
             setKeepInputFocussed(true);
-        } else if (props.isMentionSearch) {
+        }
+
+        if (props.isMentionSearch) {
+            e.preventDefault();
             actions.updateRhsState(RHSStates.SEARCH);
-        } else {
-            handleSearch().then(() => {
-                setKeepInputFocussed(false);
-                setFocussed(false);
-            });
         }
     };
 

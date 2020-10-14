@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, FormEvent, useEffect, useRef} from 'react';
+import React, {ChangeEvent, CSSProperties, FormEvent, useEffect, useRef} from 'react';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -12,7 +12,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const {KeyCodes} = Constants;
 
-const style = {
+const style: Record<string, CSSProperties> = {
     searchForm: {overflow: 'visible'},
 };
 
@@ -20,8 +20,8 @@ type Props = {
     searchTerms: string,
     updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void,
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void,
     handleSubmit: (e: FormEvent<HTMLFormElement>) => void,
+    handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void,
     handleClear: () => void,
     handleFocus: () => void,
     handleBlur: () => void,
@@ -41,7 +41,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
     const searchRef = useRef<SuggestionBox>();
 
     useEffect((): void => {
-        // let redux handle changes before setting focus again to the input
+        // let redux handle changes before focussing the input
         if (isFocussed || keepFocussed) {
             setTimeout(() => searchRef.current?.focus(), 0);
         } else {
@@ -67,7 +67,6 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         }
 
         if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
-            e.preventDefault();
             props.handleEnterKey(e);
         }
     };

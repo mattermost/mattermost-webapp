@@ -2,9 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
-import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
@@ -68,12 +66,4 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMorePostsForSearch,
-        }, dispatch),
-    };
-}
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(makeMapStateToProps)(SearchResults);
