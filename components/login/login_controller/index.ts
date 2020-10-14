@@ -2,20 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
+import {bindActionCreators, Dispatch} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getMyTeamMember, getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {addUserToTeamFromInvite} from 'actions/team_actions';
-
 import {login} from 'actions/views/login';
 
 import LoginController from './login_controller.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const license = getLicense(state);
 
@@ -39,16 +39,16 @@ function mapStateToProps(state) {
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
     // Only set experimental team if user is on that team
-    let experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
+    let experimentalPrimaryTeam = config.ExperimentalPrimaryTeam!;
     if (experimentalPrimaryTeam) {
         const team = getTeamByName(state, experimentalPrimaryTeam);
         if (team) {
             const member = getMyTeamMember(state, team.id);
             if (!member || !member.team_id) {
-                experimentalPrimaryTeam = null;
+                experimentalPrimaryTeam = '';
             }
         } else {
-            experimentalPrimaryTeam = null;
+            experimentalPrimaryTeam = '';
         }
     }
 
@@ -75,7 +75,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             login,
