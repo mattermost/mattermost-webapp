@@ -5,6 +5,8 @@ import React from 'react';
 import {Stripe} from '@stripe/stripe-js';
 
 import {BillingDetails} from 'types/cloud/sku';
+import {pageVisited} from 'actions/telemetry_actions';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import successSvg from 'images/cloud/payment_success.svg';
 import failedSvg from 'images/cloud/payment_fail.svg';
@@ -138,6 +140,10 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 />
             );
         case ProcessState.SUCCESS:
+            pageVisited(
+                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                'pageview_payment_success',
+            );
             return (
                 <IconMessage
                     title={t('admin.billing.subscription.upgradedSuccess')}
@@ -151,6 +157,10 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 />
             );
         case ProcessState.FAILED:
+            pageVisited(
+                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                'pageview_payment_failed',
+            );
             return (
                 <IconMessage
                     title={t('admin.billing.subscription.paymentVerificationFailed')}
