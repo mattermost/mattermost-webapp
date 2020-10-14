@@ -34,10 +34,12 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
         userLimit: PropTypes.string.isRequired,
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
-        isCloud: PropTypes.string.isRequired,
+        isCloud: PropTypes.bool.isRequired,
         analytics: PropTypes.object.isRequired,
+        subscription: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -144,7 +146,21 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
     }
 
     shouldShowPickerError = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
+        const {
+            userLimit,
+            analytics,
+            userIsAdmin,
+            isCloud,
+            subscription,
+        } = this.props;
+
+        if (subscription === null) {
+            return false;
+        }
+
+        if (subscription.is_paid_tier === 'true') {
+            return false;
+        }
 
         if (userLimit === '0' || !userIsAdmin || !isCloud) {
             return false;
@@ -165,6 +181,9 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
     componentDidMount() {
         if (!this.props.analytics) {
             this.props.actions.getStandardAnalytics();
+        }
+        if (!this.props.subscription) {
+            this.props.actions.getCloudSubscription();
         }
     }
 
