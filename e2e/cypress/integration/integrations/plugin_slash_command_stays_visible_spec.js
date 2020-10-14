@@ -38,7 +38,7 @@ describe('Messaging', () => {
     it('MM-T2835 Slash command help stays visible for plugin', () => {
         // * Suggestion List is not visible
         cy.get('#suggestionList').should('not.exist').then(() => {
-            // Suggestion Is is visible after space character is typed
+            // * Suggestion list is visible after typing "/agenda " with space character
             cy.findByTestId('post_textbox').type('/agenda ');
             cy.get('#suggestionList').should('be.visible');
         });
