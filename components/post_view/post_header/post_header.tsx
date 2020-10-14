@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {EventHandler, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -12,85 +13,85 @@ import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 
-export default class PostHeader extends React.PureComponent {
-    static propTypes = {
+export type Props = {
 
-        /*
-         * The post to render the header for
-         */
-        post: PropTypes.object.isRequired,
+    /*
+    * The post to render the header for
+    */
+    post: Post;
 
-        /*
-         * Function called when the comment icon is clicked
-         */
-        handleCommentClick: PropTypes.func.isRequired,
+    /*
+    * Function called when the comment icon is clicked
+    */
+    handleCommentClick: EventHandler<MouseEvent>;
 
-        /*
-         * Function called when the card icon is clicked
-         */
-        handleCardClick: PropTypes.func.isRequired,
+    /*
+    * Function called when the card icon is clicked
+    */
+    handleCardClick: (post: Post) => void;
 
-        /*
-         * Function called when the post options dropdown is opened
-         */
-        handleDropdownOpened: PropTypes.func.isRequired,
+    /*
+    * Function called when the post options dropdown is opened
+    */
+    handleDropdownOpened: (opened: boolean) => void;
 
-        /*
-         * Set to render compactly
-         */
-        compactDisplay: PropTypes.bool,
+    /*
+    * Set to render compactly
+    */
+    compactDisplay?: boolean;
 
-        /*
-         * The number of replies in the same thread as this post
-         */
-        replyCount: PropTypes.number,
+    /*
+    * The number of replies in the same thread as this post
+    */
+    replyCount?: number;
 
-        /**
-         * Set to indicate that this is previous post was not a reply to the same thread
-         */
-        isFirstReply: PropTypes.bool,
+    /**
+     * Set to indicate that this is previous post was not a reply to the same thread
+     */
+    isFirstReply?: boolean;
 
-        /**
-         * Set to mark post as being hovered over
-         */
-        hover: PropTypes.bool.isRequired,
+    /**
+     * Set to mark post as being hovered over
+     */
+    hover: boolean;
 
-        /*
-         * Set to render the post time when not hovering
-         */
-        showTimeWithoutHover: PropTypes.bool,
+    /*
+    * Set to render the post time when not hovering
+    */
+    showTimeWithoutHover: boolean;
 
-        /**
-         * Whether or not the post username can be overridden.
-         */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+    /**
+     * Whether or not the post username can be overridden.
+     */
+    enablePostUsernameOverride: boolean;
 
-        /**
-         * If the user that made the post is a bot.
-         */
-        isBot: PropTypes.bool.isRequired,
+    /**
+     * If the user that made the post is a bot.
+     */
+    isBot: boolean;
 
-        /**
-         * If the user that made the post is a guest.
-         */
-        isGuest: PropTypes.bool.isRequired,
+    /**
+     * If the user that made the post is a guest.
+     */
+    isGuest: boolean;
 
-        /**
-         * To Check if the current post is last in the list
-         */
-        isLastPost: PropTypes.bool,
+    /**
+     * To Check if the current post is last in the list
+     */
+    isLastPost?: boolean;
 
-        /**
-         * Source of image that should be override current user profile.
-         */
-        overwriteIcon: PropTypes.string,
-    }
+    /**
+     * Source of image that should be override current user profile.
+     */
+    overwriteIcon?: string;
+};
 
-    render() {
+export default class PostHeader extends React.PureComponent<Props> {
+    render(): JSX.Element {
         const {post} = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
+        const fromWebhook = post?.props?.from_webhook === 'true';
 
         let userProfile = (
             <UserProfile
