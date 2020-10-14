@@ -51,6 +51,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
@@ -172,7 +173,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </div>
     );
 
-    if (!subscription) {
+    if (!subscription || !products) {
         return null;
     }
 
