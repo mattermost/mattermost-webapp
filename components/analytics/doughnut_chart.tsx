@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import Chart, {ChartData} from 'chart.js';
 
