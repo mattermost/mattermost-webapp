@@ -27,8 +27,8 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
             TOTAL_USERS: 10,
         },
         actions: {
-            getStandardAnalytics: () => { },
-            getCloudSubscription: () => { },
+            getStandardAnalytics: () => {},
+            getCloudSubscription: () => {},
         },
     };
 
