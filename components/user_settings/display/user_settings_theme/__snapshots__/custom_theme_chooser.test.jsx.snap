@@ -15,14 +15,12 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <FormattedMessage
         defaultMessage="Sidebar Styles"
         id="user.settings.custom_theme.sidebarTitle"
-        values={Object {}}
       />
       <div
         className="header__icon"
       >
         <LocalizedIcon
           className="fa fa-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Expand Icon",
@@ -32,7 +30,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         />
         <LocalizedIcon
           className="fa fa-minus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",
@@ -55,7 +52,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar BG"
               id="user.settings.custom_theme.sidebarBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -72,7 +68,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Text"
               id="user.settings.custom_theme.sidebarText"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -89,7 +84,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Header BG"
               id="user.settings.custom_theme.sidebarHeaderBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -106,7 +100,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Header Text"
               id="user.settings.custom_theme.sidebarHeaderTextColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -123,7 +116,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Unread Text"
               id="user.settings.custom_theme.sidebarUnreadText"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -140,7 +132,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Text Hover BG"
               id="user.settings.custom_theme.sidebarTextHoverBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -157,7 +148,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Text Active Border"
               id="user.settings.custom_theme.sidebarTextActiveBorder"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -174,7 +164,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Sidebar Text Active Color"
               id="user.settings.custom_theme.sidebarTextActiveColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -191,7 +180,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Online Indicator"
               id="user.settings.custom_theme.onlineIndicator"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -208,7 +196,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Away Indicator"
               id="user.settings.custom_theme.awayIndicator"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -225,7 +212,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Do Not Disturb Indicator"
               id="user.settings.custom_theme.dndIndicator"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -242,7 +228,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Mention Jewel BG"
               id="user.settings.custom_theme.mentionBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -259,7 +244,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Mention Jewel Text"
               id="user.settings.custom_theme.mentionColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -279,14 +263,12 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <FormattedMessage
         defaultMessage="Center Channel Styles"
         id="user.settings.custom_theme.centerChannelTitle"
-        values={Object {}}
       />
       <div
         className="header__icon"
       >
         <LocalizedIcon
           className="fa fa-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Expand Icon",
@@ -296,7 +278,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         />
         <LocalizedIcon
           className="fa fa-minus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",
@@ -320,7 +301,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Center Channel BG"
               id="user.settings.custom_theme.centerChannelBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -337,7 +317,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Center Channel Text"
               id="user.settings.custom_theme.centerChannelColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -354,7 +333,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="New Message Separator"
               id="user.settings.custom_theme.newMessageSeparator"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -371,7 +349,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Error Text Color"
               id="user.settings.custom_theme.errorTextColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -388,7 +365,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Mention Highlight BG"
               id="user.settings.custom_theme.mentionHighlightBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -405,7 +381,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Mention Highlight Link"
               id="user.settings.custom_theme.mentionHighlightLink"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -422,7 +397,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
           <FormattedMessage
             defaultMessage="Code Theme"
             id="user.settings.custom_theme.codeTheme"
-            values={Object {}}
           />
         </label>
         <div
@@ -509,14 +483,12 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <FormattedMessage
         defaultMessage="Link and Button Styles"
         id="user.settings.custom_theme.linkButtonTitle"
-        values={Object {}}
       />
       <div
         className="header__icon"
       >
         <LocalizedIcon
           className="fa fa-plus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Expand Icon",
@@ -526,7 +498,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         />
         <LocalizedIcon
           className="fa fa-minus"
-          component="i"
           title={
             Object {
               "defaultMessage": "Collapse Icon",
@@ -549,7 +520,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Link Color"
               id="user.settings.custom_theme.linkColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -566,7 +536,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Button BG"
               id="user.settings.custom_theme.buttonBg"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -583,7 +552,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             <FormattedMessage
               defaultMessage="Button Text"
               id="user.settings.custom_theme.buttonColor"
-              values={Object {}}
             />
           }
           onChange={[Function]}
@@ -604,7 +572,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
         <FormattedMessage
           defaultMessage="Copy to share or paste theme colors here:"
           id="user.settings.custom_theme.copyPaste"
-          values={Object {}}
         />
       </label>
       <textarea
@@ -626,7 +593,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
           <FormattedMessage
             defaultMessage="Copy Theme Colors"
             id="user.settings.custom_theme.copyThemeColors"
-            values={Object {}}
           />
         </button>
         <span
@@ -641,7 +607,6 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
           <FormattedMessage
             defaultMessage="✔ Copied"
             id="user.settings.custom_theme.copied"
-            values={Object {}}
           />
         </span>
       </div>

@@ -11,7 +11,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import * as UserActions from 'actions/user_actions';
 import {getState} from 'stores/redux_store';
 import TestHelper from 'tests/helpers/client-test-helper';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -31,7 +31,7 @@ jest.mock('mattermost-redux/actions/users', () => {
 });
 
 jest.mock('mattermost-redux/selectors/entities/channels', () => {
-    const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
+    const GeneralTypes = jest.requireActual('mattermost-redux/constants').General;
     const original = jest.requireActual('mattermost-redux/selectors/entities/channels');
     const mockDmGmUsersInLhs = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}, {id: 'dmChannel', type: GeneralTypes.DM_CHANNEL}];
 
@@ -42,8 +42,8 @@ jest.mock('mattermost-redux/selectors/entities/channels', () => {
 });
 
 jest.mock('mattermost-redux/selectors/entities/channel_categories', () => {
-    const GeneralTypes = require.requireActual('mattermost-redux/constants').General;
-    const original = require.requireActual('mattermost-redux/selectors/entities/channel_categories');
+    const GeneralTypes = jest.requireActual('mattermost-redux/constants').General;
+    const original = jest.requireActual('mattermost-redux/selectors/entities/channel_categories');
 
     const mockChannelsObj = [{id: 'gmChannel', type: GeneralTypes.GM_CHANNEL}];
     const mockFunc = jest.fn();
@@ -87,8 +87,8 @@ jest.mock('stores/redux_store', () => {
     };
 });
 
-jest.mock('actions/diagnostics_actions.jsx', () => {
-    const original = require.requireActual('actions/diagnostics_actions.jsx');
+jest.mock('actions/telemetry_actions.jsx', () => {
+    const original = jest.requireActual('actions/telemetry_actions.jsx');
     return {
         ...original,
         trackEvent: jest.fn(),
@@ -172,9 +172,9 @@ describe('Actions.User', () => {
 
     test('loadProfilesAndStatusesInChannel', async () => {
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status'));
+        await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status', {}));
         const actualActions = testStore.getActions();
-        expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status']);
+        expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status', {}]);
         expect(actualActions[0].type).toEqual('MOCK_GET_PROFILES_IN_CHANNEL');
         expect(actualActions[1].args).toEqual([['user_1']]);
         expect(actualActions[1].type).toEqual('MOCK_GET_STATUSES_BY_ID');
@@ -207,7 +207,7 @@ describe('Actions.User', () => {
     });
 
     test('loadProfilesAndTeamMembersAndChannelMembers', async () => {
-        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60]}];
+        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, '', undefined]}];
 
         let testStore = await mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60, 'team_1', 'current_channel_id'));

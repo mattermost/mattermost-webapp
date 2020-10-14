@@ -4,7 +4,7 @@ exports[`components/sidebar/sidebar_menu should match snapshot 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
   className="SidebarMenu"
-  onToggle={[Function]}
+  onToggle={[MockFunction]}
   stopPropagationOnToggle={true}
 >
   <button

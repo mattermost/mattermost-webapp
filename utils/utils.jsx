@@ -19,12 +19,19 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
+import moment from 'moment';
+
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
-import bing from 'images/bing.mp3';
+import bing from 'sounds/bing.mp3';
+import crackle from 'sounds/crackle.mp3';
+import down from 'sounds/down.mp3';
+import hello from 'sounds/hello.mp3';
+import ripple from 'sounds/ripple.mp3';
+import upstairs from 'sounds/upstairs.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
@@ -89,8 +96,8 @@ export function isKeyPressed(event, key) {
 export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-            !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
+        !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
+        (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -195,17 +202,29 @@ export function getChannelURL(state, channel, teamId) {
     return notificationURL;
 }
 
-var canDing = true;
+export const notificationSounds = new Map([
+    ['Bing', bing],
+    ['Crackle', crackle],
+    ['Down', down],
+    ['Hello', hello],
+    ['Ripple', ripple],
+    ['Upstairs', upstairs],
+]);
 
-export function ding() {
+var canDing = true;
+export function ding(name) {
     if (hasSoundOptions() && canDing) {
-        var audio = new Audio(bing);
-        audio.play();
+        tryNotificationSound(name);
         canDing = false;
         setTimeout(() => {
             canDing = true;
         }, 3000);
     }
+}
+
+export function tryNotificationSound(name) {
+    const audio = new Audio(notificationSounds.get(name) ?? notificationSounds.get('Bing'));
+    audio.play();
 }
 
 export function hasSoundOptions() {
@@ -546,7 +565,6 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
         changeCss('.app__body .navbar-right__icon:hover, .app__body .navbar-right__icon:focus', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
-        changeCss('.team-sidebar .fa', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.emoji-picker .emoji-picker__header, .emoji-picker .emoji-picker__header .emoji-picker__header-close-button', 'color:' + theme.sidebarHeaderTextColor);
     }
 
@@ -600,12 +618,10 @@ export function applyTheme(theme) {
     if (theme.centerChannelBg) {
         changeCss('.app__body #channel_view.channel-view', `background: ${theme.centerChannelBg}`);
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
-        changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .popover.bottom>.arrow:after', 'border-bottom-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
@@ -712,7 +728,7 @@ export function applyTheme(theme) {
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: transparent;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
-        changeCss('code, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .sidebar--right', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .modal .settings-modal .settings-table .settings-content .appearance-section .theme-elements__body', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
         if (!UserAgent.isFirefox() && !UserAgent.isInternetExplorer() && !UserAgent.isEdge()) {
@@ -967,7 +983,6 @@ export function applyTheme(theme) {
             'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
-            'mention-highlight-bg-12': changeOpacity(theme.mentionHighlightBg, 0.12),
         },
     });
 }
@@ -1083,6 +1098,10 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
 
 export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
+}
+
+export function scrollbarWidth(el) {
+    return el.offsetWidth - el.clientWidth;
 }
 
 export function isValidUsername(name) {
@@ -1651,9 +1670,16 @@ export function removePrefixFromLocalStorage(prefix) {
 }
 
 export function copyToClipboard(data) {
+    // Attempt to use the newer clipboard API when possible
+    const clipboard = navigator.clipboard;
+    if (clipboard) {
+        clipboard.writeText(data);
+        return;
+    }
+
     // creates a tiny temporary text area to copy text out of
     // see https://stackoverflow.com/a/30810322/591374 for details
-    var textArea = document.createElement('textarea');
+    const textArea = document.createElement('textarea');
     textArea.style.position = 'fixed';
     textArea.style.top = 0;
     textArea.style.left = 0;
@@ -1739,19 +1765,19 @@ export function getClosestParent(elem, selector) {
     // Element.matches() polyfill
     if (!Element.prototype.matches) {
         Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        ((s) => {
-            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
-            let i = matches.length - 1;
-            while (i >= 0 && matches.item(i) !== this) {
-                i--;
-            }
-            return i > -1;
-        });
+            Element.prototype.matchesSelector ||
+            Element.prototype.mozMatchesSelector ||
+            Element.prototype.msMatchesSelector ||
+            Element.prototype.oMatchesSelector ||
+            Element.prototype.webkitMatchesSelector ||
+            ((s) => {
+                const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+                let i = matches.length - 1;
+                while (i >= 0 && matches.item(i) !== this) {
+                    i--;
+                }
+                return i > -1;
+            });
     }
 
     // Get the closest matching element
@@ -1786,4 +1812,89 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
     }
 
     return {currentUserReacted, users};
+}
+
+const BOLD_MD = '**';
+const ITALIC_MD = '*';
+
+/**
+ * Applies bold/italic markdown on textbox associated with event and returns
+ * modified text alongwith modified selection positions.
+ */
+export function applyHotkeyMarkdown(e) {
+    e.preventDefault();
+
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
+    let isItalicFollowedByBold = false;
+    let delimiter = '';
+    if (e.keyCode === Constants.KeyCodes.B[1]) {
+        delimiter = BOLD_MD;
+    } else if (e.keyCode === Constants.KeyCodes.I[1]) {
+        delimiter = ITALIC_MD;
+        isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
+    }
+
+    // Does the selection have current hotkey's markdown?
+    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+
+    // Does current selection have both of the markdown around it? i.e. ***haha***
+    const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+    if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
+        // message already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
+        newStart = selectionStart - delimiter.length;
+        newEnd = selectionEnd - delimiter.length;
+    } else {
+        newValue = prefix + delimiter + selection + delimiter + suffix;
+        newStart = selectionStart + delimiter.length;
+        newEnd = selectionEnd + delimiter.length;
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+/**
+ * Adjust selection to correct text when there is Italic markdown (_) around selected text.
+ */
+export function adjustSelection(inputBox, e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    if (selectionStart === selectionEnd) {
+        // nothing selected.
+        return;
+    }
+
+    e.preventDefault();
+
+    const firstUnderscore = value.charAt(selectionStart) === '_';
+    const lastUnderscore = value.charAt(selectionEnd - 1) === '_';
+
+    const spaceBefore = value.charAt(selectionStart - 1) === ' ';
+    const spaceAfter = value.charAt(selectionEnd) === ' ';
+
+    if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
+        setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
+    }
+}
+
+export function getNextBillingDate() {
+    const nextBillingDate = moment().add(1, 'months').startOf('month');
+    return nextBillingDate.format('MMM D, YYYY');
 }

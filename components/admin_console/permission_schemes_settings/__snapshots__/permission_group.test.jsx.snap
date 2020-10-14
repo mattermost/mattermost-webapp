@@ -22,7 +22,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -84,7 +83,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -146,7 +144,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -208,7 +205,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -270,7 +266,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -332,7 +327,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -408,7 +402,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -470,7 +463,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -532,7 +524,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -600,7 +591,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -662,7 +652,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)
@@ -724,7 +713,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     >
       <FormattedMessage
         id="admin.permissions.group.name.name"
-        values={Object {}}
       />
     </span>
     <injectIntl(PermissionDescription)

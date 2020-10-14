@@ -7,7 +7,7 @@ import {IntlShape, injectIntl} from 'react-intl';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import DeleteCategoryModal from 'components/delete_category_modal';
 import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
@@ -17,7 +17,8 @@ import {ModalIdentifiers} from 'utils/constants';
 type Props = {
     currentTeamId: string;
     category: ChannelCategory;
-    onToggle: (open: boolean) => void;
+    isMenuOpen: boolean;
+    onToggleMenu: (open: boolean) => void;
     intl: IntlShape;
     actions: {
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
@@ -68,9 +69,12 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
     }
 
-    onToggle = (open: boolean) => {
-        this.props.onToggle(open);
-        trackEvent('ui', 'ui_sidebar_category_menu_opened');
+    onToggleMenu = (open: boolean) => {
+        this.props.onToggleMenu(open);
+
+        if (open) {
+            trackEvent('ui', 'ui_sidebar_category_menu_opened');
+        }
     }
 
     renderDropdownItems = () => {
@@ -126,8 +130,9 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                     id={`SidebarCategoryMenu-${category.id}`}
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                     buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                    isMenuOpen={this.props.isMenuOpen}
+                    onToggleMenu={this.onToggleMenu}
                     tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-                    onToggle={this.onToggle}
                 >
                     {this.renderDropdownItems()}
                 </SidebarMenu>

@@ -14,8 +14,8 @@
 describe('Channel Settings', () => {
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
-            cy.apiCreateChannel(team.id, 'channel', 'Private Channel', 'P').then((res) => {
-                cy.apiAddUserToChannel(res.body.id, user.id);
+            cy.apiCreateChannel(team.id, 'channel', 'Private Channel', 'P').then(({channel}) => {
+                cy.apiAddUserToChannel(channel.id, user.id);
             });
 
             cy.apiLogin(user);

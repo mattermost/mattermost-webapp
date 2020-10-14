@@ -10,38 +10,7 @@
 // Stage: @prod
 // Group: @messaging
 
-function createMessages(message, aliases) {
-    cy.postMessage(message);
-    cy.getLastPostId().then((postId) => {
-        cy.get(`#postMessageText_${postId}`).as(aliases[0]);
-        cy.clickPostCommentIcon(postId);
-    });
-
-    cy.postMessageReplyInRHS(message);
-    cy.getLastPostId().then((postId) => {
-        cy.get(`#postMessageText_${postId}`).as(aliases[1]);
-    });
-}
-
-function createAndVerifyMessage(message, isCode) {
-    const aliases = ['newLineMessage', 'aliasLineMessageReplyInRHS'];
-    createMessages(message, aliases);
-
-    if (isCode) {
-        aliases.forEach((alias) => {
-            cy.get('@' + alias).
-                children().should('have.class', 'post-code').
-                children('code').should('be.visible').contains(message.trim());
-        });
-    } else {
-        aliases.forEach((alias) => {
-            cy.get('@' + alias).
-                children().should('have.class', 'all-emoji').
-                children().find('span').last().should('have.class', 'emoticon').
-                and('have.attr', 'title', message.trim() === ':D' ? ':smile:' : ':taco:');
-        });
-    }
-}
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
@@ -69,3 +38,38 @@ describe('Messaging', () => {
         });
     });
 });
+
+function createMessages(message, aliases) {
+    cy.postMessage(message);
+    cy.getLastPostId().then((postId) => {
+        cy.get(`#postMessageText_${postId}`).as(aliases[0]);
+        cy.clickPostCommentIcon(postId);
+        cy.wait(TIMEOUTS.HALF_SEC);
+    });
+
+    cy.postMessageReplyInRHS(message);
+    cy.getLastPostId().then((postId) => {
+        cy.get(`#postMessageText_${postId}`).as(aliases[1]);
+    });
+}
+
+function createAndVerifyMessage(message, isCode) {
+    const aliases = ['newLineMessage', 'aliasLineMessageReplyInRHS'];
+    createMessages(message, aliases);
+
+    if (isCode) {
+        aliases.forEach((alias) => {
+            cy.get('@' + alias).
+                find('.post-code').should('be.visible').
+                find('code').should('be.visible').
+                contains(message.trim());
+        });
+    } else {
+        aliases.forEach((alias) => {
+            cy.get('@' + alias).
+                children().should('have.class', 'all-emoji').
+                children().find('span').last().should('have.class', 'emoticon').
+                and('have.attr', 'title', message.trim() === ':D' ? ':smile:' : ':taco:');
+        });
+    }
+}

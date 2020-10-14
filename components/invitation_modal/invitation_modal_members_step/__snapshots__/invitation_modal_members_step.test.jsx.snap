@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalMembersStep should match the snapshot 1`] = `
+<div
+  className="InvitationModalMembersStep"
+>
+  <div
+    className="modal-icon"
+  >
+    <InviteMembersIcon />
+  </div>
+  <h1
+    id="invitation_modal_title"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Members** to {teamName}"
+      id="invitation_modal.members.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
+    />
+  </h1>
+  <div
+    className="share-link"
+    data-testid="shareLink"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Share This Link"
+        id="invitation_modal.members.share_link.title"
+      />
+    </h2>
+    <div
+      className="share-link-input-block"
+    >
+      <input
+        aria-label="team invite link"
+        className="share-link-input"
+        data-testid="shareLinkInput"
+        readOnly={true}
+        type="text"
+        value="http://localhost:8065/signup_user_complete/?id=123"
+      />
+      <button
+        className="share-link-input-button"
+        data-testid="shareLinkInputButton"
+        onClick={[Function]}
+      >
+        <LinkIcon />
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="invitation_modal.members.share_link.copy_button"
+        />
+      </button>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Share this link to invite people to this team."
+        id="invitation_modal.members.share_link.description"
+      />
+    </div>
+  </div>
+  <div
+    className="invitation-modal-or"
+  >
+    <hr />
+    <div>
+      <FormattedMessage
+        defaultMessage="OR"
+        id="invitation_modal.members.or"
+      />
+    </div>
+  </div>
+  <div
+    className="search-and-add"
+    data-testid="searchAdd"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Add or Invite People"
+        id="invitation_modal.members.search_and_add.title"
+      />
+    </h2>
+    <div
+      data-testid="inputPlaceholder"
+    >
+      <UsersEmailsInput
+        ariaLabel="Invite People"
+        emailInvitationsEnabled={true}
+        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
+        errorMessageValues={
+          Object {
+            "text": "0",
+          }
+        }
+        inputValue=""
+        loadingMessageDefault="Loading"
+        loadingMessageId="widgets.users_emails_input.loading"
+        noMatchMessageDefault="No one found matching **{text}**, type email to invite"
+        noMatchMessageId="invitation_modal.members.users_emails_input.no_user_found_matching"
+        onChange={[Function]}
+        onInputChange={[Function]}
+        placeholder="Add members or email addresses"
+        showError={false}
+        usersLoader={[Function]}
+        validAddressMessageDefault="Invite **{email}** as a team member"
+        validAddressMessageId="invitation_modal.members.users_emails_input.valid_email"
+        value={Array []}
+      />
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Add existing members or send email invites to new members."
+        id="invitation_modal.members.search-and-add.description"
+      />
+    </div>
+  </div>
+  <div
+    className="invite-members"
+  >
+    <button
+      className="btn btn-inactive"
+      disabled={true}
+      id="inviteMembersButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite Members"
+        id="invitation_modal.members.invite_button"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalMembersStep should match the snapshot when email invitations are disabled 1`] = `
+<div
+  className="InvitationModalMembersStep"
+>
+  <div
+    className="modal-icon"
+  >
+    <InviteMembersIcon />
+  </div>
+  <h1
+    id="invitation_modal_title"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Members** to {teamName}"
+      id="invitation_modal.members.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
+    />
+  </h1>
+  <div
+    className="share-link"
+    data-testid="shareLink"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Share This Link"
+        id="invitation_modal.members.share_link.title"
+      />
+    </h2>
+    <div
+      className="share-link-input-block"
+    >
+      <input
+        aria-label="team invite link"
+        className="share-link-input"
+        data-testid="shareLinkInput"
+        readOnly={true}
+        type="text"
+        value="http://localhost:8065/signup_user_complete/?id=123"
+      />
+      <button
+        className="share-link-input-button"
+        data-testid="shareLinkInputButton"
+        onClick={[Function]}
+      >
+        <LinkIcon />
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="invitation_modal.members.share_link.copy_button"
+        />
+      </button>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Share this link to invite people to this team."
+        id="invitation_modal.members.share_link.description"
+      />
+    </div>
+  </div>
+  <div
+    className="invitation-modal-or"
+  >
+    <hr />
+    <div>
+      <FormattedMessage
+        defaultMessage="OR"
+        id="invitation_modal.members.or"
+      />
+    </div>
+  </div>
+  <div
+    className="search-and-add"
+    data-testid="searchAdd"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Add or Invite People"
+        id="invitation_modal.members.search_and_add.title"
+      />
+    </h2>
+    <div
+      data-testid="inputPlaceholder"
+    >
+      <UsersEmailsInput
+        ariaLabel="Invite People"
+        emailInvitationsEnabled={true}
+        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
+        errorMessageValues={
+          Object {
+            "text": "0",
+          }
+        }
+        inputValue=""
+        loadingMessageDefault="Loading"
+        loadingMessageId="widgets.users_emails_input.loading"
+        noMatchMessageDefault="No one found matching **{text}**, type email to invite"
+        noMatchMessageId="invitation_modal.members.users_emails_input.no_user_found_matching"
+        onChange={[Function]}
+        onInputChange={[Function]}
+        placeholder="Add members or email addresses"
+        showError={false}
+        usersLoader={[Function]}
+        validAddressMessageDefault="Invite **{email}** as a team member"
+        validAddressMessageId="invitation_modal.members.users_emails_input.valid_email"
+        value={Array []}
+      />
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Add existing members or send email invites to new members."
+        id="invitation_modal.members.search-and-add.description"
+      />
+    </div>
+  </div>
+  <div
+    className="invite-members"
+  >
+    <button
+      className="btn btn-inactive"
+      disabled={true}
+      id="inviteMembersButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite Members"
+        id="invitation_modal.members.invite_button"
+      />
+    </button>
+  </div>
+</div>
+`;

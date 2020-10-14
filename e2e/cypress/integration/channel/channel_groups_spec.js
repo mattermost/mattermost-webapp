@@ -31,7 +31,9 @@ describe('channel groups', () => {
 
         cy.apiUpdateConfig({LdapSettings: {Enable: true}, ServiceSettings: {EnableTutorial: false}});
 
-        cy.apiLogin({username: 'board.one', password: 'Password1'});
+        cy.apiLogin({username: 'board.one', password: 'Password1'}).then(({user}) => {
+            cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
+        });
 
         // # Create a new team and associate one group to the team
         teamName = `team-${getRandomId()}`;

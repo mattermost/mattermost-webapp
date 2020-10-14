@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
@@ -29,7 +29,7 @@ type Props = {
     };
 };
 
-class AdminNavbarDropdown extends React.PureComponent<Props, {}> {
+class AdminNavbarDropdown extends React.PureComponent<Props> {
     private handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
