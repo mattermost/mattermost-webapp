@@ -11,8 +11,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {generateRandomUser} from '../../support/api/user';
-
 describe('Managing bot accounts', () => {
     let newTeam;
     let botName;
