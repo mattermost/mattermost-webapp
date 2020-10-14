@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
@@ -21,7 +20,8 @@ import NoResultsIndicator from 'components/no_results_indicator/no_results_indic
 import FlagIcon from 'components/widgets/icons/flag_icon';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
-import {Post} from "mattermost-redux/types/posts";
+
+import type {Props} from './';
 
 const GET_MORE_BUFFER = 30;
 
@@ -46,7 +46,7 @@ const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     />
 );
 
-const shouldRenderFromProps = (props: Props, nextProps: Props): boolean => {
+export const shouldRenderFromProps = (props: Props, nextProps: Props): boolean => {
     // Shallow compare for all props except 'results'
     for (const key in nextProps) {
         // if (!nextProps.hasOwnProperty(key) || key === 'results') {
@@ -84,32 +84,11 @@ interface NoResultsProps {
     subtitleValues?: Record<string, JSX.Element|string>
 }
 
-type Props = {
-    [key: string]: unknown,
-    children?: React.ReactNode,
-    results: Post[],
-    matches: Record<string, unknown>,
-    channelDisplayName: string,
-    searchTerms: string,
-    isSearchingTerm: boolean,
-    isSearchingFlaggedPost: boolean,
-    isSearchingPinnedPost: boolean,
-    isSearchGettingMore: boolean,
-    isSearchAtEnd: boolean,
-    isSideBarExpanded: boolean,
-    compactDisplay: boolean,
-    isMentionSearch: boolean,
-    isFlaggedPosts: boolean,
-    isPinnedPosts: boolean,
-    isCard: boolean,
-    isOpened: boolean,
-    updateSearchTerms: (terms: string) => void,
-    getMorePostsForSearch: () => void,
-    intl: IntlShape,
-}
-
 const defaultProps: Partial<Props> = {
-    matches: {},
+    isCard: false,
+    isOpened: false,
+    channelDisplayName: '',
+    children: null,
 };
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
@@ -315,4 +294,4 @@ React.memo(SearchResults, shouldRenderFromProps);
 
 SearchResults.defaultProps = defaultProps;
 
-export default injectIntl(SearchResults);
+export default SearchResults;

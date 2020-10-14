@@ -14,11 +14,13 @@ import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import Popover from 'components/widgets/popover';
 import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
 
-import SearchBar from 'components/search_bar';
-import SearchResults from 'components/search_results';
+import SearchBar from 'components/search_bar/search_bar';
+import SearchResults from 'components/search_results/index';
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
+
+import type {Props} from './';
 
 interface SearchHintOption {
     searchTerm: string,
@@ -26,36 +28,6 @@ interface SearchHintOption {
         id: string,
         defaultMessage: string,
     },
-}
-
-type Props = {
-    isSideBarRight?: boolean,
-    isSideBarRightOpen?: boolean,
-    isFocus: boolean,
-    channelDisplayName?: string,
-    getFocus?: (searchBarFocus: () => void) => void,
-    children?: React.ReactNode,
-
-    // props from redux connect
-    searchTerms: string,
-    searchVisible: boolean,
-    isSearchingTerm: boolean,
-    isMentionSearch: boolean,
-    isFlaggedPosts: boolean,
-    isPinnedPosts: boolean,
-    isRhsOpen: boolean,
-    isRhsExpanded: boolean,
-    actions: {
-        updateSearchTerms: (term: string) => void,
-        showSearchResults: (isMentionSearch: boolean) => Record<string, unknown>,
-        showMentions: () => void,
-        showFlaggedPosts: () => void,
-        setRhsExpanded: (expanded: boolean) => void,
-        closeRightHandSide: () => void,
-        autocompleteChannelsForSearch: (channelPrefix: string, callback: () => void) => void,
-        autocompleteUsersInTeam: (usernamePrefix: string) => void,
-        updateRhsState: (rhsState: string) => void,
-    }
 }
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
@@ -399,6 +371,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     isOpened={props.isSideBarRightOpen}
                     updateSearchTerms={handleUpdateSearchTerms}
                     isSideBarExpanded={props.isRhsExpanded}
+                    getMorePostsForSearch={props.actions.getMorePostsForSearch}
                 />
             ) : props.children}
         </div>

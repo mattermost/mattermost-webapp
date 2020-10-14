@@ -9,6 +9,7 @@ import SearchSuggestionList from 'components/suggestion/search_suggestion_list.j
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import Provider from 'components/suggestion/provider';
 
 const {KeyCodes} = Constants;
 
@@ -27,13 +28,19 @@ type Props = {
     handleBlur: () => void,
     keepFocussed: boolean,
     isFocussed: boolean,
-    suggestionProviders: [],
+    suggestionProviders: Provider[],
     isSearchingTerm: boolean,
-    isSideBarRight: boolean,
     isFocus: boolean,
-    getFocus: (searchBarFocus: () => void) => void,
+    isSideBarRight?: boolean,
+    getFocus?: (searchBarFocus: () => void) => void,
     children?: React.ReactNode,
 }
+
+const defaultProps: Partial<Props> = {
+    isSideBarRight: false,
+    getFocus: (): void => {},
+    children: null,
+};
 
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
     const {isFocussed, keepFocussed, searchTerms, suggestionProviders} = props;
@@ -127,5 +134,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         </div>
     );
 };
+
+SearchBar.defaultProps = defaultProps;
 
 export default SearchBar;

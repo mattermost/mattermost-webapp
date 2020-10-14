@@ -1,13 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {connect} from 'react-redux';
+import {IntlShape, injectIntl} from 'react-intl';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {
     getSearchResultsTerms,
@@ -16,15 +19,31 @@ import {
     getIsSearchingPinnedPost,
     getIsSearchGettingMore,
 } from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants.jsx';
 
-import SearchResults from './search_results.jsx';
+import SearchResults from './search_results';
+
+type OwnProps = {
+    [key: string]: any,
+    isSideBarExpanded: boolean,
+    isMentionSearch: boolean,
+    isFlaggedPosts: boolean,
+    isPinnedPosts: boolean,
+    updateSearchTerms: (terms: string) => void,
+    getMorePostsForSearch: () => void,
+    shrink: () => void,
+    isCard?: boolean,
+    isOpened?: boolean,
+    channelDisplayName?: string,
+    children?: React.ReactNode,
+}
 
 function makeMapStateToProps() {
-    let results;
-    let posts;
+    let results: Post[];
+    let posts: Post[];
 
-    return function mapStateToProps(state) {
+    return function mapStateToProps(state: GlobalState) {
         const config = getConfig(state);
 
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
@@ -50,7 +69,9 @@ function makeMapStateToProps() {
             });
         }
 
-        const currentSearch = getCurrentSearchForCurrentTeam(state) || {};
+        // this is basically a hack to make ts compiler happy
+        // add correct type when it is known what exactly is returned from the function
+        const currentSearch = getCurrentSearchForCurrentTeam(state) as unknown as Record<string, boolean> || {};
 
         return {
             results: posts,
@@ -66,4 +87,23 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(SearchResults);
+type StateProps = {
+    results: Post[],
+    matches: Record<string, string[]>,
+    searchTerms: string,
+    isSearchingTerm: boolean,
+    isSearchingFlaggedPost: boolean,
+    isSearchingPinnedPost: boolean,
+    isSearchGettingMore: boolean,
+    isSearchAtEnd: boolean,
+    compactDisplay: boolean,
+}
+
+type IntlProps = {
+    intl: IntlShape,
+}
+
+export type Props = OwnProps & StateProps & IntlProps;
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export default connect<StateProps, {}, OwnProps, GlobalState>(makeMapStateToProps)(injectIntl<'intl', Props>(SearchResults));
