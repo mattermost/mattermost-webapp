@@ -217,15 +217,6 @@ describe('Managing bot accounts', () => {
         cy.get('.bot-list__disabled').should('not.be.visible');
     });
 
-    function createCustomAdmin() {
-        const sysadminUser = generateRandomUser('other-admin');
-
-        return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
-            return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
-                return cy.wrap({sysadmin: user});
-            });
-        });
-    }
     it('MM-T1859 Bot is kept active when owner is disabled', () => {
         // # Visit bot config
         cy.visit('/admin_console/integrations/bot_accounts');
@@ -237,7 +228,7 @@ describe('Managing bot accounts', () => {
         cy.findByTestId('saveSetting').should('be.enabled').click();
 
         // # Create another admin account
-        createCustomAdmin().then(({sysadmin}) => {
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             // # Login as the new admin
             cy.apiLogin(sysadmin);
 
@@ -278,7 +269,7 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1860 Bot is disabled when owner is deactivated', () => {
         // # Create another admin account
-        createCustomAdmin().then(({sysadmin}) => {
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             // # Login as the new admin
             cy.apiLogin(sysadmin);
 
