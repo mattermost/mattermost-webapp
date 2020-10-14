@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -1037,17 +1036,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
-    const $link = $('link.code_theme');
-    if (cssPath !== $link.attr('href')) { // eslint-disable-line jquery/no-attr
+    const link = document.querySelector('link.code_theme');
+    if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
         var xmlHTTP = new XMLHttpRequest();
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            $link.attr('href', cssPath); // eslint-disable-line jquery/no-attr
+            link.attributes.href = cssPath;
             if (UserAgent.isFirefox()) {
-                $link.one('load', () => {
+                link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
-                });
+                }, {once: true});
             } else {
                 changeCss('code.hljs', 'visibility: visible');
             }
@@ -1466,11 +1465,11 @@ export function importSlack(teamId, file, success, error) {
 }
 
 export function windowWidth() {
-    return $(window).width();
+    return window.innerWidth;
 }
 
 export function windowHeight() {
-    return $(window).height();
+    return window.innerHeight;
 }
 
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
