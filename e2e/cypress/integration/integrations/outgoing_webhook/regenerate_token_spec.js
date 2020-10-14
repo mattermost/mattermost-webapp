@@ -11,60 +11,62 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-let testTeam;
-
 describe('Integrations', () => {
-    before(() => {
-        // # Create test team, channel, and webhook
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
+    let testTeam;
+    let testChannel;
+    let testUser;
 
-            // # Visit the webhook page
-            cy.visit(`/${team.name}/integrations/outgoing_webhooks/add`);
+    before(() => {
+        const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
+
+        cy.requireWebhookServer();
+
+        // # Create test team, channel, and webhook
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testTeam = team.name;
+            testChannel = channel.name;
+            testUser = user;
+
+            const newOutgoingHook = {
+                team_id: team.id,
+                display_name: 'New Outgoing Webhook',
+                trigger_words: ['testing'],
+                callback_urls: [callbackUrl],
+            };
+
+            cy.apiCreateWebhook(newOutgoingHook, false);
+            cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         });
     });
 
-    it('MM-T617 Delete outgoing webhook', () => {
-        // # Create an outgoing webhook with trigger word "testing"
-        cy.get('#displayName', {timeout: TIMEOUTS.ONE_MIN}).type('New Outgoing Webhook');
-        cy.get('#description').type('Description');
-        cy.get('#channelSelect').select('Town Square');
-        cy.get('#triggerWords').type('testing');
-        cy.get('#callbackUrls').type('https://outgoing-webhook-01snptsk6qvz.runkit.sh/');
-        cy.get('#saveWebhook').click();
-        cy.get('#doneButton').click()
-
-        // # Grab token 1
+    it('MM-T612 Regenerate token', () => {
+        // # Grab generated token
         let generatedToken;
         cy.get('.item-details__token').then((number1) => {
             generatedToken = number1.text().split(' ').pop();
         });
 
-        //# Return to app and confirm outgoing webhook is working
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.uiPostMessageQuickly(`${generatedToken}`)
-        cy.uiPostMessageQuickly('testing');
+        // # Post a message and confirm token appears
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam}/channels/${testChannel}`);
+        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
         cy.uiWaitUntilMessagePostedIncludes(generatedToken);
 
-        // # Delete the webhook
-        cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks`);
+        // # Regenerate the token
+        cy.apiAdminLogin();
+        cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.findAllByText('Regenerate Token').click();
 
-        // # Grab token 2
+        // Grab regenerated token
         let regeneratedToken;
-        cy.get('.item-details__token > span').then((number2) => {
+        cy.get('.item-details__token').then((number2) => {
             regeneratedToken = number2.text().split(' ').pop();
         });
 
-        //# Return to app and confirm regenerated token works
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        //# Post a message and confirm regenerated token appears
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam}/channels/town-square`);
         cy.uiPostMessageQuickly('testing');
-        cy.uiWaitUntilMessagePostedIncludes(regeneratedToken);
-
-        // Wait for BOT message
-        //cy.wait(TIMEOUTS.TWO_SEC);
-        //cy.getLastPostId().then((lastPostId) => {
-        //    cy.get(`#${lastPostId}_message`).should('not.contain', 'Outgoing Webhook Payload');
-        
+        cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).and('does.not', 'include', generatedToken);
     });
 });
