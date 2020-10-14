@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {matchPath} from 'react-router-dom';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import * as UserAgent from 'utils/user_agent';
 import {browserHistory} from 'utils/browser_history';
@@ -13,21 +14,32 @@ import {browserHistory} from 'utils/browser_history';
 const urlFormatForDMGMPermalink = '/:teamName/messages/:username/:postid';
 const urlFormatForChannelPermalink = '/:teamName/channels/:channelname/:postid';
 
-export default class DeletePostModal extends React.PureComponent {
-    static propTypes = {
-        channelName: PropTypes.string,
-        teamName: PropTypes.string,
-        post: PropTypes.object.isRequired,
-        commentCount: PropTypes.number.isRequired,
-        isRHS: PropTypes.bool.isRequired,
-        onHide: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            deleteAndRemovePost: PropTypes.func.isRequired,
-        }),
-    }
+type Props = {
+    channelName: string;
+    teamName: string;
+    post: Post;
+    commentCount: number;
+    isRHS: boolean;
+    onHide: () => void;
+    actions: {
+        deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>
+    };
+    location: {
+        pathname: string;
+    };
+}
 
-    constructor(props) {
+type State = {
+    show: boolean;
+}
+
+export default class DeletePostModal extends React.PureComponent<Props, State> {
+    deletePostBtn: React.RefObject<HTMLButtonElement>;
+
+    constructor(props : Props) {
         super(props);
+        this.deletePostBtn = React.createRef();
+
         this.state = {
             show: true,
         };
@@ -43,11 +55,11 @@ export default class DeletePostModal extends React.PureComponent {
 
         const result = await actions.deleteAndRemovePost(post);
 
-        const matchUrlForDMGM = matchPath(this.props.location.pathname, {
+        const matchUrlForDMGM = matchPath<{postid: string}>(this.props.location.pathname, {
             path: urlFormatForDMGMPermalink,
         });
 
-        const matchUrlForChannel = matchPath(this.props.location.pathname, {
+        const matchUrlForChannel = matchPath<{postid: string}>(this.props.location.pathname, {
             path: urlFormatForChannelPermalink,
         });
 
@@ -68,16 +80,14 @@ export default class DeletePostModal extends React.PureComponent {
     }
 
     handleEntered = () => {
-        if (this.deletePostBtn) {
-            this.deletePostBtn.focus();
-        }
+        this.deletePostBtn?.current?.focus();
     }
 
     onHide = () => {
         this.setState({show: false});
 
         if (!UserAgent.isMobile()) {
-            var element;
+            let element;
             if (this.props.isRHS) {
                 element = document.getElementById('reply_textbox');
             } else {
@@ -90,7 +100,8 @@ export default class DeletePostModal extends React.PureComponent {
     }
 
     render() {
-        var commentWarning = '';
+        let commentWarning: React.ReactNode = '';
+
         if (this.props.commentCount > 0 && this.props.post.root_id === '') {
             commentWarning = (
                 <FormattedMessage
@@ -165,9 +176,7 @@ export default class DeletePostModal extends React.PureComponent {
                         />
                     </button>
                     <button
-                        ref={(deletePostBtn) => {
-                            this.deletePostBtn = deletePostBtn;
-                        }}
+                        ref={this.deletePostBtn}
                         type='button'
                         autoFocus={true}
                         className='btn btn-danger'

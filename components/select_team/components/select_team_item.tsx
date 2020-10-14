@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode, MouseEvent} from 'react';
 import {Tooltip} from 'react-bootstrap';
+
+import {Team} from 'mattermost-redux/types/teams';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -12,21 +13,21 @@ import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 
-export default class SelectTeamItem extends React.PureComponent {
-    static propTypes = {
-        team: PropTypes.object.isRequired,
-        onTeamClick: PropTypes.func.isRequired,
-        loading: PropTypes.bool.isRequired,
-        canJoinPublicTeams: PropTypes.bool.isRequired,
-        canJoinPrivateTeams: PropTypes.bool.isRequired,
-    };
+type Props = {
+    team: Team,
+    onTeamClick: (team: Team) => void,
+    loading: boolean,
+    canJoinPublicTeams: boolean,
+    canJoinPrivateTeams: boolean,
+};
 
-    handleTeamClick = (e) => {
+export default class SelectTeamItem extends React.PureComponent<Props> {
+    handleTeamClick = (e: MouseEvent): void => {
         e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
 
-    renderDescriptionTooltip = () => {
+    renderDescriptionTooltip = (): ReactNode => {
         const team = this.props.team;
         if (!team.description) {
             return null;
@@ -80,7 +81,7 @@ export default class SelectTeamItem extends React.PureComponent {
                 <a
                     href='#'
                     id={Utils.createSafeId(team.display_name)}
-                    onClick={canJoin ? this.handleTeamClick : null}
+                    onClick={canJoin ? this.handleTeamClick : undefined}
                     className={canJoin ? '' : 'disabled'}
                 >
                     <span className='signup-team-dir__name'>{team.display_name}</span>
