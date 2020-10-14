@@ -32,8 +32,8 @@ type Props = BaseProps & {
 };
 
 type State = BaseState & {
-    termsEnabled: boolean;
-    reAcceptancePeriod: number;
+    termsEnabled?: boolean;
+    reAcceptancePeriod?: number;
     loadingTermsText: boolean;
     receivedTermsText: string;
     termsText: string;
@@ -48,8 +48,8 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
         super(props);
 
         this.state = {
-            termsEnabled: Boolean(props.config.SupportSettings?.CustomTermsOfServiceEnabled),
-            reAcceptancePeriod: this.parseIntNonZero(String(props.config.SupportSettings?.CustomTermsOfServiceReAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD),
+            termsEnabled: props.config.SupportSettings?.CustomTermsOfServiceEnabled,
+            reAcceptancePeriod: props.config.SupportSettings?.CustomTermsOfServiceReAcceptancePeriod,
             loadingTermsText: true,
             receivedTermsText: '',
             termsText: '',
@@ -62,14 +62,14 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
 
     getStateFromConfig(config: Props['config']) {
         return {
-            termsEnabled: Boolean(config.SupportSettings?.CustomTermsOfServiceEnabled),
+            termsEnabled: config.SupportSettings?.CustomTermsOfServiceEnabled,
             reAcceptancePeriod: this.parseIntNonZero(String(config.SupportSettings?.CustomTermsOfServiceReAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD),
         };
     }
 
     getConfigFromState = (config: Props['config']) => {
         if (config && config.SupportSettings) {
-            config.SupportSettings.CustomTermsOfServiceEnabled = this.state.termsEnabled;
+            config.SupportSettings.CustomTermsOfServiceEnabled = Boolean(this.state.termsEnabled);
             config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod = this.parseIntNonZero(String(this.state.reAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD);
         }
         return config;
@@ -194,7 +194,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
                             defaultMessage='When true, new users must accept the terms of service before accessing any Mattermost teams on desktop, web or mobile. Existing users must accept them after login or a page refresh.\n \nTo update terms of service link displayed in account creation and login pages, go to [Site Configuration > Customization](../site_config/customization).'
                         />
                     }
-                    value={this.state.termsEnabled}
+                    value={Boolean(this.state.termsEnabled)}
                     onChange={this.handleTermsEnabledChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceEnabled')}
                     disabled={this.props.isDisabled || !(this.props.license.IsLicensed && this.props.license.CustomTermsOfService === 'true')}
@@ -237,7 +237,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
                             defaultMessage='The number of days before Terms of Service acceptance expires, and the terms must be re-accepted.'
                         />
                     }
-                    value={this.state.reAcceptancePeriod}
+                    value={this.state.reAcceptancePeriod || ''}
                     onChange={this.handleReAcceptancePeriodChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceReAcceptancePeriod')}
                     disabled={this.props.isDisabled || !this.state.termsEnabled}
