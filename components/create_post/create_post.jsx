@@ -65,6 +65,11 @@ class CreatePost extends React.PureComponent {
         getChannelView: PropTypes.func,
 
         /**
+         * The reactions to render on latest replyable post
+         */
+        reactionsByEmojiNameForLatestPost: PropTypes.array,
+
+        /**
          *  Data used in notifying user for @all and @channel
          */
         currentChannelMembersCount: PropTypes.number,
@@ -513,6 +518,19 @@ class CreatePost extends React.PureComponent {
                 }
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
+            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
+            if (isReaction[1] === '+' && !isIncomingReactionPresentForLatestPost && this.props.reactionsByEmojiNameForLatestPost?.length >= Constants.EMOJI_REACTIONS_LIMIT) {
+                const errorMessage = (
+                    <FormattedMessage
+                        id='create_post.emoji_reaction_limit_exceeded'
+                        defaultMessage='Reaction limit exceeded for this message.'
+                    />
+                );
+                setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
+                this.setState({submitting: false});
+                return;
+            }
+
             this.sendReaction(isReaction);
 
             this.setState({message: ''});
@@ -529,6 +547,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
+        
         cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;

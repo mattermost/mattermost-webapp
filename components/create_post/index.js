@@ -18,6 +18,7 @@ import {
     getPost,
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
+    makeGetReactionsForPost
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {
@@ -44,12 +45,14 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
+import {getEmojiReactionsMap} from "utils/emoji_reaction";
 
 import CreatePost from './create_post.jsx';
 
 function makeMapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
+    const getReactionsForPost = makeGetReactionsForPost();
 
     return (state, ownProps) => {
         const config = getConfig(state);
@@ -92,6 +95,7 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, currentChannel.id);
         const currentTeamId = getCurrentTeamId(state);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
+        const {emojiNames} = getEmojiReactionsMap(getReactionsForPost(state, latestReplyablePostId));
 
         return {
             currentTeamId,
@@ -127,6 +131,7 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
+            reactionsByEmojiNameForLatestPost: emojiNames
         };
     };
 }
