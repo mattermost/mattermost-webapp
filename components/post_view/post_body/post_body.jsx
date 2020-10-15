@@ -17,6 +17,7 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import EmbeddedForm from 'components/embedded_form';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -196,6 +197,15 @@ export default class PostBody extends React.PureComponent {
                     {messageWrapper}
                 </PostBodyAdditionalContent>
             );
+        }
+
+        if (this.props.post.props["dialog"]) {
+            messageWithAdditionalContent = (
+                <React.Fragment>
+                    {messageWrapper}
+                    <EmbeddedForm dialog={this.props.post.props["dialog"]} />
+                </React.Fragment>
+            )
         }
 
         let mentionHighlightClass = '';

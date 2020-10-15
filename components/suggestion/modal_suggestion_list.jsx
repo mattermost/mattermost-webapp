@@ -49,7 +49,9 @@ export default class ModalSuggestionList extends React.PureComponent {
     componentDidMount() {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.addEventListener('scroll', this.onModalScroll);
+            if (modalBodyContainer) {
+                modalBodyContainer.addEventListener('scroll', this.onModalScroll);
+            }
         }
         window.addEventListener('resize', this.updateModalBounds);
     }
@@ -57,7 +59,9 @@ export default class ModalSuggestionList extends React.PureComponent {
     componentWillUnmount() {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
+            if (modalBodyContainer) {
+                modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
+            }
         }
         window.removeEventListener('resize', this.updateModalBounds);
     }
@@ -76,10 +80,13 @@ export default class ModalSuggestionList extends React.PureComponent {
             this.updateLocation(newInputBounds);
 
             if (this.container.current) {
-                const modalBodyRect = getClosestParent(this.container.current, '.modal-body').getBoundingClientRect();
-                if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
-                    this.props.onLoseVisibility();
-                    return;
+                const closestParent = getClosestParent(this.container.current, '.modal-body')
+                if (closestParent) {
+                    const modalBodyRect = closestParent.getBoundingClientRect();
+                    if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
+                        this.props.onLoseVisibility();
+                        return;
+                    }
                 }
             }
 
@@ -141,10 +148,12 @@ export default class ModalSuggestionList extends React.PureComponent {
         }
 
         const modalContainer = getClosestParent(this.container.current, '.modal-content');
-        const modalBounds = modalContainer.getBoundingClientRect();
+        if (modalContainer) {
+            const modalBounds = modalContainer.getBoundingClientRect();
 
-        if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
-            this.setState({modalBounds: {top: modalBounds.top, bottom: modalBounds.bottom}});
+            if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
+                this.setState({modalBounds: {top: modalBounds.top, bottom: modalBounds.bottom}});
+            }
         }
     }
 
