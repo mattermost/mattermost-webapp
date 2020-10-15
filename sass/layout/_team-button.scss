@@ -9,6 +9,7 @@
     text-transform: capitalize;
     vertical-align: top;
     width: 47px;
+    border-color: rgba(var(--sidebar-header-text-color-rgb), 0.3);
 
     &:active,
     &:focus-within {
