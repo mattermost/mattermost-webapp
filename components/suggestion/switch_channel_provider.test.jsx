@@ -12,12 +12,17 @@ jest.mock('stores/redux_store', () => ({
     getState: jest.fn(),
 }));
 
-jest.mock('mattermost-redux/utils/channel_utils', () => ({
-    ...jest.requireActual('mattermost-redux/utils/channel_utils'),
-    isGroupChannelVisible: jest.fn(() => true),
-    isDirectChannelVisible: jest.fn(() => true),
-    isUnreadChannel: jest.fn(() => false),
-}));
+jest.mock('mattermost-redux/client', () => {
+    const original = jest.requireActual('mattermost-redux/client');
+
+    return {
+        ...original,
+        Client4: {
+            ...original.Client4,
+            autocompleteUsers: jest.fn().mockResolvedValue([]),
+        },
+    };
+});
 
 describe('components/SwitchChannelProvider', () => {
     it('should change name on wrapper to be unique with same name user channel and public channel', () => {
@@ -36,7 +41,7 @@ describe('components/SwitchChannelProvider', () => {
                             msg_count: 9,
                         },
                     },
-                    channels: {}
+                    channels: {},
                 },
                 preferences: {
                     myPreferences: {
@@ -62,7 +67,6 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const resultsCallback = jest.fn();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -91,17 +95,14 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other';
 
         switchProvider.startNewRequest();
-        switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
+        const result = switchProvider.formatList(searchText, channels, users);
 
-        expect(resultsCallback).toHaveBeenCalled();
+        var set = new Set(result.terms);
+        expect(set.size).toEqual(result.items.length);
 
-        const wrappers = resultsCallback.mock.calls[0][0];
-        var set = new Set(wrappers.terms);
-        expect(set.size).toEqual(wrappers.items.length);
-
-        var set2 = new Set(wrappers.items.map((o) => o.channel.name));
+        var set2 = new Set(result.items.map((o) => o.channel.name));
         expect(set2.size).toEqual(1);
-        expect(wrappers.items.length).toEqual(2);
+        expect(result.items.length).toEqual(2);
     });
 
     it('should change name on wrapper to be unique with same name user in channel and public channel', () => {
@@ -146,7 +147,6 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const resultsCallback = jest.fn();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -168,17 +168,14 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other';
 
         switchProvider.startNewRequest();
-        switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
+        const result = switchProvider.formatList(searchText, channels, users);
 
-        expect(resultsCallback).toHaveBeenCalled();
+        var set = new Set(result.terms);
+        expect(set.size).toEqual(result.items.length);
 
-        const wrappers = resultsCallback.mock.calls[0][0];
-        var set = new Set(wrappers.terms);
-        expect(set.size).toEqual(wrappers.items.length);
-
-        var set2 = new Set(wrappers.items.map((o) => o.channel.name));
+        var set2 = new Set(result.items.map((o) => o.channel.name));
         expect(set2.size).toEqual(1);
-        expect(wrappers.items.length).toEqual(2);
+        expect(result.items.length).toEqual(2);
     });
 
     it('should not fail if nothing matches', () => {
@@ -222,7 +219,6 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const resultsCallback = jest.fn();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -245,12 +241,10 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'something else';
 
         switchProvider.startNewRequest();
-        switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
+        const results = switchProvider.formatList(searchText, channels, users);
 
-        expect(resultsCallback).toHaveBeenCalled();
-        const wrappers = resultsCallback.mock.calls[0][0];
-        expect(wrappers.terms.length).toEqual(0);
-        expect(wrappers.items.length).toEqual(0);
+        expect(results.terms.length).toEqual(0);
+        expect(results.items.length).toEqual(0);
     });
 
     it('should correctly format the display name depending on the preferences', () => {
@@ -356,7 +350,6 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const resultsCallback = jest.fn();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -406,19 +399,17 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other';
 
         switchProvider.startNewRequest();
-        switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
+        const results = switchProvider.formatList(searchText, channels, users);
 
-        expect(resultsCallback).toHaveBeenCalled();
         const expectedOrder = [
             'channel_other_user', //open channels are at thetop ofthe list
-            'direct_other_user1',
-            'direct_other_user2',
+            'other_user1',
+            'other_user2',
             'other_user3',
             'other_user4',
         ];
 
-        const wrappers = resultsCallback.mock.calls[0][0];
-        expect(wrappers.terms).toEqual(expectedOrder);
+        expect(results.terms).toEqual(expectedOrder);
     });
 
     it('should sort results based on last_viewed_at order followed by alphabetical', () => {
@@ -473,7 +464,6 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const resultsCallback = jest.fn();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -530,18 +520,147 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other';
 
         switchProvider.startNewRequest();
-        switchProvider.formatChannelsAndDispatch(searchText, resultsCallback, channels, users);
+        const results = switchProvider.formatList(searchText, channels, users);
 
-        expect(resultsCallback).toHaveBeenCalled();
         const expectedOrder = [
-            'direct_other_user4',
-            'direct_other_user1',
+            'other_user4',
+            'other_user1',
             'channel_other_user',
-            'direct_other_user2',
+            'other_user2',
             'other_user3',
         ];
 
-        const wrappers = resultsCallback.mock.calls[0][0];
-        expect(wrappers.terms).toEqual(expectedOrder);
+        expect(results.terms).toEqual(expectedOrder);
     });
+
+    // it('should change name on wrapper to be unique with same name user channel and public channel', async () => {
+    // jest.mock('mattermost-redux/actions/channels', () => ({
+    //     ...jest.requireActual('mattermost-redux/actions/channels'),
+    //     searchChannels: jest.fn().mockResolvedValue({data: [{
+    //         id: 'channel_other_user1',
+    //         type: 'O',
+    //         name: 'other_user',
+    //         display_name: 'other_user',
+    //         delete_at: 0,
+    //     }]}),
+    // }));
+    //
+    // const defaultState = {
+    //     entities: {
+    //         general: {
+    //             config: {},
+    //         },
+    //         channels: {
+    //             myMembers: {
+    //                 direct_other_user1: {
+    //                     channel_id: 'direct_other_user1',
+    //                     msg_count: 1,
+    //                     last_viewed_at: 2,
+    //                 },
+    //                 direct_other_user4: {
+    //                     channel_id: 'direct_other_user4',
+    //                     msg_count: 1,
+    //                     last_viewed_at: 3,
+    //                 },
+    //                 channel_other_user:  {
+    //                     channel_id: 'channel_other_user',
+    //                     user_id: 'current_user_id',
+    //                     roles: 'channel_role',
+    //                     mention_count: 1,
+    //                     msg_count: 9,
+    //                     last_viewed_at: 1,
+    //                 }
+    //             },
+    //             channels: {
+    //                 channel_other_user: {
+    //                     id: 'channel_other_user',
+    //                     type: 'O',
+    //                     name: 'other_user',
+    //                     display_name: 'other_user',
+    //                     delete_at: 0,
+    //                     team_id: 'currentTeamId'
+    //                 },
+    //             },
+    //         },
+    //         teams: {
+    //             currentTeamId: 'currentTeamId',
+    //             teams: {
+    //                 currentTeamId: {
+    //                     id:'currentTeamId',
+    //                     display_name: 'test',
+    //                     type: "O"
+    //                 },
+    //             },
+    //         },
+    //         preferences: {
+    //             myPreferences: {
+    //                 'display_settings--name_format': {
+    //                     category: 'display_settings',
+    //                     name: 'name_format',
+    //                     user_id: 'current_user_id',
+    //                     value: 'username',
+    //                 },
+    //             },
+    //         },
+    //         users: {
+    //             profiles: {
+    //                 current_user_id: {roles: 'system_role'},
+    //                 other_user1: {
+    //                     id: 'other_user1',
+    //                     display_name: 'other_user1',
+    //                     username: 'other_user1',
+    //                 },
+    //                 other_user2: {
+    //                     id: 'other_user2',
+    //                     display_name: 'other_user2',
+    //                     username: 'other_user2',
+    //                 },
+    //                 other_user4: {
+    //                     id: 'other_user4',
+    //                     display_name: 'other_user4',
+    //                     username: 'other_user4',
+    //                 },
+    //                 other_user3: {
+    //                     id: 'other_user3',
+    //                     display_name: 'other_user3',
+    //                     username: 'other_user3',
+    //                 },
+    //             },
+    //             currentUserId: 'current_user_id',
+    //             profilesInChannel: {
+    //                 current_user_id: ['user_1'],
+    //             },
+    //
+    //         },
+    //     },
+    // };
+    // getState.mockClear();
+    //
+    // const switchProvider = new SwitchChannelProvider();
+    // const mockStore = configureStore();
+    // const store = mockStore(defaultState);
+    //
+    // getState.mockImplementation(store.getState);
+    // const searchText = 'other';
+    // const resultsCallback = jest.fn();
+    //
+    // switchProvider.startNewRequest();
+    // await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
+    // const expectedOrder = [
+    //         'other_user1',
+    //         'other_user2',
+    //         'other_user3',
+    //         'other_user4',
+    //     ];
+    //
+    // expect(resultsCallback).toBeCalledWith(expect.objectContaining({
+    //   terms: expectedOrder
+    // }));
+    // var set = new Set(result.terms);
+    // expect(set.size).toEqual(result.items.length);
+    //
+    // var set2 = new Set(result.items.map((o) => o.channel.name));
+    // expect(set2.size).toEqual(1);
+    // expect(result.items.length).toEqual(2);
+    // });
 });

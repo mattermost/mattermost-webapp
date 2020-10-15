@@ -25,7 +25,7 @@ import {
     getUser,
     searchProfiles,
 } from 'mattermost-redux/selectors/entities/users';
-import * as ChannelActions from 'mattermost-redux/actions/channels';
+import {searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
@@ -281,7 +281,10 @@ export default class SwitchChannelProvider extends Provider {
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
             const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
-            this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels, users);
+            const formattedData = this.formatList(channelPrefix, channels, users);
+            if (formattedData) {
+                resultsCallback(formattedData);
+            }
 
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
@@ -307,10 +310,11 @@ export default class SwitchChannelProvider extends Provider {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
         }
 
-        const channelsAsync = ChannelActions.searchChannels(teamId, channelPrefix)(store.dispatch, store.getState);
+        const channelsAsync = searchChannels(teamId, channelPrefix)(store.dispatch, store.getState);
 
         let usersFromServer = [];
         let channelsFromServer = [];
+
         try {
             usersFromServer = await usersAsync;
             const {data} = await channelsAsync;
@@ -323,15 +327,30 @@ export default class SwitchChannelProvider extends Provider {
             return;
         }
 
-        const users = Object.assign([], searchProfiles(state, channelPrefix, false)).concat(usersFromServer.users);
         const currentUserId = getCurrentUserId(state);
+
+        const localChannelData = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)) || [];
+        const localUserData = Object.assign([], searchProfiles(state, channelPrefix, false)) || [];
+        const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
+
+        const remoteChannelData = channelsFromServer || [];
+        const remoteUserData = Object.assign([], usersFromServer.users) || [];
+        const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData);
+
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILES_LIST,
-            data: users.filter((user) => user.id !== currentUserId),
+            data: [...localUserData.filter((user) => user.id !== currentUserId), ...remoteUserData.filter((user) => user.id !== currentUserId)],
         });
+        const combinedTerms = [...localFormattedData.terms, ...remoteFormattedData.terms.filter((term) => !localFormattedData.terms.includes(term))];
+        const combinedItems = [...localFormattedData.items, ...remoteFormattedData.items.filter((item) => !localFormattedData.terms.includes(item.channel.userId || item.channel.id))];
 
-        const channels = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)).concat(channelsFromServer);
-        this.formatChannelsAndDispatch(channelPrefix, resultsCallback, channels, users);
+        resultsCallback({
+            ...localFormattedData,
+            ...{
+                items: combinedItems,
+                terms: combinedTerms,
+            },
+        });
     }
 
     userWrappedChannel(user, channel) {
@@ -380,14 +399,10 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatChannelsAndDispatch(channelPrefix, resultsCallback, allChannels, users) {
+    formatList(channelPrefix, allChannels, users) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
-
-        if (this.shouldCancelDispatch(channelPrefix)) {
-            return;
-        }
 
         const completedChannels = {};
 
@@ -468,14 +483,14 @@ export default class SwitchChannelProvider extends Provider {
         }
         const channelNames = channels.
             sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.channel.id);
+            map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
 
-        resultsCallback({
+        return {
             matchedPretext: channelPrefix,
             terms: channelNames,
             items: channels,
             component: ConnectedSwitchChannelSuggestion,
-        });
+        };
     }
 
     formatUnreadChannelsAndDispatch(resultsCallback) {
