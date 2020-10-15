@@ -48,7 +48,7 @@ describe('Integrations', () => {
             cy.visit(`/${testTeam}/channels/${testChannel}`);
 
             // Post message and assert token is present in test message
-            cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+            cy.postMessage('testing', {timeout: TIMEOUTS.ONE_MIN});
             cy.uiWaitUntilMessagePostedIncludes(generatedToken);
         });
 
@@ -65,8 +65,12 @@ describe('Integrations', () => {
             //# Post a message and confirm regenerated token appears
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam}/channels/${testChannel}`);
-            cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
-            cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).should('does.not', generatedToken);
+            cy.postMessage('testing', {timeout: TIMEOUTS.ONE_MIN});
+            cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).then(() => {
+                cy.getLastPostId().then((lastPostId) => {
+                    cy.get(`#${lastPostId}_message`).should('not.contain', generatedToken);
+                });
+            });
         });
     });
 });
