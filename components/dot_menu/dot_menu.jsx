@@ -313,9 +313,9 @@ export default class DotMenu extends React.PureComponent {
                                 from: [
                                     {
                                         item,
-                                    }
-                                ]
-                            }
+                                    },
+                                ],
+                            },
                         });
                     }}
                     icon={(<img src={item.icon}/>)}

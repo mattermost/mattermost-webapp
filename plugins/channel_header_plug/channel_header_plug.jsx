@@ -160,8 +160,8 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         from: [
                             {
                                 plugAction,
-                            }
-                        ]
+                            },
+                        ],
                     },
                 })}
                 buttonId={plugAction.location_id}
@@ -210,8 +210,8 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                                 from: [
                                     {
                                         plug,
-                                    }
-                                ]
+                                    },
+                                ],
                             },
                         }))}
                     >
