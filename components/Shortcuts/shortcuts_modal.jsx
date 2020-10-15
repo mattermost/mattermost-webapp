@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {injectIntl} from 'react-intl';
+import {injectIntl, defineMessages} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
@@ -12,7 +12,37 @@ import {intlShape} from 'utils/react_intl';
 
 import * as Utils from 'utils/utils';
 
-import {allShortcuts} from './shortcuts.js';
+import {t} from 'utils/i18n';
+
+import {allShortcuts} from './shortcuts';
+
+const modalMessages = defineMessages({
+    msgHeader: {
+        id: t('shortcuts.msgs.header'),
+        defaultMessage: 'Messages',
+    },
+    msgInputHeader: {
+        id: t('shortcuts.msgs.input.header'),
+        defaultMessage: 'Works inside an empty input field',
+    },
+    filesHeader: {
+        id: t('shortcuts.files.header'),
+        defaultMessage: 'Files',
+    },
+    browserHeader: {
+        id: t('shortcuts.browser.header'),
+        defaultMessage: 'Built-in Browser Commands',
+    },
+    info: {
+        id: t('shortcuts.info'),
+        defaultMessage:
+      'Begin a message with / for a list of all the commands at your disposal.',
+    },
+    navHeader: {
+        id: t('shortcuts.nav.header'),
+        defaultMessage: 'Navigation',
+    },
+});
 
 class ShortcutsModal extends React.PureComponent {
     static propTypes = {
@@ -102,13 +132,9 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'>
-                                            <strong>
-                                                {formatMessage(
-                                                    shortcuts.navHeader,
-                                                )}
-                                            </strong>
-                                        </h4>
+                                        <h4 className='section-title'><strong>{formatMessage({id: t('shortcuts.nav.Header'),
+                                            defaultMessage: 'Navigation',
+                                        })}</strong></h4>
                                         {renderShortcut(
                                             formatMessage(shortcuts.navPrev),
                                         )}

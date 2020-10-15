@@ -10,6 +10,8 @@ import {Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
+import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -42,7 +44,6 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
 import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -1436,10 +1437,11 @@ class CreatePost extends React.PureComponent {
         );
 
         let fileUpload;
+        const tooltipTriggers = ['hover', 'focus'];
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <OverlayTrigger
-                    trigger={['hover']}
+                    trigger={tooltipTriggers}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={tooltip}

@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 
+import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+
 import {trackEvent} from 'actions/telemetry_actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -13,7 +15,6 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
 import ShortcutSequence from 'components/Shortcuts/shortcut_sequence';
 
 type Props = {

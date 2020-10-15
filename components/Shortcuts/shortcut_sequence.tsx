@@ -2,29 +2,43 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {MessageDescriptor} from 'react-intl';
+import {useIntl, MessageDescriptor, IntlFormatters} from 'react-intl';
 
 type Props = {
     shortcut: MessageDescriptor;
+    values?: Parameters<IntlFormatters['formatMessage']>[1],
+    hideDescription?: boolean;
 };
 
-export default function ShortcutSequence({shortcut}: Props) {
-    if (!shortcut?.defaultMessage) {
-        return null;
+export default function ShortcutSequence({shortcut, values, hideDescription}: Props) {
+    const {formatMessage} = useIntl;
+
+    const shortcutText = formatMessage(shortcut, values);
+    const splitShorcut = shortcutText.split('\t');
+
+    let description;
+    let keys;
+
+    if (splitShorcut.length > 1) {
+        description = splitShorcut[0];
+        keys = splitShorcut[1];
+    } else if (splitShorcut.includes('|')) {
+        keys = splitShorcut[0];
+    } else {
+        description = splitShorcut[0];
     }
 
-    const shortCut = shortcut.defaultMessage.split('\t');
-    let keys = null;
-    if (shortCut.length > 1) {
-        keys = shortCut[1].split('|').map((key) => (
+    return (<div className='shortcut-line'>
+
+        {!hideDescription && description}
+        {keys?.split('|').map((key: string) => (
             <span
                 className='shortcut-key'
                 key={key}
             >
                 {key}
             </span>
-        ));
-    }
+        ))}
 
-    return <div className='shortcut-line'>{keys}</div>;
+    </div>);
 }

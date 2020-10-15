@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {defineMessages} from 'react-intl';
+import {MessageDescriptor} from 'react-intl';
 
 import * as Utils from 'utils/utils';
 
 import {t} from 'utils/i18n';
 
-export const allShortcuts = defineMessages({
+export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescriptor, default: MessageDescriptor}> = {
     mainHeader: {
         default: {
             id: t('shortcuts.header'),
@@ -16,10 +16,6 @@ export const allShortcuts = defineMessages({
             id: t('shortcuts.header.mac'),
             defaultMessage: 'Keyboard Shortcuts\t⌘|/',
         },
-    },
-    navHeader: {
-        id: t('shortcuts.nav.header'),
-        defaultMessage: 'Navigation',
     },
     navPrev: {
         default: {
@@ -151,14 +147,6 @@ export const allShortcuts = defineMessages({
             defaultMessage: 'Open or close the right sidebar\t⌘|.',
         },
     },
-    msgHeader: {
-        id: t('shortcuts.msgs.header'),
-        defaultMessage: 'Messages',
-    },
-    msgInputHeader: {
-        id: t('shortcuts.msgs.input.header'),
-        defaultMessage: 'Works inside an empty input field',
-    },
     msgEdit: {
         id: t('shortcuts.msgs.edit'),
         defaultMessage: 'Edit last message in channel:\tUp',
@@ -213,10 +201,6 @@ export const allShortcuts = defineMessages({
             defaultMessage: 'React to last message:\t⌘|Shift|\u29F5',
         },
     },
-    filesHeader: {
-        id: t('shortcuts.files.header'),
-        defaultMessage: 'Files',
-    },
     filesUpload: {
         default: {
             id: t('shortcuts.files.upload'),
@@ -226,10 +210,6 @@ export const allShortcuts = defineMessages({
             id: t('shortcuts.files.upload.mac'),
             defaultMessage: 'Upload files:\t⌘|U',
         },
-    },
-    browserHeader: {
-        id: t('shortcuts.browser.header'),
-        defaultMessage: 'Built-in Browser Commands',
     },
     browserChannelPrev: {
         default: {
@@ -297,12 +277,7 @@ export const allShortcuts = defineMessages({
         id: t('shortcuts.browser.newline'),
         defaultMessage: 'Create a new line:\tShift|Enter',
     },
-    info: {
-        id: t('shortcuts.info'),
-        defaultMessage:
-      'Begin a message with / for a list of all the commands at your disposal.',
-    },
-});
+};
 
 export function parsedShortcuts(allshortcuts) {
     const ismac = Utils.isMac();
@@ -320,20 +295,4 @@ export function parsedShortcuts(allshortcuts) {
     return shortcuts;
 }
 
-// if (isMac()) {
-//     toolTipHelp = formatMessage(//         id: 'team.button.tooltip.mac',
-//         defaultMessage: '⌘ ⌥ {order}',
-//     },
-//     {
-//         order: this.props.order,
-//     });
-// } else {
-//     toolTipHelp = formatMessage({
-//         id: 'team.button.tooltip',
-//defaultMessage: 'Ctrl+Alt+{order}',
-//},
-//{
-//order: this.props.order,
-//});
-// }
-
+export const shotcuts = parsedShortcuts(allShortcuts);
