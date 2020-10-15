@@ -51,7 +51,7 @@
 
                 span {
                     &:first-child {
-                        margin-right: 4px;
+                        margin-left: 0px;
                     }
                 }
 
@@ -83,7 +83,7 @@
 }
 
 .shortcut-line {
-    padding: 4px;
+    padding: 4px 0px;
 
     span {
         &:first-child {
@@ -101,6 +101,7 @@
         padding: 2px 8px;
         line-height:16px;
         font-family: 'Open Sans';
+        display:inline-block;
     }
 }
 
