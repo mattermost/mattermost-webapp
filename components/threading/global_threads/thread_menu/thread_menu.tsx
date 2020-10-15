@@ -42,11 +42,7 @@ function ThreadMenu({
         openInChannel,
         copyLink,
     },
-    children = (
-        <Button>
-            <i className='Icon icon-dots-vertical'/>
-        </Button>
-    ),
+    children,
 }: PropsWithChildren<Props>) {
     const {formatMessage} = useIntl();
 
@@ -54,15 +50,19 @@ function ThreadMenu({
         <MenuWrapper
             stopPropagationOnToggle={true}
         >
-            <SimpleTooltip
-                id='threadActionMenu'
-                content={formatMessage({
-                    id: t('threading.threadItem.menu'),
-                    defaultMessage: 'Actions',
-                })}
-            >
-                {children}
-            </SimpleTooltip>
+            {children || (
+                <SimpleTooltip
+                    id='threadActionMenu'
+                    content={formatMessage({
+                        id: t('threading.threadItem.menu'),
+                        defaultMessage: 'Actions',
+                    })}
+                >
+                    <Button className='Button___icon'>
+                        <i className='Icon icon-dots-vertical'/>
+                    </Button>
+                </SimpleTooltip>
+            )}
 
             <Menu
                 ariaLabel={''}

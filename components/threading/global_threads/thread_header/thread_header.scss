@@ -1,14 +1,35 @@
 
 .ThreadHeader {
-    > div {
-        display: inline-grid;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    padding-right: 16px;
+    --button-separator-height: 24px;
 
     h3 {
         display: inline-block;
 
+        > span {
+            font-size: 16px;
+            line-height: 32px;
+            font-weight: 600;
+            vertical-align: top;
+            padding: 0 8px;
+        }
+
+        .Button {
+            padding: 4px 8px;
+            font-size: 12px;
+            height: 24px;
+            font-weight: 400;
+            color: rgba(var(--center-channel-color-rgb), .56);
+        }
     }
-    padding: 12px 16px 24px;
+
+    > .spacer {
+        flex: 1;
+    }
 }
 
     // .alt-visible {

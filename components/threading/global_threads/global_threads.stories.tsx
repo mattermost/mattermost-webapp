@@ -121,44 +121,40 @@ storiesOf('Features/Threading/Global Threads', module).
         );
 
         return (
-            <StoryGrid>
-                <StoryBox containerStyle={{width: 500}}>
-                    <ThreadList>
-                        {React.cloneElement(post)}
-                        {React.cloneElement(post)}
-                        {React.cloneElement(post)}
-                        {React.cloneElement(post)}
-                        {React.cloneElement(post)}
-                        {React.cloneElement(post)}
-                        {React.cloneElement(post)}
-                    </ThreadList>
-                </StoryBox>
-            </StoryGrid>
+            <StoryBox containerStyle={{width: 500}}>
+                <ThreadList>
+                    {React.cloneElement(post)}
+                    {React.cloneElement(post)}
+                    {React.cloneElement(post)}
+                    {React.cloneElement(post)}
+                    {React.cloneElement(post)}
+                    {React.cloneElement(post)}
+                    {React.cloneElement(post)}
+                </ThreadList>
+            </StoryBox>
         );
     }).
     add('ThreadHeader', () => {
         return (
-            <StoryGrid>
-                <StoryBox containerStyle={{width: 900}}>
-                    <ThreadHeader
-                        channelName={text('channelName', 'Enterprise Team')}
+            <StoryBox containerStyle={{width: 900}}>
+                <ThreadHeader
+                    channelName={text('channelName', 'Enterprise Team')}
 
-                        isFollowing={boolean('is following', true)}
-                        isSaved={boolean('is saved', false)}
-                        isSelected={boolean('is selected', false)}
+                    isFollowing={boolean('is following', true)}
+                    isSaved={boolean('is saved', false)}
+                    isSelected={boolean('is selected', false)}
 
-                        actions={{
-                            follow: action('follow'),
-                            unfollow: action('unfollow'),
-                            openInChannel: action('open in channel'),
-                            markRead: action('mark as read'),
-                            markUnread: action('mark as unread'),
-                            save: action('save'),
-                            unsave: action('unsave'),
-                            copyLink: action('copy link'),
-                        }}
-                    />
-                </StoryBox>
-            </StoryGrid>
+                    actions={{
+                        follow: action('follow'),
+                        unfollow: action('unfollow'),
+                        openInChannel: action('open in channel'),
+                        markRead: action('mark as read'),
+                        markUnread: action('mark as unread'),
+                        save: action('save'),
+                        unsave: action('unsave'),
+                        copyLink: action('copy link'),
+                    }}
+                />
+            </StoryBox>
         );
     });

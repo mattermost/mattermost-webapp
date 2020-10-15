@@ -8,12 +8,15 @@
     font-style: normal;
     font-weight: 600;
 
+    color: rgba(var(--center-channel-color-rgb), .56);
+
     &:hover,
     &:focus {
         text-decoration: none;
         color: rgba(var(--center-channel-color-rgb), .72);
     }
 
+    &:active,
     &.is-active {
         color: rgba(var(--button-bg-rgb), 1);
     }
@@ -26,15 +29,14 @@
         &:focus {
             background: rgba(var(--center-channel-color-rgb), .08);
         }
+        &:active,
         &.is-active {
             background: rgba(var(--button-bg-rgb), .08);
-            &:focus {
-                position: relative;
-                &:after {
-                    @extend %synthetic-block;
-                    border-radius: 4px;
-                    border: 2px solid rgba(var(--button-bg-rgb), 1);
-                }
+        }
+        &.is-active {
+            &:active,
+            &:focus-visible {
+                background: rgba(var(--button-bg-rgb), .16);
             }
         }
     }
@@ -51,7 +53,7 @@
         }
     }
 
-    &.Margined + * {
+    &.Margined:not(:nth-of-type(0)){
         margin-left: 4px;
     }
 
@@ -81,10 +83,11 @@
     & + .Button:not(.Margined):not(:hover):not(:focus):not(.is-active) {
         position: relative;
         &::before {
+            position: absolute;
             width: 1px;
             height: var(--button-separator-height, 100%);
-            position: absolute;
-            top: 0;
+            transform: translateY(-50%);
+            top: 50%;
             left: -.5px;
             background: rgba(var(--center-channel-color-rgb), .16);
             content: '';
