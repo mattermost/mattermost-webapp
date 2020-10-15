@@ -174,7 +174,6 @@ exports[`components/admin_console/system_user_detail should match default snapsh
     </div>
     <Overlay
       animation={[Function]}
-      delayShow={400}
       placement="top"
       rootClose={false}
       show={false}
@@ -424,7 +423,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
     </div>
     <Overlay
       animation={[Function]}
-      delayShow={400}
       placement="top"
       rootClose={false}
       show={false}
@@ -681,7 +679,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
     </div>
     <Overlay
       animation={[Function]}
-      delayShow={400}
       placement="top"
       rootClose={false}
       show={false}
@@ -932,7 +929,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
     </div>
     <Overlay
       animation={[Function]}
-      delayShow={400}
       placement="top"
       rootClose={false}
       show={false}
@@ -1182,7 +1178,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
     </div>
     <Overlay
       animation={[Function]}
-      delayShow={400}
       placement="top"
       rootClose={false}
       show={false}
@@ -1432,7 +1427,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
     </div>
     <Overlay
       animation={[Function]}
-      delayShow={400}
       placement="top"
       rootClose={false}
       show={false}
