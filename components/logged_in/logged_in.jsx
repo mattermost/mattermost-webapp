@@ -82,7 +82,10 @@ export default class LoggedIn extends React.PureComponent {
         }
 
         if (!this.props.currentUser) {
-            document.getElementById('root').setAttribute('class', '');
+            const rootEl = document.getElementById('root');
+            if (rootEl) {
+                rootEl.setAttribute('class', '');
+            }
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
@@ -170,7 +173,7 @@ export default class LoggedIn extends React.PureComponent {
         }
     }
 
-    handleBackSpace(e) {
+    handleBackSpace = (e) => {
         const excludedElements = ['input', 'textarea'];
 
         if (e.which === BACKSPACE_CHAR && !(excludedElements.includes(e.target.tagName.toLowerCase()))) {
@@ -178,8 +181,8 @@ export default class LoggedIn extends React.PureComponent {
         }
     }
 
-    handleBeforeUnload() {
-        // Turn off to prevent getting stuck in a loop
+    handleBeforeUnload = () => {
+        // remove the event listener to prevent getting stuck in a loop
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         if (document.cookie.indexOf('MMUSERID=') > -1) {
             viewChannel('', this.props.currentChannelId || '')(dispatch, getState);

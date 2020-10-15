@@ -239,7 +239,7 @@ export default class Root extends React.PureComponent {
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
     }
 
-    handleLogoutLoginSignal(e) {
+    handleLogoutLoginSignal = (e) => {
         // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
         const isNewLocalStorageEvent = (event) => event.storageArea === localStorage && event.newValue;
 
