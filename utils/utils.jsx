@@ -635,8 +635,6 @@ export function applyTheme(theme) {
             '.app__body .sidebar-right__body .post-attachment-collapse__show-more',
             `background-color:${theme.centerChannelBg}`,
         );
-
-        changeCss('.app__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
     }
 
     if (theme.centerChannelColor) {
