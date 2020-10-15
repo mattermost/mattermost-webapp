@@ -394,7 +394,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                             <div className='col-md-5 col-sm-8'>
                                 <input
                                     id='icon_url'
-                                    ref='icon_url'
+                                    ref={this.icon_url}
                                     type='url'
                                     maxLength='512'
                                     className='form-control'
