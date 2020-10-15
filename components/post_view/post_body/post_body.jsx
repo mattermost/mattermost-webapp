@@ -199,13 +199,13 @@ export default class PostBody extends React.PureComponent {
             );
         }
 
-        if (this.props.post.props["dialog"]) {
+        if (this.props.post.props.dialog) {
             messageWithAdditionalContent = (
                 <React.Fragment>
                     {messageWrapper}
-                    <EmbeddedForm dialog={this.props.post.props["dialog"]} />
+                    <EmbeddedForm dialog={this.props.post.props.dialog}/>
                 </React.Fragment>
-            )
+            );
         }
 
         let mentionHighlightClass = '';

@@ -80,7 +80,7 @@ export default class ModalSuggestionList extends React.PureComponent {
             this.updateLocation(newInputBounds);
 
             if (this.container.current) {
-                const closestParent = getClosestParent(this.container.current, '.modal-body')
+                const closestParent = getClosestParent(this.container.current, '.modal-body');
                 if (closestParent) {
                     const modalBodyRect = closestParent.getBoundingClientRect();
                     if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {

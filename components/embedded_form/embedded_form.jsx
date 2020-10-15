@@ -104,11 +104,11 @@ export default class EmbeddedForm extends React.PureComponent {
 
         this.setState({submitting: false});
 
-        let hasErrors = false;
+        //let hasErrors = false;
 
         if (data) {
             if (data.error) {
-                hasErrors = true;
+                //hasErrors = true;
                 this.setState({error: data.error});
             }
 
@@ -117,7 +117,7 @@ export default class EmbeddedForm extends React.PureComponent {
                 Object.keys(data.errors).length >= 0 &&
                 checkIfErrorsMatchElements(data.errors, elements)
             ) {
-                hasErrors = true;
+                //hasErrors = true;
                 this.setState({errors: data.errors});
             }
         }
