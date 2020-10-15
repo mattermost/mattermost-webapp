@@ -7,6 +7,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {Subscription} from 'mattermost-redux/types/cloud';
 import {isEmpty} from 'lodash';
 
 import {t} from 'utils/i18n';
@@ -28,10 +29,12 @@ type Props = {
     preferences: PreferenceType[];
     isCloud: boolean;
     analytics?: Dictionary<number | AnalyticsRow[]>;
+    subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getStandardAnalytics: () => void;
-        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
+        getCloudSubscription: () => void;
+        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
 };
 
@@ -39,6 +42,10 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
     async componentDidMount() {
         if (isEmpty(this.props.analytics)) {
             await this.props.actions.getStandardAnalytics();
+        }
+
+        if (isEmpty(this.props.subscription)) {
+            await this.props.actions.getCloudSubscription();
         }
     }
 
@@ -56,7 +63,17 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
     }
 
     shouldShowBanner = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
+        const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
+
+        // Prevents banner flashes if the subscription hasn't been loaded yet
+        if (subscription === null) {
+            return false;
+        }
+
+        if (subscription?.is_paid_tier === 'true') {
+            return false;
+        }
+
         if (!isCloud) {
             return false;
         }
