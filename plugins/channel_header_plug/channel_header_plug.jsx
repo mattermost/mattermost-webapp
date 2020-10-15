@@ -147,7 +147,23 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         height='24'
                     />
                 )}
-                onClick={() => doPluginAction(plugAction.wish.app_id, plugAction.wish.url, {channel_id: this.props.channel.id})}
+                onClick={() => doPluginAction({
+                    wish: {
+                        url: plugAction.wish.url,
+                    },
+                    data: {
+                        context: {
+                            app_id: plugAction.wish.app_id,
+                            team_id: this.props.channel.team_id,
+                            channel_id: this.props.channel.id,
+                        },
+                        from: [
+                            {
+                                plugAction,
+                            }
+                        ]
+                    },
+                })}
                 buttonId={plugAction.location_id}
                 tooltipKey={'plugin'}
                 tooltipText={plugAction.aria_text}
@@ -181,7 +197,23 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => doPluginAction(plug.wish.app_id, plug.wish.url, {channel_id: this.props.channel.id}))}
+                        onClick={() => this.fireActionAndClose(() => doPluginAction({
+                            wish: {
+                                url: plug.wish.url,
+                            },
+                            data: {
+                                context: {
+                                    app_id: plug.wish.app_id,
+                                    team_id: this.props.channel.team_id,
+                                    channel_id: this.props.channel.id,
+                                },
+                                from: [
+                                    {
+                                        plug,
+                                    }
+                                ]
+                            },
+                        }))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.icon}/>)}</span>
                         <span>{plug.text}</span>

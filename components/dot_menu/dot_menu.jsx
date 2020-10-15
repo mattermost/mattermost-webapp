@@ -299,7 +299,24 @@ export default class DotMenu extends React.PureComponent {
                     text={item.text}
                     key={item.location_id + '_' + item.text}
                     onClick={() => {
-                        doPluginAction(item.wish.app_id, item.wish.url, {post_id: this.props.post.id});
+                        doPluginAction({
+                            wish: {
+                                url: item.wish.url,
+                            },
+                            data: {
+                                context: {
+                                    app_id: item.wish.app_id,
+                                    team_id: this.props.teamId,
+                                    channel_id: this.props.post.channel_id,
+                                    post_id: this.props.post.id,
+                                },
+                                from: [
+                                    {
+                                        item,
+                                    }
+                                ]
+                            }
+                        });
                     }}
                     icon={(<img src={item.icon}/>)}
                 />
