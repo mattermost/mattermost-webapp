@@ -21,6 +21,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     const post: Post = TestHelper.getPostMock({
         id: 'post_id_1',
         root_id: 'root_id',
+        channel_id: 'channel_id',
         create_at: 1,
     });
     const currentUser: UserProfile = TestHelper.getUserMock({
