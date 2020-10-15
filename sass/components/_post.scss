@@ -1848,6 +1848,7 @@
     .post-collapse__show-more-button {
         @include single-transition(all, .15s, ease);
         @include border-radius(2px);
+        background: var(--center-channel-bg);
         border: 1px solid transparent;
         display: inline-block;
         flex-shrink: 0;
