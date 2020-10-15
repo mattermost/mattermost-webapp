@@ -21,11 +21,10 @@ const goToAdminConsole = () => {
 };
 
 describe('System console', () => {
-    before(() => {
-        cy.apiRequireLicense();
-    });
-
     it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+
         const verifyCreatePublicChannel = (testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel) => {
             // * Login as system admin and go the channel we created earlier and expect the create public channel button is visible
             cy.apiAdminLogin();
