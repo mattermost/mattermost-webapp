@@ -20,6 +20,11 @@ const goToAdminConsole = () => {
 describe('System Console > Site Statistics', () => {
     let testTeam;
 
+    afterEach(() => {
+        // # Reset locale
+        cy.apiPatchMe({locale: 'en'});
+    });
+
     it('MM-T904_1 Site Statistics displays expected content categories', () => {
         // * Check if server has license
         cy.apiRequireLicense();
@@ -243,8 +248,5 @@ describe('System Console > Site Statistics', () => {
                 });
             });
         });
-
-        // # Reset locale
-        cy.apiPatchMe({locale: 'en'});
     });
 });
