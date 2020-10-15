@@ -9,12 +9,9 @@
 
 // Group: @integrations
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 describe('Integrations', () => {
     let testTeam;
     let testChannel;
-    let testUser;
 
     before(() => {
         const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
@@ -22,10 +19,9 @@ describe('Integrations', () => {
         cy.requireWebhookServer();
 
         // # Create test team, channel, and webhook
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team.name;
             testChannel = channel.name;
-            testUser = user;
 
             const newOutgoingHook = {
                 team_id: team.id,
@@ -40,32 +36,29 @@ describe('Integrations', () => {
     });
 
     it('MM-T612 Regenerate token', () => {
-        // # Grab generated token
+        // # Grab the generated token
         let generatedToken;
         cy.get('.item-details__token').then((number1) => {
             generatedToken = number1.text().split(' ').pop();
-            cy.apiLogin(testUser);
             cy.visit(`/${testTeam}/channels/${testChannel}`);
 
-            // Post message and assert token is present in test message
-            cy.postMessage('testing', {timeout: TIMEOUTS.ONE_MIN});
+            // * Post message and assert token is present in test message
+            cy.postMessage('testing');
             cy.uiWaitUntilMessagePostedIncludes(generatedToken);
         });
 
         // # Regenerate the token
-        cy.apiAdminLogin();
         cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.findAllByText('Regenerate Token').click();
 
-        // Grab regenerated token
+        // # Grab the regenerated token
         let regeneratedToken;
         cy.get('.item-details__token').then((number2) => {
             regeneratedToken = number2.text().split(' ').pop();
 
-            //# Post a message and confirm regenerated token appears
-            cy.apiLogin(testUser);
+            // * Post a message and confirm regenerated token appears only
             cy.visit(`/${testTeam}/channels/${testChannel}`);
-            cy.postMessage('testing', {timeout: TIMEOUTS.ONE_MIN});
+            cy.postMessage('testing');
             cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).then(() => {
                 cy.getLastPostId().then((lastPostId) => {
                     cy.get(`#${lastPostId}_message`).should('not.contain', generatedToken);
