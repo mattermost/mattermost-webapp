@@ -82,6 +82,11 @@
 
     &.bottom {
         margin-top: 10px;
+        > .arrow {
+            &:after {
+                border-bottom-color: var(--center-channel-bg);
+            }
+        }
     }
 
     ul + p,
