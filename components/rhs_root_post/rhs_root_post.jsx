@@ -54,6 +54,11 @@ class RhsRootPost extends React.PureComponent {
          */
         isLastPost: PropTypes.bool,
 
+        /*
+        * The number of emoji reactions this post has received
+        */
+        emojiReactionCount: PropTypes.number,
+
         /**
          * To check if the state of emoji for last message and from where it was emitted
          */
@@ -225,7 +230,7 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, emojiReactionCount} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -233,7 +238,7 @@ class RhsRootPost extends React.PureComponent {
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
 
         let postReaction;
-        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived && emojiReactionCount < Constants.EMOJI_REACTIONS_LIMIT) {
             postReaction = (
                 <PostReaction
                     channelId={post.channel_id}

@@ -16,6 +16,7 @@ import {isEmbedVisible} from 'selectors/posts';
 import {getEmojiMap} from 'selectors/emojis';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
+import {getEmojiReactionsCount} from "utils/emoji_reaction";
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis.js';
 
@@ -32,6 +33,7 @@ function mapStateToProps(state, ownProps) {
     const channel = getChannel(state, ownProps.post.channel_id) || {};
     const emojiMap = getEmojiMap(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+    const emojiReactionCount = getEmojiReactionsCount(getReactionsForPost(state, ownProps.post.id));
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),
@@ -47,6 +49,7 @@ function mapStateToProps(state, ownProps) {
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
+        emojiReactionCount
     };
 }
 
