@@ -44,13 +44,13 @@ describe('Integrations', () => {
         let generatedToken;
         cy.get('.item-details__token').then((number1) => {
             generatedToken = number1.text().split(' ').pop();
-        });
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam}/channels/${testChannel}`);
 
-        // # Post a message and confirm token appears
-        cy.apiLogin(testUser);
-        cy.visit(`/${testTeam}/channels/${testChannel}`);
-        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
-        cy.uiWaitUntilMessagePostedIncludes(generatedToken);
+            // Post message and assert token is present in test message
+            cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+            cy.uiWaitUntilMessagePostedIncludes(generatedToken);
+        });
 
         // # Regenerate the token
         cy.apiAdminLogin();
@@ -61,12 +61,12 @@ describe('Integrations', () => {
         let regeneratedToken;
         cy.get('.item-details__token').then((number2) => {
             regeneratedToken = number2.text().split(' ').pop();
-        });
 
-        //# Post a message and confirm regenerated token appears
-        cy.apiLogin(testUser);
-        cy.visit(`/${testTeam}/channels/town-square`);
-        cy.uiPostMessageQuickly('testing');
-        cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).and('does.not', 'include', generatedToken);
+            //# Post a message and confirm regenerated token appears
+            cy.apiLogin(testUser);
+            cy.visit(`/${testTeam}/channels/${testChannel}`);
+            cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+            cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).should('does.not', generatedToken);
+        });
     });
 });
