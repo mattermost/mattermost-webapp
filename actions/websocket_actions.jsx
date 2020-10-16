@@ -474,7 +474,6 @@ export function handleEvent(msg) {
         dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
     case SocketEvents.USER_ACTIVATION_STATUS_CHANGED:
-        console.log('HI');
         dispatch(handleUserActivationStatusChange(msg));
         break;
 
