@@ -49,12 +49,13 @@ import {
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -472,6 +473,10 @@ export function handleEvent(msg) {
     case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
         dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
+    case SocketEvents.USER_ACTIVATION_STATUS_CHANGED:
+        console.log('HI');
+        dispatch(handleUserActivationStatusChange(msg));
+        break;
 
     default:
     }
@@ -811,6 +816,11 @@ function handleUserAddedEvent(msg) {
         const currentUserId = getCurrentUserId(doGetState());
         if (currentTeamId === msg.data.team_id && currentUserId === msg.data.user_id) {
             doDispatch(fetchChannelAndAddToSidebar(msg.broadcast.channel_id));
+        }
+
+        // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
+        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(doGetState())) {
+            doDispatch(getStandardAnalytics());
         }
     };
 }
@@ -1324,4 +1334,17 @@ function handleSidebarCategoryDeleted(msg) {
 
 function handleSidebarCategoryOrderUpdated(msg) {
     return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
+}
+
+function handleUserActivationStatusChange(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const license = getLicense(state);
+
+        // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
+        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(doGetState())
+        ) {
+            doDispatch(getStandardAnalytics());
+        }
+    };
 }
