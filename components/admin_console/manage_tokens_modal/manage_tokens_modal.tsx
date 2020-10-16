@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import RevokeTokenButton from 'components/admin_console/revoke_token_button';
@@ -14,44 +16,25 @@ import Avatar from 'components/widgets/users/avatar';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class ManageTokensModal extends React.PureComponent {
-    static propTypes = {
+export type Props = {
+    show: boolean;
+    user?: UserProfile;
+    userAccessTokens?: Dictionary<UserAccessToken>;
+    onModalDismissed: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+    actions: { getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc};
+};
 
-        /**
-         * Set to render the modal
-         */
-        show: PropTypes.bool.isRequired,
+export type State = {
+    error: string | null;
+}
 
-        /**
-         * The user the roles are being managed for
-         */
-        user: PropTypes.object,
-
-        /**
-         * The personal access tokens for a user, object with token ids as keys
-         */
-        userAccessTokens: PropTypes.object,
-
-        /**
-         * Function called when modal is dismissed
-         */
-        onModalDismissed: PropTypes.func.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to get a user's access tokens
-             */
-            getUserAccessTokensForUser: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    constructor(props) {
+export default class ManageTokensModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {error: null};
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props): void {
         const userId = this.props.user ? this.props.user.id : null;
         const prevUserId = prevProps.user ? prevProps.user.id : null;
         if (userId && prevUserId !== userId) {
@@ -59,13 +42,13 @@ export default class ManageTokensModal extends React.PureComponent {
         }
     }
 
-    handleError = (error) => {
+    handleError = (error: string): void => {
         this.setState({
             error,
         });
     }
 
-    renderContents = () => {
+    public renderContents = (): JSX.Element => {
         const {user, userAccessTokens} = this.props;
 
         if (!user) {
@@ -93,7 +76,7 @@ export default class ManageTokensModal extends React.PureComponent {
                     </div>
                 );
             } else {
-                tokenList = userAccessTokensList.map((token) => {
+                tokenList = userAccessTokensList.map((token: UserAccessToken) => {
                     return (
                         <div
                             key={token.id}
@@ -159,7 +142,7 @@ export default class ManageTokensModal extends React.PureComponent {
         );
     }
 
-    render() {
+    public render = (): JSX.Element => {
         return (
             <Modal
                 show={this.props.show}

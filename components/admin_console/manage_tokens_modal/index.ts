@@ -2,12 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-import ManageTokensModal from './manage_tokens_modal.jsx';
+import ManageTokensModal from './manage_tokens_modal';
 
-function mapStateToProps(state, ownProps) {
+type Props = {
+    user?: UserProfile;
+}
+
+function mapStateToProps(state: any, ownProps: Props) {
     const userId = ownProps.user ? ownProps.user.id : '';
 
     return {
@@ -15,7 +20,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             getUserAccessTokensForUser,
