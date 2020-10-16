@@ -25,7 +25,21 @@ type Props = {
 
 const CompanyInfoEdit: React.FC<Props> = () => {
     const dispatch = useDispatch();
-    const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+    let companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+
+    if (!companyInfo) {
+        companyInfo = {
+            name: 'Test Company',
+            num_employees: 100,
+            company_address: {
+                line1: '123 Main St',
+                city: 'Anytown',
+                state: 'Ontario',
+                country: 'Canada',
+                postal_code: 'H0H 0H0',
+            },
+        };
+    }
 
     const [companyName, setCompanyName] = useState(companyInfo?.name);
     const [numEmployees, setNumEmployees] = useState(companyInfo?.num_employees);

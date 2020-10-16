@@ -55,10 +55,20 @@ const noCompanyInfoSection = (
 );
 
 const CompanyInfoDisplay: React.FC = () => {
-    const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+    let companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
     if (!companyInfo) {
-        return null;
+        companyInfo = {
+            name: 'Test Company',
+            num_employees: 100,
+            company_address: {
+                line1: '123 Main St',
+                city: 'Anytown',
+                state: 'Ontario',
+                country: 'Canada',
+                postal_code: 'H0H 0H0',
+            },
+        };
     }
 
     let body = noCompanyInfoSection;
