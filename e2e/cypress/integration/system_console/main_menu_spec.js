@@ -57,6 +57,9 @@ describe('Main menu', () => {
     });
 
     it('MM-T913 About opens About modal', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+
         // # click to open about modal
         cy.findByText('About Mattermost').click();
 
@@ -74,6 +77,17 @@ describe('Main menu', () => {
 
         // * Verify licensed to exists in modal
         cy.findByText('Licensed to:').should('be.visible');
+    });
+
+    it('MM-T899 - Edition and License: Verify Privacy Policy link points to correct URL', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+        goToAdminConsole();
+
+        // * Find privacy link and then assert that the href is what we expect it to be
+        cy.findByTestId('privacyPolicyLink').then((el) => {
+            expect(el[0].href).equal('https://about.mattermost.com/default-privacy-policy/');
+        });
     });
 });
 
