@@ -16,7 +16,7 @@ import {GlobalState} from 'types/store';
 
 import {isAdmin} from 'utils/utils.jsx';
 
-import InvitationModalMembersStep from './invitation_modal_members_step';
+import InvitationModalGuestsStep from './invitation_modal_guests_step';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -40,4 +40,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InvitationModalMembersStep);
+export default connect(mapStateToProps, mapDispatchToProps)(InvitationModalGuestsStep);

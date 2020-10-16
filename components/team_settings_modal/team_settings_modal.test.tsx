@@ -5,11 +5,11 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import TeamSettingsModal from 'components/team_settings_modal/team_settings_modal.jsx';
+import TeamSettingsModal from 'components/team_settings_modal/team_settings_modal';
 
 describe('components/team_settings_modal', () => {
     test('should match snapshot', () => {
-        const wrapper = shallow(<TeamSettingsModal/>);
+        const wrapper = shallow(<TeamSettingsModal onHide={jest.fn()}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -22,7 +22,7 @@ describe('components/team_settings_modal', () => {
             />,
         );
 
-        wrapper.instance().handleHidden();
+        (wrapper.instance() as TeamSettingsModal).handleHidden();
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 });

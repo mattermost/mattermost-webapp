@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -531,12 +530,6 @@ export function applyTheme(theme) {
         changeCss('.sidebar--left .nav-pills__container li .sidebar-item:hover, .sidebar--left .nav-pills__container li > .nav-more:hover, .app__body .modal .settings-modal .nav-pills>li:hover button', 'background:' + theme.sidebarTextHoverBg);
     }
 
-    if (theme.sidebarTextActiveBorder) {
-        changeCss('.multi-teams .team-sidebar .team-wrapper .team-container:before', 'background:' + theme.sidebarTextActiveBorder);
-        changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.active:before', 'background:' + theme.sidebarTextActiveBorder);
-        changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.unread:before', 'background:' + theme.sidebarTextActiveBorder);
-    }
-
     if (theme.sidebarTextActiveColor) {
         changeCss('.sidebar--left .nav-pills__container li.active .sidebar-item, .sidebar--left .nav-pills__container li.active .sidebar-item:hover, .sidebar--left .nav-pills__container li.active .sidebar-item:focus, .app__body .modal .settings-modal .nav-pills>li.active button, .app__body .modal .settings-modal .nav-pills>li.active button:hover, .app__body .modal .settings-modal .nav-pills>li.active button:active', 'color:' + theme.sidebarTextActiveColor);
         changeCss('.sidebar--left .nav li.active .sidebar-item, .sidebar--left .nav li.active .sidebar-item:hover, .sidebar--left .nav li.active .sidebar-item:focus', 'background:' + changeOpacity(theme.sidebarTextActiveColor, 0.1));
@@ -1037,17 +1030,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
-    const $link = $('link.code_theme');
-    if (cssPath !== $link.attr('href')) { // eslint-disable-line jquery/no-attr
+    const link = document.querySelector('link.code_theme');
+    if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
         var xmlHTTP = new XMLHttpRequest();
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            $link.attr('href', cssPath); // eslint-disable-line jquery/no-attr
+            link.attributes.href = cssPath;
             if (UserAgent.isFirefox()) {
-                $link.one('load', () => {
+                link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
-                });
+                }, {once: true});
             } else {
                 changeCss('code.hljs', 'visibility: visible');
             }
@@ -1466,11 +1459,11 @@ export function importSlack(teamId, file, success, error) {
 }
 
 export function windowWidth() {
-    return $(window).width();
+    return window.innerWidth;
 }
 
 export function windowHeight() {
-    return $(window).height();
+    return window.innerHeight;
 }
 
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
