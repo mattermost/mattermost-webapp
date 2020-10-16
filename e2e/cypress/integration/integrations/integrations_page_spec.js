@@ -13,7 +13,7 @@ describe('Integrations', () => {
     let teamA;
 
     before(() => {
-        // # Login, create incoming webhook for Team A
+        // # Setup with the new team
         cy.apiInitSetup().then(({team}) => {
             teamA = team.name;
         });
@@ -77,7 +77,7 @@ describe('Integrations', () => {
         // # Return to integrations home
         cy.visit(`/${teamA}/integrations`);
 
-        // * Bot Accounbts link is visible and works
+        // * Bot Accounts link is visible and works
         cy.get('.integrations-list.d-flex.flex-wrap').within(() => {
             cy.findByText('Bot Accounts').scrollIntoView().should('be.visible').click();
             cy.url().should('include', '/bots');
