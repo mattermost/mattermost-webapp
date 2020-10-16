@@ -41,12 +41,15 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
     const pretext = pretextArray[pretextArray.length - 1];
     const penultimatePretext = pretextArray[pretextArray.length - 2];
 
-    const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = penultimatePretext ?
+        !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) :
+        !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
             newVisibleSearchHintOptions = searchHintOptions.filter((option) => {
-                return new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
+                return new RegExp(pretext, 'ig').
+                    test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
             });
         } catch {
             newVisibleSearchHintOptions = [];
@@ -64,7 +67,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const [keepInputFocussed, setKeepInputFocussed] = useState<boolean>(false);
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
-    const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(determineVisibleSearchHintOptions(searchTerms));
+    const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
+        determineVisibleSearchHintOptions(searchTerms),
+    );
 
     const suggestionProviders = [
         new SearchDateProvider(),
