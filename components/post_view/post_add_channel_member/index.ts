@@ -1,17 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {addChannelMember} from 'mattermost-redux/actions/channels';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
-import PostAddChannelMember from './post_add_channel_member.jsx';
+import PostAddChannelMember, {Props} from './post_add_channel_member';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const post = getPost(state, ownProps.postId) || {};
     let channelType = '';
     if (post && post.channel_id) {
@@ -28,7 +30,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addChannelMember,

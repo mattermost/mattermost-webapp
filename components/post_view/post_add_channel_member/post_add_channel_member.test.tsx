@@ -4,8 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
-import PostAddChannelMember from 'components/post_view/post_add_channel_member/post_add_channel_member.jsx';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {sendAddToChannelEphemeralPost} from 'actions/global_actions';
+import {TestHelper} from 'utils/test_helper';
+import PostAddChannelMember, {Props} from 'components/post_view/post_add_channel_member/post_add_channel_member';
 
 jest.mock('actions/global_actions.jsx', () => {
     return {
@@ -14,20 +18,23 @@ jest.mock('actions/global_actions.jsx', () => {
 });
 
 describe('components/post_view/PostAddChannelMember', () => {
-    const post = {
+    const post: Post = TestHelper.getPostMock({
         id: 'post_id_1',
         root_id: 'root_id',
         channel_id: 'channel_id',
         create_at: 1,
-    };
-    const requiredProps = {
-        currentUser: {id: 'current_user_id', username: 'current_username'},
+    });
+    const currentUser: UserProfile = TestHelper.getUserMock({
+        id: 'current_user_id',
+        username: 'current_username',
+    });
+    const requiredProps: Props = {
+        currentUser,
         channelType: 'O',
         postId: 'post_id_1',
         post,
         userIds: ['user_id_1'],
         usernames: ['username_1'],
-        hasMention: false,
         actions: {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
@@ -36,7 +43,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     };
 
     test('should match snapshot, empty postId', () => {
-        const props = {
+        const props: Props = {
             ...requiredProps,
             postId: '',
         };
@@ -45,7 +52,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     });
 
     test('should match snapshot, empty channelType', () => {
-        const props = {
+        const props: Props = {
             ...requiredProps,
             channelType: '',
         };
@@ -59,7 +66,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     });
 
     test('should match snapshot, private channel', () => {
-        const props = {
+        const props: Props = {
             ...requiredProps,
             channelType: 'P',
         };
@@ -71,7 +78,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     test('should match snapshot, more than 3 users', () => {
         const userIds = ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'];
         const usernames = ['username_1', 'username_2', 'username_3', 'username_4'];
-        const props = {
+        const props: Props = {
             ...requiredProps,
             userIds,
             usernames,
@@ -91,7 +98,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
         };
-        const props = {...requiredProps, actions};
+        const props: Props = {...requiredProps, actions};
         const wrapper = shallow(
             <PostAddChannelMember {...props}/>,
         );
@@ -113,7 +120,7 @@ describe('components/post_view/PostAddChannelMember', () => {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
         };
-        const props = {...requiredProps, userIds, usernames, actions};
+        const props: Props = {...requiredProps, userIds, usernames, actions};
         const wrapper = shallow(
             <PostAddChannelMember {...props}/>,
         );
@@ -123,7 +130,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     });
 
     test('should match snapshot, with no-groups usernames', () => {
-        const props = {
+        const props: Props = {
             ...requiredProps,
             noGroupsUsernames: ['user_id_2'],
         };
