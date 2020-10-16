@@ -18,11 +18,10 @@ const goToAdminConsole = () => {
 };
 
 describe('System console', () => {
-    before(() => {
-        cy.apiRequireLicense();
-    });
-
     it('MM-T897_1 - Focus should be in System Console search box on opening System Console or refreshing pages in System Console', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+
         const pageIds = ['reporting\\/system_analytics', 'reporting\\/team_statistics', 'reporting\\/server_logs', 'user_management\\/users', 'user_management\\/teams'];
         goToAdminConsole();
 
