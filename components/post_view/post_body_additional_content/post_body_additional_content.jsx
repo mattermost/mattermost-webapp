@@ -10,6 +10,7 @@ import MessageAttachmentList from 'components/post_view/message_attachments/mess
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
+import EmbeddedForm from 'components/embedded_form';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -147,6 +148,15 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     render() {
         const embed = this.getEmbed();
+
+        if (this.props.post.props.dialog) {
+            return (
+                <React.Fragment>
+                    {this.props.children}
+                    <EmbeddedForm dialog={this.props.post.props.dialog}/>
+                </React.Fragment>
+            );
+        }
 
         if (embed) {
             const toggleable = this.isEmbedToggleable(embed);
