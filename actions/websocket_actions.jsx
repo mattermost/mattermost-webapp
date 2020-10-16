@@ -474,7 +474,7 @@ export function handleEvent(msg) {
         dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
     case SocketEvents.USER_ACTIVATION_STATUS_CHANGED:
-        dispatch(handleUserActivationStatusChange(msg));
+        dispatch(handleUserActivationStatusChange());
         break;
 
     default:
@@ -1335,7 +1335,7 @@ function handleSidebarCategoryOrderUpdated(msg) {
     return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }
 
-function handleUserActivationStatusChange(msg) {
+function handleUserActivationStatusChange() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
         const license = getLicense(state);
