@@ -71,6 +71,7 @@
 
     .sidebar__switcher {
         flex: 0 0 45px;
+        border-color: rgba(var(--sidebar-text-rgb), 0.2);
         bottom: 0;
         display: block;
         padding-bottom: 0;
@@ -285,6 +286,10 @@
 
                 .status {
                     flex: 0 0 auto;
+
+                    &.status--group {
+                        background: rgba(var(--sidebar-text-rgb), 0.3);
+                    }
                 }
 
                 .icon {
