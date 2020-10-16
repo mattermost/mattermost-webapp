@@ -254,11 +254,11 @@ export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescr
     teamNavigation: {
         default: {
             id: t('team.button.tooltip'),
-            defaultMessage: 'shortcut:\tCtrl|Alt|{values}',
+            defaultMessage: 'shortcut:\tCtrl|Alt|{order}',
         },
         mac: {
             id: t('team.button.tooltip.mac'),
-            defaultMessage: '⌘ |⌥ |{values}',
+            defaultMessage: '⌘ |⌥ |{order}',
         },
     },
     browserInputHeader: {

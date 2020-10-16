@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils';
 
 import {t} from 'utils/i18n';
 
-import {allShortcuts} from './shortcuts';
+import {shortcuts} from './shortcuts';
 
 const modalMessages = defineMessages({
     msgHeader: {
@@ -83,24 +83,7 @@ class ShortcutsModal extends React.PureComponent {
         this.setState({show: false});
     };
 
-    getShortcuts() {
-        const {isMac} = this.props;
-        const shortcuts = {};
-        Object.keys(allShortcuts).forEach((s) => {
-            if (isMac && allShortcuts[s].mac) {
-                shortcuts[s] = allShortcuts[s].mac;
-            } else if (!isMac && allShortcuts[s].default) {
-                shortcuts[s] = allShortcuts[s].default;
-            } else {
-                shortcuts[s] = allShortcuts[s];
-            }
-        });
-
-        return shortcuts;
-    }
-
     render() {
-        const shortcuts = this.getShortcuts();
         const {formatMessage} = this.props.intl;
 
         const isLinux = Utils.isLinux();
@@ -199,14 +182,14 @@ class ShortcutsModal extends React.PureComponent {
                                         <h4 className='section-title'>
                                             <strong>
                                                 {formatMessage(
-                                                    shortcuts.msgHeader,
+                                                    modalMessages.msgHeader,
                                                 )}
                                             </strong>
                                         </h4>
                                         <span>
                                             <strong>
                                                 {formatMessage(
-                                                    shortcuts.msgInputHeader,
+                                                    modalMessages.msgInputHeader,
                                                 )}
                                             </strong>
                                         </span>
@@ -268,7 +251,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <h4 className='section-title'>
                                             <strong>
                                                 {formatMessage(
-                                                    shortcuts.filesHeader,
+                                                    modalMessages.filesHeader,
                                                 )}
                                             </strong>
                                         </h4>
@@ -280,7 +263,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <h4 className='section-title'>
                                             <strong>
                                                 {formatMessage(
-                                                    shortcuts.browserHeader,
+                                                    modalMessages.browserHeader,
                                                 )}
                                             </strong>
                                         </h4>
@@ -333,7 +316,7 @@ class ShortcutsModal extends React.PureComponent {
                             </div>
                         </div>
                         <div className='info__label'>
-                            {formatMessage(shortcuts.info)}
+                            {formatMessage(modalMessages.info)}
                         </div>
                     </Modal.Body>
                 </div>

@@ -16,7 +16,7 @@ import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
-import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+import {shortcuts} from 'components/Shortcuts/shortcuts';
 import ShortcutSequence from 'components/Shortcuts/shortcut_sequence';
 
 interface Props {
@@ -117,14 +117,13 @@ class TeamButton extends React.PureComponent<Props> {
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
         let orderIndicator: JSX.Element | undefined;
         if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
-            const shortcuts = parsedShortcuts(allShortcuts);
             toolTip = (
                 <>
                     {toolTip}
                     <div className='tooltip-help'>
                         <ShortcutSequence
-                            shortcut={shortcuts.teamSidebarTooltip}
-                            order={this.props.order}
+                            shortcut={shortcuts.teamNavigation}
+                            values={this.props.order}
                         />
                     </div>
                 </>

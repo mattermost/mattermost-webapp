@@ -12,8 +12,7 @@ type Props = {
 
 export default function ShortcutSequence({shortcut, values, hideDescription}: Props) {
     const {formatMessage} = useIntl();
-    console.log(values);
-    const shortcutText = formatMessage(shortcut, values);
+    const shortcutText = formatMessage(shortcut, {order: values});
     const splitShorcut = shortcutText.split('\t');
 
     let description;
