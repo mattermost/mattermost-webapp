@@ -13,7 +13,7 @@ import SearchSuggestionList from 'components/suggestion/search_suggestion_list.j
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
 import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';

@@ -1100,6 +1100,20 @@ export function setSelectionRange(input, selectionStart, selectionEnd) {
     }
 }
 
+export function findOverlap(a, b) {
+    const aLower = a.toLowerCase();
+    const bLower = b.toLowerCase();
+
+    for (let i = bLower.length; i > 0; i--) {
+        const substring = bLower.substring(0, i);
+
+        if (aLower.endsWith(substring)) {
+            return substring;
+        }
+    }
+    return '';
+}
+
 export function setCaretPosition(input, pos) {
     setSelectionRange(input, pos, pos);
 }

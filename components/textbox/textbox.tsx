@@ -14,7 +14,7 @@ import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
 import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils.jsx';
@@ -62,7 +62,7 @@ type Props = {
 export default class Textbox extends React.PureComponent<Props> {
     private suggestionProviders: Provider[];
     private wrapper: React.RefObject<HTMLDivElement>;
-    private message: React.RefObject<SuggestionBox>;
+    private message: React.RefObject<typeof SuggestionBox>;
     private preview: React.RefObject<HTMLDivElement>;
 
     static defaultProps = {
@@ -183,7 +183,7 @@ export default class Textbox extends React.PureComponent<Props> {
     }
 
     getInputBox = () => {
-        return this.message.current?.getTextbox();
+        return (this.message.current as any).getTextbox();
     }
 
     focus = () => {
@@ -202,7 +202,7 @@ export default class Textbox extends React.PureComponent<Props> {
     };
 
     recalculateSize = () => {
-        this.message.current?.recalculateSize();
+        (this.message.current as any).recalculateSize();
     }
 
     render() {
@@ -250,26 +250,28 @@ export default class Textbox extends React.PureComponent<Props> {
                 className={textWrapperClass}
             >
                 <SuggestionBox
-                    id={this.props.id}
+                    {...{
+                        id: this.props.id,
+                        className: textboxClassName,
+                        spellCheck: 'true',
+                        placeholder: this.props.createMessage,
+                        onMouseUp: this.handleMouseUp,
+                        onKeyUp: this.handleKeyUp,
+                        onHeightChange: this.handleHeightChange,
+                        style: {visibility: this.props.preview ? 'hidden' : 'visible'},
+                        channelId: this.props.channelId,
+                    }}
                     ref={this.message}
-                    className={textboxClassName}
-                    spellCheck='true'
-                    placeholder={this.props.createMessage}
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onSelect={this.handleSelect}
                     onKeyDown={this.handleKeyDown}
-                    onMouseUp={this.handleMouseUp}
-                    onKeyUp={this.handleKeyUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
-                    onHeightChange={this.handleHeightChange}
-                    style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
-                    channelId={this.props.channelId}
                     value={this.props.value}
                     renderDividers={true}
                     isRHS={this.props.isRHS}
