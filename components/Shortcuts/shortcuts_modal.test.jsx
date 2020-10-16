@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import ShortcutsModal from 'components/shortcuts_modal.jsx';
+import ShortcutsModal from 'components/Shortcuts/shortcuts_modal.jsx';
 
 describe('components/ShortcutsModal', () => {
     test('should match snapshot modal for Mac', () => {
