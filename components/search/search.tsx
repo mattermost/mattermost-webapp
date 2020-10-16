@@ -278,28 +278,28 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             }
         });
 
-        if (visibleSearchHintOptions.length > 0 && !props.isMentionSearch) {
-            const helpClass = `search-help-popover${(focussed && termsUsed <= 2) ? ' visible' : ''}`;
-
-            return (
-                <Popover
-                    id={`${props.isSideBarRight ? 'sbr-' : ''}searchbar-help-popup`}
-                    placement='bottom'
-                    className={helpClass}
-                >
-                    <SearchHint
-                        options={visibleSearchHintOptions}
-                        withTitle={true}
-                        onOptionSelected={handleAddSearchTerm}
-                        onMouseDown={handleSearchHintSelection}
-                        highlightedIndex={highlightedSearchHintIndex}
-                        onOptionHover={setHoverHintIndex}
-                    />
-                </Popover>
-            );
+        if (visibleSearchHintOptions.length <= 0 && props.isMentionSearch) {
+            return <></>;
         }
 
-        return <></>;
+        const helpClass = `search-help-popover${(focussed && termsUsed <= 2) ? ' visible' : ''}`;
+
+        return (
+            <Popover
+                id={`${props.isSideBarRight ? 'sbr-' : ''}searchbar-help-popup`}
+                placement='bottom'
+                className={helpClass}
+            >
+                <SearchHint
+                    options={visibleSearchHintOptions}
+                    withTitle={true}
+                    onOptionSelected={handleAddSearchTerm}
+                    onMouseDown={handleSearchHintSelection}
+                    highlightedIndex={highlightedSearchHintIndex}
+                    onOptionHover={setHoverHintIndex}
+                />
+            </Popover>
+        );
     };
 
     const renderSearchBar = ():JSX.Element => (
