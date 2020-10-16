@@ -16,6 +16,15 @@
                 border: none;
             }
         }
+        .modal{
+            .settings-modal{
+                &.display--content{
+                    .modal-content{
+                        background: var(--sidebar-bg);
+                    }
+                }
+            }
+        }
     }
 
     .post-right__container {
@@ -2182,7 +2191,6 @@
                 &.display--content {
                     .modal-body {
                         max-height: 90%;
-                        background: var(--sidebar-bg);
                     }
                 }
 
