@@ -100,7 +100,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                 autoComplete='off'
                 aria-labelledby='searchBox'
             >
-                <div className='search__font-icon TEST'>
+                <div className='search__font-icon'>
                     <i className='icon icon-magnify icon-16'/>
                 </div>
                 <SuggestionBox

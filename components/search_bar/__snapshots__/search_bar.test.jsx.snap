@@ -18,7 +18,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
     }
   >
     <div
-      className="search__font-icon TEST"
+      className="search__font-icon"
     >
       <i
         className="icon icon-magnify icon-16"
@@ -103,7 +103,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
     }
   >
     <div
-      className="search__font-icon TEST"
+      className="search__font-icon"
     >
       <i
         className="icon icon-magnify icon-16"
@@ -188,7 +188,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     }
   >
     <div
-      className="search__font-icon TEST"
+      className="search__font-icon"
     >
       <i
         className="icon icon-magnify icon-16"
@@ -273,7 +273,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     }
   >
     <div
-      className="search__font-icon TEST"
+      className="search__font-icon"
     >
       <i
         className="icon icon-magnify icon-16"
