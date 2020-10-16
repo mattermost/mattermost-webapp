@@ -187,6 +187,11 @@
     .team-sidebar {
         .team-wrapper {
             .team-container {
+                &::before,
+                &.active::before,
+                &.unread::before {
+                    background: var(--sidebar-text-active-border);
+                }
             }
         }
     }
