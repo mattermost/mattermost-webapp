@@ -182,12 +182,10 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return;
         }
 
-        if (terms.length) {
-            const {error} = await actions.showSearchResults?.(Boolean(props.isMentionSearch));
+        const {error} = await actions.showSearchResults?.(Boolean(props.isMentionSearch));
 
-            if (!error) {
-                handleSearchOnSuccess();
-            }
+        if (!error) {
+            handleSearchOnSuccess();
         }
     };
 
