@@ -7,9 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging
+// Group: @integrations
 
-describe('Messaging', () => {
+describe('Integrations', () => {
     let testTeam;
     let testChannel;
 
