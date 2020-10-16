@@ -153,7 +153,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return (
                 <React.Fragment>
                     {this.props.children}
-                    <EmbeddedForm dialog={this.props.post.props.dialog}/>
+                    <EmbeddedForm
+                        dialog={this.props.post.props.dialog}
+                        postID={this.props.post.id}
+                        appID={this.props.post.props.appID}
+                    />
                 </React.Fragment>
             );
         }

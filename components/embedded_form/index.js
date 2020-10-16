@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {submitInteractiveDialog} from 'mattermost-redux/actions/integrations';
+import {submitEmbeddedForm} from 'mattermost-redux/actions/integrations';
 
 import {getEmojiMap} from 'selectors/emojis';
 
@@ -32,7 +32,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            submitInteractiveDialog,
+            submitEmbeddedForm,
         }, dispatch),
     };
 }

@@ -28,9 +28,11 @@ export default class EmbeddedForm extends React.PureComponent {
         submitLabel: PropTypes.string,
         state: PropTypes.string,
         actions: PropTypes.shape({
-            submitInteractiveDialog: PropTypes.func.isRequired,
+            submitEmbeddedForm: PropTypes.func.isRequired,
         }).isRequired,
         emojiMap: PropTypes.object.isRequired,
+        postID: PropTypes.string.isRequired,
+        appID: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -98,8 +100,10 @@ export default class EmbeddedForm extends React.PureComponent {
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submitInteractiveDialog(
+        const {data} = await this.props.actions.submitEmbeddedForm(
             dialog,
+            this.props.postID,
+            this.props.appID,
         );
 
         this.setState({submitting: false});
