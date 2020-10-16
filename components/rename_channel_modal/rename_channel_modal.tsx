@@ -1,19 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, MouseEvent} from 'react';
 import {Modal, Tooltip} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/src/types/channels';
+import {Team} from 'mattermost-redux/src/types/teams';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import OverlayTrigger from 'components/overlay_trigger';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
-import {intlShape} from 'utils/react_intl';
+import {t} from 'utils/i18n';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
 
 const holders = defineMessages({
     maxLength: {
@@ -34,61 +36,45 @@ const holders = defineMessages({
     },
 });
 
-export class RenameChannelModal extends React.PureComponent {
-    static propTypes = {
-
-        /**
-         * react-intl helper object
-         */
-        intl: intlShape.isRequired,
-
-        /**
-         * Function that is called when modal is hidden
-         */
-        onHide: PropTypes.func.isRequired,
-
-        /**
-         * Object with info about current channel
-         */
-        channel: PropTypes.object.isRequired,
-
-        /**
-         * Object with info about current team
-         */
-        team: PropTypes.object.isRequired,
-
-        /**
-         * String with the current team URL
-         */
-        currentTeamUrl: PropTypes.string.isRequired,
-
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /*
-             * Action creator to patch current channel
-             */
-            patchChannel: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    intl: IntlShape;
+    onHide: () => void;
+    channel: Channel;
+    team: Team;
+    currentTeamUrl: string;
+    actions: {
+        patchChannel: (channelId: string, patch: Channel) => Promise<{ data: Channel, error: Error }>;
     };
+}
 
-    constructor(props) {
+type State = {
+    displayName: string;
+    channelName: string;
+    serverError?: string;
+    urlErrors: JSX.Element[];
+    displayNameError: JSX.Element | string;
+    invalid: boolean;
+    show: boolean;
+};
+
+export class RenameChannelModal extends React.PureComponent<Props, State> {
+    private textbox?: HTMLInputElement;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             displayName: props.channel.display_name,
             channelName: props.channel.name,
             serverError: '',
-            urlErrors: '',
+            urlErrors: [],
             displayNameError: '',
             invalid: false,
             show: true,
         };
     }
 
-    setError = (err) => {
+    setError = (err: ServerError) => {
         this.setState({serverError: err.message});
     }
 
@@ -100,21 +86,21 @@ export class RenameChannelModal extends React.PureComponent {
         Utils.placeCaretAtEnd(this.textbox);
     }
 
-    handleHide = (e) => {
+    handleHide = (e?: MouseEvent) => {
         if (e) {
             e.preventDefault();
         }
 
         this.setState({
             serverError: '',
-            urlErrors: '',
+            urlErrors: [],
             displayNameError: '',
             invalid: false,
             show: false,
         });
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async (e?: MouseEvent<HTMLButtonElement>): Promise<void> => {
         if (e) {
             e.preventDefault();
         }
@@ -122,7 +108,7 @@ export class RenameChannelModal extends React.PureComponent {
         const channel = Object.assign({}, this.props.channel);
         const oldName = channel.name;
         const oldDisplayName = channel.display_name;
-        const state = {serverError: ''};
+        const state = {...this.state, serverError: ''};
         const {formatMessage} = this.props.intl;
         const {actions: {patchChannel}} = this.props;
 
@@ -177,7 +163,7 @@ export class RenameChannelModal extends React.PureComponent {
         browserHistory.push('/' + this.props.team.name + '/channels/' + this.state.channelName);
     }
 
-    handleCancel = (e) => {
+    handleCancel = (e?: MouseEvent) => {
         this.setState({
             displayName: this.props.channel.display_name,
             channelName: this.props.channel.name,
@@ -186,20 +172,20 @@ export class RenameChannelModal extends React.PureComponent {
         this.handleHide(e);
     }
 
-    onNameChange = (e) => {
+    onNameChange = (e: ChangeEvent<HTMLInputElement> | {target: {value: string}}) => {
         const name = e.target.value.trim().replace(/[^A-Za-z0-9-_]/g, '').toLowerCase();
         this.setState({channelName: name});
     }
 
-    onDisplayNameChange = (e) => {
+    onDisplayNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({displayName: e.target.value});
     }
 
-    getTextbox = (node) => {
+    getTextbox = (node: HTMLInputElement) => {
         this.textbox = node;
     }
 
-    render() {
+    render(): JSX.Element {
         let displayNameError = null;
         if (this.state.displayNameError) {
             displayNameError = <p className='input__help error'>{this.state.displayNameError}</p>;
