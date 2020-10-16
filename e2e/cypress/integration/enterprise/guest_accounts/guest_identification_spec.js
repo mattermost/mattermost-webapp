@@ -23,7 +23,7 @@ describe('Guest Accounts', () => {
     let testTeam;
     let testChannel;
     let adminMFASecret;
-    const username = 'g' + getRandomId(); // usernames has to starts with a letter.
+    const username = 'g' + getRandomId(); // username has to starts with a letter.
 
     before(() => {
         cy.apiInitSetup().then(({team, channel}) => {
@@ -40,7 +40,7 @@ describe('Guest Accounts', () => {
     });
 
     after(() => {
-        // Login back as admin.
+        // # Login back as admin.
         const token = authenticator.generateToken(adminMFASecret);
         cy.apiAdminLoginWithMFA(token);
 
@@ -67,12 +67,12 @@ describe('Guest Accounts', () => {
         // # Also ensure that this MFA setting is enforced.
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
 
-        // Click "Save".
+        // # Click "Save".
         cy.get('#saveSetting').scrollIntoView().click();
 
         cy.url().then((url) => {
             if (url.includes('mfa/setup')) {
-                // complete MFA setup if we are on token setup page /mfa/setup
+                // # Complete MFA setup if we are on token setup page /mfa/setup
                 cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
                     const secretp = p.text();
                     adminMFASecret = secretp.split(' ')[1];
@@ -85,7 +85,7 @@ describe('Guest Accounts', () => {
                     cy.get('#mfa').find('.btn.btn-primary').click();
                 });
             } else {
-                // if the sysadmin already has MFA enabled, reset the secret.
+                // # If the sysadmin already has MFA enabled, reset the secret.
                 cy.apiGenerateMfaSecret(sysadmin.id).then((res) => {
                     adminMFASecret = res.code.secret;
                 });
@@ -95,7 +95,7 @@ describe('Guest Accounts', () => {
         // # Navigate to Guest Access page.
         cy.visit('/admin_console/authentication/guest_access');
 
-        // Enable guest accounts.
+        // # Enable guest accounts.
         cy.findByTestId('GuestAccountsSettings.Enabletrue').check();
 
         // # Check if user is allowed to enforce MFA for Guest accounts.
@@ -114,7 +114,7 @@ describe('Guest Accounts', () => {
         cy.get('#invitePeople').should('be.visible').click();
         cy.findByTestId('inviteGuestLink').find('.arrow').click();
 
-        // Type guest user e-mail address.
+        // # Type guest user e-mail address.
         cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
             cy.get('input').type(guestEmail + '{enter}', {force: true});
             cy.get('.users-emails-input__menu').
@@ -122,7 +122,7 @@ describe('Guest Accounts', () => {
                 eq(0).should('contain', `Invite ${guestEmail} as a guest`).click();
         });
 
-        // Search and add to a Channel.
+        // # Search and add to a Channel.
         cy.findByTestId('channelPlaceholder').should('be.visible').within(() => {
             cy.get('input').type(testChannel.name, {force: true});
             cy.get('.channels-input__menu').
@@ -136,21 +136,21 @@ describe('Guest Accounts', () => {
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
 
-        // Get invitation link.
+        // # Get invitation link.
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
             const {data, status} = response;
 
-            // Should return success status.
+            // # Should return success status.
             expect(status).to.equal(200);
 
-            // Verify that guest account invitation.
+            // # Verify that guest account invitation.
             expect(data.to.length).to.equal(1);
             expect(data.to[0]).to.contain(guestEmail);
 
-            // Verify that the email subject is about joining.
+            // # Verify that the email subject is about joining.
             expect(data.subject).to.contain(`sysadmin invited you to join the team ${testTeam.display_name} as a guest`);
 
-            // Extract invitation link from the invitation e-mail.
+            // # Extract invitation link from the invitation e-mail.
             const messageSeparator = getEmailMessageSeparator(baseUrl);
             const bodyText = data.body.text.split(messageSeparator);
             expect(bodyText[6]).to.contain('Join Team');
@@ -158,7 +158,7 @@ describe('Guest Accounts', () => {
             expect(line[3]).to.contain(baseUrl);
             const invitationLink = line[3].replace(baseUrl, '');
 
-            // Logout sysadmin.
+            // # Logout sysadmin.
             cy.apiLogout();
             cy.visit(invitationLink);
         });
