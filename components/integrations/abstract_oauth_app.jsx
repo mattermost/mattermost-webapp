@@ -470,4 +470,3 @@ export default class AbstractOAuthApp extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
