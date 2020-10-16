@@ -14,11 +14,12 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('Integrations', () => {
     let testTeam;
     let testChannel;
-    let testUser
-    let callbackUrl
+    let testUser;
+    let outgoingWebhook;
+
+    //const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
 
     before(() => {
-
         const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
 
         cy.requireWebhookServer();
@@ -30,15 +31,22 @@ describe('Integrations', () => {
             testUser = user;
 
             const newOutgoingHook = {
-            team_id: team.id,
-            display_name: "New Outgoing Webhook",
-            trigger_words: ["testing"],
-            callback_urls: [callbackUrl]
-            }
-            
-            cy.apiCreateWebhook(newOutgoingHook, false);
+                team_id: team.id,
+                display_name: 'New Outgoing Webhook',
+                trigger_words: ['testing'],
+                callback_urls: [callbackUrl],
+            };
 
-            cy.apiLogin(user)
+            cy.apiCreateWebhook(newOutgoingHook, false).then((hook) => {
+                outgoingWebhook = hook;
+
+                cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
+                    expect(res.status).equal(200);
+                    expect(res.body.id).equal(outgoingWebhook.id);
+                });
+            });
+
+            cy.apiLogin(user);
         });
     });
 
@@ -50,26 +58,37 @@ describe('Integrations', () => {
 
         // # Delete the webhook
         cy.apiAdminLogin();
+
+        // * Assert from API that outgoing webhook is active
+        cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
+            expect(res.status).equal(200);
+        });
         cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.findAllByText('Delete', {timeout: TIMEOUTS.ONE_MIN}).click();
         cy.get('#confirmModalButton').click();
-        cy.findByText('No outgoing webhooks found').should('exist');
 
-        // * Return to app and confirm trigger word no longer works
+        // * Assert the webhook has been deleted
+        cy.findByText('No outgoing webhooks found').should('exist');
+        cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
+            expect(res.status).equal(404);
+        });
+
+        // * Return to app and assert trigger word no longer works
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam}/channels/${testChannel}`);
         cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
 
-        // Wait for BOT message
+        // * Assert bot message does not arrive
         cy.wait(TIMEOUTS.TWO_SEC);
         cy.getLastPostId().then((lastPostId) => {
-        cy.get(`#${lastPostId}_message`).should('not.contain', 'Outgoing Webhook Payload');
+            cy.get(`#${lastPostId}_message`).should('not.contain', 'Outgoing Webhook Payload');
         });
 
-
-        cy.task('getOutgoingWebhook', {url: callbackUrl}).then((res) => {
+        // * Verify from API that outgoing webhook has been deleted
+        cy.apiAdminLogin();
+        cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
             expect(res.status).equal(404);
-            expect(res.data.message).equal(message);
+            expect(res.body.message).equal('Unable to get the webhook.');
         });
     });
 });
