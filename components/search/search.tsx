@@ -15,7 +15,7 @@ import Popover from 'components/widgets/popover';
 import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
 
 import SearchBar from 'components/search_bar/search_bar';
-import SearchResults from 'components/search_results/index';
+import SearchResults from 'components/search_results';
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
