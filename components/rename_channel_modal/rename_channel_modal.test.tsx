@@ -6,9 +6,9 @@ import {RequestStatus} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
-import {defaultIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import {RenameChannelModal} from './rename_channel_modal';
+import RenameChannelModal, {RenameChannelModal as RenameChannelModalClass} from './rename_channel_modal';
 
 describe('components/RenameChannelModal', () => {
     const channel: Channel = {
@@ -64,10 +64,7 @@ describe('components/RenameChannelModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -77,10 +74,7 @@ describe('components/RenameChannelModal', () => {
         const {actions: {patchChannel}} = baseProps;
         const props = {...baseProps, requestStatus: RequestStatus.STARTED};
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...props}
-            />,
+            <RenameChannelModal {...props}/>,
         );
 
         wrapper.find('#display_name').simulate(
@@ -106,10 +100,7 @@ describe('components/RenameChannelModal', () => {
             it(testCaseProps.name, () => {
                 const {actions: {patchChannel}} = baseProps;
                 const wrapper = shallowWithIntl(
-                    <RenameChannelModal
-                        intl={defaultIntl}
-                        {...baseProps}
-                    />,
+                    <RenameChannelModal {...baseProps}/>,
                 );
 
                 wrapper.setState({channelName: testCaseProps.value});
@@ -127,10 +118,7 @@ describe('components/RenameChannelModal', () => {
     test('should not call patchChannel as channel.name.length > Constants.MAX_CHANNELNAME_LENGTH (64)', () => {
         const {actions: {patchChannel}} = baseProps;
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
         wrapper.find('#display_name').simulate(
@@ -144,10 +132,7 @@ describe('components/RenameChannelModal', () => {
 
     test('should change state when display_name is edited', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
         wrapper.find('#display_name').simulate(
@@ -159,13 +144,10 @@ describe('components/RenameChannelModal', () => {
 
     test('should call setError function', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance() as RenameChannelModal;
+        const instance = wrapper.instance() as RenameChannelModalClass;
 
         instance.setError({message: 'This is an error message'});
         expect(wrapper.state('serverError')).toBe('This is an error message');
@@ -174,10 +156,7 @@ describe('components/RenameChannelModal', () => {
     test('should call unsetError function', () => {
         const props = {...baseProps, serverError: {message: 'This is an error message'}};
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...props}
-            />,
+            <RenameChannelModal {...props}/>,
         );
 
         wrapper.setState({serverError: props.serverError.message});
@@ -194,7 +173,6 @@ describe('components/RenameChannelModal', () => {
 
         const wrapper = shallowWithIntl(
             <RenameChannelModal
-                intl={defaultIntl}
                 {...baseProps}
                 actions={{patchChannel}}
             />,
@@ -202,7 +180,7 @@ describe('components/RenameChannelModal', () => {
 
         wrapper.setState({displayName: 'Changed Name', channelName: 'changed-name'});
 
-        const instance = wrapper.instance() as RenameChannelModal;
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.onSaveSuccess = jest.fn();
         instance.setError = jest.fn();
 
@@ -224,13 +202,10 @@ describe('components/RenameChannelModal', () => {
 
     test('should call handleCancel', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance() as RenameChannelModal;
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.handleCancel();
 
         expect(wrapper.state('show')).toBeFalsy();
@@ -238,13 +213,10 @@ describe('components/RenameChannelModal', () => {
 
     test('should call handleHide function', () => {
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance() as RenameChannelModal;
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.handleHide();
 
         expect(wrapper.state('show')).toBeFalsy();
@@ -253,13 +225,10 @@ describe('components/RenameChannelModal', () => {
     test('should call onNameChange function', () => {
         const changedName = {target: {value: 'changed-name'}};
         const wrapper = shallowWithIntl(
-            <RenameChannelModal
-                intl={defaultIntl}
-                {...baseProps}
-            />,
+            <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance() as RenameChannelModal;
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.onNameChange(changedName);
 
         expect(wrapper.state('channelName')).toBe('changed-name');
