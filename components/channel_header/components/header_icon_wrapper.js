@@ -11,7 +11,8 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+
+import {shortcuts} from 'components/Shortcuts/shortcuts';
 import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
 
 export default function HeaderIconWrapper({
@@ -56,7 +57,6 @@ export default function HeaderIconWrapper({
             return null;
         }
 
-        const shortcuts = parsedShortcuts(allShortcuts);
         return (
             <Tooltip
                 id={toolTips[key].id}
@@ -67,7 +67,10 @@ export default function HeaderIconWrapper({
                     defaultMessage={toolTips[key].message}
                 />
                 {key === 'recentMentions' && (
-                    <ShortcutSequence shortcut={shortcuts.navMentions}/>
+                    <ShortcutSequence
+                        shortcut={shortcuts.navMentions}
+                        hideDescription={true}
+                    />
                 )}
             </Tooltip>
         );

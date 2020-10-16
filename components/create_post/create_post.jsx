@@ -10,7 +10,7 @@ import {Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts';
+import {shortcuts} from 'components/Shortcuts/shortcuts';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
@@ -1423,7 +1423,6 @@ class CreatePost extends React.PureComponent {
             );
         }
 
-        const shortcuts = parsedShortcuts(allShortcuts);
         const tooltip = (
             <Tooltip
                 id='upload-tooltip'
@@ -1432,7 +1431,10 @@ class CreatePost extends React.PureComponent {
                     id='create_post.fileUpload'
                     defaultMessage='Upload a file'
                 />
-                <ShortcutSequence shortcut={shortcuts.filesUpload}/>
+                <ShortcutSequence
+                    shortcut={shortcuts.filesUpload}
+                    hideDescription={true}
+                />
             </Tooltip>
         );
 

@@ -11,8 +11,8 @@ type Props = {
 };
 
 export default function ShortcutSequence({shortcut, values, hideDescription}: Props) {
-    const {formatMessage} = useIntl;
-
+    const {formatMessage} = useIntl();
+    console.log(values);
     const shortcutText = formatMessage(shortcut, values);
     const splitShorcut = shortcutText.split('\t');
 
@@ -28,17 +28,16 @@ export default function ShortcutSequence({shortcut, values, hideDescription}: Pr
         description = splitShorcut[0];
     }
 
-    return (<div className='shortcut-line'>
-
-        {!hideDescription && description}
-        {keys?.split('|').map((key: string) => (
-            <span
-                className='shortcut-key'
-                key={key}
-            >
-                {key}
-            </span>
-        ))}
-
-    </div>);
+    return (
+        <div className='shortcut-line'>
+            <div>{!hideDescription && description}</div>
+            {keys?.split('|').map((key: string) => (
+                <span
+                    className='shortcut-key'
+                    key={key}
+                >
+                    {key}
+                </span>
+            ))}
+        </div>);
 }

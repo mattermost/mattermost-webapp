@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 
-import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+import {shortcuts} from 'components/Shortcuts/shortcuts';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -25,6 +25,7 @@ type Props = {
         goBack: () => void;
         goForward: () => void;
     };
+    browserChannelPrev:MessageDescriptor;
 };
 
 type State = {
@@ -59,9 +60,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             channelSwitchTextShortcutDefault = '⌘K';
         }
 
-        const shortcuts = parsedShortcuts(allShortcuts);
         let historyArrows;
-
         const tooltipLeft = (
             <Tooltip
                 id='upload-tooltip'

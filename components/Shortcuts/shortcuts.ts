@@ -251,14 +251,14 @@ export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescr
             defaultMessage: 'Zoom out:\t⌘|-',
         },
     },
-    teamSidebarTooltip: {
+    teamNavigation: {
         default: {
             id: t('team.button.tooltip'),
-            defaultMessage: 'shortcut:\tCtrl|Alt|{order}',
+            defaultMessage: 'shortcut:\tCtrl|Alt|{values}',
         },
         mac: {
             id: t('team.button.tooltip.mac'),
-            defaultMessage: '⌘ |⌥ |{order}',
+            defaultMessage: '⌘ |⌥ |{values}',
         },
     },
     browserInputHeader: {
@@ -279,7 +279,7 @@ export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescr
     },
 };
 
-export function parsedShortcuts(allshortcuts) {
+export function parsedShortcuts(allshortcuts: MessageDescriptor) {
     const ismac = Utils.isMac();
     const shortcuts = {};
     Object.keys(allshortcuts).forEach((s) => {
@@ -295,4 +295,4 @@ export function parsedShortcuts(allshortcuts) {
     return shortcuts;
 }
 
-export const shotcuts = parsedShortcuts(allShortcuts);
+export const shortcuts = parsedShortcuts(allShortcuts);
