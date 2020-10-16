@@ -19,6 +19,8 @@ import {StepComponentProps} from '../../steps';
 
 import './complete_profile_step.scss';
 
+const MAX_FULL_NAME_LENGTH = 128;
+
 type Props = StepComponentProps & {
     maxFileSize: number;
     actions: {
@@ -64,7 +66,10 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let fullNameError;
         if (!event.target.value) {
-            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.nameCannotBeBlank', 'Your name can’t be blank');
+            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameCannotBeBlank', 'Your full name cannot be blank');
+        }
+        if (event.target.value.length > MAX_FULL_NAME_LENGTH) {
+            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameTooBig', 'Your full name cannot be greater than 128 characters');
         }
 
         this.setState({fullName: event.target.value, fullNameError});
