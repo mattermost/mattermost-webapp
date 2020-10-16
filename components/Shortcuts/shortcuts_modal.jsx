@@ -115,7 +115,7 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage({id: t('shortcuts.nav.Header'),
+                                        <h4 className='section-title'><strong>{formatMessage({id: t('shortcuts.nav.header'),
                                             defaultMessage: 'Navigation',
                                         })}</strong></h4>
                                         {renderShortcut(
