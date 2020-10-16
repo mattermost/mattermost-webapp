@@ -12,10 +12,14 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
+    body.announcement-banner-tall--fixed & {
+        height: calc(100% - 40px);
+    }
+
     .fa {
-        @include single-transition(all, .15s, ease);
-        @include opacity(.6);
-        color: $white;
+        @include single-transition(all, 0.15s, ease);
+        @include opacity(0.6);
+        color: var(--sidebar-header-text-color);
 
         &:hover {
             @include opacity(1);
@@ -31,7 +35,7 @@
 
     .team-wrapper {
         -webkit-overflow-scrolling: touch;
-        background-color: alpha-color($black, .2);
+        background-color: alpha-color($black, 0.2);
         overflow: hidden;
         height: 100%;
         flex: 1 1 auto;
@@ -47,7 +51,7 @@
 
             &:before {
                 @include border-radius(4px);
-                content: '';
+                content: "";
                 transform-origin: center center;
                 position: absolute;
                 top: 0;
@@ -68,7 +72,7 @@
                 &:before,
                 &:hover::before,
                 &.unread:before,
-                &.active:before  {
+                &.active:before {
                     transform: translateX(-100%) translateY(22%) scaleY(0);
                 }
             }
@@ -96,7 +100,8 @@
             &.unread {
                 &:before {
                     border-radius: 100%;
-                    transform: translateX(0px) translateY(22%) scaleX(0.8) scaleY(0.2);
+                    transform: translateX(0px) translateY(22%) scaleX(0.8)
+                        scaleY(0.2);
                 }
 
                 &:hover::before {
@@ -118,12 +123,12 @@
             }
 
             .TeamIcon__content {
-                @include opacity(.5);
+                @include opacity(0.5);
                 &:hover {
-                    @include opacity(.8);
+                    @include opacity(0.8);
 
                     &.no-hover {
-                        @include opacity(.5);
+                        @include opacity(0.5);
                     }
                 }
             }
@@ -134,14 +139,17 @@
                 text-decoration: none;
             }
 
-
             a.team-disabled {
-                @include opacity(.5);
+                @include opacity(0.5);
                 cursor: not-allowed;
             }
 
             .team-btn {
                 color: var(--sidebar-header-text-color);
+
+                .badge {
+                    border-color: rgba(var(--sidebar-text-rgb), 0.5);
+                }
             }
 
             .order-indicator {
@@ -155,7 +163,7 @@
                 display: flex;
                 justify-content: center;
                 text-align: center;
-                color: #FFFFFF;
+                color: #ffffff;
                 font-style: normal;
                 font-weight: 500;
                 font-size: 12px;
@@ -183,6 +191,11 @@
     .team-sidebar {
         .team-wrapper {
             .team-container {
+                &::before,
+                &.active::before,
+                &.unread::before {
+                    background: var(--sidebar-text-active-border);
+                }
             }
         }
     }

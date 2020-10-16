@@ -11,7 +11,7 @@ import UserGuideIcon from 'components/widgets/icons/user_guide_icon';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 

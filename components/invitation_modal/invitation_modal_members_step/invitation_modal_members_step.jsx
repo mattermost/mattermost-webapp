@@ -8,7 +8,7 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -37,8 +37,10 @@ class InvitationModalMembersStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         analytics: PropTypes.object.isRequired,
+        subscription: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -149,7 +151,14 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     shouldShowPickerError = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
+        const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
+
+        if (subscription === null) {
+            return false;
+        }
+        if (subscription.is_paid_tier === 'true') {
+            return false;
+        }
 
         if (userLimit === '0' || !userIsAdmin || !isCloud) {
             return false;
@@ -169,6 +178,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     componentDidMount() {
         if (!this.props.analytics) {
             this.props.actions.getStandardAnalytics();
+        }
+        if (!this.props.subscription) {
+            this.props.actions.getCloudSubscription();
         }
     }
 

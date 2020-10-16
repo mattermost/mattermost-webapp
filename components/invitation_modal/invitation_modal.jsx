@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {trackEvent, pageVisited} from 'actions/diagnostics_actions.jsx';
+import {trackEvent, pageVisited} from 'actions/telemetry_actions.jsx';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
@@ -14,7 +14,7 @@ import {InviteTypes} from 'utils/constants';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step';
-import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
+import InvitationModalGuestsStep from './invitation_modal_guest_step';
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
 import './invitation_modal.scss';
