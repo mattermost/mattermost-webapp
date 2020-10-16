@@ -30,6 +30,32 @@ interface SearchHintOption {
     },
 }
 
+const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOption[] => {
+    let newVisibleSearchHintOptions: SearchHintOption[] = [];
+
+    if (searchTerms.trim() === '') {
+        return searchHintOptions;
+    }
+
+    const pretextArray = searchTerms.split(/\s+/g);
+    const pretext = pretextArray[pretextArray.length - 1];
+    const penultimatePretext = pretextArray[pretextArray.length - 2];
+
+    const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+
+    if (shouldShowHintOptions) {
+        try {
+            newVisibleSearchHintOptions = searchHintOptions.filter((option) => {
+                return new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
+            });
+        } catch {
+            newVisibleSearchHintOptions = [];
+        }
+    }
+
+    return newVisibleSearchHintOptions;
+};
+
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const {actions, searchTerms} = props;
 
@@ -49,34 +75,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     useEffect((): void => {
         setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
     }, [searchTerms]);
-
-    // this specific function needs to be a function expression
-    // because it is called while components initial state is generated
-    function determineVisibleSearchHintOptions(_searchTerms: string): SearchHintOption[] {
-        let newVisibleSearchHintOptions: SearchHintOption[] = [];
-
-        if (_searchTerms.trim() === '') {
-            return searchHintOptions;
-        }
-
-        const pretextArray = _searchTerms.split(/\s+/g);
-        const pretext = pretextArray[pretextArray.length - 1];
-        const penultimatePretext = pretextArray[pretextArray.length - 2];
-
-        const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => _searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
-
-        if (shouldShowHintOptions) {
-            try {
-                newVisibleSearchHintOptions = searchHintOptions.filter((option) => {
-                    return new RegExp(pretext, 'ig').test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
-                });
-            } catch {
-                newVisibleSearchHintOptions = [];
-            }
-        }
-
-        return newVisibleSearchHintOptions;
-    }
 
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
