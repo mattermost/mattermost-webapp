@@ -61,6 +61,9 @@ describe('Onboarding', () => {
             cy.visit(inviteLink);
         });
 
+        // # Click Email and Password link
+        cy.get('.signup__content', {timeout: TIMEOUTS.ONE_MIN}).findByText('Email and Password').click();
+
         // # Type email, username and password
         cy.get('#email', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(email);
         cy.get('#name').should('be.visible').type(username);
@@ -106,9 +109,8 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to: Mattermost' message is visible
-        cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
-        cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
+        // * Check that the 'Welcome to Mattermost' message is visible
+        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
     });
 
     function verifyEmailInvite(response, userEmail, messageSeparator) {
