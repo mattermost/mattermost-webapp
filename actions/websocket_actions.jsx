@@ -1341,7 +1341,7 @@ function handleUserActivationStatusChange() {
         const license = getLicense(state);
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
-        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(doGetState())
+        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(state)
         ) {
             doDispatch(getStandardAnalytics());
         }
