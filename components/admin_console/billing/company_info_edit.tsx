@@ -4,6 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+import {getName} from 'country-list';
 
 import {getCloudCustomer, updateCloudCustomer, updateCloudCustomerAddress} from 'mattermost-redux/actions/cloud';
 
@@ -34,8 +35,8 @@ const CompanyInfoEdit: React.FC<Props> = () => {
             company_address: {
                 line1: '123 Main St',
                 city: 'Anytown',
-                state: 'Ontario',
-                country: 'Canada',
+                state: 'ON',
+                country: 'CA',
                 postal_code: 'H0H 0H0',
             },
         };
@@ -48,7 +49,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const [address2, setAddress2] = useState(companyInfo?.company_address?.line2);
     const [city, setCity] = useState(companyInfo?.company_address?.city);
     const [postalCode, setPostalCode] = useState(companyInfo?.company_address?.postal_code);
-    const [country, setCountry] = useState(companyInfo?.company_address?.country);
+    const [country, setCountry] = useState(getName(companyInfo?.company_address?.country || 'US'));
     const [state, setState] = useState(companyInfo?.company_address?.state);
 
     const [sameAsBillingAddress, setSameAsBillingAddress] = useState(!companyInfo?.company_address?.line1);
@@ -162,24 +163,20 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                     required={true}
                 />
             </div>
+            <StateSelector
+                country={country!}
+                state={state!}
+                onChange={(stateValue) => setState(stateValue)}
+            />
             <div className='form-row'>
-                <div className='form-row-third-1 selector'>
-                    <StateSelector
-                        country={country!}
-                        state={state!}
-                        onChange={(stateValue) => setState(stateValue)}
-                    />
-                </div>
-                <div className='form-row-third-2'>
-                    <Input
-                        name='postalCode'
-                        type='text'
-                        value={postalCode}
-                        onChange={updateState(setPostalCode)}
-                        placeholder={Utils.localizeMessage('admin.billing.company_info.zipcode', 'Zip/Postal Code')}
-                        required={true}
-                    />
-                </div>
+                <Input
+                    name='postalCode'
+                    type='text'
+                    value={postalCode}
+                    onChange={updateState(setPostalCode)}
+                    placeholder={Utils.localizeMessage('admin.billing.company_info.zipcode', 'Zip/Postal Code')}
+                    required={true}
+                />
             </div>
         </>
     );
@@ -233,20 +230,22 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                                     defaultMessage='Company Address'
                                 />
                             </div>
-                            <div className='checkbox'>
-                                <label>
-                                    <input
-                                        type='checkbox'
-                                        checked={sameAsBillingAddress}
-                                        onChange={(event) => setSameAsBillingAddress(event.target.checked)}
-                                    />
-                                    <FormattedMessage
-                                        id='admin.billing.company_info_edit.sameAsBillingAddress'
-                                        defaultMessage='Same as Billing Address'
-                                    />
-                                </label>
-                            </div>
-                            {sameAsBillingAddress ? billingAddressDisplay : companyAddressInput}
+                            {companyInfo?.billing_address?.line1 &&
+                                <div className='checkbox'>
+                                    <label>
+                                        <input
+                                            type='checkbox'
+                                            checked={sameAsBillingAddress}
+                                            onChange={(event) => setSameAsBillingAddress(event.target.checked)}
+                                        />
+                                        <FormattedMessage
+                                            id='admin.billing.company_info_edit.sameAsBillingAddress'
+                                            defaultMessage='Same as Billing Address'
+                                        />
+                                    </label>
+                                </div>
+                            }
+                            {sameAsBillingAddress && companyInfo?.billing_address?.line1 ? billingAddressDisplay : companyAddressInput}
                         </div>
                     </div>
                 </div>

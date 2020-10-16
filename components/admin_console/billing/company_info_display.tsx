@@ -64,8 +64,8 @@ const CompanyInfoDisplay: React.FC = () => {
             company_address: {
                 line1: '123 Main St',
                 city: 'Anytown',
-                state: 'Ontario',
-                country: 'Canada',
+                state: 'ON',
+                country: 'CA',
                 postal_code: 'H0H 0H0',
             },
         };
