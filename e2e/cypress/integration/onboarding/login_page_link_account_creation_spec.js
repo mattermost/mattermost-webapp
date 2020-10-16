@@ -22,6 +22,9 @@ describe('Onboarding', () => {
     const mailUrl = getEmailUrl(baseUrl);
 
     before(() => {
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
+
         // # Disable LDAP, require email invitation, and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}, EmailSettings: {RequireEmailVerification: true}});
         cy.apiEmailTest();
@@ -91,9 +94,8 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to: Mattermost' message is visible
-        cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
-        cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
+        // * Check that the 'Welcome to Mattermost' message is visible
+        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
     });
 
     // eslint-disable-next-line no-shadow

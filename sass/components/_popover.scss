@@ -277,6 +277,10 @@
     text-transform: uppercase;
     font-weight: 600;
 
+    span {
+        background: v(center-channel-bg);
+    }
+
     &:first-child {
         &:before {
             display: none;

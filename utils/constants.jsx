@@ -405,6 +405,11 @@ export const CloudBanners = {
     HIDE: 'hide',
 };
 
+export const TELEMETRY_CATEGORIES = {
+    CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_ADMIN: 'cloud_admin',
+};
+
 export const PostTypes = {
     JOIN_LEAVE: 'system_join_leave',
     JOIN_CHANNEL: 'system_join_channel',
@@ -669,6 +674,10 @@ export const DraggingStateTypes = {
 export const AboutLinks = {
     TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+};
+
+export const CloudLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
 };
 
 export const PermissionsScope = {
