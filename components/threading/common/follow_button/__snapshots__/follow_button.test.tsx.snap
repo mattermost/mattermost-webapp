@@ -17,14 +17,7 @@ exports[`components/threading/common/follow_button should say follow and fire st
       <span
         className="Button_label"
       >
-        <FormattedMessage
-          defaultMessage="Follow"
-          id="threading.notFollowing"
-        >
-          <span>
-            Follow
-          </span>
-        </FormattedMessage>
+        Follow
       </span>
     </button>
   </Memo(Button)>
@@ -48,14 +41,7 @@ exports[`components/threading/common/follow_button should say following and fire
       <span
         className="Button_label"
       >
-        <FormattedMessage
-          defaultMessage="Following"
-          id="threading.following"
-        >
-          <span>
-            Following
-          </span>
-        </FormattedMessage>
+        Following
       </span>
     </button>
   </Memo(Button)>

@@ -15,6 +15,7 @@ exports[`components/threading/global_threads/thread_item should report total num
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
+      style="short"
       units={
         Array [
           "now",
@@ -130,6 +131,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
+      style="short"
       units={
         Array [
           "now",
@@ -243,6 +245,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
+      style="short"
       units={
         Array [
           "now",

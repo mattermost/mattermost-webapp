@@ -107,6 +107,7 @@ exports[`components/threading/common/thread_menu should match snapshot 1`] = `
             }
           >
             <Memo(Button)
+              className="Button___icon"
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
@@ -114,7 +115,7 @@ exports[`components/threading/common/thread_menu should match snapshot 1`] = `
               onMouseOver={[Function]}
             >
               <button
-                className="Button Button___transparent"
+                className="Button Button___transparent Button___icon"
                 onBlur={[Function]}
                 onClick={null}
                 onFocus={[Function]}
@@ -274,6 +275,7 @@ exports[`components/threading/common/thread_menu should match snapshot after ope
             }
           >
             <Memo(Button)
+              className="Button___icon"
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
@@ -281,7 +283,7 @@ exports[`components/threading/common/thread_menu should match snapshot after ope
               onMouseOver={[Function]}
             >
               <button
-                className="Button Button___transparent"
+                className="Button Button___transparent Button___icon"
                 onBlur={[Function]}
                 onClick={null}
                 onFocus={[Function]}

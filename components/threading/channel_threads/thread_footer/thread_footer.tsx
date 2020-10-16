@@ -95,8 +95,7 @@ function ThreadFooter({
             {Boolean(lastReplyAt) && (
                 <Timestamp
                     value={lastReplyAt}
-                    useTime={false}
-                    units={THREADING_TIME}
+                    {...THREADING_TIME}
                 >
                     {({formatted}) => (
                         <span className='Timestamp Separated alt-visible'>

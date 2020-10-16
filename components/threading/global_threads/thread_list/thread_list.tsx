@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactNode} from 'react';
+import React, {memo, useCallback, PropsWithChildren} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import SimpleTooltip from 'components/widgets/simple_tooltip';
@@ -10,23 +10,36 @@ import Button from '../../common/button';
 
 import './thread_list.scss';
 
+type Filter = '' | 'unread';
+
 type Props = {
-    children: ReactNode
+    currentFilter: Filter,
+    someUnread: boolean
     actions: {
-        setFilter: (filter: string) => void
+        setFilter: (filter: Filter) => void,
+        markAllRead: () => void,
     },
 };
 
 const ThreadList = ({
+    currentFilter = '',
+    someUnread,
+    actions: {
+        setFilter,
+        markAllRead,
+    },
     children,
-}: Props) => {
+}: PropsWithChildren<Props>) => {
     const {formatMessage} = useIntl();
     return (
         <div className={'ThreadList'}>
             <div className='header'>
                 <Button
                     className={'Button___large Margined'}
-                    isActive={true}
+                    isActive={currentFilter === ''}
+                    onClick={useCallback(() => {
+                        setFilter('');
+                    }, [])}
                 >
                     <FormattedMessage
                         id='threading.filters.allThreads'
@@ -35,7 +48,11 @@ const ThreadList = ({
                 </Button>
                 <Button
                     className={'Button___large Margined'}
-                    hasDot={true}
+                    isActive={currentFilter === 'unread'}
+                    hasDot={someUnread}
+                    onClick={useCallback(() => {
+                        setFilter('unread');
+                    }, [])}
                 >
                     <FormattedMessage
                         id='threading.filters.unreads'
@@ -53,6 +70,7 @@ const ThreadList = ({
                     >
                         <Button
                             className={'Button___large Button___icon'}
+                            onClick={markAllRead}
                         >
                             <span className='Icon'>
                                 <i className='icon-playlist-check'/>

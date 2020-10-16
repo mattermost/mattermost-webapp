@@ -122,7 +122,14 @@ storiesOf('Features/Threading/Global Threads', module).
 
         return (
             <StoryBox containerStyle={{width: 500}}>
-                <ThreadList>
+                <ThreadList
+                    someUnread={boolean('some unread', true)}
+                    currentFilter={''}
+                    actions={{
+                        markAllRead: action('mark all as read'),
+                        setFilter: action('set filter to...'),
+                    }}
+                >
                     {React.cloneElement(post)}
                     {React.cloneElement(post)}
                     {React.cloneElement(post)}
@@ -140,6 +147,7 @@ storiesOf('Features/Threading/Global Threads', module).
                 <ThreadHeader
                     channelName={text('channelName', 'Enterprise Team')}
 
+                    hasUnreads={boolean('has unreads', false)}
                     isFollowing={boolean('is following', true)}
                     isSaved={boolean('is saved', false)}
                     isSelected={boolean('is selected', false)}

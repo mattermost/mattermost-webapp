@@ -92,8 +92,7 @@ const ThreadItem = ({
                 <Timestamp
                     className='alt-hidden'
                     value={lastReplyAt}
-                    useTime={false}
-                    units={THREADING_TIME}
+                    {...THREADING_TIME}
                 />
             </h4>
             <span className='menu-anchor alt-visible'>

@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, ComponentProps, MouseEventHandler} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import Button from '../button';
+import {t} from 'utils/i18n';
 
 type Props = {
     isFollowing: boolean;
@@ -18,23 +19,20 @@ function FollowButton({
     stop,
     ...props
 }: Props & Exclude<ComponentProps<typeof Button>, Props>) {
+    const {formatMessage} = useIntl();
     return (
         <Button
             {...props}
             onClick={isFollowing ? stop : start}
             isActive={isFollowing}
         >
-            {isFollowing ? (
-                <FormattedMessage
-                    id='threading.following'
-                    defaultMessage='Following'
-                />
-            ) : (
-                <FormattedMessage
-                    id='threading.notFollowing'
-                    defaultMessage='Follow'
-                />
-            )}
+            {formatMessage(isFollowing ? {
+                id: t('threading.following'),
+                defaultMessage: 'Following',
+            } : {
+                id: t('threading.notFollowing'),
+                defaultMessage: 'Follow',
+            })}
         </Button>
     );
 }
