@@ -15,7 +15,7 @@ interface Props {
     isSynced: boolean;
     isDefault: boolean;
     onToggle: (isSynced: boolean, isPublic: boolean) => void;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 }
 
 const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {

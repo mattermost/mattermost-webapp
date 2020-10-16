@@ -5,13 +5,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {Groups, Permissions} from 'mattermost-redux/constants';
+import {Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Scheme} from 'mattermost-redux/types/schemes';
 import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
-import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
+import {SyncablePatch, Group, SyncableType} from 'mattermost-redux/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -31,39 +31,39 @@ import SaveChangesPanel from '../../save_changes_panel';
 import {ChannelModes} from './channel_modes';
 import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
-import ChannelModeration from './channel_moderation';
 import ChannelMembers from './channel_members';
+import ChannelModeration from './channel_moderation';
 
-interface ChannelDetailsProps {
+export interface ChannelDetailsProps {
     channelID: string;
     channel: Channel;
     team: Partial<Team>;
     groups: Group[];
     totalGroups: number;
-    channelPermissions?: Array<ChannelPermissions>;
     allGroups: Dictionary<Group>;
+    channelPermissions?: Array<ChannelPermissions>;
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
-    isDisabled: boolean;
+    isDisabled?: boolean;
     actions: {
-        getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
-        linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
-        unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: string) => ActionFunc;
+        getGroups: (channelID: string, q: string | undefined, page: number | undefined, perPage: number | undefined, filterAllowReference: false) => any;
+        linkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => ActionFunc|ActionResult;
+        unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => ActionFunc;
         membersMinusGroupMembers: (channelID: string, groupIDs: Array<string>, page?: number, perPage?: number) => ActionFunc|ActionResult;
-        setNavigationBlocked: (blocked: boolean) => any;
+        setNavigationBlocked: (blocked: boolean) => {type: 'SET_NAVIGATION_BLOCKED', blocked: boolean};
         getChannel: (channelId: string) => ActionFunc;
-        getTeam: (teamId: string) => Promise<ActionResult>;
-        getChannelModerations: (channelId: string) => Promise<Array<ChannelPermissions>>;
+        getTeam: (teamId: string) => any;
+        getChannelModerations: (channelId: string) => any;
         patchChannel: (channelId: string, patch: Channel) => ActionFunc;
-        updateChannelPrivacy: (channelId: string, privacy: string) => Promise<ActionResult>;
-        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc;
+        updateChannelPrivacy: (channelId: string, privacy: string) => any;
+        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => ActionFunc;
         patchChannelModerations: (channelID: string, patch: Array<ChannelModerationPatch>) => any;
-        loadScheme: (schemeID: string) => Promise<ActionResult>;
-        addChannelMember: (channelId: string, userId: string, postRootId?: string) => Promise<ActionResult>;
-        removeChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
-        updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
-        deleteChannel: (channelId: string) => Promise<ActionResult>;
-        unarchiveChannel: (channelId: string) => Promise<ActionResult>;
+        loadScheme: (schemeID: string) => ActionFunc|Promise<ActionResult>;
+        addChannelMember: (channelId: string, userId: string, postRootId?: string) => ActionFunc|Promise<ActionResult>;
+        removeChannelMember: (channelId: string, userId: string) => ActionFunc|Promise<ActionResult>;
+        updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => ActionFunc|Promise<ActionResult>;
+        deleteChannel: (channelId: string) => ActionFunc|Promise<ActionResult>;
+        unarchiveChannel: (channelId: string) => ActionFunc|Promise<ActionResult>;
     };
 }
 
@@ -153,7 +153,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         const {channelID, channel, actions} = this.props;
         const actionsToAwait = [];
         if (channelID) {
-            actionsToAwait.push(actions.getGroups(channelID).
+            actionsToAwait.push(actions.getGroups(channelID, undefined, undefined, undefined, false).
                 then(() => actions.getChannel(channelID)).
                 then(() => this.setState({groups: this.props.groups})),
             );
@@ -417,7 +417,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         if (isPrivacyChanging) {
             const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
             promises.push(
-                convert.then((res) => {
+                convert.then((res: ActionResult) => {
                     if ('error' in res) {
                         return res;
                     }
@@ -440,19 +440,19 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             filter((g) => {
                 return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
             }).
-            map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
+            map((g) => actions.patchGroupSyncable(g.id, channelID, 'channel', {scheme_admin: g.scheme_admin, auto_add: false}));
 
         const unlink = origGroups.
             filter((g) => {
                 return !groups.some((group) => group.id === g.id);
             }).
-            map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+            map((g) => actions.unlinkGroupSyncable(g.id, channelID, 'channel'));
 
         const link = groups.
             filter((g) => {
                 return !origGroups.some((group) => group.id === g.id);
             }).
-            map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
+            map((g) => actions.linkGroupSyncable(g.id, channelID, 'channel', {auto_add: true, scheme_admin: g.scheme_admin}));
 
         const groupActions = [...promises, ...patchChannelSyncable, ...unlink, ...link];
         if (groupActions.length > 0) {
@@ -468,7 +468,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     trackEvent('admin_channel_config_page', 'groups_added_to_channel', {count: link.length, channel_id: channelID});
                 }
 
-                const actionsToAwait: any[] = [actions.getGroups(channelID)];
+                const actionsToAwait: any[] = [actions.getGroups(channelID, undefined, undefined, undefined, false)];
                 if (isPrivacyChanging) {
                     // If the privacy is changing update the manage_members value for the channel moderation widget
                     actionsToAwait.push(
