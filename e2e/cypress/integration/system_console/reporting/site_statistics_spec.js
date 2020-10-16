@@ -19,27 +19,21 @@ const goToAdminConsole = () => {
 
 describe('System Console > Site Statistics', () => {
     let testTeam;
-    after(() => {
-        // # Login as admin and set the langauge back to ENGLISH!
-        cy.apiAdminLogin();
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#headerUsername').click();
-        cy.get('#accountSettings').should('be.visible').click();
-        cy.get('#displayButton').click();
-        cy.get('#languagesEdit').click();
-        cy.get('#displayLanguage').type('English{enter}');
-        cy.get('#saveSetting').click();
+
+    afterEach(() => {
+        // # Reset locale
+        cy.apiPatchMe({locale: 'en'});
     });
 
     it('MM-T904_1 Site Statistics displays expected content categories', () => {
-        // # Require license.
+        // * Check if server has license
         cy.apiRequireLicense();
 
         // # Visit site statistics page.
-        cy.visit('/admin_console/reporting/system_analytics').wait(TIMEOUTS.TWO_SEC);
+        cy.visit('/admin_console/reporting/system_analytics');
 
         // * Check that the header has loaded correctly and contains the expected text.
-        cy.get('.admin-console__header span').should('be.visible').should('contain', 'System Statistics');
+        cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
 
         // * Check that the rows for the table were generated.
         cy.get('.admin-console__content .row').should('have.length', 5);
@@ -60,6 +54,9 @@ describe('System Console > Site Statistics', () => {
 
         // * Check that some of the values for the stats are valid.
         cy.get('.admin-console__content .row').eq(0).find('.content').each((el) => {
+            cy.waitUntil(() => cy.wrap(el).then((content) => {
+                return content[0].innerText !== 'Loading...';
+            }));
             cy.wrap(el).eq(0).invoke('text').then(parseFloat).should('be.gte', 0);
         });
     });
@@ -69,10 +66,10 @@ describe('System Console > Site Statistics', () => {
         cy.apiDeleteLicense();
 
         // # Visit site statistics page.
-        cy.visit('/admin_console/reporting/system_analytics').wait(TIMEOUTS.TWO_SEC);
+        cy.visit('/admin_console/reporting/system_analytics');
 
         // * Check that the header has loaded correctly and contains the expected text.
-        cy.get('.admin-console__header span').should('be.visible').should('contain', 'System Statistics');
+        cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
 
         // * Check that the rows for the table were generated.
         cy.get('.admin-console__content .row').should('have.length', 4);
@@ -87,6 +84,9 @@ describe('System Console > Site Statistics', () => {
 
         // * Check that the values for the stats are valid.
         cy.get('.admin-console__content .row').eq(0).find('.content').each((el) => {
+            cy.waitUntil(() => cy.wrap(el).then((content) => {
+                return content[0].innerText !== 'Loading...';
+            }));
             cy.wrap(el).eq(0).invoke('text').then(parseFloat).should('be.gt', 0);
         });
     });
@@ -94,7 +94,7 @@ describe('System Console > Site Statistics', () => {
     it('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
         const sysadmin = getAdminAccount();
 
-        // # Require license.
+        // * Check if server has license
         cy.apiRequireLicense();
 
         let newChannel;
@@ -124,7 +124,7 @@ describe('System Console > Site Statistics', () => {
                     goToAdminConsole();
 
                     // * Find site statistics and click it
-                    cy.findByTestId('reporting.system_analytics').click();
+                    cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();
 
                     let totalPostsDataSet;
                     let totalPostsFromBots;
@@ -164,7 +164,7 @@ describe('System Console > Site Statistics', () => {
             goToAdminConsole();
 
             // # Go to system analytics
-            cy.get('#reporting\\/system_analytics').click();
+            cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();
             cy.wait(TIMEOUTS.ONE_SEC);
 
             let totalActiveUsersInitial;
@@ -211,13 +211,16 @@ describe('System Console > Site Statistics', () => {
     });
 
     it('MM-T905 - Site Statistics card labels in different languages', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
             // # Login as admin and set the langauge to french
             cy.apiAdminLogin();
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.get('#headerUsername').click();
+            cy.get('#headerUsername', {timeout: TIMEOUTS.ONE_MIN}).click();
             cy.get('#accountSettings').should('be.visible').click();
             cy.get('#displayButton').click();
             cy.get('#languagesEdit').click();
@@ -236,7 +239,7 @@ describe('System Console > Site Statistics', () => {
                     expectedResult = true;
                 }
 
-                cy.findByTestId(id).then((el) => {
+                cy.findByTestId(id, {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
                     const titleSpan = el[0].childNodes[0];
 
                     // * All the boxes on System Statistics page should have UNTRUNCATED titles when in french except Total Commands, Master DB Conns, and Replica DB Conns.

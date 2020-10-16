@@ -17,8 +17,6 @@ const goToAdminConsole = () => {
 
 describe('Main menu', () => {
     before(() => {
-        cy.apiRequireLicense();
-
         goToAdminConsole();
 
         // # Open the hamburger menu
@@ -59,6 +57,9 @@ describe('Main menu', () => {
     });
 
     it('MM-T913 About opens About modal', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+
         // # click to open about modal
         cy.findByText('About Mattermost').click();
 
@@ -79,6 +80,8 @@ describe('Main menu', () => {
     });
 
     it('MM-T899 - Edition and License: Verify Privacy Policy link points to correct URL', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
         goToAdminConsole();
 
         // * Find privacy link and then assert that the href is what we expect it to be
