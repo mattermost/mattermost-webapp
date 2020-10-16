@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {connect} from 'react-redux';
-import {IntlShape, injectIntl} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -23,21 +22,7 @@ import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants.jsx';
 
 import SearchResults from './search_results';
-
-type OwnProps = {
-    [key: string]: any,
-    isSideBarExpanded: boolean,
-    isMentionSearch: boolean,
-    isFlaggedPosts: boolean,
-    isPinnedPosts: boolean,
-    updateSearchTerms: (terms: string) => void,
-    getMorePostsForSearch: () => void,
-    shrink: () => void,
-    isCard?: boolean,
-    isOpened?: boolean,
-    channelDisplayName?: string,
-    children?: React.ReactNode,
-}
+import {StateProps, OwnProps, Props} from './types';
 
 function makeMapStateToProps() {
     let results: Post[];
@@ -87,24 +72,6 @@ function makeMapStateToProps() {
         };
     };
 }
-
-type StateProps = {
-    results: Post[],
-    matches: Record<string, string[]>,
-    searchTerms: string,
-    isSearchingTerm: boolean,
-    isSearchingFlaggedPost: boolean,
-    isSearchingPinnedPost: boolean,
-    isSearchGettingMore: boolean,
-    isSearchAtEnd: boolean,
-    compactDisplay: boolean,
-}
-
-type IntlProps = {
-    intl: IntlShape,
-}
-
-export type Props = OwnProps & StateProps & IntlProps;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export default connect<StateProps, {}, OwnProps, GlobalState>(makeMapStateToProps)(injectIntl<'intl', Props>(SearchResults));

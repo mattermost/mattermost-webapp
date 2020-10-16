@@ -21,7 +21,7 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
-import type {Props} from './';
+import type {Props} from './types';
 
 const GET_MORE_BUFFER = 30;
 

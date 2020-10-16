@@ -20,7 +20,7 @@ import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
 
-import type {Props} from './';
+import type {Props} from './types';
 
 interface SearchHintOption {
     searchTerm: string,
