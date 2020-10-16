@@ -69,7 +69,7 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
             fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameCannotBeBlank', 'Your full name cannot be blank');
         }
         if (event.target.value.length > MAX_FULL_NAME_LENGTH) {
-            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameTooBig', 'Your full name cannot be greater than 128 characters');
+            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameTooBig', 'Your name must be less than 128 character');
         }
 
         this.setState({fullName: event.target.value, fullNameError});

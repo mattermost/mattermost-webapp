@@ -69,7 +69,7 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
             teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team name cannot be blank');
         }
         if (event.target.value.length > MAX_TEAM_NAME_LENGTH) {
-            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameTooBig', 'Team name cannot be greater than 64 characters');
+            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameTooBig', 'Team name must be less than 64 characters');
         }
 
         this.setState({teamName: event.target.value, teamNameError});
