@@ -233,6 +233,7 @@
 }
 
 .user-popover__role {
+    background: rgba(var(--center-channel-color), 0.3);
     padding: 3px 5px;
     margin-left: 10px;
     background-color: $gray;
