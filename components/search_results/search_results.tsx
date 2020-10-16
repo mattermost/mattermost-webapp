@@ -49,7 +49,6 @@ const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
 export const shouldRenderFromProps = (props: Props, nextProps: Props): boolean => {
     // Shallow compare for all props except 'results'
     for (const key in nextProps) {
-        // if (!nextProps.hasOwnProperty(key) || key === 'results') {
         if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'results') {
             continue;
         }
@@ -138,33 +137,33 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
     const showLoadMore = !isSearchAtEnd && !isFlaggedPosts && !isPinnedPosts;
 
-    let ctls;
+    let contentItems;
     let loadingMorePostsComponent;
 
     let sortedResults = results;
 
     const titleDescriptor: Record<string, string> = {};
-    const noResultsprops: NoResultsProps = {
+    const noResultsProps: NoResultsProps = {
         variant: NoResultsVariant.ChannelSearch,
     };
 
     switch (true) {
     case isMentionSearch:
-        noResultsprops.variant = NoResultsVariant.Mentions;
+        noResultsProps.variant = NoResultsVariant.Mentions;
 
         titleDescriptor.id = 'search_header.title2';
         titleDescriptor.defaultMessage = 'Recent Mentions';
         break;
     case isFlaggedPosts:
-        noResultsprops.variant = NoResultsVariant.FlaggedPosts;
-        noResultsprops.subtitleValues = {icon: <FlagIcon className='icon  no-results__mini_icon'/>};
+        noResultsProps.variant = NoResultsVariant.FlaggedPosts;
+        noResultsProps.subtitleValues = {icon: <FlagIcon className='icon  no-results__mini_icon'/>};
 
         titleDescriptor.id = 'search_header.title3';
         titleDescriptor.defaultMessage = 'Saved Posts';
         break;
     case isPinnedPosts:
-        noResultsprops.variant = NoResultsVariant.PinnedPosts;
-        noResultsprops.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};
+        noResultsProps.variant = NoResultsVariant.PinnedPosts;
+        noResultsProps.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};
 
         sortedResults = [...results];
         sortedResults.sort((postA, postB) => postB.create_at - postA.create_at);
@@ -181,7 +180,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         titleDescriptor.defaultMessage = 'Search';
         break;
     default:
-        noResultsprops.titleValues = {channelName: `"${searchTerms}"`};
+        noResultsProps.titleValues = {channelName: `"${searchTerms}"`};
 
         titleDescriptor.id = 'search_header.results';
         titleDescriptor.defaultMessage = 'Search Results';
@@ -191,7 +190,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
     switch (true) {
     case isLoading:
-        ctls = (
+        contentItems = (
             <div className='sidebar--right__subheader a11y__section'>
                 <div className='sidebar--right__loading'>
                     <LoadingSpinner text={Utils.localizeMessage('search_header.loading', 'Searching')}/>
@@ -200,7 +199,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         );
         break;
     case (noResults && !searchTerms && !isMentionSearch):
-        ctls = (
+        contentItems = (
             <div className='sidebar--right__subheader search__hints a11y__section'>
                 <SearchHint
                     onOptionSelected={updateSearchTerms}
@@ -210,19 +209,19 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         );
         break;
     case noResults:
-        ctls = (
+        contentItems = (
             <div
                 className={classNames([
                     'sidebar--right__subheader a11y__section',
                     {'sidebar-expanded': isSideBarExpanded},
                 ])}
             >
-                <NoResultsIndicator {...noResultsprops}/>
+                <NoResultsIndicator {...noResultsProps}/>
             </div>
         );
         break;
     default:
-        ctls = sortedResults.map((post, index) => {
+        contentItems = sortedResults.map((post, index) => {
             return (
                 <SearchResultsItem
                     key={post.id}
@@ -282,7 +281,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                         regionTitle: formattedTitle,
                     })}
                 >
-                    {ctls}
+                    {contentItems}
                     {loadingMorePostsComponent}
                 </div>
             </Scrollbars>

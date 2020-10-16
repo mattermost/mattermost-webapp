@@ -163,11 +163,10 @@ export default class SidebarRight extends React.PureComponent {
         } = this.props;
 
         let content = null;
-        let isSbrExpanded = false;
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
 
         switch (true) {
         case postRightVisible:
-            isSbrExpanded = isExpanded;
             content = (
                 <RhsThread
                     previousRhsState={previousRhsState}
@@ -178,21 +177,16 @@ export default class SidebarRight extends React.PureComponent {
             );
             break;
         case postCardVisible:
-            isSbrExpanded = isExpanded;
             content = <RhsCard previousRhsState={previousRhsState}/>;
             break;
         case isPluginView:
-            isSbrExpanded = isExpanded;
             content = <RhsPlugin/>;
-            break;
-        case searchVisible:
-            isSbrExpanded = isExpanded;
             break;
         }
 
         return (
             <div
-                className={classNames('sidebar--right', {'sidebar--right--expanded': isSbrExpanded}, {'move--left': isOpen})}
+                className={classNames('sidebar--right', {'sidebar--right--expanded': isSidebarRightExpanded}, {'move--left': isOpen})}
                 id='sidebar-right'
                 role='complementary'
                 ref={this.sidebarRight}
