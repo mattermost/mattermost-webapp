@@ -875,6 +875,13 @@
         flex: 1 1 auto;
     }
 
+    .loading-screen{
+        height: 70%;
+        @media (max-height: 440px){
+            position: fixed !important;
+        }
+    }
+
     .multi-select__wrapper {
         display: flex;
         flex-direction: column;
