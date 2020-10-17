@@ -1999,7 +1999,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} 將頻道從公開變更為私人",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} 已更新頻道顯示名稱：從 {old} 改為 {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} 已移除頻道標題(原為：{old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} 已更新頻道標題：從 {old} 改為 {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} 已更新頻道標題：<br></br><strong>從</strong> {old} <br></br><strong>改為</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} 已更新頻道標題為：{new}",
   "api.channel.remove_member.removed": "{removedUsername} 已從頻道中移除",
   "api.channel.restore_channel.unarchived": "{username} 已解除頻道封存。",
