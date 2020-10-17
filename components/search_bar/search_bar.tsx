@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, CSSProperties, FormEvent, useEffect, useRef} from 'react';
+import classNames from 'classnames';
+import {useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -46,6 +48,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
     const {isFocussed, keepFocussed, searchTerms, suggestionProviders} = props;
 
     const searchRef = useRef<SuggestionBox>();
+    const intl = useIntl();
 
     useEffect((): void => {
         // let redux handle changes before focussing the input
@@ -85,8 +88,6 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         }
     };
 
-    const searchFormClass = `search__form${isFocussed ? ' search__form--focused' : ''}`;
-
     return (
         <div
             id={props.isSideBarRight ? 'sbrSearchFormContainer' : 'searchFormContainer'}
@@ -94,7 +95,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         >
             <form
                 role='application'
-                className={searchFormClass}
+                className={classNames(['search__form', {'search__form--focused': isFocussed}])}
                 onSubmit={props.handleSubmit}
                 style={style.searchForm}
                 autoComplete='off'
@@ -111,8 +112,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     containerClass='w-full'
                     data-a11y-sort-order='9'
                     aria-describedby={props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
-                    aria-label={Utils.localizeMessage('search_bar.search', 'Search')}
-                    placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
+                    aria-label={intl.formatMessage({id: 'search_bar.search', defaultMessage: 'Search'})}
+                    placeholder={intl.formatMessage({id: 'search_bar.search', defaultMessage: 'Search'})}
                     value={props.searchTerms}
                     onFocus={props.handleFocus}
                     onBlur={props.handleBlur}

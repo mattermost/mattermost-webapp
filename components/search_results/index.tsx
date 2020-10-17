@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {injectIntl} from 'react-intl';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -22,7 +21,7 @@ import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants.jsx';
 
 import SearchResults from './search_results';
-import {StateProps, OwnProps, Props} from './types';
+import {StateProps, OwnProps} from './types';
 
 function makeMapStateToProps() {
     let results: Post[];
@@ -74,4 +73,4 @@ function makeMapStateToProps() {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export default connect<StateProps, {}, OwnProps, GlobalState>(makeMapStateToProps)(injectIntl<'intl', Props>(SearchResults));
+export default connect<StateProps, {}, OwnProps, GlobalState>(makeMapStateToProps)(SearchResults);

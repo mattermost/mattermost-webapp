@@ -3,6 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React, {useEffect, useRef} from 'react';
+import {useIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
 import classNames from 'classnames';
@@ -79,8 +80,8 @@ export const shouldRenderFromProps = (props: Props, nextProps: Props): boolean =
 
 interface NoResultsProps {
     variant: NoResultsVariant,
-    titleValues?: Record<string, JSX.Element|string>
-    subtitleValues?: Record<string, JSX.Element|string>
+    titleValues?: Record<string, React.ReactNode>
+    subtitleValues?: Record<string, React.ReactNode>
 }
 
 const defaultProps: Partial<Props> = {
@@ -92,6 +93,8 @@ const defaultProps: Partial<Props> = {
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars>(null);
+
+    const intl = useIntl();
 
     useEffect(() => {
         scrollbars.current?.scrollToTop();
@@ -186,7 +189,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         titleDescriptor.defaultMessage = 'Search Results';
     }
 
-    const formattedTitle = props.intl.formatMessage(titleDescriptor);
+    const formattedTitle = intl.formatMessage(titleDescriptor);
 
     switch (true) {
     case isLoading:
@@ -274,7 +277,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     data-a11y-sort-order='3'
                     data-a11y-focus-child={true}
                     data-a11y-loop-navigation={false}
-                    aria-label={props.intl.formatMessage({
+                    aria-label={intl.formatMessage({
                         id: 'accessibility.sections.rhs',
                         defaultMessage: '{regionTitle} complimentary region',
                     }, {

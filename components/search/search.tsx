@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {ChangeEvent, FormEvent, useEffect, useState, useRef} from 'react';
+import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {searchHintOptions, RHSStates} from 'utils/constants';
@@ -16,6 +16,7 @@ import UserGuideDropdown from 'components/channel_header/components/user_guide_d
 
 import SearchBar from 'components/search_bar/search_bar';
 import SearchResults from 'components/search_results';
+import Provider from 'components/suggestion/provider';
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
@@ -62,6 +63,8 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const {actions, searchTerms} = props;
 
+    const intl = useIntl();
+
     // generate intial component state and setters
     const [focussed, setFocussed] = useState<boolean>(false);
     const [keepInputFocussed, setKeepInputFocussed] = useState<boolean>(false);
@@ -71,11 +74,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         determineVisibleSearchHintOptions(searchTerms),
     );
 
-    const suggestionProviders = [
+    const suggestionProviders = useRef<Provider[]>([
         new SearchDateProvider(),
         new SearchChannelProvider(actions.autocompleteChannelsForSearch),
         new SearchUserProvider(actions.autocompleteUsersInTeam),
-    ];
+    ]);
 
     useEffect((): void => {
         setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
@@ -101,7 +104,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             }
         }, 0);
 
-        updateHighlightedSearchHint(0);
+        updateHighlightedSearchHint();
     };
 
     const handleSearchHintSelection = (): void => {
@@ -113,7 +116,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         pretextArray.pop();
         pretextArray.push(term.toLowerCase());
         actions.updateSearchTerms(pretextArray.join(' '));
-        updateHighlightedSearchHint(0);
+        updateHighlightedSearchHint();
     };
 
     const handleUpdateSearchTerms = (term: string): void => {
@@ -126,7 +129,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         actions.updateSearchTerms(term);
     };
 
-    const updateHighlightedSearchHint = (indexDelta: number, changedViaKeyPress = false): void => {
+    const updateHighlightedSearchHint = (indexDelta = 0, changedViaKeyPress = false): void => {
         let newIndex = highlightedSearchHintIndex + indexDelta;
 
         switch (indexDelta) {
@@ -182,7 +185,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return;
         }
 
-        const {error} = await actions.showSearchResults?.(Boolean(props.isMentionSearch));
+        const {error} = await actions.showSearchResults(Boolean(props.isMentionSearch));
 
         if (!error) {
             handleSearchOnSuccess();
@@ -215,7 +218,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const searchMentions = (e: ChangeEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (props.isMentionSearch) {
-            actions.closeRightHandSide?.();
+            actions.closeRightHandSide();
             return;
         }
         actions.showMentions();
@@ -224,7 +227,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const getFlagged = (e: ChangeEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (props.isFlaggedPosts) {
-            actions.closeRightHandSide?.();
+            actions.closeRightHandSide();
             return;
         }
         actions.showFlaggedPosts();
@@ -276,7 +279,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             }
         });
 
-        if (visibleSearchHintOptions.length <= 0 && props.isMentionSearch) {
+        if (visibleSearchHintOptions.length === 0 || props.isMentionSearch) {
             return <></>;
         }
 
@@ -308,17 +311,10 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     className='sidebar-collapse'
                     onClick={handleClose}
                 >
-                    <FormattedMessage
-                        id='generic_icons.back'
-                        defaultMessage='Back Icon'
-                    >
-                        {(title: string) => (
-                            <span
-                                className='fa fa-2x fa-angle-left'
-                                title={title}
-                            />
-                        )}
-                    </FormattedMessage>
+                    <span
+                        className='fa fa-2x fa-angle-left'
+                        title={intl.formatMessage({id: 'generic_icons.back', defaultMessage: 'Back Icon'})}
+                    />
                 </div>
             </div>
             <SearchBar
@@ -331,7 +327,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 handleBlur={handleBlur}
                 keepFocussed={keepInputFocussed}
                 isFocussed={focussed}
-                suggestionProviders={suggestionProviders}
+                suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}
                 isSearchingTerm={props.isSearchingTerm}
                 isFocus={props.isFocus}
