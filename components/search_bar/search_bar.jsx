@@ -103,23 +103,21 @@ export default class SearchBar extends React.PureComponent {
     searchCurrentChannel = (e) => {
         if (
             !e.altKey &&
-            !e.ctrlKey &&
+            (e.ctrlKey || e.metaKey) &&
             e.shiftKey &&
-            e.metaKey &&
             Utils.isKeyPressed(e, Constants.KeyCodes.F)
         ) {
             e.preventDefault();
-
-            // Check if currently inside a channel and not direct message.
-            // Note: Need confirmation on what to prefill
-            // when the above action is done in direct messages
-            if (!this.props.currentChannel.team_id) {
-                return;
-            }
             this.focus();
+            let searchKey = '';
 
-            // Space added at end to make sure channel related hint is not shown.
-            this.props.actions.updateSearchTerms(`in: ${this.props.currentChannel.name} `);
+            // Space added at end to make sure channel/user related hint is not shown.
+            if (this.props.currentChannel.team_id) {
+                searchKey = `in: ${this.props.currentChannel.name} `;
+            } else {
+                searchKey = `from:@${this.props.currentChannel.display_name} `;
+            }
+            this.props.actions.updateSearchTerms(searchKey);
         }
     }
     determineVisibleSearchHintOptions = (searchTerms) => {
