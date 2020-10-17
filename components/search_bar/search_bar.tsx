@@ -51,13 +51,20 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
     const intl = useIntl();
 
     useEffect((): void => {
-        // let redux handle changes before focussing the input
-        if (isFocussed || keepFocussed) {
+        const shouldFocus = isFocussed || keepFocussed;
+        if (shouldFocus) {
+            // let redux handle changes before focussing the input
             setTimeout(() => searchRef.current?.focus(), 0);
         } else {
             setTimeout(() => searchRef.current?.blur(), 0);
         }
-    }, [searchTerms, isFocussed]);
+    }, [isFocussed, keepFocussed]);
+
+    useEffect((): void => {
+        if (isFocussed && !keepFocussed && searchTerms.endsWith('""')) {
+            setTimeout(() => searchRef.current?.focus(), 0);
+        }
+    }, [searchTerms]);
 
     const handleKeyDown = (e: ChangeEvent<HTMLInputElement>): void => {
         if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {

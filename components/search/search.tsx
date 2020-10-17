@@ -119,17 +119,17 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         updateHighlightedSearchHint();
     };
 
-    const handleUpdateSearchTerms = (term: string): void => {
-        actions.updateSearchTerms(term);
-        setFocussed(true);
-    };
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const term = e.target.value;
         actions.updateSearchTerms(term);
     };
 
+    // call this function without parameters to reset `SearchHint`
     const updateHighlightedSearchHint = (indexDelta = 0, changedViaKeyPress = false): void => {
+        if (Math.abs(indexDelta) > 1) {
+            return;
+        }
+
         let newIndex = highlightedSearchHintIndex + indexDelta;
 
         switch (indexDelta) {
@@ -366,7 +366,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     shrink={handleShrink}
                     channelDisplayName={props.channelDisplayName}
                     isOpened={props.isSideBarRightOpen}
-                    updateSearchTerms={handleUpdateSearchTerms}
+                    updateSearchTerms={handleAddSearchTerm}
                     isSideBarExpanded={props.isRhsExpanded}
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
                 />
