@@ -6,9 +6,11 @@ const dbConfig = {
     connection: Cypress.env('dbConnection'),
 };
 
-Cypress.Commands.add('requireServerDBToMatch', () => {
+const message = 'Compare "cypress.json" against "config.json" of mattermost-server. It should match database driver and connection string.';
+
+Cypress.Commands.add('apiRequireServerDBToMatch', () => {
     cy.apiGetConfig().then(({config}) => {
-        expect(config.SqlSettings.DriverName, 'Should match server DB. Also manually check that the connection string is correct and match the one being used by the server.').to.equal(Cypress.env('dbClient'));
+        expect(config.SqlSettings.DriverName, message).to.equal(Cypress.env('dbClient'));
     });
 });
 
@@ -34,8 +36,8 @@ Cypress.Commands.add('dbGetActiveUserSessions', ({username, userId, limit}) => {
  * @returns {Object} user - user object
  */
 Cypress.Commands.add('dbGetUser', ({username}) => {
-    cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage}) => {
-        expect(errorMessage).to.be.undefined;
+    cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage, error}) => {
+        verifyError(error, errorMessage);
 
         cy.wrap({user});
     });
@@ -68,3 +70,7 @@ Cypress.Commands.add('dbUpdateUserSession', ({sessionId, userId, fieldsToUpdate}
         cy.wrap({session});
     });
 });
+
+function verifyError(error, errorMessage) {
+    expect(errorMessage, `${errorMessage}\n\n${message}\n\n${JSON.stringify(error)}`).to.be.undefined;
+}
