@@ -2061,7 +2061,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username}は公開チャンネルを非公開チャンネルに変更しました",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} がチャンネル表示名を {old} から {new} へ更新しました",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} がチャンネルヘッダー({old})を削除しました",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username}がチャンネルヘッダーを {old} から {new} へ更新しました",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username}がチャンネルヘッダーを <br></br>{old} <strong>から</strong> <br></br>{new} <strong>へ更新しました</strong>",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} がチャンネルヘッダーを {new} に更新しました",
   "api.channel.remove_member.removed": "{removedUsername} がチャンネルから削除されました",
   "api.channel.restore_channel.unarchived": "{username} がチャンネルをアーカイブから復元しました。",
