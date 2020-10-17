@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
 import {Locations, PostTypes} from 'utils/constants';
@@ -45,7 +45,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             canEdit: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -64,7 +64,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -77,7 +77,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -100,7 +100,7 @@ describe('components/dot_menu/DotMenu', () => {
                 type: PostTypes.JOIN_CHANNEL,
             },
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -108,7 +108,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when plugin menu item exists', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
@@ -122,7 +122,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when pluggable menu item exists', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
@@ -136,7 +136,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should show mark as unread when channel is not archived', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
 
@@ -148,7 +148,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             channelIsArchived: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -160,7 +160,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             location: Locations.SEARCH,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 

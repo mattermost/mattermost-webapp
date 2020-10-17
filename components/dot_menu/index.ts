@@ -2,12 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -23,9 +27,15 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import DotMenu from './dot_menu.jsx';
+import DotMenu from './dot_menu';
 
-function mapStateToProps(state, ownProps) {
+type Props = {
+    post: {
+        channel_id: string;
+    };
+};
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
     const license = getLicense(state);
@@ -38,8 +48,8 @@ function mapStateToProps(state, ownProps) {
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit: getConfig(state).PostEditTimeLimit,
-        isLicensed: getLicense(state).IsLicensed === 'true',
+        postEditTimeLimit: config.PostEditTimeLimit,
+        isLicensed: license.IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, post, channel),
@@ -49,7 +59,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             flagPost,

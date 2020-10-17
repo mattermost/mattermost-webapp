@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
@@ -27,72 +26,79 @@ const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 
-export default class DotMenu extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-        teamId: PropTypes.string,
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
-        commentCount: PropTypes.number,
-        isFlagged: PropTypes.bool,
-        handleCommentClick: PropTypes.func,
-        handleDropdownOpened: PropTypes.func,
-        handleAddReactionClick: PropTypes.func,
-        isMenuOpen: PropTypes.bool,
-        isReadOnly: PropTypes.bool,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isLicensed: PropTypes.bool.isRequired,
-        postEditTimeLimit: PropTypes.string.isRequired,
-        enableEmojiPicker: PropTypes.bool.isRequired,
-        channelIsArchived: PropTypes.bool.isRequired,
-        currentTeamUrl: PropTypes.string.isRequired,
+type Props = {
+    post: any;
+    teamId?: string;
+    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
+    commentCount?: number;
+    isFlagged?: boolean;
+    handleCommentClick?: () => void;
+    handleDropdownOpened?: () => void;
+    handleAddReactionClick?: () => void;
+    isMenuOpen?: boolean;
+    isReadOnly?: boolean;
+    pluginMenuItems: any[];
+    isLicensed: boolean;
+    postEditTimeLimit?: string;
+    enableEmojiPicker: boolean;
+    channelIsArchived: boolean;
+    currentTeamUrl: string;
 
-        /*
-         * Components for overriding provided by plugins
+    /**
+     * Components for overriding provided by plugins
+     */
+    components: any,
+
+    actions: {
+
+        /**
+         * Function flag the post
          */
-        components: PropTypes.object.isRequired,
+        flagPost: (post_id: number) => void;
 
-        actions: PropTypes.shape({
+        /**
+         * Function to unflag the post
+         */
+        unflagPost: (post_id: number) => void;
 
-            /**
-             * Function flag the post
-             */
-            flagPost: PropTypes.func.isRequired,
+        /**
+         * Function to set the editing post
+         */
+        setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
-            /**
-             * Function to unflag the post
-             */
-            unflagPost: PropTypes.func.isRequired,
+        /**
+         * Function to pin the post
+         */
+        pinPost: (post_id: number) => void;
 
-            /**
-             * Function to set the editing post
-             */
-            setEditingPost: PropTypes.func.isRequired,
+        /**
+         * Function to unpin the post
+         */
+        unpinPost: (post_id: number) => void;
 
-            /**
-             * Function to pin the post
-             */
-            pinPost: PropTypes.func.isRequired,
+        /**
+         * Function to open a modal
+         */
+        openModal: (post_id: any) => void;
 
-            /**
-             * Function to unpin the post
-             */
-            unpinPost: PropTypes.func.isRequired,
+        /**
+         * Function to set the unread mark at given post
+         */
+        markPostAsUnread: (post_id: number) => void;
+    };
 
-            /**
-             * Function to open a modal
-             */
-            openModal: PropTypes.func.isRequired,
+    canEdit: boolean;
+    canDelete: boolean;
+}
 
-            /*
-             * Function to set the unread mark at given post
-             */
-            markPostAsUnread: PropTypes.func.isRequired,
-        }).isRequired,
+type State = {
+    canEdit: boolean;
+    openUp: boolean;
+    width: number;
+    canDelete: boolean;
+}
 
-        canEdit: PropTypes.bool.isRequired,
-        canDelete: PropTypes.bool.isRequired,
-    }
-
+export default class DotMenu extends React.PureComponent<Props, State> {
     static defaultProps = {
         post: {},
         commentCount: 0,
@@ -102,8 +108,10 @@ export default class DotMenu extends React.PureComponent {
         location: Locations.CENTER,
         enableEmojiPicker: false,
     }
+    private editDisableAction: DelayedAction;
+    private buttonRef: React.RefObject<HTMLButtonElement>;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
@@ -112,9 +120,10 @@ export default class DotMenu extends React.PureComponent {
             openUp: false,
             width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
+            canDelete: props.canDelete,
         };
 
-        this.buttonRef = React.createRef();
+        this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
     disableCanEditPostByTime() {
@@ -124,7 +133,7 @@ export default class DotMenu extends React.PureComponent {
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (Number(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -136,7 +145,7 @@ export default class DotMenu extends React.PureComponent {
         this.disableCanEditPostByTime();
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: Props) {
         return {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
@@ -160,7 +169,7 @@ export default class DotMenu extends React.PureComponent {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e) => {
+    handleAddReactionMenuItemActivated = (e: Event) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -181,12 +190,12 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    handleUnreadMenuItemActivated = (e) => {
+    handleUnreadMenuItemActivated = (e: Event) => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e) => {
+    handleDeleteMenuItemActivated = (e: Event) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -224,15 +233,15 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (menuRef) => {
+    refCallback = (menuRef: any) => {
         if (menuRef) {
             const rect = menuRef.rect();
-            const buttonRect = this.buttonRef.current.getBoundingClientRect();
-            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
+            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+            const y = typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y;
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
+            const spaceOnTop = (y || 0) - Constants.CHANNEL_HEADER_HEIGHT;
             const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
 
             this.setState({
@@ -242,7 +251,7 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    renderDivider = (suffix) => {
+    renderDivider = (suffix: string) => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}
