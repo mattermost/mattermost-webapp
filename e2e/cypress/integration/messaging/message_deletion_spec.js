@@ -7,13 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @messaging
 
 describe('Message deletion', () => {
     before(() => {
-        // # Go to Main Channel View with "user-1"
-        cy.toMainChannelView('user-1');
+        // # Login as test user and visit town-square channel
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('M13336 Delete both parent post and reply when deleting parent post from center', () => {
@@ -28,7 +30,7 @@ describe('Message deletion', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // # Post a reply in RHS.
-            cy.postMessageReplyInRHS('test message reply in RHS {enter}');
+            cy.postMessageReplyInRHS('test message reply in RHS');
 
             cy.getLastPostId().then((replyMessageId) => {
                 // # Click post dot menu in center.

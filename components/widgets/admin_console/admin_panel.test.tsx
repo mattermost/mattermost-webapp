@@ -52,7 +52,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
   </div>
   Test
 </div>
-`
+`,
         );
     });
 
@@ -104,7 +104,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
   </div>
   Test
 </div>
-`
+`,
         );
     });
 
@@ -150,7 +150,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
   </div>
   Test
 </div>
-`
+`,
         );
     });
 });

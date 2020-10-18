@@ -163,7 +163,15 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
             },
           }
         }
-        dialogType={[Function]}
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddUserToChannelModal)",
+            "type": [Function],
+          }
+        }
         modalId="add_user_to_channel"
         onClick={[MockFunction]}
         role="menuitem"

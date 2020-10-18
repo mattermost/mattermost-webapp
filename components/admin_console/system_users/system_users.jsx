@@ -25,7 +25,7 @@ import SystemUsersList from './list';
 const USER_ID_LENGTH = 26;
 const USERS_PER_PAGE = 50;
 
-export default class SystemUsers extends React.Component {
+export default class SystemUsers extends React.PureComponent {
     static propTypes = {
 
         /*

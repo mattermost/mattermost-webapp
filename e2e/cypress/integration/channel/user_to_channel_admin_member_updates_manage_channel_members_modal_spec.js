@@ -10,62 +10,67 @@
 // Stage: @prod
 // Group: @channel
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
 
-const demoteToMember = (user) => {
-    cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
+const demoteToMember = (user, admin) => {
+    cy.externalRequest({user: admin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
-const demoteToChannelMember = (user, channelId) => {
+const demoteToChannelMember = (user, channelId, admin) => {
     cy.externalRequest({
-        user: users.sysadmin,
+        user: admin,
         method: 'put',
         path: `channels/${channelId}/members/${user.id}/schemeRoles`,
         data: {
             scheme_user: true,
             scheme_admin: false,
-        }
+        },
     });
 };
 
-const promoteToChannelAdmin = (user, channelId) => {
+const promoteToChannelAdmin = (user, channelId, admin) => {
     cy.externalRequest({
-        user: users.sysadmin,
+        user: admin,
         method: 'put',
         path: `channels/${channelId}/members/${user.id}/schemeRoles`,
         data: {
             scheme_user: true,
             scheme_admin: true,
-        }
+        },
     });
 };
 
-let townsquareChannelId;
-let userInfo;
 describe('Change Roles', () => {
-    beforeEach(() => {
-        // # Get user information
-        cy.apiLogin('user-1');
-        cy.apiGetMe().then((res) => {
-            userInfo = res.body;
+    const admin = getAdminAccount();
+    let testUser;
+    let townsquareChannelId;
 
-            // # Visit Town square and go to view members modal
-            cy.visit('/ad-1/channels/town-square');
-            cy.get('#sidebarItem_town-square').click({force: true});
+    beforeEach(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+
+            cy.apiCreateUser().then(({user: otherUser}) => {
+                cy.apiAddUserToTeam(team.id, otherUser.id);
+            });
+
+            cy.apiLogin(testUser);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Get channel membership
             cy.getCurrentChannelId().then((id) => {
                 townsquareChannelId = id;
 
                 // # Make user a regular member for channel and system
-                demoteToMember(userInfo);
-                demoteToChannelMember(userInfo, townsquareChannelId);
+                demoteToMember(testUser, admin);
+                demoteToChannelMember(testUser, townsquareChannelId, admin);
 
                 // # Reload page to ensure no cache or saved information
                 cy.reload(true);
             });
         });
     });
+
     it('MM-10858 - Going from a Channel Member to Channel Admin update view member modal without refresh', () => {
         // # Go to member modal
         cy.get('#member_popover').click();
@@ -77,13 +82,12 @@ describe('Change Roles', () => {
         });
 
         // Promote user to a channel admin
-        promoteToChannelAdmin(userInfo, townsquareChannelId);
+        promoteToChannelAdmin(testUser, townsquareChannelId, admin);
 
         // * Check to see if a drop now exists now
-        cy.findAllByTestId('userListItemActions').then((el) => {
-            cy.wrap(el[0]).should((children) => {
-                expect(children).contain('Channel Member');
-            });
+        cy.get('.filtered-user-list').should('be.visible').within(() => {
+            cy.findByText('Channel Admin').should('exist');
+            cy.findByText('Channel Member').should('exist');
         });
     });
 });

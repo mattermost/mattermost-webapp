@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
-const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 15; // 15 days
+const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
 
 export function isLicenseExpiring(license) {
     if (license.IsLicensed !== 'true') {

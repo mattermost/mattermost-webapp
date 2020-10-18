@@ -7,16 +7,25 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @plugin_marketplace
+// Group: @plugin_marketplace @plugin
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Plugin Marketplace', () => {
+    let townsquareLink;
+    let regularUser;
+
+    before(() => {
+        cy.apiInitSetup().then(({team, user}) => {
+            regularUser = user;
+            townsquareLink = `/${team.name}/channels/town-square`;
+        });
+    });
+
     describe('should not render in main menu', () => {
         it('for non-admin', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -28,13 +37,13 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Login as non admin user
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(regularUser);
+            cy.visit(townsquareLink);
         });
 
         it('when marketplace disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin Marketplace
             cy.apiUpdateConfig({
@@ -46,12 +55,12 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
         });
 
         it('when plugins disabled', () => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Disable Plugin
             // # Enable Plugin Marketplace
@@ -64,14 +73,14 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
         });
     });
 
     describe('invalid marketplace, should', () => {
         beforeEach(() => {
             // # Login as sysadmin
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
             // # Enable Plugin Marketplace and Remote Marketplace
             cy.apiUpdateConfig({
@@ -87,9 +96,9 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
-            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -125,7 +134,7 @@ describe('Plugin Marketplace', () => {
 
         it('display installed plugins and error bar', () => {
             // * install one plugin
-            cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
             // * one local plugin should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -160,9 +169,9 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
-            cy.wait(TIMEOUTS.TINY).get('#lhsHeader').should('be.visible').within(() => {
+            cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
                 cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -251,7 +260,7 @@ describe('Plugin Marketplace', () => {
 
         it('should install a plugin on demand', () => {
             // # uninstall any existing webex plugin
-            cy.uninstallPluginById('com.mattermost.webex');
+            cy.apiRemovePluginById('com.mattermost.webex');
 
             // * webex plugin should be visible
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
@@ -265,7 +274,7 @@ describe('Plugin Marketplace', () => {
 
         it('should install a plugin from search results on demand', () => {
             // # uninstall any existing webex plugin
-            cy.uninstallPluginById('com.mattermost.webex');
+            cy.apiRemovePluginById('com.mattermost.webex');
 
             // # filter to webex plugin only
             cy.findByPlaceholderText('Search Plugins').should('be.visible').type('webex');
@@ -288,7 +297,7 @@ describe('Plugin Marketplace', () => {
 
         it('should prompt to update an old GitHub plugin from all plugins', () => {
             // # Install GitHub 0.7.0 plugin
-            cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
             // # Scroll to GitHub plugin
             cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
@@ -372,10 +381,10 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit('/ad-1/channels/town-square');
+            cy.visit(townsquareLink);
 
             // # Click hamburger main menu
-            cy.wait(TIMEOUTS.TINY).get('#sidebarHeaderDropdownButton').click();
+            cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();
 
             // # Open up marketplace modal
             cy.get('#marketplaceModal').click();
@@ -391,7 +400,7 @@ describe('Plugin Marketplace', () => {
 
         it('display installed plugins', () => {
             // * install one plugin
-            cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
+            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
             // * one local plugin should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -402,10 +411,10 @@ describe('Plugin Marketplace', () => {
     });
 
     function uninstallAllPlugins() {
-        cy.getAllPlugins().then((response) => {
+        cy.apiGetAllPlugins().then((response) => {
             const {active, inactive} = response.body;
-            inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
-            active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+            inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+            active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
         });
     }
 });

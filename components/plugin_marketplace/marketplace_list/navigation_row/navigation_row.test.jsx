@@ -22,7 +22,7 @@ describe('components/marketplace/navigation_row', () => {
 
     it('should render only next button', () => {
         const wrapper = shallow(
-            <NavigationRow {...baseProps}/>
+            <NavigationRow {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -37,7 +37,7 @@ describe('components/marketplace/navigation_row', () => {
     it('should render next and previous buttons', () => {
         const props = {...baseProps, page: 1};
         const wrapper = shallow(
-            <NavigationRow {...props}/>
+            <NavigationRow {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -53,7 +53,7 @@ describe('components/marketplace/navigation_row', () => {
     it('should render only previous button', () => {
         const props = {...baseProps, page: 2};
         const wrapper = shallow(
-            <NavigationRow {...props}/>
+            <NavigationRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('NavigationButton')).toHaveLength(1);
@@ -67,7 +67,7 @@ describe('components/marketplace/navigation_row', () => {
     it('should not render any buttons', () => {
         const props = {...baseProps, page: 0, total: 15};
         const wrapper = shallow(
-            <NavigationRow {...props}/>
+            <NavigationRow {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('NavigationButton')).toHaveLength(0);

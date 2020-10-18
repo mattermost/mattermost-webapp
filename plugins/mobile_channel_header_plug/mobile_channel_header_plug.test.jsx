@@ -23,7 +23,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={{}}
                 theme={{}}
                 isDropdown={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -39,7 +39,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={{}}
                 theme={{}}
                 isDropdown={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -61,7 +61,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={{}}
                 theme={{}}
                 isDropdown={false}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -77,7 +77,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={{}}
                 theme={{}}
                 isDropdown={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -93,7 +93,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={{}}
                 theme={{}}
                 isDropdown={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -110,7 +110,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={{}}
                 theme={{}}
                 isDropdown={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -144,7 +144,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
                 channelMember={channelMember}
                 theme={{}}
                 isDropdown={true}
-            />
+            />,
         );
 
         wrapper.instance().fireAction(newTestPlug);

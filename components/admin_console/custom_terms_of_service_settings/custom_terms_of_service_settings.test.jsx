@@ -29,7 +29,7 @@ describe('components/admin_console/CustomTermsOfServiceSettings', () => {
         const wrapper = shallow(
             <CustomTermsOfServiceSettings
                 {...baseProps}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

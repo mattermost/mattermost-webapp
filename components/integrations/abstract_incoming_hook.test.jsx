@@ -25,7 +25,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
             });
-        }
+        },
     );
 
     const requiredProps = {

@@ -13,7 +13,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import BackstageCategory from './backstage_category.jsx';
 import BackstageSection from './backstage_section.jsx';
 
-export default class BackstageSidebar extends React.Component {
+export default class BackstageSidebar extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object.isRequired,

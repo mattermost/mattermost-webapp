@@ -14,6 +14,11 @@ import {
     updateChannelPrivacy,
     getChannelModerations as fetchChannelModerations,
     patchChannelModerations,
+    addChannelMember,
+    removeChannelMember,
+    updateChannelMemberSchemeRoles,
+    deleteChannel,
+    unarchiveChannel,
 } from 'mattermost-redux/actions/channels';
 import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
 
@@ -52,7 +57,7 @@ function mapStateToProps(state, props) {
         channelID,
         channelPermissions,
         teamScheme,
-        guestAccountsEnabled
+        guestAccountsEnabled,
     };
 }
 
@@ -72,6 +77,11 @@ function mapDispatchToProps(dispatch) {
             setNavigationBlocked,
             updateChannelPrivacy,
             patchGroupSyncable,
+            addChannelMember,
+            removeChannelMember,
+            updateChannelMemberSchemeRoles,
+            deleteChannel,
+            unarchiveChannel,
         }, dispatch),
     };
 }

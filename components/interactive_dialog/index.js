@@ -26,15 +26,15 @@ function mapStateToProps(state) {
         submitLabel: data.dialog.submit_label,
         notifyOnCancel: data.dialog.notify_on_cancel,
         state: data.dialog.state,
-        emojiMap: getEmojiMap(state)
+        emojiMap: getEmojiMap(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            submitInteractiveDialog
-        }, dispatch)
+            submitInteractiveDialog,
+        }, dispatch),
     };
 }
 

@@ -17,7 +17,7 @@ function mapStateToProps(state) {
         isRHSOpen: getIsRhsOpen(state),
         pluginPostTypes: state.plugins.postTypes,
         theme: getTheme(state),
-        currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state)
+        currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
     };
 }
 

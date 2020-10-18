@@ -14,7 +14,7 @@ type Props = {
     onAdd: (users: UserProfile[]) => void;
 }
 
-export default class GroupMessageOption extends React.Component<Props> {
+export default class GroupMessageOption extends React.PureComponent<Props> {
     static propTypes = {
 
     };

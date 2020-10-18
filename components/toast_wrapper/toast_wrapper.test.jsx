@@ -39,8 +39,8 @@ describe('components/ToastWrapper', () => {
         match: {
             params: {
                 team: 'team',
-            }
-        }
+            },
+        },
     };
 
     describe('unread count logic', () => {
@@ -48,7 +48,7 @@ describe('components/ToastWrapper', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
-                newRecentMessagesCount: 5
+                newRecentMessagesCount: 5,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -92,7 +92,7 @@ describe('components/ToastWrapper', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
-                newRecentMessagesCount: 5
+                newRecentMessagesCount: 5,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -170,7 +170,7 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 focusedPostId: 'asdasd',
                 atLatestPost: false,
-                atBottom: null
+                atBottom: null,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showMessageHistoryToast')).toBe(undefined);
@@ -404,7 +404,7 @@ describe('components/ToastWrapper', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
-                newRecentMessagesCount: 5
+                newRecentMessagesCount: 5,
             };
             const updateToastStatus = baseProps.actions.updateToastStatus;
 
@@ -443,7 +443,7 @@ describe('components/ToastWrapper', () => {
                     DATE_LINE + 1551711600000,
                     'post4',
                     'post5',
-                ]
+                ],
             });
 
             //should not call if atBottom is null
@@ -472,7 +472,7 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 focusedPostId: 'asdasd',
                 atLatestPost: false,
-                atBottom: false
+                atBottom: false,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
@@ -488,7 +488,7 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 focusedPostId: 'asdasd',
                 atLatestPost: false,
-                atBottom: false
+                atBottom: false,
             };
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);

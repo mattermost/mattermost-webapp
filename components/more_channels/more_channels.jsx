@@ -18,7 +18,7 @@ const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
-export default class MoreChannels extends React.Component {
+export default class MoreChannels extends React.PureComponent {
     static propTypes = {
         channels: PropTypes.array.isRequired,
         archivedChannels: PropTypes.array.isRequired,
@@ -136,7 +136,7 @@ export default class MoreChannels extends React.Component {
                         this.setState({searchedChannels: [], searching: false});
                     });
             },
-            SEARCH_TIMEOUT_MILLISECONDS
+            SEARCH_TIMEOUT_MILLISECONDS,
         );
 
         this.searchTimeoutId = searchTimeoutId;

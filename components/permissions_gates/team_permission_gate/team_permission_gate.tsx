@@ -31,7 +31,7 @@ type Props = {
     children: React.ReactNode;
 };
 
-export default class TeamPermissionGate extends React.Component<Props> {
+export default class TeamPermissionGate extends React.PureComponent<Props> {
     public static defaultProps = {
         invert: false,
     }

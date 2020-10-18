@@ -11,6 +11,8 @@
     margin: 2em 0 1em;
     padding: 0;
 
+    border: solid 1px alpha-color($black, .1);
+
     .AdminPanel__content {
         padding: 10px 20px 20px;
     }

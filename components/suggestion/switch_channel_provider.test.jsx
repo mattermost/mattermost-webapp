@@ -88,8 +88,8 @@ describe('components/SwitchChannelProvider', () => {
             {
                 id: 'other_user',
                 display_name: 'other_user',
-                username: 'other_user'
-            }
+                username: 'other_user',
+            },
         ];
         const channels = [{
             id: 'channel_other_user',
@@ -125,7 +125,7 @@ describe('components/SwitchChannelProvider', () => {
         const users = [{
             id: 'other_user',
             display_name: 'other_user',
-            username: 'other_user'
+            username: 'other_user',
         },
         ];
         const channels = [{

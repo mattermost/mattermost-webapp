@@ -60,7 +60,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="Off"
@@ -81,7 +81,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         Array [
           <FormattedMessage
@@ -118,7 +118,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="On"

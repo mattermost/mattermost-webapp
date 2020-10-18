@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getGroupsByName} from 'mattermost-redux/selectors/entities/groups';
 
 import AtMention from './at_mention.jsx';
 
@@ -12,6 +13,7 @@ function mapStateToProps(state) {
         currentUserId: getCurrentUserId(state),
         teammateNameDisplay: getTeammateNameDisplaySetting(state),
         usersByUsername: getUsersByUsername(state),
+        groupsByName: getGroupsByName(state),
     };
 }
 

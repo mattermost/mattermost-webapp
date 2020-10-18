@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import React from 'react';
@@ -19,6 +20,7 @@ import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -66,12 +68,6 @@ const scrollMarginWithUnread = 60;
 
 class LegacySidebar extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * Global config object
-         */
-        config: PropTypes.object.isRequired,
-
         isOpen: PropTypes.bool.isRequired,
 
         /**
@@ -146,6 +142,11 @@ class LegacySidebar extends React.PureComponent {
          * Setting that enables user to view archived channels
          */
         viewArchivedChannels: PropTypes.bool,
+
+        /**
+         * Setting that enables prefetching data for channels
+         */
+        isDataPrefechEnabled: PropTypes.bool,
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
@@ -428,7 +429,7 @@ class LegacySidebar extends React.PureComponent {
                 this.props.currentChannel.id,
                 allChannelIds,
                 this.props.unreadChannelIds,
-                direction
+                direction,
             );
 
             if (nextIndex !== -1) {
@@ -614,11 +615,29 @@ class LegacySidebar extends React.PureComponent {
     };
 
     render() {
-        const {channelSwitcherOption} = this.props;
+        const {
+            channelSwitcherOption,
+            currentTeam,
+            currentUser,
+            isOpen,
+            isDataPrefechEnabled,
+            canCreatePublicChannel,
+            canCreatePrivateChannel,
+        } = this.props;
+
+        const {
+            newChannelModalType,
+            showDirectChannelsModal,
+            showMoreChannelsModal,
+            morePublicChannelsModalType,
+            showTopUnread,
+            showBottomUnread,
+        } = this.state;
+
         const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region');
 
         // Check if we have all info needed to render
-        if (this.props.currentTeam == null || this.props.currentUser == null) {
+        if (currentTeam == null || currentUser == null) {
             return (<div/>);
         }
 
@@ -627,7 +646,7 @@ class LegacySidebar extends React.PureComponent {
         this.lastUnreadChannel = null;
 
         let showChannelModal = false;
-        if (this.state.newChannelModalType !== '') {
+        if (newChannelModalType !== '') {
             showChannelModal = true;
         }
 
@@ -646,7 +665,7 @@ class LegacySidebar extends React.PureComponent {
         );
 
         let moreDirectChannelsModal;
-        if (this.state.showDirectChannelsModal) {
+        if (showDirectChannelsModal) {
             moreDirectChannelsModal = (
                 <MoreDirectChannels
                     onModalDismissed={this.hideMoreDirectChannelsModal}
@@ -656,7 +675,7 @@ class LegacySidebar extends React.PureComponent {
         }
 
         let moreChannelsModal;
-        if (this.state.showMoreChannelsModal) {
+        if (showMoreChannelsModal) {
             moreChannelsModal = (
                 <MoreChannels
                     onModalDismissed={this.hideMoreChannelsModal}
@@ -664,7 +683,7 @@ class LegacySidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
-                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
+                    morePublicChannelsModalType={morePublicChannelsModalType}
                 />
             );
         }
@@ -717,16 +736,17 @@ class LegacySidebar extends React.PureComponent {
 
         return (
             <div
-                className={classNames('sidebar--left', {'move--right': this.props.isOpen && Utils.isMobile()})}
+                className={classNames('sidebar--left', {'move--right': isOpen && Utils.isMobile()})}
                 id='sidebar-left'
                 key='sidebar-left'
                 role='navigation'
                 aria-labelledby='sidebar-left'
             >
+                {isDataPrefechEnabled && <DataPrefetch/>}
                 <NewChannelFlow
                     show={showChannelModal}
-                    canCreatePublicChannel={this.props.canCreatePublicChannel}
-                    canCreatePrivateChannel={this.props.canCreatePrivateChannel}
+                    canCreatePublicChannel={canCreatePublicChannel}
+                    canCreatePrivateChannel={canCreatePrivateChannel}
                     channelType={this.state.newChannelModalType}
                     onModalDismissed={this.hideNewChannelModal}
                 />
@@ -750,14 +770,14 @@ class LegacySidebar extends React.PureComponent {
                 >
                     <UnreadChannelIndicator
                         name='Top'
-                        show={this.state.showTopUnread}
+                        show={showTopUnread}
                         onClick={this.scrollToFirstUnreadChannel}
                         extraClass='nav-pills__unread-indicator-top'
                         content={above}
                     />
                     <UnreadChannelIndicator
                         name='Bottom'
-                        show={this.state.showBottomUnread}
+                        show={showBottomUnread}
                         onClick={this.scrollToLastUnreadChannel}
                         extraClass='nav-pills__unread-indicator-bottom'
                         content={below}
@@ -772,3 +792,4 @@ class LegacySidebar extends React.PureComponent {
 }
 
 export default injectIntl(LegacySidebar);
+/* eslint-enable react/no-string-refs */

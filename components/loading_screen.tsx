@@ -10,7 +10,7 @@ type Props = {
     message?: ReactNode;
 }
 
-export default class LoadingScreen extends React.Component<Props> {
+export default class LoadingScreen extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         position: 'relative',
         style: {},

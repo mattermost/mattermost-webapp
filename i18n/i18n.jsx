@@ -2,35 +2,21 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable import/order */
-const de = require('./de.json');
-
-const es = require('./es.json');
-
-const fr = require('./fr.json');
-
-const it = require('./it.json');
-
-const ja = require('./ja.json');
-
-const ko = require('./ko.json');
-
-const nl = require('./nl.json');
-
-const pl = require('./pl.json');
-
-const ptBR = require('./pt-BR.json');
-
-const ro = require('./ro.json');
-
-const ru = require('./ru.json');
-
-const tr = require('./tr.json');
-
-const uk = require('./uk.json');
-
-const zhTW = require('./zh-TW.json');
-
-const zhCN = require('./zh-CN.json');
+import de from './de.json';
+import es from './es.json';
+import fr from './fr.json';
+import it from './it.json';
+import ja from './ja.json';
+import ko from './ko.json';
+import nl from './nl.json';
+import pl from './pl.json';
+import ptBR from './pt-BR.json';
+import ro from './ro.json';
+import ru from './ru.json';
+import tr from './tr.json';
+import uk from './uk.json';
+import zhTW from './zh-TW.json';
+import zhCN from './zh-CN.json';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -82,7 +68,7 @@ const languages = {
     },
     nl: {
         value: 'nl',
-        name: 'Nederlands (Beta)',
+        name: 'Nederlands',
         order: 5,
         url: nl,
     },
@@ -106,7 +92,7 @@ const languages = {
     },
     ru: {
         value: 'ru',
-        name: 'Pусский (Beta)',
+        name: 'Pусский',
         order: 10,
         url: ru,
     },

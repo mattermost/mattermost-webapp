@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -23,7 +24,7 @@ const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
 const TOKEN_NOT_CREATING = 'not_creating';
 
-export default class UserAccessTokenSection extends React.Component {
+export default class UserAccessTokenSection extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         active: PropTypes.bool,
@@ -383,7 +384,7 @@ export default class UserAccessTokenSection extends React.Component {
                         </a>
                     </div>
                     <hr className='mb-3 mt-3'/>
-                </div>
+                </div>,
             );
         });
 
@@ -546,7 +547,7 @@ export default class UserAccessTokenSection extends React.Component {
                     </div>
                     {newTokenSection}
                 </div>
-            </div>
+            </div>,
         );
 
         return (
@@ -580,3 +581,4 @@ export default class UserAccessTokenSection extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

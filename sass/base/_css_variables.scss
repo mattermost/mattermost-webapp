@@ -1,26 +1,53 @@
 :root {
+    // Default Hex values to be replaced by applyTheme()
+    // these are define to prevent flashes of unstyled content
+    --away-indicator: #ffbc42;
+    --button-bg: #166de0;
+    --button-color: #ffffff;
+    --center-channel-bg: #ffffff;
+    --center-channel-color: #3d3c40;
+    --dnd-indicator: #f74343;
+    --error-text: #fd5960;
+    --link-color: #2389d7;
+    --mention-bg: #ffffff;
+    --mention-color: #145dbf;
+    --mention-highlight-bg: #ffe577;
+    --mention-highlight-link: #166de0;
+    --new-message-separator: #ff8800;
+    --online-indicator: #06d6a0;
     --sidebar-bg: #145dbf;
+    --sidebar-header-bg: #1153ab;
+    --sidebar-header-text-color: #ffffff;
     --sidebar-text: #ffffff;
     --sidebar-text-60: #ffffff99;
     --sidebar-text-80: #ffffffcc;
-    --sidebar-unread-text: #ffffff;
-    --sidebar-text-hover-bg: #4578bf;
     --sidebar-text-active-border: #579eff;
     --sidebar-text-active-color: #ffffff;
-    --sidebar-header-bg: #1153ab;
-    --sidebar-header-text-color: #ffffff;
-    --online-indicator: #06d6a0;
-    --away-indicator: #ffbc42;
-    --dnd-indicator: #f74343;
-    --mention-bg: #ffffff;
-    --mention-color: #145dbf;
-    --center-channel-bg: #ffffff;
-    --center-channel-color: #3d3c40;
-    --new-message-separator: #ff8800;
-    --link-color: #2389d7;
-    --button-bg: #166de0;
-    --button-color: #ffffff;
-    --error-text: #fd5960;
-    --mention-highlight-bg: #ffe577;
-    --mention-highlight-link: #166de0;
+    --sidebar-text-hover-bg: #4578bf;
+    --sidebar-unread-text: #ffffff;
+
+    // Default RGB values to be replaced by applyTheme() (do not add opacity mutations here)
+    // these are define to prevent flashes of unstyled content
+    --away-indicator-rgb: 255, 188, 66;
+    --button-bg-rgb: 22, 109, 224;
+    --button-color-rgb: 255, 255, 255;
+    --center-channel-bg-rgb: 255, 255, 255;
+    --center-channel-color-rgb: 61, 60, 64;
+    --dnd-indicator-rgb: 247, 67, 67;
+    --error-text-color-rgb: 253, 89, 96;
+    --link-color-rgb: 35, 137, 215;
+    --mention-bg-rgb: 255, 255, 255;
+    --mention-color-rgb: 20, 93, 191;
+    --mention-highlight-bg-rgb: 255, 229, 119;
+    --mention-highlight-link-rgb: 22, 109, 224;
+    --new-message-separator-rgb: 255, 136, 0;
+    --online-indicator-rgb: 6, 214, 160;
+    --sidebar-bg-rgb: 20, 93, 191;
+    --sidebar-header-bg-rgb: 17, 83, 171;
+    --sidebar-header-text-color-rgb: 255, 255, 255;
+    --sidebar-text-rgb: 255, 255, 255;
+    --sidebar-text-active-border-rgb: 87, 158, 255;
+    --sidebar-text-active-color-rgb: 255, 255, 255;
+    --sidebar-text-hover-bg-rgb: 69, 120, 191;
+    --sidebar-unread-text-rgb: 255, 255, 255;
 }

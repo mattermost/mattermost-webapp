@@ -8,16 +8,18 @@ import {_} from 'lodash';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users.jsx';
 
 describe('components/admin_console/group_settings/group_details/GroupUsers', () => {
+    const members = _.range(0, 55).map((i) => ({
+        id: 'id' + i,
+        username: 'username' + i,
+        first_name: 'Name' + i,
+        last_name: 'Surname' + i,
+        email: 'test' + i + '@test.com',
+        last_picture_update: i,
+    }));
+
     const defaultProps = {
         groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
-        members: _.range(0, 20).map((i) => ({
-            id: 'id' + i,
-            username: 'username' + i,
-            first_name: 'Name' + i,
-            last_name: 'Surname' + i,
-            email: 'test' + i + '@test.com',
-            last_picture_update: i,
-        })),
+        members: members.slice(0, 20),
         total: 20,
         getMembers: jest.fn().mockReturnValue(Promise.resolve()),
     };
@@ -27,7 +29,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 members={[]}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,7 +44,7 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 members={[]}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -64,8 +66,9 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
         const wrapper = shallow(
             <GroupUsers
                 {...defaultProps}
+                members={members.slice(0, 55)}
                 total={55}
-            />
+            />,
         );
 
         // First page
@@ -87,34 +90,27 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
             <GroupUsers
                 {...defaultProps}
                 getMembers={getMembers}
-            />
+            />,
         );
         wrapper.instance().componentDidMount();
         expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 0, 20);
     });
 
-    test('should change the page and get the members on previous click', async () => {
-        const getMembers = jest.fn().mockReturnValue(Promise.resolve());
+    test('should change the page and not call get members on previous click', async () => {
         const wrapper = shallow(
             <GroupUsers
                 {...defaultProps}
-                getMembers={getMembers}
+                members={members.slice(0, 55)}
                 total={55}
-            />
+            />,
         );
         const instance = wrapper.instance();
-        getMembers.mockClear();
         wrapper.setState({page: 2});
         await instance.previousPage({preventDefault: jest.fn()});
-        expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 1, 20);
         expect(wrapper.state().page).toBe(1);
-        getMembers.mockClear();
         await instance.previousPage({preventDefault: jest.fn()});
-        expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 0, 20);
         expect(wrapper.state().page).toBe(0);
-        getMembers.mockClear();
         await instance.previousPage({preventDefault: jest.fn()});
-        expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 0, 20);
         expect(wrapper.state().page).toBe(0);
     });
 
@@ -125,21 +121,25 @@ describe('components/admin_console/group_settings/group_details/GroupUsers', () 
                 {...defaultProps}
                 getMembers={getMembers}
                 total={55}
-            />
+            />,
         );
         const instance = wrapper.instance();
         getMembers.mockClear();
         wrapper.setState({page: 0});
+
         await instance.nextPage({preventDefault: jest.fn()});
         expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 1, 20);
+        wrapper.setProps({members: members.slice(0, 40)});
         expect(wrapper.state().page).toBe(1);
         getMembers.mockClear();
+
         await instance.nextPage({preventDefault: jest.fn()});
         expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 2, 20);
+        wrapper.setProps({members: members.slice(0, 55)});
         expect(wrapper.state().page).toBe(2);
         getMembers.mockClear();
+
         await instance.nextPage({preventDefault: jest.fn()});
-        expect(getMembers).toBeCalledWith('xxxxxxxxxxxxxxxxxxxxxxxxxx', 2, 20);
         expect(wrapper.state().page).toBe(2);
     });
 });

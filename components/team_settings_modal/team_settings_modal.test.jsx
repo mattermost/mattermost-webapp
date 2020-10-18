@@ -19,7 +19,7 @@ describe('components/team_settings_modal', () => {
         const wrapper = shallow(
             <TeamSettingsModal
                 onHide={onHide}
-            />
+            />,
         );
 
         wrapper.instance().handleHidden();

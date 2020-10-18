@@ -39,6 +39,7 @@ declare module 'highlight.js/lib/languages/matlab.js';
 declare module 'highlight.js/lib/languages/objectivec.js';
 declare module 'highlight.js/lib/languages/ocaml.js';
 declare module 'highlight.js/lib/languages/perl.js';
+declare module 'highlight.js/lib/languages/pgsql.js';
 declare module 'highlight.js/lib/languages/php.js';
 declare module 'highlight.js/lib/languages/powershell.js';
 declare module 'highlight.js/lib/languages/puppet.js';

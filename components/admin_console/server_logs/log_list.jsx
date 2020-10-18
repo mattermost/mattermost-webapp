@@ -125,7 +125,7 @@ export default class Logs extends React.PureComponent {
                     style={style}
                 >
                     {this.props.logs[i]}
-                </span>
+                </span>,
             );
         }
 

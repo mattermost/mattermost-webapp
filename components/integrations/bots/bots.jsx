@@ -92,7 +92,7 @@ export default class Bots extends React.PureComponent {
     componentDidMount() {
         this.props.actions.loadBots(
             Constants.Integrations.START_PAGE_NUM,
-            Constants.Integrations.PAGE_SIZE
+            Constants.Integrations.PAGE_SIZE,
         ).then(
             (result) => {
                 if (result.data) {
@@ -111,7 +111,7 @@ export default class Bots extends React.PureComponent {
                         this.setState({loading: false});
                     });
                 }
-            }
+            },
         );
     }
 

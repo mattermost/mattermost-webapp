@@ -5,8 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
+import {AdminConfig} from 'mattermost-redux/types/config';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Error} from 'mattermost-redux/types/errors';
+import {ServerError} from 'mattermost-redux/types/errors';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {Bot} from 'mattermost-redux/types/bots';
 
@@ -27,21 +28,21 @@ const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 const TOTAL_USERS_TO_OPEN_UP = 5;
 
 type Props = {
-    user: UserProfile & {mfa_active: boolean};
+    user: UserProfile;
     currentUser: UserProfile;
     mfaEnabled: boolean;
     enableUserAccessTokens: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
     index: number;
     totalUsers: number;
-    config: any;
+    config: DeepPartial<AdminConfig>;
     bots: Dictionary<Bot>;
     isLicensed: boolean;
     actions: {
-        updateUserActive: (id: string, active: boolean) => Promise<{error: Error}>;
-        revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
-        promoteGuestToUser: (id: string) => Promise<{error: Error}>;
-        demoteUserToGuest: (id: string) => Promise<{error: Error}>;
+        updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
+        revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
+        promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
+        demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
         loadBots: (page?: number, size?: number) => Promise<{}>;
     };
     doPasswordReset: (user: UserProfile) => void;
@@ -49,7 +50,7 @@ type Props = {
     doManageTeams: (user: UserProfile) => void;
     doManageRoles: (user: UserProfile) => void;
     doManageTokens: (user: UserProfile) => void;
-    onError: (error: Error | {id: string}) => void;
+    onError: (error: ServerError | {id: string}) => void;
 }
 
 type State = {
@@ -131,7 +132,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         this.setState({showDeactivateMemberModal: false});
     }
 
-    onUpdateActiveResult = ({error}: {error: Error}) => {
+    onUpdateActiveResult = ({error}: {error: ServerError}) => {
         if (error) {
             this.props.onError({id: error.server_error_id, ...error});
         }

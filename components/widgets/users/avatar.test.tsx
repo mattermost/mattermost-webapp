@@ -13,7 +13,7 @@ describe('components/widgets/users/Avatar', () => {
                 url='test-url'
                 username='test-username'
                 size='xl'
-            />
+            />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <img
@@ -26,7 +26,7 @@ describe('components/widgets/users/Avatar', () => {
 
     test('should match the snapshot only with url', () => {
         const wrapper = shallow(
-            <Avatar url='test-url'/>
+            <Avatar url='test-url'/>,
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <img

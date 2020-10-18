@@ -23,7 +23,7 @@ describe('components/activity_log_modal/MoreInfo', () => {
 
     test('should match snapshot extra info toggled off', () => {
         const wrapper = shallow(
-            <MoreInfo {...baseProps}/>
+            <MoreInfo {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -32,7 +32,7 @@ describe('components/activity_log_modal/MoreInfo', () => {
     test('should match snapshot, extra info toggled on', () => {
         const props = {...baseProps, moreInfo: true};
         const wrapper = shallow(
-            <MoreInfo {...props}/>
+            <MoreInfo {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

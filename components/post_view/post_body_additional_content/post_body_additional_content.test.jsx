@@ -4,6 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import * as postUtils from 'mattermost-redux/utils/post_utils';
+
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
@@ -320,5 +322,26 @@ describe('PostBodyAdditionalContent', () => {
 
         expect(baseProps.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.toggleEmbedVisibility).toBeCalledWith('post_id_1');
+    });
+
+    test('should call getEmbedFromMetadata with metadata', () => {
+        const metadata = {
+            embeds: [{
+                type: 'message_attachment',
+            }],
+        };
+        const props = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                metadata,
+            },
+        };
+
+        const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+        postUtils.getEmbedFromMetadata = jest.fn().mockReturnValue({});
+        wrapper.instance().getEmbed();
+
+        expect(postUtils.getEmbedFromMetadata).toHaveBeenCalledWith(metadata);
     });
 });

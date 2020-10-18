@@ -109,7 +109,7 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
                         }
                     });
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
 
             this.searchTimeoutId = searchTimeoutId;

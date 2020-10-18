@@ -38,7 +38,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                     ...testCaseProps,
                 };
                 const wrapper = shallow(
-                    <BackstageSidebar {...props}/>
+                    <BackstageSidebar {...props}/>,
                 );
 
                 expect(wrapper.find(BackstageCategory).find({name: 'emoji'}).exists()).toBe(expected);
@@ -61,7 +61,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                     ...testCaseProps,
                 };
                 const wrapper = shallow(
-                    <BackstageSidebar {...props}/>
+                    <BackstageSidebar {...props}/>,
                 );
 
                 expect(wrapper.find(BackstageCategory).find({name: 'incoming_webhooks'}).exists()).toBe(expected);
@@ -84,7 +84,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                     ...testCaseProps,
                 };
                 const wrapper = shallow(
-                    <BackstageSidebar {...props}/>
+                    <BackstageSidebar {...props}/>,
                 );
 
                 expect(wrapper.find(BackstageCategory).find({name: 'outgoing_webhooks'}).exists()).toBe(expected);
@@ -107,7 +107,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                     ...testCaseProps,
                 };
                 const wrapper = shallow(
-                    <BackstageSidebar {...props}/>
+                    <BackstageSidebar {...props}/>,
                 );
 
                 expect(wrapper.find(BackstageCategory).find({name: 'commands'}).exists()).toBe(expected);
@@ -130,7 +130,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                     ...testCaseProps,
                 };
                 const wrapper = shallow(
-                    <BackstageSidebar {...props}/>
+                    <BackstageSidebar {...props}/>,
                 );
 
                 expect(wrapper.find(BackstageCategory).find({name: 'oauth2-apps'}).exists()).toBe(expected);
@@ -151,7 +151,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                     ...testCaseProps,
                 };
                 const wrapper = shallow(
-                    <BackstageSidebar {...props}/>
+                    <BackstageSidebar {...props}/>,
                 );
 
                 expect(wrapper.find(BackstageCategory).find({name: 'bots'}).exists()).toBe(expected);
@@ -170,7 +170,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                 canManageIntegrations: true,
             };
             const wrapper = shallow(
-                <BackstageSidebar {...props}/>
+                <BackstageSidebar {...props}/>,
             );
 
             expect(wrapper.find(BackstageCategory).find({name: 'incoming_webhooks'}).exists()).toBe(true);
@@ -190,7 +190,7 @@ describe('components/backstage/components/BackstageSidebar', () => {
                 canManageIntegrations: false,
             };
             const wrapper = shallow(
-                <BackstageSidebar {...props}/>
+                <BackstageSidebar {...props}/>,
             );
 
             expect(wrapper.find(BackstageCategory).find({name: 'incoming_webhooks'}).exists()).toBe(false);

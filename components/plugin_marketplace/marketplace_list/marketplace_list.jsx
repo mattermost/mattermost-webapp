@@ -33,13 +33,13 @@ export default class MarketplaceList extends React.PureComponent {
 
     nextPage = () => {
         this.setState((state) => ({
-            page: state.page + 1
+            page: state.page + 1,
         }));
     };
 
     previousPage = () => {
         this.setState((state) => ({
-            page: state.page - 1
+            page: state.page - 1,
         }));
     };
 

@@ -520,6 +520,12 @@
             .MenuWrapper {
                 flex: 1;
 
+                &.main-menu {
+                    .dropdown-menu {
+                        left: -50px;
+                    }
+                }
+
                 &:first-child {
                     flex: 0 0 50px;
                     width: auto;
@@ -542,7 +548,7 @@
         }
 
         .dropdown-menu {
-            margin: 4px 0 0 10px;
+            margin: 4px 0 0 6px;
             min-width: 240px;
             overflow: auto;
         }

@@ -8,7 +8,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
 import * as Utils from 'utils/utils.jsx';
 
-export default class AdminSidebarSection extends React.Component {
+export default class AdminSidebarSection extends React.PureComponent {
     static get propTypes() {
         return {
             name: PropTypes.string.isRequired,

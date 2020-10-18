@@ -11,7 +11,7 @@ import {t} from 'utils/i18n.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class Setup extends React.Component {
+export default class Setup extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object,
         siteName: PropTypes.string,

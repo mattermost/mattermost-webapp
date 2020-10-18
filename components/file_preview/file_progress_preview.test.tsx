@@ -10,9 +10,21 @@ describe('component/file_preview/file_progress_preview', () => {
     const handleRemove = jest.fn();
     const fiftyPercent = 50;
     const fileInfo = {
+        name: 'test_filename',
         id: 'file',
         percent: fiftyPercent,
         type: 'image/png',
+        extension: 'png',
+        width: 100,
+        height: 80,
+        has_preview_image: true,
+        user_id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        size: 100,
+        mime_type: '',
+        clientId: '',
     };
 
     const baseProps = {
@@ -23,7 +35,7 @@ describe('component/file_preview/file_progress_preview', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <FileProgressPreview {...baseProps}/>
+            <FileProgressPreview {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -38,7 +50,7 @@ describe('component/file_preview/file_progress_preview', () => {
         };
 
         const wrapper = shallow(
-            <FileProgressPreview {...props}/>
+            <FileProgressPreview {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

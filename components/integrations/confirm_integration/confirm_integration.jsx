@@ -13,7 +13,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import {getSiteURL} from 'utils/url';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class ConfirmIntegration extends React.Component {
+export default class ConfirmIntegration extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,
@@ -172,7 +172,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_oauth_app.doneHelp'
                         defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html)).'
                     />
-                </p>
+                </p>,
             );
             helpText.push(
                 <p key='add_oauth_app.clientId'>
@@ -201,7 +201,7 @@ export default class ConfirmIntegration extends React.Component {
                         defaultMessage='Copy Client Secret'
                         value={oauthAppSecret}
                     />
-                </p>
+                </p>,
             );
 
             helpText.push(
@@ -210,7 +210,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_oauth_app.doneUrlHelp'
                         defaultMessage='Here are your authorized redirect URLs.'
                     />
-                </p>
+                </p>,
             );
 
             tokenText = (

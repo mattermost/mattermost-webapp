@@ -14,11 +14,13 @@ import {
     closeRightHandSide,
     toggleRhsExpanded,
 } from 'actions/views/rhs';
+import {getIsRhsExpanded} from 'selectors/rhs';
 
 import RhsHeaderPost from './rhs_header_post.jsx';
 
 function mapStateToProps(state) {
     return {
+        isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
     };
 }

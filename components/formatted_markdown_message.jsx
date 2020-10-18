@@ -47,7 +47,7 @@ export class CustomRenderer extends marked.Renderer {
 */
 class FormattedMarkdownMessage extends React.PureComponent {
     static defaultProps = {
-        disableLinks: false
+        disableLinks: false,
     };
 
     static get propTypes() {

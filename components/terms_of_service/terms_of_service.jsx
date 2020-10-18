@@ -92,7 +92,7 @@ export default class TermsOfService extends React.PureComponent {
                 } else {
                     GlobalActions.redirectUserToDefaultTeam();
                 }
-            }
+            },
         );
     };
 
@@ -105,7 +105,7 @@ export default class TermsOfService extends React.PureComponent {
             false,
             () => {
                 GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
-            }
+            },
         );
     };
 

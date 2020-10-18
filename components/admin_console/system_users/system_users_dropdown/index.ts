@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
-import {Error} from 'mattermost-redux/types/errors';
+import {ServerError} from 'mattermost-redux/types/errors';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUserToGuest} from 'mattermost-redux/actions/users';
@@ -19,10 +19,10 @@ import {GlobalState} from 'types/store';
 import SystemUsersDropdown from './system_users_dropdown';
 
 type Actions = {
-    updateUserActive: (id: string, active: boolean) => Promise<{error: Error}>;
-    revokeAllSessionsForUser: (id: string) => Promise<{error: Error; data: any}>;
-    promoteGuestToUser: (id: string) => Promise<{error: Error}>;
-    demoteUserToGuest: (id: string) => Promise<{error: Error}>;
+    updateUserActive: (id: string, active: boolean) => Promise<{error: ServerError}>;
+    revokeAllSessionsForUser: (id: string) => Promise<{error: ServerError; data: any}>;
+    promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
+    demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
     loadBots: (page?: number, size?: number) => Promise<{}>;
 }
 

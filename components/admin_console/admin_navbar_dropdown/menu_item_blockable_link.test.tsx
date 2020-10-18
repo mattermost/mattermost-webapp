@@ -12,7 +12,7 @@ describe('components/MenuItemBlockableLink', () => {
             <MenuItemBlockableLinkImpl
                 to='/wherever'
                 text='Whatever'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`

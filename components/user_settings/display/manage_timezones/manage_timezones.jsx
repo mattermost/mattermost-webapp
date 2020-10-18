@@ -222,7 +222,7 @@ export default class ManageTimezones extends React.PureComponent {
                     id='user.settings.timezones.promote'
                     defaultMessage='Select the time zone used for timestamps in the user interface and email notifications.'
                 />
-            </div>
+            </div>,
         );
 
         return (

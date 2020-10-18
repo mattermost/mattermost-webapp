@@ -26,7 +26,7 @@ export function isUnreadFilterEnabled(state: GlobalState) {
     return state.views.channelSidebar.unreadFilterEnabled;
 }
 
-function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, teamId: string) => Record<string, boolean> {
+export function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, teamId: string) => Record<string, boolean> {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
     return createSelector(
@@ -39,7 +39,7 @@ function makeGetCollapsedStateForAllCategoriesByTeam(): (state: GlobalState, tea
                 map[category.id] = isCategoryCollapsedFromStorage(prefix, storage, category.id) || unreadFilterEnabled;
                 return map;
             }, {});
-        }
+        },
     );
 }
 
@@ -74,6 +74,10 @@ export function makeGetCurrentlyDisplayedChannelsForTeam(): (state: GlobalState,
 
                 return channels;
             }).flat();
-        }
+        },
     );
+}
+
+export function getDraggingState(state: GlobalState) {
+    return state.views.channelSidebar.draggingState;
 }

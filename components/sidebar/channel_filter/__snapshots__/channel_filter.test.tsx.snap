@@ -23,7 +23,7 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
           Filter by unread
         </Tooltip>
       }
-      placement="top"
+      placement="right"
       trigger={
         Array [
           "hover",
@@ -82,7 +82,7 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
           Show all channels
         </Tooltip>
       }
-      placement="top"
+      placement="right"
       trigger={
         Array [
           "hover",

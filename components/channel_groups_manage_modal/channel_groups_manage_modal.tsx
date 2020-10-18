@@ -6,14 +6,13 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Groups from 'mattermost-redux/constants/groups';
 
-import {Group, SyncableType} from 'mattermost-redux/types/groups';
+import {Group} from 'mattermost-redux/types/groups';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 

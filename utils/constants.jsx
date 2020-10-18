@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -199,8 +198,15 @@ export const ActionTypes = keyMirror({
 
     SET_UNREAD_FILTER_ENABLED: null,
     UPDATE_TOAST_STATUS: null,
+
+    SIDEBAR_DRAGGING_SET_STATE: null,
+    SIDEBAR_DRAGGING_STOP: null,
+    ADD_NEW_CATEGORY_ID: null,
+
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
+
+    PREFETCH_POSTS_FOR_CHANNEL: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -239,8 +245,11 @@ export const ModalIdentifiers = {
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    GROUP_MEMBERS: 'group_members',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
+    EDIT_CATEGORY: 'edit_category',
+    DELETE_CATEGORY: 'delete_category',
 };
 
 export const UserStatuses = {
@@ -263,7 +272,7 @@ export const EventTypes = Object.assign(
     },
     keyMirror({
         POST_LIST_SCROLL_TO_BOTTOM: null,
-    })
+    }),
 );
 
 export const A11yClassNames = {
@@ -280,6 +289,7 @@ export const A11yAttributeNames = {
     ORDER_REVERSE: 'data-a11y-order-reversed',
     FOCUS_CHILD: 'data-a11y-focus-child',
     LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+    DISABLE_NAVIGATION: 'data-a11y-disable-nav',
 };
 
 export const A11yCustomEventTypes = {
@@ -303,6 +313,7 @@ export const SocketEvents = {
     CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
     CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
     DIRECT_ADDED: 'direct_added',
+    GROUP_ADDED: 'group_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
     JOIN_TEAM: 'join_team',
@@ -334,6 +345,11 @@ export const SocketEvents = {
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
     OPEN_DIALOG: 'open_dialog',
+    RECEIVED_GROUP: 'received_group',
+    RECEIVED_GROUP_ASSOCIATED_TO_TEAM: 'received_group_associated_to_team',
+    RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
+    RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
+    RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
 };
 
 export const TutorialSteps = {
@@ -477,6 +493,7 @@ export const ErrorPageTypes = {
 export const JobTypes = {
     DATA_RETENTION: 'data_retention',
     ELASTICSEARCH_POST_INDEXING: 'elasticsearch_post_indexing',
+    BLEVE_POST_INDEXING: 'bleve_post_indexing',
     LDAP_SYNC: 'ldap_sync',
     MESSAGE_EXPORT: 'message_export',
 };
@@ -488,6 +505,7 @@ export const JobStatuses = {
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
     CANCELED: 'canceled',
+    WARNING: 'warning',
 };
 
 export const AnnouncementBarTypes = {
@@ -578,6 +596,18 @@ export const GroupUnreadChannels = {
 export const SidebarChannelGroups = {
     UNREADS: 'unreads',
     FAVORITE: 'favorite',
+};
+
+export const DraggingStates = {
+    CAPTURE: 'capture',
+    BEFORE: 'before',
+    DURING: 'during',
+};
+
+export const DraggingStateTypes = {
+    CATEGORY: 'category',
+    CHANNEL: 'channel',
+    DM: 'DM',
 };
 
 export const AboutLinks = {
@@ -737,7 +767,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE'
+    NO_WHERE: 'NO_WHERE',
 };
 
 export const PostListRowListIds = {
@@ -788,7 +818,9 @@ export const Constants = {
     },
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
+    ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
@@ -837,6 +869,7 @@ export const Constants = {
     MOBILE_VIDEO_WIDTH: 480,
     MOBILE_VIDEO_HEIGHT: 360,
     MOBILE_SCREEN_WIDTH: 768,
+    POST_MODAL_PADDING: 170,
     SCROLL_DELAY: 2000,
     SCROLL_PAGE_FRACTION: 3,
     DEFAULT_CHANNEL: 'town-square',
@@ -1308,6 +1341,7 @@ export const Constants = {
         objectivec: {name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc']},
         ocaml: {name: 'OCaml', extensions: ['ml']},
         perl: {name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl']},
+        pgsql: {name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql']},
         php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5']},
         powershell: {name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh']},
         puppet: {name: 'Puppet', extensions: ['pp'], aliases: ['pp']},
@@ -1414,7 +1448,6 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_SEGMENT_KEY: 'placeholder_segment_key',
     DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
     DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
@@ -1430,6 +1463,15 @@ export const Constants = {
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
+
+export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_list_option.from'), defaultMessage: 'Messages from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_list_option.in'), defaultMessage: 'Messages in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_list_option.on'), defaultMessage: 'Messages on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_list_option.before'), defaultMessage: 'Messages before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
+    {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
+    {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
+];
 
 t('suggestion.mention.channels');
 t('suggestion.mention.morechannels');

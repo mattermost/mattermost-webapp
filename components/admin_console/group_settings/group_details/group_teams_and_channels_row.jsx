@@ -88,6 +88,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                             openLeft={true}
                             openUp={true}
                             ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
+                            id={`${name}_change_role_options`}
                         >
                             <Menu.ItemAction
                                 testid={`${name}_role_to_be`}
@@ -218,6 +219,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     <button
                         className='btn btn-link'
                         onClick={() => this.setState({showConfirmationModal: true})}
+                        data-testid={`${this.props.name}_groupsyncable_remove`}
                     >
                         <FormattedMessage
                             id='admin.group_settings.group_details.group_teams_and_channels_row.remove'

@@ -11,7 +11,7 @@ import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class EmailToLDAP extends React.Component {
+export default class EmailToLDAP extends React.PureComponent {
     static propTypes = {
         email: PropTypes.string,
         siteName: PropTypes.string,
@@ -105,7 +105,7 @@ export default class EmailToLDAP extends React.Component {
                         this.setState({serverError: err.message, showMfa: false});
                     }
                 }
-            }
+            },
         );
     }
 

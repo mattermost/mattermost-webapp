@@ -15,7 +15,7 @@ function mapStateToProps(state, ownProps) {
     return {
         post: ownProps.post,
         channel: ownProps.channel,
-        shortcutReactToLastPostEmittedFrom
+        shortcutReactToLastPostEmittedFrom,
     };
 }
 

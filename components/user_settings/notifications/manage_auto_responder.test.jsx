@@ -31,7 +31,7 @@ describe('components/user_settings/notifications/ManageAutoResponder', () => {
             <ManageAutoResponder
                 {...requiredProps}
                 autoResponderActive={true}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -47,7 +47,7 @@ describe('components/user_settings/notifications/ManageAutoResponder', () => {
                 {...requiredProps}
                 autoResponderActive={true}
                 setParentState={setParentState}
-            />
+            />,
         );
 
         expect(wrapper.find('#autoResponderActive').exists()).toBe(true);

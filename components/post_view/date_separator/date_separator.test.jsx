@@ -12,7 +12,7 @@ describe('components/post_view/DateSeparator', () => {
         const wrapper = mountWithIntl(
             <DateSeparator
                 date={new Date('Fri Jan 12 2018 20:15:13 GMT+1200 (+12)')}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -25,7 +25,7 @@ describe('components/post_view/DateSeparator', () => {
                 date={new Date('Fri Jan 12 2018 20:15:13 GMT+1200 (+12)')}
                 enableTimezone={false}
                 timeZone={'New Zealand/Auckland'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 
@@ -38,7 +38,7 @@ describe('components/post_view/DateSeparator', () => {
                 date={new Date('Fri Jan 12 2018 20:15:13 GMT+0000 (+00)')}
                 enableTimezone={true}
                 timeZone={'Australia/Sydney'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
 

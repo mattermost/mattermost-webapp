@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 
 const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
 
-export default class PermissionsSchemeSummary extends React.Component {
+export default class PermissionsSchemeSummary extends React.PureComponent {
     static propTypes = {
         scheme: PropTypes.object.isRequired,
         teams: PropTypes.array,

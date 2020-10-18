@@ -20,7 +20,7 @@ describe('admin_console/team_channel_settings/team/TeamRow', () => {
 
                 onRowClick={jest.fn()}
                 team={testTeam}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

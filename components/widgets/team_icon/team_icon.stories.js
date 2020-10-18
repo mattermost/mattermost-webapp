@@ -22,7 +22,7 @@ storiesOf('Team Icon', module).
                     size={sizeKnob()}
                 />
             );
-        }
+        },
     ).add(
         'logo',
         () => {
@@ -34,5 +34,5 @@ storiesOf('Team Icon', module).
                     size={sizeKnob()}
                 />
             );
-        }
+        },
     );

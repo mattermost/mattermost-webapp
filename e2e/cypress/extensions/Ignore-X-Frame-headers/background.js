@@ -14,8 +14,8 @@ chrome.webRequest.onHeadersReceived.addListener(
         return {
             responseHeaders: details.responseHeaders.filter((header) => {
                 return HEADERS_TO_STRIP_LOWERCASE.indexOf(header.name.toLowerCase()) < 0;
-            })
+            }),
         };
     }, {
-        urls: ['<all_urls>']
+        urls: ['<all_urls>'],
     }, ['blocking', 'responseHeaders']);

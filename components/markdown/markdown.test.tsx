@@ -41,7 +41,7 @@ describe('components/Markdown', () => {
 
     test('should render properly', () => {
         const wrapper = shallow(
-            <Markdown {...baseProps}/>
+            <Markdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -53,7 +53,7 @@ describe('components/Markdown', () => {
         };
 
         const wrapper = shallow(
-            <Markdown {...props}/>
+            <Markdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

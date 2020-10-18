@@ -80,6 +80,10 @@ export default class PostHeader extends React.PureComponent {
          */
         isLastPost: PropTypes.bool,
 
+        /**
+         * Source of image that should be override current user profile.
+         */
+        overwriteIcon: PropTypes.string,
     }
 
     render() {
@@ -104,6 +108,7 @@ export default class PostHeader extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         overwriteName={post.props.override_username}
+                        overwriteIcon={this.props.overwriteIcon}
                     />
                 );
             } else {

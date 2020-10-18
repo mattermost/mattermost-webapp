@@ -56,7 +56,7 @@ describe('components/admin_console/system_users/list', () => {
                 <SystemUsersList
                     {...props}
                     mfaEnabled={true}
-                />
+                />,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -66,7 +66,7 @@ describe('components/admin_console/system_users/list', () => {
                 <SystemUsersList
                     {...props}
                     mfaEnabled={false}
-                />
+                />,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -75,7 +75,7 @@ describe('components/admin_console/system_users/list', () => {
     describe('should reset page', () => {
         it('when team changes', () => {
             const wrapper = shallow(
-                <SystemUsersList {...defaultProps}/>
+                <SystemUsersList {...defaultProps}/>,
             );
 
             expect(wrapper.state('page')).toBe(0);
@@ -87,7 +87,7 @@ describe('components/admin_console/system_users/list', () => {
 
         it('when filter changes', () => {
             const wrapper = shallow(
-                <SystemUsersList {...defaultProps}/>
+                <SystemUsersList {...defaultProps}/>,
             );
 
             expect(wrapper.state('page')).toBe(0);
@@ -101,7 +101,7 @@ describe('components/admin_console/system_users/list', () => {
     describe('should not reset page', () => {
         it('when term changes', () => {
             const wrapper = shallow(
-                <SystemUsersList {...defaultProps}/>
+                <SystemUsersList {...defaultProps}/>,
             );
 
             expect(wrapper.state('page')).toBe(0);

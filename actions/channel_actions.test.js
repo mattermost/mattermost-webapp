@@ -40,7 +40,7 @@ const initialState = {
                     type: '0',
                     total_msg_count: 0,
                     team_id: 'team_id',
-                }
+                },
             },
             channelsInTeam: {
                 'team-id': ['current_channel_id'],
@@ -280,11 +280,11 @@ describe('Actions.Channel', () => {
 
         const expectedActions = [{
             type: 'MOCK_CREATE_GROUP_CHANNEL',
-            args: [['testuserid1', 'testuserid2']]
+            args: [['testuserid1', 'testuserid2']],
         }];
 
         const fakeData = {
-            userIds: ['testuserid1', 'testuserid2']
+            userIds: ['testuserid1', 'testuserid2'],
         };
 
         await testStore.dispatch(Actions.openGroupChannelToUserIds(fakeData.userIds));

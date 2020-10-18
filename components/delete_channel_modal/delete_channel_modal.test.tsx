@@ -28,7 +28,7 @@ describe('components/delete_channel_modal', () => {
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         scheme_id: '',
         props: null,
-        group_constrained: false
+        group_constrained: false,
     };
 
     const currentTeamDetails = {
@@ -41,7 +41,7 @@ describe('components/delete_channel_modal', () => {
         actions: {
             deleteChannel: jest.fn(() => {
                 return {data: true};
-            })
+            }),
         },
         onHide: jest.fn(),
         penultimateViewedChannelName: 'my-prev-channel',
@@ -49,14 +49,14 @@ describe('components/delete_channel_modal', () => {
 
     test('should match snapshot for delete_channel_modal', () => {
         const wrapper = shallow(
-            <DeleteChannelModal {...baseProps}/>
+            <DeleteChannelModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow<DeleteChannelModal>(
-            <DeleteChannelModal {...baseProps}/>
+            <DeleteChannelModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -69,7 +69,7 @@ describe('components/delete_channel_modal', () => {
         const actions = {deleteChannel: jest.fn()};
         const props = {...baseProps, actions};
         const wrapper = shallow<DeleteChannelModal>(
-            <DeleteChannelModal {...props}/>
+            <DeleteChannelModal {...props}/>,
         );
 
         wrapper.setState({show: true});
@@ -84,7 +84,7 @@ describe('components/delete_channel_modal', () => {
     test('should have called props.onHide when Modal.onExited is called', () => {
         const props = {...baseProps};
         const wrapper = shallow(
-            <DeleteChannelModal {...props}/>
+            <DeleteChannelModal {...props}/>,
         );
 
         wrapper.find(Modal).props().onExited!(document.createElement('div'));

@@ -10,18 +10,18 @@
 // Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
 
-const sysadmin = users.sysadmin;
 describe('Messaging', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
     let botsUserId;
     let botName;
     let botToken;
     let yesterdaysDate;
+
     before(() => {
-        // # Login as sysadmin and set ServiceSettings to expected values
-        cy.apiLogin('sysadmin');
+        // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
@@ -29,11 +29,10 @@ describe('Messaging', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiSaveTeammateNameDisplayPreference('username');
-
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
@@ -78,7 +77,7 @@ describe('Messaging', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
 
@@ -95,7 +94,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Some Text posted by bot that has no content and no attachment pretext');
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Some Text posted by bot that has no content and no attachment pretext');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                 });
             });
@@ -146,7 +145,7 @@ describe('Messaging', () => {
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('not.be.visible');
+                    cy.findByTestId('post-link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
 
@@ -163,7 +162,7 @@ describe('Messaging', () => {
 
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
+                    cy.findByTestId('post-link').should('be.visible').and('have.text', 'Commented on ' + botName + '\'s message: Hello message from ' + botName);
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
             });

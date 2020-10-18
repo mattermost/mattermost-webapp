@@ -170,7 +170,7 @@ describe('components/EditPostModal', () => {
         expect(wrapper.state().errorClass).toBe(null);
         wrapper.instance().handleEdit('Test error message');
         expect(wrapper.state().errorClass).toBe('animation--highlight');
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(wrapper.state().errorClass).toBe(null);
     });
 
@@ -386,7 +386,7 @@ describe('components/EditPostModal', () => {
         instance.handleHide();
         instance.handleExited();
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(elem.focus).toBeCalled();
     });
 

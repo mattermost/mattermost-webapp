@@ -76,6 +76,14 @@ exports[`admin_console/team_channel_settings/team/TeamDetails should match snaps
         }
         totalGroups={1}
       />
+      <Connect(TeamMembers)
+        onAddCallback={[Function]}
+        onRemoveCallback={[Function]}
+        teamId="123"
+        updateRole={[Function]}
+        usersToAdd={Object {}}
+        usersToRemove={Object {}}
+      />
     </div>
   </div>
   <SaveChangesPanel

@@ -48,7 +48,7 @@ describe('components/SignupController', () => {
 
     test('should match snapshot for all signup options enabled with isLicensed enabled', () => {
         const wrapper = shallow(
-            <SignupController {...baseProps}/>
+            <SignupController {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +60,7 @@ describe('components/SignupController', () => {
         };
 
         const wrapper = shallow(
-            <SignupController {...props}/>
+            <SignupController {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -84,7 +84,7 @@ describe('components/SignupController', () => {
         };
 
         const wrapper = shallow(
-            <SignupController {...props}/>
+            <SignupController {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -111,7 +111,7 @@ describe('components/SignupController', () => {
         };
 
         const wrapper = shallow(
-            <SignupController {...props}/>
+            <SignupController {...props}/>,
         );
 
         expect(addUserToTeamFromInvite).toHaveBeenCalled();

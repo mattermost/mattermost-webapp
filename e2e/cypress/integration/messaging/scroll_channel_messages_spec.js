@@ -10,22 +10,20 @@
 // Stage: @prod
 // Group: @messaging
 
-import users from '../../fixtures/users';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
 
 describe('Scroll channel`s messages in mobile view', () => {
+    const sysadmin = getAdminAccount();
     let newChannel;
 
     before(() => {
-        cy.apiLogin('user-1');
-
         // # resize browser to phone view
         cy.viewport('iphone-6');
 
-        // # visit channel
-        cy.createAndVisitNewChannel().then((channel) => {
+        // # Create and visit new channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             newChannel = channel;
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
@@ -34,7 +32,7 @@ describe('Scroll channel`s messages in mobile view', () => {
 
         // # Post a day old message
         for (let j = 2; j >= 0; j--) {
-            date = Cypress.moment().add(j, 'days').valueOf();
+            date = Cypress.moment().subtract(j, 'days').valueOf();
             for (let i = 0; i < 5; i++) {
                 cy.postMessageAs({sender: sysadmin, message: `Hello \n from \n other \n day \n - ${j}`, channelId: newChannel.id, createAt: date});
             }
@@ -43,11 +41,6 @@ describe('Scroll channel`s messages in mobile view', () => {
         // # reload to see correct changes
         cy.reload();
 
-        const twoDaysAgo = Cypress.moment();
-
-        // # set date 3 days fron now because channel created today and scroll not working because of it
-        cy.clock(Cypress.moment().add(2, 'days').valueOf(), ['Date']);
-
         // * check date on scroll and save it
         cy.findAllByTestId('postView').eq(15).scrollIntoView();
 
@@ -55,7 +48,7 @@ describe('Scroll channel`s messages in mobile view', () => {
         cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Today');
 
         // * check date on scroll and save it
-        cy.findAllByTestId('postView').eq(10).scrollIntoView();
+        cy.findAllByTestId('postView').eq(9).scrollIntoView();
 
         // * check date on scroll is yesterday
         cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Yesterday');
@@ -64,6 +57,6 @@ describe('Scroll channel`s messages in mobile view', () => {
         cy.findAllByTestId('postView').eq(4).scrollIntoView();
 
         // * check date on scroll is two days ago
-        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', twoDaysAgo.format('ddd, MMM DD, YYYY'));
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', Cypress.moment().subtract(2, 'days').format('ddd, MMM DD, YYYY'));
     });
 });

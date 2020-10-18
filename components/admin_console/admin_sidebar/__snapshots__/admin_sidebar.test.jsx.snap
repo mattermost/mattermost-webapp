@@ -563,7 +563,33 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="8"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="10"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -698,6 +724,19 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }
@@ -1168,7 +1207,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -1303,6 +1342,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }
@@ -1773,7 +1825,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -1811,6 +1863,13 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                   values={Object {}}
                 />
               }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
@@ -1905,6 +1964,19 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 />
               }
             />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
+                  values={Object {}}
+                />
+              }
+            />
           </AdminSidebarCategory>
         </ul>
       </Highlight>
@@ -1913,7 +1985,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
 </div>
 `;
 
-exports[`components/AdminSidebar should match snapshot, not render the plugin in the sidebar because does not have settings 1`] = `
+exports[`components/AdminSidebar should match snapshot, render plugins without any settings as well 1`] = `
 <div
   className="admin-sidebar"
 >
@@ -2371,7 +2443,7 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               }
             />
             <AdminSidebarSection
-              key="9"
+              key="11"
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
@@ -2409,6 +2481,13 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
                   values={Object {}}
                 />
               }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
@@ -2499,6 +2578,19 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }
@@ -2674,7 +2766,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               title={
                 <FormattedMessage
-                  defaultMessage="Groups (Beta)"
+                  defaultMessage="Groups"
                   id="admin.sidebar.groups"
                   values={Object {}}
                 />
@@ -3113,7 +3205,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="8"
+              key="9"
               name="authentication/saml"
               parentLink=""
               subsection={false}
@@ -3126,7 +3218,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="10"
+              key="12"
               name="authentication/oauth"
               parentLink=""
               subsection={false}
@@ -3139,7 +3231,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="13"
               name="authentication/guest_access"
               parentLink=""
               subsection={false}
@@ -3177,6 +3269,13 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
                   values={Object {}}
                 />
               }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
@@ -3333,6 +3432,19 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }
@@ -3856,7 +3968,33 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
+              key="8"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
               key="10"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="12"
               name="authentication/oauth"
               parentLink=""
               subsection={false}
@@ -3869,7 +4007,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              key="11"
+              key="13"
               name="authentication/guest_access"
               parentLink=""
               subsection={false}
@@ -3907,6 +4045,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                   values={Object {}}
                 />
               }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
             />
           </AdminSidebarCategory>
           <AdminSidebarCategory
@@ -4024,6 +4169,19 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                  values={Object {}}
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="4"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
                   values={Object {}}
                 />
               }

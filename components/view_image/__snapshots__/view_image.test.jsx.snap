@@ -427,6 +427,7 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
                 "id": "file_id",
               }
             }
+            onModalDismissed={[MockFunction]}
             post={Object {}}
           />
         </div>

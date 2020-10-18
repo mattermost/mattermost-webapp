@@ -56,14 +56,14 @@ describe('components/ChannelHeader', () => {
 
     test('should render properly when empty', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...baseProps}/>
+            <ChannelHeader {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should render properly when populated', () => {
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...populatedProps}/>
+            <ChannelHeader {...populatedProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -94,7 +94,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -106,7 +106,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -118,7 +118,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -130,7 +130,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -142,7 +142,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -154,7 +154,7 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -174,22 +174,22 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
             <Markdown
                 message={props.currentUser.bot_description}
-            />
+            />,
         )).toEqual(true);
     });
 
     test('should render the pinned icon with the pinned posts count', () => {
         const props = {
             ...populatedProps,
-            pinnedPostsCount: 2
+            pinnedPostsCount: 2,
         };
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -217,10 +217,10 @@ describe('components/ChannelHeader', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>
+            <ChannelHeader {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
-            <GuestBadge show={true}/>
+            <GuestBadge show={true}/>,
         )).toEqual(true);
     });
 });

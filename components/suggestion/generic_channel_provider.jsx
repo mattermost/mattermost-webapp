@@ -71,7 +71,7 @@ export default class ChannelProvider extends Provider {
                     items: channels,
                     component: ChannelSuggestion,
                 });
-            }
+            },
         );
 
         return true;

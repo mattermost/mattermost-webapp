@@ -6,7 +6,15 @@ import {bindActionCreators} from 'redux';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {uploadLicense, removeLicense} from 'mattermost-redux/actions/admin';
 
+import {requestTrialLicense} from 'actions/admin_actions';
+
 import LicenseSettings from './license_settings.jsx';
+
+function mapStateToProps(state) {
+    return {
+        stats: state.entities.admin.analytics,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -14,8 +22,9 @@ function mapDispatchToProps(dispatch) {
             getLicenseConfig,
             uploadLicense,
             removeLicense,
+            requestTrialLicense,
         }, dispatch),
     };
 }
 
-export default connect(null, mapDispatchToProps)(LicenseSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(LicenseSettings);

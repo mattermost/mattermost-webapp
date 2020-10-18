@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -66,14 +67,19 @@ export default class PasswordSettings extends AdminSettings {
                 }}
             />
         );
+
+        this.lowercase = React.createRef();
+        this.uppercase = React.createRef();
+        this.number = React.createRef();
+        this.symbol = React.createRef();
     }
 
     getConfigFromState = (config) => {
         config.PasswordSettings.MinimumLength = this.parseIntNonZero(this.state.passwordMinimumLength, Constants.MIN_PASSWORD_LENGTH);
-        config.PasswordSettings.Lowercase = this.refs.lowercase.checked;
-        config.PasswordSettings.Uppercase = this.refs.uppercase.checked;
-        config.PasswordSettings.Number = this.refs.number.checked;
-        config.PasswordSettings.Symbol = this.refs.symbol.checked;
+        config.PasswordSettings.Lowercase = this.lowercase.current.checked;
+        config.PasswordSettings.Uppercase = this.uppercase.current.checked;
+        config.PasswordSettings.Number = this.number.current.checked;
+        config.PasswordSettings.Symbol = this.symbol.current.checked;
 
         config.ServiceSettings.MaximumLoginAttempts = this.parseIntNonZero(this.state.maximumLoginAttempts);
 
@@ -101,16 +107,16 @@ export default class PasswordSettings extends AdminSettings {
             );
         }
         let sampleErrorMsgId = 'user.settings.security.passwordError';
-        if (this.refs.lowercase.checked) {
+        if (this.lowercase.current.checked) {
             sampleErrorMsgId += 'Lowercase';
         }
-        if (this.refs.uppercase.checked) {
+        if (this.uppercase.current.checked) {
             sampleErrorMsgId += 'Uppercase';
         }
-        if (this.refs.number.checked) {
+        if (this.number.current.checked) {
             sampleErrorMsgId += 'Number';
         }
-        if (this.refs.symbol.checked) {
+        if (this.symbol.current.checked) {
             sampleErrorMsgId += 'Symbol';
         }
         return (
@@ -183,7 +189,7 @@ export default class PasswordSettings extends AdminSettings {
                             <label className='checkbox-inline'>
                                 <input
                                     type='checkbox'
-                                    ref='lowercase'
+                                    ref={this.lowercase}
                                     defaultChecked={this.state.passwordLowercase}
                                     name='admin.password.lowercase'
                                     onChange={this.handleCheckboxChange}
@@ -198,7 +204,7 @@ export default class PasswordSettings extends AdminSettings {
                             <label className='checkbox-inline'>
                                 <input
                                     type='checkbox'
-                                    ref='uppercase'
+                                    ref={this.uppercase}
                                     defaultChecked={this.state.passwordUppercase}
                                     name='admin.password.uppercase'
                                     onChange={this.handleCheckboxChange}
@@ -213,7 +219,7 @@ export default class PasswordSettings extends AdminSettings {
                             <label className='checkbox-inline'>
                                 <input
                                     type='checkbox'
-                                    ref='number'
+                                    ref={this.number}
                                     defaultChecked={this.state.passwordNumber}
                                     name='admin.password.number'
                                     onChange={this.handleCheckboxChange}
@@ -228,7 +234,7 @@ export default class PasswordSettings extends AdminSettings {
                             <label className='checkbox-inline'>
                                 <input
                                     type='checkbox'
-                                    ref='symbol'
+                                    ref={this.symbol}
                                     defaultChecked={this.state.passwordSymbol}
                                     name='admin.password.symbol'
                                     onChange={this.handleCheckboxChange}
@@ -275,3 +281,4 @@ export default class PasswordSettings extends AdminSettings {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

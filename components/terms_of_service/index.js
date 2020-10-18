@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     return {
         termsEnabled: config.EnableCustomTermsOfService === 'true',
-        emojiMap: getEmojiMap(state)
+        emojiMap: getEmojiMap(state),
     };
 }
 

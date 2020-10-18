@@ -24,22 +24,29 @@ function verifySuggestionList({input, expected, withoutSuggestion}) {
 }
 
 describe('Mention user', () => {
+    let testUser;
+
     before(() => {
-        // # Login and go to /
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
+
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('M19761 autocomplete should match on cases', () => {
+        const fullname = `${testUser.first_name} ${testUser.last_name}`;
+
         [
-            {input: '@samuel.tucker', expected: 'Samuel Tucker'},
-            {input: '@samuel', expected: 'Samuel Tucker'},
-            {input: '@tucker', expected: 'Samuel Tucker'},
-            {input: '@Samuel', expected: 'Samuel Tucker'},
-            {input: '@Tucker', expected: 'Samuel Tucker'},
-            {input: '@Samuel Tuc', expected: 'Samuel Tucker'},
-            {input: '@Samuel Tucker', expected: 'Samuel Tucker'},
-            {input: '@Samuel Tucker ', expected: 'Samuel Tucker', withoutSuggestion: true},
+            {input: `@${testUser.username}`, expected: fullname, case: 'should match on @username'},
+            {input: `@${testUser.first_name.toLowerCase()}`, expected: fullname, case: 'should match on lowercased @firstname'},
+            {input: `@${testUser.last_name.toLowerCase()}`, expected: fullname, case: 'should match on lowercased @lastname'},
+            {input: `@${testUser.first_name}`, expected: fullname, case: 'should match on @firstname'},
+            {input: `@${testUser.last_name}`, expected: fullname, case: 'should match on @lastname'},
+            {input: `@${testUser.first_name} ${testUser.last_name.substring(0, testUser.last_name.length - 6)}`, expected: fullname, case: 'should match on partial @fullname'},
+            {input: `@${testUser.first_name} ${testUser.last_name}`, expected: fullname, case: 'should match on @fullname'},
+            {input: `@${testUser.first_name} ${testUser.last_name} `, expected: fullname, withoutSuggestion: true, case: 'should not match on @fullname with trailing space'},
         ].forEach((testCase) => {
             verifySuggestionList(testCase);
         });

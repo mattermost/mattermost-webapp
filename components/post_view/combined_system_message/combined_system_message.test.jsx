@@ -51,7 +51,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <CombinedSystemMessage {...baseProps}/>
+            <CombinedSystemMessage {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -70,7 +70,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         }];
         const props = {...baseProps, messageData, allUserIds};
         const wrapper = shallowWithIntl(
-            <CombinedSystemMessage {...props}/>
+            <CombinedSystemMessage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -81,7 +81,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
             <CombinedSystemMessage
                 {...baseProps}
                 showJoinLeave={false}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -100,7 +100,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         }];
         const props = {...baseProps, messageData, allUserIds, showJoinLeave: false};
         const wrapper = shallowWithIntl(
-            <CombinedSystemMessage {...props}/>
+            <CombinedSystemMessage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -122,7 +122,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         }];
         const props = {...baseProps, messageData, allUserIds};
         const wrapper = shallowWithIntl(
-            <CombinedSystemMessage {...props}/>
+            <CombinedSystemMessage {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -139,7 +139,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CombinedSystemMessage {...props}/>
+            <CombinedSystemMessage {...props}/>,
         );
 
         wrapper.instance().loadUserProfiles([], []);

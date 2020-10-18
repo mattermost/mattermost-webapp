@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/FloatingTimestamp should match snapshot 1`] = `
+<div
+  className="post-list__timestamp scrolling toastAdjustment"
+  data-testid="floatingTimestamp"
+>
+  <div>
+    <span>
+      <injectIntl(RecentDate)
+        value={1234}
+      />
+    </span>
+  </div>
+</div>
+`;

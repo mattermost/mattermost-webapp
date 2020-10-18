@@ -88,7 +88,7 @@ describe('selectors/i18n', () => {
         });
 
         test('returns null for unloaded translations', () => {
-            expect(getTranslations(state, 'fr')).toEqual(undefined); // eslint-disable-line no-undefined
+            expect(getTranslations(state, 'fr')).toEqual(undefined);
         });
 
         test('returns English translations for unsupported locale', () => {

@@ -180,7 +180,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                     defaultMessage={`You currently have ${installedVersion} installed. View the <a href="${releaseNotesUrl}" target='_blank' rel='noopener noreferrer'>release notes</a> to learn about the changes included in this update.`}
                     values={{installedVersion, releaseNotesUrl}}
                 />
-            </p>
+            </p>,
         );
     } else {
         messages.push(
@@ -190,7 +190,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                     defaultMessage={`You currently have ${installedVersion} installed.`}
                     values={{installedVersion}}
                 />
-            </p>
+            </p>,
         );
     }
 
@@ -214,7 +214,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                         defaultMessage={`This update may contain breaking changes. Consult the <a href="${releaseNotesUrl}" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading.`}
                         values={{releaseNotesUrl}}
                     />
-                </p>
+                </p>,
             );
         } else {
             messages.push(
@@ -226,7 +226,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                         id='marketplace_modal.list.update_confirmation.message.warning_major_version'
                         defaultMessage={'This update may contain breaking changes.'}
                     />
-                </p>
+                </p>,
             );
         }
     }
@@ -263,7 +263,7 @@ UpdateConfirmationModal.propTypes = {
     onCancel: PropTypes.func.isRequired,
 };
 
-export default class MarketplaceItem extends React.Component {
+export default class MarketplaceItem extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -412,7 +412,7 @@ export default class MarketplaceItem extends React.Component {
                     url={label.url}
                     color={label.color}
                 />
-            )
+            ),
             );
         }
 

@@ -15,7 +15,7 @@ type Props = {
 }
 
 export default class MenuWrapperAnimation extends React.PureComponent<Props> {
-    private onEntering = (node: HTMLElement, isAppearing: boolean) => {
+    private onEntering = (node: HTMLElement) => {
         const nodeStyler = styler(node);
         chain(
             action(({update, complete}) => {

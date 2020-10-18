@@ -42,6 +42,7 @@ export default class PostMarkdown extends React.PureComponent {
         hasPluginTooltips: PropTypes.bool,
 
         isUserCanManageMembers: PropTypes.bool,
+        mentionKeys: PropTypes.array.isRequired,
     };
 
     static defaultProps = {
@@ -51,20 +52,23 @@ export default class PostMarkdown extends React.PureComponent {
     };
 
     render() {
-        if (this.props.post) {
-            const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel, this.props.isUserCanManageMembers);
+        let {message} = this.props;
+        const {post, mentionKeys} = this.props;
+
+        if (post) {
+            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
         }
 
         // Proxy images if we have an image proxy and the server hasn't already rewritten the post's image URLs.
-        const proxyImages = !this.props.post || !this.props.post.message_source || this.props.post.message === this.props.post.message_source;
-        const channelNamesMap = this.props.post && this.props.post.props && this.props.post.props.channel_mentions;
-
-        let {message} = this.props;
-        const {post} = this.props;
-        const options = {...this.props.options};
+        const proxyImages = !post || !post.message_source || post.message === post.message_source;
+        const channelNamesMap = post && post.props && post.props.channel_mentions;
+        const options = {
+            ...this.props.options,
+            disableGroupHighlight: post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
+        };
 
         this.props.pluginHooks.forEach((o) => {
             if (o && o.hook && post) {
@@ -72,16 +76,13 @@ export default class PostMarkdown extends React.PureComponent {
             }
         });
 
-        if (post && post.props) {
-            options.mentionHighlight = !post.props.mentionHighlightDisabled;
-        }
-
         return (
             <Markdown
                 imageProps={this.props.imageProps}
                 isRHS={this.props.isRHS}
                 message={message}
                 proxyImages={proxyImages}
+                mentionKeys={mentionKeys}
                 options={options}
                 channelNamesMap={channelNamesMap}
                 hasPluginTooltips={this.props.hasPluginTooltips}

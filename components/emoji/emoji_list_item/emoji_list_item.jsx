@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import DeleteEmoji from 'components/emoji/delete_emoji_modal.jsx';
 import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
 
-export default class EmojiListItem extends React.Component {
+export default class EmojiListItem extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object.isRequired,
         currentUserId: PropTypes.string.isRequired,

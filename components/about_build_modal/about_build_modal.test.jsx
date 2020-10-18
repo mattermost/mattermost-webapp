@@ -111,7 +111,7 @@ describe('components/AboutBuildModal', () => {
                 webappBuildHash='0a1b2c3d4f'
                 show={true}
                 onHide={onHide}
-            />
+            />,
         );
 
         wrapper.find(Modal).first().props().onExited();
@@ -125,7 +125,7 @@ describe('components/AboutBuildModal', () => {
                 license={license}
                 show={true}
                 onHide={jest.fn()}
-            />
+            />,
         );
 
         expect(wrapper.find('#tosLink').props().href).toBe(AboutLinks.TERMS_OF_SERVICE);

@@ -11,7 +11,7 @@ import AnnouncementBar from './announcement_bar.jsx';
 
 function mapStateToProps(state) {
     return {
-        announcementBarCount: getAnnouncementBarCount(state)
+        announcementBarCount: getAnnouncementBarCount(state),
     };
 }
 

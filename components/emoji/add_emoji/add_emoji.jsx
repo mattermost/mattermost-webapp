@@ -12,7 +12,7 @@ import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils.jsx';
 
-export default class AddEmoji extends React.Component {
+export default class AddEmoji extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             createCustomEmoji: PropTypes.func.isRequired,

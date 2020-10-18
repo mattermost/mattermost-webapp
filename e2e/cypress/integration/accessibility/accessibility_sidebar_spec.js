@@ -7,17 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
-// Group: @accessibility
+// Stage: @prod
+// Group: @accessibility @smoke
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import users from '../../fixtures/users.json';
 
-const otherUser = users['user-2'];
-
-function markAsFavorite(channelId) {
+function markAsFavorite(channelName) {
     // # Visit the channel
-    cy.get(`#sidebarItem_${channelId}`).click();
+    cy.get(`#sidebarItem_${channelName}`).click();
     cy.get('#postListContent').should('be.visible');
 
     // # Remove from Favorites if already set
@@ -31,27 +28,13 @@ function markAsFavorite(channelId) {
     cy.get('#toggleFavorite').click();
 }
 
-function markNewChannelAsUnread(channelName) {
-    const timestamp = Date.now();
-    cy.getCurrentTeamId().then((teamId) => {
-        cy.apiCreateChannel(teamId, `${channelName}-${timestamp}`, `${channelName}-${timestamp}`).then((res) => {
-            const channelId = res.body.id;
-            cy.apiGetUserByEmail(otherUser.email).then((emailResponse) => {
-                const user = emailResponse.body;
-                cy.apiAddUserToChannel(channelId, user.id);
-                for (let index = 0; index < 5; index++) {
-                    cy.postMessageAs({sender: otherUser, message: 'This is an old message', channelId});
-                }
-            });
-        });
-    });
-}
-
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
-    before(() => {
-        cy.apiLogin('sysadmin');
-        cy.apiSaveSidebarSettingPreference();
+    let testUser;
+    let otherUser;
+    let testTeam;
+    let testChannel;
 
+    before(() => {
         // # Update Configs
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -59,18 +42,31 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
             },
         });
 
-        // # Visit the Off-Topic channel
-        cy.visit('/ad-1/channels/off-topic');
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testUser = user;
+            testTeam = team;
+            testChannel = channel;
 
-        // # Create few unread channels
-        for (let index = 0; index < 5; index++) {
-            markNewChannelAsUnread(`testing${index}`);
-        }
+            cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
+                otherUser = user1;
+
+                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
+                        // # Post messages to have unread messages to test user
+                        for (let index = 0; index < 5; index++) {
+                            cy.postMessageAs({sender: otherUser, message: 'This is an old message', channelId: testChannel.id});
+                        }
+                    });
+                });
+            });
+        });
     });
 
     beforeEach(() => {
-        // # Visit the Town Square channel
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit the Town Square channel
+        cy.apiLogin(testUser);
+        cy.apiSaveSidebarSettingPreference();
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get('#postListContent').should('be.visible');
     });
 
@@ -140,52 +136,48 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
 
     it('MM-22630 Verify Tab Support in Public Channels section', () => {
         // # Create some Public Channels
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'public', 'public').then(() => {
-                cy.apiCreateChannel(teamId, 'public2', 'public2').then(() => {
-                    // # Wait for few seconds
-                    cy.wait(TIMEOUTS.SMALL);
-
-                    // # Press tab to the Add Public Channel button
-                    cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a public channel');
-
-                    // * Verify if the Plus button is round when it has focus
-                    cy.get('#createPublicChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
-
-                    // * Verify if focus changes to different channels in Public Channels section
-                    cy.get('#publicChannelList .sidebar-item').each((el) => {
-                        cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('contain', 'public channel');
-                        cy.focused().tab();
-                    });
-
-                    // * Verify if focus is on the more public channels
-                    cy.get('#sidebarPublicChannelsMore').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more public channels');
-                });
-            });
+        Cypress._.times(2, () => {
+            cy.apiCreateChannel(testTeam.id, 'public', 'public');
         });
+
+        // # Wait for few seconds
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        // # Press tab to the Add Public Channel button
+        cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a public channel');
+
+        // * Verify if the Plus button is round when it has focus
+        cy.get('#createPublicChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
+
+        // * Verify if focus changes to different channels in Public Channels section
+        cy.get('#publicChannelList .sidebar-item').each((el) => {
+            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('contain', 'public channel');
+            cy.focused().tab();
+        });
+
+        // * Verify if focus is on the more public channels
+        cy.get('#sidebarPublicChannelsMore').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more public channels');
     });
 
     it('MM-22630 Verify Tab Support in Private Channels section', () => {
         // # Create some Private Channels
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'private', 'private', 'P').then(() => {
-                cy.apiCreateChannel(teamId, 'private2', 'private2', 'P').then(() => {
-                    // # Wait for few seconds
-                    cy.wait(TIMEOUTS.SMALL);
+        Cypress._.times(2, () => {
+            cy.apiCreateChannel(testTeam.id, 'private', 'private', 'P');
+        });
 
-                    // # Press tab to the Add Private Channel button
-                    cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a private channel');
+        // # Wait for few seconds
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
-                    // * Verify if the Plus button is round when it has focus
-                    cy.get('#createPrivateChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
+        // # Press tab to the Add Private Channel button
+        cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a private channel');
 
-                    // * Verify if focus changes to different channels in Favorite Channels section
-                    cy.get('#privateChannelList .sidebar-item').each((el) => {
-                        cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('contain', 'private channel');
-                        cy.focused().tab();
-                    });
-                });
-            });
+        // * Verify if the Plus button is round when it has focus
+        cy.get('#createPrivateChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
+
+        // * Verify if focus changes to different channels in Favorite Channels section
+        cy.get('#privateChannelList .sidebar-item').each((el) => {
+            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('contain', 'private channel');
+            cy.focused().tab();
         });
     });
 
@@ -201,7 +193,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.get('.more-modal__row.clickable').eq(1).click();
         cy.get('#saveItems').click();
 
-        cy.wait(TIMEOUTS.SMALL);
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Press tab to the Create DM button
         cy.get('#addDirectChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'write a direct message');

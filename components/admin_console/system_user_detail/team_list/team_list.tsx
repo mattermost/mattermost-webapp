@@ -62,7 +62,7 @@ type State = {
     serverError: string | null;
 }
 
-export default class TeamList extends React.Component<Props, State> {
+export default class TeamList extends React.PureComponent<Props, State> {
     public static defaultProps = {
         emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
         emptyListTextDefaultMessage: 'No teams found',

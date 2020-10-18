@@ -10,16 +10,25 @@
 // Stage: @prod
 // Group: @search
 
+import {getRandomId} from '../../utils';
+
 describe('Search', () => {
     before(() => {
-        // # Login and navigate to the app
-        cy.apiLogin('user-1');
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post several messages of similar format to add complexity in searching
+            Cypress._.times(5, () => {
+                cy.postMessage(`apple${getRandomId()}`);
+                cy.postMessage(`banana${getRandomId()}`);
+            });
+        });
     });
 
     it('S19944 Highlighting does not change to what is being typed in the search input box', () => {
-        const apple = `apple${Date.now()}`;
-        const banana = `banana${Date.now()}`;
+        const apple = `apple${getRandomId()}`;
+        const banana = `banana${getRandomId()}`;
 
         const message = apple + ' ' + banana;
 
@@ -48,7 +57,7 @@ describe('Search', () => {
 });
 
 function verifySearchResult(results, postId, fullMessage, highlightedTerm) {
-    cy.queryAllByTestId('search-item-container').should('have.length', results).within(() => {
+    cy.findAllByTestId('search-item-container').should('have.length', results).within(() => {
         cy.get(`#rhsPostMessageText_${postId}`).should('have.text', `${fullMessage}`);
         cy.get('.search-highlight').should('be.visible').and('have.text', highlightedTerm);
     });

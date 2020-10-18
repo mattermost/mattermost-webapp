@@ -92,7 +92,7 @@ export default class PostBody extends React.PureComponent {
                 if (post && post.id === post.pending_post_id) {
                     this.setState({sending: true});
                 }
-            }
+            },
         );
 
         this.state = {sending: false};

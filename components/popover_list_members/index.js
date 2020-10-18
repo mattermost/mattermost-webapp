@@ -22,7 +22,7 @@ const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel) => {
         (state, channelId) => doGetProfilesInChannel(state, channelId, true),
         getUserStatuses,
         getTeammateNameDisplaySetting,
-        (users, statuses, teammateNameDisplay) => sortUsersByStatusAndDisplayName(users, statuses, teammateNameDisplay)
+        (users, statuses, teammateNameDisplay) => sortUsersByStatusAndDisplayName(users, statuses, teammateNameDisplay),
     );
 };
 

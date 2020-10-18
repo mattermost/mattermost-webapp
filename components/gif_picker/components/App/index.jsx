@@ -24,7 +24,7 @@ export class App extends PureComponent {
         saveAppProps: PropTypes.func,
         authenticateSdk: PropTypes.func,
         defaultSearchText: PropTypes.string,
-        handleSearchTextChange: PropTypes.func.isRequired
+        handleSearchTextChange: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -42,7 +42,7 @@ export class App extends PureComponent {
             onTrending,
             children,
             defaultSearchText,
-            handleSearchTextChange
+            handleSearchTextChange,
         } = this.props;
         const appClassName = 'main-container ' + (appProps.appClassName || '');
         return (

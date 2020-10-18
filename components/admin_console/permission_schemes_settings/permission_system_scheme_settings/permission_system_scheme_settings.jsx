@@ -24,7 +24,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
-export default class PermissionSystemSchemeSettings extends React.Component {
+export default class PermissionSystemSchemeSettings extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object.isRequired,
         roles: PropTypes.object.isRequired,
@@ -52,6 +52,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                 team_admin: true,
                 channel_admin: true,
             },
+            urlParams: new URLSearchParams(props.location.search),
         };
         this.rolesNeeded = [
             GeneralConstants.SYSTEM_ADMIN_ROLE,
@@ -70,6 +71,12 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         this.props.actions.loadRolesIfNeeded(this.rolesNeeded);
         if (this.rolesNeeded.every((roleName) => this.props.roles[roleName])) {
             this.loadRolesIntoState(this.props);
+        }
+
+        if (this.state.urlParams.get('rowIdFromQuery')) {
+            setTimeout(() => {
+                this.selectRow(this.state.urlParams.get('rowIdFromQuery'));
+            }, 1000);
         }
     }
 

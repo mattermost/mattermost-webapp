@@ -41,7 +41,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
     test('should match snapshot', () => {
         const props = {...baseProps, team};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -51,7 +51,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         props.oauthApp.name = '';
         props.oauthApp.is_trusted = false;
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -59,7 +59,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
     test('should match snapshot, on error', () => {
         const props = {...baseProps, team};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
         wrapper.setState({error: 'error'});
         expect(wrapper).toMatchSnapshot();
@@ -71,11 +71,11 @@ describe('components/integrations/InstalledOAuthApp', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const props = {...baseProps, onRegenerateSecret: newOnRegenerateSecret, team};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
         wrapper.find('#regenerateSecretButton').simulate('click', {preventDefault: jest.fn()});
 
@@ -87,7 +87,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         const filter = 'filter';
         const props = {...baseProps, filter};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -95,7 +95,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
     test('should match state on button clicks, both showSecretButton and hideSecretButton', () => {
         const props = {...baseProps, team};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
         expect(wrapper.find('#showSecretButton').exists()).toBe(true);
         expect(wrapper.find('#hideSecretButton').exists()).toBe(false);
@@ -117,11 +117,11 @@ describe('components/integrations/InstalledOAuthApp', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const props = {...baseProps, onRegenerateSecret: newOnRegenerateSecret, team};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
 
         expect(wrapper.find('#regenerateSecretButton').exists()).toBe(true);
@@ -134,7 +134,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         const newOnDelete = jest.fn();
         const props = {...baseProps, team, onDelete: newOnDelete};
         const wrapper = shallow(
-            <InstalledOAuthApp {...props}/>
+            <InstalledOAuthApp {...props}/>,
         );
 
         expect(wrapper.find(DeleteIntegration).exists()).toBe(true);

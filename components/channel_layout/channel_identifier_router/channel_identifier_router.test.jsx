@@ -48,7 +48,7 @@ describe('components/channel_layout/CenterChannel', () => {
         expect(baseProps.actions.onChannelByIdentifierEnter).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.onChannelByIdentifierEnter).toHaveBeenLastCalledWith({
             match: props2.match,
-            actions: baseProps.actions
+            actions: baseProps.actions,
         });
     });
 
@@ -67,7 +67,7 @@ describe('components/channel_layout/CenterChannel', () => {
         jest.useFakeTimers();
         browserHistory.replace = jest.fn();
         shallow(<ChannelIdentifierRouter {...props}/>);
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(browserHistory.replace).toHaveBeenLastCalledWith('/team/channel/identifier');
     });
 
@@ -89,7 +89,7 @@ describe('components/channel_layout/CenterChannel', () => {
         const wrapper = shallow(<ChannelIdentifierRouter {...baseProps}/>);
         wrapper.setProps(props);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(browserHistory.replace).toHaveBeenLastCalledWith('/team1/channel/identifier1');
     });
 });

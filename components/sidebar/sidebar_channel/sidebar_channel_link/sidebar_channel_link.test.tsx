@@ -35,22 +35,23 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         unreadMsgs: 0,
         showUnreadForMsgs: false,
         isMuted: false,
+        isCollapsed: false,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarChannelLink {...baseProps}/>
+            <SidebarChannelLink {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot for desktop', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const wrapper = shallow(
-            <SidebarChannelLink {...baseProps}/>
+            <SidebarChannelLink {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -58,7 +59,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
 
     test('should match snapshot when tooltip is enabled', () => {
         const wrapper = shallow(
-            <SidebarChannelLink {...baseProps}/>
+            <SidebarChannelLink {...baseProps}/>,
         );
 
         wrapper.setState({showTooltip: true});
@@ -73,7 +74,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         };
 
         const wrapper = shallow(
-            <SidebarChannelLink {...props}/>
+            <SidebarChannelLink {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -81,7 +82,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
 
     test('should enable tooltip when needed', () => {
         const wrapper = shallow<SidebarChannelLink>(
-            <SidebarChannelLink {...baseProps}/>
+            <SidebarChannelLink {...baseProps}/>,
         );
         const instance = wrapper.instance();
 
@@ -89,7 +90,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             current: {
                 offsetWidth: 50,
                 scrollWidth: 60,
-            }
+            },
         } as any;
 
         instance.enableToolTipIfNeeded();

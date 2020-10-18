@@ -25,7 +25,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
     };
     test('should match snapshot loading', () => {
         const wrapper = shallow(
-            <PermissionSchemesSettings {...defaultProps}/>
+            <PermissionSchemesSettings {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -35,7 +35,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
             <PermissionSchemesSettings
                 {...defaultProps}
                 schemes={{}}
-            />
+            />,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: true});
         expect(wrapper).toMatchSnapshot();
@@ -43,7 +43,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
 
     test('should match snapshot with schemes', () => {
         const wrapper = shallow(
-            <PermissionSchemesSettings {...defaultProps}/>
+            <PermissionSchemesSettings {...defaultProps}/>,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: true});
         expect(wrapper).toMatchSnapshot();
@@ -51,7 +51,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
 
     test('should show migration in-progress view', () => {
         const wrapper = shallow(
-            <PermissionSchemesSettings {...defaultProps}/>
+            <PermissionSchemesSettings {...defaultProps}/>,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: false});
         expect(wrapper).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
         const testProps = {...defaultProps};
         testProps.jobsAreEnabled = false;
         const wrapper = shallow(
-            <PermissionSchemesSettings {...testProps}/>
+            <PermissionSchemesSettings {...testProps}/>,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: false});
         expect(wrapper).toMatchSnapshot();
@@ -71,7 +71,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
         const testProps = {...defaultProps};
         testProps.jobsAreEnabled = false;
         const wrapper = shallow(
-            <PermissionSchemesSettings {...testProps}/>
+            <PermissionSchemesSettings {...testProps}/>,
         );
         wrapper.setState({loading: false, phase2MigrationIsComplete: true});
         expect(wrapper).toMatchSnapshot();

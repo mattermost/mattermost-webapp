@@ -188,7 +188,14 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     <div
       className="more-modal__name"
     >
-      @undefined
+      <span>
+        @undefined
+        <span
+          className="light"
+        >
+          
+        </span>
+      </span>
       <BotBadge
         className="badge-popoverlist"
         show={false}

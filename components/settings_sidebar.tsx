@@ -19,7 +19,7 @@ export type Props = {
     updateTab: (name: string) => void;
 }
 
-export default class SettingsSidebar extends React.Component<Props> {
+export default class SettingsSidebar extends React.PureComponent<Props> {
     public handleClick = (tab: Tab, e: React.MouseEvent) => {
         e.preventDefault();
         this.props.updateTab(tab.name);

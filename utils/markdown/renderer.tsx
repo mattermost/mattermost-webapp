@@ -15,7 +15,7 @@ export default class Renderer extends marked.Renderer {
     public constructor(
         options: MarkedOptions,
         formattingOptions = {},
-        emojiMap = new EmojiMap(new Map())
+        emojiMap = new EmojiMap(new Map()),
     ) {
         super(options);
 
@@ -72,7 +72,7 @@ export default class Renderer extends marked.Renderer {
             searched = TextFormatting.highlightSearchTerms(
                 searched,
                 tokens,
-                this.formattingOptions.searchPatterns
+                this.formattingOptions.searchPatterns,
             );
 
             if (tokens.size > 0) {
@@ -105,7 +105,7 @@ export default class Renderer extends marked.Renderer {
             output = TextFormatting.highlightSearchTerms(
                 output,
                 tokens,
-                this.formattingOptions.searchPatterns
+                this.formattingOptions.searchPatterns,
             );
             output = TextFormatting.replaceTokens(output, tokens);
         }
@@ -171,7 +171,7 @@ export default class Renderer extends marked.Renderer {
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
                 const isValidUrl =
           this.formattingOptions.autolinkedUrlSchemes.indexOf(
-              scheme.toLowerCase()
+              scheme.toLowerCase(),
           ) !== -1;
 
                 if (!isValidUrl) {
@@ -202,14 +202,14 @@ export default class Renderer extends marked.Renderer {
         const pattern = new RegExp(
             '^(' +
         TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
-        ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/'
+        ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/',
         );
         internalLink = pattern.test(outHref);
 
         if (internalLink && this.formattingOptions.siteURL) {
             output += ` data-link="${outHref.replace(
                 this.formattingOptions.siteURL,
-                ''
+                '',
             )}"`;
         } else {
             output += ' target="_blank"';
@@ -256,7 +256,7 @@ export default class Renderer extends marked.Renderer {
         flags: {
             header: boolean;
             align: 'center' | 'left' | 'right' | null;
-        }
+        },
     ) {
         return marked.Renderer.prototype.tablecell(content, flags).trim();
     }
@@ -265,7 +265,7 @@ export default class Renderer extends marked.Renderer {
         const type = ordered ? 'ol' : 'ul';
 
         let output = `<${type} className="markdown__list"`;
-        if (ordered && start !== undefined) { // eslint-disable-line no-undefined
+        if (ordered && start !== undefined) {
             // The CSS that we use for lists hides the actual counter and uses ::before to simulate one so that we can
             // style it properly. We need to use a CSS counter to tell the ::before elements which numbers to show.
             output += ` style="counter-reset: list ${start - 1}"`;
@@ -275,7 +275,7 @@ export default class Renderer extends marked.Renderer {
         return output;
     }
 
-    public listitem(text: string, bullet = '') {
+    public listitem(text: string, bullet = '') { // eslint-disable-line @typescript-eslint/no-unused-vars
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
 
@@ -294,7 +294,7 @@ export default class Renderer extends marked.Renderer {
         return TextFormatting.doFormatText(
             txt,
             this.formattingOptions,
-            this.emojiMap
+            this.emojiMap,
         );
     }
 }

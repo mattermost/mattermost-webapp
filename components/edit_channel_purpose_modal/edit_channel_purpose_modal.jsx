@@ -58,7 +58,7 @@ class EditChannelPurposeModal extends React.PureComponent {
             this.setState({
                 serverError: Utils.localizeMessage(
                     'edit_channel_purpose_modal.error',
-                    'This channel purpose is too long, please enter a shorter one'
+                    'This channel purpose is too long, please enter a shorter one',
                 ),
             });
         } else {

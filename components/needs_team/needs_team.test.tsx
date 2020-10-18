@@ -41,7 +41,7 @@ describe('components/needs_team', () => {
         name: 'test',
         create_at: 123,
         update_at: 123,
-        delete_at: 123,
+        delete_at: 0,
         display_name: 'test',
         description: 'test',
         email: 'test',
@@ -65,7 +65,7 @@ describe('components/needs_team', () => {
         name: 'new',
         create_at: 123,
         update_at: 123,
-        delete_at: 123,
+        delete_at: 0,
         display_name: 'test',
         description: 'test',
         email: 'test',
@@ -91,8 +91,10 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
+        getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
+        license: {},
         actions,
         currentUser: {
             id: 'test',
@@ -103,6 +105,7 @@ describe('components/needs_team', () => {
         teamsList,
         history,
         useLegacyLHS: true,
+        previousTeamId: '',
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
@@ -117,7 +120,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         fetchMyChannelsAndMembers().then(() => {
@@ -132,7 +135,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
         expect(wrapper.state().team).toEqual(null);
         await wrapper.instance().joinTeam(props);
@@ -145,7 +148,22 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
+        );
+
+        expect(wrapper.state().team).toEqual(null);
+        await wrapper.instance().joinTeam(props);
+        expect(history.push).toBeCalledWith('/error?type=team_not_found');
+    });
+
+    it('test for redirection if the retrieved team is deleted', async () => {
+        const addUserToTeam = jest.fn().mockResolvedValue({data: true});
+        const getTeamByName = jest.fn().mockResolvedValue({data: {...teamData, delete_at: 1}});
+        const newActions = {...baseProps.actions, addUserToTeam, getTeamByName};
+        const props = {...baseProps, actions: newActions};
+
+        const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
@@ -164,7 +182,7 @@ describe('components/needs_team', () => {
         const props = {...baseProps, actions: newActions};
 
         const wrapper: ShallowWrapper<any, any, NeedsTeam> = shallow(
-            <NeedsTeam {...props}/>
+            <NeedsTeam {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);

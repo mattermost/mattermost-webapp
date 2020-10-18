@@ -24,7 +24,7 @@ import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
-export default class UsersEmailsInput extends React.Component {
+export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,

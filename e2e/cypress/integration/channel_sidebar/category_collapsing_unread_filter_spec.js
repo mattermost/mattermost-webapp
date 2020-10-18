@@ -7,13 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import users from '../../fixtures/users';
+// Stage: @prod
+// Group: @channel_sidebar
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {testWithConfig} from '../../support/hooks';
-
-import {getRandomInt} from '../../utils';
-
-const sysadmin = users.sysadmin;
+import {getAdminAccount} from '../../support/env';
+import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     testWithConfig({
@@ -22,15 +22,18 @@ describe('Channel sidebar', () => {
         },
     });
 
-    before(() => {
-        cy.apiLogin('user-1');
+    const sysadmin = getAdminAccount();
 
-        cy.visit('/');
+    before(() => {
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     it('should display collapsed state when collapsed', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -48,7 +51,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse channels that are not the currently viewed channel', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -69,7 +72,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse channels that are not unread channels', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -100,7 +103,7 @@ describe('Channel sidebar', () => {
 
     it('should save collapsed state and remember the state on refresh', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team
@@ -118,7 +121,7 @@ describe('Channel sidebar', () => {
         // Wait for state to settle
         // This is necessary since we have no observable way of finding out when the state actually settles so that it persists on reload
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Reload the page
         cy.reload();
@@ -134,7 +137,7 @@ describe('Channel sidebar', () => {
 
         // Wait for state to settle
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Reload the page
         cy.reload();
@@ -145,7 +148,7 @@ describe('Channel sidebar', () => {
 
     it('should change the text state when the unread filter changes state', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -173,7 +176,7 @@ describe('Channel sidebar', () => {
 
     it('should only show unreads when the unread filter is enabled', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -204,7 +207,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse all categories when the unread filter is enabled', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -234,7 +237,7 @@ describe('Channel sidebar', () => {
 
     it('should retain the collapsed state of categories when unread filter is enabled/disabled', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square
@@ -270,7 +273,7 @@ describe('Channel sidebar', () => {
 
     it('should not persist the state of the unread filter on reload', () => {
         // # Start with a new team
-        const teamName = `team-${getRandomInt(999999)}`;
+        const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
 
         // * Verify that we've switched to the new team and are on Town Square

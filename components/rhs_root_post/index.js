@@ -54,9 +54,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             markPostAsUnread,
-            emitShortcutReactToLastPostFrom
+            emitShortcutReactToLastPostFrom,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RhsRootPost);
+export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef: true})(RhsRootPost);

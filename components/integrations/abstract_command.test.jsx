@@ -39,7 +39,7 @@ describe('components/integrations/AbstractCommand', () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
             });
-        }
+        },
     );
 
     const baseProps = {
@@ -55,7 +55,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,7 +64,7 @@ describe('components/integrations/AbstractCommand', () => {
         const newSeverError = 'server error';
         const props = {...baseProps, serverError: newSeverError};
         const wrapper = shallow(
-            <AbstractCommand {...props}/>
+            <AbstractCommand {...props}/>,
         );
 
         wrapper.find('#trigger').simulate('change', {target: {value: ''}});
@@ -76,7 +76,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should call action function', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
 
         wrapper.find('#displayName').simulate('change', {target: {value: 'name'}});
@@ -87,7 +87,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should match object returned by getStateFromCommand', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
 
         const expectedOutput = {
@@ -110,7 +110,7 @@ describe('components/integrations/AbstractCommand', () => {
 
     test('should match state when method is called', () => {
         const wrapper = shallow(
-            <AbstractCommand {...baseProps}/>
+            <AbstractCommand {...baseProps}/>,
         );
 
         const displayName = 'new display_name';
@@ -161,11 +161,11 @@ describe('components/integrations/AbstractCommand', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            }
+            },
         );
         const props = {...baseProps, action: newAction};
         const wrapper = shallow(
-            <AbstractCommand {...props}/>
+            <AbstractCommand {...props}/>,
         );
         expect(newAction).toHaveBeenCalledTimes(0);
 

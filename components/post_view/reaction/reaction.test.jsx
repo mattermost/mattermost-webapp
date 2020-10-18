@@ -35,7 +35,7 @@ describe('components/post_view/Reaction', () => {
             reactions,
             currentUserId,
             profiles,
-            'username'
+            'username',
         ),
     };
 
@@ -56,7 +56,7 @@ describe('components/post_view/Reaction', () => {
                 newReactions,
                 currentUserId,
                 newProfiles,
-                'username'
+                'username',
             ),
         };
         const wrapper = shallow(<Reaction {...props}/>);
@@ -85,7 +85,7 @@ describe('components/post_view/Reaction', () => {
                 reactions,
                 newCurrentUserId,
                 profiles,
-                'username'
+                'username',
             ),
         };
         const wrapper = shallow(<Reaction {...props}/>);

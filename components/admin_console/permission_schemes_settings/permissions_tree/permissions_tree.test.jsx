@@ -26,11 +26,15 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
         selectRow: jest.fn(),
         parentRole: null,
         readOnly: false,
+        license: {
+            LDAPGroups: 'true',
+            isLicensed: 'true',
+        },
     };
 
     test('should match snapshot on default data', () => {
         const wrapper = shallow(
-            <PermissionsTree {...defaultProps}/>
+            <PermissionsTree {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -40,7 +44,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <PermissionsTree
                 {...defaultProps}
                 readOnly={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -50,7 +54,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <PermissionsTree
                 {...defaultProps}
                 scope={'team_scope'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +64,17 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <PermissionsTree
                 {...defaultProps}
                 scope={'system_scope'}
-            />
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot on license without LDAPGroups', () => {
+        const wrapper = shallow(
+            <PermissionsTree
+                {...defaultProps}
+                license={{}}
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -71,7 +85,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
                 {...defaultProps}
                 parentRole={{permissions: 'invite_user'}}
                 scope={'system_scope'}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -82,7 +96,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
             <PermissionsTree
                 {...defaultProps}
                 onToggle={onToggle}
-            />
+            />,
         );
         wrapper.find(PermissionGroup).first().prop('onChange')(['test_permission', 'test_permission2']);
         expect(onToggle).toBeCalledWith('test', ['test_permission', 'test_permission2']);
@@ -99,7 +113,7 @@ describe('components/admin_console/permission_schemes_settings/permission_tree',
                     EnableCommands: 'false',
                     EnableCustomEmoji: 'false',
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

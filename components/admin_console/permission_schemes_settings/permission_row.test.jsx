@@ -19,7 +19,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
 
     test('should match snapshot on editable and not inherited', () => {
         const wrapper = shallow(
-            <PermissionRow {...defaultProps}/>
+            <PermissionRow {...defaultProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -29,7 +29,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
             <PermissionRow
                 {...defaultProps}
                 inherited={{name: 'test', displayName: 'Test'}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -39,7 +39,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -49,7 +49,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +60,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
             <PermissionRow
                 {...defaultProps}
                 onChange={onChange}
-            />
+            />,
         );
         wrapper.find('div').first().simulate('click');
         expect(onChange).toBeCalledWith('id');
@@ -73,7 +73,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
                 {...defaultProps}
                 readOnly={true}
                 onChange={onChange}
-            />
+            />,
         );
         wrapper.find('div').first().simulate('click');
         expect(onChange).not.toBeCalled();

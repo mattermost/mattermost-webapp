@@ -30,7 +30,7 @@ export default class SingleImageView extends React.PureComponent {
 
     static defaultProps = {
         fileInfo: {},
-        compactDisplay: false
+        compactDisplay: false,
     };
 
     constructor(props) {

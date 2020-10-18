@@ -11,6 +11,14 @@ import {t} from 'utils/i18n';
 import AtMention from 'components/at_mention';
 
 export default class PostAddChannelMember extends React.PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            expanded: false,
+        };
+    }
+
     static propTypes = {
 
         /*
@@ -74,6 +82,10 @@ export default class PostAddChannelMember extends React.PureComponent {
         }
     }
 
+    expand = () => {
+        this.setState({expanded: true});
+    }
+
     generateAtMentions(usernames = []) {
         if (usernames.length === 1) {
             return (
@@ -94,26 +106,57 @@ export default class PostAddChannelMember extends React.PureComponent {
                 return <span key={key}>{', '}</span>;
             }
 
+            if (this.state.expanded || usernames.length <= 3) {
+                return (
+                    <span>
+                        {
+                            usernames.map((username) => {
+                                return (
+                                    <AtMention
+                                        key={username}
+                                        mentionName={username}
+                                    />
+                                );
+                            }).reduce((acc, el, idx, arr) => {
+                                if (idx === 0) {
+                                    return [el];
+                                } else if (idx === arr.length - 1) {
+                                    return [...acc, andSeparator(idx), el];
+                                }
+
+                                return [...acc, commaSeparator(idx), el];
+                            }, [])
+                        }
+                    </span>
+                );
+            }
+            const otherUsers = [...usernames];
+            const firstUserName = otherUsers.shift();
+            const lastUserName = otherUsers.pop();
             return (
                 <span>
-                    {
-                        usernames.map((username) => {
-                            return (
-                                <AtMention
-                                    key={username}
-                                    mentionName={username}
-                                />
-                            );
-                        }).reduce((acc, el, idx, arr) => {
-                            if (idx === 0) {
-                                return [el];
-                            } else if (idx === arr.length - 1) {
-                                return [...acc, andSeparator(idx), el];
-                            }
-
-                            return [...acc, commaSeparator(idx), el];
-                        }, [])
-                    }
+                    <AtMention
+                        key={firstUserName}
+                        mentionName={firstUserName}
+                    />
+                    {commaSeparator(1)}
+                    <a
+                        className='PostBody_otherUsersLink'
+                        onClick={this.expand}
+                    >
+                        <FormattedMessage
+                            id={'post_body.check_for_out_of_channel_mentions.others'}
+                            defaultMessage={'{numOthers} others'}
+                            values={{
+                                numOthers: otherUsers.length,
+                            }}
+                        />
+                    </a>
+                    {andSeparator(1)}
+                    <AtMention
+                        key={lastUserName}
+                        mentionName={lastUserName}
+                    />
                 </span>
             );
         }
@@ -169,7 +212,7 @@ export default class PostAddChannelMember extends React.PureComponent {
                         defaultMessage={outOfChannelMessageText}
                     />
                     <a
-                        id='add_channel_member_link'
+                        className='PostBody_addChannelMemberLink'
                         onClick={this.handleAddChannelMember}
                     >
                         <FormattedMessage

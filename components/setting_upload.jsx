@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-export default class SettingsUpload extends React.Component {
+export default class SettingsUpload extends React.PureComponent {
     constructor(props) {
         super(props);
 

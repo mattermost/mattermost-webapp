@@ -286,8 +286,15 @@
     }
 
     .sidebar--right__subheader {
+        @include single-transition(width, 0.25s, ease-in);
         font-size: 1em;
-        padding: 0 1em 0;
+        width: 100%;
+        margin: auto;
+        padding-bottom: 10vh;
+
+        &.search__hints {
+            margin: 0;
+        }
 
         h4 {
             font-size: 1em;
@@ -310,6 +317,10 @@
             margin: 0 3px;
             position: relative;
             top: 3px;
+        }
+
+        &.sidebar-expanded {
+            width: 52%;
         }
     }
 

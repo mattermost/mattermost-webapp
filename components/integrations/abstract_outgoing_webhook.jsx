@@ -12,7 +12,7 @@ import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 
-export default class AbstractOutgoingWebhook extends React.Component {
+export default class AbstractOutgoingWebhook extends React.PureComponent {
     static propTypes = {
 
         /**

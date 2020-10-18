@@ -55,9 +55,9 @@ export function focusPost(postId, returnTo = '', currentUserId) {
         }
 
         if (channel && channel.type === Constants.DM_CHANNEL) {
-            loadNewDMIfNeeded(channel.id);
+            dispatch(loadNewDMIfNeeded(channel.id));
         } else if (channel && channel.type === Constants.GM_CHANNEL) {
-            loadNewGMIfNeeded(channel.id);
+            dispatch(loadNewGMIfNeeded(channel.id));
         }
 
         dispatch(selectChannel(channelId));

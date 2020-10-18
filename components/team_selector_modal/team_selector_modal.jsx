@@ -18,7 +18,7 @@ import {imageURLForTeam} from 'utils/utils';
 
 const TEAMS_PER_PAGE = 50;
 
-export default class TeamSelectorModal extends React.Component {
+export default class TeamSelectorModal extends React.PureComponent {
     static propTypes = {
         currentSchemeId: PropTypes.string,
         alreadySelected: PropTypes.array,
@@ -70,7 +70,7 @@ export default class TeamSelectorModal extends React.Component {
                     await this.props.actions.searchTeams(searchTerm);
                     this.setTeamsLoadingState(false);
                 },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
     }

@@ -15,7 +15,7 @@ import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
 
 import './invitation_modal_confirm_step_row.scss';
 
-export default class InvitationModalConfirmStepRow extends React.Component {
+export default class InvitationModalConfirmStepRow extends React.PureComponent {
     static propTypes = {
         invitation: PropTypes.object.isRequired,
     }

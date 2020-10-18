@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -9,7 +10,7 @@ import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,
     isPostPendingOrFailed,
-    isMeMessage as checkIsMeMessage
+    isMeMessage as checkIsMeMessage,
 } from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
@@ -51,55 +52,49 @@ export interface intlShape {
     formatHTMLMessage: () => any;
 }
 
-interface Actions {
-    markPostAsUnread: (post: Post) => any;
-    emitShortcutReactToLastPostFrom: (str: string) => any;
-}
+class RhsComment extends React.PureComponent {
+    static propTypes = {
+        post: PropTypes.object,
+        teamId: PropTypes.string.isRequired,
+        currentUserId: PropTypes.string.isRequired,
+        compactDisplay: PropTypes.bool,
+        author: PropTypes.string,
+        reactions: PropTypes.object,
+        isFlagged: PropTypes.bool,
+        isBusy: PropTypes.bool,
+        removePost: PropTypes.func.isRequired,
+        previewCollapsed: PropTypes.string.isRequired,
+        previewEnabled: PropTypes.bool.isRequired,
+        isEmbedVisible: PropTypes.bool,
+        enableEmojiPicker: PropTypes.bool.isRequired,
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+        isReadOnly: PropTypes.bool.isRequired,
+        pluginPostTypes: PropTypes.object,
+        channelIsArchived: PropTypes.bool.isRequired,
+        isConsecutivePost: PropTypes.bool,
+        handleCardClick: PropTypes.func,
+        a11yIndex: PropTypes.number,
 
-interface RhsCommentProps {
-    post: Post;
-    teamId: string;
-    currentUserId: string;
-    compactDisplay: boolean;
-    author: string;
-    reactions: any;
-    isFlagged: boolean;
-    isBusy: boolean;
-    removePost: () => any,
-    previewCollapsed: string;
-    previewEnabled: boolean;
-    isEmbedVisible: boolean;
-    enableEmojiPicker: boolean;
-    enablePostUsernameOverride: boolean;
-    isReadOnly: boolean;
-    pluginPostTypes: any,
-    channelIsArchived: boolean;
-    isConsecutivePost: boolean;
-    handleCardClick: () => any,
-    a11yIndex: number;
+        /**
+         * To Check if the current post is last in the list of RHS
+         */
+        isLastPost: PropTypes.bool,
 
-    /**
-     * To Check if the current post is last in the list of RHS
-     */
-    isLastPost: boolean;
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        shortcutReactToLastPostEmittedFrom: PropTypes.string,
+        intl: intlShape.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
 
-    /**
-     * To check if the state of emoji for last message and from where it was emitted
-     */
-    shortcutReactToLastPostEmittedFrom: string;
-    intl: intlShape;
-    actions: Actions;
-    emojiMap: any;
-};
-
-type RhsCommentState = {
-    showEmojiPicker: boolean;
-    dropdownOpened: boolean;
-    alt: boolean;
-    hover: boolean;
-    a11yActive: boolean;
-    currentAriaLabel: string;
-}
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            emitShortcutReactToLastPostFrom: PropTypes.func,
+        }),
+        emojiMap: PropTypes.object.isRequired,
+    };
 
 export class RhsComment extends React.PureComponent<RhsCommentProps, RhsCommentState> {
     
@@ -531,7 +526,7 @@ export class RhsComment extends React.PureComponent<RhsCommentProps, RhsCommentS
                     }
                 >
                     <button
-                        className='post-menu__item post-menu__item--show'
+                        className='card-icon__container icon--show style--none'
                         onClick={(e) => {
                             e.preventDefault();
                             this.props.handleCardClick(this.props.post);
@@ -608,3 +603,6 @@ export class RhsComment extends React.PureComponent<RhsCommentProps, RhsCommentS
         );
     }
 }
+
+export default injectIntl(RhsComment);
+/* eslint-enable react/no-string-refs */

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -22,7 +23,7 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class SignupEmail extends React.Component {
+export default class SignupEmail extends React.PureComponent {
     static propTypes = {
         location: PropTypes.object,
         enableSignUpWithEmail: PropTypes.bool.isRequired,
@@ -534,3 +535,4 @@ export default class SignupEmail extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

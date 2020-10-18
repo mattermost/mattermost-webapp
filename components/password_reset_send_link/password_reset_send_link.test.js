@@ -27,7 +27,7 @@ describe('components/PasswordResetSendLink', () => {
         const wrapper = mountWithIntl(
             <MemoryRouter>
                 <PasswordResetSendLink {...props}/>
-            </MemoryRouter>
+            </MemoryRouter>,
         ).children().children();
 
         wrapper.instance().emailInput.current.value = 'test@example.com';

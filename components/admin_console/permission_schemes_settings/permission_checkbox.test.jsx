@@ -9,14 +9,14 @@ import PermissionCheckbox from 'components/admin_console/permission_schemes_sett
 describe('components/admin_console/permission_schemes_settings/permission_checkbox', () => {
     test('should match snapshot on no value', () => {
         const wrapper = shallow(
-            <PermissionCheckbox/>
+            <PermissionCheckbox/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on value "checked" and no id', () => {
         const wrapper = shallow(
-            <PermissionCheckbox value='checked'/>
+            <PermissionCheckbox value='checked'/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -26,7 +26,7 @@ describe('components/admin_console/permission_schemes_settings/permission_checkb
             <PermissionCheckbox
                 value='checked'
                 id='uniqId-checked'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -36,7 +36,7 @@ describe('components/admin_console/permission_schemes_settings/permission_checkb
             <PermissionCheckbox
                 value='intermediate'
                 id='uniqId-checked'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -46,7 +46,7 @@ describe('components/admin_console/permission_schemes_settings/permission_checkb
             <PermissionCheckbox
                 value='other'
                 id='uniqId-checked'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

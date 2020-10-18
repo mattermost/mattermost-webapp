@@ -11,7 +11,7 @@ type Props = {
     className: string;
 };
 
-export default class Badge extends React.Component<Props> {
+export default class Badge extends React.PureComponent<Props> {
     public static defaultProps = {
         show: true,
         className: '',

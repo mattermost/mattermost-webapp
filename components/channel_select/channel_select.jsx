@@ -46,7 +46,7 @@ export default class ChannelSelect extends React.PureComponent {
                         value={channel.id}
                     >
                         {channelName}
-                    </option>
+                    </option>,
                 );
             } else if (channel.type === Constants.PRIVATE_CHANNEL && this.props.selectPrivate) {
                 options.push(
@@ -55,7 +55,7 @@ export default class ChannelSelect extends React.PureComponent {
                         value={channel.id}
                     >
                         {channelName}
-                    </option>
+                    </option>,
                 );
             } else if (channel.type === Constants.DM_CHANNEL && this.props.selectDm) {
                 options.push(
@@ -64,7 +64,7 @@ export default class ChannelSelect extends React.PureComponent {
                         value={channel.id}
                     >
                         {channelName}
-                    </option>
+                    </option>,
                 );
             }
         });

@@ -7,18 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @ldap
 
 import users from '../../../fixtures/ldap_users.json';
-import {getRandomInt} from '../../../utils';
+import {getRandomId} from '../../../utils';
 
 function setLDAPTestSettings(config) {
     return {
         siteName: config.TeamSettings.SiteName,
         siteUrl: config.ServiceSettings.SiteURL,
         teamName: '',
-        user: null
+        user: null,
     };
 }
 
@@ -32,71 +31,28 @@ context('ldap', () => {
 
     let testSettings;
 
-    const newConfig = {
-        ServiceSettings: {
-            SiteURL: Cypress.config('baseUrl'),
-        },
-        LdapSettings: {
-            Enable: true,
-            EnableSync: false,
-            LdapServer: Cypress.env('ldapServer'),
-            LdapPort: Cypress.env('ldapPort'),
-            ConnectionSecurity: '',
-            BaseDN: 'dc=mm,dc=test,dc=com',
-            BindUsername: 'cn=admin,dc=mm,dc=test,dc=com',
-            BindPassword: 'mostest',
-            UserFilter: '',
-            GroupFilter: '',
-            GuestFilter: '',
-            EnableAdminFilter: false,
-            AdminFilter: '',
-            GroupDisplayNameAttribute: 'cn',
-            GroupIdAttribute: 'entryUUID',
-            FirstNameAttribute: 'cn',
-            LastNameAttribute: 'sn',
-            EmailAttribute: 'mail',
-            UsernameAttribute: 'uid',
-            NicknameAttribute: 'cn',
-            IdAttribute: 'uid',
-            PositionAttribute: '',
-            LoginIdAttribute: 'uid',
-            SyncIntervalMinutes: 60,
-            SkipCertificateVerification: false,
-            QueryTimeout: 60,
-            MaxPageSize: 0,
-            LoginFieldName: '',
-            LoginButtonColor: '#0000',
-            LoginButtonBorderColor: '#2389D7',
-            LoginButtonTextColor: '#2389D7',
-            Trace: false
-        },
-        GuestAccountsSettings: {
-            Enable: true
-        },
-    };
-
     describe('LDAP Login flow - Admin Login', () => {
         before(() => {
             // * Check if server has license for LDAP
-            cy.requireLicenseForFeature('LDAP');
+            cy.apiRequireLicenseForFeature('LDAP');
 
-            cy.apiLogin('sysadmin');
-            cy.apiUpdateConfig(newConfig).then(() => {
-                cy.apiGetConfig().then((response) => {
-                    testSettings = setLDAPTestSettings(response.body);
-                });
+            cy.apiGetConfig().then(({config}) => {
+                testSettings = setLDAPTestSettings(config);
             });
         });
 
         it('LDAP login new MM admin, create team', () => {
             testSettings.user = admin1;
-            newConfig.LdapSettings.EnableAdminFilter = true;
-            newConfig.LdapSettings.AdminFilter = '(cn=dev*)';
-            cy.apiUpdateConfig(newConfig).then(() => {
+            const ldapSetting = {
+                LdapSettings: {
+                    EnableAdminFilter: true,
+                    AdminFilter: '(cn=dev*)',
+                },
+            };
+            cy.apiUpdateConfig(ldapSetting).then(() => {
                 cy.doLDAPLogin(testSettings).then(() => {
                     // new user create team
-                    const randomTeam = String(getRandomInt(10000));
-                    cy.skipOrCreateTeam(testSettings, randomTeam).then(() => {
+                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
                         cy.get('#headerTeamName').should('be.visible').then((teamName) => {
                             testSettings.teamName = teamName.text();
                         });
@@ -117,9 +73,13 @@ context('ldap', () => {
     describe('LDAP Login flow - Member Login)', () => {
         it('Invalid login with user filter', () => {
             testSettings.user = user1;
-            newConfig.LdapSettings.UserFilter = '(cn=no_users)';
-            cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+            const ldapSetting = {
+                LdapSettings: {
+                    UserFilter: '(cn=no_users)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.checkLoginFailed(testSettings);
                     });
@@ -129,9 +89,13 @@ context('ldap', () => {
 
         it('LDAP login, new MM user, no channels', () => {
             testSettings.user = user1;
-            newConfig.LdapSettings.UserFilter = '(cn=test*)';
-            cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+            const ldapSetting = {
+                LdapSettings: {
+                    UserFilter: '(cn=test*)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doMemberLogout(testSettings);
                     });
@@ -143,11 +107,16 @@ context('ldap', () => {
     describe('LDAP Login flow - Guest Login', () => {
         it('Invalid login with guest filter', () => {
             testSettings.user = guest1;
-            newConfig.LdapSettings.GuestFilter = '(cn=no_guests)';
-            cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+            const ldapSetting = {
+                LdapSettings: {
+                    GuestFilter: '(cn=no_guests)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
-                        cy.checkLoginFailed(testSettings);
+                        cy.get('#createPublicChannel').should('be.visible');
+                        cy.doMemberLogout(testSettings);
                     });
                 });
             });
@@ -155,9 +124,13 @@ context('ldap', () => {
 
         it('LDAP login, new guest, no channels', () => {
             testSettings.user = guest1;
-            newConfig.LdapSettings.GuestFilter = '(cn=board*)';
-            cy.apiLogin('sysadmin').then(() => {
-                cy.apiUpdateConfig(newConfig).then(() => {
+            const ldapSetting = {
+                LdapSettings: {
+                    GuestFilter: '(cn=board*)',
+                },
+            };
+            cy.apiAdminLogin().then(() => {
+                cy.apiUpdateConfig(ldapSetting).then(() => {
                     cy.doLDAPLogin(testSettings).then(() => {
                         cy.doGuestLogout(testSettings);
                     });
@@ -168,15 +141,14 @@ context('ldap', () => {
 
     describe('LDAP Add Member and Guest to teams and test logins', () => {
         before(() => {
-            cy.apiLogin('sysadmin');
+            cy.apiAdminLogin();
 
-            cy.apiGetTeamByName(testSettings.teamName).then((r) => {
-                const teamId = r.body.id;
+            cy.apiGetTeamByName(testSettings.teamName).then(({team}) => {
                 cy.apiGetChannelByName(testSettings.teamName, 'town-square').then((r2) => {
                     const channelId = r2.body.id;
                     cy.apiGetUserByEmail(guest1.email).then((res) => {
                         const user = res.body;
-                        cy.apiAddUserToTeam(teamId, user.id).then(() => {
+                        cy.apiAddUserToTeam(team.id, user.id).then(() => {
                             cy.apiAddUserToChannel(channelId, user.id);
                         });
                     });
@@ -184,7 +156,7 @@ context('ldap', () => {
                     // add member user to team
                     cy.apiGetUserByEmail(user1.email).then((res) => {
                         const user = res.body;
-                        cy.apiAddUserToTeam(teamId, user.id);
+                        cy.apiAddUserToTeam(team.id, user.id);
                     });
                 });
             });

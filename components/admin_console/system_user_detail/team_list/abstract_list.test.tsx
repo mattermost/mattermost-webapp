@@ -99,7 +99,7 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
                 {...props}
                 data={teamsWithMemberships}
                 total={2}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -120,7 +120,7 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
                 {...props}
                 data={moreTeams}
                 total={30}
-            />
+            />,
         );
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -141,7 +141,7 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
                 {...props}
                 data={moreTeams}
                 total={30}
-            />
+            />,
         );
         wrapper.setState({
             loading: false,

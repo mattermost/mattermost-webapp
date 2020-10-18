@@ -16,7 +16,7 @@ export const getEmojiMap = createSelector(
     getCustomEmojisByName,
     (customEmojisByName) => {
         return new EmojiMap(customEmojisByName);
-    }
+    },
 );
 
 export const getShortcutReactToLastPostEmittedFrom = (state) => state.views.emoji.shortcutReactToLastPostEmittedFrom;
@@ -33,5 +33,5 @@ export const getRecentEmojis = createSelector(
         }
 
         return recentEmojis;
-    }
+    },
 );

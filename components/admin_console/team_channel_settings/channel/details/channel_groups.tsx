@@ -36,6 +36,7 @@ export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroup
             subtitleDefault={synced ? 'Add and remove channel members based on their group membership.' : 'Select groups to be added to this channel.'}
             button={
                 <ToggleModalButton
+                    id='addGroupsToChannelToggle'
                     className='btn btn-primary'
                     dialogType={AddGroupsToChannelModal}
                     dialogProps={{

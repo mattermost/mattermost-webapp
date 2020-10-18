@@ -15,12 +15,12 @@ storiesOf('Separator', module).
         'basic separator without text',
         () => {
             return (<BasicSeparator/>);
-        }
+        },
     ).add(
         'basic separator with text',
         () => {
             return (<BasicSeparator>{text('Text', 'Some text')}</BasicSeparator>);
-        }
+        },
     ).add(
         'notification separator with text',
         () => {
@@ -29,5 +29,5 @@ storiesOf('Separator', module).
                     {text('Text', 'Some text')}
                 </NotificationSeparator>
             );
-        }
+        },
     );

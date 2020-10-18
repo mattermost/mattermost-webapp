@@ -83,7 +83,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
     test('should match snapshot on new with default roles without permissions', (done) => {
         const wrapper = shallow(
-            <PermissionTeamSchemeSettings {...defaultProps}/>
+            <PermissionTeamSchemeSettings {...defaultProps}/>,
         );
         defaultProps.actions.loadRolesIfNeeded().then(() => {
             expect(wrapper.instance().getStateRoles()).toMatchSnapshot();
@@ -125,7 +125,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 roles={roles}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -153,7 +153,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole, createScheme, updateTeamScheme}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -169,7 +169,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole, createScheme, updateTeamScheme}}
-            />
+            />,
         );
 
         await wrapper.instance().handleSubmit();
@@ -194,7 +194,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             <PermissionTeamSchemeSettings
                 {...defaultProps}
                 actions={{...defaultProps.actions, editRole, createScheme, updateTeamScheme}}
-            />
+            />,
         );
 
         await wrapper.instance().handleSubmit();
@@ -203,7 +203,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
     test('should open and close correctly roles blocks', () => {
         const wrapper = shallow(
-            <PermissionTeamSchemeSettings {...defaultProps}/>
+            <PermissionTeamSchemeSettings {...defaultProps}/>,
         );
         const instance = wrapper.instance();
         expect(wrapper.state().openRoles.guests).toBe(true);
@@ -250,7 +250,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         };
 
         const wrapper = shallow(
-            <PermissionTeamSchemeSettings {...props}/>
+            <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         defaultProps.actions.loadRolesIfNeeded().then(() => {
@@ -301,7 +301,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         };
 
         const wrapper = shallow(
-            <PermissionTeamSchemeSettings {...props}/>
+            <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         defaultProps.actions.loadRolesIfNeeded().then(() => {
@@ -332,7 +332,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         };
 
         const wrapper = shallow(
-            <PermissionTeamSchemeSettings {...props}/>
+            <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         defaultProps.actions.loadRolesIfNeeded().then(() => {
@@ -363,7 +363,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         };
 
         const wrapper = shallow(
-            <PermissionTeamSchemeSettings {...props}/>
+            <PermissionTeamSchemeSettings {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         defaultProps.actions.loadRolesIfNeeded().then(() => {

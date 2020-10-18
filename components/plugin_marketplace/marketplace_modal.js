@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -89,7 +90,7 @@ InstalledPlugins.propTypes = {
 };
 
 // MarketplaceModal is the plugin marketplace.
-export class MarketplaceModal extends React.Component {
+export class MarketplaceModal extends React.PureComponent {
     static propTypes = {
         show: PropTypes.bool,
         plugins: PropTypes.array.isRequired,
@@ -255,3 +256,4 @@ export class MarketplaceModal extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

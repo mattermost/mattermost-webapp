@@ -19,7 +19,7 @@ describe('components/RemoveFromChannelModal', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <RemovedFromChannelModal {...baseProps}/>
+            <RemovedFromChannelModal {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -27,7 +27,7 @@ describe('components/RemoveFromChannelModal', () => {
 
     test('should have state "show" equals true on mount', () => {
         const wrapper = shallow(
-            <RemovedFromChannelModal {...baseProps}/>
+            <RemovedFromChannelModal {...baseProps}/>,
         );
 
         expect(wrapper.state('show')).toBe(true);
@@ -35,7 +35,7 @@ describe('components/RemoveFromChannelModal', () => {
 
     test('should display correct props on Modal.Title and Modal.Body', () => {
         const wrapper = mountWithIntl(
-            <RemovedFromChannelModal {...baseProps}/>
+            <RemovedFromChannelModal {...baseProps}/>,
         );
 
         expect(wrapper.find('.modal-title').text()).toBe('Removed from test-channel');
@@ -47,7 +47,7 @@ describe('components/RemoveFromChannelModal', () => {
         baseProps.remover = '';
 
         const wrapper = mountWithIntl(
-            <RemovedFromChannelModal {...baseProps}/>
+            <RemovedFromChannelModal {...baseProps}/>,
         );
 
         expect(wrapper.find('.modal-title').text()).toBe('Removed from the channel');

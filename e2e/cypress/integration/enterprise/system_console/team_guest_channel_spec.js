@@ -7,12 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {getRandomInt} from '../../../utils';
+// Stage: @prod
+// Group: @enterprise @system_console
+
+import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 const permissions = ['create_private_channel', 'edit_post', 'delete_post', 'reactions', 'use_channel_mentions', 'use_group_mentions'];
 const getButtonId = (permission) => {
-    return 'guests-' + permission + '-checkbox';
+    return 'guests-guest_' + permission + '-checkbox';
 };
 
 const disableAllGuestPermissions = () => {
@@ -48,8 +51,7 @@ const verifyAllGuestPermissions = (selected) => {
 describe('Team Scheme Guest Permissions Test', () => {
     before(() => {
         // * Check if server has license
-        cy.requireLicense();
-        cy.apiLogin('sysadmin');
+        cy.apiRequireLicense();
     });
 
     it('MM- - Enable and Disable all guest permission', () => {
@@ -57,20 +59,20 @@ describe('Team Scheme Guest Permissions Test', () => {
         cy.visit('/admin_console/user_management/permissions/team_override_scheme');
 
         // # create unique scheme name
-        const uniqueNumber = getRandomInt(1000);
-        cy.get('#scheme-name').type(`TestScheme-${uniqueNumber}{enter}`);
+        const randomId = getRandomId();
+        cy.get('#scheme-name').type(`TestScheme-${randomId}{enter}`);
 
         // // # Wait until the groups retrieved and show up
-        cy.wait(TIMEOUTS.TINY); //eslint-disable-line cypress/no-unnecessary-waiting
+        cy.wait(TIMEOUTS.HALF_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Check all the boxes currently unchecked
         enableAllGuestPermissions();
 
         // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
-        cy.get('#saveSetting').click().wait(TIMEOUTS.TINY);
+        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Reload the team scheme.
-        cy.findByText(`TestScheme-${uniqueNumber}`).siblings('.actions').children('.edit-button').click().wait(TIMEOUTS.TINY);
+        cy.findByText(`TestScheme-${randomId}`).siblings('.actions').children('.edit-button').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Ensure all checkboxes are checked
         verifyAllGuestPermissions(true);
@@ -79,10 +81,10 @@ describe('Team Scheme Guest Permissions Test', () => {
         disableAllGuestPermissions();
 
         // # Save the page
-        cy.get('#saveSetting').click().wait(TIMEOUTS.TINY);
+        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
         // #Reload the team scheme.
-        cy.findByText(`TestScheme-${uniqueNumber}`).siblings('.actions').children('.edit-button').click().wait(TIMEOUTS.TINY);
+        cy.findByText(`TestScheme-${randomId}`).siblings('.actions').children('.edit-button').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Ensure all checkboxes have the correct unchecked state
         verifyAllGuestPermissions(false);
@@ -90,7 +92,7 @@ describe('Team Scheme Guest Permissions Test', () => {
         cy.get('.cancel-button').click();
 
         //Clean up - Delete scheme
-        cy.findByText(`TestScheme-${uniqueNumber}`).siblings('.actions').children('.delete-button').click().wait(TIMEOUTS.TINY);
+        cy.findByText(`TestScheme-${randomId}`).siblings('.actions').children('.delete-button').click().wait(TIMEOUTS.HALF_SEC);
         cy.get('#confirmModalButton').click();
     });
 });

@@ -11,19 +11,19 @@
 // Group: @messaging @plugin
 
 /**
- * Note : This test requires draw plugin tar file under fixtures folder.
- * Download from : https://integrations.mattermost.com/draw-plugin/
- * Copy to : ./e2e/cypress/fixtures/com.mattermost.draw-plugin.tar.gz
+ * Note: This test requires draw plugin tar file under fixtures folder.
+ * Download from: https://integrations.mattermost.com/draw-plugin/
+ * Copy to: ./e2e/cypress/fixtures/com.mattermost.draw-plugin.tar.gz
  */
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getRandomId} from '../../utils';
 
-describe('Draw plugin : Post message', () => {
+describe('M17448 Does not post draft message', () => {
     const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
-        // # Login as sysadmin and update config
-        cy.apiLogin('sysadmin');
+        // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
@@ -31,57 +31,64 @@ describe('Draw plugin : Post message', () => {
             },
         });
 
-        // # Upload and enable Draw plugin
-        cy.uploadBinaryFileByName('com.mattermost.draw-plugin.tar.gz').then(() => {
-            cy.enablePluginById(pluginId);
+        // # Upload and enable "Draw" plugin
+        cy.apiUploadPlugin('com.mattermost.draw-plugin.tar.gz').then(() => {
+            cy.apiEnablePluginById(pluginId);
 
-            // # Login as user-1 and go to town-square channel
-            cy.apiLogin('user-1');
-            cy.visit('/ad-1/channels/town-square');
-            cy.get('#post_textbox').clear().type('This check is for draw plugin');
+            // # Login as test user and visit town-square
+            cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+                cy.visit(`/${team.name}/channels/town-square`);
+            });
         });
     });
 
     after(() => {
-        // # UnInstall Draw plugin
-        cy.apiLogin('sysadmin');
-        cy.uninstallPluginById(pluginId);
+        // # Uninstall "Draw" plugin
+        cy.apiAdminLogin();
+        cy.apiRemovePluginById(pluginId);
     });
 
-    it('M11759-Draw plugin : Post message check for Draw Plugin & My Computer events', () => {
-        //Assertion 1 : Upload image via draw plugin and check Message doesn't post
+    it('on successful upload via "Draw" plugin', () => {
+        const draft = `Draft message ${getRandomId()}`;
+        cy.get('#post_textbox').clear().type(draft);
 
-        // # Open file upload options - Select draw plugin
+        // # Open file upload options and select draw plugin
         cy.get('#fileUploadButton').click();
         cy.get('#fileUploadOptions').findByText('Draw').click();
 
-        // * upload a file and verify drafted message still exist in textbox
+        // * Upload a file and verify drafted message still exist in textbox
         cy.get('canvas').trigger('pointerdown').trigger('pointerup').click();
         cy.findByText('Upload').should('be.visible').click();
         cy.get('#post_textbox').
-            should('be.visible').wait(TIMEOUTS.TINY).
-            should('have.text', 'This check is for draw plugin');
+            should('be.visible').wait(TIMEOUTS.HALF_SEC).
+            should('have.text', draft);
+    });
 
-        //Assertion 2 :Cancel draw plugin upload and check Message doesn't post
+    it('on upload cancel via "Draw" plugin', () => {
+        const draft = `Draft message ${getRandomId()}`;
+        cy.get('#post_textbox').clear().type(draft);
 
-        // # Open file upload options - Select draw plugin
+        // # Open file upload options and select draw plugin
         cy.get('#fileUploadButton').click();
         cy.get('#fileUploadOptions').findByText('Draw').click();
 
-        // * Cancel the file upload process and verify drafted message still exist in textbox
+        // * Cancel file upload process and verify drafted message still exist in textbox
         cy.findByText('Cancel').should('be.visible').click();
         cy.get('#post_textbox').
-            should('be.visible').wait(TIMEOUTS.TINY).
-            should('have.text', 'This check is for draw plugin');
+            should('be.visible').wait(TIMEOUTS.HALF_SEC).
+            should('have.text', draft);
+    });
 
-        //Assertion 3 : click on Your Computer and check message doesn't post
+    it('on upload attempt via "Your Computer', () => {
+        const draft = `Draft message ${getRandomId()}`;
+        cy.get('#post_textbox').clear().type(draft);
 
-        // # Open file upload options - Select your computer plugin
+        // # Open file upload options and select "Your Computer"
         cy.get('#fileUploadButton').click();
         cy.get('#fileUploadOptions').findByText('Your computer').click();
 
-        // * Click on my computer and verify drafted message still exist in textbox
-        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TINY).
-            should('have.text', 'This check is for draw plugin');
+        // * Verify drafted message still exist in textbox
+        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.HALF_SEC).
+            should('have.text', draft);
     });
 });

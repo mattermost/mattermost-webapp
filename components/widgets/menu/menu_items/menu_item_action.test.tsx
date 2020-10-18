@@ -12,7 +12,7 @@ describe('components/MenuItemAction', () => {
             <MenuItemActionImpl
                 onClick={jest.fn()}
                 text='Whatever'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
@@ -34,7 +34,7 @@ describe('components/MenuItemAction', () => {
                 onClick={jest.fn()}
                 text='Whatever'
                 extraText='Extra Text'
-            />
+            />,
         );
 
         expect(wrapper).toMatchInlineSnapshot(`

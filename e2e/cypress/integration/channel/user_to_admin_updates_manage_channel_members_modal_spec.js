@@ -10,33 +10,39 @@
 // Stage: @prod
 // Group: @channel
 
-import users from '../../fixtures/users.json';
+import {getAdminAccount} from '../../support/env';
 
 describe('View Members modal', () => {
+    const sysadmin = getAdminAccount();
+
     it('MM-20164 - Going from a Member to an Admin should update the modal', () => {
-        cy.apiLogin('user-1');
-        cy.apiGetMe().then((res) => {
-            // # Promote user-1 as a system admin
+        cy.apiInitSetup().then(({team, user}) => {
+            cy.apiCreateUser().then(({user: user1}) => {
+                cy.apiAddUserToTeam(team.id, user1.id);
+            });
+
+            // # Promote user as a system admin
             // # Visit default channel and verify members modal
-            promoteToSysAdmin(res.body);
-            cy.visit('/ad-1/channels/town-square');
+            cy.apiLogin(user);
+            promoteToSysAdmin(user, sysadmin);
+            cy.visit(`/${team.name}/channels/town-square`);
             verifyMemberDropdownAction(true);
 
             // # Make user a regular member
             // # Reload and verify members modal
-            demoteToMember(res.body);
+            demoteToMember(user, sysadmin);
             cy.reload();
             verifyMemberDropdownAction(false);
         });
     });
 });
 
-const demoteToMember = (user) => {
-    cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
+const demoteToMember = (user, sysadmin) => {
+    cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
-const promoteToSysAdmin = (user) => {
-    cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
+const promoteToSysAdmin = (user, sysadmin) => {
+    cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
 };
 
 function verifyMemberDropdownAction(hasActionItem) {

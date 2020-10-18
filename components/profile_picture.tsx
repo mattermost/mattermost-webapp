@@ -24,6 +24,8 @@ type Props = {
     userId?: string;
     username?: string;
     wrapperClass?: string;
+    overwriteIcon?: string;
+    overwriteName?: string;
 }
 
 export default class ProfilePicture extends React.PureComponent<Props> {
@@ -68,6 +70,8 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                             hide={this.hideProfilePopover}
                             isRHS={this.props.isRHS}
                             hasMention={this.props.hasMention}
+                            overwriteIcon={this.props.overwriteIcon}
+                            overwriteName={this.props.overwriteName}
                         />
                     }
                 >

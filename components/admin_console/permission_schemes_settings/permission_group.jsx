@@ -23,7 +23,7 @@ const getRecursivePermissions = (permissions) => {
     return result;
 };
 
-export default class PermissionGroup extends React.Component {
+export default class PermissionGroup extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         uniqId: PropTypes.string.isRequired,
@@ -290,6 +290,7 @@ export default class PermissionGroup extends React.Component {
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>
                         <PermissionDescription
+                            additionalValues={additionalValues?.[id] ? additionalValues[id] : {}}
                             inherited={inherited}
                             id={id}
                             selectRow={this.props.selectRow}

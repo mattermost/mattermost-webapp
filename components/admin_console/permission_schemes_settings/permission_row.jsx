@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import PermissionCheckbox from './permission_checkbox.jsx';
 import PermissionDescription from './permission_description.jsx';
 
-export default class PermissionRow extends React.Component {
+export default class PermissionRow extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         uniqId: PropTypes.string.isRequired,

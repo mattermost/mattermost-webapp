@@ -9,7 +9,7 @@ import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import {imageURLForTeam} from 'utils/utils';
 
-export default class TeamInList extends React.Component {
+export default class TeamInList extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         onRemoveTeam: PropTypes.func,

@@ -34,7 +34,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     test('should match snapshot, on desktop with mentions badge', () => {
         const props = {...baseProps, badge: true};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...props}/>
+            <SidebarChannelButtonOrLink {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,53 +42,53 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
     test('should match snapshot, on desktop with draft', () => {
         const props = {...baseProps, hasDraft: true, badge: false, unreadMentions: 0};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...props}/>
+            <SidebarChannelButtonOrLink {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on desktop without badge', () => {
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...baseProps}/>
+            <SidebarChannelButtonOrLink {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should trackEvent, mark and add history entry on desktop on click', () => {
-        const browserHistoryMock = require.requireMock('utils/browser_history');
-        const diagnosticsActionsMock = require.requireMock('actions/diagnostics_actions.jsx');
+        const browserHistoryMock = jest.requireMock('utils/browser_history');
+        const diagnosticsActionsMock = jest.requireMock('actions/diagnostics_actions.jsx');
         expect(diagnosticsActionsMock.trackEvent).not.toBeCalled();
         expect(diagnosticsActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
     });
 
     test('should match snapshot, on non-desktop with mentions badge', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const props = {...baseProps, badge: true};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...props}/>
+            <SidebarChannelButtonOrLink {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on non-desktop without badge', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink {...baseProps}/>
+            <SidebarChannelButtonOrLink {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should trackEvent and mark but not add history entry on non-desktop on click', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
+        const userAgentMock = jest.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
-        const browserHistoryMock = require.requireMock('utils/browser_history');
-        const diagnosticsActionsMock = require.requireMock('actions/diagnostics_actions.jsx');
+        const browserHistoryMock = jest.requireMock('utils/browser_history');
+        const diagnosticsActionsMock = jest.requireMock('actions/diagnostics_actions.jsx');
         expect(diagnosticsActionsMock.trackEvent).not.toBeCalled();
         expect(diagnosticsActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
@@ -120,7 +120,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 };
 
                 const wrapper = shallow(
-                    <SidebarChannelButtonOrLink {...props}/>
+                    <SidebarChannelButtonOrLink {...props}/>,
                 );
 
                 expect(wrapper.find(OverlayTrigger)).toHaveLength(0);

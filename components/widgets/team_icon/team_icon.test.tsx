@@ -9,7 +9,7 @@ import TeamIcon from './team_icon';
 describe('components/widgets/team-icon', () => {
     test('basic icon', () => {
         const wrapper = shallow(
-            <TeamIcon name='test'/>
+            <TeamIcon name='test'/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -18,7 +18,7 @@ describe('components/widgets/team-icon', () => {
             <TeamIcon
                 url='http://example.com/image.png'
                 name='test'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -27,7 +27,7 @@ describe('components/widgets/team-icon', () => {
             <TeamIcon
                 name='test'
                 size='sm'
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -36,7 +36,7 @@ describe('components/widgets/team-icon', () => {
             <TeamIcon
                 name='test'
                 withHover={true}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

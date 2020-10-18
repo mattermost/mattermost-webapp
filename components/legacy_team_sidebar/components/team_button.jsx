@@ -19,7 +19,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
 // eslint-disable-next-line react/require-optimization
-class TeamButton extends React.Component {
+class TeamButton extends React.PureComponent {
     static propTypes = {
         btnClass: PropTypes.string,
         url: PropTypes.string.isRequired,

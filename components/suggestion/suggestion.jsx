@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class Suggestion extends React.Component {
+export default class Suggestion extends React.PureComponent {
     static get propTypes() {
         return {
             item: PropTypes.oneOfType([

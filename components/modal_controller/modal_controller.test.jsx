@@ -9,7 +9,7 @@ import {mount} from 'enzyme';
 
 import ModalController from 'components/modal_controller';
 
-class TestModal extends React.Component {
+class TestModal extends React.PureComponent {
     render() {
         return (
             <Modal
@@ -39,7 +39,7 @@ describe('components/ModalController', () => {
         const wrapper = mount(
             <Provider store={store}>
                 <ModalController/>
-            </Provider>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -67,7 +67,7 @@ describe('components/ModalController', () => {
         mount(
             <Provider store={store}>
                 <ModalController/>
-            </Provider>
+            </Provider>,
         );
 
         expect(document.getElementsByClassName('modal-dialog').length).toBe(1);

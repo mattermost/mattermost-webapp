@@ -107,7 +107,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                     canSave: false,
                 });
                 error(err);
-            }
+            },
         );
     }
 

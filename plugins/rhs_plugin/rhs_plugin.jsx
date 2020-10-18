@@ -10,11 +10,12 @@ import Pluggable from 'plugins/pluggable';
 
 export default class RhsPlugin extends React.PureComponent {
     static propTypes = {
+        showPluggable: PropTypes.bool.isRequired,
+        pluggableId: PropTypes.string.isRequired,
         title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.object,
         ]),
-        pluggableId: PropTypes.string.isRequired,
     }
 
     render() {
@@ -26,10 +27,13 @@ export default class RhsPlugin extends React.PureComponent {
                 <SearchResultsHeader>
                     {this.props.title}
                 </SearchResultsHeader>
-                <Pluggable
-                    pluggableName='RightHandSidebarComponent'
-                    pluggableId={this.props.pluggableId}
-                />
+                {
+                    this.props.showPluggable &&
+                    <Pluggable
+                        pluggableName='RightHandSidebarComponent'
+                        pluggableId={this.props.pluggableId}
+                    />
+                }
             </div>
         );
     }

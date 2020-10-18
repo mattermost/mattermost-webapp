@@ -98,7 +98,7 @@ describe('Post', () => {
         const wrapper = shallowWithIntl(<Post {...props}/>);
         expect(wrapper.state('fadeOutHighlight')).toBe(false);
         expect(wrapper).toMatchSnapshot();
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(wrapper.state('fadeOutHighlight')).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });

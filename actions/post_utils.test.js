@@ -80,7 +80,7 @@ describe('actions/post_utils', () => {
 
     test('completePostReceive', async () => {
         const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME};
+        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME, props: {addedUserId: 'other_user_id'}};
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
         await testStore.dispatch(PostActionsUtils.completePostReceive(newPost, websocketProps));
@@ -96,7 +96,7 @@ describe('actions/post_utils', () => {
 
     test('lastPostActions', async () => {
         const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME};
+        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME, props: {addedUserId: 'other_user_id'}};
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
         await testStore.dispatch(PostActionsUtils.lastPostActions(newPost, websocketProps));
@@ -110,7 +110,7 @@ describe('actions/post_utils', () => {
         ]);
     });
 
-    describe('setChannelReadAndView', () => {
+    describe('setChannelReadAndViewed', () => {
         test('should mark channel as read when viewing channel', async () => {
             const channelId = 'channel';
             const currentUserId = 'user';
@@ -140,7 +140,7 @@ describe('actions/post_utils', () => {
 
             window.isActive = true;
 
-            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndViewed(post2, {}));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_READ',
@@ -180,7 +180,7 @@ describe('actions/post_utils', () => {
 
             window.isActive = false;
 
-            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndViewed(post2, {}));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
@@ -219,7 +219,7 @@ describe('actions/post_utils', () => {
 
             window.isActive = true;
 
-            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndViewed(post2, {}));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
@@ -256,7 +256,7 @@ describe('actions/post_utils', () => {
                 },
             });
 
-            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndViewed(post2, {}));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_READ',
@@ -296,7 +296,7 @@ describe('actions/post_utils', () => {
                 },
             });
 
-            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndViewed(post2, {}));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
@@ -333,7 +333,7 @@ describe('actions/post_utils', () => {
                 },
             });
 
-            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndViewed(post2, {}));
 
             expect(testStore.getActions()).toEqual([{
                 type: 'MOCK_MARK_CHANNEL_AS_UNREAD',

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @accessibility
 
 let previousEmoji = 'grinning';
@@ -24,14 +25,13 @@ function verifyArrowKeysEmojiNavigation(arrowKey, count) {
 
 describe('Verify Accessibility Support in Popovers', () => {
     before(() => {
-        cy.apiLogin('sysadmin');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/off-topic`);
 
-        // Visit the Off Topic channel
-        cy.visit('/ad-1/channels/off-topic');
-        cy.findAllByTestId('postView').should('be.visible');
-
-        // # Post a message
-        cy.postMessage(`hello from sysadmin: ${Date.now()}`);
+            // # Post a message
+            cy.postMessage(`hello from test user: ${Date.now()}`);
+        });
     });
 
     it('MM-22627 Accessibility Support in Emoji Popover on click of Emoji Reaction button', () => {
@@ -61,8 +61,8 @@ describe('Verify Accessibility Support in Popovers', () => {
                     });
 
                     // * Verify emoji navigation using arrow keys
-                    verifyArrowKeysEmojiNavigation('{rightarrow}', 3); // eslint-disable-line no-magic-numbers
-                    verifyArrowKeysEmojiNavigation('{leftarrow}', 2); // eslint-disable-line no-magic-numbers
+                    verifyArrowKeysEmojiNavigation('{rightarrow}', 3);
+                    verifyArrowKeysEmojiNavigation('{leftarrow}', 2);
 
                     // # Press tab
                     cy.get($el).focus().tab();

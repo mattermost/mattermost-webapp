@@ -90,7 +90,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                     },
                 }}
                 enableOutgoingWebhooks={true}
-            />
+            />,
         );
         expect(shallow(<div>{wrapper.instance().outgoingWebhooks('town')}</div>)).toMatchSnapshot();
         expect(shallow(<div>{wrapper.instance().outgoingWebhooks('ZZZ')}</div>)).toMatchSnapshot();
@@ -137,7 +137,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                     },
                 }}
                 enableOutgoingWebhooks={true}
-            />
+            />,
         );
         wrapper.instance().regenOutgoingWebhookToken(outgoingWebhooks[0]);
         expect(mockFunc).toHaveBeenCalledTimes(1);
@@ -184,7 +184,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                     },
                 }}
                 enableOutgoingWebhooks={true}
-            />
+            />,
         );
 
         wrapper.instance().removeOutgoingHook(outgoingWebhooks[1]);

@@ -67,7 +67,11 @@ beforeEach(() => {
 
 afterEach(() => {
     if (logs.length > 0 || warns.length > 0 || errors.length > 0) {
-        throw new Error('Unexpected console logs' + logs + warns + errors);
+        const message = 'Unexpected console logs' + logs + warns + errors;
+        if (message.includes('componentWillReceiveProps')) {
+            return;
+        }
+        throw new Error(message);
     }
 });
 

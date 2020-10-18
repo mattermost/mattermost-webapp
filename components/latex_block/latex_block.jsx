@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-export default class LatexBlock extends React.Component {
+export default class LatexBlock extends React.PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired,
         enableLatex: PropTypes.bool.isRequired,
@@ -41,7 +41,8 @@ export default class LatexBlock extends React.Component {
                 throwOnError: false,
                 displayMode: true,
                 maxSize: 200,
-                maxExpand: 100
+                maxExpand: 100,
+                fleqn: true,
             };
             const html = this.state.katex.renderToString(this.props.content, katexOptions);
 

@@ -10,8 +10,10 @@ exports[`components/admin_console/group_settings/group_details/GroupProfileAndSe
   titleId="admin.group_settings.group_detail.groupProfileTitle"
 >
   <GroupProfile
-    customID="GroupDisplayName"
+    customID="groupDisplayName"
+    isDisabled={true}
     name="GroupProfileAndSettings"
+    showAtMention={false}
     title="admin.group_settings.group_details.group_profile.name"
     titleDefault="Name:"
   />
@@ -48,8 +50,10 @@ exports[`components/admin_console/group_settings/group_details/GroupProfileAndSe
   titleId="admin.group_settings.group_detail.groupProfileTitle"
 >
   <GroupProfile
-    customID="GroupDisplayName"
+    customID="groupDisplayName"
+    isDisabled={true}
     name="GroupProfileAndSettings"
+    showAtMention={false}
     title="admin.group_settings.group_details.group_profile.name"
     titleDefault="Name:"
   />
@@ -74,8 +78,11 @@ exports[`components/admin_console/group_settings/group_details/GroupProfileAndSe
     </div>
   </div>
   <GroupProfile
-    customID="GroupMention"
-    name="@GroupProfileAndSettings"
+    customID="groupMention"
+    isDisabled={false}
+    name="GroupProfileAndSettings"
+    onChange={[MockFunction]}
+    showAtMention={true}
     title="admin.group_settings.group_details.group_mention.name"
     titleDefault="Group Mention:"
   />

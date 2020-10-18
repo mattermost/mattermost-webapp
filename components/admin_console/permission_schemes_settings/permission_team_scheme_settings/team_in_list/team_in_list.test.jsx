@@ -11,12 +11,12 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
         const props = {
             team: {
                 id: 12345,
-                display_name: 'testTeam'
-            }
+                display_name: 'testTeam',
+            },
         };
 
         const wrapper = shallow(
-            <TeamInList {...props}/>
+            <TeamInList {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

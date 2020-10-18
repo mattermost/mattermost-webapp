@@ -43,14 +43,14 @@ describe('components/unarchive_channel_modal', () => {
 
     test('should match snapshot for unarchive_channel_modal', () => {
         const wrapper = shallow(
-            <UnarchiveChannelModal {...baseProps}/>
+            <UnarchiveChannelModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <UnarchiveChannelModal {...baseProps}/>
+            <UnarchiveChannelModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -63,7 +63,7 @@ describe('components/unarchive_channel_modal', () => {
         const actions = {unarchiveChannel: jest.fn()};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <UnarchiveChannelModal {...props}/>
+            <UnarchiveChannelModal {...props}/>,
         );
 
         wrapper.setState({show: true});
@@ -77,7 +77,7 @@ describe('components/unarchive_channel_modal', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <UnarchiveChannelModal {...props}/>
+            <UnarchiveChannelModal {...props}/>,
         );
 
         wrapper.find(Modal).props().onExited();

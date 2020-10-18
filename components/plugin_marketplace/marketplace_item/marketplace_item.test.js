@@ -27,7 +27,7 @@ describe('components/MarketplaceItem', () => {
                     installedVersion: '',
                 };
                 const wrapper = mount(
-                    <UpdateDetails {...props}/>
+                    <UpdateDetails {...props}/>,
                 );
 
                 expect(wrapper.isEmptyRender()).toBe(true);
@@ -39,7 +39,7 @@ describe('components/MarketplaceItem', () => {
                     installedVersion: baseProps.availableVersion,
                 };
                 const wrapper = mount(
-                    <UpdateDetails {...props}/>
+                    <UpdateDetails {...props}/>,
                 );
 
                 expect(wrapper.isEmptyRender()).toBe(true);
@@ -51,7 +51,7 @@ describe('components/MarketplaceItem', () => {
                     installedVersion: '0.0.3',
                 };
                 const wrapper = mount(
-                    <UpdateDetails {...props}/>
+                    <UpdateDetails {...props}/>,
                 );
 
                 expect(wrapper.isEmptyRender()).toBe(true);
@@ -63,7 +63,7 @@ describe('components/MarketplaceItem', () => {
                     isInstalling: true,
                 };
                 const wrapper = mount(
-                    <UpdateDetails {...props}/>
+                    <UpdateDetails {...props}/>,
                 );
 
                 expect(wrapper.isEmptyRender()).toBe(true);
@@ -77,7 +77,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = mount(
-                <UpdateDetails {...props}/>
+                <UpdateDetails {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -85,7 +85,7 @@ describe('components/MarketplaceItem', () => {
 
         it('should render with release notes url', () => {
             const wrapper = mount(
-                <UpdateDetails {...baseProps}/>
+                <UpdateDetails {...baseProps}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -111,7 +111,7 @@ describe('components/MarketplaceItem', () => {
                 delete props.installedVersion;
 
                 const wrapper = shallow(
-                    <UpdateConfirmationModal {...props}/>
+                    <UpdateConfirmationModal {...props}/>,
                 );
                 expect(wrapper.isEmptyRender()).toBe(true);
             });
@@ -123,7 +123,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <UpdateConfirmationModal {...props}/>
+                    <UpdateConfirmationModal {...props}/>,
                 );
                 expect(wrapper.isEmptyRender()).toBe(true);
             });
@@ -135,7 +135,7 @@ describe('components/MarketplaceItem', () => {
                 show: false,
             };
             const wrapper = shallow(
-                <UpdateConfirmationModal {...props}/>
+                <UpdateConfirmationModal {...props}/>,
             );
 
             const modal = wrapper.find(ConfirmModal);
@@ -150,7 +150,7 @@ describe('components/MarketplaceItem', () => {
             delete props.releaseNotesUrl;
 
             const wrapper = shallow(
-                <UpdateConfirmationModal {...props}/>
+                <UpdateConfirmationModal {...props}/>,
             );
 
             expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
@@ -163,7 +163,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <UpdateConfirmationModal {...props}/>
+                <UpdateConfirmationModal {...props}/>,
             );
             expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
         });
@@ -176,7 +176,7 @@ describe('components/MarketplaceItem', () => {
             delete props.releaseNotesUrl;
 
             const wrapper = shallow(
-                <UpdateConfirmationModal {...props}/>
+                <UpdateConfirmationModal {...props}/>,
             );
             expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
         });
@@ -188,7 +188,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <UpdateConfirmationModal {...props}/>
+                <UpdateConfirmationModal {...props}/>,
             );
             expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
         });
@@ -217,7 +217,7 @@ describe('components/MarketplaceItem', () => {
 
         test('should render', () => {
             const wrapper = shallow(
-                <MarketplaceItem {...baseProps}/>
+                <MarketplaceItem {...baseProps}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -228,7 +228,7 @@ describe('components/MarketplaceItem', () => {
             delete props.iconData;
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -239,7 +239,7 @@ describe('components/MarketplaceItem', () => {
             delete props.homepageUrl;
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -252,7 +252,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -265,7 +265,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -278,7 +278,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -292,7 +292,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -305,7 +305,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -319,12 +319,12 @@ describe('components/MarketplaceItem', () => {
                         name: 'someName',
                         description: 'some description',
                         url: 'http://example.com/info',
-                    }
+                    },
                 ],
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -342,12 +342,12 @@ describe('components/MarketplaceItem', () => {
                         name: 'someName2',
                         description: 'some description2',
                         url: 'http://example.com/info2',
-                    }
+                    },
                 ],
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -360,7 +360,7 @@ describe('components/MarketplaceItem', () => {
             };
 
             const wrapper = shallow(
-                <MarketplaceItem {...props}/>
+                <MarketplaceItem {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -374,7 +374,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <MarketplaceItem {...props}/>
+                    <MarketplaceItem {...props}/>,
                 );
 
                 wrapper.instance().onInstall();
@@ -394,7 +394,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <MarketplaceItem {...props}/>
+                    <MarketplaceItem {...props}/>,
                 );
 
                 wrapper.instance().onUpdate();
@@ -414,7 +414,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <MarketplaceItem {...props}/>
+                    <MarketplaceItem {...props}/>,
                 );
 
                 wrapper.instance().onConfigure();
@@ -430,7 +430,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <MarketplaceItem {...props}/>
+                    <MarketplaceItem {...props}/>,
                 );
 
                 wrapper.instance().onInstall();
@@ -446,7 +446,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <MarketplaceItem {...props}/>
+                    <MarketplaceItem {...props}/>,
                 );
 
                 wrapper.instance().onUpdate();
@@ -462,7 +462,7 @@ describe('components/MarketplaceItem', () => {
                 };
 
                 const wrapper = shallow(
-                    <MarketplaceItem {...props}/>
+                    <MarketplaceItem {...props}/>,
                 );
 
                 wrapper.instance().onConfigure();

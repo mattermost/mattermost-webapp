@@ -22,7 +22,7 @@ describe('components/integrations/AddOAuthApp', () => {
                     error: null,
                 }}
                 actions={{addOAuthApp: emptyFunction}}
-            />
+            />,
         );
 
         expect(wrapper).toMatchSnapshot();

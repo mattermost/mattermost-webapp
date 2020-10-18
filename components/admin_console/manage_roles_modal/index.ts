@@ -2,18 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
+
 import {updateUserRoles} from 'mattermost-redux/actions/users';
+
+import {GlobalState} from 'types/store';
 
 import ManageRolesModal from './manage_roles_modal';
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: GlobalState) {
     return {
-        userAccessTokensEnabled: state.entities.admin.config.ServiceSettings.EnableUserAccessTokens,
+        userAccessTokensEnabled: state.entities.admin.config.ServiceSettings!.EnableUserAccessTokens,
     };
 }
 
-function mapDispatchToProps(dispatch: any) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             updateUserRoles,

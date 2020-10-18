@@ -48,14 +48,14 @@ export default class RemoveConfirmModal extends React.PureComponent {
             />
         );
 
-        const messageId = inChannel ? t('admin.team_channel_settings.removeConfirmModal.messageGroup') : t('admin.team_channel_settings.removeConfirmModal.messageChannel');
-        const messageChannel = '{amount, number} {amount, plural, one {user} other {users}} will be removed. They are not in groups linked to this channel. Are you sure you wish to remove these users?';
-        const messageGroup = '{amount, number} {amount, plural, one {user} other {users}} will be removed. They are not in groups linked to this group. Are you sure you wish to remove these users?';
+        const messageId = inChannel ? t('admin.team_channel_settings.removeConfirmModal.messageChannel') : t('admin.team_channel_settings.removeConfirmModal.messageTeam');
+        const messageChannel = '{amount, number} {amount, plural, one {user} other {users}} will be removed. They are not in groups linked to this channel. Are you sure you wish to remove {amount, plural, one {this user} other {these users}}?';
+        const messageTeam = '{amount, number} {amount, plural, one {user} other {users}} will be removed. They are not in groups linked to this team. Are you sure you wish to remove {amount, plural, one {this user} other {these users}}?';
 
         const message = (
             <FormattedMessage
                 id={messageId}
-                defaultMessage={inChannel ? messageChannel : messageGroup}
+                defaultMessage={inChannel ? messageChannel : messageTeam}
                 values={{amount}}
             />
         );

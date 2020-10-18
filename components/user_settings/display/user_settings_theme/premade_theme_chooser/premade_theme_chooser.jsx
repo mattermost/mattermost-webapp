@@ -8,7 +8,7 @@ import React from 'react';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export default class PremadeThemeChooser extends React.Component {
+export default class PremadeThemeChooser extends React.PureComponent {
     render() {
         const theme = this.props.theme;
 
@@ -48,7 +48,7 @@ export default class PremadeThemeChooser extends React.Component {
                                 <div className='theme-label'>{Utils.toTitleCase(premadeTheme.type)}</div>
                             </label>
                         </div>
-                    </div>
+                    </div>,
                 );
             }
         }

@@ -24,7 +24,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -36,7 +36,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -55,7 +55,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

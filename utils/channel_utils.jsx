@@ -15,7 +15,7 @@ export function canManageMembers(state, channel) {
                 channel: channel.id,
                 team: channel.team_id,
                 permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-            }
+            },
         );
     }
 
@@ -26,7 +26,7 @@ export function canManageMembers(state, channel) {
                 channel: channel.id,
                 team: channel.team_id,
                 permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
-            }
+            },
         );
     }
 

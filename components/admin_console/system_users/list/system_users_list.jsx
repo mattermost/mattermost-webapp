@@ -18,7 +18,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import SystemUsersDropdown from '../system_users_dropdown';
 
-export default class SystemUsersList extends React.Component {
+export default class SystemUsersList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,
@@ -206,7 +206,7 @@ export default class SystemUsersList extends React.Component {
                     values={{
                         service,
                     }}
-                />
+                />,
             );
         } else {
             info.push(
@@ -214,7 +214,7 @@ export default class SystemUsersList extends React.Component {
                     key='admin.user_item.authServiceEmail'
                     id='admin.user_item.authServiceEmail'
                     defaultMessage='**Sign-in Method:** Email'
-                />
+                />,
             );
         }
 
@@ -228,7 +228,7 @@ export default class SystemUsersList extends React.Component {
                 values={{
                     userID,
                 }}
-            />
+            />,
         );
 
         if (this.props.mfaEnabled) {
@@ -240,7 +240,7 @@ export default class SystemUsersList extends React.Component {
                         key='admin.user_item.mfaYes'
                         id='admin.user_item.mfaYes'
                         defaultMessage='**MFA**: Yes'
-                    />
+                    />,
                 );
             } else {
                 info.push(
@@ -248,7 +248,7 @@ export default class SystemUsersList extends React.Component {
                         key='admin.user_item.mfaNo'
                         id='admin.user_item.mfaNo'
                         defaultMessage='**MFA**: No'
-                    />
+                    />,
                 );
             }
         }

@@ -13,7 +13,7 @@ function buildProfile(user) {
         login: user.email,
         userType: user.userType,
         isAdmin: user.isAdmin,
-        isGuest: user.isGuest
+        isGuest: user.isGuest,
     };
     return profile;
 }
@@ -31,10 +31,10 @@ Cypress.Commands.add('oktaCreateUser', (user = {}) => {
                 password: {value: user.password},
                 recovery_question: {
                     question: 'What is the best open source messaging platform for developers?',
-                    answer: 'Mattermost'
-                }
-            }
-        }
+                    answer: 'Mattermost',
+                },
+            },
+        },
     }).then((response) => {
         expect(response.status).to.equal(200);
         const userId = response.data.id;
@@ -66,8 +66,8 @@ Cypress.Commands.add('oktaUpdateUser', (userId = '', user = {}) => {
         method: 'post',
         token,
         data: {
-            profile
-        }
+            profile,
+        },
     }).then((response) => {
         expect(response.status).to.equal(201);
         return cy.wrap(response.data);
@@ -80,7 +80,7 @@ Cypress.Commands.add('oktaDeleteUser', (userId = '') => {
         baseUrl: Cypress.env('oktaApiUrl'),
         urlSuffix: '/users/' + userId,
         method: 'delete',
-        token
+        token,
     }).then((response) => {
         expect(response.status).to.equal(204);
         expect(response.data).is.empty;
@@ -88,7 +88,7 @@ Cypress.Commands.add('oktaDeleteUser', (userId = '') => {
             baseUrl: Cypress.env('oktaApiUrl'),
             urlSuffix: '/users/' + userId,
             method: 'delete',
-            token
+            token,
         }).then((_response) => {
             expect(_response.status).to.equal(204);
             expect(_response.data).is.empty;
@@ -101,7 +101,7 @@ Cypress.Commands.add('oktaDeleteSession', (userId = '') => {
         baseUrl: Cypress.env('oktaApiUrl'),
         urlSuffix: '/users/' + userId + '/sessions',
         method: 'delete',
-        token
+        token,
     }).then((response) => {
         expect(response.status).to.equal(204);
         expect(response.data).is.empty;
@@ -125,9 +125,9 @@ Cypress.Commands.add('oktaAssignUserToApplication', (userId = '', user = {}) => 
             profile: {
                 firstName: user.firstName,
                 lastName: user.lastName,
-                email: user.email
-            }
-        }
+                email: user.email,
+            },
+        },
     }).then((response) => {
         expect(response.status).to.be.equal(200);
         return cy.wrap(response.data);
@@ -234,5 +234,5 @@ Cypress.Commands.add('doOktaLogin', (user) => {
 
     cy.get('#okta-signin-username').type(user.email);
     cy.get('#okta-signin-password').type(user.password);
-    cy.findAllByText('Sign In').last().click().wait(TIMEOUTS.SMALL);
+    cy.findAllByText('Sign In').last().click().wait(TIMEOUTS.FIVE_SEC);
 });

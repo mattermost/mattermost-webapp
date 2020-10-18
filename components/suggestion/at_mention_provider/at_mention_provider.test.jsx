@@ -50,14 +50,14 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             {type: Constants.MENTION_MEMBERS, ...userid1},
             {type: Constants.MENTION_MEMBERS, ...userid2},
             {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
             {type: Constants.MENTION_SPECIAL, username: 'here'},
             {type: Constants.MENTION_SPECIAL, username: 'channel'},
             {type: Constants.MENTION_SPECIAL, username: 'all'},
             {type: Constants.MENTION_NONMEMBERS, ...userid5},
             {type: Constants.MENTION_NONMEMBERS, ...userid6},
-            {type: Constants.MENTION_GROUPS, ...groupid1},
-            {type: Constants.MENTION_GROUPS, ...groupid2},
-            {type: Constants.MENTION_GROUPS, ...groupid3},
         ];
         const params = {
             ...baseParams,
@@ -86,29 +86,29 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@other',
                 '@user',
                 '@user2',
-                '@here',
-                '@channel',
-                '@all',
                 '@board',
                 '@developers',
                 '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
             ],
             items: [
                 {type: Constants.MENTION_MEMBERS, ...userid10},
                 {type: Constants.MENTION_MEMBERS, ...userid3},
                 {type: Constants.MENTION_MEMBERS, ...userid1},
                 {type: Constants.MENTION_MEMBERS, ...userid2},
-                {type: Constants.MENTION_SPECIAL, username: 'here'},
-                {type: Constants.MENTION_SPECIAL, username: 'channel'},
-                {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_GROUPS, ...groupid1},
                 {type: Constants.MENTION_GROUPS, ...groupid2},
                 {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
             ],
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -117,12 +117,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@other',
                 '@user',
                 '@user2',
-                '@here',
-                '@channel',
-                '@all',
                 '@board',
                 '@developers',
                 '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
                 '',
             ],
             items: [
@@ -130,12 +130,12 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 {type: Constants.MENTION_MEMBERS, ...userid3},
                 {type: Constants.MENTION_MEMBERS, ...userid1},
                 {type: Constants.MENTION_MEMBERS, ...userid2},
-                {type: Constants.MENTION_SPECIAL, username: 'here'},
-                {type: Constants.MENTION_SPECIAL, username: 'channel'},
-                {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_GROUPS, ...groupid1},
                 {type: Constants.MENTION_GROUPS, ...groupid2},
                 {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_MORE_MEMBERS, loading: true},
             ],
             component: AtMentionSuggestion,
@@ -150,14 +150,14 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user',
                     '@user2',
                     '@user4',
+                    '@board',
+                    '@developers',
+                    '@software-engineers',
                     '@here',
                     '@channel',
                     '@all',
                     '@user5',
                     '@user6.six-split',
-                    '@board',
-                    '@developers',
-                    '@software-engineers',
                 ],
                 items: itemsCall3,
                 component: AtMentionSuggestion,
@@ -174,14 +174,14 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             {type: Constants.MENTION_MEMBERS, ...userid1},
             {type: Constants.MENTION_MEMBERS, ...userid2},
             {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
             {type: Constants.MENTION_SPECIAL, username: 'here'},
             {type: Constants.MENTION_SPECIAL, username: 'channel'},
             {type: Constants.MENTION_SPECIAL, username: 'all'},
             {type: Constants.MENTION_NONMEMBERS, ...userid5},
             {type: Constants.MENTION_NONMEMBERS, ...userid6},
-            {type: Constants.MENTION_GROUPS, ...groupid1},
-            {type: Constants.MENTION_GROUPS, ...groupid2},
-            {type: Constants.MENTION_GROUPS, ...groupid3},
         ];
         const params = {
             ...baseParams,
@@ -210,30 +210,30 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                 '@other',
                 '@user',
                 '@user2',
-                '@here',
-                '@channel',
-                '@all',
                 '@board',
                 '@developers',
                 '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
             ],
             items: [
                 {type: Constants.MENTION_MEMBERS, ...userid10},
                 {type: Constants.MENTION_MEMBERS, ...userid3},
                 {type: Constants.MENTION_MEMBERS, ...userid1},
                 {type: Constants.MENTION_MEMBERS, ...userid2},
-                {type: Constants.MENTION_SPECIAL, username: 'here'},
-                {type: Constants.MENTION_SPECIAL, username: 'channel'},
-                {type: Constants.MENTION_SPECIAL, username: 'all'},
                 {type: Constants.MENTION_GROUPS, ...groupid1},
                 {type: Constants.MENTION_GROUPS, ...groupid2},
                 {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
             ],
             component: AtMentionSuggestion,
         });
 
         await Promise.resolve().then(() => {
-            jest.runAllTimers();
+            jest.runOnlyPendingTimers();
 
             expect(resultCallback).toHaveBeenNthCalledWith(2, {
                 matchedPretext,
@@ -243,14 +243,14 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user',
                     '@user2',
                     '@user4',
+                    '@board',
+                    '@developers',
+                    '@software-engineers',
                     '@here',
                     '@channel',
                     '@all',
                     '@user5',
                     '@user6.six-split',
-                    '@board',
-                    '@developers',
-                    '@software-engineers',
                 ],
                 items: itemsCall2,
                 component: AtMentionSuggestion,
@@ -295,7 +295,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -365,7 +365,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [
@@ -430,7 +430,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -488,7 +488,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -546,7 +546,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [
@@ -603,7 +603,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -666,7 +666,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -732,7 +732,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -801,7 +801,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -875,7 +875,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -947,7 +947,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -1015,7 +1015,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
@@ -1077,7 +1077,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             component: AtMentionSuggestion,
         });
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         expect(resultCallback).toHaveBeenNthCalledWith(2, {
             matchedPretext,
             terms: [

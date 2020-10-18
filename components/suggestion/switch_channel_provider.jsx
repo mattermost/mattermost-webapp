@@ -177,7 +177,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     };
 }
 
-const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannelSuggestion)(SwitchChannelSuggestion);
+const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannelSuggestion, null, null, {forwardRef: true})(SwitchChannelSuggestion);
 
 let prefix = '';
 
@@ -416,7 +416,7 @@ export default class SwitchChannelProvider extends Provider {
                         completedChannels[user.id] = true;
                         wrappedChannel = this.userWrappedChannel(
                             user,
-                            newChannel
+                            newChannel,
                         );
                         const isDMVisible = isDirectChannelVisible(user.id, config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
                         if (isDMVisible) {
@@ -508,7 +508,7 @@ export default class SwitchChannelProvider extends Provider {
 
                 wrappedChannel = this.userWrappedChannel(
                     user,
-                    channel
+                    channel,
                 );
             }
             wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;

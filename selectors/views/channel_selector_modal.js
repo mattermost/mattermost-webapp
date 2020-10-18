@@ -13,5 +13,5 @@ export const getChannelsForChannelSelector = createSelector(
             return channelIds.map((id) => channels[id]);
         }
         return [];
-    }
+    },
 );

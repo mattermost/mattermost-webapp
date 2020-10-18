@@ -13,11 +13,14 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('MM-13697 Edit Post with attachment', () => {
+    let townsquareLink;
+
     before(() => {
-        // # Login, set display preference and go to /
-        cy.apiLogin('user-1');
-        cy.apiSaveMessageDisplayPreference();
-        cy.visit('/ad-1/channels/town-square');
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            townsquareLink = `/${team.name}/channels/town-square`;
+            cy.visit(townsquareLink);
+        });
     });
 
     it('Pasted text should be pasted where the cursor is', () => {
@@ -25,10 +28,10 @@ describe('MM-13697 Edit Post with attachment', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
-        cy.url().should('include', '/ad-1/channels/town-square');
+        cy.url().should('include', townsquareLink);
 
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput');
+        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 
         // # Type 'This is sample text' and submit
         cy.postMessage('This is sample text');
@@ -45,7 +48,7 @@ describe('MM-13697 Edit Post with attachment', () => {
             cy.get('#edit_textbox').
                 should('be.visible').
                 and('be.focused').
-                wait(TIMEOUTS.TINY).
+                wait(TIMEOUTS.HALF_SEC).
                 type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}').type('add ');
 
             // # Click button Edit

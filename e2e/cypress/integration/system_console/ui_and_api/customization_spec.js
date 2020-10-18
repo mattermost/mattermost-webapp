@@ -16,12 +16,9 @@ describe('Customization', () => {
     let origConfig;
 
     before(() => {
-        // # Login as sysadmin
-        cy.apiLogin('sysadmin');
-
         // Get config
-        cy.apiGetConfig().then((response) => {
-            origConfig = response.body;
+        cy.apiGetConfig().then(({config}) => {
+            origConfig = config;
         });
 
         // # Visit customization system console page
@@ -46,7 +43,7 @@ describe('Customization', () => {
             cy.get('.help-text').should('be.visible').and('have.text', contents);
 
             // # upload the image
-            cy.fileUpload('input');
+            cy.get('input').attachFile('mattermost-icon.png');
         });
 
         // # Save setting
@@ -77,9 +74,7 @@ describe('Customization', () => {
         saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
         });
@@ -103,9 +98,9 @@ describe('Customization', () => {
         saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the site description is saved, directly via REST API
-            expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
+            expect(config.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
         });
     });
 
@@ -130,9 +125,9 @@ describe('Customization', () => {
         saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the custom brand text is saved, directly via REST API
-            expect(response.body.TeamSettings.CustomBrandText).to.eq(customBrandText);
+            expect(config.TeamSettings.CustomBrandText).to.eq(customBrandText);
         });
     });
 
@@ -154,9 +149,9 @@ describe('Customization', () => {
         saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the Report a Problem link is saved, directly via REST API
-            expect(response.body.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
+            expect(config.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
         });
     });
 
@@ -179,8 +174,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
         });
     });
 
@@ -206,8 +201,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.SupportEmail).to.equal(newEmail);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.SupportEmail).to.equal(newEmail);
         });
     });
 
@@ -233,8 +228,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
         });
     });
 
@@ -260,8 +255,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the config is correctly saved in the server
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.NativeAppSettings.IosAppDownloadLink).to.equal(newIosAppDownloadLink);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.NativeAppSettings.IosAppDownloadLink).to.equal(newIosAppDownloadLink);
         });
     });
 
@@ -283,9 +278,7 @@ describe('Customization', () => {
         saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the App download link is saved, directly via REST API
             expect(config.NativeAppSettings.AppDownloadLink).to.eq(newAppDownloadLink);
         });
@@ -310,8 +303,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.HelpLink).to.equal(stringToSave);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.HelpLink).to.equal(stringToSave);
         });
     });
 
@@ -333,8 +326,8 @@ describe('Customization', () => {
         // # Save setting
         saveSetting();
 
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.SupportSettings.AboutLink).to.equal(newAboutLink);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.SupportSettings.AboutLink).to.equal(newAboutLink);
         });
     });
 
@@ -361,9 +354,7 @@ describe('Customization', () => {
         saveSetting();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            const config = response.body;
-
+        cy.apiGetConfig().then(({config}) => {
             // * Verify the site name is saved, directly via REST API
             expect(config.SupportSettings.TermsOfServiceLink).to.eq(newValue);
         });
@@ -390,8 +381,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(true);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.EnableCustomBrand).to.equal(true);
         });
 
         // # Set Enable Custom Branding to false
@@ -401,8 +392,8 @@ describe('Customization', () => {
         saveSetting();
 
         // * Verify that the value is save, directly via REST API
-        cy.apiGetConfig().then((response) => {
-            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(false);
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
 });
@@ -414,5 +405,5 @@ function saveSetting() {
         and('be.enabled').
         click().
         should('be.disabled').
-        wait(TIMEOUTS.TINY);
+        wait(TIMEOUTS.HALF_SEC);
 }

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -268,7 +269,7 @@ const PluginItem = ({
                     id='admin.plugin.multiple_versions_warning'
                     defaultMessage='There are multiple versions of this plugin installed across your cluster. Re-install this plugin to ensure it works consistently.'
                 />
-            </div>
+            </div>,
         );
     }
 
@@ -276,7 +277,7 @@ const PluginItem = ({
         <PluginItemStateDescription
             key='state-description'
             state={pluginStatus.state}
-        />
+        />,
     );
 
     const instances = pluginStatus.instances.slice();
@@ -445,7 +446,7 @@ export default class PluginManagement extends AdminSettings {
     componentDidMount() {
         if (this.state.enable) {
             this.props.actions.getPluginStatuses().then(
-                () => this.setState({loading: false})
+                () => this.setState({loading: false}),
             );
         }
     }
@@ -1093,3 +1094,4 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

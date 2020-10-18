@@ -36,7 +36,7 @@ describe('components/delete_post_modal', () => {
 
     test('should match snapshot for delete_post_modal with 0 comments', () => {
         const wrapper = shallow(
-            <DeletePostModal {...baseProps}/>
+            <DeletePostModal {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -45,7 +45,7 @@ describe('components/delete_post_modal', () => {
         const commentCount = 1;
         const props = {...baseProps, commentCount};
         const wrapper = shallow(
-            <DeletePostModal {...props}/>
+            <DeletePostModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -64,14 +64,14 @@ describe('components/delete_post_modal', () => {
         };
 
         const wrapper = shallow(
-            <DeletePostModal {...props}/>
+            <DeletePostModal {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should focus delete button on enter', () => {
         const wrapper = shallow(
-            <DeletePostModal {...baseProps}/>
+            <DeletePostModal {...baseProps}/>,
         );
 
         const deletePostBtn = {focus: jest.fn()};
@@ -83,7 +83,7 @@ describe('components/delete_post_modal', () => {
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <DeletePostModal {...baseProps}/>
+            <DeletePostModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -93,7 +93,7 @@ describe('components/delete_post_modal', () => {
 
     test('should match state when the cancel button is clicked', () => {
         const wrapper = shallow(
-            <DeletePostModal {...baseProps}/>
+            <DeletePostModal {...baseProps}/>,
         );
 
         wrapper.setState({show: true});
@@ -109,11 +109,11 @@ describe('components/delete_post_modal', () => {
                 deleteAndRemovePost,
             },
             location: {
-                pathname: '/teamname/messages/@username'
-            }
+                pathname: '/teamname/messages/@username',
+            },
         };
         const wrapper = shallow(
-            <DeletePostModal {...props}/>
+            <DeletePostModal {...props}/>,
         );
 
         wrapper.setState({show: true});
@@ -132,12 +132,12 @@ describe('components/delete_post_modal', () => {
                 deleteAndRemovePost,
             },
             location: {
-                pathname: '/teamname/messages/@username/123'
-            }
+                pathname: '/teamname/messages/@username/123',
+            },
         };
 
         const wrapper = shallow(
-            <DeletePostModal {...props}/>
+            <DeletePostModal {...props}/>,
         );
 
         wrapper.setState({show: true});
@@ -154,12 +154,12 @@ describe('components/delete_post_modal', () => {
                 deleteAndRemovePost,
             },
             location: {
-                pathname: '/teamname/channels/channelName/123'
-            }
+                pathname: '/teamname/channels/channelName/123',
+            },
         };
 
         const wrapper = shallow(
-            <DeletePostModal {...props}/>
+            <DeletePostModal {...props}/>,
         );
 
         wrapper.setState({show: true});
@@ -172,7 +172,7 @@ describe('components/delete_post_modal', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <DeletePostModal {...props}/>
+            <DeletePostModal {...props}/>,
         );
 
         wrapper.find(Modal).props().onExited();

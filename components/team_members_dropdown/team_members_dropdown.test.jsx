@@ -71,7 +71,7 @@ describe('components/team_members_dropdown', () => {
 
     test('should match snapshot for team_members_dropdown', () => {
         const wrapper = shallow(
-            <TeamMembersDropdown {...baseProps}/>
+            <TeamMembersDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -82,7 +82,7 @@ describe('components/team_members_dropdown', () => {
                 {...baseProps}
                 index={4}
                 totalUsers={5}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -90,7 +90,7 @@ describe('components/team_members_dropdown', () => {
     test('should match snapshot with group-constrained team', () => {
         baseProps.currentTeam.group_constrained = true;
         const wrapper = shallow(
-            <TeamMembersDropdown {...baseProps}/>
+            <TeamMembersDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -99,7 +99,7 @@ describe('components/team_members_dropdown', () => {
         baseProps.currentTeam.group_constrained = true;
         baseProps.user = bot;
         const wrapper = shallow(
-            <TeamMembersDropdown {...baseProps}/>
+            <TeamMembersDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

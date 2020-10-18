@@ -168,7 +168,7 @@ const notifyMe = (title, body, channel, teamId, silent) => (dispatch, getState) 
                     silent,
                 },
             },
-            window.location.origin
+            window.location.origin,
         );
     } else {
         showNotification({

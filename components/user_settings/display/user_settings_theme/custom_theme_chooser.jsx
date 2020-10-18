@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -116,7 +117,7 @@ const messages = defineMessages({
     },
 });
 
-export default class CustomThemeChooser extends React.Component {
+export default class CustomThemeChooser extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
@@ -530,3 +531,4 @@ export default class CustomThemeChooser extends React.Component {
         );
     }
 }
+/* eslint-enable react/no-string-refs */

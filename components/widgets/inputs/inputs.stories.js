@@ -53,7 +53,7 @@ storiesOf('Inputs', module).
             return (
                 <WrapperComponent/>
             );
-        }
+        },
     ).
     add(
         'users emails input',
@@ -107,5 +107,5 @@ storiesOf('Inputs', module).
             return (
                 <WrapperComponent/>
             );
-        }
+        },
     );

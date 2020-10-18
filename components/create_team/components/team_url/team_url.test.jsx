@@ -64,7 +64,7 @@ describe('/components/create_team/components/display_name', () => {
         const props = {...defaultProps, actions};
 
         const wrapper = mountWithIntl(
-            <TeamUrl {...props}/>
+            <TeamUrl {...props}/>,
         );
 
         await wrapper.instance().submitNext({preventDefault: jest.fn()});
@@ -88,7 +88,7 @@ describe('/components/create_team/components/display_name', () => {
             <FormattedMessage
                 id='create_team.team_url.required'
                 defaultMessage='This field is required'
-            />
+            />,
         );
     });
 
@@ -111,7 +111,7 @@ describe('/components/create_team/components/display_name', () => {
             <FormattedMessage
                 id='create_team.team_url.regex'
                 defaultMessage="Use only lower case letters, numbers and dashes. Must start with a letter and can't end in a dash."
-            />
+            />,
         );
     });
 
@@ -123,7 +123,7 @@ describe('/components/create_team/components/display_name', () => {
             <FormattedMarkdownMessage
                 defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
                 id='create_team.team_url.taken'
-            />
+            />,
         );
     });
 });

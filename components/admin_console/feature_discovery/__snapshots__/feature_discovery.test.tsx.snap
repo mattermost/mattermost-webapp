@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`] = `
+<div
+  className="FeatureDiscovery"
+>
+  <div
+    className="FeatureDiscovery_copyWrapper"
+  >
+    <div
+      className="FeatureDiscovery_title"
+      data-testid="featureDiscovery_title"
+    >
+      <FormattedMessage
+        defaultMessage="Foo"
+        id="translation.test.title"
+        values={Object {}}
+      />
+    </div>
+    <div
+      className="FeatureDiscovery_copy"
+    >
+      <FormattedMessage
+        defaultMessage="Bar"
+        id="translation.test.copy"
+        values={Object {}}
+      />
+    </div>
+    <button
+      className="btn btn-primary"
+      data-testid="featureDiscovery_primaryCallToAction"
+      onClick={[Function]}
+    >
+      <LoadingWrapper
+        loading={false}
+        text="Getting trial"
+      >
+        <FormattedMessage
+          defaultMessage="Start trial"
+          id="admin.ldap_feature_discovery.call_to_action.primary"
+          values={Object {}}
+        />
+      </LoadingWrapper>
+    </button>
+    <a
+      className="btn btn-secondary"
+      data-testid="featureDiscovery_secondaryCallToAction"
+      href="https://test.mattermost.com/secondary/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Learn more"
+        id="admin.ldap_feature_discovery.call_to_action.secondary"
+        values={Object {}}
+      />
+    </a>
+    <p
+      className="trial-legal-terms"
+    >
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+        id="admin.license.trial-request.accept-terms"
+      />
+    </p>
+  </div>
+  <div
+    className="FeatureDiscovery_imageWrapper"
+  >
+    <img
+      alt="Feature Discovery Image"
+      className="FeatureDiscovery_image"
+      src="foo/bar.png"
+    />
+  </div>
+</div>
+`;

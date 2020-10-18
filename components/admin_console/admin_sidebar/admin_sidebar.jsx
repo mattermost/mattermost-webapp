@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -40,7 +41,7 @@ const renderScrollThumbVertical = (props) => (
     />
 );
 
-class AdminSidebar extends React.Component {
+class AdminSidebar extends React.PureComponent {
     static propTypes = {
         license: PropTypes.object.isRequired,
         config: PropTypes.object,
@@ -242,43 +243,33 @@ class AdminSidebar extends React.Component {
         return sidebarSections;
     }
 
+    isPluginPresentInSections = (plugin) => {
+        return this.state.sections && this.state.sections.indexOf(`plugin_${plugin.id}`) !== -1;
+    }
+
     renderPluginsMenu = () => {
-        const customPlugins = [];
         if (this.props.config.PluginSettings.Enable) {
-            Object.values(this.props.plugins).sort((a, b) => {
+            return Object.values(this.props.plugins).sort((a, b) => {
                 const nameCompare = a.name.localeCompare(b.name);
                 if (nameCompare !== 0) {
                     return nameCompare;
                 }
 
                 return a.id.localeCompare(b.id);
-            }).forEach((p) => {
-                const hasSettings = p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || p.settings_schema.settings);
-                if (!hasSettings) {
-                    return;
-                }
-
-                if (p.settings_schema.settings && (!p.settings_schema.header && !p.settings_schema.footer)) {
-                    if (p.settings_schema.settings.hasOwnProperty('length')) {
-                        if (p.settings_schema.settings.length === 0) {
-                            return;
-                        }
-                    }
-                }
-
-                if (this.state.sections !== null && this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
-                    return;
-                }
-                customPlugins.push(
-                    <AdminSidebarSection
-                        key={'customplugin' + p.id}
-                        name={'plugins/plugin_' + p.id}
-                        title={p.name}
-                    />
-                );
-            });
+            }).
+                filter((plugin) => this.state.sections === null || this.isPluginPresentInSections(plugin)).
+                map((plugin) => {
+                    return (
+                        <AdminSidebarSection
+                            key={'customplugin' + plugin.id}
+                            name={'plugins/plugin_' + plugin.id}
+                            title={plugin.name}
+                        />
+                    );
+                });
         }
-        return customPlugins;
+
+        return [];
     }
 
     handleClearFilter = () => {
@@ -330,3 +321,4 @@ class AdminSidebar extends React.Component {
 }
 
 export default injectIntl(AdminSidebar);
+/* eslint-enable react/no-string-refs */

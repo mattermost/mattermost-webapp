@@ -4,29 +4,34 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Channel} from 'mattermost-redux/src/types/channels';
+
+import {TestHelper} from 'utils/test_helper';
+
 import ChannelList from './channel_list';
 
 describe('admin_console/team_channel_settings/channel/ChannelList', () => {
+    const channel: Channel = Object.assign(TestHelper.getChannelMock({id: 'channel-1'}));
+
     test('should match snapshot', () => {
         const testChannels = [{
+            ...channel,
             id: '123',
             display_name: 'DN',
+            team_display_name: 'teamDisplayName',
+            team_name: 'teamName',
+            team_update_at: 1,
         }];
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testChannels),
             searchAllChannels: jest.fn().mockResolvedValue(testChannels),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <ChannelList
-                removeGroup={jest.fn()}
                 data={testChannels}
-                onPageChangedCallback={jest.fn()}
                 total={testChannels.length}
-                emptyListTextId={'test'}
-                emptyListTextDefaultMessage={'test'}
                 actions={actions}
             />);
 
@@ -38,24 +43,23 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
         const testChannels = [];
         for (let i = 0; i < 30; i++) {
             testChannels.push({
+                ...channel,
                 id: 'id' + i,
                 display_name: 'DN' + i,
+                team_display_name: 'teamDisplayName',
+                team_name: 'teamName',
+                team_update_at: 1,
             });
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
             searchAllChannels: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <ChannelList
-                removeGroup={jest.fn()}
                 data={testChannels}
-                onPageChangedCallback={jest.fn()}
                 total={30}
-                emptyListTextId={'test'}
-                emptyListTextDefaultMessage={'test'}
                 actions={actions}
             />);
         wrapper.setState({loading: false});

@@ -733,7 +733,7 @@ describe('Utils.getSortedUsers', () => {
         expect(currentUserReacted).toEqual(true);
         assert.deepEqual(
             users,
-            ['You', 'username_2', 'username_3']
+            ['You', 'username_2', 'username_3'],
         );
     });
 });

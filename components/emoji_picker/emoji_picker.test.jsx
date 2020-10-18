@@ -67,12 +67,12 @@ describe('components/emoji_picker/EmojiPicker', () => {
         recentEmojis: [],
         actions,
         filter: '',
-        handleFilterChange: jest.fn()
+        handleFilterChange: jest.fn(),
     };
 
     test('Recent category should not exist if there are no recent emojis', () => {
         const wrapper = shallow(
-            <EmojiPicker {...baseProps}/>
+            <EmojiPicker {...baseProps}/>,
         );
 
         wrapper.instance().emojiPickerContainer = {
@@ -96,7 +96,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         const wrapper = shallow(
-            <EmojiPicker {...props}/>
+            <EmojiPicker {...props}/>,
         );
 
         wrapper.instance().emojiPickerContainer = {
@@ -121,7 +121,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         const wrapper = await shallow(
-            <EmojiPicker {...props}/>
+            <EmojiPicker {...props}/>,
         );
 
         wrapper.instance().emojiPickerContainer = {
@@ -132,8 +132,9 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'hidden'});
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
         wrapper.update();
+        jest.runOnlyPendingTimers();
 
         expect(wrapper.state('renderAllCategories')).toEqual(true);
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);

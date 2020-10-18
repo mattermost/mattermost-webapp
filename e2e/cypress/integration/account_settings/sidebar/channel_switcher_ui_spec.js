@@ -7,19 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
+// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
-        // # Login as user-1 and visit town-square channel
-        cy.apiLogin('sysadmin');
+        // # Update config and visit town-square channel
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ExperimentalChannelSidebarOrganization: 'disabled',
             },
         });
-        cy.visit('/ad-1/channels/town-square');
+
+        // # Login as test user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
     });
 
     beforeEach(() => {

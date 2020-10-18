@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import * as Utils from 'utils/utils.jsx';
 

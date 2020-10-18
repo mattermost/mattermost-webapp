@@ -9,7 +9,7 @@ import FormError from 'components/form_error';
 
 import Setting from './setting';
 
-export default class MultiSelectSetting extends React.Component {
+export default class MultiSelectSetting extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         values: PropTypes.array.isRequired,

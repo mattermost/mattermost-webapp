@@ -90,7 +90,7 @@ export function isUnhandledLineBreakKeyCombo(e) {
     return Boolean(
         isKeyPressed(e, Constants.KeyCodes.ENTER) &&
             !e.shiftKey && // shift + enter is already handled everywhere, so don't handle again
-            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)) // alt/option + enter is already handled in Safari, so don't handle again
+            (e.altKey && !UserAgent.isSafari() && !cmdOrCtrlPressed(e)), // alt/option + enter is already handled in Safari, so don't handle again
     );
 }
 
@@ -474,6 +474,12 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+// given '#fffff', returns '255, 255, 255' (no trailing comma)
+export function toRgbValues(hexStr) {
+    const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
+    return rgbaStr;
+}
+
 export function applyTheme(theme) {
     if (theme.sidebarBg) {
         changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .sidebar--left .sidebar__divider .sidebar__divider__text, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
@@ -595,6 +601,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.centerChannelBg) {
+        changeCss('.app__body #channel_view.channel-view', `background: ${theme.centerChannelBg}`);
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
@@ -817,6 +824,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
+        changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
@@ -854,9 +862,40 @@ export function applyTheme(theme) {
     updateCodeTheme(theme.codeTheme);
     cssVars({
         variables: {
+
+            // RGB values derived from theme hex values i.e. '255, 255, 255'
+            // (do not apply opacity mutations here)
+            'away-indicator-rgb': toRgbValues(theme.awayIndicator),
+            'button-bg-rgb': toRgbValues(theme.buttonBg),
+            'button-color-rgb': toRgbValues(theme.buttonColor),
+            'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
+            'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
+            'dnd-indicator-rgb': toRgbValues(theme.dndIndicator),
+            'error-text-color-rgb': toRgbValues(theme.errorTextColor),
+            'link-color-rgb': toRgbValues(theme.linkColor),
+            'mention-bg-rgb': toRgbValues(theme.mentionBg),
+            'mention-color-rgb': toRgbValues(theme.mentionColor),
+            'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
+            'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
+            'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
+            'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
+            'sidebar-header-bg-rgb': toRgbValues(theme.sidebarHeaderBg),
+            'sidebar-header-text-color-rgb': toRgbValues(theme.sidebarHeaderTextColor),
+            'sidebar-text-rgb': toRgbValues(theme.sidebarText),
+            'sidebar-text-active-border-rgb': toRgbValues(theme.sidebarTextActiveBorder),
+            'sidebar-text-active-color-rgb': toRgbValues(theme.sidebarTextActiveColor),
+            'sidebar-text-hover-bg-rgb': toRgbValues(theme.sidebarTextHoverBg),
+            'sidebar-unread-text-rgb': toRgbValues(theme.sidebarUnreadText),
+
+            // Hex CSS variables
+            // TODO: phase out changeOpacity() here
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-08': changeOpacity(theme.sidebarText, 0.08),
+            'sidebar-text-16': changeOpacity(theme.sidebarText, 0.16),
             'sidebar-text-30': changeOpacity(theme.sidebarText, 0.3),
+            'sidebar-text-40': changeOpacity(theme.sidebarText, 0.4),
             'sidebar-text-50': changeOpacity(theme.sidebarText, 0.5),
             'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
             'sidebar-text-72': changeOpacity(theme.sidebarText, 0.72),
@@ -1055,7 +1094,7 @@ export function isValidUsername(name) {
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
         error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
         error = 'First character must be a letter.';
     } else {
@@ -1199,6 +1238,10 @@ export function getLongDisplayName(user) {
         displayName = displayName + ' (' + user.nickname + ')';
     }
 
+    if (user.position && user.position.trim().length > 0) {
+        displayName = displayName + ' -' + user.position;
+    }
+
     return displayName;
 }
 
@@ -1207,6 +1250,7 @@ export function getLongDisplayNameParts(user) {
         displayName: '@' + user.username,
         fullName: getFullName(user),
         nickname: user.nickname && user.nickname.trim() ? user.nickname : null,
+        position: user.position && user.position.trim() ? user.position : null,
     };
 }
 
@@ -1267,34 +1311,27 @@ export function displayEntireNameForUser(user) {
         return '';
     }
 
-    let displayName = '@' + user.username;
+    let displayName = '';
     const fullName = getFullName(user);
 
-    if (fullName && user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
-            </span>
-        );
-    } else if (fullName) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{fullName}</span>
-            </span>
-        );
-    } else if (user.nickname) {
-        displayName = (
-            <span>
-                {'@' + user.username}
-                {' - '}
-                <span className='light'>{'(' + user.nickname + ')'}</span>
-            </span>
-        );
+    if (fullName) {
+        displayName = ' - ' + fullName;
     }
+
+    if (user.nickname) {
+        displayName = displayName + ' (' + user.nickname + ')';
+    }
+
+    if (user.position) {
+        displayName = displayName + ' - ' + user.position;
+    }
+
+    displayName = (
+        <span>
+            {'@' + user.username}
+            <span className='light'>{displayName}</span>
+        </span>
+    );
 
     return displayName;
 }

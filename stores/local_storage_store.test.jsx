@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import LocalStorageStore from 'stores/local_storage_store';
+import LocalStorageStore, {getPenultimateChannelNameKey} from 'stores/local_storage_store';
 
 describe('stores/LocalStorageStore', () => {
     test('should persist previous team id per user', () => {
@@ -152,6 +152,25 @@ describe('stores/LocalStorageStore', () => {
 
             LocalStorageStore.removePreviousChannelName(userId1, teamId1);
             assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel2);
+        });
+    });
+
+    describe('test removing penultimate channel', () => {
+        test('should remove previous channel without subpath', () => {
+            const userId1 = 'userId1';
+            const teamId1 = 'teamId1';
+            const channel1 = 'channel1';
+            const channel2 = 'channel2';
+
+            LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
+            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+
+            LocalStorageStore.setPenultimateChannelName(userId1, teamId1, channel2);
+            assert.equal(LocalStorageStore.getPenultimateChannelName(userId1, teamId1), channel2);
+
+            LocalStorageStore.removePenultimateChannelName(userId1, teamId1);
+            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+            assert.equal(LocalStorageStore.getItem(getPenultimateChannelNameKey(userId1, teamId1)), undefined);
         });
     });
 });

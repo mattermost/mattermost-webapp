@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class SuggestionBox extends React.Component {
+export default class SuggestionBox extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -34,7 +34,7 @@ export default class SuggestionBox extends React.Component {
         /**
          * Array of suggestion providers
          */
-        providers: PropTypes.arrayOf(PropTypes.object),
+        providers: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /**
          * Where the list will be displayed relative to the input box, defaults to 'top'
@@ -132,6 +132,21 @@ export default class SuggestionBox extends React.Component {
          * Passes the wrapper reference for height calculation
          */
         wrapperHeight: PropTypes.number,
+
+        /**
+         * Allows parent to access received suggestions
+         */
+        onSuggestionsReceived: PropTypes.func,
+
+        /**
+         * Suppress loading spinner when necessary
+         */
+        suppressLoadingSpinner: PropTypes.bool,
+
+        /**
+         * To show suggestions even when focus is lost
+         */
+        forceSuggestionsWhenBlur: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -146,6 +161,7 @@ export default class SuggestionBox extends React.Component {
         openWhenEmpty: false,
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
+        forceSuggestionsWhenBlur: false,
     }
 
     constructor(props) {
@@ -188,6 +204,7 @@ export default class SuggestionBox extends React.Component {
         if (this.props.listenForMentionKeyClick) {
             EventEmitter.addListener('mention_key_click', this.handleMentionKeyClick);
         }
+        this.handlePretextChanged(this.pretext);
     }
 
     componentWillUnmount() {
@@ -278,7 +295,9 @@ export default class SuggestionBox extends React.Component {
             return;
         }
 
-        this.handleEmitClearSuggestions();
+        if (!this.props.forceSuggestionsWhenBlur) {
+            this.handleEmitClearSuggestions();
+        }
 
         this.setState({focused: false});
 
@@ -304,7 +323,9 @@ export default class SuggestionBox extends React.Component {
                 if (textbox) {
                     const pretext = textbox.value.substring(0, textbox.selectionEnd);
                     if (this.props.openWhenEmpty || pretext.length >= this.props.requiredCharacters) {
-                        this.handlePretextChanged(pretext);
+                        if (this.pretext !== pretext) {
+                            this.handlePretextChanged(pretext);
+                        }
                     }
                 }
             });
@@ -444,7 +465,7 @@ export default class SuggestionBox extends React.Component {
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
-                provider.handleCompleteWord(term, matchedPretext);
+                provider.handleCompleteWord(term, matchedPretext, this.handlePretextChanged);
             }
         }
     }
@@ -548,6 +569,10 @@ export default class SuggestionBox extends React.Component {
     handleReceivedSuggestions = (suggestions) => {
         const newComponents = [];
         const newPretext = [];
+        if (this.props.onSuggestionsReceived) {
+            this.props.onSuggestionsReceived(suggestions);
+        }
+
         for (let i = 0; i < suggestions.terms.length; i++) {
             newComponents.push(suggestions.component);
             newPretext.push(suggestions.matchedPretext);
@@ -621,6 +646,19 @@ export default class SuggestionBox extends React.Component {
         this.inputRef.current.blur();
     }
 
+    focus = () => {
+        const input = this.inputRef.current.input;
+        if (input.value === '""' || input.value.endsWith('""')) {
+            input.selectionStart = input.value.length - 1;
+            input.selectionEnd = input.value.length - 1;
+        } else {
+            input.selectionStart = input.value.length;
+        }
+        input.focus();
+
+        this.handleChange({target: this.inputRef.current});
+    }
+
     setContainerRef = (container) => {
         // Attach/detach event listeners that aren't supported by React
         if (this.container) {
@@ -643,6 +681,7 @@ export default class SuggestionBox extends React.Component {
             dateComponent,
             listStyle,
             renderNoResults,
+            suppressLoadingSpinner,
             ...props
         } = this.props;
 
@@ -666,6 +705,8 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
+        Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
+        Reflect.deleteProperty(props, 'onSuggestionsReceived');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -696,7 +737,7 @@ export default class SuggestionBox extends React.Component {
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused}
+                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
                             location={listStyle}
                             renderDividers={renderDividers}
@@ -713,6 +754,7 @@ export default class SuggestionBox extends React.Component {
                             wrapperHeight={this.props.wrapperHeight}
                             inputRef={this.inputRef}
                             onLoseVisibility={this.blur}
+                            suppressLoadingSpinner={suppressLoadingSpinner}
                         />
                     </div>
                 }

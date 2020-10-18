@@ -11,8 +11,9 @@ describe('components/admin_console/group_settings/group_details/GroupProfileAndS
         const wrapper = shallow(
             <GroupProfileAndSettings
                 displayname='GroupProfileAndSettings'
-                name='GroupProfileAndSettings'
+                mentionname='GroupProfileAndSettings'
                 allowReference={false}
+                onChange={jest.fn()}
                 onToggle={jest.fn()}
             />);
         expect(wrapper).toMatchSnapshot();
@@ -22,8 +23,9 @@ describe('components/admin_console/group_settings/group_details/GroupProfileAndS
         const wrapper = shallow(
             <GroupProfileAndSettings
                 displayname='GroupProfileAndSettings'
-                name='GroupProfileAndSettings'
+                mentionname='GroupProfileAndSettings'
                 allowReference={true}
+                onChange={jest.fn()}
                 onToggle={jest.fn()}
             />);
         expect(wrapper).toMatchSnapshot();

@@ -17,7 +17,7 @@ storiesOf('Badges', module).
         () => {
             const content = text('Text', 'BADGE');
             return (<Badge show={boolean('Show', true)}>{content}</Badge>);
-        }
+        },
     ).
     add(
         'guest badge',

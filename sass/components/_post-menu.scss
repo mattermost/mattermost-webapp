@@ -50,6 +50,10 @@
 .post-menu__comment-count {
     margin: 0 0 0 2px;
     font-weight: 600;
+    -webkit-user-select: none; /* Chrome all / Safari all */
+    -moz-user-select: none;    /* Firefox all */
+    -ms-user-select: none;     /* IE 10+ */
+    user-select: none;
 }
 
 @media (min-width: 768px) {

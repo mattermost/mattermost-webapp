@@ -33,7 +33,7 @@ describe('components/SignupEmail', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SignupEmail {...requiredProps}/>
+            <SignupEmail {...requiredProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe('components/SignupEmail', () => {
                 <SignupEmail
                     {...requiredProps}
                     actions={actions}
-                />
+                />,
             );
 
             await wrapper.instance().handleSignupSuccess({email: 'test@example.com', password: 'bar'}, {id: 'foo'});
@@ -87,7 +87,7 @@ describe('components/SignupEmail', () => {
                 <SignupEmail
                     {...requiredProps}
                     actions={actions}
-                />
+                />,
             );
 
             wrapper.setState({teamName: 'sample'});

@@ -8,7 +8,7 @@ type Props = {
     typingUsers: string[];
 }
 
-export default class MsgTyping extends React.Component<Props> {
+export default class MsgTyping extends React.PureComponent<Props> {
     private getTypingText = () => {
         let users: string[] = [];
         let numUsers = 0;

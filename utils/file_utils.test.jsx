@@ -15,13 +15,13 @@ describe('FileUtils.trimFilename', () => {
         assert.equal(
             trimFilename('abcdefghijklmnopqrstuvwxyz'),
             'abcdefghijklmnopqrstuvwxyz',
-            'should return same filename'
+            'should return same filename',
         );
 
         assert.equal(
             trimFilename('abcdefghijklmnopqrstuvwxyz0123456789'),
             'abcdefghijklmnopqrstuvwxyz012345678...',
-            'should return trimmed filename'
+            'should return trimmed filename',
         );
     });
 });

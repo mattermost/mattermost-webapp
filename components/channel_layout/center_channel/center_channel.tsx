@@ -40,10 +40,10 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
         if (prevState.lastReturnTo !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
             return {
                 lastReturnTo: nextProps.location.pathname,
-                returnTo: prevState.lastReturnTo
+                returnTo: prevState.lastReturnTo,
             };
         }
-        return {lastReturnTo: nextProps.location.pathname
+        return {lastReturnTo: nextProps.location.pathname,
         };
     }
 

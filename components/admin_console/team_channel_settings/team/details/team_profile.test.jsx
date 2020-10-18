@@ -11,7 +11,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile', () => {
         const wrapper = shallow(
             <TeamProfile
                 team={{display_name: 'test'}}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });
