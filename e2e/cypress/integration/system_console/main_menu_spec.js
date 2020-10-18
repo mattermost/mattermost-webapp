@@ -57,11 +57,11 @@ describe('Main menu', () => {
     });
 
     it('MM-T913 About opens About modal', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+
         // # click to open about modal
         cy.findByText('About Mattermost').click();
-
-        // * Verify about.mattermost.com link text has correct link destination and opens in a new tab
-        verifyLink('about.mattermost.com', 'http://about.mattermost.com/');
 
         // * Verify server link text has correct link destination and opens in a new tab
         verifyLink('server', 'https://about.mattermost.com/platform-notice-txt/');
@@ -75,11 +75,19 @@ describe('Main menu', () => {
         // * Verify version exists in modal
         cy.findByText('Mattermost Version:').should('be.visible');
 
-        // * Verify build hash exists in modal
-        cy.findByText('Build Hash:').should('be.visible');
+        // * Verify licensed to exists in modal
+        cy.findByText('Licensed to:').should('be.visible');
+    });
 
-        // * Verify build date exists in modal
-        cy.findByText('Build Date:').should('be.visible');
+    it('MM-T899 - Edition and License: Verify Privacy Policy link points to correct URL', () => {
+        // * Check if server has license
+        cy.apiRequireLicense();
+        goToAdminConsole();
+
+        // * Find privacy link and then assert that the href is what we expect it to be
+        cy.findByTestId('privacyPolicyLink').then((el) => {
+            expect(el[0].href).equal('https://about.mattermost.com/default-privacy-policy/');
+        });
     });
 });
 
