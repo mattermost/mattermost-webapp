@@ -3,10 +3,12 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {IntlProvider} from 'react-intl';
 
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
+import en from 'i18n/en.json';
 
 import SearchBar from './search_bar.tsx';
 
@@ -23,6 +25,15 @@ jest.mock('utils/utils', () => {
         isMobile: jest.fn(() => false),
     };
 });
+
+const wrapIntl = (component) => (
+    <IntlProvider
+        locale={'en'}
+        messages={en}
+    >
+        {component}
+    </IntlProvider>
+);
 
 describe('components/search_bar/SearchBar', () => {
     const baseProps = {
@@ -45,17 +56,19 @@ describe('components/search_bar/SearchBar', () => {
 
     it('should match snapshot without search', () => {
         const wrapper = shallow(
-            <SearchBar {...baseProps}/>,
+            wrapIntl(<SearchBar {...baseProps}/>),
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot without search on focus', () => {
         const wrapper = shallow(
-            <SearchBar
-                {...baseProps}
-                isFocussed={true}
-            />,
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    isFocussed={true}
+                />
+            )),
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -65,20 +78,24 @@ describe('components/search_bar/SearchBar', () => {
         utils.isMobile.mockReturnValue(true);
 
         const wrapper = shallow(
-            <SearchBar
-                {...baseProps}
-                isFocussed={true}
-            />,
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    isFocussed={true}
+                />
+            )),
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot with search', () => {
         const wrapper = shallow(
-            <SearchBar
-                {...baseProps}
-                searchTerms={'test'}
-            />,
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    searchTerms={'test'}
+                />
+            )),
         );
         expect(wrapper).toMatchSnapshot();
     });
