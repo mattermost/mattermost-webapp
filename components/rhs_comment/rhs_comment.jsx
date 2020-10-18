@@ -57,6 +57,11 @@ class RhsComment extends React.PureComponent {
         a11yIndex: PropTypes.number,
 
         /**
+         * If the user that made the post is a bot.
+         */
+        isBot: PropTypes.bool.isRequired,
+
+        /**
          * To Check if the current post is last in the list of RHS
          */
         isLastPost: PropTypes.bool,
@@ -123,7 +128,7 @@ class RhsComment extends React.PureComponent {
         }
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
-        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+            shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
@@ -132,8 +137,10 @@ class RhsComment extends React.PureComponent {
 
     handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
-            const {isReadOnly, channelIsArchived, enableEmojiPicker, post,
-                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+            const {
+                isReadOnly, channelIsArchived, enableEmojiPicker, post,
+                actions: {emitShortcutReactToLastPostFrom}
+            } = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -374,7 +381,6 @@ class RhsComment extends React.PureComponent {
                         disablePopover={true}
                     />
                 );
-
                 visibleMessage = (
                     <span className='post__visibility'>
                         <FormattedMessage
@@ -544,7 +550,7 @@ class RhsComment extends React.PureComponent {
                             </div>
                             {options}
                         </div>
-                        <div className='post__body' >
+                        <div className='post__body'>
                             <div className={postClass}>
                                 {failedPostOptions}
                                 <MessageWithAdditionalContent
