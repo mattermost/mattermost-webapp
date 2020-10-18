@@ -1127,7 +1127,6 @@
   "admin.manage_roles.saveError": "Unable to save roles.",
   "admin.manage_roles.systemAdmin": "System Admin",
   "admin.manage_roles.systemMember": "Member",
-  "admin.manage_tokens.manageTokensTitle": "Manage Personal Access Tokens",
   "admin.manage_tokens.userAccessTokensDescription": "Personal access tokens function similarly to session tokens and can be used by integrations to [interact with this Mattermost server](!https://about.mattermost.com/default-api-authentication). Tokens are disabled if the user is deactivated. Learn more about [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).",
   "admin.manage_tokens.userAccessTokensIdLabel": "Token ID: ",
   "admin.manage_tokens.userAccessTokensNameLabel": "Token Description: ",
