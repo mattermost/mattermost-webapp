@@ -6,17 +6,23 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {GlobalState} from 'types/store';
+
+import {AdminTokenState} from './types/admin';
+
 import ManageTokensModal from './manage_tokens_modal';
 
 type Props = {
     user?: UserProfile;
 }
 
-function mapStateToProps(state: any, ownProps: Props) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const userId = ownProps.user ? ownProps.user.id : '';
 
+    const userAccessTokens = (state.entities.admin as AdminTokenState).userAccessTokensByUser;
+
     return {
-        userAccessTokens: state.entities.admin.userAccessTokensByUser[userId],
+        userAccessTokens: userAccessTokens === undefined ? undefined : userAccessTokens[userId],
     };
 }
 
