@@ -194,8 +194,8 @@ function renderHeaderChangeMessage(post) {
                         username,
                         old: oldHeader,
                         new: newHeader,
-                        strong: chunks => (<strong>{chunks}</strong>),
-                        br: _ => (<br></br>),
+                        strong: (chunks) => (<strong>{chunks}</strong>),
+                        br: (x) => (<><br/>{x}</>),
                     }}
                 />
             );
