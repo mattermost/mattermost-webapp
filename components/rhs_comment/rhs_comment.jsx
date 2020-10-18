@@ -139,7 +139,7 @@ class RhsComment extends React.PureComponent {
         if (isLastPost) {
             const {
                 isReadOnly, channelIsArchived, enableEmojiPicker, post,
-                actions: {emitShortcutReactToLastPostFrom}
+                actions: {emitShortcutReactToLastPostFrom},
             } = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
@@ -367,6 +367,22 @@ class RhsComment extends React.PureComponent {
                             defaultMessage='AUTOMATIC REPLY'
                         />
                     </Badge>
+                );
+            } else if (isSystemMessage && this.props.isBot) {
+                userProfile = (
+                    <UserProfile
+                        userId={post.user_id}
+                        hideStatus={true}
+                    />
+                );
+
+                visibleMessage = (
+                    <span className='post__visibility'>
+                        <FormattedMessage
+                            id='post_info.message.visible'
+                            defaultMessage='(Only visible to you)'
+                        />
+                    </span>
                 );
             } else if (isSystemMessage) {
                 userProfile = (
