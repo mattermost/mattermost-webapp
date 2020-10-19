@@ -23,6 +23,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 
 import './channel_list.scss';
+import {ChannelSettingsState} from '../channel_settings';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
@@ -31,7 +32,7 @@ interface ChannelListProps {
     data: ChannelWithTeamData[];
     total: number;
     removeGroup?: () => void;
-    onPageChangedCallback?: () => void;
+    onPageChangedCallback?: (state: ChannelSettingsState) => void;
     emptyListTextId?: string;
     emptyListTextDefaultMessage?: string;
     isDisabled?: boolean;
