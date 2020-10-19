@@ -8,49 +8,21 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
+import {TestHelper} from 'utils/test_helper';
+
 import RenameChannelModal, {RenameChannelModal as RenameChannelModalClass} from './rename_channel_modal';
 
 describe('components/RenameChannelModal', () => {
-    const channel: Channel = {
+    const channel: Channel = TestHelper.getChannelMock({
         id: 'fake-id',
         name: 'fake-channel',
         display_name: 'Fake Channel',
-        create_at: 0,
-        update_at: 0,
-        delete_at: 0,
-        team_id: '',
-        type: 'O',
-        header: '',
-        purpose: 'string',
-        last_post_at: 0,
-        total_msg_count: 0,
-        extra_update_at: 0,
-        creator_id: '',
-        scheme_id: '',
-        isCurrent: false,
-        teammate_id: '',
-        status: '',
-        fake: false,
-        group_constrained: false,
-    };
+    });
 
-    const team: Team = {
+    const team: Team = TestHelper.getTeamMock({
         name: 'Fake Team',
         display_name: 'fake-team',
-        type: 'O',
-        id: '',
-        create_at: 0,
-        update_at: 0,
-        delete_at: 0,
-        description: '',
-        email: '',
-        company_name: '',
-        allowed_domains: '',
-        invite_id: '',
-        allow_open_invite: false,
-        scheme_id: '',
-        group_constrained: false,
-    };
+    });
 
     const baseProps = {
         show: true,
