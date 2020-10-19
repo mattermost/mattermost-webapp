@@ -85,7 +85,9 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
 
     onFinish = () => {
         const splitName = this.state.fullName.split(' ');
-        const user = Object.assign({}, this.props.currentUser, {first_name: splitName[0], last_name: splitName.slice(1).join(' ')});
+        const firstName = splitName[0].slice(0, MAX_NAME_PART_LENGTH);
+        const lastName = splitName.slice(1).join(' ').slice(0, MAX_NAME_PART_LENGTH);
+        const user = Object.assign({}, this.props.currentUser, {first_name: firstName, last_name: lastName});
 
         this.props.actions.updateMe(user);
 
