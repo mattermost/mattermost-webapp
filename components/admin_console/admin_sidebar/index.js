@@ -28,6 +28,7 @@ function mapStateToProps(state) {
         siteName,
         adminDefinition,
         consoleAccess,
+        cloud: state.entities.cloud,
     };
 }
 
