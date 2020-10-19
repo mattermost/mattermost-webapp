@@ -16,7 +16,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export type Props = {
+type Props = {
     show: boolean;
     user?: UserProfile;
     userAccessTokens?: Dictionary<UserAccessToken>;
@@ -24,17 +24,19 @@ export type Props = {
     actions: { getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc};
 };
 
-export type State = {
+type State = {
     error: string | null;
 }
 
 export default class ManageTokensModal extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
+    public constructor(props: Props) {
         super(props);
-        this.state = {error: null};
+        this.state = {
+            error: null,
+        } as State;
     }
 
-    componentDidUpdate(prevProps: Props): void {
+    public componentDidUpdate(prevProps: Props): void {
         const userId = this.props.user ? this.props.user.id : null;
         const prevUserId = prevProps.user ? prevProps.user.id : null;
         if (userId && prevUserId !== userId) {
@@ -42,7 +44,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleError = (error: string): void => {
+    private handleError = (error: string): void => {
         this.setState({
             error,
         });
