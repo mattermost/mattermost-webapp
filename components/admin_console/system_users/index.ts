@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
 import {
@@ -18,14 +18,18 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Stats} from 'mattermost-redux/constants';
 
-import {loadProfilesAndTeamMembers, loadProfilesWithoutTeam} from 'actions/user_actions.jsx';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store';
+
+import {loadProfilesAndTeamMembers, loadProfilesWithoutTeam} from 'actions/user_actions';
 
 import {setSystemUsersSearch} from 'actions/views/search';
 import {SearchUserTeamFilter} from 'utils/constants';
 
-import SystemUsers from './system_users.jsx';
+import SystemUsers from './system_users';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const siteName = config.SiteName;
@@ -45,7 +49,7 @@ function mapStateToProps(state) {
 
         if (!teamId || teamId === SearchUserTeamFilter.ALL_USERS) {
             const stats = state.entities.admin.analytics || {[Stats.TOTAL_USERS]: 0, [Stats.TOTAL_INACTIVE_USERS]: 0};
-            totalUsers = stats[Stats.TOTAL_USERS] + stats[Stats.TOTAL_INACTIVE_USERS];
+            totalUsers = Number(stats[Stats.TOTAL_USERS]) + Number(stats[Stats.TOTAL_INACTIVE_USERS]);
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
             totalUsers = 0;
         } else {
@@ -68,7 +72,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getTeams,

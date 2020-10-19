@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
@@ -22,17 +24,18 @@ import SystemUsersDropdown from '../system_users_dropdown';
 
 type Props = {
     users: UserProfile[],
+    teams?: Team[],
     usersPerPage: number,
     total: number,
     nextPage: (page: number) => void,
     search: (term: string) => void,
-    focusOnMount: boolean,
-    renderFilterRow: () => void,
+    focusOnMount?: boolean,
+    renderFilterRow: (doSearch: ((event: React.FormEvent<HTMLInputElement>) => void) | undefined) => JSX.Element,
 
     teamId: string,
     filter: string,
     term: string,
-    onTermChange: () => void,
+    onTermChange: (term: string) => void,
     isDisabled?: boolean,
 
     /**
