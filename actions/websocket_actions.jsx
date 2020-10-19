@@ -26,6 +26,7 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
@@ -471,6 +472,9 @@ export function handleEvent(msg) {
 
     case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
         dispatch(handleSidebarCategoryOrderUpdated(msg));
+        break;
+    case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
+        dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
 
     default:
@@ -1324,4 +1328,8 @@ function handleSidebarCategoryDeleted(msg) {
 
 function handleSidebarCategoryOrderUpdated(msg) {
     return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
+}
+
+function handleCloudPaymentStatusUpdated() {
+    return (doDispatch) => doDispatch(getCloudSubscription());
 }
