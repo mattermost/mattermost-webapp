@@ -8,9 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @accessibility
+// Group: @enterprise @accessibility
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 function verifySearchAutocomplete(index, type = 'user') {
     cy.get('#search-autocomplete__popover').find('.search-autocomplete__item').eq(index).should('be.visible').and('have.class', 'selected a11y--focused').within((el) => {
