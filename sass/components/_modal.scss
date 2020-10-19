@@ -352,6 +352,10 @@
                 width: 96vw;
                 overflow: auto;
 
+                &::-webkit-scrollbar-thumb {
+                    background: #aaa;
+                }
+
                 .view-image__loading {
                     width: 96vw;
                 }
