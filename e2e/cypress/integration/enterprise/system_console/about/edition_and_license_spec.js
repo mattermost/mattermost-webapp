@@ -7,12 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console
+// Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {
     promoteToChannelOrTeamAdmin,
-} from '../../enterprise/system_console/channel_moderation/helpers.js';
+} from '../channel_moderation/helpers.js';
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
@@ -22,6 +22,7 @@ const goToAdminConsole = () => {
 
 describe('System console', () => {
     before(() => {
+        // * Check if server has license
         cy.apiRequireLicense();
     });
 

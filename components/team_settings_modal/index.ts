@@ -6,9 +6,11 @@ import {connect} from 'react-redux';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
-import TeamSettingsModal from './team_settings_modal.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import TeamSettingsModal from './team_settings_modal';
+
+function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.TEAM_SETTINGS;
     return {
         show: isModalOpen(state, modalId),

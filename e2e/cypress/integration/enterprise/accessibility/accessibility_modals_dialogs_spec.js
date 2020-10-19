@@ -8,9 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @accessibility
+// Group: @enterprise @accessibility
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 let selectedRowText;
 
