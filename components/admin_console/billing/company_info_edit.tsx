@@ -163,20 +163,24 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                     required={true}
                 />
             </div>
-            <StateSelector
-                country={country!}
-                state={state!}
-                onChange={(stateValue) => setState(stateValue)}
-            />
             <div className='form-row'>
-                <Input
-                    name='postalCode'
-                    type='text'
-                    value={postalCode}
-                    onChange={updateState(setPostalCode)}
-                    placeholder={Utils.localizeMessage('admin.billing.company_info.zipcode', 'Zip/Postal Code')}
-                    required={true}
-                />
+                <div className='form-row-third-1 selector'>
+                    <StateSelector
+                        country={country!}
+                        state={state!}
+                        onChange={(stateValue) => setState(stateValue)}
+                    />
+                </div>
+                <div className='form-row-third-2'>
+                    <Input
+                        name='postalCode'
+                        type='text'
+                        value={postalCode}
+                        onChange={updateState(setPostalCode)}
+                        placeholder={Utils.localizeMessage('admin.billing.company_info.zipcode', 'Zip/Postal Code')}
+                        required={true}
+                    />
+                </div>
             </div>
         </>
     );
