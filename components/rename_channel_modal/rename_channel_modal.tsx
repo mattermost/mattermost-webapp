@@ -37,12 +37,40 @@ const holders = defineMessages({
 });
 
 type Props = {
+
+    /**
+     * react-intl helper object
+     */
     intl: IntlShape;
+
+    /**
+     * Function that is called when modal is hidden
+     */
     onHide: () => void;
+
+    /**
+     * Object with info about current channel
+     */
     channel: Channel;
+
+    /**
+     * Object with info about current team
+     */
     team: Team;
+
+    /**
+     * String with the current team URL
+     */
     currentTeamUrl: string;
+
+    /*
+    * Object with redux action creators
+    */
     actions: {
+
+        /*
+        * Action creator to patch current channel
+        */
         patchChannel: (channelId: string, patch: Channel) => Promise<{ data: Channel, error: Error }>;
     };
 }
