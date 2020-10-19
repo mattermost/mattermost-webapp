@@ -17,11 +17,33 @@ import Avatar from 'components/widgets/users/avatar';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 type Props = {
+
+    /**
+     * Set to render the modal
+     */
     show: boolean;
+
+    /**
+     * The user the roles are being managed for
+     */
     user?: UserProfile;
+
+    /**
+     * The personal access tokens for a user, object with token ids as keys
+     */
     userAccessTokens?: Dictionary<UserAccessToken>;
+
+    /**
+     * Function called when modal is dismissed
+     */
     onModalDismissed: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-    actions: { getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc};
+    actions: {
+
+        /**
+         * Function to get a user's access tokens
+         */
+        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc
+    };
 };
 
 type State = {
