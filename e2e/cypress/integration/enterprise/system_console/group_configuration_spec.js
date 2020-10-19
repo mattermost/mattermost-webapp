@@ -8,9 +8,9 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('group configuration', () => {
     let groupID;

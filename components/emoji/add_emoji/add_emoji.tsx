@@ -1,10 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FormEvent, SyntheticEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {Team} from 'mattermost-redux/types/teams';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error';
@@ -12,17 +17,40 @@ import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils.jsx';
 
-export default class AddEmoji extends React.PureComponent {
-    static propTypes = {
-        actions: PropTypes.shape({
-            createCustomEmoji: PropTypes.func.isRequired,
-        }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
-        team: PropTypes.object,
-        user: PropTypes.object,
-    };
+import EmojiMap from 'utils/emoji_map';
 
-    constructor(props) {
+export interface AddEmojiProps {
+    actions: {
+        createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<ActionResult>;
+    },
+    emojiMap: EmojiMap,
+    user: UserProfile,
+    team: Team
+}
+
+type EmojiCreateArgs = {
+    creator_id: string,
+    name: string
+};
+
+type AddEmojiState = {
+    name: string,
+    image: File | null,
+    imageUrl: string | ArrayBuffer | null,
+    saving: boolean,
+    error: React.ReactNode,
+};
+
+interface AddErrorResponse {
+    error: Error
+}
+
+interface AddEmojiResponse {
+    data: CustomEmoji
+}
+
+export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmojiState> {
+    constructor(props : AddEmojiProps) {
         super(props);
 
         this.state = {
@@ -34,7 +62,15 @@ export default class AddEmoji extends React.PureComponent {
         };
     }
 
-    handleSubmit = async (e) => {
+    handleFormSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+        return this.handleSubmit(e);
+    }
+
+    handleSaveButtonClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
+        return this.handleSubmit(e);
+    }
+
+    handleSubmit = async (e: SyntheticEvent<unknown>): Promise<void> => {
         const {actions, emojiMap, user, team} = this.props;
         const {image, name, saving} = this.state;
 
@@ -49,7 +85,7 @@ export default class AddEmoji extends React.PureComponent {
             error: null,
         });
 
-        const emoji = {
+        const emoji: EmojiCreateArgs = {
             creator_id: user.id,
             name: name.trim().toLowerCase(),
         };
@@ -71,7 +107,9 @@ export default class AddEmoji extends React.PureComponent {
             });
 
             return;
-        } else if ((/[^a-z0-9_-]/).test(emoji.name)) {
+        }
+
+        if ((/[^a-z0-9_-]/).test(emoji.name)) {
             this.setState({
                 saving: false,
                 error: (
@@ -83,13 +121,29 @@ export default class AddEmoji extends React.PureComponent {
             });
 
             return;
-        } else if (emojiMap.hasSystemEmoji(emoji.name)) {
+        }
+
+        if (emojiMap.hasSystemEmoji(emoji.name)) {
             this.setState({
                 saving: false,
                 error: (
                     <FormattedMessage
                         id='add_emoji.nameTaken'
                         defaultMessage='This name is already in use by a system emoji. Please choose another name.'
+                    />
+                ),
+            });
+
+            return;
+        }
+
+        if (emojiMap.has(emoji.name)) {
+            this.setState({
+                saving: false,
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.customNameTaken'
+                        defaultMessage='This name is already in use by a custom emoji. Please choose another name.'
                     />
                 ),
             });
@@ -111,26 +165,64 @@ export default class AddEmoji extends React.PureComponent {
             return;
         }
 
-        const {error} = await actions.createCustomEmoji(emoji, image);
-        if (error) {
+        const maxFileSizeBytes = 1024 * 1024;
+        if (image.size > maxFileSizeBytes) {
             this.setState({
                 saving: false,
-                error: error.message,
+                error: (
+                    <FormattedMessage
+                        id='add_emoji.imageTooLarge'
+                        defaultMessage='Unable to create emoji. Image must be less than 1 MB in size.'
+                    />
+                ),
             });
+
             return;
         }
 
-        browserHistory.push('/' + team.name + '/emoji');
+        const response = await actions.createCustomEmoji(emoji as CustomEmoji, image);
+
+        if ('data' in response) {
+            const savedEmoji = response as AddEmojiResponse;
+            if (savedEmoji && savedEmoji.data.name === emoji.name) {
+                browserHistory.push('/' + team.name + '/emoji');
+                return;
+            }
+        }
+
+        if ('error' in response) {
+            const responseError = response as AddErrorResponse;
+            if (responseError) {
+                this.setState({
+                    saving: false,
+                    error: responseError.error.message,
+                });
+
+                return;
+            }
+        }
+
+        const genericError = (
+            <FormattedMessage
+                id='add_emoji.failedToAdd'
+                defaultMessage='Something when wrong when adding the custom emoji.'
+            />
+        );
+
+        this.setState({
+            saving: false,
+            error: (genericError),
+        });
     };
 
-    updateName = (e) => {
+    updateName = (e: ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             name: e.target.value,
         });
     };
 
-    updateImage = (e) => {
-        if (e.target.files.length === 0) {
+    updateImage = (e: ChangeEvent<HTMLInputElement>): void => {
+        if (e.target.files == null || e.target.files.length === 0) {
             this.setState({
                 image: null,
                 imageUrl: '',
@@ -139,7 +231,7 @@ export default class AddEmoji extends React.PureComponent {
             return;
         }
 
-        const image = e.target.files[0];
+        const image = e.target.files![0];
 
         const reader = new FileReader();
         reader.onload = () => {
@@ -151,7 +243,7 @@ export default class AddEmoji extends React.PureComponent {
         reader.readAsDataURL(image);
     };
 
-    render() {
+    render(): JSX.Element {
         let filename = null;
         if (this.state.image) {
             filename = (
@@ -209,7 +301,7 @@ export default class AddEmoji extends React.PureComponent {
                 <div className='backstage-form'>
                     <form
                         className='form-horizontal'
-                        onSubmit={this.handleSubmit}
+                        onSubmit={this.handleFormSubmit}
                     >
                         <div className='form-group'>
                             <label
@@ -225,7 +317,7 @@ export default class AddEmoji extends React.PureComponent {
                                 <input
                                     id='name'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.name}
                                     onChange={this.updateName}
@@ -295,7 +387,7 @@ export default class AddEmoji extends React.PureComponent {
                                 type='submit'
                                 spinning={this.state.saving}
                                 spinningText={localizeMessage('add_emoji.saving', 'Saving...')}
-                                onClick={this.handleSubmit}
+                                onClick={this.handleSaveButtonClick}
                             >
                                 <FormattedMessage
                                     id='add_emoji.save'
