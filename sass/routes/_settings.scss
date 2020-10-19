@@ -485,6 +485,10 @@
             padding: 15px;
             margin-top: 10px;
         }
+
+        .nav-pills > li button {
+            color: rgba(var(--sidebar-text-rgb), 0.6);
+        }
     }
 
     .nav-pills {
