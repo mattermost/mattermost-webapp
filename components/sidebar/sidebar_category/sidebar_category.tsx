@@ -289,32 +289,32 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
 
             categoryMenu = (
                 <React.Fragment>
-                    <button
-                        className='SidebarChannelGroupHeader_sortButton'
-                        onClick={this.handleSortDirectMessages}
-                        aria-label={sortHelpLabel}
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={sortTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={500}
-                            placement='top'
-                            overlay={sortTooltip}
+                        <button
+                            className='SidebarChannelGroupHeader_sortButton'
+                            onClick={this.handleSortDirectMessages}
+                            aria-label={sortHelpLabel}
                         >
                             {sortingIcon}
-                        </OverlayTrigger>
-                    </button>
-                    <button
-                        className='SidebarChannelGroupHeader_addButton'
-                        onClick={this.handleOpenDirectMessagesModal}
-                        aria-label={addHelpLabel}
+                        </button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={addTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={500}
-                            placement='top'
-                            overlay={addTooltip}
+                        <button
+                            className='SidebarChannelGroupHeader_addButton'
+                            onClick={this.handleOpenDirectMessagesModal}
+                            aria-label={addHelpLabel}
                         >
                             <i className='icon-plus'/>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </React.Fragment>
             );
 
