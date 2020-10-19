@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
@@ -21,41 +23,50 @@ import Constants from 'utils/constants';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-export default class ChannelInviteModal extends React.PureComponent {
-    static propTypes = {
-        profilesNotInCurrentChannel: PropTypes.array.isRequired,
-        profilesNotInCurrentTeam: PropTypes.array.isRequired,
-        onHide: PropTypes.func.isRequired,
-        channel: PropTypes.object.isRequired,
+type Props = {
+    profilesNotInCurrentChannel: [];
+    profilesNotInCurrentTeam: [],
+    onHide: () => void,
+    channel: Channel,
 
-        // skipCommit = true used with onAddCallback will result in users not being committed immediately
-        skipCommit: PropTypes.bool,
+    // skipCommit = true used with onAddCallback will result in users not being committed immediately
+    skipCommit?: boolean,
 
-        // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-        onAddCallback: PropTypes.func,
+    // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
+    onAddCallback?: () => void,
 
-        // Dictionaries of userid mapped users to exclude or include from this list
-        excludeUsers: PropTypes.object,
-        includeUsers: PropTypes.object,
+    // Dictionaries of userid mapped users to exclude or include from this list
+    excludeUsers?: Dictionary<any>,
+    includeUsers?: Dictionary<any>,
 
-        actions: PropTypes.shape({
-            addUsersToChannel: PropTypes.func.isRequired,
-            getProfilesNotInChannel: PropTypes.func.isRequired,
-            getTeamStats: PropTypes.func.isRequired,
-            searchProfiles: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+    actions: {
+        addUsersToChannel: () => ActionFunc,
+        getProfilesNotInChannel: (teamId: string, id: string, groupConstrained: boolean, page: number, usersPerPage?: number) => Promise<void>,
+        getTeamStats: () => ActionFunc,
+        searchProfiles: () => ActionFunc
+    }
+}
 
-    static defaultProps = {
+type State = {
+    values: Array<any>;
+    term: string;
+    show: boolean;
+    saving: boolean;
+    loadingUsers: boolean;
+}
+
+export default class ChannelInviteModal extends React.PureComponent<Props, State> {
+    private searchTimeoutId = 0;
+    private selectedItemRef = React.createRef();
+
+    public static defaultProps: Partial<Props> = {
         includeUsers: {},
         excludeUsers: {},
         skipCommit: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
-
-        this.searchTimeoutId = 0;
 
         this.state = {
             values: [],
@@ -63,13 +74,11 @@ export default class ChannelInviteModal extends React.PureComponent {
             show: true,
             saving: false,
             loadingUsers: true,
-        };
-
-        this.selectedItemRef = React.createRef();
+        } as State;
     }
 
-    addValue = (value) => {
-        const values = Object.assign([], this.state.values);
+    private addValue = <T extends unknown>(value: T): void => {
+        const values: Array<T> = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
         }
@@ -77,7 +86,7 @@ export default class ChannelInviteModal extends React.PureComponent {
         this.setState({values});
     };
 
-    componentDidMount() {
+    public componentDidMount() {
         this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
