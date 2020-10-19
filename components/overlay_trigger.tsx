@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
 import {IntlContext, IntlShape} from 'react-intl';
 
@@ -34,18 +34,19 @@ const OverlayTrigger = React.forwardRef<BaseOverlayTrigger, Props>((props: Props
 
     return (
         <IntlContext.Consumer>
-            {(intl): React.ReactNode => (disabled ? props.children : (
+            {(intl): React.ReactNode => (
                 <BaseOverlayTrigger
                     {...otherProps}
                     ref={ref}
                     overlay={
                         <OverlayWrapper
+                            style={disabled ? {visibility: 'hidden'} : undefined}
                             {...overlay.props}
                             intl={intl}
                         />
                     }
                 />
-            ))}
+            )}
         </IntlContext.Consumer>
     );
 });
