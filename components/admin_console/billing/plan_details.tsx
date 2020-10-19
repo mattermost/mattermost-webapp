@@ -9,11 +9,13 @@ import classNames from 'classnames';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 import {getMonthLong} from 'utils/i18n';
+import {CloudLinks} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import './plan_details.scss';
@@ -67,8 +69,19 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
                                     <div className='BillingSubscriptions__tooltipMessage'>
                                         <FormattedMarkdownMessage
                                             id='admin.billing.subscription.planDetails.prolongedOverages'
-                                            defaultMessage='Prolonged overages may result in additional charges. [See how billing works](!https://google.com)'
+                                            defaultMessage='Prolonged overages may result in additional charges.'
                                         />
+                                        <a
+                                            target='_new'
+                                            rel='noopener noreferrer'
+                                            href={CloudLinks.BILLING_DOCS}
+                                            onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'payment'})}
+                                        >
+                                            <FormattedMessage
+                                                id='admin.billing.subscription.planDetails.howBillingWorks'
+                                                defaultMessage='See how billing works'
+                                            />
+                                        </a>
                                     </div>
                                 </Tooltip>
                             )}
@@ -233,6 +246,12 @@ const PlanDetails: React.FC = () => {
             </div>
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
+            <div className='PlanDetails__description'>
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.freeForTenUsers'
+                    defaultMessage='Always free for up to 10 users'
+                />
+            </div>
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
                     id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
