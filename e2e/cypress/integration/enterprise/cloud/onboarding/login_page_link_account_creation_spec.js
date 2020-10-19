@@ -8,11 +8,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @onboarding
+// Group: @enterprise @onboarding
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-import {generateRandomUser} from '../../support/api/user';
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import {generateRandomUser} from '../../../../support/api/user';
+import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../../../utils';
 
 describe('Onboarding', () => {
     let testTeam;

@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import {getRandomId} from '../../utils';
+import {getRandomId} from '../../../utils';
 
 describe('channel groups', () => {
     let teamID;

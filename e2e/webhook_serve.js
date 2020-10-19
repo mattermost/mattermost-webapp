@@ -25,6 +25,7 @@ server.post('/dialog_submit', onDialogSubmit);
 server.post('/boolean_dialog_request', onBooleanDialogRequest);
 server.post('/slack_compatible_message_response', postSlackCompatibleMessageResponse);
 server.post('/send_message_to_channel', postSendMessageToChannel);
+server.post('/post_outgoing_webhook', postOutgoingWebhook);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
 
@@ -160,4 +161,48 @@ function sendSysadminResponse(message, channelId) {
     const password = process.env.CYPRESS_adminPassword || 'Sys@dmin-sample1';
     const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
     postMessageAs({sender: {username, password}, message, channelId, baseUrl});
+}
+
+const responseTypes = ['in_channel', 'comment'];
+
+function getWebhookResponse(body, {responseType, username, iconUrl}) {
+    const payload = Object.entries(body).map(([key, value]) => `- ${key}: "${value}"`).join('\n');
+
+    return `
+\`\`\`
+#### Outgoing Webhook Payload
+${payload}
+#### Webhook override to Mattermost instance
+- response_type: "${responseType}"
+- type: ""
+- username: "${username}"
+- icon_url: "${iconUrl}"
+\`\`\`
+`;
+}
+
+/**
+ * @route "POST /post_outgoing_webhook?override_username=={username}&override_icon_url={iconUrl}&response_type={comment}"
+ * @query override_username - the user name that overrides the user name defined by the outgoing webhook
+ * @query override_icon_url= the user icon url that overrides the user icon url defined by the outgoing webhook
+ * @query response_type= -
+ */
+function postOutgoingWebhook(req, res) {
+    const {body, query} = req;
+    if (!body) {
+        res.status(404).send({error: 'Invalid data'});
+    }
+
+    const responseType = query.response_type || responseTypes[0];
+    const username = query.override_username || '';
+    const iconUrl = query.override_icon_url || '';
+
+    const response = {
+        text: getWebhookResponse(body, {responseType, username, iconUrl}),
+        username,
+        icon_url: iconUrl,
+        type: '',
+        response_type: responseType,
+    };
+    res.status(200).send(response);
 }
