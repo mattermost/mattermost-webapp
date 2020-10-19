@@ -15,7 +15,7 @@ type Props = OverlayTriggerProps & {
     disabled?: boolean;
 };
 
-const OverlayTrigger = React.forwardRef<BaseOverlayTrigger, Props>((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
+const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
     const {
         overlay,
         disabled,
@@ -34,19 +34,24 @@ const OverlayTrigger = React.forwardRef<BaseOverlayTrigger, Props>((props: Props
 
     return (
         <IntlContext.Consumer>
-            {(intl): React.ReactNode => (
-                <BaseOverlayTrigger
-                    {...otherProps}
-                    ref={ref}
-                    overlay={
-                        <OverlayWrapper
-                            style={disabled ? {visibility: 'hidden'} : undefined}
-                            {...overlay.props}
-                            intl={intl}
-                        />
-                    }
-                />
-            )}
+            {(intl): React.ReactNode => {
+                const overlayProps = {...overlay.props};
+                if (disabled) {
+                    overlayProps.style = {visibility: 'hidden', ...overlayProps.style};
+                }
+                return (
+                    <BaseOverlayTrigger
+                        {...otherProps}
+                        ref={ref}
+                        overlay={
+                            <OverlayWrapper
+                                {...overlayProps}
+                                intl={intl}
+                            />
+                        }
+                    />
+                );
+            }}
         </IntlContext.Consumer>
     );
 });
