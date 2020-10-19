@@ -421,10 +421,10 @@ describe('components/SwitchChannelProvider', () => {
         const results = switchProvider.formatList(searchText, channels, users);
 
         const expectedOrder = [
+            'other_user1',
+            'other_user2',
             'other_user3',
             'other_user4',
-            'other_user2',
-            'other_user1',
             'channel_other_user',
         ];
 
@@ -544,8 +544,8 @@ describe('components/SwitchChannelProvider', () => {
         const expectedOrder = [
             'other_user4',
             'other_user1',
-            'other_user3',
             'other_user2',
+            'other_user3',
             'channel_other_user',
         ];
 

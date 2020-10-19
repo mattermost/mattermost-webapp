@@ -212,6 +212,13 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
 
     const aStartsWith = aDisplayName.startsWith(prefix);
     const bStartsWith = bDisplayName.startsWith(prefix);
+
+    if (a.type === Constants.OPEN_CHANNEL && !wrappedA.last_viewed_at && (b.type !== Constants.OPEN_CHANNEL || wrappedB.last_viewed_at)) {
+        return 1;
+    } else if (b.type === Constants.OPEN_CHANNEL && !wrappedB.last_viewed_at) {
+        return -1;
+    }
+
     if (aStartsWith && bStartsWith) {
         if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
             return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
@@ -220,7 +227,10 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
         } else if (wrappedB.last_viewed_at) {
             return 1;
         }
-    } else if (aStartsWith) {
+        return sortChannelsByTypeAndDisplayName('en', a, b);
+    }
+
+    if (aStartsWith) {
         return -1;
     } else if (bStartsWith) {
         return 1;
@@ -230,14 +240,10 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
         return 1;
     } else if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
         return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
-    } else if (wrappedA.channel.type === Constants.OPEN_CHANNEL && wrappedA.channel.type !== Constants.OPEN_CHANNEL) {
-        return 1;
-    } else if (!aStartsWith && !bStartsWith) {
-        // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
-        return sortChannelsByTypeAndDisplayName('en', a, b);
     }
 
-    return 1;
+    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+    return sortChannelsByTypeAndDisplayName('en', a, b);
 }
 
 function makeChannelSearchFilter(channelPrefix) {
