@@ -1,42 +1,43 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {GlobalState} from 'types/store';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
-
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-
-import {Preferences, CloudBanners} from 'utils/constants';
+import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {GlobalState} from 'types/store';
+import {
+    Preferences,
+    CloudBanners,
+    ModalIdentifiers,
+    TELEMETRY_CATEGORIES,
+} from 'utils/constants';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
 
-import PlanDetails from './plan_details';
 import BillingSummary from './billing_summary';
+import PlanDetails from './plan_details';
 
 import './billing_subscriptions.scss';
 
 const WARNING_THRESHOLD = 3;
-
-// TODO: temp
-const isFree = false;
 
 type Props = {
 };
@@ -50,24 +51,35 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
+    const onUpgradeMattermostCloud = () => {
+        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
+
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
-    }, []);
 
-    const [showDanger, setShowDanger] = useState(false);
-    const [showWarning, setShowWarning] = useState(false);
-
-    useEffect(() => {
         if (!analytics) {
             (async function getAllAnalytics() {
                 await dispatch(getStandardAnalytics());
             }());
+        }
+
+        pageVisited('cloud_admin', 'pageview_billing_subscription');
+
+        if (analytics && shouldShowInfoBanner()) {
+            trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
         }
     }, []);
 
@@ -76,7 +88,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
             return false;
         }
 
-        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD && (userLimit - Number(analytics.TOTAL_USERS) >= 0)) {
+        if ((userLimit - Number(analytics.TOTAL_USERS)) <= WARNING_THRESHOLD && (userLimit - Number(analytics.TOTAL_USERS) > 0)) {
             return true;
         }
 
@@ -84,6 +96,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
     };
 
     const handleHide = async () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+            'click_close_banner_user_limit_warning',
+        );
         dispatch(savePreferences(currentUser.id, [
             {
                 category: Preferences.ADMIN_CLOUD_UPGRADE_PANEL,
@@ -111,7 +127,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     defaultMessage='The free tier is **limited to 10 users.** Get access to more users, teams and other great features'
                 />
             </div>
-            <button className='UpgradeMattermostCloud__upgradeButton'>
+            <button
+                onClick={onUpgradeMattermostCloud}
+                className='UpgradeMattermostCloud__upgradeButton'
+            >
                 <FormattedMessage
                     id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
                     defaultMessage='Upgrade Mattermost Cloud'
@@ -135,24 +154,28 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
                     />
                 </div>
-                <button className='PrivateCloudCard__contactSales'>
-                    <a
-                        href={contactSalesLink}
-                        rel='noopener noreferrer'
-                        target='_new'
-                    >
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.contactSales'
-                            defaultMessage='Contact Sales'
-                        />
-                    </a>
-                </button>
+                <a
+                    href={contactSalesLink}
+                    rel='noopener noreferrer'
+                    target='_new'
+                    className='PrivateCloudCard__contactSales'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.contactSales'
+                        defaultMessage='Contact Sales'
+                    />
+                </a>
             </div>
             <div className='PrivateCloudCard__image'>
                 <img src={privateCloudImage}/>
             </div>
         </div>
     );
+
+    if (!subscription || !products) {
+        return null;
+    }
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -162,22 +185,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {showDanger && (
-                        <AlertBanner
-                            mode='danger'
-                            title='Test Danger Title'
-                            message='This is a test danger message'
-                            onDismiss={() => setShowDanger(false)}
-                        />
-                    )}
-                    {showWarning && (
-                        <AlertBanner
-                            mode='warning'
-                            title='Test Warning Title'
-                            message='This is a test warning message'
-                            onDismiss={() => setShowWarning(false)}
-                        />
-                    )}
                     {shouldShowInfoBanner() && (
                         <AlertBanner
                             mode='info'
@@ -198,7 +205,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         style={{marginTop: '20px'}}
                     >
                         <PlanDetails/>
-                        {isFree ? upgradeMattermostCloud() : <BillingSummary/>}
+                        {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
                     {privateCloudCard()}
                 </div>

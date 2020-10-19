@@ -81,10 +81,6 @@ export default class ThemeSetting extends React.PureComponent {
         };
     }
 
-    scrollToTop() {
-        $('.ps-container.modal-body').scrollTop(0);
-    }
-
     submitTheme = async () => {
         const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
 
@@ -98,7 +94,6 @@ export default class ThemeSetting extends React.PureComponent {
 
         this.props.setRequireConfirm(false);
         this.originalTheme = Object.assign({}, this.state.theme);
-        this.scrollToTop();
         this.props.updateSection('');
         this.setState({isSaving: false});
     };
@@ -130,7 +125,6 @@ export default class ThemeSetting extends React.PureComponent {
         const state = this.getStateFromProps();
         state.serverError = null;
         this.setState(state);
-        this.scrollToTop();
 
         Utils.applyTheme(state.theme);
 
