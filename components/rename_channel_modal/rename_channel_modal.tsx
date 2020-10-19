@@ -51,8 +51,8 @@ type State = {
     displayName: string;
     channelName: string;
     serverError?: string;
-    urlErrors: JSX.Element[];
-    displayNameError: JSX.Element | string;
+    urlErrors: React.ReactNode[];
+    displayNameError: React.ReactNode
     invalid: boolean;
     show: boolean;
 };
