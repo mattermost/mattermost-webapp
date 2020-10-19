@@ -7,6 +7,14 @@ import {getState} from 'stores/redux_store';
 
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 
+const latestPost = {
+    id: 'latest_post_id',
+    user_id: 'current_user_id',
+    message: 'test msg',
+    channel_id: 'other_gm_channel',
+    create_at: Date.now(),
+};
+
 jest.mock('stores/redux_store', () => ({
     dispatch: jest.fn(),
     getState: jest.fn(),
@@ -23,6 +31,17 @@ jest.mock('mattermost-redux/client', () => {
         },
     };
 });
+
+jest.mock('mattermost-redux/actions/channels', () => ({
+    ...jest.requireActual('mattermost-redux/actions/channels'),
+    searchChannels: () => jest.fn().mockResolvedValue(Promise.resolve({data: [{
+        id: 'channel_other_user1',
+        type: 'O',
+        name: 'other_user',
+        display_name: 'other_user',
+        delete_at: 0,
+    }]})),
+}));
 
 describe('components/SwitchChannelProvider', () => {
     it('should change name on wrapper to be unique with same name user channel and public channel', () => {
@@ -402,11 +421,11 @@ describe('components/SwitchChannelProvider', () => {
         const results = switchProvider.formatList(searchText, channels, users);
 
         const expectedOrder = [
-            'channel_other_user', //open channels are at thetop ofthe list
-            'other_user1',
-            'other_user2',
             'other_user3',
             'other_user4',
+            'other_user2',
+            'other_user1',
+            'channel_other_user',
         ];
 
         expect(results.terms).toEqual(expectedOrder);
@@ -525,142 +544,251 @@ describe('components/SwitchChannelProvider', () => {
         const expectedOrder = [
             'other_user4',
             'other_user1',
-            'channel_other_user',
-            'other_user2',
             'other_user3',
+            'other_user2',
+            'channel_other_user',
         ];
 
         expect(results.terms).toEqual(expectedOrder);
     });
 
-    // it('should change name on wrapper to be unique with same name user channel and public channel', async () => {
-    // jest.mock('mattermost-redux/actions/channels', () => ({
-    //     ...jest.requireActual('mattermost-redux/actions/channels'),
-    //     searchChannels: jest.fn().mockResolvedValue({data: [{
-    //         id: 'channel_other_user1',
-    //         type: 'O',
-    //         name: 'other_user',
-    //         display_name: 'other_user',
-    //         delete_at: 0,
-    //     }]}),
-    // }));
-    //
-    // const defaultState = {
-    //     entities: {
-    //         general: {
-    //             config: {},
-    //         },
-    //         channels: {
-    //             myMembers: {
-    //                 direct_other_user1: {
-    //                     channel_id: 'direct_other_user1',
-    //                     msg_count: 1,
-    //                     last_viewed_at: 2,
-    //                 },
-    //                 direct_other_user4: {
-    //                     channel_id: 'direct_other_user4',
-    //                     msg_count: 1,
-    //                     last_viewed_at: 3,
-    //                 },
-    //                 channel_other_user:  {
-    //                     channel_id: 'channel_other_user',
-    //                     user_id: 'current_user_id',
-    //                     roles: 'channel_role',
-    //                     mention_count: 1,
-    //                     msg_count: 9,
-    //                     last_viewed_at: 1,
-    //                 }
-    //             },
-    //             channels: {
-    //                 channel_other_user: {
-    //                     id: 'channel_other_user',
-    //                     type: 'O',
-    //                     name: 'other_user',
-    //                     display_name: 'other_user',
-    //                     delete_at: 0,
-    //                     team_id: 'currentTeamId'
-    //                 },
-    //             },
-    //         },
-    //         teams: {
-    //             currentTeamId: 'currentTeamId',
-    //             teams: {
-    //                 currentTeamId: {
-    //                     id:'currentTeamId',
-    //                     display_name: 'test',
-    //                     type: "O"
-    //                 },
-    //             },
-    //         },
-    //         preferences: {
-    //             myPreferences: {
-    //                 'display_settings--name_format': {
-    //                     category: 'display_settings',
-    //                     name: 'name_format',
-    //                     user_id: 'current_user_id',
-    //                     value: 'username',
-    //                 },
-    //             },
-    //         },
-    //         users: {
-    //             profiles: {
-    //                 current_user_id: {roles: 'system_role'},
-    //                 other_user1: {
-    //                     id: 'other_user1',
-    //                     display_name: 'other_user1',
-    //                     username: 'other_user1',
-    //                 },
-    //                 other_user2: {
-    //                     id: 'other_user2',
-    //                     display_name: 'other_user2',
-    //                     username: 'other_user2',
-    //                 },
-    //                 other_user4: {
-    //                     id: 'other_user4',
-    //                     display_name: 'other_user4',
-    //                     username: 'other_user4',
-    //                 },
-    //                 other_user3: {
-    //                     id: 'other_user3',
-    //                     display_name: 'other_user3',
-    //                     username: 'other_user3',
-    //                 },
-    //             },
-    //             currentUserId: 'current_user_id',
-    //             profilesInChannel: {
-    //                 current_user_id: ['user_1'],
-    //             },
-    //
-    //         },
-    //     },
-    // };
-    // getState.mockClear();
-    //
-    // const switchProvider = new SwitchChannelProvider();
-    // const mockStore = configureStore();
-    // const store = mockStore(defaultState);
-    //
-    // getState.mockImplementation(store.getState);
-    // const searchText = 'other';
-    // const resultsCallback = jest.fn();
-    //
-    // switchProvider.startNewRequest();
-    // await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
-    // const expectedOrder = [
-    //         'other_user1',
-    //         'other_user2',
-    //         'other_user3',
-    //         'other_user4',
-    //     ];
-    //
-    // expect(resultsCallback).toBeCalledWith(expect.objectContaining({
-    //   terms: expectedOrder
-    // }));
-    // var set = new Set(result.terms);
-    // expect(set.size).toEqual(result.items.length);
-    //
-    // var set2 = new Set(result.items.map((o) => o.channel.name));
-    // expect(set2.size).toEqual(1);
-    // expect(result.items.length).toEqual(2);
-    // });
+    it('should start with GM before channels and DM"s with last_viewed_at', async () => {
+        const defaultState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        channel_other_user: {
+                            channel_id: 'channel_other_user',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                            last_viewed_at: 1,
+                        },
+                        other_gm_channel: {
+                            channel_id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                        },
+                    },
+                    channels: {
+                        channel_other_user: {
+                            id: 'channel_other_user',
+                            type: 'O',
+                            name: 'other_user',
+                            display_name: 'other_user',
+                            delete_at: 0,
+                            team_id: 'currentTeamId',
+                        },
+                        other_gm_channel: {
+                            id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                            type: 'G',
+                            name: 'other_gm_channel',
+                            delete_at: 0,
+                            display_name: 'other_gm_channel',
+                        },
+                    },
+                },
+                teams: {
+                    currentTeamId: 'currentTeamId',
+                    teams: {
+                        currentTeamId: {
+                            id: 'currentTeamId',
+                            display_name: 'test',
+                            type: 'O',
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                        'group_channel_show--other_gm_channel': {
+                            category: 'group_channel_show',
+                            value: 'true',
+                            name: 'other_gm_channel',
+                            user_id: 'current_user_id',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                        other_user1: {
+                            id: 'other_user1',
+                            display_name: 'other_user1',
+                            username: 'other_user1',
+                        },
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        other_gm_channel: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        };
+        getState.mockClear();
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const store = mockStore(defaultState);
+
+        getState.mockImplementation(store.getState);
+        const searchText = 'other';
+        const resultsCallback = jest.fn();
+
+        switchProvider.startNewRequest();
+        await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
+        const expectedOrder = [
+            'other_gm_channel',
+            'other_user1',
+            'channel_other_user1',
+        ];
+
+        expect(resultsCallback).toBeCalledWith(expect.objectContaining({
+            terms: expectedOrder,
+        }));
+    });
+
+    it('GM should not be first result as it is hidden in LHS', async () => {
+        const defaultState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                channels: {
+                    myMembers: {
+                        channel_other_user: {
+                            channel_id: 'channel_other_user',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                            last_viewed_at: 1,
+                        },
+                        other_gm_channel: {
+                            channel_id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                        },
+                    },
+                    channels: {
+                        channel_other_user: {
+                            id: 'channel_other_user',
+                            type: 'O',
+                            name: 'other_user',
+                            display_name: 'other_user',
+                            delete_at: 0,
+                            team_id: 'currentTeamId',
+                        },
+                        other_gm_channel: {
+                            id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                            type: 'G',
+                            name: 'other_gm_channel',
+                            delete_at: 0,
+                            display_name: 'other_gm_channel',
+                            team_id: '',
+                        },
+                    },
+                    channelsInTeam: {
+                        '': ['other_gm_channel'],
+                    },
+                },
+                teams: {
+                    currentTeamId: 'currentTeamId',
+                    teams: {
+                        currentTeamId: {
+                            id: 'currentTeamId',
+                            display_name: 'test',
+                            type: 'O',
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                        'group_channel_show--other_gm_channel': {
+                            category: 'group_channel_show',
+                            value: 'false',
+                            name: 'other_gm_channel',
+                            user_id: 'current_user_id',
+                        },
+                    },
+                },
+                users: {
+                    profiles: {
+                        current_user_id: {roles: 'system_role'},
+                        other_user1: {
+                            id: 'other_user1',
+                            display_name: 'other_user1',
+                            username: 'other_user1',
+                        },
+                    },
+                    currentUserId: 'current_user_id',
+                    profilesInChannel: {
+                        current_user_id: ['user_1'],
+                    },
+                },
+                posts: {
+                    posts: {
+                        [latestPost.id]: latestPost,
+                    },
+                    postsInChannel: {
+                        other_gm_channel: [
+                            {order: [latestPost.id], recent: true},
+                        ],
+                    },
+                    postsInThread: {},
+                },
+            },
+        };
+        getState.mockClear();
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const store = mockStore(defaultState);
+
+        getState.mockImplementation(store.getState);
+        const searchText = 'other';
+        const resultsCallback = jest.fn();
+
+        switchProvider.startNewRequest();
+        await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
+        const expectedOrder = [
+            'other_user1',
+            'other_gm_channel',
+            'channel_other_user1',
+        ];
+
+        expect(resultsCallback).toBeCalledWith(expect.objectContaining({
+            terms: expectedOrder,
+        }));
+    });
 });

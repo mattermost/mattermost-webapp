@@ -10,13 +10,14 @@ import {Preferences} from 'mattermost-redux/constants';
 import {
     getChannelsInCurrentTeam,
     getDirectAndGroupChannels,
+    getGroupChannels,
     getSortedUnreadChannelIds,
     makeGetChannel,
     getMyChannelMemberships,
     getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
 
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeammateNameDisplaySetting, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -27,8 +28,8 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
-
-import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
+import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -195,14 +196,6 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
         return -1;
     }
 
-    if (wrappedA.last_viewed_at && !wrappedB.last_viewed_at) {
-        return -1;
-    } else if (!wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
-        return 1;
-    } else if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
-        return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
-    }
-
     const a = wrappedA.channel;
     const b = wrappedB.channel;
 
@@ -219,13 +212,29 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
 
     const aStartsWith = aDisplayName.startsWith(prefix);
     const bStartsWith = bDisplayName.startsWith(prefix);
-    if ((aStartsWith && bStartsWith) || (!aStartsWith && !bStartsWith)) {
-        //
-        // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
-        //
-        return sortChannelsByTypeAndDisplayName('en', a, b);
+    if (aStartsWith && bStartsWith) {
+        if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+            return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
+        } else if (wrappedA.last_viewed_at) {
+            return -1;
+        } else if (wrappedB.last_viewed_at) {
+            return 1;
+        }
     } else if (aStartsWith) {
         return -1;
+    } else if (bStartsWith) {
+        return 1;
+    } else if (wrappedA.last_viewed_at && !wrappedB.last_viewed_at) {
+        return -1;
+    } else if (!wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+        return 1;
+    } else if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+        return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
+    } else if (wrappedA.channel.type === Constants.OPEN_CHANNEL && wrappedA.channel.type !== Constants.OPEN_CHANNEL) {
+        return 1;
+    } else if (!aStartsWith && !bStartsWith) {
+        // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+        return sortChannelsByTypeAndDisplayName('en', a, b);
     }
 
     return 1;
@@ -239,7 +248,6 @@ function makeChannelSearchFilter(channelPrefix) {
 
     return (channel) => {
         let searchString = channel.display_name;
-
         if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
             const usersInChannel = usersInChannels[channel.id] || new Set([]);
 
@@ -277,6 +285,9 @@ export default class SwitchChannelProvider extends Provider {
         if (channelPrefix) {
             prefix = channelPrefix;
             this.startNewRequest(channelPrefix);
+            if (this.shouldCancelDispatch(channelPrefix)) {
+                return false;
+            }
 
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
@@ -333,9 +344,9 @@ export default class SwitchChannelProvider extends Provider {
         const localUserData = Object.assign([], searchProfiles(state, channelPrefix, false)) || [];
         const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
 
-        const remoteChannelData = channelsFromServer || [];
+        const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
         const remoteUserData = Object.assign([], usersFromServer.users) || [];
-        const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData);
+        const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData, false);
 
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILES_LIST,
@@ -399,7 +410,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix, allChannels, users) {
+    formatList(channelPrefix, allChannels, users, skipHiddenGms = true) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -437,6 +448,10 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
+                    const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
+                    if (!isGMVisible && skipHiddenGms) {
+                        continue;
+                    }
                 } else if (newChannel.type === Constants.DM_CHANNEL) {
                     const userId = Utils.getUserIdFromChannelId(newChannel.name);
                     const user = users.find((u) => u.id === userId);
@@ -481,6 +496,7 @@ export default class SwitchChannelProvider extends Provider {
             completedChannels[user.id] = true;
             channels.push(wrappedChannel);
         }
+
         const channelNames = channels.
             sort(quickSwitchSorter).
             map((wrappedChannel) => wrappedChannel.channel.userId || wrappedChannel.channel.id);
