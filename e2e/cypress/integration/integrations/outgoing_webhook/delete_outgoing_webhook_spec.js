@@ -17,8 +17,6 @@ describe('Integrations', () => {
     let testUser;
     let outgoingWebhook;
 
-    //const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
-
     before(() => {
         const callbackUrl = `${Cypress.env().webhookBaseUrl}/post_outgoing_webhook`;
 
@@ -53,16 +51,18 @@ describe('Integrations', () => {
     it('MM-T617 Delete outgoing webhook', () => {
         // # Confirm outgoing webhook is working
         cy.visit(`/${testTeam}/channels/${testChannel}`);
-        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+        cy.postMessage('testing');
         cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
 
-        // # Delete the webhook
+        // # Loging as sysadmin
         cy.apiAdminLogin();
 
         // * Assert from API that outgoing webhook is active
         cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
             expect(res.status).equal(200);
         });
+
+        // # Delete outgoing webhook
         cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.findAllByText('Delete', {timeout: TIMEOUTS.ONE_MIN}).click();
         cy.get('#confirmModalButton').click();
@@ -76,7 +76,7 @@ describe('Integrations', () => {
         // * Return to app and assert trigger word no longer works
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam}/channels/${testChannel}`);
-        cy.uiPostMessageQuickly('testing', {timeout: TIMEOUTS.ONE_MIN});
+        cy.postMessage('testing');
 
         // * Assert bot message does not arrive
         cy.wait(TIMEOUTS.TWO_SEC);
