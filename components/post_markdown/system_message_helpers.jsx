@@ -189,7 +189,7 @@ function renderHeaderChangeMessage(post) {
             return (
                 <FormattedMessage
                     id='api.channel.post_update_channel_header_message_and_forget.updated_from'
-                    defaultMessage='{username} updated the channel header <br></br><strong>from:</strong> {old} <br></br><strong>to:</strong> {new}'
+                    defaultMessage='{username} updated the channel header <br></br><strong>From:</strong> {old} <br></br><strong>To:</strong> {new}'
                     values={{
                         username,
                         old: oldHeader,
