@@ -71,6 +71,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         };
     };
 
+    const updateNumEmployees = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNumEmployees(parseInt(event.target.value, 10));
+    };
+
     useEffect(() => {
         dispatch(getCloudCustomer());
     }, []);
@@ -81,7 +85,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
 
     const handleSubmit = async () => {
         setIsSaving(true);
-        await dispatch(updateCloudCustomer({name: companyName, num_employees: parseInt(numEmployees, 10)}));
+        await dispatch(updateCloudCustomer({name: companyName, num_employees: numEmployees}));
 
         if (sameAsBillingAddress) {
             await dispatch(updateCloudCustomerAddress({
@@ -224,7 +228,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                                     name='numEmployees'
                                     type='text'
                                     value={numEmployees}
-                                    onChange={updateState(setNumEmployees)}
+                                    onChange={updateNumEmployees}
                                     placeholder={Utils.localizeMessage('admin.billing.company_info.numEmployees', 'Number of employees (optional)')}
                                 />
                             </div>

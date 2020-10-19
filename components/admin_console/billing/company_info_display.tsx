@@ -72,19 +72,19 @@ const CompanyInfoDisplay: React.FC = () => {
     }
 
     let body = noCompanyInfoSection;
-    const address = companyInfo.company_address?.line1 ? companyInfo.company_address : companyInfo.billing_address;
+    const address = companyInfo?.company_address?.line1 ? companyInfo.company_address : companyInfo?.billing_address;
     if (address?.line1) {
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
                     <div className='CompanyInfoDisplay__companyInfo-name'>
-                        {companyInfo.name}
+                        {companyInfo?.name}
                     </div>
                     <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
                         <FormattedMarkdownMessage
                             id='admin.billing.company_info.employees'
                             defaultMessage='{employees} employees'
-                            values={{employees: companyInfo.num_employees}}
+                            values={{employees: companyInfo?.num_employees}}
                         />
                     </div>
                     <div className='CompanyInfoDisplay__companyInfo-addressTitle'>
