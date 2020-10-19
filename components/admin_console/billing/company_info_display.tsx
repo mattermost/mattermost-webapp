@@ -70,13 +70,15 @@ const CompanyInfoDisplay: React.FC = () => {
                     <div className='CompanyInfoDisplay__companyInfo-name'>
                         {companyInfo?.name}
                     </div>
-                    <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
-                        <FormattedMarkdownMessage
-                            id='admin.billing.company_info.employees'
-                            defaultMessage='{employees} employees'
-                            values={{employees: companyInfo?.num_employees}}
-                        />
-                    </div>
+                    {Boolean(companyInfo.num_employees) &&
+                        <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
+                            <FormattedMarkdownMessage
+                                id='admin.billing.company_info.employees'
+                                defaultMessage='{employees} employees'
+                                values={{employees: companyInfo.num_employees}}
+                            />
+                        </div>
+                    }
                     <div className='CompanyInfoDisplay__companyInfo-addressTitle'>
                         <FormattedMessage
                             id='admin.billing.company_info.companyAddress'

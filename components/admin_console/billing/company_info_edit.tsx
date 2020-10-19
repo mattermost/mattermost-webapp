@@ -33,7 +33,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     }
 
     const [companyName, setCompanyName] = useState(companyInfo?.name);
-    const [numEmployees, setNumEmployees] = useState(companyInfo?.num_employees);
+    const [numEmployees, setNumEmployees] = useState<number | undefined>(companyInfo?.num_employees || undefined);
 
     const [address, setAddress] = useState(companyInfo?.company_address?.line1);
     const [address2, setAddress2] = useState(companyInfo?.company_address?.line2);
@@ -62,7 +62,11 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     };
 
     const updateNumEmployees = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNumEmployees(parseInt(event.target.value, 10));
+        if (event.target.value) {
+            setNumEmployees(parseInt(event.target.value, 10));
+        } else {
+            setNumEmployees(undefined);
+        }
     };
 
     useEffect(() => {
@@ -75,7 +79,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
 
     const handleSubmit = async () => {
         setIsSaving(true);
-        await dispatch(updateCloudCustomer({name: companyName, num_employees: numEmployees}));
+        await dispatch(updateCloudCustomer({name: companyName, num_employees: numEmployees || 0}));
 
         if (sameAsBillingAddress) {
             await dispatch(updateCloudCustomerAddress({
@@ -216,7 +220,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                             <div className='form-row'>
                                 <Input
                                     name='numEmployees'
-                                    type='text'
+                                    type='number'
                                     value={numEmployees}
                                     onChange={updateNumEmployees}
                                     placeholder={Utils.localizeMessage('admin.billing.company_info.numEmployees', 'Number of employees (optional)')}
