@@ -44,46 +44,89 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 }));
 
 describe('components/SwitchChannelProvider', () => {
-    it('should change name on wrapper to be unique with same name user channel and public channel', () => {
-        const defaultState = {
-            entities: {
-                general: {
-                    config: {},
+    const defaultState = {
+        entities: {
+            general: {
+                config: {},
+            },
+            channels: {
+                myMembers: {
+                    current_channel_id: {
+                        channel_id: 'current_channel_id',
+                        user_id: 'current_user_id',
+                    },
+                    direct_other_user: {
+                        channel_id: 'direct_other_user',
+                        user_id: 'current_user_id',
+                        roles: 'channel_role',
+                        last_viewed_at: 10,
+                    },
+                    channel_other_user: {
+                        channel_id: 'channel_other_user',
+                    },
                 },
                 channels: {
-                    myMembers: {
-                        current_channel_id: {
-                            channel_id: 'current_channel_id',
-                            user_id: 'current_user_id',
-                            roles: 'channel_role',
-                            mention_count: 1,
-                            msg_count: 9,
-                        },
-                    },
-                    channels: {},
-                },
-                preferences: {
-                    myPreferences: {
-                        'display_settings--name_format': {
-                            category: 'display_settings',
-                            name: 'name_format',
-                            user_id: 'current_user_id',
-                            value: 'username',
-                        },
-                    },
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
-                    },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
+                    direct_other_user: {
+                        id: 'direct_other_user',
+                        name: 'current_user_id__other_user',
                     },
                 },
             },
-        };
+            preferences: {
+                myPreferences: {
+                    'display_settings--name_format': {
+                        category: 'display_settings',
+                        name: 'name_format',
+                        user_id: 'current_user_id',
+                        value: 'username',
+                    },
+                    'group_channel_show--other_gm_channel': {
+                        category: 'group_channel_show',
+                        value: 'true',
+                        name: 'other_gm_channel',
+                        user_id: 'current_user_id',
+                    },
+                },
+            },
+            users: {
+                profiles: {
+                    current_user_id: {roles: 'system_role'},
+                    other_user1: {
+                        id: 'other_user1',
+                        display_name: 'other_user1',
+                        username: 'other_user1',
+                    },
+                },
+                currentUserId: 'current_user_id',
+                profilesInChannel: {
+                    current_user_id: ['user_1'],
+                },
+            },
+            teams: {
+                currentTeamId: 'currentTeamId',
+                teams: {
+                    currentTeamId: {
+                        id: 'currentTeamId',
+                        display_name: 'test',
+                        type: 'O',
+                    },
+                },
+            },
+            posts: {
+                posts: {
+                    [latestPost.id]: latestPost,
+                },
+                postsInChannel: {
+                    other_gm_channel: [
+                        {order: [latestPost.id], recent: true},
+                    ],
+                },
+                postsInThread: {},
+            },
+        },
+    };
 
+    it('should change name on wrapper to be unique with same name user channel and public channel', () => {
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
         const store = mockStore(defaultState);
@@ -125,45 +168,6 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('should change name on wrapper to be unique with same name user in channel and public channel', () => {
-        const defaultState = {
-            entities: {
-                general: {
-                    config: {},
-                },
-                channels: {
-                    myMembers: {
-                        current_channel_id: {
-                            channel_id: 'current_channel_id',
-                            user_id: 'current_user_id',
-                            roles: 'channel_role',
-                            mention_count: 1,
-                            msg_count: 9,
-                        },
-                    },
-                    channels: {},
-                },
-                preferences: {
-                    myPreferences: {
-                        'display_settings--name_format': {
-                            category: 'display_settings',
-                            name: 'name_format',
-                            user_id: 'current_user_id',
-                            value: 'username',
-                        },
-                    },
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
-                    },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
-                    },
-                },
-            },
-        };
-
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
         const store = mockStore(defaultState);
@@ -174,16 +178,14 @@ describe('components/SwitchChannelProvider', () => {
             id: 'other_user',
             display_name: 'other_user',
             username: 'other_user',
-        },
-        ];
+        }];
         const channels = [{
             id: 'channel_other_user',
             type: 'O',
             name: 'other_user',
             display_name: 'other_user',
             delete_at: 0,
-        },
-        ];
+        }];
         const searchText = 'other';
 
         switchProvider.startNewRequest();
@@ -198,44 +200,6 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('should not fail if nothing matches', () => {
-        const defaultState = {
-            entities: {
-                general: {
-                    config: {},
-                },
-                channels: {
-                    myMembers: {
-                        current_channel_id: {
-                            channel_id: 'current_channel_id',
-                            user_id: 'current_user_id',
-                            roles: 'channel_role',
-                            mention_count: 1,
-                            msg_count: 9,
-                        },
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        'display_settings--name_format': {
-                            category: 'display_settings',
-                            name: 'name_format',
-                            user_id: 'current_user_id',
-                            value: 'username',
-                        },
-                    },
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
-                    },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
-                    },
-                },
-            },
-        };
-
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
         const store = mockStore(defaultState);
@@ -329,73 +293,6 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('should sort results in aplhabetical order', () => {
-        const defaultState = {
-            entities: {
-                general: {
-                    config: {},
-                },
-                channels: {
-                    myMembers: {
-                        current_channel_id: {
-                            channel_id: 'current_channel_id',
-                            user_id: 'current_user_id',
-                            roles: 'channel_role',
-                            mention_count: 1,
-                            msg_count: 9,
-                        },
-                    },
-                    channels: {},
-                },
-                preferences: {
-                    myPreferences: {},
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
-                        other_user1: {
-                            name: 'other_user1',
-                            first_name: 'other',
-                            last_name: 'user1',
-                            id: 'other_user1',
-                        },
-                    },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
-                    },
-                },
-            },
-        };
-
-        const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
-        const store = mockStore(defaultState);
-
-        getState.mockImplementation(store.getState);
-
-        const users = [
-            {
-                id: 'other_user1',
-                display_name: 'other_user1',
-                username: 'other_user1',
-            },
-            {
-                id: 'other_user2',
-                display_name: 'other_user2',
-                username: 'other_user2',
-            },
-            {
-                id: 'other_user4',
-                display_name: 'other_user4',
-                username: 'other_user4',
-            },
-            {
-                id: 'other_user3',
-                display_name: 'other_user3',
-                username: 'other_user3',
-            },
-        ];
-
         const channels = [{
             id: 'channel_other_user',
             type: 'O',
@@ -415,6 +312,48 @@ describe('components/SwitchChannelProvider', () => {
             display_name: 'other_user2',
             delete_at: 0,
         }];
+
+        const users = [
+            {
+                id: 'other_user2',
+                display_name: 'other_user2',
+                username: 'other_user2',
+            },
+            {
+                id: 'other_user1',
+                display_name: 'other_user1',
+                username: 'other_user1',
+            },
+        ];
+
+        const modifiedState = {
+            ...defaultState,
+            entities: {
+                ...defaultState.entities,
+                channels: {
+                    ...defaultState.entities.channels,
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                        channel_other_user: {},
+                        direct_other_user1: {},
+                        direct_other_user2: {},
+                    },
+                },
+            },
+        };
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const store = mockStore(modifiedState);
+
+        getState.mockImplementation(store.getState);
+
         const searchText = 'other';
 
         switchProvider.startNewRequest();
@@ -423,21 +362,19 @@ describe('components/SwitchChannelProvider', () => {
         const expectedOrder = [
             'other_user1',
             'other_user2',
-            'other_user3',
-            'other_user4',
             'channel_other_user',
         ];
 
         expect(results.terms).toEqual(expectedOrder);
     });
 
-    it('should sort results based on last_viewed_at order followed by alphabetical', () => {
-        const defaultState = {
+    it('should sort results based on last_viewed_at order followed by alphabetical andomit users not in members', () => {
+        const modifiedState = {
+            ...defaultState,
             entities: {
-                general: {
-                    config: {},
-                },
+                ...defaultState.entities,
                 channels: {
+                    ...defaultState.entities.channels,
                     myMembers: {
                         current_channel_id: {
                             channel_id: 'current_channel_id',
@@ -457,25 +394,7 @@ describe('components/SwitchChannelProvider', () => {
                             msg_count: 1,
                             last_viewed_at: 3,
                         },
-                    },
-                    channels: {},
-                },
-                preferences: {
-                    myPreferences: {},
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
-                        other_user1: {
-                            name: 'other_user1',
-                            first_name: 'other',
-                            last_name: 'user1',
-                            id: 'other_user1',
-                        },
-                    },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
+                        channel_other_user: {},
                     },
                 },
             },
@@ -483,7 +402,7 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const store = mockStore(defaultState);
+        const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
 
@@ -544,8 +463,6 @@ describe('components/SwitchChannelProvider', () => {
         const expectedOrder = [
             'other_user4',
             'other_user1',
-            'other_user2',
-            'other_user3',
             'channel_other_user',
         ];
 
@@ -553,26 +470,26 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('should start with GM before channels and DM"s with last_viewed_at', async () => {
-        const defaultState = {
+        const modifiedState = {
+            ...defaultState,
             entities: {
-                general: {
-                    config: {},
-                },
+                ...defaultState.entities,
                 channels: {
+                    ...defaultState.entities.channels,
                     myMembers: {
-                        channel_other_user: {
-                            channel_id: 'channel_other_user',
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
                             user_id: 'current_user_id',
                             roles: 'channel_role',
                             mention_count: 1,
                             msg_count: 9,
-                            last_viewed_at: 1,
                         },
                         other_gm_channel: {
                             channel_id: 'other_gm_channel',
                             msg_count: 1,
                             last_viewed_at: 3,
                         },
+                        other_user1: {},
                     },
                     channels: {
                         channel_other_user: {
@@ -592,66 +509,22 @@ describe('components/SwitchChannelProvider', () => {
                             delete_at: 0,
                             display_name: 'other_gm_channel',
                         },
-                    },
-                },
-                teams: {
-                    currentTeamId: 'currentTeamId',
-                    teams: {
-                        currentTeamId: {
-                            id: 'currentTeamId',
-                            display_name: 'test',
-                            type: 'O',
-                        },
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        'display_settings--name_format': {
-                            category: 'display_settings',
-                            name: 'name_format',
-                            user_id: 'current_user_id',
-                            value: 'username',
-                        },
-                        'group_channel_show--other_gm_channel': {
-                            category: 'group_channel_show',
-                            value: 'true',
-                            name: 'other_gm_channel',
-                            user_id: 'current_user_id',
-                        },
-                    },
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
                         other_user1: {
                             id: 'other_user1',
-                            display_name: 'other_user1',
-                            username: 'other_user1',
+                            type: 'D',
+                            name: 'current_user_id__other_user1',
+                            display_name: 'current_user_id__other_user1',
                         },
                     },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
-                    },
-                },
-                posts: {
-                    posts: {
-                        [latestPost.id]: latestPost,
-                    },
-                    postsInChannel: {
-                        other_gm_channel: [
-                            {order: [latestPost.id], recent: true},
-                        ],
-                    },
-                    postsInThread: {},
                 },
             },
         };
+
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const store = mockStore(defaultState);
+        const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
         const searchText = 'other';
@@ -671,26 +544,43 @@ describe('components/SwitchChannelProvider', () => {
     });
 
     it('GM should not be first result as it is hidden in LHS', async () => {
-        const defaultState = {
+        const modifiedState = {
+            ...defaultState,
             entities: {
-                general: {
-                    config: {},
+                ...defaultState.entities,
+                preferences: {
+                    ...defaultState.entities.preferences,
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                        'group_channel_show--other_gm_channel': {
+                            category: 'group_channel_show',
+                            value: 'false',
+                            name: 'other_gm_channel',
+                            user_id: 'current_user_id',
+                        },
+                    },
                 },
                 channels: {
+                    ...defaultState.entities.channels,
                     myMembers: {
-                        channel_other_user: {
-                            channel_id: 'channel_other_user',
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
                             user_id: 'current_user_id',
                             roles: 'channel_role',
                             mention_count: 1,
                             msg_count: 9,
-                            last_viewed_at: 1,
                         },
                         other_gm_channel: {
                             channel_id: 'other_gm_channel',
                             msg_count: 1,
                             last_viewed_at: 3,
                         },
+                        other_user1: {},
                     },
                     channels: {
                         channel_other_user: {
@@ -709,63 +599,17 @@ describe('components/SwitchChannelProvider', () => {
                             name: 'other_gm_channel',
                             delete_at: 0,
                             display_name: 'other_gm_channel',
-                            team_id: '',
+                        },
+                        other_user1: {
+                            id: 'other_user1',
+                            type: 'D',
+                            name: 'current_user_id__other_user1',
+                            display_name: 'current_user_id__other_user1',
                         },
                     },
                     channelsInTeam: {
                         '': ['other_gm_channel'],
                     },
-                },
-                teams: {
-                    currentTeamId: 'currentTeamId',
-                    teams: {
-                        currentTeamId: {
-                            id: 'currentTeamId',
-                            display_name: 'test',
-                            type: 'O',
-                        },
-                    },
-                },
-                preferences: {
-                    myPreferences: {
-                        'display_settings--name_format': {
-                            category: 'display_settings',
-                            name: 'name_format',
-                            user_id: 'current_user_id',
-                            value: 'username',
-                        },
-                        'group_channel_show--other_gm_channel': {
-                            category: 'group_channel_show',
-                            value: 'false',
-                            name: 'other_gm_channel',
-                            user_id: 'current_user_id',
-                        },
-                    },
-                },
-                users: {
-                    profiles: {
-                        current_user_id: {roles: 'system_role'},
-                        other_user1: {
-                            id: 'other_user1',
-                            display_name: 'other_user1',
-                            username: 'other_user1',
-                        },
-                    },
-                    currentUserId: 'current_user_id',
-                    profilesInChannel: {
-                        current_user_id: ['user_1'],
-                    },
-                },
-                posts: {
-                    posts: {
-                        [latestPost.id]: latestPost,
-                    },
-                    postsInChannel: {
-                        other_gm_channel: [
-                            {order: [latestPost.id], recent: true},
-                        ],
-                    },
-                    postsInThread: {},
                 },
             },
         };
@@ -773,7 +617,7 @@ describe('components/SwitchChannelProvider', () => {
 
         const switchProvider = new SwitchChannelProvider();
         const mockStore = configureStore();
-        const store = mockStore(defaultState);
+        const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
         const searchText = 'other';

@@ -416,7 +416,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix, allChannels, users, skipHiddenGms = true) {
+    formatList(channelPrefix, allChannels, users, skipNotMember = true) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -443,6 +443,8 @@ export default class SwitchChannelProvider extends Provider {
                 let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
                 if (members[channel.id]) {
                     wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
+                } else if (skipNotMember) {
+                    continue;
                 }
 
                 if (!viewArchivedChannels && channelIsArchived) {
@@ -455,7 +457,7 @@ export default class SwitchChannelProvider extends Provider {
                     newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
                     const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
-                    if (!isGMVisible && skipHiddenGms) {
+                    if (!isGMVisible && skipNotMember) {
                         continue;
                     }
                 } else if (newChannel.type === Constants.DM_CHANNEL) {
@@ -497,6 +499,8 @@ export default class SwitchChannelProvider extends Provider {
 
             if (channel && members[channel.id]) {
                 wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
+            } else if (skipNotMember) {
+                continue;
             }
 
             completedChannels[user.id] = true;
