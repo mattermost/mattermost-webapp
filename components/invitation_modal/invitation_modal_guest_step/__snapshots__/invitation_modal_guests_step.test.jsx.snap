@@ -1,0 +1,273 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalGuestsStep should match the snapshot 1`] = `
+<div
+  className="InvitationModalGuestsStep"
+>
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1
+    id="invitation_modal_title"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Guests** to {teamName}"
+      id="invitation_modal.guests.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
+    />
+  </h1>
+  <div
+    className="add-people"
+    data-testid="addPeople"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invite People"
+        id="invitation_modal.guests.add_people.title"
+      />
+    </h2>
+    <div
+      data-testid="emailPlaceholder"
+    >
+      <UsersEmailsInput
+        ariaLabel="Invite People"
+        emailInvitationsEnabled={true}
+        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
+        errorMessageValues={
+          Object {
+            "text": "0",
+          }
+        }
+        inputValue=""
+        loadingMessageDefault="Loading"
+        loadingMessageId="widgets.users_emails_input.loading"
+        noMatchMessageDefault="No one found matching **{text}**, type email to invite"
+        noMatchMessageId="invitation_modal.guests.users_emails_input.no_user_found_matching"
+        onChange={[Function]}
+        onInputChange={[Function]}
+        placeholder="Add guests or email addresses"
+        showError={false}
+        usersLoader={[Function]}
+        validAddressMessageDefault="Invite **{email}** as a guest"
+        validAddressMessageId="invitation_modal.guests.users_emails_input.valid_email"
+        value={Array []}
+      />
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Add existing guests or send email invites to new guests."
+        id="invitation_modal.guests.add_people.description"
+      />
+    </div>
+  </div>
+  <div
+    className="add-channels"
+    data-testid="channelPlaceholder"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Search and Add Channels"
+        id="invitation_modal.guests.add_channels.title"
+      />
+    </h2>
+    <div>
+      <FormattedMessage
+        defaultMessage="Search and add channels"
+        id="invitation_modal.guests.add_channels.placeholder"
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Specify the channels the guests have access to."
+        id="invitation_modal.guests.add-channels.description"
+      />
+    </div>
+  </div>
+  <div
+    className="custom-message"
+    data-testid="customMessage"
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Set a custom message"
+        id="invitation_modal.guests.custom-message.link"
+      />
+    </a>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Create a custom message to make your invite more personal."
+        id="invitation_modal.guests.custom-message.description"
+      />
+    </div>
+  </div>
+  <div
+    className="invite-guests"
+  >
+    <button
+      className="btn btn-inactive"
+      disabled={true}
+      id="inviteGuestButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite Guests"
+        id="invitation_modal.guests.invite_button"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalGuestsStep should match the snapshot when email invitations are disabled 1`] = `
+<div
+  className="InvitationModalGuestsStep"
+>
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1
+    id="invitation_modal_title"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Guests** to {teamName}"
+      id="invitation_modal.guests.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
+    />
+  </h1>
+  <div
+    className="add-people"
+    data-testid="addPeople"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invite People"
+        id="invitation_modal.guests.add_people.title"
+      />
+    </h2>
+    <div
+      data-testid="emailPlaceholder"
+    >
+      <UsersEmailsInput
+        ariaLabel="Invite People"
+        emailInvitationsEnabled={true}
+        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
+        errorMessageValues={
+          Object {
+            "text": "0",
+          }
+        }
+        inputValue=""
+        loadingMessageDefault="Loading"
+        loadingMessageId="widgets.users_emails_input.loading"
+        noMatchMessageDefault="No one found matching **{text}**, type email to invite"
+        noMatchMessageId="invitation_modal.guests.users_emails_input.no_user_found_matching"
+        onChange={[Function]}
+        onInputChange={[Function]}
+        placeholder="Add guests or email addresses"
+        showError={false}
+        usersLoader={[Function]}
+        validAddressMessageDefault="Invite **{email}** as a guest"
+        validAddressMessageId="invitation_modal.guests.users_emails_input.valid_email"
+        value={Array []}
+      />
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Add existing guests or send email invites to new guests."
+        id="invitation_modal.guests.add_people.description"
+      />
+    </div>
+  </div>
+  <div
+    className="add-channels"
+    data-testid="channelPlaceholder"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Search and Add Channels"
+        id="invitation_modal.guests.add_channels.title"
+      />
+    </h2>
+    <div>
+      <FormattedMessage
+        defaultMessage="Search and add channels"
+        id="invitation_modal.guests.add_channels.placeholder"
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Specify the channels the guests have access to."
+        id="invitation_modal.guests.add-channels.description"
+      />
+    </div>
+  </div>
+  <div
+    className="custom-message"
+    data-testid="customMessage"
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Set a custom message"
+        id="invitation_modal.guests.custom-message.link"
+      />
+    </a>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Create a custom message to make your invite more personal."
+        id="invitation_modal.guests.custom-message.description"
+      />
+    </div>
+  </div>
+  <div
+    className="invite-guests"
+  >
+    <button
+      className="btn btn-inactive"
+      disabled={true}
+      id="inviteGuestButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite Guests"
+        id="invitation_modal.guests.invite_button"
+      />
+    </button>
+  </div>
+</div>
+`;
