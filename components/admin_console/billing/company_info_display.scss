@@ -127,9 +127,12 @@
 .CompanyInfoDisplay__companyInfo-editButton {
     color: rgba(var(--sys-center-channel-color-rgb), 0.56);
     font-size: 18px;
+    border-radius: 4px;
+    padding: 2px;
 
     &:hover, &:focus {
         text-decoration: none;
-        color: var(--sys-center-channel-color);
+        color: rgba(var(--sys-center-channel-color-rgb),.72);
+        background: rgba(var(--sys-center-channel-color-rgb),.08);
     }
 }
