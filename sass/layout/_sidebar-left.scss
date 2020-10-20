@@ -610,14 +610,13 @@
         }
     }
 
-    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+    .SidebarChannelGroupHeader_groupButton {
         height: 32px;
         padding: 0;
         font-size: 12px;
         font-family: 'Open Sans', sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-        text-overflow: ellipsis;
         white-space: nowrap;
         text-align: left;
         border: none;
@@ -656,6 +655,10 @@
                 visibility: hidden;
             }
         }
+    }
+
+    .SidebarChannelGroupHeader--static {
+        margin-left: 16px;
     }
 
     button.SidebarChannelGroupHeader_groupButton > div {

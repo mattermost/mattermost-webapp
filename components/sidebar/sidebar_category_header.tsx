@@ -7,45 +7,36 @@ import {DraggableProvidedDragHandleProps} from 'react-beautiful-dnd';
 
 import {wrapEmojis} from 'utils/emoji_utils';
 
-type Props = {
+type StaticProps = {
     children?: React.ReactNode;
     displayName: string;
-    dragHandleProps?: DraggableProvidedDragHandleProps;
-    isDragging?: boolean;
-    isDraggingOver?: boolean;
 }
 
-export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
+export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps, ref?: React.Ref<HTMLDivElement>) => {
     return (
-        <div className='SidebarChannelGroupHeader'>
+        <div className='SidebarChannelGroupHeader SidebarChannelGroupHeader--static'>
             <div
                 ref={ref}
-                className={classNames('SidebarChannelGroupHeader_groupButton', {
-                    dragging: props.isDragging,
-                })}
-                aria-label={props.displayName}
+                className='SidebarChannelGroupHeader_groupButton'
             >
-                <div {...props.dragHandleProps}>
-                    {wrapEmojis(props.displayName)}
-                </div>
+                {wrapEmojis(props.displayName)}
             </div>
             {props.children}
         </div>
     );
 });
-SidebarCategoryHeader.defaultProps = {
-    isDragging: false,
-    isDraggingOver: false,
-};
-SidebarCategoryHeader.displayName = 'SidebarCategoryHeader';
+SidebarCategoryHeaderStatic.displayName = 'SidebarCategoryHeaderStatic';
 
-type PropsCollapsible = Props & {
+type Props = StaticProps & {
+    dragHandleProps?: DraggableProvidedDragHandleProps
     isCollapsed: boolean,
     isCollapsible: boolean,
+    isDragging?: boolean;
+    isDraggingOver?: boolean;
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export const SidebarCategoryHeaderCollapsible = React.forwardRef((props: PropsCollapsible, ref?: React.Ref<HTMLButtonElement>) => {
+export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLButtonElement>) => {
     return (
         <div className='SidebarChannelGroupHeader'>
             <button
@@ -70,9 +61,9 @@ export const SidebarCategoryHeaderCollapsible = React.forwardRef((props: PropsCo
         </div>
     );
 });
-SidebarCategoryHeaderCollapsible.defaultProps = {
+SidebarCategoryHeader.defaultProps = {
     isCollapsible: true,
     isDragging: false,
     isDraggingOver: false,
 };
-SidebarCategoryHeaderCollapsible.displayName = 'SidebarCategoryHeaderCollapsible';
+SidebarCategoryHeader.displayName = 'SidebarCategoryHeader';

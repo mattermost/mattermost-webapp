@@ -23,7 +23,7 @@ import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
-import {SidebarCategoryHeaderCollapsible} from '../sidebar_category_header';
+import {SidebarCategoryHeader} from '../sidebar_category_header';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
@@ -368,7 +368,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 draggingOver: droppableSnapshot.isDraggingOver,
                                             })}
                                         >
-                                            <SidebarCategoryHeaderCollapsible
+                                            <SidebarCategoryHeader
                                                 ref={this.categoryTitleRef}
                                                 displayName={displayName}
                                                 dragHandleProps={provided.dragHandleProps}
@@ -381,7 +381,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 {newLabel}
                                                 {directMessagesModalButton}
                                                 {categoryMenu}
-                                            </SidebarCategoryHeaderCollapsible>
+                                            </SidebarCategoryHeader>
                                             <div className='SidebarChannelGroup_content'>
                                                 <ul
                                                     role='list'
