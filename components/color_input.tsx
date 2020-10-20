@@ -147,7 +147,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
                     disabled={this.props.isDisabled}
 
                 />
-                {!this.props.isDisabled && 
+                {!this.props.isDisabled &&
                     <span
                         id={`${id}-squareColorIcon`}
                         className='input-group-addon color-pad'

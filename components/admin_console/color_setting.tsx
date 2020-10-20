@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import ColorInput from 'components/color_input';
 
 import Setting from './setting';
@@ -16,7 +17,6 @@ type Props = {
 }
 
 export default class ColorSetting extends React.PureComponent<Props> {
-
     private handleChange = (color: string) => {
         if (this.props.onChange) {
             this.props.onChange(this.props.id, color);
