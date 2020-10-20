@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import classNames from 'classnames';
 import React from 'react';
 
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
@@ -36,15 +37,12 @@ type Props = {
 }
 
 function UnreadChannelIndicator(props: Props) {
-    let classes = 'nav-pills__unread-indicator ';
-    if (props.show) {
-        classes += 'nav-pills__unread-indicator--visible ';
-    }
-
     return (
         <div
             id={'unreadIndicator' + props.name}
-            className={classes + props.extraClass}
+            className={classNames('nav-pills__unread-indicator', {
+                'nav-pills__unread-indicator--visible': props.show,
+            }, props.extraClass)}
             onClick={props.onClick}
         >
             <UnreadBelowIcon className='icon icon__unread'/>
