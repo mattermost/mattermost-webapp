@@ -9,6 +9,7 @@ import * as ServerVersion from 'utils/server_version';
 import * as UserAgent from 'utils/user_agent';
 
 import mattermostIcon from 'images/icon50x50.png';
+import {Notice} from 'components/system_notice/types';
 
 // Notices are objects with the following fields:
 //  - name - string identifier
@@ -20,7 +21,8 @@ import mattermostIcon from 'images/icon50x50.png';
 //  - show - function that check if we need to show the notice
 //
 // Order is important! The notices at the top are shown first.
-export default [
+
+const notices: Notice[] = [
     {
         name: 'apiv3_deprecation',
         adminOnly: true,
@@ -96,7 +98,7 @@ export default [
             const USERS_THRESHOLD = 10000;
 
             // If we don't have the analytics yet, don't show
-            if (!analytics.hasOwnProperty('TOTAL_USERS')) {
+            if (!analytics?.hasOwnProperty('TOTAL_USERS')) {
                 return false;
             }
 
@@ -142,3 +144,5 @@ export default [
         },
     },
 ];
+
+export default notices;
