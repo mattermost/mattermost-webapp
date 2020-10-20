@@ -58,7 +58,7 @@ describe('Archived channels', () => {
         cy.get('#reply_textbox').should('not.be.visible');
     });
 
-    it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
+    it.only('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
         let testArchivedChannel;
         let postId;
         let permalink;
@@ -103,7 +103,10 @@ describe('Archived channels', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Read the message and save post
-        cy.get('a.markdown__link').clickPostSaveIcon();
+        cy.get('a.markdown__link').click();
+        cy.getNthPostId(1).then((_postId) => {
+            cy.clickPostSaveIcon(_postId);
+        });
 
         // # View saved posts
         cy.get('#channelHeaderFlagButton').click();
@@ -113,10 +116,12 @@ describe('Archived channels', () => {
         cy.get('#searchContainer').should('be.visible');
 
         // * Should be able to click on reply
-        cy.clickPostCommentIcon();
-        cy.postMessageReplyInRHS('replyyyy');
+        cy.get('#search-items-container div.post-message__text-container > div').last().should('have.attr', 'id').and('not.include', ':').
+            invoke('replace', 'rhsPostMessageText_', '').then((rhsPostId) => {
+                cy.clickPostCommentIcon(rhsPostId, 'SEARCH');
 
-        // * RHS text box should be visible
-        cy.get('#reply_textbox').should('be.visible');
+                // * RHS text box should not be visible
+                cy.get('#reply_textbox').should('not.be.visible');
+            });
     });
 });
