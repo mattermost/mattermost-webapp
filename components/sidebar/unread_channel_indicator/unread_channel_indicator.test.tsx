@@ -70,7 +70,7 @@ describe('UnreadChannelIndicator', () => {
             <UnreadChannelIndicator {...props}/>,
         );
 
-        wrapper.find('#unreadIndicator' + name).simulate('click');
+        wrapper.simulate('click');
         expect(props.onClick).toHaveBeenCalledTimes(1);
     });
 });
