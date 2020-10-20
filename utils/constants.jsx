@@ -100,6 +100,7 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
 export const ActionTypes = keyMirror({
@@ -273,6 +274,7 @@ export const ModalIdentifiers = {
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
+    CLOUD_PURCHASE: 'cloud_purchase',
 };
 
 export const UserStatuses = {
@@ -379,6 +381,8 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
     SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
+    USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
+    CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
 };
 
 export const TutorialSteps = {
@@ -401,6 +405,11 @@ export const RecommendedNextSteps = {
 
 export const CloudBanners = {
     HIDE: 'hide',
+};
+
+export const TELEMETRY_CATEGORIES = {
+    CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_ADMIN: 'cloud_admin',
 };
 
 export const PostTypes = {
@@ -667,6 +676,10 @@ export const DraggingStateTypes = {
 export const AboutLinks = {
     TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+};
+
+export const CloudLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
 };
 
 export const PermissionsScope = {
@@ -1563,3 +1576,4 @@ t('suggestion.archive');
 t('suggestion.mention.groups');
 
 export default Constants;
+
