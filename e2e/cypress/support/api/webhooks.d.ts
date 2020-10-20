@@ -19,7 +19,7 @@ declare namespace Cypress {
 
         /**
          * Get an incoming webhook given the hook id.
-         * @param {string} hookId - Incoming Webhook GUID        
+         * @param {string} hookId - Incoming Webhook GUID
          * @returns {IncomingWebhook} `out.webhook` as `IncomingWebhook`
          * @returns {string} `out.status`
          * @example
@@ -29,7 +29,7 @@ declare namespace Cypress {
 
         /**
          * Get an outgoing webhook given the hook id.
-         * @param {string} hookId - Outgoing Webhook GUID        
+         * @param {string} hookId - Outgoing Webhook GUID
          * @returns {OutgoingWebhook} `out.webhook` as `OutgoingWebhook`
          * @returns {string} `out.status`
          * @example
