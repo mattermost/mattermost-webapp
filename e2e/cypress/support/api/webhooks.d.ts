@@ -18,29 +18,23 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Creates a new user and make it a member of the new public team and its channels - one public channel, town-square and off-topic.
-         * Created user has an option to log in after all are setup.
-         * Requires sysadmin session to initiate this command.
-         * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up. Note that when true, succeeding API request will be limited to access/permission of a regular system user.
-         * @param {string} options.userPrefix - 'user' (default) or any prefix to easily identify a user
-         * @param {string} options.teamPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a team
-         * @param {string} options.channelPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a channel
-         * @returns {Object} `out` Cypress-chainable, yielded with element passed into .wrap().
-         * @returns {UserProfile} `out.user` as `UserProfile` object
-         * @returns {Team} `out.team` as `Team` object
-         * @returns {Channel} `out.channel` as `Channel` object
-         *
+         * Get an incoming webhook given the hook id.
+         * @param {string} hookId - Incoming Webhook GUID        
+         * @returns {IncomingWebhook} `out.webhook` as `IncomingWebhook`
+         * @returns {string} `out.status`
          * @example
-         *   let testUser just testing;
-         *   let testTeam;
-         *   let testChannel;
-         *   cy.apiInitSetup(options).then(({team, channel, user}) => {
-         *       testUser = user;
-         *       testTeam = team;
-         *       testChannel = channel;
-         *   });
+         *   cy.apiGetIncomingWebhook('hook-id')
          */
-        apiCreateIncomingWebhook()
-        apiInitSetup(options: Record<string, any>): Chainable<Record<string, any>>;
+        apiGetIncomingWebhook(hookId: string): Chainable<Record<string, any>>;
+
+        /**
+         * Get an outgoing webhook given the hook id.
+         * @param {string} hookId - Outgoing Webhook GUID        
+         * @returns {OutgoingWebhook} `out.webhook` as `OutgoingWebhook`
+         * @returns {string} `out.status`
+         * @example
+         *   cy.apiGetOutgoingWebhook('hook-id')
+         */
+        apiGetOutgoingWebhook(hookId: string): Chainable<Record<string, any>>;
     }
 }

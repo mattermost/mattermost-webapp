@@ -23,4 +23,7 @@ declare namespace Cypress {
     type TermsOfService = import('mattermost-redux/types/terms_of_service').TermsOfService;
     type UserProfile = import('mattermost-redux/types/users').UserProfile;
     type UserStatus = import('mattermost-redux/types/users').UserStatus;
+    type IncomingWebhook = import('mattermost-redux/types/integrations').IncomingWebhook;
+    type OutgoingWebhook = import('mattermost-redux/types/integrations').OutgoingWebhook;
+
 }

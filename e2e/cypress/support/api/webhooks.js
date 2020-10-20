@@ -3,31 +3,30 @@
 // https://api.mattermost.com/#tag/webhooks
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateOutgoingWebhook', (hook = {}, isIncoming = true) => {
-    const hookUrl = isIncoming ? '/api/v4/hooks/incoming' : '/api/v4/hooks/outgoing';
+Cypress.Commands.add('apiGetIncomingWebhook', (hookId) => {
     const options = {
-        url: hookUrl,
+        url: `api/v4/hooks/incoming/${hookId}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'POST',
-        body: hook,
+        method: 'GET',
+        failOnStatusCode: false
     };
 
     return cy.request(options).then((response) => {
-        const data = response.body;
-        return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
+        const {body, status} = response;
+        return {webhook: body, status};
     });
 });
 
-Cypress.Commands.add('apiGetOutgoingWebhook', (hookId, isIncoming = true) => {
-    const hookUrl = isIncoming ? `/api/v4/hooks/incoming/${hookId}` : `/api/v4/hooks/outgoing/${hookId}`;
+Cypress.Commands.add('apiGetOutgoingWebhook', (hookId) => {
     const options = {
-        url: hookUrl,
+        url: `api/v4/hooks/outgoing/${hookId}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'GET',
-        failOnStatusCode: false,
+        method: 'GET', 
+        failOnStatusCode: false
     };
 
     return cy.request(options).then((response) => {
-        return cy.wrap(response);
+        const {body, status} = response;
+        return {webhook: body, status};
     });
 });

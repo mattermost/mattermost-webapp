@@ -38,9 +38,9 @@ describe('Integrations', () => {
             cy.apiCreateWebhook(newOutgoingHook, false).then((hook) => {
                 outgoingWebhook = hook;
 
-                cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
-                    expect(res.status).equal(200);
-                    expect(res.body.id).equal(outgoingWebhook.id);
+                cy.apiGetOutgoingWebhook(outgoingWebhook.id).then(({webhook, status}) => {
+                    expect(status).equal(200);
+                    expect(webhook.id).equal(outgoingWebhook.id);
                 });
             });
 
@@ -58,8 +58,8 @@ describe('Integrations', () => {
         cy.apiAdminLogin();
 
         // * Assert from API that outgoing webhook is active
-        cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
-            expect(res.status).equal(200);
+        cy.apiGetOutgoingWebhook(outgoingWebhook.id).then(({status}) => {
+            expect(status).equal(200);
         });
 
         // # Delete outgoing webhook
@@ -69,8 +69,8 @@ describe('Integrations', () => {
 
         // * Assert the webhook has been deleted
         cy.findByText('No outgoing webhooks found').should('exist');
-        cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
-            expect(res.status).equal(404);
+        cy.apiGetOutgoingWebhook(outgoingWebhook.id).then(({status}) => {
+            expect(status).equal(404);
         });
 
         // * Return to app and assert trigger word no longer works
@@ -86,9 +86,8 @@ describe('Integrations', () => {
 
         // * Verify from API that outgoing webhook has been deleted
         cy.apiAdminLogin();
-        cy.apiGetWebhook(outgoingWebhook.id, false).then((res) => {
-            expect(res.status).equal(404);
-            expect(res.body.message).equal('Unable to get the webhook.');
+        cy.apiGetOutgoingWebhook(outgoingWebhook.id).then(({status}) => {
+            expect(status).equal(404);
         });
     });
 });
