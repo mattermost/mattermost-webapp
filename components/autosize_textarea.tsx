@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
 
@@ -17,42 +16,53 @@ type Props = {
 
 export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
+    private textareaRef: React.RefObject<HTMLTextAreaElement>;
+    private reference: React.RefObject<HTMLTextAreaElement>;
     constructor(props: Props) {
         super(props);
 
         this.height = 0;
+
+        this.textareaRef = React.createRef();
+        this.reference = React.createRef();
     }
 
     get value() {
-        return (this.refs.textarea as HTMLTextAreaElement).value;
+        return this.textareaRef.current?.value;
     }
 
     set value(value) {
-        (this.refs.textarea as HTMLTextAreaElement).value = value;
+        if (this.textareaRef.current && value) {
+            this.textareaRef.current.value = value;
+        }
     }
 
     get selectionStart() {
-        return (this.refs.textarea as HTMLTextAreaElement).selectionStart;
+        return this.textareaRef.current?.selectionStart;
     }
 
     set selectionStart(selectionStart) {
-        (this.refs.textarea as HTMLTextAreaElement).selectionStart = selectionStart;
+        if (this.textareaRef.current && selectionStart) {
+            this.textareaRef.current.selectionStart = selectionStart;
+        }
     }
 
     get selectionEnd() {
-        return (this.refs.textarea as HTMLTextAreaElement).selectionEnd;
+        return this.textareaRef.current?.selectionEnd;
     }
 
     set selectionEnd(selectionEnd) {
-        (this.refs.textarea as HTMLTextAreaElement).selectionEnd = selectionEnd;
+        if (this.textareaRef.current && selectionEnd) {
+            this.textareaRef.current.selectionStart = selectionEnd;
+        }
     }
 
     focus() {
-        (this.refs.textarea as HTMLTextAreaElement).focus();
+        this.textareaRef.current?.focus();
     }
 
     blur() {
-        (this.refs.textarea as HTMLTextAreaElement).blur();
+        this.textareaRef.current?.blur();
     }
 
     componentDidMount() {
@@ -64,12 +74,12 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 
     recalculateSize = () => {
-        if (!this.refs.reference || !(this.refs.textarea as HTMLTextAreaElement)) {
+        if (!this.reference.current || !(this.textareaRef.current)) {
             return;
         }
 
-        const height = (this.refs.reference as HTMLTextAreaElement).scrollHeight;
-        const textarea = (this.refs.textarea as HTMLTextAreaElement);
+        const height = (this.reference.current).scrollHeight;
+        const textarea = (this.textareaRef.current);
 
         if (height > 0 && height !== this.height) {
             const style = getComputedStyle(textarea);
@@ -87,7 +97,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 
     getDOMNode = () => {
-        return (this.refs.textarea as HTMLTextAreaElement);
+        return (this.textareaRef.current);
     };
 
     handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -148,7 +158,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
             <div>
                 {textareaPlaceholder}
                 <textarea
-                    ref='textarea'
+                    ref={this.textareaRef}
                     data-testid={id}
                     id={id}
                     {...heightProps}
@@ -163,7 +173,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                 />
                 <div style={style.container}>
                     <textarea
-                        ref='reference'
+                        ref={this.reference}
                         id={id + '-reference'}
                         style={style.reference}
                         disabled={true}
@@ -183,4 +193,3 @@ const style: { [Key: string]: CSSProperties} = {
     reference: {height: 'auto', width: '100%'},
     placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
 };
-/* eslint-enable react/no-string-refs */
