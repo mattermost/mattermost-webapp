@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
+
+import './unread_channel_indicator.scss';
 
 type Props = {
 
     /**
      * Function to call when the indicator is clicked
      */
-    onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 
     /**
      * Set whether to show the indicator or not
@@ -25,7 +27,7 @@ type Props = {
     /**
      * The content of the indicator
      */
-    content?: ReactNode;
+    content?: React.ReactNode;
 
     /**
      * The name of the indicator
@@ -33,28 +35,28 @@ type Props = {
     name?: string;
 }
 
-export default class UnreadChannelIndicator extends React.PureComponent<Props> {
-    public static defaultProps: Partial<Props> = {
-        show: false,
-        extraClass: '',
-        content: '',
-    };
-
-    public render(): JSX.Element {
-        let classes = 'nav-pills__unread-indicator ';
-        if (this.props.show) {
-            classes += 'nav-pills__unread-indicator--visible ';
-        }
-
-        return (
-            <div
-                id={'unreadIndicator' + this.props.name}
-                className={classes + this.props.extraClass}
-                onClick={this.props.onClick}
-            >
-                <UnreadBelowIcon className='icon icon__unread'/>
-                {this.props.content}
-            </div>
-        );
+function UnreadChannelIndicator(props: Props) {
+    let classes = 'nav-pills__unread-indicator ';
+    if (props.show) {
+        classes += 'nav-pills__unread-indicator--visible ';
     }
+
+    return (
+        <div
+            id={'unreadIndicator' + props.name}
+            className={classes + props.extraClass}
+            onClick={props.onClick}
+        >
+            <UnreadBelowIcon className='icon icon__unread'/>
+            {props.content}
+        </div>
+    );
 }
+
+UnreadChannelIndicator.defaultProps = {
+    show: false,
+    extraClass: '',
+    content: '',
+};
+
+export default UnreadChannelIndicator;
