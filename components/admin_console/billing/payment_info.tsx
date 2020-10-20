@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
 
+import {pageVisited} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import PaymentInfoDisplay from './payment_info_display';
@@ -20,6 +21,8 @@ const PaymentInfo: React.FC<Props> = () => {
 
     useEffect(() => {
         dispatch(getCloudCustomer());
+
+        pageVisited('cloud_admin', 'pageview_billing_payment_info');
     }, []);
 
     return (
