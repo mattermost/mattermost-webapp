@@ -24,7 +24,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
 <div
   className=""
 >
-  <SidebarCategoryHeaderCollapsible
+  <SidebarCategoryHeader
     displayName="custom_category_1"
     isCollapsed={false}
     isCollapsible={true}
@@ -49,7 +49,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
       isMenuOpen={false}
       onToggleMenu={[Function]}
     />
-  </SidebarCategoryHeaderCollapsible>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -97,7 +97,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
 <div
   className=""
 >
-  <SidebarCategoryHeaderCollapsible
+  <SidebarCategoryHeader
     displayName="custom_category_1"
     isCollapsed={true}
     isCollapsible={true}
@@ -122,7 +122,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
       isMenuOpen={false}
       onToggleMenu={[Function]}
     />
-  </SidebarCategoryHeaderCollapsible>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -170,7 +170,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
 <div
   className=""
 >
-  <SidebarCategoryHeaderCollapsible
+  <SidebarCategoryHeader
     displayName="custom_category_1"
     isCollapsed={false}
     isCollapsible={true}
@@ -201,7 +201,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       isMenuOpen={false}
       onToggleMenu={[Function]}
     />
-  </SidebarCategoryHeaderCollapsible>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -261,7 +261,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
 <div
   className=""
 >
-  <SidebarCategoryHeaderCollapsible
+  <SidebarCategoryHeader
     displayName="custom_category_1"
     isCollapsed={false}
     isCollapsible={true}
@@ -331,7 +331,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
         />
       </OverlayTrigger>
     </button>
-  </SidebarCategoryHeaderCollapsible>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -379,7 +379,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
 <div
   className=""
 >
-  <SidebarCategoryHeaderCollapsible
+  <SidebarCategoryHeader
     displayName="custom_category_1"
     isCollapsed={false}
     isCollapsible={false}
@@ -449,7 +449,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
         />
       </OverlayTrigger>
     </button>
-  </SidebarCategoryHeaderCollapsible>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
