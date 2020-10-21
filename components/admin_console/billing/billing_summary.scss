@@ -66,7 +66,14 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 16px;
-    color: var(--sys-online-indicator);
+
+    &.paid {
+        color: var(--sys-online-indicator);
+    }
+
+    &.failed {
+        color: var(--sys-error-text);
+    }
 
     i {
         margin-left: 4px;
@@ -122,11 +129,10 @@
     background: var(--sys-button-bg);
     padding: 11px 20px;
     border-radius: 4px;
-    border: none;
+    width: fit-content;
     display: flex;
     color: var(--sys-button-color);
     align-items: center;
-
 
     &:hover:not(.disabled) {
         background: linear-gradient(0deg, rgba(var(--sys-center-channel-color-rgb), 0.16), rgba(var(--sys-center-channel-color-rgb), 0.16)), var(--sys-button-bg);
