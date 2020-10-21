@@ -58,30 +58,21 @@ describe('Archived channels', () => {
         cy.get('#reply_textbox').should('not.be.visible');
     });
 
-    it.only('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
-        let testArchivedChannel;
-        let postId;
-        let permalink;
-
-        cy.apiAdminLogin();
-
+    it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
         // # Create a channel that will be archived
         cy.apiCreateChannel(testTeam.id, 'archived-channel', 'Archived Channel').then(({channel}) => {
-            testArchivedChannel = channel;
-
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${testArchivedChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Post message
             cy.postMessage('Test');
 
             // # Create permalink to post
             cy.getLastPostId().then((id) => {
-                postId = id;
-                permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${postId}`;
+                const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${id}`;
 
                 // # Click on ... button of last post
-                cy.clickPostDotMenu(postId);
+                cy.clickPostDotMenu(id);
 
                 // # Click on "Copy Link"
                 cy.uiClickCopyLink(permalink);
@@ -92,7 +83,7 @@ describe('Archived channels', () => {
             });
 
             // # Archive the channel
-            cy.visit(`/${testTeam.name}/channels/${testArchivedChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
         });
 
@@ -104,8 +95,8 @@ describe('Archived channels', () => {
 
         // # Read the message and save post
         cy.get('a.markdown__link').click();
-        cy.getNthPostId(1).then((_postId) => {
-            cy.clickPostSaveIcon(_postId);
+        cy.getNthPostId(1).then((postId) => {
+            cy.clickPostSaveIcon(postId);
         });
 
         // # View saved posts
