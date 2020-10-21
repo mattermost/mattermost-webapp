@@ -92,7 +92,7 @@ export default class PostInfo extends React.PureComponent {
         /**
          * Whether to show the emoji picker.
          */
-        enableEmojiPicker: PropTypes.bool.isRequired,
+        enableEmojiPicker: PropTypes.bool, // Made it optional until migrating this file to TS
 
         /**
          * Set not to allow edits on post
@@ -120,9 +120,9 @@ export default class PostInfo extends React.PureComponent {
              * Function to set or unset emoji picker for last message
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
-        }).isRequired,
+        }), // Made it optional until migrating this file to TS
 
-        shouldShowDotMenu: PropTypes.bool.isRequired,
+        shouldShowDotMenu: PropTypes.bool, // Made it optional until migrating this file to TS
     };
 
     constructor(props) {
