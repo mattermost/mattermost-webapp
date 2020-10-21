@@ -41,7 +41,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').type('{backspace}');
         cy.get('body').type('{backspace}');
 
-        // Verify that the URL doesn't change from the last URL
+        // * Verify that the URL doesn't change from the last URL
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);
     });
 });
