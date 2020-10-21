@@ -186,20 +186,19 @@ describe('Desktop notifications', () => {
         });
     });
 
-    it('MM-T497 Desktop Notifications - Empty string notifies without mention badge', () => {
+    it('MM-T497 Desktop Notifications for empty string without mention badge', => {
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
-            // Visit the MM webapp with the notification API stubbed.
+            // # Visit the MM webapp with the notification API stubbed.
             cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             const actualMsg = '---';
             const expected = '@' + testUser.username + ' did something new';
 
-            // # Ensure notifications are set up to fire a desktop notification if are mentioned.
-
+            // # Ensure notifications are set up to fire a desktop notification for all activity.
             changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
 
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
