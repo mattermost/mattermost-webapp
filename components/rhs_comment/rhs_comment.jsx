@@ -81,6 +81,7 @@ class RhsComment extends React.PureComponent {
         super(props);
 
         this.postRef = React.createRef();
+        this.dotMenuRef = React.createRef();
 
         this.state = {
             showEmojiPicker: false,
@@ -240,7 +241,7 @@ class RhsComment extends React.PureComponent {
     };
 
     getDotMenuRef = () => {
-        return this.refs.dotMenu;
+        return this.dotMenuRef.current;
     };
 
     setHover = () => {
@@ -458,7 +459,7 @@ class RhsComment extends React.PureComponent {
 
             options = (
                 <div
-                    ref='dotMenu'
+                    ref={this.dotMenuRef}
                     className='col post-menu'
                 >
                     {dotMenu}
