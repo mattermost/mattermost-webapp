@@ -18,32 +18,6 @@ const goToAdminConsole = () => {
 };
 
 describe('System console', () => {
-    before(() => {
-        cy.apiRequireLicense();
-    });
-
-    it('MM-T897_1 - Focus should be in System Console search box on opening System Console or refreshing pages in System Console', () => {
-        const pageIds = ['reporting\\/system_analytics', 'reporting\\/team_statistics', 'reporting\\/server_logs', 'user_management\\/users', 'user_management\\/teams'];
-        goToAdminConsole();
-
-        // * Assert the ID of the element is the ID of admin sidebar filter
-        cy.focused().should('have.id', 'adminSidebarFilter');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        pageIds.forEach((id) => {
-            // # Go to another page
-            cy.get(`#${id}`).click();
-
-            // * Ensure focus is lost
-            cy.focused().should('not.have.id', 'adminSidebarFilter');
-
-            // * Reload and ensure the focus is back on the search component
-            cy.reload();
-            cy.focused().should('have.id', 'adminSidebarFilter');
-            cy.wait(TIMEOUTS.ONE_SEC);
-        });
-    });
-
     it('MM-T897_2 - System Console menu footer should not cut off at the bottom', () => {
         goToAdminConsole();
 

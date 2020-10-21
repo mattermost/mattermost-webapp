@@ -3,22 +3,29 @@
 
 import $ from 'jquery';
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-const SettingsSidebar = React.lazy(() => import('components/settings_sidebar.tsx'));
+const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 
 import TeamSettings from 'components/team_settings';
 
-export default class TeamSettingsModal extends React.PureComponent {
-    static propTypes = {
-        onHide: PropTypes.func,
-    };
+type Props = {
+    onHide: () => void
+}
 
-    constructor(props) {
+export type State = {
+    activeTab: string,
+    activeSection: string,
+    show: boolean,
+}
+
+export default class TeamSettingsModal extends React.PureComponent<Props, State> {
+    modalBodyRef: React.RefObject<Modal>;
+
+    constructor(props:Props) {
         super(props);
 
         this.state = {
@@ -30,23 +37,24 @@ export default class TeamSettingsModal extends React.PureComponent {
         this.modalBodyRef = React.createRef();
     }
 
-    updateTab = (tab) => {
+    updateTab = (tab: string) => {
         this.setState({
             activeTab: tab,
             activeSection: '',
         });
     }
 
-    updateSection = (section) => {
+    updateSection = (section:string) => {
         this.setState({activeSection: section});
     }
 
     collapseModal = () => {
-        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
+        const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as HTMLDivElement;
+        $(el).closest('.modal-dialog').removeClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
 
         this.setState({
-            active_tab: '',
-            active_section: '',
+            activeTab: '',
+            activeSection: '',
         });
     }
 
