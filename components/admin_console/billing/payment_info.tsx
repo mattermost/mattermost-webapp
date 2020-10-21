@@ -1,17 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
+
+import {pageVisited} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import BlockableLink from 'components/admin_console/blockable_link';
+
+import PaymentInfoDisplay from './payment_info_display';
 
 type Props = {
 
 };
 
 const PaymentInfo: React.FC<Props> = () => {
+    const dispatch = useDispatch<DispatchFunc>();
+
+    useEffect(() => {
+        dispatch(getCloudCustomer());
+
+        pageVisited('cloud_admin', 'pageview_billing_payment_info');
+    }, []);
+
     return (
         <div className='wrapper--fixed PaymentInfo'>
             <FormattedAdminHeader
@@ -20,20 +33,7 @@ const PaymentInfo: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <div style={{border: '1px solid #000', width: '100%', height: '81px', marginBottom: '20px'}}>
-                        {'Alert Banner (credit card expired/about to expire)'}
-                    </div>
-                    <div style={{border: '1px solid #000', width: '100%', height: '484px'}}>
-                        {'Payment Details Card'}
-                        <BlockableLink
-                            to='/admin_console/billing/payment_info_edit'
-                        >
-                            <FormattedMessage
-                                id='admin.billing.payment_info.add'
-                                defaultMessage='Add Payment Information'
-                            />
-                        </BlockableLink>
-                    </div>
+                    <PaymentInfoDisplay/>
                 </div>
             </div>
         </div>
