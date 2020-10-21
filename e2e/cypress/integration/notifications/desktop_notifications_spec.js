@@ -186,7 +186,7 @@ describe('Desktop notifications', () => {
         });
     });
 
-    it('MM-T497 Desktop Notifications for empty string without mention badge', => {
+    it('MM-T497 Desktop Notifications for empty string without mention badge', () => {
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
