@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
@@ -64,7 +65,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
-    it('AS12980 Hide Channel Switcher button in left-hand-side', () => {
+    it('MM-T265_1 Hide Channel Switcher button in LHS', () => {
         // * Check that the Sidebar tab is loaded, then click
         cy.get('#sidebarButton').should('be.visible').click();
 
@@ -88,7 +89,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#sidebarSwitcherButton').should('be.not.visible');
     });
 
-    it('AS12980 Show Channel Switcher button in left-hand-side', () => {
+    it('MM-T265_2 Show Channel Switcher button in LHS', () => {
         // * Check that the Sidebar tab is loaded, then click
         cy.get('#sidebarButton').should('be.visible').click();
 

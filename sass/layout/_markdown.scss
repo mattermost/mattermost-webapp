@@ -171,19 +171,12 @@ h6 {
     position: relative;
 
     code {
-        border: 1px solid v(center-channel-color-20);
-        border-radius: .25em;
-        display: block;
+        background-color: inherit;
         font-size: 13px;
-        margin: 5px 0;
-        overflow-x: auto;
-        padding: 6.5px;
+        display: block;
+        position: relative;
+        padding: 0px;
         text-align: left;
-    }
-
-    td {
-        padding: 0 .5em;
-        vertical-align: top;
     }
 
     &:hover .post-code__language {
@@ -196,48 +189,27 @@ h6 {
         }
     }
 
+    .post-code__line-numbers {
+        @include user-select(none);
+        border-right: 1px solid #CCCCCC;
+        color: #CCCCCC;
+        font-family: Menlo, Monaco, Consolas, "Courier New", monospace; // Match the fonts that code elements use
+        margin-right: 12px;
+        min-width: 36px;
+        padding-right: 4px;
+    }
+
     .hljs {
+        border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
+        border-radius: .25em;
+        display: flex;
+        font-size: 13px;
+        margin: 5px 0;
+        padding: 6.5px;
         position: relative;
         visibility: visible;
         white-space: pre;
-        display: flex;
-        flex-direction: column;
-
-        >div {
-            display: flex;
-        }
-              
-    /* for block of numbers */
-    .hljs-ln-numbers:before {
-        content: counter(code-counter);
-        counter-increment: code-counter;
-        color: #ccc;
-        border-right: 1px solid #CCC;
-        vertical-align: top;
-        padding-right: 5px;
-        vertical-align: top;
-        padding-right: 4px;
-        margin-right: 12px;
-        min-width: 36px;
-    }
-
-        .hljs-code {
-            white-space: pre;
-        }
-
-        .post-code__search-highlighting {
-            display: block;
-            white-space: pre;
-        }
-    }
-
-    .hljs-ln {
-        white-space: unset;
-        counter-reset: code-counter;
-
-        .post-code__search-highlighting {
-            left: 54.5px;
-        }
+        flex-direction: row;
     }
 }
 
@@ -255,22 +227,8 @@ h6 {
     z-index: 5;
 }
 
-.post-code__lineno {
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
-    border-right: 1px solid #aaa;
-    color: #aaa;
-    margin-right: .5em;
-    text-align: right;
-    user-select: none;
-}
-
 .post-code__search-highlighting {
     color: transparent;
-    right: 6.5px;
-    left: 6.5px;
     pointer-events: none;
     position: absolute;
     @include user-select(none);
@@ -360,7 +318,9 @@ pre {
 }
 
 code {
-    background: $white;
+    background-color: rgba(var(--center-channel-color-rgb), 0.1);
+
+    // Reset styles from Bootstrap
     color: inherit;
 }
 

@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import BlockableLink from 'components/admin_console/blockable_link';
 import * as Utils from 'utils/utils.jsx';
 
@@ -18,6 +18,7 @@ export default class AdminSidebarSection extends React.PureComponent {
             subsection: PropTypes.bool,
             children: PropTypes.node,
             action: PropTypes.node,
+            definitionKey: PropTypes.string,
         };
     }
 
@@ -90,7 +91,10 @@ export default class AdminSidebarSection extends React.PureComponent {
         }
 
         return (
-            <li className={className}>
+            <li
+                className={className}
+                data-testid={this.props.definitionKey}
+            >
                 {sidebarItem}
                 {clonedChildren}
             </li>

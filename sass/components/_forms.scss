@@ -162,10 +162,10 @@
 .app__body {
     .form-control {
         color: v(center-channel-color);
-        border-color: v(center-channel-color-16);
+        border-color: rgba(var(--center-channel-color-rgb), 0.16);
 
         &:focus {
-            border-color: v(center-channel-color-40);
+            border-color: rgba(var(--center-channel-color-rgb), 0.40);
         }
 
         &.inline {
@@ -191,4 +191,8 @@ input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
     outline: none;
+}
+
+.notification-sound-dropdown {
+    padding-top: 5px;
 }

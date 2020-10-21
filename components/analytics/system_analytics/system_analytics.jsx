@@ -21,7 +21,7 @@ import {
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
     formatPostDoughtnutData,
-    synchronizeChartData,
+    synchronizeChartLabels,
 } from '../format';
 
 const StatTypes = Constants.StatTypes;
@@ -47,10 +47,11 @@ export default class SystemAnalytics extends React.PureComponent {
         const stats = this.props.stats;
         const isLicensed = this.props.isLicensed;
         const skippedIntensiveQueries = stats[StatTypes.TOTAL_POSTS] === -1;
-        const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
-        const botPostCountsDay = formatPostsPerDayData(stats[StatTypes.BOT_POST_PER_DAY]);
-        const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
-        synchronizeChartData(postCountsDay, botPostCountsDay, userCountsWithPostsDay);
+
+        const labels = synchronizeChartLabels(stats[StatTypes.POST_PER_DAY], stats[StatTypes.BOT_POST_PER_DAY], stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
+        const postCountsDay = formatPostsPerDayData(labels, stats[StatTypes.POST_PER_DAY]);
+        const botPostCountsDay = formatPostsPerDayData(labels, stats[StatTypes.BOT_POST_PER_DAY]);
+        const userCountsWithPostsDay = formatUsersWithPostsPerDayData(labels, stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
         let banner;
         let postCount;
@@ -71,6 +72,7 @@ export default class SystemAnalytics extends React.PureComponent {
         } else {
             postCount = (
                 <StatisticCount
+                    id='totalPosts'
                     title={
                         <FormattedMessage
                             id='analytics.system.totalPosts'
@@ -92,6 +94,7 @@ export default class SystemAnalytics extends React.PureComponent {
                             />
                         }
                         data={botPostCountsDay}
+                        id='totalPostsFromBotsLineChart'
                         width={740}
                         height={225}
                     />
@@ -107,6 +110,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Total Posts'
                             />
                         }
+                        id='totalPostsLineChart'
                         data={postCountsDay}
                         width={740}
                         height={225}
@@ -123,6 +127,7 @@ export default class SystemAnalytics extends React.PureComponent {
                                 defaultMessage='Active Users With Posts'
                             />
                         }
+                        id='activeUsersWithPostsLineChart'
                         data={userCountsWithPostsDay}
                         width={740}
                         height={225}
@@ -140,6 +145,7 @@ export default class SystemAnalytics extends React.PureComponent {
         if (this.props.isLicensed) {
             sessionCount = (
                 <StatisticCount
+                    id='totalSessions'
                     title={
                         <FormattedMessage
                             id='analytics.system.totalSessions'
@@ -153,6 +159,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
             commandCount = (
                 <StatisticCount
+                    id='totalCommands'
                     title={
                         <FormattedMessage
                             id='analytics.system.totalCommands'
@@ -166,6 +173,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
             incomingCount = (
                 <StatisticCount
+                    id='incomingWebhooks'
                     title={
                         <FormattedMessage
                             id='analytics.system.totalIncomingWebhooks'
@@ -179,6 +187,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
             outgoingCount = (
                 <StatisticCount
+                    id='outgoingWebhooks'
                     title={
                         <FormattedMessage
                             id='analytics.system.totalOutgoingWebhooks'
@@ -193,6 +202,7 @@ export default class SystemAnalytics extends React.PureComponent {
             advancedStats = (
                 <div>
                     <StatisticCount
+                        id='websocketConns'
                         title={
                             <FormattedMessage
                                 id='analytics.system.totalWebsockets'
@@ -203,6 +213,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         count={stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS]}
                     />
                     <StatisticCount
+                        id='masterDbConns'
                         title={
                             <FormattedMessage
                                 id='analytics.system.totalMasterDbConnections'
@@ -213,6 +224,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         count={stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS]}
                     />
                     <StatisticCount
+                        id='replicaDbConns'
                         title={
                             <FormattedMessage
                                 id='analytics.system.totalReadDbConnections'
@@ -265,6 +277,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const userCount = (
             <StatisticCount
+                id='totalActiveUsers'
                 title={
                     <FormattedMessage
                         id='analytics.system.totalUsers'
@@ -278,6 +291,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const teamCount = (
             <StatisticCount
+                id='totalTeams'
                 title={
                     <FormattedMessage
                         id='analytics.system.totalTeams'
@@ -291,6 +305,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const channelCount = (
             <StatisticCount
+                id='totalChannels'
                 title={
                     <FormattedMessage
                         id='analytics.system.totalChannels'
@@ -304,6 +319,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const dailyActiveUsers = (
             <StatisticCount
+                id='dailyActiveUsers'
                 title={
                     <FormattedMessage
                         id='analytics.system.dailyActiveUsers'
@@ -317,6 +333,7 @@ export default class SystemAnalytics extends React.PureComponent {
 
         const monthlyActiveUsers = (
             <StatisticCount
+                id='monthlyActiveUsers'
                 title={
                     <FormattedMessage
                         id='analytics.system.monthlyActiveUsers'

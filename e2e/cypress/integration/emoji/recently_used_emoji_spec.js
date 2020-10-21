@@ -22,7 +22,7 @@ describe('Recent Emoji', () => {
         });
     });
 
-    it('M14014 Recently used emojis are shown 1st', () => {
+    it('MM-T155 Recently used emoji reactions are shown first', () => {
         // # Before test delete all recent emoji on local storage
         cy.clearLocalStorage(/recent_emojis/);
 
@@ -34,31 +34,28 @@ describe('Recent Emoji', () => {
 
         // # Click first emoji
         cy.get('#emojiPicker').should('be.visible');
-        cy.get('.emoji-picker__item').eq(firstEmoji).click();
+        cy.get('.emoji-picker__item').eq(firstEmoji).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Submit post
-        cy.get('#create_post').submit();
-
-        // # Wait 500 millisecond
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.get('#create_post').submit().wait(TIMEOUTS.HALF_SEC);
 
         // # Post reaction to post
         cy.clickPostReactionIcon();
 
         // # Click second emoji
-        cy.get('.emoji-picker__item').eq(secondEmoji).click();
+        cy.get('.emoji-picker__item').eq(secondEmoji).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Show emoji list
-        cy.get('#emojiPickerButton').click();
+        cy.get('#emojiPickerButton').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Assert first emoji should equal with second recent emoji
         cy.get('.emoji-picker__item').eq(firstEmoji + 2).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', $el.attr('class')); // eslint-disable-line jquery/no-attr
+            cy.get('.emoji-picker__item').eq(1).find('img').should('have.attr', 'class', $el.attr('class'));
         });
 
         // * Assert second emoji should equal with first recent emoji
         cy.get('.emoji-picker__item').eq(secondEmoji + 1).find('img').then(($el) => {
-            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', $el.attr('class')); // eslint-disable-line jquery/no-attr
+            cy.get('.emoji-picker__item').eq(0).find('img').should('have.attr', 'class', $el.attr('class'));
         });
     });
 });

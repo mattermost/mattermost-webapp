@@ -4,17 +4,35 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getMyTeams, getJoinableTeamIds, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getConfig,
+    getLicense,
+} from 'mattermost-redux/selectors/entities/general';
+import {
+    getMyTeams,
+    getJoinableTeamIds,
+    getCurrentTeam,
+    getMyTeamMember,
+} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+
+import {isAdmin} from 'utils/utils.jsx';
 
 import {RHSStates} from 'utils/constants';
 
+import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
+
+import {
+    showOnboarding,
+    showNextStepsTips,
+    showNextSteps,
+} from 'components/next_steps_view/steps';
 
 import MainMenu from './main_menu.jsx';
 
@@ -81,7 +99,16 @@ function mapStateToProps(state) {
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
-        isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
+        isLicensedForLDAPGroups:
+            state.entities.general.license.LDAPGroups === 'true',
+        userLimit: getConfig(state).ExperimentalCloudUserLimit,
+        currentUsers: state.entities.admin.analytics.TOTAL_USERS,
+        userIsAdmin: isAdmin(getMyTeamMember(state, currentTeam.id).roles),
+        showGettingStarted: showOnboarding(state),
+        showNextStepsTips: showNextStepsTips(state),
+        showNextSteps: showNextSteps(state),
+        subscription: state.entities.cloud.subscription,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 
@@ -93,6 +120,8 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
+            unhideNextSteps,
+            getCloudSubscription,
         }, dispatch),
     };
 }

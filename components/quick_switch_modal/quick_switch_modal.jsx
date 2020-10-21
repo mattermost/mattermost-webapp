@@ -55,6 +55,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             text: '',
             mode: CHANNEL_MODE,
             hasSuggestions: true,
+            shouldShowLoadingSpinner: true,
             pretext: '',
         };
     }
@@ -102,7 +103,7 @@ export default class QuickSwitchModal extends React.PureComponent {
     };
 
     onChange = (e) => {
-        this.setState({text: e.target.value});
+        this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
     };
 
     handleKeyDown = (e) => {
@@ -164,8 +165,10 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     handleSuggestionsReceived = (suggestions) => {
-        const noLoadingProp = suggestions.items.some((item) => !item.loading);
-        this.setState({hasSuggestions: !suggestions.matchedPretext || (suggestions.items.length > 0 && noLoadingProp), pretext: suggestions.matchedPretext});
+        const loadingPropPresent = suggestions.items.some((item) => item.loading);
+        this.setState({shouldShowLoadingSpinner: loadingPropPresent,
+            pretext: suggestions.matchedPretext,
+            hasSuggestions: suggestions.items.length > 0});
     }
 
     render() {
@@ -267,7 +270,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             help = (
                 <FormattedMarkdownMessage
                     id='quick_switch_modal.help_no_team'
-                    defaultMessage='Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss.'
+                    defaultMessage='Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.'
                 />
             );
         }
@@ -282,6 +285,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 restoreFocus={false}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
+                aria-describedby='quickSwitchHint'
                 animation={false}
             >
                 <Modal.Header
@@ -318,10 +322,9 @@ export default class QuickSwitchModal extends React.PureComponent {
                             delayInputUpdate={true}
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
-                            suppressLoadingSpinner={!this.state.hasSuggestions}
                             forceSuggestionsWhenBlur={true}
                         />
-                        {!this.state.hasSuggestions &&
+                        {!this.state.shouldShowLoadingSpinner && !this.state.hasSuggestions && this.state.text &&
                         <NoResultsIndicator
                             variant={NoResultsVariant.ChannelSearch}
                             titleValues={{channelName: `"${this.state.pretext}"`}}

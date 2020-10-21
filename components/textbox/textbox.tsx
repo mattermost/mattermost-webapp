@@ -30,6 +30,7 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent) => void;
+    onSelect?: (e: React.SyntheticEvent) => void;
     onMouseUp?: (e: MouseEvent) => void;
     onKeyUp?: (e: KeyboardEvent) => void;
     onBlur?: (e: FocusEvent) => void;
@@ -47,7 +48,7 @@ type Props = {
     preview?: boolean;
     profilesInChannel: { id: string }[];
     profilesNotInChannel: { id: string }[];
-    autocompleteGroups: { id: string }[];
+    autocompleteGroups: { id: string }[] | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
@@ -55,6 +56,7 @@ type Props = {
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
+    openWhenEmpty?: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -89,8 +91,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider({
-                channelId: this.props.channelId,
-                rootId: this.props.rootId,
+                isInRHS: Boolean(this.props.rootId),
             }));
         }
 
@@ -161,6 +162,10 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onKeyDown?.(e);
     }
 
+    handleSelect = (e: React.SyntheticEvent) => {
+        this.props.onSelect?.(e);
+    }
+
     handleMouseUp = (e: MouseEvent) => {
         this.props.onMouseUp?.(e);
     }
@@ -226,12 +231,14 @@ export default class Textbox extends React.PureComponent<Props> {
                     className='form-control custom-textarea textbox-preview-area'
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onSelect={this.handleSelect}
                     onBlur={this.handleBlur}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}
                         message={this.props.value}
                         mentionKeys={[]}
+                        channelId={this.props.channelId}
                     />
                 </div>
             );
@@ -250,6 +257,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     placeholder={this.props.createMessage}
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
+                    onSelect={this.handleSelect}
                     onKeyDown={this.handleKeyDown}
                     onMouseUp={this.handleMouseUp}
                     onKeyUp={this.handleKeyUp}
@@ -269,6 +277,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     wrapperHeight={wrapperHeight}
+                    openWhenEmpty={this.props.openWhenEmpty}
                 />
                 {preview}
             </div>

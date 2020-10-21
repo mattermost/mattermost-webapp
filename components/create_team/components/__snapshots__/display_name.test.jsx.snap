@@ -12,7 +12,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       <FormattedMessage
         defaultMessage="Team Name"
         id="create_team.display_name.teamName"
-        values={Object {}}
       />
     </h2>
     <div
@@ -27,13 +26,14 @@ exports[`/components/create_team/components/display_name should match snapshot 1
           <input
             autoFocus={true}
             className="form-control"
-            defaultValue="test-team"
             id="teamNameInput"
             maxLength="128"
+            onChange={[Function]}
             onFocus={[Function]}
             placeholder=""
             spellCheck="false"
             type="text"
+            value="test-team"
           />
         </div>
       </div>
@@ -42,7 +42,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       <FormattedMessage
         defaultMessage="Name your team in any language. Your team name shows in menus and headings."
         id="create_team.display_name.nameHelp"
-        values={Object {}}
       />
     </div>
     <button
@@ -54,7 +53,6 @@ exports[`/components/create_team/components/display_name should match snapshot 1
       <FormattedMessage
         defaultMessage="Next"
         id="create_team.display_name.next"
-        values={Object {}}
       />
       <NextIcon
         additionalClassName={null}

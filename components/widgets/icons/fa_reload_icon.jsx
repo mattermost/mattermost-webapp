@@ -2,23 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
-import {FormattedMessage} from 'react-intl';
-
-export default class ReloadIcon extends React.PureComponent {
-    render() {
-        return (
-            <FormattedMessage
-                id='generic_icons.reload'
-                defaultMessage='Reload Icon'
-            >
-                {(title) => (
-                    <i
-                        className='fa fa-refresh'
-                        title={title}
-                    />
-                )}
-            </FormattedMessage>
-        );
-    }
+export default function ReloadIcon() {
+    const {formatMessage} = useIntl();
+    return (
+        <i
+            className='fa fa-refresh'
+            title={formatMessage({id: 'generic_icons.reload', defaultMessage: 'Reload Icon'})}
+        />
+    );
 }
+

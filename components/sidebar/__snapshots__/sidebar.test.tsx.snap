@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/sidebar should match empty div snapshot when teamId is missing 1`] = `<div />`;
+
 exports[`components/sidebar should match snapshot 1`] = `
 <div
   className=""
@@ -33,13 +35,6 @@ exports[`components/sidebar should match snapshot 1`] = `
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
 </div>
 `;
 
@@ -76,13 +71,6 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
   <Connect(MoreDirectChannels)
     isExistingChannel={false}
     onModalDismissed={[Function]}
@@ -122,13 +110,6 @@ exports[`components/sidebar should match snapshot when isDataPrefechEnabled is d
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
 </div>
 `;
 
@@ -165,17 +146,5 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-  <Connect(NewChannelFlow)
-    canCreatePrivateChannel={true}
-    canCreatePublicChannel={true}
-    channelType="O"
-    onModalDismissed={[Function]}
-    show={false}
-  />
-  <Connect(MoreChannels)
-    handleNewChannel={[Function]}
-    morePublicChannelsModalType="public"
-    onModalDismissed={[Function]}
-  />
 </div>
 `;

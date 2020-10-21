@@ -79,6 +79,7 @@ class EditChannelHeaderModal extends React.PureComponent {
             header: props.channel.header,
             saving: false,
         };
+        this.editChannelHeaderTextboxRef = React.createRef();
     }
 
     handleModalKeyDown = (e) => {
@@ -120,14 +121,14 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     focusTextbox = () => {
-        if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.focus();
+        if (this.editChannelHeaderTextboxRef.current) {
+            this.editChannelHeaderTextboxRef.current.focus();
         }
     }
 
     blurTextbox = () => {
-        if (this.refs.editChannelHeaderTextbox) {
-            this.refs.editChannelHeaderTextbox.blur();
+        if (this.editChannelHeaderTextboxRef.current) {
+            this.editChannelHeaderTextboxRef.current.blur();
         }
     }
 
@@ -240,8 +241,9 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                                 handlePostError={this.handlePostError}
+                                channelId={this.props.channel.id}
                                 id='edit_textbox'
-                                ref='editChannelHeaderTextbox'
+                                ref={this.editChannelHeaderTextboxRef}
                                 characterLimit={1024}
                                 preview={this.props.shouldShowPreview}
                             />

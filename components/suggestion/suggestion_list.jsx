@@ -30,7 +30,6 @@ export default class SuggestionList extends React.PureComponent {
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
         wrapperHeight: PropTypes.number,
-        suppressLoadingSpinner: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -225,9 +224,10 @@ export default class SuggestionList extends React.PureComponent {
 
         const contentStyle = {maxHeight};
 
-        return this.props.suppressLoadingSpinner ? '' : (<div className={mainClass}>
+        return (<div className={mainClass}>
             <div
                 id='suggestionList'
+                role='list'
                 ref={this.contentRef}
                 style={{...contentStyle}}
                 className={contentClass}
@@ -235,7 +235,6 @@ export default class SuggestionList extends React.PureComponent {
             >
                 {items}
             </div>
-        </div>
-        );
+        </div>);
     }
 }

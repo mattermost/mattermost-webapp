@@ -16,7 +16,6 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
       <FormattedMessage
         defaultMessage="Save"
         id="flag_post.flag"
-        values={Object {}}
       />
     </Tooltip>
   }
@@ -57,7 +56,6 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
       <FormattedMessage
         defaultMessage="Remove from Saved"
         id="flag_post.unflag"
-        values={Object {}}
       />
     </Tooltip>
   }

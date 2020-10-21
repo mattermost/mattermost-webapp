@@ -287,7 +287,21 @@ exports[`components/Menu should match snapshot with id 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -307,6 +321,12 @@ exports[`components/Menu should match snapshot with id 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -643,7 +663,21 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -663,6 +697,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1045,7 +1085,21 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -1073,6 +1127,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1425,7 +1485,21 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -1445,6 +1519,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       show={true}
       text="Help"
       url="test-link-help"
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -1827,7 +1907,21 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -1855,6 +1949,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       show={true}
       text="Help"
       url="test-link-help"
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -2224,7 +2324,21 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -2244,6 +2358,12 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"
@@ -2643,7 +2763,21 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <Connect(SystemPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_read_about",
+          "sysconsole_read_billing",
+          "sysconsole_read_reporting",
+          "sysconsole_read_user_management_users",
+          "sysconsole_read_user_management_groups",
+          "sysconsole_read_user_management_teams",
+          "sysconsole_read_user_management_channels",
+          "sysconsole_read_user_management_permissions",
+          "sysconsole_read_environment",
+          "sysconsole_read_site",
+          "sysconsole_read_authentication",
+          "sysconsole_read_plugins",
+          "sysconsole_read_integrations",
+          "sysconsole_read_compliance",
+          "sysconsole_read_experimental",
         ]
       }
     >
@@ -2671,6 +2805,12 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       show={false}
       text="Help"
       url={null}
+    />
+    <MenuItemAction
+      id="gettingStarted"
+      onClick={[Function]}
+      show={false}
+      text="Getting Started"
     />
     <MenuItemAction
       id="keyboardShortcuts"

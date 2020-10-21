@@ -18,7 +18,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M17456 - Message in another language should be displayed properly', () => {
+    it('MM-T182 Typing using CJK keyboard', () => {
         const msg = '안녕하세요';
         const msg2 = '닥터 카레브';
 
@@ -26,7 +26,7 @@ describe('Messaging', () => {
         cy.postMessage(msg);
 
         // * Check that last message do contain right message
-        cy.getLastPost().should('have', msg);
+        cy.getLastPost().should('contain', msg);
 
         // # Mouseover the post and click post comment icon.
         cy.clickPostCommentIcon();
@@ -35,6 +35,6 @@ describe('Messaging', () => {
         cy.postMessageReplyInRHS(msg2);
 
         // * Check that last message do contain right message
-        cy.getLastPost().should('have', msg2);
+        cy.getLastPost().should('contain', msg2);
     });
 });

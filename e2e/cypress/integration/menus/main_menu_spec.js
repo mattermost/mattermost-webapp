@@ -21,7 +21,7 @@ describe('Main menu', () => {
         });
     });
 
-    it('MM-20861 - Click on menu item should toggle the menu', () => {
+    it('MM-T711_1 - Click on menu item should toggle the menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
@@ -33,7 +33,7 @@ describe('Main menu', () => {
         });
     });
 
-    it('MM-20861 - Click on menu divider shouldn\'t toggle the menu', () => {
+    it('MM-T711_2 - Click on menu divider shouldn\'t toggle the menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 

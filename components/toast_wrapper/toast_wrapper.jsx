@@ -3,16 +3,22 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedDate, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
-import LocalDateTime from 'components/local_date_time';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
+const THRESHOLD_FROM_BOTTOM = 1000;
+
+const TOAST_REL_RANGES = [
+    RelativeRanges.TODAY_YESTERDAY,
+];
 
 class ToastWrapper extends React.PureComponent {
     static propTypes = {
@@ -82,25 +88,26 @@ class ToastWrapper extends React.PureComponent {
         } else {
             unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
         }
+        if (props.atBottom !== null) {
+            // show unread toast on mount when channel is not at bottom and unread count greater than 0
+            if (typeof showUnreadToast === 'undefined') {
+                showUnreadToast = unreadCount > 0 && props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM;
+            }
 
-        // show unread toast on mount when channel is not at bottom and unread count greater than 0
-        if (typeof showUnreadToast === 'undefined' && props.atBottom !== null) {
-            showUnreadToast = unreadCount > 0 && !props.atBottom;
-        }
+            if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '') {
+                showMessageHistoryToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM || !props.atLatestPost;
+            }
 
-        if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '' && props.atBottom !== null) {
-            showMessageHistoryToast = props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost;
-        }
+            // show unread toast when a channel is marked as unread
+            if (props.channelMarkedAsUnread && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
+                showUnreadToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM;
+            }
 
-        // show unread toast when a channel is marked as unread
-        if (props.channelMarkedAsUnread && !props.atBottom && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
-            showUnreadToast = true;
-        }
-
-        // show unread toast when a channel is remarked as unread using the change in lastViewedAt
-        // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
-        if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt && !props.atBottom) {
-            showUnreadToast = true;
+            // show unread toast when a channel is remarked as unread using the change in lastViewedAt
+            // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
+            if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt) {
+                showUnreadToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM;
+            }
         }
 
         if (!showUnreadToast && unreadCount > 0 && !props.atBottom && (props.lastViewedBottom < props.latestPostTimeStamp)) {
@@ -216,20 +223,15 @@ class ToastWrapper extends React.PureComponent {
             return (
                 <FormattedMessage
                     id='postlist.toast.newMessagesSince'
-                    defaultMessage={'{count, number} new {count, plural, one {message} other {messages}} since {date} at {time}'}
+                    defaultMessage='{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}'
                     values={{
                         count,
+                        isToday: isToday(new Date(since)).toString(),
                         date: (
-                            <FormattedDate
+                            <Timestamp
                                 value={since}
-                                weekday='short'
-                                day='2-digit'
-                                month='short'
-                            />
-                        ),
-                        time: (
-                            <LocalDateTime
-                                eventTime={since}
+                                useTime={false}
+                                ranges={TOAST_REL_RANGES}
                             />
                         ),
                     }}

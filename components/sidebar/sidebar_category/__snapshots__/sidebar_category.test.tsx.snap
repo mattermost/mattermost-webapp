@@ -53,7 +53,8 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "user_id": "",
         }
       }
-      onToggle={[Function]}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
     />
   </div>
   <div
@@ -132,7 +133,8 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "user_id": "",
         }
       }
-      onToggle={[Function]}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
     />
   </div>
   <div
@@ -202,7 +204,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
         <FormattedMessage
           defaultMessage="new"
           id="sidebar_left.sidebar_category.newLabel"
-          values={Object {}}
         />
       </div>
     </button>
@@ -218,7 +219,8 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           "user_id": "",
         }
       }
-      onToggle={[Function]}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
     />
   </div>
   <div
@@ -231,6 +233,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       <PublicDraggable
         draggableId="NEW_CHANNEL_SPACER__category1"
         index={0}
+        isDragDisabled={true}
       >
         <Component />
       </PublicDraggable>
@@ -247,7 +250,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           <FormattedMessage
             defaultMessage="Drag channels here..."
             id="sidebar_left.sidebar_category.newDropBoxLabel"
-            values={Object {}}
           />
         </span>
       </div>

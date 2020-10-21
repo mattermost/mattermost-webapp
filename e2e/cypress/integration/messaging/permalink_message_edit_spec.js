@@ -29,7 +29,7 @@ describe('Permalink message edit', () => {
         });
     });
 
-    it('M18717 - Edit a message in permalink view', () => {
+    it('MM-T180 Edit a message in permalink view', () => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
