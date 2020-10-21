@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -22,12 +21,18 @@ export default class RemoveFileSetting extends Setting {
         };
     }
 
+    constructor(props) {
+        super(props);
+
+        this.remove_button = React.createRef();
+    }
+
     handleRemove = (e) => {
         e.preventDefault();
 
-        $(this.refs.remove_button).button('loading');
+        $(this.remove_button.current).button('loading');
         this.props.onSubmit(this.props.id, () => {
-            $(this.refs.remove_button).button('reset');
+            $(this.remove_button.current).button('reset');
         });
     }
 
@@ -45,7 +50,7 @@ export default class RemoveFileSetting extends Setting {
                     <button
                         className='btn btn-danger'
                         onClick={this.handleRemove}
-                        ref='remove_button'
+                        ref={this.remove_button}
                         disabled={this.props.disabled}
                         data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.removingText}`}
                     >
@@ -56,4 +61,3 @@ export default class RemoveFileSetting extends Setting {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
