@@ -8,12 +8,13 @@ import {Client4} from 'mattermost-redux/client';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
+import {ClientError} from 'mattermost-redux/src/client/client4';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
-import MultiSelect from 'components/multiselect/multiselect';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -23,7 +24,7 @@ import Constants from 'utils/constants';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-type Props = {
+type Props<T extends Value> = {
     profilesNotInCurrentChannel: [];
     profilesNotInCurrentTeam: [],
     onHide: () => void,
@@ -33,39 +34,40 @@ type Props = {
     skipCommit?: boolean,
 
     // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-    onAddCallback?: () => void,
+    onAddCallback?: (userProfiles?: T[]) => void,
 
     // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<any>,
-    includeUsers?: Dictionary<any>,
+    excludeUsers?: Dictionary<T>,
+    includeUsers?: Dictionary<T>,
 
     actions: {
-        addUsersToChannel: () => ActionFunc,
+        addUsersToChannel: (channelId: string, userIds: string[]) => Promise<{error: ClientError}>,
         getProfilesNotInChannel: (teamId: string, id: string, groupConstrained: boolean, page: number, usersPerPage?: number) => Promise<void>,
-        getTeamStats: () => ActionFunc,
+        getTeamStats: (teamId: string) => ActionFunc,
         searchProfiles: () => ActionFunc
     }
 }
 
-type State = {
-    values: Array<any>;
+type State<T extends Value> = {
+    values: T[];
     term: string;
     show: boolean;
     saving: boolean;
     loadingUsers: boolean;
+    inviteError?: string;
 }
 
-export default class ChannelInviteModal extends React.PureComponent<Props, State> {
+export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props<T>, State<T>> {
     private searchTimeoutId = 0;
     private selectedItemRef = React.createRef();
 
-    public static defaultProps: Partial<Props> = {
+    public static defaultProps = {
         includeUsers: {},
         excludeUsers: {},
         skipCommit: false,
     };
 
-    constructor(props: Props) {
+    constructor(props: Props<T>) {
         super(props);
 
         this.state = {
@@ -74,10 +76,10 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             show: true,
             saving: false,
             loadingUsers: true,
-        } as State;
+        } as State<T>;
     }
 
-    private addValue = <T extends unknown>(value: T): void => {
+    private addValue = (value: T): void => {
         const values: Array<T> = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
@@ -86,18 +88,18 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         this.setState({values});
     };
 
-    public componentDidMount() {
+    public componentDidMount(): void {
         this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
     }
 
-    onHide = () => {
+    private onHide = (): void => {
         this.setState({show: false});
     };
 
-    handleInviteError = (err) => {
+    public handleInviteError = (err: ClientError): void => {
         if (err) {
             this.setState({
                 saving: false,
@@ -106,30 +108,31 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         }
     };
 
-    handleDelete = (values) => {
+    private handleDelete = (values: T[]): void => {
         this.setState({values});
     };
 
-    setUsersLoadingState = (loadingState) => {
+    private setUsersLoadingState = (loadingState: boolean): void => {
         this.setState({
             loadingUsers: loadingState,
         });
     };
 
-    handlePageChange = (page, prevPage) => {
+    private handlePageChange = (page: number, prevPage: number): void => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(
+                this.props.channel.team_id,
+                this.props.channel.id,
+                this.props.channel.group_constrained,
+                page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
     };
 
-    handleSubmit = (e) => {
+    private handleSubmit = (): void => {
         const {actions, channel} = this.props;
-        if (e) {
-            e.preventDefault();
-        }
 
         const userIds = this.state.values.map((v) => v.id);
         if (userIds.length === 0) {
@@ -140,7 +143,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             this.props.onAddCallback(this.state.values);
             this.setState({
                 saving: false,
-                inviteError: null,
+                inviteError: undefined,
             });
             this.onHide();
             return;
@@ -154,7 +157,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             } else {
                 this.setState({
                     saving: false,
-                    inviteError: null,
+                    inviteError: undefined,
                 });
                 this.onHide();
             }
@@ -228,7 +231,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
-                        <AddIcon/>
+                        <AddIcon />
                     </div>
                 </div>
             </div>
