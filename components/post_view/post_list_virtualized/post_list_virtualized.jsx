@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
-import {injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
@@ -21,11 +21,14 @@ import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
+import { PostListHint } from 'components/post_view/post_list_hint';
+import { SearchShortcut } from 'components/search_shortcut/search_shortcut';
 
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = 1000;
 const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
+const HEIGHT_TRIGGER_FOR_SCROLL_TOOLTIP = window.screen.height * 3;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -143,6 +146,9 @@ class PostList extends React.PureComponent {
             },
             initScrollCompleted: false,
             initScrollOffsetFromBottom: 0,
+
+            showScrollHint: false,
+            isScrollHintDismissed: false,
         };
 
         this.listRef = React.createRef();
@@ -342,11 +348,12 @@ class PostList extends React.PureComponent {
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
+        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset
+        const shouldLoadNewPosts = offsetFromBottom < HEIGHT_TRIGGER_FOR_MORE_POSTS;
 
         if (didUserScrollBackwards && isOffsetWithInRange && !this.props.atOldestPost) {
             this.props.actions.loadOlderPosts();
-        } else if (didUserScrollForwards && offsetFromBottom && !this.props.atLatestPost) {
+        } else if (didUserScrollForwards && shouldLoadNewPosts && !this.props.atLatestPost) {
             this.props.actions.loadNewerPosts();
         }
 
@@ -374,11 +381,16 @@ class PostList extends React.PureComponent {
             }
 
             if (!this.state.atBottom && scrollHeight) {
-                const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
                 this.setState({
-                    initScrollOffsetFromBottom,
+                    initScrollOffsetFromBottom: offsetFromBottom
                 });
             }
+        }
+
+        if (!this.state.isMobile && !this.state.isScrollHintDismissed) {
+            this.setState({
+                showScrollHint: offsetFromBottom > HEIGHT_TRIGGER_FOR_SCROLL_TOOLTIP,
+            });
         }
     }
 
@@ -421,6 +433,13 @@ class PostList extends React.PureComponent {
                 isScrolling: false,
             });
         }
+    }
+
+    handleScrollTooltipDismiss = () => {
+        this.setState({
+            showScrollHint: false,
+            isScrollHintDismissed: true,
+        });
     }
 
     updateFloatingTimestamp = (visibleTopItem) => {
@@ -523,7 +542,7 @@ class PostList extends React.PureComponent {
         if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
             ariaLabel = this.props.latestAriaLabelFunc(this.props.intl);
         }
-        const {dynamicListStyle} = this.state;
+        const {dynamicListStyle, showScrollHint} = this.state;
 
         return (
             <div
@@ -572,6 +591,16 @@ class PostList extends React.PureComponent {
                                 {({height, width}) => (
                                     <React.Fragment>
                                         <div>{this.renderToasts(width)}</div>
+
+                                        <PostListHint show={showScrollHint} onDismiss={this.handleScrollTooltipDismiss}>
+                                            <FormattedMessage 
+                                                    id="postlist.toast.searchHint" 
+                                                    defaultMessage="Tip: Try {searchShortcut} to search this channel" 
+                                                    values={{
+                                                        searchShortcut: <SearchShortcut />
+                                                    }} />
+                                        </PostListHint>
+
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}

@@ -75,6 +75,55 @@
             @include transition-timing-function(ease-in-out);
         }
 }
+
+.toast__hint {
+    left: 50%;
+    z-index: 3;
+
+    width: auto;
+
+    background-color: rgb(255, 255, 255);
+    transform: translateX(-50%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    .toast__key {
+        display: inline-block;
+        margin-right: 4px;
+        padding: 2px;
+
+        line-height: normal;
+
+        background-color: rgba(0, 0, 0, 0.12);
+        border-radius: 2px;
+    }
+
+    .toast__message {
+        position: static;
+
+        display: inline-block;
+
+        color: rgb(0, 0, 0);
+    }
+
+    .toast__dismiss {
+        position: static;
+
+        display: inline-block;
+
+        &:hover {
+            background-color: rgb(255, 255, 255);
+
+            svg {
+                fill: rgba(0,0,0,0.2);
+            }
+        }
+
+        svg {
+            fill: rgba(0,0,0,0.12);
+        }
+    }
+}
+
 .toast__history {
     background-color: rgb(216, 216, 216);
     color: rgb(61, 60, 64);
