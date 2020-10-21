@@ -188,14 +188,14 @@ module.exports = {
                         expect(addResponse.status).to.equal(201);
 
                         // explicitly wait to give some to index before searching
-                        cy.wait(TIMEOUTS.HALF_SEC);
+                        cy.wait(TIMEOUTS.TWO_SEC);
                         return cy.wrap(channel);
                     });
                 });
             }
 
             // explicitly wait to give some to index before searching
-            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.wait(TIMEOUTS.TWO_SEC);
             return cy.wrap(channel);
         });
     },
