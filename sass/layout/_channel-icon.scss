@@ -17,3 +17,9 @@
     top: 2px;
     left: -2px;
 }
+
+.app__body {
+    .svg-text-color {
+        fill: var(--center-channel-color);
+    }
+}
