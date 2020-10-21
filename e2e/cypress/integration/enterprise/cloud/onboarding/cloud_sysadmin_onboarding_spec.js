@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @enterprise @onboarding
+
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
 
 describe('Cloud Onboarding - Sysadmin', () => {
