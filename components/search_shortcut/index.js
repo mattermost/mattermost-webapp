@@ -1,3 +1,3 @@
-import { searchShortcut } from './search_shortcut';
+import { SearchShortcut } from './search_shortcut';
 
-export { searchShortcut };
+export { SearchShortcut };

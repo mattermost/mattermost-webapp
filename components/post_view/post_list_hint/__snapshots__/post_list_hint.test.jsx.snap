@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/PostListHint should match snapshot when tooltip is hidden 1`] = `
+<Toast
+  extraClasses="toast__hint"
+  onDismiss={[MockFunction]}
+  show={false}
+>
+  <b>
+    Hint: you can dismiss this message
+  </b>
+</Toast>
+`;
+
+exports[`components/PostListHint should match snapshot when tooltip is visible 1`] = `
+<Toast
+  extraClasses="toast__hint"
+  onDismiss={[MockFunction]}
+  show={true}
+>
+  <b>
+    Hint: you can dismiss this message
+  </b>
+</Toast>
+`;

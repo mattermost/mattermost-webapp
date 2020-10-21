@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SearchShortcut should match snapshot on Mac 1`] = `
+<Fragment>
+  <ShortcutKey
+    variant="contrast"
+  >
+    Ctrl
+  </ShortcutKey>
+  <ShortcutKey
+    variant="contrast"
+  >
+    Shift
+  </ShortcutKey>
+  <ShortcutKey
+    variant="contrast"
+  >
+    F
+  </ShortcutKey>
+</Fragment>
+`;
+
+exports[`components/SearchShortcut should match snapshot on Windows 1`] = `
+<Fragment>
+  <ShortcutKey
+    variant="contrast"
+  >
+    Ctrl
+  </ShortcutKey>
+  <ShortcutKey
+    variant="contrast"
+  >
+    Shift
+  </ShortcutKey>
+  <ShortcutKey
+    variant="contrast"
+  >
+    F
+  </ShortcutKey>
+</Fragment>
+`;

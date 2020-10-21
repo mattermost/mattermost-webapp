@@ -1,0 +1,32 @@
+import React from 'react';
+import {shallow} from 'enzyme';
+
+import {SearchShortcut} from 'components/search_shortcut';
+
+describe('components/SearchShortcut', () => {
+  test('should match snapshot on Windows', () => {
+    jest.mock('utils/utils', () => {
+        const original = require.requireActual('utils/utils');
+        return {
+            ...original,
+            isMac: jest.fn(() => false),
+        };
+    });
+
+    const wrapper = shallow(<SearchShortcut />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('should match snapshot on Mac', () => {
+    jest.mock('utils/utils', () => {
+        const original = require.requireActual('utils/utils');
+        return {
+            ...original,
+            isMac: jest.fn(() => true),
+        };
+    });
+
+    const wrapper = shallow(<SearchShortcut />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
