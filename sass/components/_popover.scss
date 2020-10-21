@@ -229,6 +229,10 @@
             @include box-shadow(rgba(var(--center-channel-color-rgb), 0.08) 0px 17px 50px 0px, rgba(var(--center-channel-color-rgb), 0.08) 0px 12px 15px 0px);
             background: v(center-channel-bg);
         }
+
+        .user-popover__role {
+            background: rgba(var(--center-channel-color-rgb), 0.3);
+        }
     }
 }
 
