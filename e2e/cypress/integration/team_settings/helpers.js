@@ -29,18 +29,13 @@ export const allowOnlyUserFromSpecificDomain = (domain) => {
     });
 };
 
-export const inviteUserByEmail = (email, isLicensed) => {
+export const inviteUserByEmail = (email) => {
     // # Open the 'Invite People' full screen modal
     cy.get('.sidebar-header-dropdown__icon').click();
     cy.get('#invitePeople').find('button').eq(0).click();
 
     // # Wait half a second to ensure that the modal has been fully loaded
     cy.wait(TIMEOUTS.HALF_SEC);
-
-    if (isLicensed) {
-        // # Click "Invite members"
-        cy.findByTestId('inviteMembersLink').should('be.visible').click();
-    }
 
     cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
     cy.get('#inviteMembersButton').click();

@@ -137,18 +137,15 @@
             background-color: var(--sidebar-text-active-border);
         }
     }
-
     .Card.complete {
         border-color: transparent;
         box-shadow: none;
         transition-property: box-shadow, border-color;
         background-color: transparent;
-
         &:hover {
             border-color: transparent;
             box-shadow: none;
         }
-
         & + .Card {
             margin-top: 12px;
             transition-property: box-shadow, border-color, margin;
@@ -175,7 +172,6 @@
                 line-height: 26px;
                 color: var(--online-indicator);
                 transition: all 0.3s ease-in-out;
-
                 &::before {
                     margin: 0;
                 }
@@ -591,7 +587,6 @@
         flex: 1 1 100%;
         padding: 0 12px;
     }
-
     .NextStepsView__nextStepsCards, .NextStepsView__download, .NextStepsView__tipsMobileMessage {
         padding: 0 12px;
     }
