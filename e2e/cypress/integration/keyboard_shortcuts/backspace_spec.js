@@ -25,7 +25,7 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('Pressing the backspace key without an input focused should not send the browser back in history', () => {
+    it('MM-T3421 - Pressing the backspace key without an input focused should not send the browser back in history', () => {
         // # Navigate to a couple of pages
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
