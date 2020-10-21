@@ -18,6 +18,10 @@ describe('Onboarding', () => {
     const {username, email, password} = generateRandomUser();
 
     before(() => {
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
+
+        // # Disable LDAP
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
 
         cy.apiInitSetup().then(({team}) => {
@@ -64,8 +68,7 @@ describe('Onboarding', () => {
         });
 
         // # Go through the initial tutorial
-        cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
-        cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
+        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
         cy.get('#tutorialNextButton').should('be.visible').click();
         cy.get('#tutorialIntroTwo').findByText('How Mattermost Works:').should('be.visible');
         cy.get('#tutorialNextButton').should('be.visible').click();
@@ -106,7 +109,6 @@ describe('Onboarding', () => {
         });
 
         // # Assert that the tutorials do not appear
-        cy.get('#tutorialIntroOne').should('not.exist');
-        cy.get('#tutorialIntroOne').should('not.exist');
+        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('not.exist');
     });
 });
