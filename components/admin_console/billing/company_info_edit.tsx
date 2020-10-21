@@ -42,7 +42,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const [country, setCountry] = useState(getName(companyInfo?.company_address?.country || 'US'));
     const [state, setState] = useState(companyInfo?.company_address?.state);
 
-    const [sameAsBillingAddress, setSameAsBillingAddress] = useState(!companyInfo?.company_address?.line1);
+    const [sameAsBillingAddress, setSameAsBillingAddress] = useState(Boolean(!companyInfo?.company_address?.line1 && companyInfo?.billing_address?.line1));
     const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
     const [isSaving, setIsSaving] = useState(false);
 
