@@ -7,12 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console
+// Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {
     promoteToChannelOrTeamAdmin,
-} from '../../enterprise/system_console/channel_moderation/helpers.js';
+} from '../channel_moderation/helpers.js';
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
@@ -21,10 +21,12 @@ const goToAdminConsole = () => {
 };
 
 describe('System console', () => {
-    it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {
+    before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
+    });
 
+    it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {
         const verifyCreatePublicChannel = (testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel) => {
             // * Login as system admin and go the channel we created earlier and expect the create public channel button is visible
             cy.apiAdminLogin();
