@@ -138,6 +138,10 @@
             padding: 0;
             display: flex;
 
+            .app__body & {
+                color: var(--sidebar-header-text-color)
+            }
+
             .dropdown, .MenuWrapper {
                 max-width: calc(100% - 40px);
             }
