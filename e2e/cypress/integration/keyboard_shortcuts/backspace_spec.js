@@ -32,6 +32,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/${publicChannel.name}`);
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
+        // # Visit a DM URL
         cy.visit(`/${testTeam.name}/messages/@${testUser.username}`);
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);
 
