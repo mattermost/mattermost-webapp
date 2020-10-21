@@ -19,12 +19,7 @@ describe('Guest Accounts', () => {
     let guestUser;
 
     before(() => {
-        cy.apiInitSetup();
-
         cy.apiRequireLicenseForFeature('GuestAccounts');
-
-        // # Log in as a team admin.
-        cy.apiAdminLogin();
 
         cy.apiCreateGuestUser().then(({guest}) => {
             guestUser = guest;
