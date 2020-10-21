@@ -33,13 +33,14 @@ export default class AudioVideoPreview extends React.PureComponent {
             canPlay: true,
         };
         this.videoRef = React.createRef();
+        this.sourceRef = React.createRef();
     }
 
     componentDidMount() {
         this.handleFileInfoChanged(this.props.fileInfo);
 
-        if (this.refs.source) {
-            $(ReactDOM.findDOMNode(this.refs.source)).one('error', this.handleLoadError);
+        if (this.sourceRef.current) {
+            $(ReactDOM.findDOMNode(this.sourceRef.current)).one('error', this.handleLoadError);
         }
     }
 
@@ -48,8 +49,8 @@ export default class AudioVideoPreview extends React.PureComponent {
             this.handleFileInfoChanged(this.props.fileInfo);
         }
 
-        if (this.refs.source) {
-            $(ReactDOM.findDOMNode(this.refs.source)).one('error', this.handleLoadError);
+        if (this.sourceRef.current) {
+            $(ReactDOM.findDOMNode(this.sourceRef.current)).one('error', this.handleLoadError);
         }
     }
 
@@ -108,7 +109,7 @@ export default class AudioVideoPreview extends React.PureComponent {
                 height={height}
             >
                 <source
-                    ref='source'
+                    ref={this.sourceRef}
                     src={this.props.fileUrl}
                 />
             </video>
