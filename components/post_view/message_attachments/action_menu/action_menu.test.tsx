@@ -21,6 +21,8 @@ describe('components/post_view/message_attachments/ActionMenu', () => {
                     value: '2',
                 },
             ],
+            id: 'id',
+            cookie: 'cookie',
         },
         actions: {
             autocompleteChannels: jest.fn(),
