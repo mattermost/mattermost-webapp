@@ -362,6 +362,7 @@ Your subscription details are as follows:
               </a>
                and 
               <a
+                data-testid="privacyPolicyLink"
                 href="https://about.mattermost.com/default-privacy-policy/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -510,6 +511,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               </a>
                and 
               <a
+                data-testid="privacyPolicyLink"
                 href="https://about.mattermost.com/default-privacy-policy/"
                 rel="noopener noreferrer"
                 target="_blank"

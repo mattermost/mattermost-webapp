@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('System Console', () => {
+describe('System Console - Non-Enterprise', () => {
     const testCases = [
         {
             header: 'Edition and License',
@@ -183,9 +183,6 @@ describe('System Console', () => {
     ];
 
     before(() => {
-        // * Check if server has license
-        cy.apiRequireLicense();
-
         const newSettings = {
             TeamSettings: {SiteName: 'Mattermost'},
         };
