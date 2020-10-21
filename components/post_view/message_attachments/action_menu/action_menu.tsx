@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from 'mattermost-redux/types/channels';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
@@ -10,20 +14,65 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 
-export default class ActionMenu extends React.PureComponent {
-    static propTypes = {
-        postId: PropTypes.string.isRequired,
-        action: PropTypes.object.isRequired,
-        selected: PropTypes.object,
-        disabled: PropTypes.bool,
-        actions: PropTypes.shape({
-            autocompleteChannels: PropTypes.func.isRequired,
-            selectAttachmentMenuAction: PropTypes.func.isRequired,
-            autocompleteUsers: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Error = ServerError & {id: string};
 
-    constructor(props) {
+type AutocompleteUsersAction =
+    (username: string) => (doDispatch: DispatchFunc) => Promise<UserProfile[]>;
+
+type AutocompleteChannelsAction = (
+    term: string,
+    success: (channels: Channel[]) => void,
+    error: (error: Error) => void
+) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<void>;
+
+type SelectAttachmentMenuAction = (
+    postId: string,
+    actionId: string,
+    cookie: string,
+    dataSource: string | undefined,
+    text: string,
+    value: string
+) => (dispatch: DispatchFunc) => Promise<void>;
+
+type Option = {
+    text: string;
+    value: string;
+};
+
+type Provider = GenericUserProvider | GenericChannelProvider | MenuActionProvider;
+
+type Action = {
+    name: string;
+    options?: Option[];
+    data_source?: 'users' | 'channels';
+    default_option?: string;
+    id: string;
+    cookie: string;
+};
+
+type Selected = Option | UserProfile | Channel;
+
+export type Props = {
+    postId: string;
+    action: Action;
+    selected?: Selected;
+    disabled?: boolean;
+    actions: {
+        autocompleteChannels: AutocompleteChannelsAction;
+        selectAttachmentMenuAction: SelectAttachmentMenuAction;
+        autocompleteUsers: AutocompleteUsersAction;
+    };
+};
+
+type State = {
+    selected?: Selected;
+    value: string;
+};
+
+export default class ActionMenu extends React.PureComponent<Props, State> {
+    private providers: Provider[];
+
+    constructor(props: Props) {
         super(props);
 
         const action = props.action;
@@ -52,10 +101,11 @@ export default class ActionMenu extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (props.selected && props.selected !== state.selected) {
+            const selected = props.selected as Option;
             return {
-                value: props.selected.text,
+                value: selected.text,
                 selected: props.selected,
             };
         }
@@ -63,7 +113,7 @@ export default class ActionMenu extends React.PureComponent {
         return null;
     }
 
-    handleSelected = (selected) => {
+    handleSelected = (selected: Selected) => {
         if (!selected) {
             return;
         }
@@ -73,17 +123,21 @@ export default class ActionMenu extends React.PureComponent {
         let value = '';
         let text = '';
         if (action.data_source === 'users') {
-            text = selected.username;
-            value = selected.id;
+            const user = selected as UserProfile;
+            text = user.username;
+            value = user.id;
         } else if (action.data_source === 'channels') {
-            text = selected.display_name;
-            value = selected.id;
+            const channel = selected as Channel;
+            text = channel.display_name;
+            value = channel.id;
         } else {
-            text = selected.text;
-            value = selected.value;
+            const option = selected as Option;
+            text = option.text;
+            value = option.value;
         }
 
-        this.props.actions.selectAttachmentMenuAction(this.props.postId, this.props.action.id, this.props.action.cookie, this.props.action.data_source, text, value);
+        this.props.actions.selectAttachmentMenuAction(
+            this.props.postId, this.props.action.id, this.props.action.cookie, this.props.action?.data_source, text, value);
 
         this.setState({value: text});
     }
