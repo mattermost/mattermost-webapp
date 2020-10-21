@@ -74,6 +74,7 @@ export default class ViewImageModal extends React.PureComponent {
             showZoomControls: false,
             scale: ZoomSettings.DEFAULT_SCALE,
         };
+        this.videoRef = React.createRef();
     }
 
     handleNext = (e) => {
@@ -115,8 +116,8 @@ export default class ViewImageModal extends React.PureComponent {
     onModalHidden = () => {
         document.removeEventListener('keyup', this.handleKeyPress);
 
-        if (this.refs.video) {
-            this.refs.video.stop();
+        if (this.videoRef.current) {
+            this.videoRef.current.stop();
         }
     }
 
