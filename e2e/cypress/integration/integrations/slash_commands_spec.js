@@ -67,14 +67,14 @@ describe('Integrations', () => {
         cy.get('#newChannelName').type(privateChannelName);
         cy.get('#submitNewChannel').click();
 
-        // # User with privilege try /open command without tilde
+        // # User, who is a member of the channel, try /open command without tilde
         cy.get('#publicChannelList').findByText('Town Square').click();
         cy.postMessage(`/open ${privateChannelName}`);
 
         // * Private channel should be active
         cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
 
-        // # User with privilege try /open command with tilde
+        // # User, who is a member of the channel, try /open command without tilde
         cy.get('#publicChannelList').findByText('Town Square').click();
         cy.postMessage(`/open ~${privateChannelName}`);
 
@@ -85,14 +85,14 @@ describe('Integrations', () => {
         cy.apiLogin(user2);
         cy.visit(testChannelUrl1);
 
-        // # User without privilege try /open command without tilde
+        // # User, who is *not* a member of the channel, try /open command without tilde
         cy.get('#publicChannelList').findByText('Town Square').click();
         cy.postMessage(`/open ${privateChannelName}`);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
 
-        // # User without privilege try /open command with tilde
+        // # User, who is *not* a member of the channel, try /open command without tilde
         cy.get('#publicChannelList').findByText('Town Square').click();
         cy.postMessage(`/open ~${privateChannelName}`);
 
