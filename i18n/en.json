@@ -238,6 +238,7 @@
   "admin.billing.history.title": "Billing History",
   "admin.billing.history.total": "Total",
   "admin.billing.history.transactions": "Transactions",
+  "admin.billing.history.usersAndRates": "{fullUsers} users at full rate, {partialUsers} users with partial charges",
   "admin.billing.payment_info_display.allCardsAccepted": "All major credit cards are accepted.",
   "admin.billing.payment_info_display.noPaymentInfo": "There are currently no credit cards on file.",
   "admin.billing.payment_info_display.savedPaymentDetails": "Your saved payment details",

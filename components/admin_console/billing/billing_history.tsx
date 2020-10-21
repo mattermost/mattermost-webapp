@@ -22,6 +22,8 @@ type Props = {
 
 };
 
+const PAGE_LENGTH = 4;
+
 const noBillingHistorySection = (
     <div className='BillingHistory__noHistory'>
         <img
@@ -96,9 +98,20 @@ const BillingHistory: React.FC<Props> = () => {
     });
 
     const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
+    const [firstRecord, setFirstRecord] = useState(1);
 
-    const previousPage = () => {};
-    const nextPage = () => {};
+    const previousPage = () => {
+        if (firstRecord > PAGE_LENGTH) {
+            setFirstRecord(firstRecord - PAGE_LENGTH);
+        }
+    };
+    const nextPage = () => {
+        if (invoices && (firstRecord + PAGE_LENGTH) < Object.values(invoices).length) {
+            setFirstRecord(firstRecord + PAGE_LENGTH);
+        }
+
+        // TODO: When server paging, check if there are more invoices
+    };
 
     useEffect(() => {
         dispatch(getCloudProducts());
@@ -108,10 +121,11 @@ const BillingHistory: React.FC<Props> = () => {
     }, []);
 
     useEffect(() => {
-        if (invoices) {
-            setBillingHistory(Object.values(invoices));
+        if (invoices && Object.values(invoices).length) {
+            const invoicesByDate = Object.values(invoices).sort((a, b) => b.period_start - a.period_start);
+            setBillingHistory(invoicesByDate.slice(firstRecord - 1, (firstRecord - 1) + PAGE_LENGTH));
         }
-    }, [invoices]);
+    }, [invoices, firstRecord]);
 
     const paging = (
         <div className='BillingHistory__paging'>
@@ -119,20 +133,20 @@ const BillingHistory: React.FC<Props> = () => {
                 id='admin.billing.history.pageInfo'
                 defaultMessage='{startRecord} - {endRecord} of {totalRecords}'
                 values={{
-                    startRecord: 1,
-                    endRecord: 4,
-                    totalRecords: 4,
+                    startRecord: firstRecord,
+                    endRecord: firstRecord + (PAGE_LENGTH - 1),
+                    totalRecords: Object.values(invoices || []).length,
                 }}
             />
             <button
                 onClick={previousPage}
-                disabled={true}
+                disabled={firstRecord <= PAGE_LENGTH}
             >
                 <i className='icon icon-chevron-left'/>
             </button>
             <button
                 onClick={nextPage}
-                disabled={false}
+                disabled={!invoices || (firstRecord + PAGE_LENGTH) >= Object.values(invoices).length}
             >
                 <i className='icon icon-chevron-right'/>
             </button>
@@ -211,7 +225,11 @@ const BillingHistory: React.FC<Props> = () => {
                                 {getPaymentStatus(invoice.status)}
                             </td>
                             <td className='BillingHistory__table-invoice'>
-                                <a href={Client4.getInvoicePdfUrl(invoice.id)}>
+                                <a
+                                    target='_new'
+                                    rel='noopener noreferrer'
+                                    href={Client4.getInvoicePdfUrl(invoice.id)}
+                                >
                                     <i className='icon icon-file-pdf-outline'/>
                                 </a>
                             </td>
