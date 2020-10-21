@@ -550,11 +550,6 @@ export function applyTheme(theme) {
         changeCss('.emoji-picker .emoji-picker__header, .emoji-picker .emoji-picker__header .emoji-picker__header-close-button', 'color:' + theme.sidebarHeaderTextColor);
     }
 
-    if (theme.onlineIndicator) {
-        changeCss('.app__body .status.status--online', 'color:' + theme.onlineIndicator);
-        changeCss('.app__body .status .online--icon', 'fill:' + theme.onlineIndicator);
-    }
-
     if (theme.awayIndicator) {
         changeCss('.app__body .status.status--away', 'color:' + theme.awayIndicator);
         changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
