@@ -260,7 +260,6 @@ export default class UsersEmailsInput extends React.PureComponent {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'input-blur'});
     }
 
-
     render() {
         const values = this.props.value.map((v) => {
             if (v.id) {
