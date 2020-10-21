@@ -76,11 +76,15 @@ function typeCmdOrCtrlInt(textboxSelector) {
     }
 
     cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
-});
+};
 
 Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
+});
+
+Cypress.Commands.add('isMac', () => {
+    isMac();
 });
 
 function isMac() {

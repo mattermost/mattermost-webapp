@@ -30,13 +30,7 @@ describe('Messaging', () => {
     const messageWithCodeblockIncomplete3 = '```{shift}{enter}codeblock3';
     const messageWithCodeblockTextOnly3 = 'codeblock3';
 
-    function isMac() {
-        return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-    }
-
     before(() => {
-        cy.apiAdminLogin();
-
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
@@ -87,15 +81,18 @@ describe('Messaging', () => {
 
         // * Check if "Add Comment" button is visible
         cy.get('#addCommentButton').scrollIntoView().should('be.visible').and('have.value', 'Add Comment');
+
+        // # Reset the viewport
+        cy.viewport(1280, 900);
     });
 
-    it('MM-T712-1 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
+    it('MM-T712_1 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Account Settings > Advanced
         cy.findAllByLabelText('main menu').should('be.visible').click();
         cy.findByText('Account Settings').click();
         cy.get('#accountSettingsModal').should('be.visible').within(() => {
             cy.findByText('Advanced').click();
-            if (isMac()) {
+            if (cy.isMac()) {
                 cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
             } else {
                 cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
@@ -248,13 +245,13 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T712-2 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
+    it('MM-T712_2 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Account Settings > Advanced
         cy.findAllByLabelText('main menu').should('be.visible').click();
         cy.findByText('Account Settings').click();
         cy.get('#accountSettingsModal').should('be.visible').within(() => {
             cy.findByText('Advanced').click();
-            if (isMac()) {
+            if (cy.isMac()) {
                 cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
             } else {
                 cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
@@ -398,13 +395,13 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T712-3 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
+    it('MM-T712_3 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
         // # Enable 'Send Messages on CTRL+ENTER > Off in Account Settings > Advanced
         cy.findAllByLabelText('main menu').should('be.visible').click();
         cy.findByText('Account Settings').click();
         cy.get('#accountSettingsModal').should('be.visible').within(() => {
             cy.findByText('Advanced').click();
-            if (isMac()) {
+            if (cy.isMac()) {
                 cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
             } else {
                 cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
@@ -626,7 +623,7 @@ describe('Messaging', () => {
         const numberedListTextPart1Prefix = '1. ';
         const numberedListTextPart1 = 'One';
         const numberedListTextPart2Prefix = '2. ';
-        const numberedListTextPart2 = 'Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two';
+        const numberedListTextPart2 = new Array(32).fill('Two').join(' ');
 
         // # Post message
         cy.get('#post_textbox').type(messageText).type('{enter}').wait(TIMEOUTS.HALF_SEC);
