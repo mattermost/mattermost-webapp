@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CardImage from 'components/payment_form/card_image';
@@ -18,6 +19,7 @@ const addInfoButton = (
         <BlockableLink
             to='/admin_console/billing/payment_info_edit'
             className='PaymentInfoDisplay__addInfoButton'
+            onClick={() => trackEvent('cloud_admin', 'click_add_credit_card')}
         >
             <i className='icon icon-plus'/>
             <FormattedMessage
@@ -43,6 +45,7 @@ const noPaymentInfoSection = (
         <BlockableLink
             to='/admin_console/billing/payment_info_edit'
             className='PaymentInfoDisplay__noPaymentInfo-link'
+            onClick={() => trackEvent('cloud_admin', 'click_add_credit_card')}
         >
             <FormattedMessage
                 id='admin.billing.payment_info.add'
@@ -54,6 +57,10 @@ const noPaymentInfoSection = (
 
 const PaymentInfoDisplay: React.FC = () => {
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+
+    if (!paymentInfo) {
+        return null;
+    }
 
     let body = noPaymentInfoSection;
 
