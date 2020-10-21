@@ -1,14 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
+import {Client4} from 'mattermost-redux/client';
+import {Invoice} from 'mattermost-redux/types/cloud';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
-
 import {CloudLinks} from 'utils/constants';
 
 import './billing_history.scss';
@@ -44,47 +49,9 @@ const noBillingHistorySection = (
     </div>
 );
 
-// TODO: Temp data
-/* const billingInfo: any = undefined;
-{   id: 1,
-    date: new Date(2020, 5, 16),
-    product_name: 'Mattermost Professional Cloud',
-    charge_desc: '50 users at full rate, 14 users with partial charges',
-    total: 125.5,
-    status: 'Payment failed',
-},
-{
-    id: 2,
-    date: new Date(2020, 5, 6),
-    product_name: 'Mattermost Professional Cloud',
-    charge_desc: '50 users at full rate, 14 users with partial charges',
-    total: 125.5,
-    status: 'Pending',
-    invoice: 'http://www.google.com',
-},
-{
-    id: 3,
-    date: new Date(2020, 5, 16),
-    product_name: 'Mattermost Professional Cloud',
-    charge_desc: '30 users at full rate, 14 users with partial charges',
-    total: 71.5,
-    status: 'Paid',
-    invoice: 'http://www.google.com',
-},
-{
-    id: 4,
-    date: new Date(2020, 5, 6),
-    product_name: 'Mattermost Professional Cloud',
-    charge_desc: '30 users at full rate, 14 users with partial charges',
-    total: 71.5,
-    status: 'Paid',
-    invoice: 'http://www.google.com',
-},
-];*/
-
 const getPaymentStatus = (status: string) => {
     switch (status) {
-    case 'Payment failed':
+    case 'failed':
         return (
             <div className='BillingHistory__paymentStatus failed'>
                 <i className='icon icon-alert-outline'/>
@@ -94,17 +61,7 @@ const getPaymentStatus = (status: string) => {
                 />
             </div>
         );
-    case 'Pending':
-        return (
-            <div className='BillingHistory__paymentStatus pending'>
-                <i className='icon icon-check-circle-outline'/>
-                <FormattedMessage
-                    id='admin.billing.history.pending'
-                    defaultMessage='Pending'
-                />
-            </div>
-        );
-    case 'Paid':
+    case 'paid':
         return (
             <div className='BillingHistory__paymentStatus paid'>
                 <i className='icon icon-check-circle-outline'/>
@@ -115,20 +72,46 @@ const getPaymentStatus = (status: string) => {
             </div>
         );
     default:
-        return null;
+        return (
+            <div className='BillingHistory__paymentStatus pending'>
+                <i className='icon icon-check-circle-outline'/>
+                <FormattedMessage
+                    id='admin.billing.history.pending'
+                    defaultMessage='Pending'
+                />
+            </div>
+        );
     }
 };
 
 const BillingHistory: React.FC<Props> = () => {
-    //const [billingHistory, setBillingHistory] = useState(billingInfo);
-    // TO-DO: Wire this up with real data
-    let billingHistory: undefined | Array<any>;
+    const dispatch = useDispatch();
+    const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const product = useSelector((state: GlobalState) => {
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
+        }
+        return undefined;
+    });
+
+    const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
+
     const previousPage = () => {};
     const nextPage = () => {};
 
     useEffect(() => {
+        dispatch(getCloudProducts());
+        dispatch(getCloudSubscription());
+        dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
+
+    useEffect(() => {
+        if (invoices) {
+            setBillingHistory(Object.values(invoices));
+        }
+    }, [invoices]);
 
     const paging = (
         <div className='BillingHistory__paging'>
@@ -186,43 +169,55 @@ const BillingHistory: React.FC<Props> = () => {
                     </th>
                     <th>{''}</th>
                 </tr>
-                {billingHistory.map((info: any) => (
-                    <tr
-                        className='BillingHistory__table-row'
-                        key={info.id}
-                    >
-                        <td>
-                            <FormattedDate
-                                value={info.date}
-                                month='2-digit'
-                                day='2-digit'
-                                year='numeric'
-                            />
-                        </td>
-                        <td>
-                            <div>{info.product_name}</div>
-                            <div className='BillingHistory__table-bottomDesc'>{info.charge_desc}</div>
-                        </td>
-                        <td className='BillingHistory__table-total'>
-                            <FormattedNumber
-                                value={info.total}
-                                // eslint-disable-next-line react/style-prop-object
-                                style='currency'
-                                currency='USD'
-                            />
-                        </td>
-                        <td>
-                            {getPaymentStatus(info.status)}
-                        </td>
-                        <td className='BillingHistory__table-invoice'>
-                            {info.invoice &&
-                                <a href={info.invoice}>
+                {billingHistory.map((invoice: Invoice) => {
+                    const fullUsers = invoice.line_items.filter((item) => item.metadata.type === 'full').reduce((val, item) => val + item.quantity, 0);
+                    const partialUsers = invoice.line_items.filter((item) => item.metadata.type === 'partial').reduce((val, item) => val + item.quantity, 0);
+
+                    return (
+                        <tr
+                            className='BillingHistory__table-row'
+                            key={invoice.id}
+                        >
+                            <td>
+                                <FormattedDate
+                                    value={new Date(invoice.period_start)}
+                                    month='2-digit'
+                                    day='2-digit'
+                                    year='numeric'
+                                />
+                            </td>
+                            <td>
+                                <div>{product?.name}</div>
+                                <div className='BillingHistory__table-bottomDesc'>
+                                    <FormattedMarkdownMessage
+                                        id='admin.billing.history.usersAndRates'
+                                        defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
+                                        values={{
+                                            fullUsers,
+                                            partialUsers,
+                                        }}
+                                    />
+                                </div>
+                            </td>
+                            <td className='BillingHistory__table-total'>
+                                <FormattedNumber
+                                    value={invoice.total}
+                                    // eslint-disable-next-line react/style-prop-object
+                                    style='currency'
+                                    currency='USD'
+                                />
+                            </td>
+                            <td>
+                                {getPaymentStatus(invoice.status)}
+                            </td>
+                            <td className='BillingHistory__table-invoice'>
+                                <a href={Client4.getInvoicePdfUrl(invoice.id)}>
                                     <i className='icon icon-file-pdf-outline'/>
                                 </a>
-                            }
-                        </td>
-                    </tr>
-                ))}
+                            </td>
+                        </tr>
+                    );
+                })}
             </table>
             {paging}
         </>
