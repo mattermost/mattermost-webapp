@@ -58,6 +58,7 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
       "delete_at": 0,
       "description": "description",
       "display_name": "name",
+      "icon_url": "",
       "id": "ne8miib4dtde5jmgwqsoiwxpiy",
       "team_id": "m5gix3oye3du8ghk4ko6h9cq7y",
       "token": "nbxtx9hkhb8a5q83gw57jzi9cc",
@@ -67,6 +68,7 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
         "trigger2",
       ],
       "update_at": 1504447824673,
+      "username": "",
     }
   }
   loading={
@@ -105,8 +107,21 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
   serverError=""
   team={
     Object {
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
       "id": "team_id",
-      "name": "test",
+      "invite_id": "",
+      "name": "DN",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />
@@ -142,6 +157,7 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
       "delete_at": 0,
       "description": "description",
       "display_name": "name",
+      "icon_url": "",
       "id": "ne8miib4dtde5jmgwqsoiwxpiy",
       "team_id": "m5gix3oye3du8ghk4ko6h9cq7y",
       "token": "nbxtx9hkhb8a5q83gw57jzi9cc",
@@ -151,6 +167,7 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
         "trigger2",
       ],
       "update_at": 1504447824673,
+      "username": "",
     }
   }
   loading={
@@ -189,8 +206,21 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
   serverError=""
   team={
     Object {
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
       "id": "team_id",
-      "name": "test",
+      "invite_id": "",
+      "name": "DN",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />
