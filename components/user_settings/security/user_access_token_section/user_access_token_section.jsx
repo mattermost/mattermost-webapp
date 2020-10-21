@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -91,8 +90,9 @@ export default class UserAccessTokenSection extends React.PureComponent {
 
     handleCreateToken = async () => {
         this.handleCancelConfirm();
+        this.newtokendescriptionRef = React.createRef();
 
-        const description = this.refs.newtokendescription ? this.refs.newtokendescription.value : '';
+        const description = this.newtokendescriptionRef ? this.newtokendescriptionRef.current.value : '';
 
         if (description === '') {
             this.setState({tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')});
@@ -434,7 +434,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                         <div className='col-sm-5'>
                             <input
                                 autoFocus={true}
-                                ref='newtokendescription'
+                                ref={this.newtokendescriptionRef}
                                 className='form-control'
                                 type='text'
                                 maxLength={64}
