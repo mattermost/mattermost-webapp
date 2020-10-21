@@ -49,7 +49,6 @@ describe('Keyboard Shortcuts', () => {
         // * Verify that the additional backspace key presses on blur doesn't affect the input
         cy.get('#post_textbox').should('have.value', 'This is a normal sentenc');
 
-
         // * Verify that the URL doesn't change from the last URL
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);
     });
