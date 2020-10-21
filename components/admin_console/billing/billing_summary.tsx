@@ -52,45 +52,6 @@ const noBillingHistory = (
     </div>
 );
 
-const invoice = {
-    id: 'in_1Ha3OkI67GP2qpb4O3p8zVxx',
-    number: 'A4F22DA0-0007',
-    create_at: 1602179966000,
-    total: 11250,
-    tax: 100,
-    status: 'paid', // or 'failed'
-    description: 'Cloud Subscription',
-    period_start: 1601510400000,
-    period_end: 1602179940000,
-    subscription_id: 'sub_IAOASsgW45MKdr',
-    line_items: [
-        {
-            price_id: 'price_1Ha3MvI67GP2qpb4utbTwAMR',
-            total: 1000,
-            quantity: 10,
-            description: 'Cloud Test FULL Charge',
-            price_per_unit: 1000,
-            metadata: {
-                quantity: '10', // yes, these will be coming down as strings
-                unit_amount_decimal: '1000',
-                type: 'full',
-            },
-        },
-        {
-            price_id: 'price_1Ha3MvI67GP2qpb4utbTwAMR',
-            total: 1000,
-            quantity: 10,
-            description: 'Cloud Test PARTIAL Charge',
-            price_per_unit: 1000,
-            metadata: {
-                quantity: '10', // yes, these will be coming down as strings
-                unit_amount_decimal: '1000',
-                type: 'partial',
-            },
-        },
-    ],
-};
-
 const BillingSummary: React.FC = () => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
@@ -101,9 +62,8 @@ const BillingSummary: React.FC = () => {
     });
 
     let body = noBillingHistory;
-    if (invoice) {
-    // if (subscription && subscription.last_invoice) {
-    //     const invoice = subscription.last_invoice;
+    if (subscription && subscription.last_invoice) {
+        const invoice = subscription.last_invoice;
 
         const fullCharges = invoice.line_items.filter((item) => item.metadata.type === 'full');
         const partialCharges = invoice.line_items.filter((item) => item.metadata.type === 'partial');
