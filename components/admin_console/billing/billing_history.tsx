@@ -134,7 +134,7 @@ const BillingHistory: React.FC<Props> = () => {
                 defaultMessage='{startRecord} - {endRecord} of {totalRecords}'
                 values={{
                     startRecord: firstRecord,
-                    endRecord: firstRecord + (PAGE_LENGTH - 1),
+                    endRecord: Math.min(firstRecord + (PAGE_LENGTH - 1), Object.values(invoices || []).length),
                     totalRecords: Object.values(invoices || []).length,
                 }}
             />
