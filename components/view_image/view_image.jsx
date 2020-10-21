@@ -328,7 +328,7 @@ export default class ViewImageModal extends React.PureComponent {
             leftArrow = (
                 <a
                     id='previewArrowLeft'
-                    ref='previewArrowLeft'
+                    ref={this.previewArrowLeft}
                     className='modal-prev-bar'
                     href='#'
                     onClick={this.handlePrev}
@@ -340,7 +340,7 @@ export default class ViewImageModal extends React.PureComponent {
             rightArrow = (
                 <a
                     id='previewArrowRight'
-                    ref='previewArrowRight'
+                    ref={this.previewArrowRight}
                     className='modal-next-bar'
                     href='#'
                     onClick={this.handleNext}
