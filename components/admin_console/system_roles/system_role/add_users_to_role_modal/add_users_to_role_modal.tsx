@@ -233,7 +233,12 @@ export default class AddUsersToRoleModal extends React.PureComponent<Props, Stat
                             defaultMessage='Add users to {roleName}'
                             values={{
                                 roleName: (
-                                    <strong>{this.props.role.name}</strong>
+                                    <strong>
+                                        <FormattedMessage
+                                            id={`admin.permissions.roles.${this.props.role.name}.name`}
+                                            defaultMessage={this.props.role.name}
+                                        />
+                                    </strong>
                                 ),
                             }}
                         />

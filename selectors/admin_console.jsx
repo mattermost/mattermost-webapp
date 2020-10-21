@@ -36,7 +36,7 @@ export const getConsoleAccess = createSelector(
         };
         const mapAccessValuesForKey = ([key]) => {
             if (key === 'user_management') {
-                ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
+                ['users', 'groups', 'teams', 'channels', 'permissions', 'system_roles'].forEach((userManagementKey) => {
                     addEntriesForKey(`${key}.${userManagementKey}`);
                 });
             } else {

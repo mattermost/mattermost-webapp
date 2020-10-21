@@ -509,7 +509,7 @@ const AdminDefinition = {
         },
         system_role: {
             url: 'user_management/system_roles/:role_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
             schema: {
                 id: 'SystemRole',
                 component: SystemRole,
@@ -521,10 +521,10 @@ const AdminDefinition = {
             title_default: 'System Roles',
             searchableStrings: [],
             isHidden: it.any(
-                it.not(it.licensed),
-                it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.system_roles')),
             ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
             schema: {
                 id: 'SystemRoles',
                 component: SystemRoles,

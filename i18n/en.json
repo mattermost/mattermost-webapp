@@ -1359,7 +1359,7 @@
   "admin.permissions.roles.team_user.name": "Team User",
   "admin.permissions.sysconsole_section_about.description": "The ability to install or upgrade your servers enterprise licensing.",
   "admin.permissions.sysconsole_section_about.name": "Edition and License",
-  "admin.permissions.sysconsole_section_authentication.description": "Review the configuration around how users can signup and access mattermost.",
+  "admin.permissions.sysconsole_section_authentication.description": "Review the configuration around how users can signup and access Mattermost.",
   "admin.permissions.sysconsole_section_authentication.name": "Authentication",
   "admin.permissions.sysconsole_section_billing.description": "<Placeholder billing description>.",
   "admin.permissions.sysconsole_section_billing.name": "Billing",

@@ -194,7 +194,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                 const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
                 if (!(permissionShortName in permissionsToUpdate)) {
                     const ancillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[permission] || [];
-                    updatedRolePermissions.push(...updatedRolePermissions, ...ancillary, permission);
+                    updatedRolePermissions.push(...ancillary, permission);
                 }
             }
         });
