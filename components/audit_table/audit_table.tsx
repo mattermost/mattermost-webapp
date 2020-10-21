@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, IntlShape} from 'react-intl';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Audit} from 'mattermost-redux/types/audits';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {t} from 'utils/i18n';
-import {intlShape} from 'utils/react_intl';
 import {isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 
 const holders = defineMessages({
@@ -212,38 +214,40 @@ const holders = defineMessages({
     },
 });
 
-export class AuditTable extends React.PureComponent {
-    static propTypes = {
-        intl: intlShape.isRequired,
-        audits: PropTypes.array.isRequired,
-        showUserId: PropTypes.bool,
-        showIp: PropTypes.bool,
-        showSession: PropTypes.bool,
-        currentUser: PropTypes.object.isRequired,
-        getUser: PropTypes.func.isRequired,
-        getByName: PropTypes.func.isRequired,
-
-        actions: PropTypes.shape({
-            getMissingProfilesByIds: PropTypes.func.isRequired,
-        }).isRequired,
-
-        getDirectTeammate: PropTypes.func.isRequired,
+type Props = {
+    intl: IntlShape;
+    audits: Audit[];
+    showUserId?: boolean;
+    showIp?: boolean;
+    showSession?: boolean;
+    currentUser: UserProfile;
+    getUser: (userId: string) => UserProfile;
+    getByName: (channelURL: string) => Channel | null | undefined
+    actions: {
+        getMissingProfilesByIds: (userIds: string[]) => ActionFunc;
     }
+    getDirectTeammate: (channelId: string) => any;
+};
 
+type AuditInfo = {
+    userId: string;
+    desc: string;
+    ip: string;
+    sessionId: string;
+    timestamp: JSX.Element;
+};
+
+export class AuditTable extends React.PureComponent<Props> {
     componentDidMount() {
         const ids = this.props.audits.map((audit) => audit.user_id);
         this.props.actions.getMissingProfilesByIds(ids);
     }
 
     render() {
-        const audits = this.props.audits;
-        const showUserId = this.props.showUserId;
-        const showIp = this.props.showIp;
-        const showSession = this.props.showSession;
-        var accessList = [];
+        const {audits, showUserId, showIp, showSession} = this.props;
+        const accessList = [];
 
-        for (var i = 0; i < audits.length; i++) {
-            const audit = audits[i];
+        for (const [i, audit] of audits.entries()) {
             const auditInfo = this.formatAuditInfo(audit);
 
             let uContent;
@@ -345,7 +349,7 @@ export class AuditTable extends React.PureComponent {
         );
     }
 
-    formatAuditInfo(audit) {
+    formatAuditInfo(audit: Audit): AuditInfo {
         const {formatMessage} = this.props.intl;
         const actionURL = audit.action.replace(/\/api\/v[1-9]/, '');
         let auditDesc = '';
@@ -372,7 +376,9 @@ export class AuditTable extends React.PureComponent {
                 auditDesc = formatMessage(holders.channelCreated, {channelName});
                 break;
             case '/channels/create_direct':
-                auditDesc = formatMessage(holders.establishedDM, {username: this.props.getDirectTeammate(channelObj.id).username});
+                if (channelObj) {
+                    auditDesc = formatMessage(holders.establishedDM, {username: this.props.getDirectTeammate(channelObj.id).username});
+                }
                 break;
             case '/channels/update':
                 auditDesc = formatMessage(holders.nameUpdated, {channelName});
@@ -391,7 +397,7 @@ export class AuditTable extends React.PureComponent {
 
                     if (userIdField.indexOf('user_id') >= 0) {
                         userId = userIdField[userIdField.indexOf('user_id') + 1];
-                        var profile = this.props.getUser(userId);
+                        const profile = this.props.getUser(userId);
                         if (profile) {
                             username = profile.username;
                         }
@@ -441,7 +447,7 @@ export class AuditTable extends React.PureComponent {
                     const oauthTokenFailure = oauthInfo[0].split('-');
 
                     if (oauthTokenFailure[0].trim() === 'fail' && oauthTokenFailure[1]) {
-                        auditDesc = formatMessage(oauthTokenFailure, {token: oauthTokenFailure[1].trim()});
+                        auditDesc = formatMessage(holders.oauthTokenFailed, {token: oauthTokenFailure[1].trim()});
                     }
                 }
 
@@ -630,8 +636,7 @@ export class AuditTable extends React.PureComponent {
         }
 
         const date = new Date(audit.create_at);
-        const auditInfo = {};
-        auditInfo.timestamp = (
+        const timestamp = (
             <div>
                 <div>
                     <FormattedDate
@@ -653,12 +658,18 @@ export class AuditTable extends React.PureComponent {
 
         const auditProfile = this.props.getUser(audit.user_id);
 
-        auditInfo.userId = auditProfile ? auditProfile.email : audit.user_id;
-        auditInfo.desc = auditDesc;
-        auditInfo.ip = audit.ip_address;
-        auditInfo.sessionId = audit.session_id;
+        const userId = auditProfile ? auditProfile.email : audit.user_id;
+        const desc = auditDesc;
+        const ip = audit.ip_address;
+        const sessionId = audit.session_id;
 
-        return auditInfo;
+        return {
+            timestamp,
+            userId,
+            desc,
+            ip,
+            sessionId,
+        };
     }
 }
 

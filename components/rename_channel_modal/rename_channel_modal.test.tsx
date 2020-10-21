@@ -3,20 +3,26 @@
 
 import React from 'react';
 import {RequestStatus} from 'mattermost-redux/constants';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-import RenameChannelModal from 'components/rename_channel_modal/rename_channel_modal.jsx';
+
+import {TestHelper} from 'utils/test_helper';
+
+import RenameChannelModal, {RenameChannelModal as RenameChannelModalClass} from './rename_channel_modal';
 
 describe('components/RenameChannelModal', () => {
-    const channel = {
+    const channel: Channel = TestHelper.getChannelMock({
         id: 'fake-id',
         name: 'fake-channel',
         display_name: 'Fake Channel',
-    };
+    });
 
-    const team = {
-        name: 'Fake Team', display_name: 'fake-team', type: 'O',
-    };
+    const team: Team = TestHelper.getTeamMock({
+        name: 'Fake Team',
+        display_name: 'fake-team',
+    });
 
     const baseProps = {
         show: true,
@@ -53,7 +59,7 @@ describe('components/RenameChannelModal', () => {
     });
 
     describe('should validate channel url (name)', () => {
-        const testCases = [
+        const testCases : [{name: string, value: string}, boolean][] = [
             [{name: 'must be two or more characters', value: 'a'}, false],
             [{name: 'must start with a letter or number', value: '_channel'}, false],
             [{name: 'must end with a letter or number', value: 'channel_'}, false],
@@ -113,7 +119,7 @@ describe('components/RenameChannelModal', () => {
             <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as RenameChannelModalClass;
 
         instance.setError({message: 'This is an error message'});
         expect(wrapper.state('serverError')).toBe('This is an error message');
@@ -146,7 +152,7 @@ describe('components/RenameChannelModal', () => {
 
         wrapper.setState({displayName: 'Changed Name', channelName: 'changed-name'});
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.onSaveSuccess = jest.fn();
         instance.setError = jest.fn();
 
@@ -171,7 +177,7 @@ describe('components/RenameChannelModal', () => {
             <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.handleCancel();
 
         expect(wrapper.state('show')).toBeFalsy();
@@ -182,7 +188,7 @@ describe('components/RenameChannelModal', () => {
             <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.handleHide();
 
         expect(wrapper.state('show')).toBeFalsy();
@@ -194,7 +200,7 @@ describe('components/RenameChannelModal', () => {
             <RenameChannelModal {...baseProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as RenameChannelModalClass;
         instance.onNameChange(changedName);
 
         expect(wrapper.state('channelName')).toBe('changed-name');

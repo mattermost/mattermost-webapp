@@ -2,39 +2,48 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
+import {ClientConfig} from 'mattermost-redux/types/config';
+
+import {Dictionary} from 'mattermost-redux/src/types/utilities';
+
+import {AnalyticsRow} from 'mattermost-redux/src/types/admin';
+
+import {ClientLicense} from 'mattermost-redux/src/types/config';
+
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 import LocalizedIcon from 'components/localized_icon';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
+import {Notice} from 'components/system_notice/types';
 
-export default class SystemNotice extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        notices: PropTypes.arrayOf(PropTypes.object).isRequired,
-        preferences: PropTypes.object.isRequired,
-        dismissedNotices: PropTypes.object.isRequired,
-        isSystemAdmin: PropTypes.bool,
-        serverVersion: PropTypes.string.isRequired,
-        config: PropTypes.object.isRequired,
-        license: PropTypes.object.isRequired,
-        analytics: PropTypes.object,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-            dismissNotice: PropTypes.func.isRequired,
-            getStandardAnalytics: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    currentUserId: string,
+    notices: Notice[],
+    preferences: {[key: string]: any},
+    dismissedNotices: any,
+    isSystemAdmin?: boolean,
+    serverVersion: string,
+    config: Partial<ClientConfig>,
+    license: ClientLicense,
+    analytics?: Dictionary<number | AnalyticsRow[]>,
+    actions: {
+        savePreferences(userId: string, preferences: Array<PreferenceType>): void,
+        dismissNotice(type: string): void,
+        getStandardAnalytics(teamId?: string): void,
     }
-
+}
+export default class SystemNotice extends React.PureComponent<Props> {
     componentDidMount() {
         if (this.props.isSystemAdmin) {
             this.props.actions.getStandardAnalytics();
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.isSystemAdmin !== this.props.isSystemAdmin && this.props.isSystemAdmin) {
             this.props.actions.getStandardAnalytics();
         }
@@ -56,7 +65,7 @@ export default class SystemNotice extends React.PureComponent {
                 continue;
             }
 
-            if (!notice.show(this.props.serverVersion, this.props.config, this.props.license, this.props.analytics)) {
+            if (!notice.show?.(this.props.serverVersion, this.props.config, this.props.license, this.props.analytics)) {
                 continue;
             }
 
