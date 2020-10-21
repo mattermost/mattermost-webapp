@@ -29,6 +29,8 @@ export class PermissionDescription extends React.PureComponent {
         this.state = {
             open: false,
         };
+
+        this.contentRef = React.createRef();
     }
 
     closeTooltip = () => {
@@ -82,7 +84,7 @@ export class PermissionDescription extends React.PureComponent {
                 show={this.state.open}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
-                target={this.refs.content}
+                target={this.contentRef.current}
             >
                 <Tooltip id={this.id}>
                     {content}
@@ -96,7 +98,7 @@ export class PermissionDescription extends React.PureComponent {
             <span
                 className='permission-description'
                 onClick={this.parentPermissionClicked}
-                ref='content'
+                ref={this.contentRef}
                 onMouseOver={this.openTooltip}
                 onMouseOut={this.closeTooltip}
             >
