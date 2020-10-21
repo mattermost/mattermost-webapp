@@ -208,3 +208,15 @@
         fill: rgba(var(--center-channel-color-rgb), 0.56);
     }
 }
+
+.app__body {
+    .status {
+        &.status--away {
+            color: var(--away-indicator);
+        }
+        
+        &.away--icon {
+            fill: var(--away-indicator);
+        }
+    }
+}

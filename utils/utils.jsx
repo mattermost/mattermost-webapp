@@ -555,11 +555,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .status .online--icon', 'fill:' + theme.onlineIndicator);
     }
 
-    if (theme.awayIndicator) {
-        changeCss('.app__body .status.status--away', 'color:' + theme.awayIndicator);
-        changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
-    }
-
     let dndIndicator;
     if (theme.dndIndicator) {
         dndIndicator = theme.dndIndicator;
