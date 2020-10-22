@@ -133,7 +133,7 @@ describe('Managing bot accounts', () => {
         cy.visit('/login');
 
         // # Enter bot name in the email field
-        cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);
+        cy.findByPlaceholderText('Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);
 
         // # Enter random password in the password field
         cy.findByPlaceholderText('Password').clear().type('invalidPassword@#%(^!');
@@ -159,13 +159,10 @@ describe('Managing bot accounts', () => {
         cy.findByText(`Test Bot (@${botName})`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().then((el) => {
             // # Click the disable button
             cy.wrap(el[0].parentElement.parentElement).find('button:nth-child(3)').should('be.visible').click();
-
-            // # Bring 'disabled' section into view
-            cy.get('.bot-list__disabled').scrollIntoView();
-
-            // * Check that the bot is in the 'disabled' section
-            cy.get('.bot-list__disabled').findByText(`Test Bot (@${botName})`).should('be.visible');
         });
+
+        // * Check that the bot is in the 'disabled' section
+        cy.get('.bot-list__disabled').scrollIntoView().findByText(`Test Bot (@${botName})`).should('be.visible');
     });
 
     it('MM-T1857 Enable Bot', () => {
@@ -182,13 +179,14 @@ describe('Managing bot accounts', () => {
         cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(`${botName}`);
 
         // # Re-enable the bot
-        cy.findByText(`Test Bot (@${botName})`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().then((el) => {
+        cy.get('.bot-list__disabled').scrollIntoView().findByText(`Test Bot (@${botName})`, {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().then((el) => {
             // # Click the enable button
             cy.wrap(el[0].parentElement.parentElement).find('button:nth-child(1)').should('be.visible').click();
-
-            // * Check that the bot is in the 'enabled' section
-            cy.get('.bot-list__disabled').siblings(':not([class])').scrollIntoView().findByText(`Test Bot (@${botName})`).scrollIntoView().should('be.visible');
         });
+
+        // * Check that the bot is in the 'enabled' section
+        cy.findByText(`Test Bot (@${botName})`).scrollIntoView().should('be.visible');
+        cy.get('.bot-list__disabled').should('not.be.visible');
     });
 
     it('MM-T1858 Search active and disabled Bot accounts', () => {
@@ -299,8 +297,7 @@ describe('Managing bot accounts', () => {
             cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type('Bot That Stays Enabled');
 
             // * Validate that the plugin is disabled since it's owner is deactivate
-            cy.get('.bot-list__disabled').scrollIntoView().should('be.visible');
-            cy.get('.bot-list__disabled').findByText(`Bot That Stays Enabled (@${botName3})`).scrollIntoView().should('be.visible');
+            cy.get('.bot-list__disabled').scrollIntoView().findByText(`Bot That Stays Enabled (@${botName3})`).scrollIntoView().should('be.visible');
 
             cy.visit(`/${newTeam.name}/messages/@sysadmin`);
 
