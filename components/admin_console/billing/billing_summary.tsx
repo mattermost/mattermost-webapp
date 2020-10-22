@@ -115,7 +115,7 @@ const BillingSummary: React.FC = () => {
                     >
                         <div className='BillingSummary__lastInvoice-chargeDescription'>
                             <FormattedNumber
-                                value={charge.price_per_unit}
+                                value={(charge.price_per_unit / 100.0)}
                                 // eslint-disable-next-line react/style-prop-object
                                 style='currency'
                                 currency='USD'
@@ -128,7 +128,7 @@ const BillingSummary: React.FC = () => {
                         </div>
                         <div className='BillingSummary__lastInvoice-chargeAmount'>
                             <FormattedNumber
-                                value={charge.total}
+                                value={(charge.total / 100.0)}
                                 // eslint-disable-next-line react/style-prop-object
                                 style='currency'
                                 currency='USD'
@@ -184,7 +184,7 @@ const BillingSummary: React.FC = () => {
                         </div>
                         <div className='BillingSummary__lastInvoice-chargeAmount'>
                             <FormattedNumber
-                                value={charge.total}
+                                value={(charge.total / 100.0)}
                                 // eslint-disable-next-line react/style-prop-object
                                 style='currency'
                                 currency='USD'
@@ -202,7 +202,7 @@ const BillingSummary: React.FC = () => {
                         </div>
                         <div className='BillingSummary__lastInvoice-chargeAmount'>
                             <FormattedNumber
-                                value={invoice.tax}
+                                value={(invoice.tax / 100.0)}
                                 // eslint-disable-next-line react/style-prop-object
                                 style='currency'
                                 currency='USD'
@@ -220,7 +220,7 @@ const BillingSummary: React.FC = () => {
                     </div>
                     <div className='BillingSummary__lastInvoice-chargeAmount'>
                         <FormattedNumber
-                            value={invoice.total}
+                            value={(invoice.total / 100.0)}
                             // eslint-disable-next-line react/style-prop-object
                             style='currency'
                             currency='USD'
