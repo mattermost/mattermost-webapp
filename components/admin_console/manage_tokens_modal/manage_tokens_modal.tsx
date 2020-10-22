@@ -55,7 +55,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
         super(props);
         this.state = {
             error: null,
-        } as State;
+        };
     }
 
     public componentDidUpdate(prevProps: Props): void {
@@ -72,7 +72,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
         });
     }
 
-    public renderContents = (): JSX.Element => {
+    renderContents = (): JSX.Element => {
         const {user, userAccessTokens} = this.props;
 
         if (!user) {

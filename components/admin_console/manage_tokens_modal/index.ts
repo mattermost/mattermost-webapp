@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {AdminState} from 'mattermost-redux/src/types/admin';
 
 import {GlobalState} from 'types/store';
 
@@ -18,7 +17,7 @@ type Props = {
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const userId = ownProps.user ? ownProps.user.id : '';
 
-    const userAccessTokens = (state.entities.admin as AdminState).userAccessTokensByUser;
+    const userAccessTokens = state.entities.admin.userAccessTokensByUser;
 
     return {
         userAccessTokens: userAccessTokens === undefined ? undefined : userAccessTokens[userId],
