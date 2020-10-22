@@ -38,7 +38,7 @@ type ClientErrorPlaceholder = {
 }
 
 export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
-    private errorMessageRef= React.createRef<HTMLDivElement>()
+    private errorMessageRef: React.RefObject<HTMLDivElement>;
     public constructor(props: Props) {
         super(props);
         const stateInit = {
@@ -52,6 +52,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         } else {
             this.state = stateInit as Readonly<State>;
         }
+        this.errorMessageRef = React.createRef();
     }
 
     protected abstract getStateFromConfig(config: DeepPartial<AdminConfig>): Partial<State>;
