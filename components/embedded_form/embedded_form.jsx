@@ -130,8 +130,10 @@ export default class EmbeddedForm extends React.PureComponent {
     };
 
     onChange = (name, value) => {
-        const values = {...this.state.values, [name]: value};
-        this.setState({values});
+        this.setState((state) => {
+            const values = {...this.state.values, [name]: value};
+            return {values}
+        });
     };
 
     render() {
