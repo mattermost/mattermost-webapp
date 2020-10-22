@@ -155,7 +155,7 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 0; i < this.state.numPages; i++) {
             pdfCanvases.push(
                 <canvas
-                    ref={this.pdfCanvasRef[i]}
+                    ref={this[`pdfCanvasRef-${i}`]}
                     key={this[`pdfCanvasRef-${i}`]}
                 />,
             );
