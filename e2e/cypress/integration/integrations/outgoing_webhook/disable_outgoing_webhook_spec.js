@@ -54,7 +54,7 @@ describe('Integrations', () => {
         cy.postMessage('testing');
         cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
 
-        // # Loging as sysadmin
+        // # Login as sysadmin
         cy.apiAdminLogin();
 
         // * Assert from API that outgoing webhook is active
