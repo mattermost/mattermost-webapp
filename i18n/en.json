@@ -1550,6 +1550,8 @@
   "admin.saml.idpUrlDesc": "The URL where Mattermost sends a SAML request to start login sequence.",
   "admin.saml.idpUrlEx": "E.g.: \"https://idp.example.org/SAML2/SSO/Login\"",
   "admin.saml.idpUrlTitle": "SAML SSO URL:",
+  "admin.saml.ignoreGuestsLdapSyncDesc": "When true, Mattermost will ignore Guest Users who are identified by the Guest Attribute, when synchronizing with AD/LDAP for user deactivation and removal and Guest deactivation will need to be managed manually via System Console > Users.",
+  "admin.saml.ignoreGuestsLdapSyncTitle": "Ignore Guest Users when  Synchronizing with AD/LDAP",
   "admin.saml.lastnameAttrDesc": "(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.",
   "admin.saml.lastnameAttrEx": "E.g.: \"LastName\"",
   "admin.saml.lastnameAttrTitle": "Last Name Attribute:",
