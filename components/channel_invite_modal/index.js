@@ -10,7 +10,7 @@ import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfiles
 
 import {addUsersToChannel} from 'actions/channel_actions';
 
-import ChannelInviteModal from './channel_invite_modal.jsx';
+import ChannelInviteModal from './channel_invite_modal';
 
 function makeMapStateToProps(initialState, initialProps) {
     let doGetProfilesNotInChannel;

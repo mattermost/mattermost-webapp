@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal.jsx';
+import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal';
 
 describe('components/channel_invite_modal', () => {
     const event = {
@@ -162,7 +162,7 @@ describe('components/channel_invite_modal', () => {
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.instance().props.actions.addUsersToChannel).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
-            expect(wrapper.state('inviteError')).toBeNull();
+            expect(wrapper.state('inviteError')).toBeUndefined();
             expect(wrapper.state('saving')).toEqual(false);
             expect(wrapper.state('show')).toEqual(false);
             done();

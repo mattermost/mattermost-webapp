@@ -9,6 +9,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ClientError} from 'mattermost-redux/src/client/client4';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
@@ -24,9 +25,11 @@ import Constants from 'utils/constants';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-type Props<T extends Value> = {
-    profilesNotInCurrentChannel: [];
-    profilesNotInCurrentTeam: [],
+type UserProfileValue = Value & UserProfile;
+
+type Props = {
+    profilesNotInCurrentChannel: UserProfileValue[];
+    profilesNotInCurrentTeam: UserProfileValue[],
     onHide: () => void,
     channel: Channel,
 
@@ -34,22 +37,22 @@ type Props<T extends Value> = {
     skipCommit?: boolean,
 
     // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-    onAddCallback?: (userProfiles?: T[]) => void,
+    onAddCallback?: (userProfiles?: UserProfileValue[]) => void,
 
     // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<T>,
-    includeUsers?: Dictionary<T>,
+    excludeUsers?: Dictionary<UserProfileValue>,
+    includeUsers?: Dictionary<UserProfileValue>,
 
     actions: {
-        addUsersToChannel: (channelId: string, userIds: string[]) => Promise<{error: ClientError}>,
+        addUsersToChannel: (channelId: string, userIds: string[]) => Promise<{ error: ClientError }>,
         getProfilesNotInChannel: (teamId: string, id: string, groupConstrained: boolean, page: number, usersPerPage?: number) => Promise<void>,
         getTeamStats: (teamId: string) => ActionFunc,
-        searchProfiles: () => ActionFunc
+        searchProfiles: (term: string, options: any) => ActionFunc
     }
 }
 
-type State<T extends Value> = {
-    values: T[];
+type State = {
+    values: UserProfileValue[];
     term: string;
     show: boolean;
     saving: boolean;
@@ -57,9 +60,9 @@ type State<T extends Value> = {
     inviteError?: string;
 }
 
-export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props<T>, State<T>> {
+export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props, State> {
     private searchTimeoutId = 0;
-    private selectedItemRef = React.createRef();
+    private selectedItemRef = React.createRef<HTMLDivElement>();
 
     public static defaultProps = {
         includeUsers: {},
@@ -67,7 +70,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         skipCommit: false,
     };
 
-    constructor(props: Props<T>) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -76,11 +79,11 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             show: true,
             saving: false,
             loadingUsers: true,
-        } as State<T>;
+        } as State;
     }
 
-    private addValue = (value: T): void => {
-        const values: Array<T> = Object.assign([], this.state.values);
+    private addValue = (value: UserProfileValue): void => {
+        const values: Array<UserProfileValue> = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
         }
@@ -108,7 +111,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         }
     };
 
-    private handleDelete = (values: T[]): void => {
+    private handleDelete = (values: UserProfileValue[]): void => {
         this.setState({values});
     };
 
@@ -164,14 +167,14 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         });
     };
 
-    search = (searchTerm) => {
+    private search = (searchTerm: string): void => {
         const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
         this.setState({
             term,
         });
 
-        this.searchTimeoutId = setTimeout(
+        this.searchTimeoutId = window.setTimeout(
             async () => {
                 if (!term) {
                     return;
@@ -190,15 +193,15 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         );
     };
 
-    renderAriaLabel = (option) => {
+    private renderAriaLabel = (option: UserProfileValue): string => {
         if (!option) {
-            return null;
+            return '';
         }
         return option.username;
     }
 
-    renderOption = (option, isSelected, onAdd, onMouseMove) => {
-        var rowSelected = '';
+    private renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+        let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
@@ -231,18 +234,18 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
-                        <AddIcon />
+                        <AddIcon/>
                     </div>
                 </div>
             </div>
         );
     };
 
-    renderValue(props) {
+    private renderValue = (props: { data: { username: string } }) => {
         return props.data.username;
     }
 
-    render() {
+    public render = (): JSX.Element => {
         let inviteError = null;
         if (this.state.inviteError) {
             inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
@@ -262,8 +265,10 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
         let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
-            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user) && !this.props.excludeUsers[user.id];
-        });
+            return user.delete_at === 0 &&
+                !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
+                (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
+        }).map((user) => user as UserProfileValue);
 
         if (this.props.includeUsers) {
             const includeUsers = Object.values(this.props.includeUsers);
