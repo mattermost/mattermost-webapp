@@ -17,14 +17,14 @@ type Props = {
 export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
     private textareaRef: React.RefObject<HTMLTextAreaElement>;
-    private reference: React.RefObject<HTMLTextAreaElement>;
+    private referenceRef: React.RefObject<HTMLTextAreaElement>;
     constructor(props: Props) {
         super(props);
 
         this.height = 0;
 
         this.textareaRef = React.createRef();
-        this.reference = React.createRef();
+        this.referenceRef = React.createRef();
     }
 
     get value() {
@@ -74,11 +74,11 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 
     recalculateSize = () => {
-        if (!this.reference.current || !(this.textareaRef.current)) {
+        if (!this.referenceRef.current || !(this.textareaRef.current)) {
             return;
         }
 
-        const height = (this.reference.current).scrollHeight;
+        const height = (this.referenceRef.current).scrollHeight;
         const textarea = (this.textareaRef.current);
 
         if (height > 0 && height !== this.height) {
@@ -173,7 +173,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                 />
                 <div style={style.container}>
                     <textarea
-                        ref={this.reference}
+                        ref={this.referenceRef}
                         id={id + '-reference'}
                         style={style.reference}
                         disabled={true}
