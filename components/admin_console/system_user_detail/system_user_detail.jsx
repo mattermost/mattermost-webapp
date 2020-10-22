@@ -72,6 +72,8 @@ export default class SystemUserDetail extends React.PureComponent {
             addTeamOpen: false,
             refreshTeams: true,
         };
+
+        this.errorMessageRef = React.createRef();
     }
 
     setTeamsData = (teams) => {
@@ -457,7 +459,7 @@ export default class SystemUserDetail extends React.PureComponent {
                     />
                     <div
                         className='error-message'
-                        ref='errorMessage'
+                        ref={this.errorMessageRef}
                         onMouseOver={this.openTooltip}
                         onMouseOut={this.closeTooltip}
                     >
@@ -467,7 +469,7 @@ export default class SystemUserDetail extends React.PureComponent {
                         show={this.state.errorTooltip}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
-                        target={this.refs.errorMessage}
+                        target={this.errorMessageRef.current}
                     >
                         <Tooltip id='error-tooltip' >
                             {this.state.serverError}
