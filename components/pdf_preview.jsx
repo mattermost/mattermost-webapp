@@ -86,7 +86,10 @@ export default class PDFPreview extends React.PureComponent {
             return;
         }
 
-        const canvas = this[`pdfCanvasRef-${pageIndex}`].current; //  = React.createRef();
+        if (!this[`pdfCanvasRef-${pageIndex}`]) {
+            return;
+        }
+        const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
         const context = canvas.current.getContext('2d');
         const viewport = canvas.current.getViewport(1);
 
