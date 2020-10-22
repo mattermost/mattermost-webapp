@@ -9,7 +9,7 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
 
-import {doPluginAction} from 'actions/plugins';
+import {doPluginCall} from 'actions/plugins';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
@@ -90,7 +90,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Components or actions to add as channel header buttons
          */
         components: PropTypes.array,
-        integrations: PropTypes.array,
+        locations: PropTypes.array,
 
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
@@ -147,22 +147,18 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         height='24'
                     />
                 )}
-                onClick={() => doPluginAction({
-                    wish: {
-                        url: plugAction.wish.url,
+                onClick={() => doPluginCall({
+                    form_url: plugAction.form_url,
+                    context: {
+                        app_id: plugAction.app_id,
+                        team_id: this.props.channel.team_id,
+                        channel_id: this.props.channel.id,
                     },
-                    data: {
-                        context: {
-                            app_id: plugAction.wish.app_id,
-                            team_id: this.props.channel.team_id,
-                            channel_id: this.props.channel.id,
+                    from: [
+                        {
+                            plugAction,
                         },
-                        from: [
-                            {
-                                plugAction,
-                            },
-                        ],
-                    },
+                    ],
                 })}
                 buttonId={plugAction.location_id}
                 tooltipKey={'plugin'}
@@ -171,7 +167,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
-    createDropdown = (plugs, integrations) => {
+    createDropdown = (plugs, locations) => {
         const componentItems = plugs.map((plug) => {
             return (
                 <li
@@ -189,30 +185,26 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             );
         });
 
-        const items = componentItems.concat(integrations.map((plug) => {
+        const items = componentItems.concat(locations.map((plug) => {
             return (
                 <li
-                    key={'channelHeaderPlug' + plug.location_id}
+                    key={'channelHeaderPlug' + plug.app_id + plug.location_id}
                 >
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => doPluginAction({
-                            wish: {
-                                url: plug.wish.url,
+                        onClick={() => this.fireActionAndClose(() => doPluginCall({
+                            form_url: plug.form_url,
+                            context: {
+                                app_id: plug.app_id,
+                                team_id: this.props.channel.team_id,
+                                channel_id: this.props.channel.id,
                             },
-                            data: {
-                                context: {
-                                    app_id: plug.wish.app_id,
-                                    team_id: this.props.channel.team_id,
-                                    channel_id: this.props.channel.id,
+                            from: [
+                                {
+                                    plug,
                                 },
-                                from: [
-                                    {
-                                        plug,
-                                    },
-                                ],
-                            },
+                            ],
                         }))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.icon}/>)}</span>
@@ -277,16 +269,16 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     render() {
         const components = this.props.components || [];
-        const integrations = this.props.integrations || [];
+        const locations = this.props.locations || [];
 
-        if (components.length === 0 && integrations.length === 0) {
+        if (components.length === 0 && locations.length === 0) {
             return null;
-        } else if (components.length + integrations.length <= 5) {
+        } else if (components.length + locations.length <= 5) {
             const componentButtons = components.map(this.createComponentButton);
-            return componentButtons.concat(integrations.map(this.createActionButton));
+            return componentButtons.concat(locations.map(this.createActionButton));
         }
 
-        return this.createDropdown(components, integrations);
+        return this.createDropdown(components, locations);
     }
 }
 

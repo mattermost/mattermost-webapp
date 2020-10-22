@@ -8,7 +8,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
+import {getPluginsLocations} from 'mattermost-redux/selectors/entities/plugins';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {openModal} from 'actions/views/modals';
@@ -37,7 +37,7 @@ function mapStateToProps(state, ownProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const pluginIntegrations = getPluginIntegrations(state, PluginLocation.PLUGIN_LOCATION_POST_ACTION);
+    const pluginLocations = getPluginsLocations(state, PluginLocation.PLUGIN_LOCATION_POST_MENU_ITEM);
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -50,7 +50,7 @@ function mapStateToProps(state, ownProps) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
-        pluginIntegrations,
+        pluginLocations,
     };
 }
 

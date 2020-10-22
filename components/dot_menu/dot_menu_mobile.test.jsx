@@ -42,7 +42,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             },
             canEdit: false,
             canDelete: false,
-            pluginIntegrations: [],
+            pluginLocations: [],
         };
 
         const wrapper = shallow(

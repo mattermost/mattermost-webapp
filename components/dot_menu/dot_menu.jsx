@@ -10,7 +10,7 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
-import {doPluginAction} from 'actions/plugins';
+import {doPluginCall} from 'actions/plugins';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -47,7 +47,7 @@ export default class DotMenu extends React.PureComponent {
         enableEmojiPicker: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         currentTeamUrl: PropTypes.string.isRequired,
-        pluginIntegrations: PropTypes.array.isRequired,
+        pluginLocations: PropTypes.array.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -291,31 +291,25 @@ export default class DotMenu extends React.PureComponent {
                 );
             });
 
-        const pluginIntegrationsItems = this.props.pluginIntegrations.filter((item) => {
-            return item.location_type === PluginLocation.PLUGIN_LOCATION_POST_ACTION;
-        }).map((item) => {
+        const pluginLocationsItems = this.props.pluginLocations.map((item) => {
             return (
                 <Menu.ItemAction
                     text={item.text}
-                    key={item.location_id + '_' + item.text}
+                    key={item.app_id + item.location_id}
                     onClick={() => {
-                        doPluginAction({
-                            wish: {
-                                url: item.wish.url,
+                        doPluginCall({
+                            form_url: item.form_url,
+                            context: {
+                                app_id: item.app_id,
+                                team_id: this.props.teamId,
+                                channel_id: this.props.post.channel_id,
+                                post_id: this.props.post.id,
                             },
-                            data: {
-                                context: {
-                                    app_id: item.wish.app_id,
-                                    team_id: this.props.teamId,
-                                    channel_id: this.props.post.channel_id,
-                                    post_id: this.props.post.id,
+                            from: [
+                                {
+                                    item,
                                 },
-                                from: [
-                                    {
-                                        item,
-                                    },
-                                ],
-                            },
+                            ],
                         });
                     }}
                     icon={(<img src={item.icon}/>)}
@@ -419,9 +413,9 @@ export default class DotMenu extends React.PureComponent {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || pluginIntegrationsItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {(pluginItems.length > 0 || pluginLocationsItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
-                    {pluginIntegrationsItems}
+                    {pluginLocationsItems}
                     <Pluggable
                         postId={this.props.post.id}
                         pluggableName={PLUGGABLE_COMPONENT}

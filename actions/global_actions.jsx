@@ -16,7 +16,7 @@ import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMembershi
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
-import {fetchMobilePluginIntegrations} from 'mattermost-redux/actions/plugins';
+import {fetchPluginLocations} from 'mattermost-redux/actions/plugins';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -93,7 +93,7 @@ export function emitChannelClickEvent(channel) {
             member: member || {},
         }]));
 
-        dispatch(fetchMobilePluginIntegrations(userId, chan.id));
+        dispatch(fetchPluginLocations(userId, chan.id));
     }
 
     if (channel.fake) {

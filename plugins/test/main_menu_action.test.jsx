@@ -42,7 +42,6 @@ describe('plugins/MainMenuActions', () => {
                 closeRhsMenu: jest.fn(),
                 unhideNextSteps: jest.fn(),
             },
-            integrationMenuItems: [],
         };
 
         const wrapper = shallowWithIntl(

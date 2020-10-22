@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getPluginIntegrations} from 'mattermost-redux/selectors/entities/plugins';
+import {getPluginsLocations} from 'mattermost-redux/selectors/entities/plugins';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import ChannelHeaderPlug from './channel_header_plug.jsx';
@@ -11,7 +11,7 @@ import ChannelHeaderPlug from './channel_header_plug.jsx';
 function mapStateToProps(state) {
     return {
         components: state.plugins.components.ChannelHeaderButton,
-        integrations: getPluginIntegrations(state, PluginLocation.PLUGIN_LOCATION_CHANNEL_HEADER),
+        locations: getPluginsLocations(state, PluginLocation.PLUGIN_LOCATION_CHANNEL_HEADER_ICON),
         theme: getTheme(state),
     };
 }

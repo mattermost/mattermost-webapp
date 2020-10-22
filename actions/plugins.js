@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 import {Client4} from 'mattermost-redux/client';
 
-export async function doPluginAction(pluginId, requestURL, body) {
-    await Client4.executePluginIntegration(pluginId, requestURL, body);
+export async function doPluginCall(call) {
+    await Client4.executePluginCall(call);
 
     // TODO: Add actions
 }
