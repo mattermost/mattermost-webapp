@@ -440,6 +440,7 @@ type State = BaseState & {
     removing: string | null;
 }
 export default class PluginManagement extends AdminSettings<Props, State> {
+    private fileInput: React.RefObject<HTMLInputElement>;
     constructor(props: Props) {
         super(props);
 
@@ -459,9 +460,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
             showRemoveModal: false,
             resolveRemoveModal: null,
         });
-        
         this.fileInput = React.createRef();
-        
     }
     getConfigFromState = (config: Props['config']) => {
         if (config && config.PluginSettings) {
@@ -1082,7 +1081,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                                 />
                                             </button>
                                             <input
-                                                ref='this.fileInput'
+                                                ref={this.fileInput}
                                                 type='file'
                                                 accept='.gz'
                                                 onChange={this.handleUpload}
