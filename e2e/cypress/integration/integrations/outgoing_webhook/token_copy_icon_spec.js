@@ -33,7 +33,7 @@ describe('Integrations', () => {
         cy.get('#channelSelect').select(testChannel);
         cy.get('#triggerWords').type('trigger');
         cy.get('#callbackUrls').type('https://mattermost.com');
-        cy.get('#saveWebhook').click();
+        cy.findByText('Save').click();
 
         // Assert that webhook was set up
         cy.findByText('Setup Successful').should('be.visible');
