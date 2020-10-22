@@ -61,7 +61,7 @@ TeamSettings.propTypes = {
     updateSection: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
-    team: PropTypes.object.isRequired,
+    team: PropTypes.object,
 };
 
 export default TeamSettings;

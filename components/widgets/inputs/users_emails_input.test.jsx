@@ -50,6 +50,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
                 isValidNewOption={[Function]}
                 loadOptions={[Function]}
                 loadingMessage={[Function]}
+                onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 onInputChange={[Function]}

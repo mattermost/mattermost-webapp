@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -332,6 +332,7 @@ export default class LicenseSettings extends React.PureComponent {
                         href='https://about.mattermost.com/enterprise-edition-terms/'
                     >{'Enterprise Edition Terms of Service'}</a>{' and '}
                     <a
+                        data-testid='privacyPolicyLink'
                         rel='noopener noreferrer'
                         target='_blank'
                         href='https://about.mattermost.com/default-privacy-policy/'
