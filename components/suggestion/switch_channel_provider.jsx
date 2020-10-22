@@ -213,12 +213,14 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     const aStartsWith = aDisplayName.startsWith(prefix);
     const bStartsWith = bDisplayName.startsWith(prefix);
 
+    // Open channels user havent interacted should be at the  bottom of the list
     if (a.type === Constants.OPEN_CHANNEL && !wrappedA.last_viewed_at && (b.type !== Constants.OPEN_CHANNEL || wrappedB.last_viewed_at)) {
         return 1;
     } else if (b.type === Constants.OPEN_CHANNEL && !wrappedB.last_viewed_at) {
         return -1;
     }
 
+    // If both channels start with search term then sort by last_viewed_at
     if (aStartsWith && bStartsWith) {
         if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
             return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
