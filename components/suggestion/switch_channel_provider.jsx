@@ -24,7 +24,7 @@ import {
     getCurrentUserId,
     getUserIdsInChannels,
     getUser,
-    searchProfiles,
+    searchProfilesMatchingWithTerm,
 } from 'mattermost-redux/selectors/entities/users';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -297,7 +297,7 @@ export default class SwitchChannelProvider extends Provider {
 
             // Dispatch suggestions for local data
             const channels = getChannelsInCurrentTeam(getState()).concat(getDirectAndGroupChannels(getState()));
-            const users = Object.assign([], searchProfiles(getState(), channelPrefix, false));
+            const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, channels, users);
             if (formattedData) {
                 resultsCallback(formattedData);
@@ -347,7 +347,7 @@ export default class SwitchChannelProvider extends Provider {
         const currentUserId = getCurrentUserId(state);
 
         const localChannelData = getChannelsInCurrentTeam(state).concat(getDirectAndGroupChannels(state)) || [];
-        const localUserData = Object.assign([], searchProfiles(state, channelPrefix, false)) || [];
+        const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
         const localFormattedData = this.formatList(channelPrefix, localChannelData, localUserData);
 
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];

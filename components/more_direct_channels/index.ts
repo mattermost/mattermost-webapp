@@ -25,7 +25,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {sortByUsername, filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
@@ -89,7 +89,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
 const filterGroupChannels = memoizeResult((channels: Array<{profiles: Array<UserProfile>} & Channel>, term: string) => {
     return channels.filter((channel) => {
-        const matches = filterProfilesMatchingTerm(channel.profiles, term);
+        const matches = filterProfilesStartingWithTerm(channel.profiles, term);
         return matches.length > 0;
     });
 });
