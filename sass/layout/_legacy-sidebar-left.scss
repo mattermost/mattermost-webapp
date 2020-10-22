@@ -111,6 +111,10 @@
         .switch__shortcut {
             margin-left: 4px;
         }
+
+        span {
+            color: var(--sidebar-text);
+        }
     }
 
     .search__form {
