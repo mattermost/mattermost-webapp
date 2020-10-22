@@ -186,9 +186,6 @@ export default class PostHeader extends React.PureComponent<Props> {
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}
                         isLastPost={this.props.isLastPost}
-                        isReadOnly={null}
-                        actions={null}
-                        shouldShowDotMenu={false}
                     />
                 </div>
             </div>

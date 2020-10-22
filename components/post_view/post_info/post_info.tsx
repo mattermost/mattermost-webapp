@@ -121,7 +121,7 @@ export type Props = {
          * Function to set or unset emoji picker for last message
          */
         emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
-    } | null;
+    };
 
     shouldShowDotMenu: boolean;
 };
