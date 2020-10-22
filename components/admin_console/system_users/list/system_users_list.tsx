@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -18,43 +20,55 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import SystemUsersDropdown from '../system_users_dropdown';
 
-export default class SystemUsersList extends React.PureComponent {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        usersPerPage: PropTypes.number,
-        total: PropTypes.number,
-        nextPage: PropTypes.func,
-        search: PropTypes.func.isRequired,
-        focusOnMount: PropTypes.bool,
-        renderFilterRow: PropTypes.func,
+type Props = {
+    users: UserProfile[],
+    usersPerPage: number,
+    total: number,
+    nextPage: (page: number) => void,
+    search: (term: string) => void,
+    focusOnMount: boolean,
+    renderFilterRow: () => void,
 
-        teamId: PropTypes.string.isRequired,
-        filter: PropTypes.string.isRequired,
-        term: PropTypes.string.isRequired,
-        onTermChange: PropTypes.func.isRequired,
-        isDisabled: PropTypes.bool,
+    teamId: string,
+    filter: string,
+    term: string,
+    onTermChange: () => void,
+    isDisabled?: boolean,
 
-        /**
-         * Whether MFA is licensed and enabled.
-         */
-        mfaEnabled: PropTypes.bool.isRequired,
+    /**
+     * Whether MFA is licensed and enabled.
+     */
+    mfaEnabled: boolean,
 
-        /**
-         * Whether or not user access tokens are enabled.
-         */
-        enableUserAccessTokens: PropTypes.bool.isRequired,
+    /**
+     * Whether or not user access tokens are enabled.
+     */
+    enableUserAccessTokens: boolean,
 
-        /**
-         * Whether or not the experimental authentication transfer is enabled.
-         */
-        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
+    /**
+     * Whether or not the experimental authentication transfer is enabled.
+     */
+    experimentalEnableAuthenticationTransfer: boolean,
 
-        actions: PropTypes.shape({
-            getUser: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+    actions: {
+        getUser: (id: string) => UserProfile;
+    }
+};
 
-    constructor(props) {
+type State = {
+    page: number;
+    filter: string;
+    teamId: string;
+    showManageTeamsModal: boolean;
+    showManageRolesModal: boolean;
+    showManageTokensModal: boolean;
+    showPasswordModal: boolean;
+    showEmailModal: boolean;
+    user?: UserProfile;
+};
+
+export default class SystemUsersList extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -67,11 +81,11 @@ export default class SystemUsersList extends React.PureComponent {
             showManageTokensModal: false,
             showPasswordModal: false,
             showEmailModal: false,
-            user: null,
+            user: undefined,
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State): { page: number, teamId: string, filter: string } | null {
         if (prevState.teamId !== nextProps.teamId || prevState.filter !== nextProps.filter) {
             return {
                 page: 0,
@@ -92,7 +106,7 @@ export default class SystemUsersList extends React.PureComponent {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term) => {
+    search = (term: string) => {
         this.props.search(term);
 
         if (term !== '') {
@@ -100,21 +114,21 @@ export default class SystemUsersList extends React.PureComponent {
         }
     }
 
-    doManageTeams = (user) => {
+    doManageTeams = (user: UserProfile) => {
         this.setState({
             showManageTeamsModal: true,
             user,
         });
     }
 
-    doManageRoles = (user) => {
+    doManageRoles = (user: UserProfile) => {
         this.setState({
             showManageRolesModal: true,
             user,
         });
     }
 
-    doManageTokens = (user) => {
+    doManageTokens = (user: UserProfile) => {
         this.setState({
             showManageTokensModal: true,
             user,
@@ -124,25 +138,25 @@ export default class SystemUsersList extends React.PureComponent {
     doManageTeamsDismiss = () => {
         this.setState({
             showManageTeamsModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
     doManageRolesDismiss = () => {
         this.setState({
             showManageRolesModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
     doManageTokensDismiss = () => {
         this.setState({
             showManageTokensModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
-    doPasswordReset = (user) => {
+    doPasswordReset = (user: UserProfile) => {
         this.setState({
             showPasswordModal: true,
             user,
@@ -152,20 +166,22 @@ export default class SystemUsersList extends React.PureComponent {
     doPasswordResetDismiss = () => {
         this.setState({
             showPasswordModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
-    doPasswordResetSubmit = (user) => {
-        this.props.actions.getUser(user.id);
+    doPasswordResetSubmit = (user?: UserProfile) => {
+        if (user) {
+            this.props.actions.getUser(user.id);
+        }
 
         this.setState({
             showPasswordModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
-    doEmailReset = (user) => {
+    doEmailReset = (user: UserProfile) => {
         this.setState({
             showEmailModal: true,
             user,
@@ -175,20 +191,20 @@ export default class SystemUsersList extends React.PureComponent {
     doEmailResetDismiss = () => {
         this.setState({
             showEmailModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
-    doEmailResetSubmit = (user) => {
+    doEmailResetSubmit = (user: UserProfile) => {
         this.props.actions.getUser(user.id);
 
         this.setState({
             showEmailModal: false,
-            user: null,
+            user: undefined,
         });
     }
 
-    getInfoForUser(user) {
+    getInfoForUser(user: UserProfile) {
         const info = [];
 
         if (user.auth_service) {
@@ -257,7 +273,7 @@ export default class SystemUsersList extends React.PureComponent {
         return info;
     }
 
-    renderCount(count, total, startCount, endCount, isSearch) {
+    renderCount(count: number, total: number, startCount: number, endCount: number, isSearch: boolean) {
         if (total) {
             if (isSearch) {
                 return (
@@ -300,7 +316,7 @@ export default class SystemUsersList extends React.PureComponent {
     }
 
     render() {
-        const extraInfo = {};
+        const extraInfo: {[key: string]: (string | JSX.Element)[]} = {};
         if (this.props.users) {
             for (const user of this.props.users) {
                 extraInfo[user.id] = this.getInfoForUser(user);
@@ -347,6 +363,7 @@ export default class SystemUsersList extends React.PureComponent {
                     user={this.state.user}
                     show={this.state.showManageTokensModal}
                     onModalDismissed={this.doManageTokensDismiss}
+                    actions={{getUserAccessTokensForUser}}
                 />
                 <ResetPasswordModal
                     user={this.state.user}

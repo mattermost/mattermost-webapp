@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings.jsx';
+import {AdminConfig} from 'mattermost-redux/types/config';
+
+import CustomTermsOfServiceSettings from 'components/admin_console/custom_terms_of_service_settings/custom_terms_of_service_settings';
 
 describe('components/admin_console/CustomTermsOfServiceSettings', () => {
     const baseProps = {
@@ -17,12 +19,13 @@ describe('components/admin_console/CustomTermsOfServiceSettings', () => {
                 CustomTermsOfServiceEnabled: true,
                 CustomTermsOfServiceReAcceptancePeriod: 365,
             },
-        },
+        } as AdminConfig,
         license: {
             IsLicensed: 'true',
             CustomTermsOfService: 'true',
         },
         setNavigationBlocked: jest.fn(),
+        updateConfig: jest.fn(),
     };
 
     test('should match snapshot', () => {

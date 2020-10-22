@@ -4,13 +4,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-import SystemUsersList from 'components/admin_console/system_users/list/system_users_list.jsx';
+import {Constants} from 'utils/constants';
+import SystemUsersList from 'components/admin_console/system_users/list/system_users_list';
 
 describe('components/admin_console/system_users/list', () => {
     const defaultProps = {
-        users: [],
+        users: [] as UserProfile[],
         usersPerPage: 0,
         total: 0,
         nextPage: jest.fn(),
@@ -49,7 +50,7 @@ describe('components/admin_console/system_users/list', () => {
                 {id: 'id3', auth_service: Constants.LDAP_SERVICE},
                 {id: 'id4', auth_service: Constants.SAML_SERVICE},
                 {id: 'id5', auth_service: 'other service'},
-            ],
+            ] as UserProfile[],
         };
 
         it('and mfa enabled', () => {
@@ -80,7 +81,7 @@ describe('components/admin_console/system_users/list', () => {
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage();
+            (wrapper.instance() as SystemUsersList).nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, teamId: 'new'});
             expect(wrapper.state('page')).toBe(0);
@@ -92,7 +93,7 @@ describe('components/admin_console/system_users/list', () => {
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage();
+            (wrapper.instance() as SystemUsersList).nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, filter: 'new'});
             expect(wrapper.state('page')).toBe(0);
@@ -106,7 +107,7 @@ describe('components/admin_console/system_users/list', () => {
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage();
+            (wrapper.instance() as SystemUsersList).nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, term: 'new term'});
             expect(wrapper.state('page')).toBe(1);

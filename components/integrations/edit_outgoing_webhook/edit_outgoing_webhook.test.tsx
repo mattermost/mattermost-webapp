@@ -2,17 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
+
+import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
+
+import EditOutgoingWebhook
+    from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook';
 
 import {browserHistory} from 'utils/browser_history';
-import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook.jsx';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/EditOutgoingWebhook', () => {
-    const team = {
-        id: 'team_id',
-        name: 'test',
-    };
-    const hook = {
+    const team = TestHelper.getTeamMock();
+    const hook: OutgoingWebhook = {
+        icon_url: '',
+        username: '',
         id: 'ne8miib4dtde5jmgwqsoiwxpiy',
         token: 'nbxtx9hkhb8a5q83gw57jzi9cc',
         create_at: 1504447824673,
@@ -71,7 +75,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -82,7 +86,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -93,7 +97,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match renderExtra', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -102,7 +106,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match when editOutgoingHook is called', () => {
         const props = {...baseProps, hook};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -116,10 +120,13 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     });
 
     test('should have match when submitHook is called on success', async () => {
-        const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: 'data'})};
+        const newActions = {
+            ...baseProps.actions,
+            updateOutgoingHook: jest.fn().mockReturnValue({data: 'data'}),
+        };
         browserHistory.push = jest.fn();
         const props = {...baseProps, hook, actions: newActions};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -133,9 +140,12 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     });
 
     test('should have match when submitHook is called on error', async () => {
-        const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: ''})};
+        const newActions = {
+            ...baseProps.actions,
+            updateOutgoingHook: jest.fn().mockReturnValue({data: ''}),
+        };
         const props = {...baseProps, hook, actions: newActions};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
             <EditOutgoingWebhook {...props}/>,
         );
 
