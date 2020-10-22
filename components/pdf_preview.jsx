@@ -86,9 +86,9 @@ export default class PDFPreview extends React.PureComponent {
             return;
         }
 
-        this[`pdfCanvasRef-${pageIndex}`] = React.createRef();
-        const context = this[`pdfCanvasRef-${pageIndex}`].current.getContext('2d');
-        const viewport = this.state.pdfPages[pageIndex].current.getViewport(1);
+        const canvas = this[`pdfCanvasRef-${pageIndex}`].current; //  = React.createRef();
+        const context = canvas.current.getContext('2d');
+        const viewport = canvas.current.getViewport(1);
 
         this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
         this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
@@ -110,6 +110,7 @@ export default class PDFPreview extends React.PureComponent {
         const numPages = pdf.numPages <= MAX_PDF_PAGES ? pdf.numPages : MAX_PDF_PAGES;
         this.setState({pdf, numPages});
         for (let i = 1; i <= pdf.numPages; i++) {
+            this[`pdfCanvasRef-${i}`] = React.createRef();
             pdf.getPage(i).then(this.onPageLoad);
         }
     }
@@ -156,14 +157,14 @@ export default class PDFPreview extends React.PureComponent {
             pdfCanvases.push(
                 <canvas
                     ref={this[`pdfCanvasRef-${i}`]}
-                    key={this[`pdfCanvasRef-${i}`]}
+                    key={i}
                 />,
             );
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
                 pdfCanvases.push(
                     <div
-                        key={this[`pdfCanvasRef-${i}`]}
+                        key={`separator-${i}`}
                         className='pdf-preview-spacer'
                     />,
                 );
