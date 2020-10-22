@@ -41,7 +41,7 @@
  * 5. "CYPRESS_runWithEELicense=true node run_tests.js --stage='@prod'"
  *      - will run all production tests
  *      - typical test run for Enterprise Edition, given license file can be found in `cypress/fixtures` folder
- * 6. "node run_tests.js --stage='@prod' --exclude-group'@enterprise'"
+ * 6. "node run_tests.js --stage='@prod' --exclude-group='@enterprise'"
  *      - will run all production tests except @enterprise group
  *      - typical test run for Team Edition
  */
