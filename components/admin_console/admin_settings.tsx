@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Overlay, Tooltip} from 'react-bootstrap';
@@ -39,6 +38,7 @@ type ClientErrorPlaceholder = {
 }
 
 export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
+    private errorMessageRef= React.createRef<HTMLDivElement>()
     public constructor(props: Props) {
         super(props);
         const stateInit = {
@@ -256,7 +256,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                         />
                         <div
                             className='error-message'
-                            ref='errorMessage'
+                            ref={this.errorMessageRef}
                             onMouseOver={this.openTooltip}
                             onMouseOut={this.closeTooltip}
                         >
@@ -265,7 +265,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                         <Overlay
                             show={this.state.errorTooltip}
                             placement='top'
-                            target={this.refs.errorMessage}
+                            target={this.errorMessageRef.current}
                         >
                             <Tooltip id='error-tooltip' >
                                 {this.state.serverError}
@@ -278,4 +278,3 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
     }
 }
 
-/* eslint-enable react/no-string-refs */
