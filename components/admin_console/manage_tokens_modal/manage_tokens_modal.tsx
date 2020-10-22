@@ -72,7 +72,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
         });
     }
 
-    renderContents = (): JSX.Element => {
+    private renderContents = (): JSX.Element => {
         const {user, userAccessTokens} = this.props;
 
         if (!user) {
