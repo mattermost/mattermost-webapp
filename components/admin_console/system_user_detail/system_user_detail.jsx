@@ -316,6 +316,10 @@ export default class SystemUserDetail extends React.PureComponent {
         return authLine;
     }
 
+    componentDidMount() {
+        this.errorMessageRefCurrent = this.errorMessageRef.current;
+    }
+
     render() {
         const {user} = this.props;
         let deactivateMemberModal;
@@ -469,7 +473,7 @@ export default class SystemUserDetail extends React.PureComponent {
                         show={this.state.errorTooltip}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
-                        target={this.errorMessageRef.current}
+                        target={this.errorMessageRefCurrent}
                     >
                         <Tooltip id='error-tooltip' >
                             {this.state.serverError}
