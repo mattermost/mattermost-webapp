@@ -39,15 +39,15 @@ describe('Integrations', () => {
         cy.findByText('Setup Successful').should('be.visible');
 
         // * Assert that token copy icon is present
-        cy.get('.fa.fa-copy.ml-2').should('be.visible');
+        cy.findByTestId('copyText').should('be.visible');
 
         // # Close the add outgoing webhooks page
-        cy.get('#doneButton').click();
+        cy.findByText('Done').click();
 
         // * Assert that we are back on the integrations > outgoing webhooks page
         cy.get('#addOutgoingWebhook').should('exist');
 
         // * Assert that the copy icon is present
-        cy.get('.fa.fa-copy.ml-2').should('be.visible');
+        cy.findByTestId('copyText').should('be.visible');
     });
 });
