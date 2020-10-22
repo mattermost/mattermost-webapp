@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -15,33 +14,47 @@ import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
+import Provider from 'components/suggestion/provider';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
-export default class DialogElement extends React.PureComponent {
-    static propTypes = {
-        displayName: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        subtype: PropTypes.string,
-        placeholder: PropTypes.string,
-        helpText: PropTypes.string,
-        errorText: PropTypes.node,
-        maxLength: PropTypes.number,
-        dataSource: PropTypes.string,
-        optional: PropTypes.bool,
-        options: PropTypes.arrayOf(PropTypes.object),
-        value: PropTypes.any,
-        onChange: PropTypes.func,
-        autoFocus: PropTypes.bool,
-        actions: PropTypes.shape({
-            autocompleteChannels: PropTypes.func.isRequired,
-            autocompleteUsers: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    displayName: string;
+    name: string;
+    type: any;
+    subtype?: string;
+    placeholder?: string;
+    helpText?: string;
+    errorText?: React.ReactNode;
+    maxLength?: number;
+    dataSource?: string;
+    optional?: boolean;
+    options?: {text: string;value: string}[];
+    value?: string;
+    onChange?: (name: string, id: string) => void;
+    autoFocus?: boolean;
+    actions: {
+        autocompleteChannels: () => void;
+        autocompleteUsers: () => void;
     }
+}
 
-    constructor(props) {
+type State = {
+    value: string;
+}
+
+type Selected = {
+    id: string;
+    username: string;
+    display_name: string;
+    value: string;
+    text: string;
+}
+
+export default class DialogElement extends React.PureComponent<Props, State> {
+    private providers: Provider[]
+    constructor(props: Props) {
         super(props);
 
         let defaultText = '';
@@ -68,18 +81,20 @@ export default class DialogElement extends React.PureComponent {
         };
     }
 
-    handleSelected = (selected) => {
+    handleSelected = (selected: Selected) => {
         const {name, dataSource, onChange} = this.props;
 
-        if (dataSource === 'users') {
-            onChange(name, selected.id);
-            this.setState({value: selected.username});
-        } else if (dataSource === 'channels') {
-            onChange(name, selected.id);
-            this.setState({value: selected.display_name});
-        } else {
-            onChange(name, selected.value);
-            this.setState({value: selected.text});
+        if (onChange) {
+            if (dataSource === 'users') {
+                onChange(name, selected.id);
+                this.setState({value: selected.username});
+            } else if (dataSource === 'channels') {
+                onChange(name, selected.id);
+                this.setState({value: selected.display_name});
+            } else {
+                onChange(name, selected.value);
+                this.setState({value: selected.text});
+            }
         }
     }
 
@@ -99,7 +114,7 @@ export default class DialogElement extends React.PureComponent {
 
         let {type, maxLength} = this.props;
 
-        let displayNameContent = displayName;
+        let displayNameContent: React.ReactElement;
         if (optional) {
             displayNameContent = (
                 <React.Fragment>
@@ -121,7 +136,7 @@ export default class DialogElement extends React.PureComponent {
             );
         }
 
-        let helpTextContent = helpText;
+        let helpTextContent: React.ReactElement | string | undefined;
         if (errorText) {
             helpTextContent = (
                 <React.Fragment>
@@ -131,6 +146,8 @@ export default class DialogElement extends React.PureComponent {
                     </div>
                 </React.Fragment>
             );
+        } else {
+            helpTextContent = helpText;
         }
 
         if (type === 'text' || type === 'textarea') {
@@ -180,7 +197,7 @@ export default class DialogElement extends React.PureComponent {
                     autoFocus={this.props.autoFocus}
                     id={name}
                     label={displayNameContent}
-                    value={value || false}
+                    value={Boolean(value)}
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     onChange={onChange}
