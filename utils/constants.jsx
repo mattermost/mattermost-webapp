@@ -865,6 +865,13 @@ export const exportFormats = {
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
 };
 
+export const ZoomSettings = {
+    DEFAULT_SCALE: 1,
+    SCALE_DELTA: 0.25,
+    MIN_SCALE: 0.25,
+    MAX_SCALE: 3.0,
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
