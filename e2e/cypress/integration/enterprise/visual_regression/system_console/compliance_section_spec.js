@@ -10,65 +10,38 @@
 // Stage: @prod
 // Group: @enterprise @system_console @visual_regression
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 import {getBatchName} from '../helpers';
 
-describe('System Console - Authentication', () => {
+describe('System Console - Compliance', () => {
     const testCases = [
         {
-            section: 'Authentication',
-            header: 'Signup',
-            sidebar: 'Signup',
-            url: 'admin_console/authentication/signup',
+            section: 'Compliance',
+            header: 'Data Retention Policy',
+            sidebar: 'Data Retention Policy',
+            url: 'admin_console/compliance/data_retention',
         },
         {
-            section: 'Authentication',
-            header: 'Email Authentication',
-            sidebar: 'Email',
-            url: 'admin_console/authentication/email',
+            section: 'Compliance',
+            header: 'Compliance Export (Beta)',
+            sidebar: 'Compliance Export (Beta)',
+            url: 'admin_console/compliance/export',
         },
         {
-            section: 'Authentication',
-            header: 'Password',
-            sidebar: 'Password',
-            url: 'admin_console/authentication/password',
-        },
-        {
-            section: 'Authentication',
-            header: 'Multi-factor Authentication',
-            sidebar: 'MFA',
-            url: 'admin_console/authentication/mfa',
-        },
-        {
-            section: 'Authentication',
-            header: 'AD/LDAP',
-            sidebar: 'AD/LDAP',
-            url: 'admin_console/authentication/ldap',
-            openOptions: {
-                browser: {width: 1024, height: 4850, name: 'chrome'},
+            section: 'Compliance',
+            header: 'Compliance Monitoring',
+            sidebar: 'Compliance Monitoring',
+            url: 'admin_console/compliance/monitoring',
+            saveOptions: {
+                layout: [{selector: '.compliance-panel__table'}],
             },
         },
         {
-            section: 'Authentication',
-            header: 'SAML 2.0',
-            sidebar: 'SAML 2.0',
-            url: 'admin_console/authentication/saml',
-            openOptions: {
-                browser: {width: 1024, height: 4100, name: 'chrome'},
-            },
-        },
-        {
-            section: 'Authentication',
-            header: 'OAuth 2.0',
-            sidebar: 'OAuth 2.0',
-            url: 'admin_console/authentication/oauth',
-        },
-        {
-            section: 'Authentication',
-            header: 'Guest Access (Beta)',
-            sidebar: 'Guest Access (Beta)',
-            url: 'admin_console/authentication/guest_access',
+            section: 'Compliance',
+            header: 'Custom Terms of Service (Beta)',
+            sidebar: 'Custom Terms of Service (Beta)',
+            url: 'admin_console/compliance/custom_terms_of_service',
         },
     ];
 
@@ -91,12 +64,10 @@ describe('System Console - Authentication', () => {
     testCases.forEach((testCase) => {
         it(`${testCase.section} - ${testCase.header}`, () => {
             const browser = [{width: 1024, height: 2100, name: 'chrome'}];
-            const otherOpenOptions = testCase.openOptions ? testCase.openOptions : {};
 
             cy.visualEyesOpen({
-                batchName: getBatchName('System Console - Authentication'),
+                batchName: getBatchName('System Console - Compliance'),
                 browser,
-                ...otherOpenOptions,
             });
 
             // # Click the link on the sidebar
@@ -108,9 +79,13 @@ describe('System Console - Authentication', () => {
             cy.url().should('include', testCase.url);
             cy.get('.admin-console').should('be.visible').within(() => {
                 cy.get('.admin-console__header').should('be.visible').and(testCase.headerContains ? 'contain' : 'have.text', testCase.header);
-
-                // # Save snapshot for visual testing
-                cy.visualSaveSnapshot({tag: testCase.sidebar, target: 'window', fully: true});
+                const otherSaveOptions = testCase.saveOptions ? testCase.saveOptions : {};
+                cy.visualSaveSnapshot({
+                    tag: testCase.sidebar,
+                    target: 'window',
+                    fully: true,
+                    ...otherSaveOptions,
+                });
             });
         });
     });
