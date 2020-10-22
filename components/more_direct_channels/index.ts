@@ -15,7 +15,7 @@ import {
     getCurrentUserId,
     getProfiles as selectProfiles,
     getProfilesInCurrentChannel,
-    getProfilesInCurrentTeam, searchProfiles as searchProfilesSelector,
+    getProfilesInCurrentTeam, searchProfilesStartingWithTerm,
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
 } from 'mattermost-redux/selectors/entities/users';
@@ -56,7 +56,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let users;
     if (searchTerm) {
         if (restrictDirectMessage === 'any') {
-            users = searchProfilesSelector(state, searchTerm, false);
+            users = searchProfilesStartingWithTerm(state, searchTerm, false);
         } else {
             users = searchProfilesInCurrentTeam(state, searchTerm, false);
         }
