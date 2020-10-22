@@ -215,7 +215,7 @@ const BillingHistory: React.FC<Props> = () => {
                             </td>
                             <td className='BillingHistory__table-total'>
                                 <FormattedNumber
-                                    value={invoice.total}
+                                    value={(invoice.total / 100.0)}
                                     // eslint-disable-next-line react/style-prop-object
                                     style='currency'
                                     currency='USD'
