@@ -9,12 +9,18 @@
 
 // Group: @channel_sidebar
 
-import {beRead, beUnread} from '../../support/assertions';
+import {
+    beMuted,
+    beRead,
+    beUnread,
+} from '../../support/assertions';
 import {getAdminAccount} from '../../support/env';
 
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar unread filter', () => {
+    let testUser;
+
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -22,12 +28,14 @@ describe('Channel sidebar unread filter', () => {
             },
         });
 
-        cy.apiInitSetup({loginAfter: true}).then(() => {
+        cy.apiInitSetup({loginAfter: true}).then(({user}) => {
+            testUser = user;
+
             cy.visit('/');
         });
     });
 
-    it('should change the filter label when the unread filter changes state', () => {
+    it('MM-T3441 should change the filter label when the unread filter changes state', () => {
         // * Verify that the unread filter is in all channels state
         cy.get('.SidebarFilters:contains(VIEWING:)').should('be.visible');
         cy.get('.SidebarFilters:contains(All channels)').should('be.visible');
@@ -45,7 +53,7 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarFilters:contains(All channels)').should('be.visible');
     });
 
-    it('should not persist the state of the unread filter on reload', () => {
+    it('MM-T3442 should not persist the state of the unread filter on reload', () => {
         // * Verify that all categories are visible
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
         cy.get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES)').should('be.visible');
@@ -60,7 +68,7 @@ describe('Channel sidebar unread filter', () => {
         cy.get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES)').should('be.visible');
     });
 
-    it('should only show unread channels with filter enabled', () => {
+    it('MM-T3443 should only show unread channels with filter enabled', () => {
         // * Verify that the unread filter is not enabled
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
@@ -68,8 +76,8 @@ describe('Channel sidebar unread filter', () => {
         const readChannelName = `read${getRandomId()}`;
         const unreadChannelName = `unread${getRandomId()}`;
         cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, readChannelName, false);
-            createChannel(teamId, unreadChannelName, true);
+            createChannel(teamId, readChannelName);
+            createChannel(teamId, unreadChannelName, 'test');
         });
 
         // * Verify that the channels are correctly read and unread
@@ -90,7 +98,7 @@ describe('Channel sidebar unread filter', () => {
         cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
     });
 
-    it('should always show the current channel, even if it is not unread', () => {
+    it('MM-T3444 should always show the current channel, even if it is not unread', () => {
         // * Verify that the unread filter is not enabled
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
@@ -109,7 +117,7 @@ describe('Channel sidebar unread filter', () => {
         disableUnreadFilter();
     });
 
-    it('should hide channels once they have been read', () => {
+    it('MM-T3445 should hide channels once they have been read', () => {
         // * Verify that the unread filter is not enabled
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
@@ -117,8 +125,8 @@ describe('Channel sidebar unread filter', () => {
         const channelName1 = `channel${getRandomId()}`;
         const channelName2 = `channel${getRandomId()}`;
         cy.getCurrentTeamId().then((teamId) => {
-            createChannel(teamId, channelName1, true);
-            createChannel(teamId, channelName2, true);
+            createChannel(teamId, channelName1, 'test');
+            createChannel(teamId, channelName2, 'test');
         });
 
         enableUnreadFilter();
@@ -143,6 +151,47 @@ describe('Channel sidebar unread filter', () => {
 
         disableUnreadFilter();
     });
+
+    it('MM-T3446 should only show unread channels with filter enabled', () => {
+        // * Verify that the unread filter is not enabled
+        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
+
+        // # Create a couple of new channels
+        const mentionedChannelName = `mentioned${getRandomId()}`;
+        const unreadChannelName = `muted${getRandomId()}`;
+        cy.getCurrentTeamId().then((teamId) => {
+            createChannel(teamId, mentionedChannelName, `@${testUser.username}`);
+            createChannel(teamId, unreadChannelName, 'test');
+        });
+
+        // # Open the channel menu and mute both of them
+        cy.get(`#sidebarItem_${mentionedChannelName} .SidebarMenu_menuButton`).click({force: true});
+        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
+
+        cy.get(`#sidebarItem_${unreadChannelName} .SidebarMenu_menuButton`).click({force: true});
+        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
+
+        // * Verify that the first channel has a mention and is muted
+        cy.get(`#sidebarItem_${mentionedChannelName}`).should(beUnread).should(beMuted);
+        cy.get(`#sidebarItem_${mentionedChannelName} .badge`).should('be.visible');
+
+        // * Verify that the second channel does not have a mention and is muted
+        cy.get(`#sidebarItem_${unreadChannelName}`).should(beRead).should(beMuted);
+        cy.get(`#sidebarItem_${unreadChannelName} .badge`).should('not.exist');
+
+        enableUnreadFilter();
+
+        // * Verify that the muted channel with a mention is still visible
+        cy.get(`#sidebarItem_${mentionedChannelName}`).should('be.visible');
+
+        // * Verify that the muted channel without a mention has been hidden
+        cy.get(`#sidebarItem_${unreadChannelName}`).should('not.exist');
+
+        disableUnreadFilter();
+
+        // * Verify that the muted channel without a mention has reappeared
+        cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible');
+    });
 });
 
 function enableUnreadFilter() {
@@ -161,10 +210,10 @@ function disableUnreadFilter() {
     cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('not.exist');
 }
 
-function createChannel(teamId, channelName, isUnread) {
+function createChannel(teamId, channelName, message) {
     cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
-        if (isUnread) {
-            cy.postMessageAs({sender: getAdminAccount(), message: 'Test', channelId: channel.id});
+        if (message) {
+            cy.postMessageAs({sender: getAdminAccount(), message, channelId: channel.id});
         }
     });
 }
