@@ -48,7 +48,7 @@ const sectionsList: SystemSection[] = [
             {name: 'user_management_teams'},
             {name: 'user_management_channels'},
             {name: 'user_management_permissions'},
-            {name: 'user_management_system_roles'},
+            {name: 'user_management_system_roles', disabled: true },
         ],
     },
     {
