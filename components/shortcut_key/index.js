@@ -1,3 +1,5 @@
-import { ShortcutKey } from './shortcut_key';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import {ShortcutKey, ShortcutKetVariant} from './shortcut_key';
 
-export { ShortcutKey };
+export {ShortcutKey, ShortcutKetVariant};

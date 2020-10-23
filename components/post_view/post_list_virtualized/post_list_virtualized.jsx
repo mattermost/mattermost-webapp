@@ -22,7 +22,6 @@ import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
 
-
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = 1000;
@@ -350,7 +349,7 @@ class PostList extends React.PureComponent {
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset
+        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset;
         const shouldLoadNewPosts = offsetFromBottom < HEIGHT_TRIGGER_FOR_MORE_POSTS;
 
         if (didUserScrollBackwards && isOffsetWithInRange && !this.props.atOldestPost) {
@@ -384,7 +383,7 @@ class PostList extends React.PureComponent {
 
             if (!this.state.atBottom && scrollHeight) {
                 this.setState({
-                    initScrollOffsetFromBottom: offsetFromBottom
+                    initScrollOffsetFromBottom: offsetFromBottom,
                 });
             }
         }

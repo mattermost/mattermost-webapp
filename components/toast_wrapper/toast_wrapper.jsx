@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
-import { SearchShortcut } from 'components/search_shortcut/search_shortcut';
+import {SearchShortcut} from 'components/search_shortcut/search_shortcut';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 const THRESHOLD_FROM_BOTTOM = 1000;
@@ -267,12 +267,12 @@ class ToastWrapper extends React.PureComponent {
 
     getSearchHintToastText = () => {
         return (
-            <FormattedMessage 
-                id="postlist.toast.searchHint" 
-                defaultMessage="Tip: Try {searchShortcut} to search this channel" 
+            <FormattedMessage
+                id='postlist.toast.searchHint'
+                defaultMessage='Tip: Try {searchShortcut} to search this channel'
                 values={{
-                    searchShortcut: <SearchShortcut />
-                }} 
+                    searchShortcut: <SearchShortcut/>,
+                }}
             />
         );
     }
@@ -363,7 +363,7 @@ class ToastWrapper extends React.PureComponent {
             searchHintToastProps = {
                 ...searchHintToastProps,
                 show: true,
-            }
+            };
         }
 
         return (

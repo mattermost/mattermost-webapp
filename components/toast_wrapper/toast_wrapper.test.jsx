@@ -527,7 +527,7 @@ describe('components/ToastWrapper', () => {
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            
+
             expect(wrapper.find('.toast__hint')).toEqual({});
         });
 
@@ -540,7 +540,7 @@ describe('components/ToastWrapper', () => {
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            
+
             expect(wrapper.find('.toast__hint')).toEqual({});
         });
 

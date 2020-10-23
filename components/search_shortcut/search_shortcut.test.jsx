@@ -1,32 +1,34 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import React from 'react';
 import {shallow} from 'enzyme';
 
 import {SearchShortcut} from 'components/search_shortcut';
 
 describe('components/SearchShortcut', () => {
-  test('should match snapshot on Windows', () => {
-    jest.mock('utils/utils', () => {
-        const original = require.requireActual('utils/utils');
-        return {
-            ...original,
-            isMac: jest.fn(() => false),
-        };
+    test('should match snapshot on Windows', () => {
+        jest.mock('utils/utils', () => {
+            const original = require.requireActual('utils/utils');
+            return {
+                ...original,
+                isMac: jest.fn(() => false),
+            };
+        });
+
+        const wrapper = shallow(<SearchShortcut/>);
+        expect(wrapper).toMatchSnapshot();
     });
 
-    const wrapper = shallow(<SearchShortcut />);
-    expect(wrapper).toMatchSnapshot();
-  });
+    test('should match snapshot on Mac', () => {
+        jest.mock('utils/utils', () => {
+            const original = require.requireActual('utils/utils');
+            return {
+                ...original,
+                isMac: jest.fn(() => true),
+            };
+        });
 
-  test('should match snapshot on Mac', () => {
-    jest.mock('utils/utils', () => {
-        const original = require.requireActual('utils/utils');
-        return {
-            ...original,
-            isMac: jest.fn(() => true),
-        };
+        const wrapper = shallow(<SearchShortcut/>);
+        expect(wrapper).toMatchSnapshot();
     });
-
-    const wrapper = shallow(<SearchShortcut />);
-    expect(wrapper).toMatchSnapshot();
-  });
 });
