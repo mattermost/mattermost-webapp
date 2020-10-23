@@ -40,6 +40,10 @@ type State = {
 export default class SingleImageView extends React.PureComponent<Props, State> {
     private mounted: boolean;
     static defaultProps = {
+        fileInfo: {
+            width: undefined,
+            height: undefined,
+        },
         compactDisplay: false,
     };
 
