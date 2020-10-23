@@ -86,7 +86,7 @@ describe('Messaging', () => {
         cy.viewport(1280, 900);
     });
 
-    it('MM-T712_1 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
+    it('MM-T712 Editing a post with Ctrl+Enter on for all messages configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Account Settings > Advanced
         cy.findAllByLabelText('main menu').should('be.visible').click();
         cy.findByText('Account Settings').click();
@@ -245,7 +245,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T712_2 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
+    it('MM-T3448 Editing a post with Ctrl+Enter only for code blocks starting with ``` configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Account Settings > Advanced
         cy.findAllByLabelText('main menu').should('be.visible').click();
         cy.findByText('Account Settings').click();
@@ -395,7 +395,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T712_3 Editing a post and hitting <enter> in code block saves post automatically instead of adding newline', () => {
+    it('MM-T3449 Editing a post with Ctrl+Enter off for code blocks configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > Off in Account Settings > Advanced
         cy.findAllByLabelText('main menu').should('be.visible').click();
         cy.findByText('Account Settings').click();
