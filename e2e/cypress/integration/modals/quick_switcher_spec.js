@@ -95,7 +95,7 @@ describe('Quick switcher', () => {
         cy.get('body').type('{esc}', {force: true});
     });
 
-    it('Should match interacted users even with a partial match', () => {
+    it('MM-T3447_3 Should match interacted users even with a partial match', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // # Search with the term z2
