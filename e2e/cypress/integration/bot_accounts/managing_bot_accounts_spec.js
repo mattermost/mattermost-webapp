@@ -18,6 +18,7 @@ describe('Managing bot accounts', () => {
     let botName;
 
     beforeEach(() => {
+        cy.apiAdminLogin();
         botName = 'bot-' + Date.now();
 
         // # Set ServiceSettings to expected values
@@ -40,7 +41,6 @@ describe('Managing bot accounts', () => {
         cy.apiInitSetup().then(({team}) => {
             newTeam = team;
         });
-        cy.apiAdminLogin();
     });
 
     it('MM-T1851 No option to create BOT accounts when Enable Bot Account Creation is set to False.', () => {
