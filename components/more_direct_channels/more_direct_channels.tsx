@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -19,12 +19,26 @@ import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
+import Timestamp from 'components/timestamp';
 
 import GroupMessageOption from './group_message_option';
-import {LastPostAt} from './last_post_at';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
+
+const TIME_SPEC: ComponentProps<typeof Timestamp> = {
+    useTime: false,
+    style: 'long',
+    ranges: [
+        {within: ['minute', -1], display: ['second', 0]},
+        {within: ['hour', -1], display: ['minute']},
+        {within: ['hour', -24], display: ['hour']},
+        {within: ['day', -30], display: ['day']},
+        {within: ['month', -11], display: ['month']},
+        {within: ['year', -1000], display: ['year']},
+    ],
+};
+
 type UserProfileWithLastPostedAt = (UserProfile & {last_post_at: number })
 type UserProfileValue = (UserProfile & Value);
 type GroupChannelValue = (Channel & Value & {profiles: UserProfile[]});
@@ -390,7 +404,10 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 </div>
                 {!isMobile() &&
                     <div className='more-modal__lastPostAt'>
-                        <LastPostAt lastPostAt={lastPostAt}/>
+                        <Timestamp
+                            {...TIME_SPEC}
+                            value={lastPostAt}
+                        />
                     </div>
                 }
                 <div className='more-modal__actions'>
