@@ -67,7 +67,7 @@ describe('Quick switcher', () => {
         cy.get('body').type('{esc}', {force: true});
     });
 
-    it('Should add latest interacted user on top of results instead of alphabatical order', () => {
+    it('MM-T3447_2 Should add latest interacted user on top of results instead of alphabetical order', () => {
         // # Go to the DM channel of third user
         cy.goToDm(thirdUser.username);
 
