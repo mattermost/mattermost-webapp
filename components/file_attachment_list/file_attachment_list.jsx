@@ -19,12 +19,14 @@ export default class FileAttachmentList extends React.PureComponent {
         /*
          * The post the files are attached to
          */
-        post: PropTypes.object.isRequired,
+        // Need to remove .isRequired till the component is not migrated to tsx
+        post: PropTypes.object,
 
         /*
          * The number of files attached to the post
          */
-        fileCount: PropTypes.number.isRequired,
+        // Need to remove .isRequired till the component is not migrated to tsx
+        fileCount: PropTypes.number,
 
         /*
          * Sorted array of metadata for each file attached to the post
@@ -34,7 +36,9 @@ export default class FileAttachmentList extends React.PureComponent {
         compactDisplay: PropTypes.bool,
         enableSVGs: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
-        locale: PropTypes.string.isRequired,
+
+        // Need to remove .isRequired till the component is not migrated to tsx
+        locale: PropTypes.string,
     }
 
     constructor(props) {

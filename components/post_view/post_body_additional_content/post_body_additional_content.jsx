@@ -17,7 +17,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         /**
          * The post to render the content of
          */
-        post: PropTypes.object.isRequired,
+        // Need to remove .isRequired till the component is not migrated to tsx
+        post: PropTypes.object,
 
         /**
          * Plugin post will render embed
@@ -39,9 +40,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
          */
         options: PropTypes.object,
 
+        // Need to remove .isRequired till the component is not migrated to tsx
         actions: PropTypes.shape({
-            toggleEmbedVisibility: PropTypes.func.isRequired,
-        }).isRequired,
+            toggleEmbedVisibility: PropTypes.func,
+        }),
     }
 
     toggleEmbedVisibility = () => {

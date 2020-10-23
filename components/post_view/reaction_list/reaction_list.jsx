@@ -40,14 +40,16 @@ export default class ReactionList extends React.PureComponent {
         /**
          * Whether to show the emoji picker.
          */
-        enableEmojiPicker: PropTypes.bool.isRequired,
+        // Need to remove .isRequired till the component is not migrated to tsx
+        enableEmojiPicker: PropTypes.bool,
 
         actions: PropTypes.shape({
 
             /**
              * Function to add a reaction to the post
              */
-            addReaction: PropTypes.func.isRequired,
+            // Need to remove .isRequired till the component is not migrated to tsx
+            addReaction: PropTypes.func,
         }),
     }
 

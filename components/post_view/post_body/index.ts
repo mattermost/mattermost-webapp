@@ -3,13 +3,28 @@
 
 import {connect} from 'react-redux';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {
+    isCurrentChannelReadOnly,
+    getCurrentChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import PostBody from './post_body.jsx';
+import {Post} from 'mattermost-redux/types/posts';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-function mapStateToProps(state, ownProps) {
+import {PluginsState} from 'types/store/plugins';
+
+import PostBody from './post_body';
+
+interface State extends GlobalState {
+    plugins: PluginsState;
+}
+
+type Props = {
+    post: Post;
+};
+function mapStateToProps(state: State, ownProps: Props) {
     let parentPost;
     let parentPostUser;
     if (ownProps.post.root_id) {
@@ -18,7 +33,8 @@ function mapStateToProps(state, ownProps) {
     }
 
     const config = getConfig(state);
-    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+    const enablePostUsernameOverride =
+    config.EnablePostUsernameOverride === 'true';
 
     const currentChannel = getCurrentChannel(state);
     const channelIsArchived = currentChannel.delete_at !== 0;
