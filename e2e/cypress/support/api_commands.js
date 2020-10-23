@@ -151,7 +151,27 @@ Cypress.Commands.add('apiAccessToken', (userId, description) => {
         },
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response.body.token);
+        return cy.wrap(response.body);
+    });
+});
+
+/**
+ * Revoke access token
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} tokenId - The token id to revoke
+ * All parameters are required
+ */
+Cypress.Commands.add('apiRevokeAccessToken', (tokenId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/tokens/revoke',
+        method: 'POST',
+        body: {
+            token_id: tokenId,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });
 

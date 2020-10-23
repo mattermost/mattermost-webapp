@@ -42,7 +42,7 @@ describe('Bot post unread message', () => {
             cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
             // # Get token from bots id
-            cy.apiAccessToken(botUserId, 'Create token').then((token) => {
+            cy.apiAccessToken(botUserId, 'Create token').then(({token}) => {
                 //# Add bot to team
                 cy.apiAddUserToTeam(newChannel.team_id, botUserId);
 
