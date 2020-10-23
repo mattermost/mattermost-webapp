@@ -160,14 +160,14 @@ export default class PDFPreview extends React.PureComponent {
             pdfCanvases.push(
                 <canvas
                     ref={this[`pdfCanvasRef-${i}`]}
-                    key={i}
+                    key={'previewpdfcanvas' + i}
                 />,
             );
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
                 pdfCanvases.push(
                     <div
-                        key={`separator-${i}`}
+                        key={'previewpdfspacer' + i}
                         className='pdf-preview-spacer'
                     />,
                 );
