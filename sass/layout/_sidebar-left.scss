@@ -638,7 +638,7 @@
             color: var(--sidebar-text);
         }
 
-        > div:not(.SidebarCategory_newLabel) {
+        .SidebarChannelGroupHeader_text {
             flex: 0 1 auto;
             overflow: hidden;
             text-overflow: ellipsis;

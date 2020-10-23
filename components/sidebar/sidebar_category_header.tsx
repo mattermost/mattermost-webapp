@@ -24,9 +24,11 @@ export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps,
                 ref={ref}
                 className='SidebarChannelGroupHeader_groupButton'
             >
-                {wrapEmojis(props.displayName)}
+                <div className='SidebarChannelGroupHeader_text'>
+                    {wrapEmojis(props.displayName)}
+                </div>
+                {props.children}
             </div>
-            {props.children}
         </div>
     );
 });
@@ -62,11 +64,14 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
                         'hide-arrow': !props.isCollapsible,
                     })}
                 />
-                <div {...props.dragHandleProps}>
+                <div
+                    className='SidebarChannelGroupHeader_text'
+                    {...props.dragHandleProps}
+                >
                     {wrapEmojis(props.displayName)}
                 </div>
+                {props.children}
             </button>
-            {props.children}
         </div>
     );
 });
