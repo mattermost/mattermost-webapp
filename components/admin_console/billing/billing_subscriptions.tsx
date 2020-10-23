@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -17,6 +17,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import AlertBanner from 'components/alert_banner';
+import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -51,11 +52,26 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const customer = useSelector((state: GlobalState) => state.entities.cloud.customer);
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+
+    const isCreditCardExpired = () => {
+        if (!customer) {
+            return false;
+        }
+
+        // Will developers ever learn? :D
+        const expiryYear = customer.payment_method.exp_year + 2000;
+        const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month - 1, 1);
+        lastExpiryDate.setMonth(lastExpiryDate.getMonth() + 1);
+        return lastExpiryDate <= new Date();
+    };
+
+    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCreditCardExpired());
 
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -93,6 +109,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
         }
 
         return false;
+    };
+
+    const shouldShowPaymentFailedBanner = () => {
+        return subscription?.last_invoice?.status === 'failed';
     };
 
     const handleHide = async () => {
@@ -185,6 +205,35 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
+                    {shouldShowPaymentFailedBanner() && (
+                        <AlertBanner
+                            mode='danger'
+                            title={formatMessage({
+                                id: 'billing.subscription.info.mostRecentPaymentFailed',
+                                defaultMessage: 'Your most recent payment failed',
+                            })}
+                            message={
+                                <>
+                                    <FormattedMessage
+                                        id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
+                                        defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please '
+                                    />
+                                    <BlockableLink
+                                        to='/admin_console/billing/payment_info'
+                                    >
+                                        <FormattedMessage
+                                            id='billing.subscription.info.mostRecentPaymentFailed.description.updatePaymentInformation'
+                                            defaultMessage='update your payment information'
+                                        />
+                                    </BlockableLink>
+                                    <FormattedMessage
+                                        id='billing.subscription.info.mostRecentPaymentFailed.description.avoidAnyDisruption'
+                                        defaultMessage=' to avoid any disruption.'
+                                    />
+                                </>
+                            }
+                        />
+                    )}
                     {shouldShowInfoBanner() && (
                         <AlertBanner
                             mode='info'
@@ -200,10 +249,25 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             onDismiss={() => handleHide()}
                         />
                     )}
-                    <div
-                        className='BillingSubscriptions__topWrapper'
-                        style={{marginTop: '20px'}}
-                    >
+                    {showCreditCardBanner && (
+                        <AlertBanner
+                            mode='info'
+                            title={
+                                <FormattedMessage
+                                    id='admin.billing.payment_info.creditCardAboutToExpire'
+                                    defaultMessage='Your credit card is about to expire'
+                                />
+                            }
+                            message={
+                                <FormattedMessage
+                                    id='admin.billing.payment_info.creditCardAboutToExpire.description'
+                                    defaultMessage='Please update your payment information to avoid any disruption.'
+                                />
+                            }
+                            onDismiss={() => setShowCreditCardBanner(false)}
+                        />
+                    )}
+                    <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails/>
                         {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
