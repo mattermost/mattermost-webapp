@@ -7,43 +7,63 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @integrations
+// Group: @messaging
 
-describe('Integrations', () => {
+describe('Messaging', () => {
     let testTeam;
-    let testChannel;
-    let testUser;
+    let testChannel
+    let channel;
+    let publicChannel
+    let privateChannel
 
     before(() => {
-        // # Create test team and channel
-        cy.apiInitSetup().then(({team, channel, user}) => {
-            testTeam = team.name;
-            testChannel = channel.display_name;
-            testUser = user;
+        // # Login as test user and visit the newly created test channel
+        cy.apiInitSetup().then(({team, user, channel}) => {
+            testTeam = team;
+            testChannel = channel
+            testUser = user
+
+            // # Login as regular user
+            cy.apiLogin(user);
+
+            // # Set up test channel with a long name
+            //cy.apiCreateChannel(testTeam.id, 'channel-test', 'Archive Test').then(({channel}) => {
+            //    const archivedChannel = channel.name
+            //    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+                //cy.uiArchiveChannel();
+            });
+            
         });
-    });
+    
 
-    it('MM-T616 Copy icon for Outgoing Webhook token', () => {
-
-
-        // Visit the integrations > add page
-        cy.visit(`/${testTeam}/town_square`);
-        cy.uiCreateChannel({prefix:'private-channel-', isPrivate: true});
+    it('MM-T134 Visual verification of tooltips on top nav, channel icons, posts', () => {
 
 
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Archive Test', 'O').then(({channel}) => {
+            publicChannel = channel;
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.uiArchiveChannel();
+            cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+            cy.get('#channelSelect').contains(channel.display_name);
+        });
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Private Test', 'P').then(({channel}) => {
+            privateChannel = channel;
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            //cy.uiArchiveChannel();
+            cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+            cy.get('#channelSelect').should('not.contain', (channel.display_name);
+
+        cy.apiLogin(testUser);
+
+        
+            
 
 
-        // * Assert that we are on the add page
-        //cy.url().should('include', '/outgoing_webhooks/add');
 
-        // # Manually set up an outgoing web-hook
-        //cy.get('#displayName').type('test');
-        //cy.get('#channelSelect').select(testChannel);
-        //cy.get('#triggerWords').type('trigger');
-        //cy.get('#callbackUrls').type('https://mattermost.com');
-        //cy.get('#saveWebhook').click();
 
-        // Assert that webhook was set up
-        //cy.findByText('Setup Successful').should('be.visible');
+        //cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+        //cy.get('#channelSelect').contains(channel.name);
+        //cy.get('#postListContent').find('.top').should('be.visible');
     });
 });
