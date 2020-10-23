@@ -90,12 +90,9 @@ export default class PDFPreview extends React.PureComponent {
             return;
         }
 
-        if (!this[`pdfCanvasRef-${pageIndex}`].current) {
-            return;
-        }
         const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
-        const context = canvas.current.getContext('2d');
-        const viewport = canvas.current.getViewport(1);
+        const context = canvas.getContext('2d');
+        const viewport = this.state.pdfPages[pageIndex].getViewport(this.props.scale);
 
         this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
         this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
