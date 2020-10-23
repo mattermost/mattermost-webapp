@@ -6,6 +6,7 @@ import React from 'react';
 import {DraggableProvidedDragHandleProps} from 'react-beautiful-dnd';
 
 import {wrapEmojis} from 'utils/emoji_utils';
+import * as UserAgent from 'utils/user_agent';
 
 type StaticProps = {
     children?: React.ReactNode;
@@ -14,7 +15,11 @@ type StaticProps = {
 
 export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps, ref?: React.Ref<HTMLDivElement>) => {
     return (
-        <div className='SidebarChannelGroupHeader SidebarChannelGroupHeader--static'>
+        <div
+            className={classNames('SidebarChannelGroupHeader SidebarChannelGroupHeader--static', {
+                'SidebarChannelGroupHeader--sticky': supportsStickyHeaders(),
+            })}
+        >
             <div
                 ref={ref}
                 className='SidebarChannelGroupHeader_groupButton'
@@ -38,7 +43,11 @@ type Props = StaticProps & {
 
 export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLButtonElement>) => {
     return (
-        <div className='SidebarChannelGroupHeader'>
+        <div
+            className={classNames('SidebarChannelGroupHeader', {
+                'SidebarChannelGroupHeader--sticky': supportsStickyHeaders(),
+            })}
+        >
             <button
                 ref={ref}
                 className={classNames('SidebarChannelGroupHeader_groupButton', {
@@ -67,3 +76,7 @@ SidebarCategoryHeader.defaultProps = {
     isDraggingOver: false,
 };
 SidebarCategoryHeader.displayName = 'SidebarCategoryHeader';
+
+function supportsStickyHeaders() {
+    return !UserAgent.isFirefox() && !UserAgent.isSafari();
+}
