@@ -404,7 +404,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                         </div>
                     </div>
                 </div>
-                {!isMobile() &&
+                {!isMobile() && lastPostAt &&
                     <div className='more-modal__lastPostAt'>
                         <Timestamp
                             {...TIME_SPEC}
