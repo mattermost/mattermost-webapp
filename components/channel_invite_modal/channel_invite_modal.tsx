@@ -98,7 +98,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         this.props.actions.getTeamStats(this.props.channel.team_id);
     }
 
-    private onHide = (): void => {
+    public onHide = (): void => {
         this.setState({show: false});
     };
 
@@ -134,7 +134,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         }
     };
 
-    private handleSubmit = (): void => {
+    public handleSubmit = (): void => {
         const {actions, channel} = this.props;
 
         const userIds = this.state.values.map((v) => v.id);
@@ -167,7 +167,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         });
     };
 
-    private search = (searchTerm: string): void => {
+    public search = (searchTerm: string): void => {
         const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
         this.setState({
