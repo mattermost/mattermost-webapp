@@ -10,10 +10,11 @@ import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
-import SidebarCategoryList from 'components/sidebar/sidebar_category_list/sidebar_category_list';
 import {DraggingStates, DraggingStateTypes} from 'utils/constants';
 
-describe('components/sidebar/sidebar_category_list', () => {
+import SidebarChannelList from './sidebar_channel_list';
+
+describe('SidebarChannelList', () => {
     const currentChannel = {
         id: 'channel_id',
         display_name: 'channel_display_name',
@@ -105,27 +106,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <SidebarCategoryList {...baseProps}/>,
-        );
-
-        expect(wrapper).toMatchSnapshot();
-
-        const draggable = wrapper.find('Connect(Droppable)').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
-    });
-
-    test('should match snapshot when unread filter is enabled', () => {
-        const props = {
-            ...baseProps,
-            isUnreadFilterEnabled: true,
-        };
-
-        const wrapper = shallow(
-            <SidebarCategoryList {...props}/>,
+            <SidebarChannelList {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -140,7 +121,7 @@ describe('components/sidebar/sidebar_category_list', () => {
 
     test('should close sidebar on mobile when channel is selected (ie. changed)', () => {
         const wrapper = shallow(
-            <SidebarCategoryList {...baseProps}/>,
+            <SidebarChannelList {...baseProps}/>,
         );
 
         const newCurrentChannel = {
@@ -153,8 +134,8 @@ describe('components/sidebar/sidebar_category_list', () => {
     });
 
     test('should scroll to top when team changes', () => {
-        const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>,
+        const wrapper = shallow<SidebarChannelList>(
+            <SidebarChannelList {...baseProps}/>,
         );
 
         wrapper.instance().scrollbar = {
@@ -173,8 +154,8 @@ describe('components/sidebar/sidebar_category_list', () => {
     });
 
     test('should display unread scroll indicator when channels appear outside visible area', () => {
-        const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>,
+        const wrapper = shallow<SidebarChannelList>(
+            <SidebarChannelList {...baseProps}/>,
         );
         const instance = wrapper.instance();
 
@@ -203,8 +184,8 @@ describe('components/sidebar/sidebar_category_list', () => {
     });
 
     test('should scroll to correct position when scrolling to channel', () => {
-        const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>,
+        const wrapper = shallow<SidebarChannelList>(
+            <SidebarChannelList {...baseProps}/>,
         );
         const instance = wrapper.instance();
 
@@ -232,8 +213,8 @@ describe('components/sidebar/sidebar_category_list', () => {
             style: {},
         }]);
 
-        const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>,
+        const wrapper = shallow<SidebarChannelList>(
+            <SidebarChannelList {...baseProps}/>,
         );
 
         const categoryBefore = {
@@ -264,8 +245,8 @@ describe('components/sidebar/sidebar_category_list', () => {
     });
 
     test('should call correct action on dropping item', () => {
-        const wrapper = shallow<SidebarCategoryList>(
-            <SidebarCategoryList {...baseProps}/>,
+        const wrapper = shallow<SidebarChannelList>(
+            <SidebarChannelList {...baseProps}/>,
         );
 
         const categoryResult: DropResult = {
