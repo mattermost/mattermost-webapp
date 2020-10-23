@@ -23,7 +23,7 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
-export type Props = {
+type Props = {
 
     /**
      * The post to render the info for

@@ -9,6 +9,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {GlobalState} from 'types/store';
 
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
@@ -17,9 +19,13 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 
-import PostInfo, {Props} from './post_info';
+import PostInfo from './post_info';
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+type OwnProps = {
+    post: Post;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const selectedCard = getSelectedPostCard(state);
     const config = getConfig(state);
     const channel = state.entities.channels.channels[ownProps.post.channel_id];
