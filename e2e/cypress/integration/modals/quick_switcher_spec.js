@@ -115,7 +115,7 @@ describe('Quick switcher', () => {
         cy.get('body').type('{esc}', {force: true});
     });
 
-    it('Should not match GM if it is removed from LHS', () => {
+    it('MM-T3447_4 Should not match GM if it is removed from LHS', () => {
         cy.apiCreateGroupChannel([testUser.id, firstUser.id, secondUser.id]).then(({channel}) => {
             // # Visit the newly created group message
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
