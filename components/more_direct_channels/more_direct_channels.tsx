@@ -488,8 +488,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         });
 
         const recentDirectChannelUserIds = this.props.recentDirectChannelUsers.map((user: UserProfile) => user.id);
-        const filterUsersInRecentChannels = (user: UserProfile) => !recentDirectChannelUserIds.includes(user.id);
-        users = users.filter(filterUsersInRecentChannels);
+        users = users.filter((user: UserProfile) => !recentDirectChannelUserIds.includes(user.id));
 
         const usersValues = users.map((user) => {
             return {label: user.username, value: user.id, ...user};

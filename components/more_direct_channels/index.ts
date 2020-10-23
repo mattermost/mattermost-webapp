@@ -20,7 +20,7 @@ import {
     getTotalUsersStats as getTotalUsersStatsSelector,
     getUser,
 } from 'mattermost-redux/selectors/entities/users';
-import {Constants} from 'utils/constants';
+
 import {getChannelsWithUserProfiles, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -33,6 +33,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
+import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
@@ -73,7 +74,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
     const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
-    const myRecentDirectChannels = filterRecentChannels(getAllChannels(state), currentUserId).sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
+    const myRecentDirectChannels =
+        filterRecentChannels(getAllChannels(state), currentUserId).
+            sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
     let recentDirectChannelUsers = myRecentDirectChannels.map((channel: Channel) => {
         const dmUserId = getUserIdFromChannelName(currentUserId, channel.name);
         const user = getUser(state, dmUserId);
