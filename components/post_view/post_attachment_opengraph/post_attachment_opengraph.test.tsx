@@ -4,6 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {OpenGraphMetadata, Post} from 'mattermost-redux/types/posts';
+
 import ExternalImage from 'components/external_image';
 
 import PostAttachmentOpenGraph, {getBestImageUrl} from './post_attachment_opengraph';
@@ -24,10 +26,11 @@ describe('PostAttachmentOpenGraph', () => {
                 },
             },
         },
-    };
+    } as unknown as Post;
 
     const baseProps = {
         post,
+        postId: '',
         link: 'http://mattermost.com',
         previewEnabled: true,
         isEmbedVisible: true,
@@ -51,7 +54,7 @@ describe('PostAttachmentOpenGraph', () => {
     test('should render nothing without any data', () => {
         const props = {
             ...baseProps,
-            openGraphData: null,
+            openGraphData: undefined,
         };
 
         const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
@@ -83,13 +86,13 @@ describe('PostAttachmentOpenGraph', () => {
 
     describe('isLargeImage', () => {
         test('should be a large image', () => {
-            const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
+            const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
 
             expect(wrapper.instance().isLargeImage({width: 400, height: 180})).toBe(true);
         });
 
         test('should not be a large image', () => {
-            const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
+            const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
 
             expect(wrapper.instance().isLargeImage({width: 100, height: 100})).toBe(false);
         });
@@ -152,26 +155,21 @@ describe('PostAttachmentOpenGraph', () => {
 
 describe('getBestImageUrl', () => {
     test('should return nothing with no OpenGraph metadata or dimensions', () => {
-        const openGraphData = null;
-        const imagesMetadata = null;
-
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(null);
+        expect(getBestImageUrl()).toBeFalsy();
     });
 
     test('should return nothing with missing OpenGraph images', () => {
-        const openGraphData = {};
-        const imagesMetadata = null;
+        const openGraphData = {} as OpenGraphMetadata;
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(null);
+        expect(getBestImageUrl(openGraphData)).toBeFalsy();
     });
 
     test('should return nothing with no OpenGraph images', () => {
         const openGraphData = {
             images: [],
         };
-        const imagesMetadata = null;
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(null);
+        expect(getBestImageUrl(openGraphData)).toBeFalsy();
     });
 
     test('should return secure_url if specified', () => {
@@ -181,9 +179,8 @@ describe('getBestImageUrl', () => {
                 url: 'http://example.com/image.png',
             }],
         };
-        const imagesMetadata = null;
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(openGraphData.images[0].secure_url);
+        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[0].secure_url);
     });
 
     test('should return url if secure_url is not specified', () => {
@@ -193,9 +190,8 @@ describe('getBestImageUrl', () => {
                 url: 'http://example.com/image.png',
             }],
         };
-        const imagesMetadata = null;
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(openGraphData.images[0].url);
+        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[0].url);
     });
 
     test('should pick the last image if no dimensions are specified', () => {
@@ -206,9 +202,8 @@ describe('getBestImageUrl', () => {
                 url: 'http://example.com/image2.png',
             }],
         };
-        const imagesMetadata = null;
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(openGraphData.images[1].url);
+        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[1].url);
     });
 
     test('should prefer images with dimensions closer to 80 by 80', () => {
@@ -223,9 +218,8 @@ describe('getBestImageUrl', () => {
                 width: 1000,
             }],
         };
-        const imagesMetadata = null;
 
-        expect(getBestImageUrl(openGraphData, imagesMetadata)).toEqual(openGraphData.images[0].url);
+        expect(getBestImageUrl(openGraphData)).toEqual(openGraphData.images[0].url);
     });
 
     test('should use dimensions from post metadata if necessary', () => {

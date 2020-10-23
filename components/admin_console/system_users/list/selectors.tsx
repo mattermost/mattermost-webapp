@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {getUser, getProfiles, getProfilesInTeam, getProfilesWithoutTeam, searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {userSelectorOptionsFromFilter} from 'utils/filter_users';
 
@@ -9,7 +11,7 @@ const ALL_USERS = '';
 const NO_TEAM = 'no_team';
 const USER_ID_LENGTH = 26;
 
-export function getUsers(state, loading, teamId, term, filter) {
+export function getUsers(state: GlobalState, loading: boolean, teamId: string, term: string, filter: string): UserProfile[] {
     if (loading) {
         // Show no users while loading.
         return [];
@@ -42,7 +44,7 @@ export function getUsers(state, loading, teamId, term, filter) {
     return getProfilesInTeam(state, teamId, filters);
 }
 
-export function getNonBotUsers(state, loading, teamId, term, filter) {
+export function getNonBotUsers(state: GlobalState, loading: boolean, teamId: string, term: string, filter: string): UserProfile[] {
     return getUsers(state, loading, teamId, term, filter).filter((user) => {
         return !user.is_bot;
     });

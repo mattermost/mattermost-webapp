@@ -59,29 +59,29 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <Connect(ManageTeamsModal)
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ManageRolesModal)
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ManageTokensModal)
+    actions={
+      Object {
+        "getUserAccessTokensForUser": [Function],
+      }
+    }
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ResetPasswordModal)
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
-    user={null}
   />
   <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
-    user={null}
   />
 </div>
 `;
@@ -264,29 +264,29 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <Connect(ManageTeamsModal)
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ManageRolesModal)
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ManageTokensModal)
+    actions={
+      Object {
+        "getUserAccessTokensForUser": [Function],
+      }
+    }
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ResetPasswordModal)
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
-    user={null}
   />
   <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
-    user={null}
   />
 </div>
 `;
@@ -494,29 +494,29 @@ exports[`components/admin_console/system_users/list should match default snapsho
   <Connect(ManageTeamsModal)
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ManageRolesModal)
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ManageTokensModal)
+    actions={
+      Object {
+        "getUserAccessTokensForUser": [Function],
+      }
+    }
     onModalDismissed={[Function]}
     show={false}
-    user={null}
   />
   <Connect(ResetPasswordModal)
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
-    user={null}
   />
   <ResetEmailModal
     onModalDismissed={[Function]}
     onModalSubmit={[Function]}
     show={false}
-    user={null}
   />
 </div>
 `;
