@@ -195,15 +195,6 @@ describe('Managing bot accounts', () => {
         cy.get('.bot-list__disabled').should('not.be.visible');
     });
 
-    function createCustomAdmin() {
-        const sysadminUser = generateRandomUser('other-admin');
-
-        return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
-            return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
-                return cy.wrap({sysadmin: user});
-            });
-        });
-    }
     it('MM-T1859 Bot is kept active when owner is disabled', () => {
         // # Visit bot config
         cy.visit('/admin_console/integrations/bot_accounts');
@@ -233,7 +224,7 @@ describe('Managing bot accounts', () => {
             cy.visit(`/${newTeam.name}/integrations/bots`);
 
             // # Search for the other bot
-            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(`Bot That Stays Enabled (@${botName3})`);
+            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type('Bot That Stays Enabled');
 
             // * Validate that the plugin is still active, even though it's owner is disabled
             cy.get('.bot-list__disabled').should('not.be.visible');
@@ -294,3 +285,13 @@ describe('Managing bot accounts', () => {
         });
     });
 });
+
+function createCustomAdmin() {
+    const sysadminUser = generateRandomUser('other-admin');
+
+    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
+        return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
+            return cy.wrap({sysadmin: user});
+        });
+    });
+}
