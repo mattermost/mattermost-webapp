@@ -65,8 +65,8 @@ const BillingSummary: React.FC = () => {
     if (subscription && subscription.last_invoice) {
         const invoice = subscription.last_invoice;
 
-        const fullCharges = invoice.line_items.filter((item) => item.metadata.type === 'full');
-        const partialCharges = invoice.line_items.filter((item) => item.metadata.type === 'partial');
+        const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
+        const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
 
         body = (
             <div className='BillingSummary__lastInvoice'>
