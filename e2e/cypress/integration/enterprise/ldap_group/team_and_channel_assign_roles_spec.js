@@ -126,21 +126,17 @@ describe('System Console', () => {
         // # Remove "board" group
         cy.get('.group-row').eq(0).scrollIntoView().should('be.visible').within(() => {
             cy.get('.group-name').should('have.text', groupDisplayName);
-            cy.get('.group-actions > a').should('have.text', 'Remove').click({force: true});
+            cy.get('.group-actions > a').should('have.text', 'Remove').click();
         });
 
         // * Assert that the group was removed successfully
-        cy.get('#groups-list--body').then((el) => {
-            expect(el[0].childNodes[0].innerText).equal('No groups specified yet');
-        });
+        cy.get('#groups-list--body').should('be.visible').contains('No groups specified yet');
 
         // # Save the setting and navigate back to page
         saveAndNavigateBackTo(teamName, teamDisplayName, 'teams');
 
         // * Assert that the group was removed successfully
-        cy.get('#groups-list--body').then((el) => {
-            expect(el[0].childNodes[0].innerText).equal('No groups specified yet');
-        });
+        cy.get('#groups-list--body').scrollIntoView().should('be.visible').contains('No groups specified yet');
     });
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on team configuration page', () => {
