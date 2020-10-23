@@ -118,12 +118,10 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot 1`] =
       "group_constrained": false,
       "id": "team_id",
       "invite_id": "",
-      "label": "",
       "name": "DN",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
-      "value": "",
     }
   }
 />
@@ -219,12 +217,10 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
       "group_constrained": false,
       "id": "team_id",
       "invite_id": "",
-      "label": "",
       "name": "DN",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
-      "value": "",
     }
   }
 />

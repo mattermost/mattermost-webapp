@@ -53,12 +53,10 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "group_constrained": false,
       "id": "team_id",
       "invite_id": "",
-      "label": "",
       "name": "DN",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
-      "value": "",
     }
   }
 />
@@ -117,12 +115,10 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "group_constrained": false,
       "id": "team_id",
       "invite_id": "",
-      "label": "",
       "name": "DN",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
-      "value": "",
     }
   }
 />
@@ -181,12 +177,10 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "group_constrained": false,
       "id": "team_id",
       "invite_id": "",
-      "label": "",
       "name": "DN",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
-      "value": "",
     }
   }
 />
@@ -252,12 +246,10 @@ exports[`components/integrations/EditIncomingWebhook should show AbstractIncomin
       "group_constrained": false,
       "id": "team_id",
       "invite_id": "",
-      "label": "",
       "name": "DN",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
-      "value": "",
     }
   }
 />

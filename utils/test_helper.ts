@@ -134,8 +134,6 @@ export class TestHelper {
             company_name: '',
             allowed_domains: '',
             invite_id: '',
-            label: '',
-            value: '',
         };
         return Object.assign({}, defaultTeam, override);
     }
