@@ -19,6 +19,8 @@ import {StepComponentProps} from '../../steps';
 
 import './team_profile_step.scss';
 
+const MAX_TEAM_NAME_LENGTH = 64;
+
 type Props = StepComponentProps & {
     team: Team & {last_team_icon_update?: number};
     siteURL: string;
@@ -64,7 +66,9 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
     private handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let teamNameError;
         if (!event.target.value) {
-            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team name can’t be blank');
+            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team name cannot be blank');
+        } else if (event.target.value.length > MAX_TEAM_NAME_LENGTH) {
+            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameTooBig', 'Team name must be less than 64 characters');
         }
 
         this.setState({teamName: event.target.value, teamNameError});
