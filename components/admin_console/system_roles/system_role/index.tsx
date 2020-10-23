@@ -11,6 +11,7 @@ import {editRole} from 'mattermost-redux/actions/roles';
 import {getRolesById} from 'mattermost-redux/selectors/entities/roles';
 
 import {GlobalState} from 'types/store';
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
 import SystemRole from './system_role';
 
@@ -25,6 +26,7 @@ type Props = {
 type Actions = {
     editRole(role: Role): Promise<ActionResult>;
     updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
+    setNavigationBlocked: (blocked: boolean) => void,
 }
 
 function mapStateToProps(state: GlobalState, props: Props) {
@@ -39,6 +41,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             editRole,
             updateUserRoles,
+            setNavigationBlocked,
         }, dispatch),
     };
 }

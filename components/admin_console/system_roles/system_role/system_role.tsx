@@ -32,6 +32,7 @@ type Props = {
     actions: {
         editRole(role: Role): Promise<ActionResult>;
         updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
+        setNavigationBlocked: (blocked: boolean) => void,
     }
 }
 
@@ -176,7 +177,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
     }
 
     updatePermissions = (permissions: PermissionToUpdate[]) => {
-        const {role} = this.props;
+        const {role, actions: {setNavigationBlocked}} = this.props;
         const updatedPermissions: PermissionsToUpdate = {};
         permissions.forEach((perm) => {
             updatedPermissions[perm.name] = perm.value;
@@ -225,6 +226,8 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             permissionsToUpdate,
             updatedRolePermissions,
         };
+
+        setNavigationBlocked(this.getSaveStateNeeded(nextState));
         this.setState({
             ...nextState,
             saveNeeded: this.getSaveStateNeeded(nextState),
