@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
@@ -21,8 +21,7 @@ import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import ToastWrapper from 'components/toast_wrapper';
-import { PostListHint } from 'components/post_view/post_list_hint';
-import { SearchShortcut } from 'components/search_shortcut/search_shortcut';
+
 
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
@@ -146,8 +145,8 @@ class PostList extends React.PureComponent {
             initScrollCompleted: false,
             initScrollOffsetFromBottom: 0,
 
-            showScrollHint: false,
-            isScrollHintDismissed: false,
+            showSearchHint: false,
+            isSearchHintDismissed: false,
         };
 
         this.listRef = React.createRef();
@@ -171,7 +170,7 @@ class PostList extends React.PureComponent {
             Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
         ];
 
-        this.showScrollHintThreshold = this.getShowScrollHintThreshold();
+        this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     componentDidMount() {
@@ -278,7 +277,7 @@ class PostList extends React.PureComponent {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
 
-        this.showScrollHintThreshold = this.getShowScrollHintThreshold();
+        this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     togglePostMenu = (opened) => {
@@ -390,14 +389,14 @@ class PostList extends React.PureComponent {
             }
         }
 
-        if (!this.state.isMobile && !this.state.isScrollHintDismissed) {
+        if (!this.state.isMobile && !this.state.isSearchHintDismissed) {
             this.setState({
-                showScrollHint: offsetFromBottom > this.showScrollHintThreshold,
+                showSearchHint: offsetFromBottom > this.showSearchHintThreshold,
             });
         }
     }
 
-    getShowScrollHintThreshold = () => {
+    getShowSearchHintThreshold = () => {
         return window.screen.height * 3;
     }
 
@@ -442,10 +441,10 @@ class PostList extends React.PureComponent {
         }
     }
 
-    handleScrollHintDismiss = () => {
+    handleSearchHintDismiss = () => {
         this.setState({
-            showScrollHint: false,
-            isScrollHintDismissed: true,
+            showSearchHint: false,
+            isSearchHintDismissed: true,
         });
     }
 
@@ -539,6 +538,8 @@ class PostList extends React.PureComponent {
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
+                onSearchHintDismiss={this.handleSearchHintDismiss}
+                showSearchHintToast={this.state.showSearchHint}
             />
         );
     }
@@ -549,7 +550,7 @@ class PostList extends React.PureComponent {
         if (this.props.latestAriaLabelFunc && this.props.postListIds.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) >= 0) {
             ariaLabel = this.props.latestAriaLabelFunc(this.props.intl);
         }
-        const {dynamicListStyle, showScrollHint} = this.state;
+        const {dynamicListStyle} = this.state;
 
         return (
             <div
@@ -598,15 +599,6 @@ class PostList extends React.PureComponent {
                                 {({height, width}) => (
                                     <React.Fragment>
                                         <div>{this.renderToasts(width)}</div>
-
-                                        <PostListHint show={showScrollHint} onDismiss={this.handleScrollHintDismiss}>
-                                            <FormattedMessage 
-                                                    id="postlist.toast.searchHint" 
-                                                    defaultMessage="Tip: Try {searchShortcut} to search this channel" 
-                                                    values={{
-                                                        searchShortcut: <SearchShortcut />
-                                                    }} />
-                                        </PostListHint>
 
                                         <DynamicSizeList
                                             ref={this.listRef}

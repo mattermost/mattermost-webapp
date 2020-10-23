@@ -86,17 +86,6 @@
     transform: translateX(-50%);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
-    .toast__key {
-        display: inline-block;
-        margin-right: 4px;
-        padding: 2px;
-
-        line-height: normal;
-
-        background-color: rgba(0, 0, 0, 0.12);
-        border-radius: 2px;
-    }
-
     .toast__message {
         position: static;
 

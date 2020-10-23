@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
+import { SearchShortcut } from 'components/search_shortcut/search_shortcut';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 const THRESHOLD_FROM_BOTTOM = 1000;
@@ -38,6 +39,8 @@ class ToastWrapper extends React.PureComponent {
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
         updateLastViewedBottomAt: PropTypes.func,
+        showSearchHintToast: PropTypes.bool,
+        onSearchHintDismiss: PropTypes.func,
 
         /*
          * Object from react-router
@@ -218,6 +221,12 @@ class ToastWrapper extends React.PureComponent {
         }
     }
 
+    hideSearchHintToast = () => {
+        if (this.props.onSearchHintDismiss) {
+            this.props.onSearchHintDismiss();
+        }
+    }
+
     newMessagesToastText = (count, since) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
@@ -252,6 +261,18 @@ class ToastWrapper extends React.PureComponent {
             <FormattedMessage
                 id='postlist.toast.history'
                 defaultMessage='Viewing message history'
+            />
+        );
+    }
+
+    getSearchHintToastText = () => {
+        return (
+            <FormattedMessage 
+                id="postlist.toast.searchHint" 
+                defaultMessage="Tip: Try {searchShortcut} to search this channel" 
+                values={{
+                    searchShortcut: <SearchShortcut />
+                }} 
             />
         );
     }
@@ -296,7 +317,7 @@ class ToastWrapper extends React.PureComponent {
     }
 
     render() {
-        const {atLatestPost, atBottom, width, lastViewedAt} = this.props;
+        const {atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast} = this.props;
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, unreadCount} = this.state;
 
         let unreadToastProps = {
@@ -312,6 +333,12 @@ class ToastWrapper extends React.PureComponent {
             onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
             showActions: true,
             extraClasses: 'toast__history',
+        };
+
+        let searchHintToastProps = {
+            show: false,
+            onDismiss: this.hideSearchHintToast,
+            extraClasses: 'toast__hint',
         };
 
         if (showUnreadToast && unreadCount > 0) {
@@ -332,6 +359,11 @@ class ToastWrapper extends React.PureComponent {
                 show: true,
                 showActions: !atLatestPost || (atLatestPost && !atBottom),
             };
+        } else if (showSearchHintToast) {
+            searchHintToastProps = {
+                ...searchHintToastProps,
+                show: true,
+            }
         }
 
         return (
@@ -341,6 +373,9 @@ class ToastWrapper extends React.PureComponent {
                 </Toast>
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}
+                </Toast>
+                <Toast {...searchHintToastProps}>
+                    {this.getSearchHintToastText()}
                 </Toast>
             </React.Fragment>
         );

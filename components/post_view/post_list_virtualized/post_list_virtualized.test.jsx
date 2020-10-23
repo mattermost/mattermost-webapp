@@ -174,7 +174,7 @@ describe('PostList', () => {
                 clientHeight,
             });
 
-            expect(wrapper.state('showScrollHint')).toBe(true);
+            expect(wrapper.state('showSearchHint')).toBe(true);
 
             screenHeightSpy.mockRestore();
         });
@@ -197,7 +197,7 @@ describe('PostList', () => {
                 clientHeight,
             });
 
-            expect(wrapper.state('showScrollHint')).toBe(false);
+            expect(wrapper.state('showSearchHint')).toBe(false);
 
             screenHeightSpy.mockRestore();
         });
@@ -219,9 +219,9 @@ describe('PostList', () => {
                 scrollHeight,
                 clientHeight,
             });
-            instance.handleScrollHintDismiss();
+            instance.handleSearchHintDismiss();
 
-            expect(wrapper.state('showScrollHint')).toBe(false);
+            expect(wrapper.state('showSearchHint')).toBe(false);
 
             screenHeightSpy.mockRestore();
         });
@@ -245,7 +245,7 @@ describe('PostList', () => {
                 clientHeight,
             });
 
-            expect(wrapper.state('showScrollHint')).toBe(false);
+            expect(wrapper.state('showSearchHint')).toBe(false);
 
             screenHeightSpy.mockRestore();
         });
@@ -259,7 +259,7 @@ describe('PostList', () => {
             const clientHeight = 500;
             const scrollOffset = 500;
 
-            instance.handleScrollHintDismiss();
+            instance.handleSearchHintDismiss();
             instance.onScroll({
                 scrollDirection: 'forward',
                 scrollOffset,
@@ -268,7 +268,7 @@ describe('PostList', () => {
                 clientHeight,
             });
 
-            expect(wrapper.state('showScrollHint')).toBe(false);
+            expect(wrapper.state('showSearchHint')).toBe(false);
 
             screenHeightSpy.mockRestore();
         });
