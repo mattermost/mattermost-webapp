@@ -128,23 +128,6 @@ describe('Managing bot accounts', () => {
         cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
-    it('MM-T1855 Bot cannot login', () => {
-        cy.apiLogout();
-        cy.visit('/login');
-
-        // # Enter bot name in the email field
-        cy.findByPlaceholderText('Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);
-
-        // # Enter random password in the password field
-        cy.findByPlaceholderText('Password').clear().type('invalidPassword@#%(^!');
-
-        // # Hit enter to login
-        cy.findByText('Sign in').click();
-
-        // * Verify appropriate error message is displayed for bot login
-        cy.findByText('Bot login is forbidden.').should('exist').and('be.visible');
-    });
-
     it('MM-T1856 Disable Bot', () => {
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);
@@ -250,7 +233,7 @@ describe('Managing bot accounts', () => {
             cy.visit(`/${newTeam.name}/integrations/bots`);
 
             // # Search for the other bot
-            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type('Bot That Stays Enabled');
+            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(`Bot That Stays Enabled (@${botName3})`);
 
             // * Validate that the plugin is still active, even though it's owner is disabled
             cy.get('.bot-list__disabled').should('not.be.visible');
