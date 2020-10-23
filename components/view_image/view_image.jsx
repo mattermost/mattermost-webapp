@@ -8,7 +8,7 @@ import {Modal} from 'react-bootstrap';
 import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import Constants, {FileTypes} from 'utils/constants';
+import Constants, {FileTypes, ZoomSettings} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
@@ -71,6 +71,8 @@ export default class ViewImageModal extends React.PureComponent {
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
             showCloseBtn: false,
+            showZoomControls: false,
+            scale: ZoomSettings.DEFAULT_SCALE,
         };
     }
 
@@ -127,14 +129,18 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.fileInfos.length !== state.prevFileInfosCount) {
-            return {
-                loaded: Utils.fillArray(false, props.fileInfos.length),
-                progress: Utils.fillArray(0, props.fileInfos.length),
-                prevFileInfosCount: props.fileInfos.length,
-            };
+        const updatedProps = {};
+        if (props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
+            updatedProps.showZoomControls = true;
+        } else {
+            updatedProps.showZoomControls = false;
         }
-        return null;
+        if (props.fileInfos.length !== state.prevFileInfosCount) {
+            updatedProps.loaded = Utils.fillArray(false, props.fileInfos.length);
+            updatedProps.progress = Utils.fillArray(0, props.fileInfos.length);
+            updatedProps.prevFileInfosCount = props.fileInfos.length;
+        }
+        return Object.keys(updatedProps).length ? updatedProps : null;
     }
 
     showImage = (id) => {
@@ -195,7 +201,7 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     handleGetPublicLink = () => {
-        this.props.onModalDismissed();
+        this.handleModalClose();
 
         GlobalActions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
     }
@@ -208,6 +214,27 @@ export default class ViewImageModal extends React.PureComponent {
         this.setState({showCloseBtn: false});
     }
 
+    handleZoomIn = () => {
+        let newScale = this.state.scale;
+        newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
+        this.setState({scale: newScale});
+    };
+
+    handleZoomOut = () => {
+        let newScale = this.state.scale;
+        newScale = Math.max(newScale - ZoomSettings.SCALE_DELTA, ZoomSettings.MIN_SCALE);
+        this.setState({scale: newScale});
+    };
+
+    handleZoomReset = () => {
+        this.setState({scale: ZoomSettings.DEFAULT_SCALE});
+    }
+
+    handleModalClose = () => {
+        this.props.onModalDismissed();
+        this.setState({scale: ZoomSettings.DEFAULT_SCALE});
+    }
+
     render() {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
             return null;
@@ -216,15 +243,16 @@ export default class ViewImageModal extends React.PureComponent {
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
         const showPublicLink = !fileInfo.link;
         const fileName = fileInfo.link || fileInfo.name;
+        const fileType = Utils.getFileType(fileInfo.extension);
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
         const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
         const isExternalFile = !fileInfo.id;
         let dialogClassName = 'a11y__modal modal-image';
 
         let content;
-        if (this.state.loaded[this.state.imageIndex]) {
-            const fileType = Utils.getFileType(fileInfo.extension);
+        let modalImageClass = '';
 
+        if (this.state.loaded[this.state.imageIndex]) {
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = (
                     <ImagePreview
@@ -239,14 +267,18 @@ export default class ViewImageModal extends React.PureComponent {
                         fileUrl={fileUrl}
                     />
                 );
-            } else if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
+            } else if (fileType === FileTypes.PDF) {
+                modalImageClass = ' modal-auto__content';
                 content = (
-                    <React.Suspense fallback={null}>
-                        <PDFPreview
-                            fileInfo={fileInfo}
-                            fileUrl={fileUrl}
-                        />
-                    </React.Suspense>
+                    <div className='pdf'>
+                        <React.Suspense fallback={null}>
+                            <PDFPreview
+                                fileInfo={fileInfo}
+                                fileUrl={fileUrl}
+                                scale={this.state.scale}
+                            />
+                        </React.Suspense>
+                    </div>
                 );
             } else if (CodePreview.supports(fileInfo)) {
                 dialogClassName += ' modal-code';
@@ -318,15 +350,20 @@ export default class ViewImageModal extends React.PureComponent {
             );
         }
 
-        let closeButtonClass = 'modal-close';
+        let closeButton;
         if (this.state.showCloseBtn) {
-            closeButtonClass += ' modal-close--show';
+            closeButton = (
+                <div
+                    className='modal-close'
+                    onClick={this.handleModalClose}
+                />
+            );
         }
 
         return (
             <Modal
                 show={this.props.show}
-                onHide={this.props.onModalDismissed}
+                onHide={this.handleModalClose}
                 className='modal-image'
                 dialogClassName={dialogClassName}
                 role='dialog'
@@ -335,7 +372,7 @@ export default class ViewImageModal extends React.PureComponent {
                 <Modal.Body>
                     <div
                         className={'modal-image__wrapper'}
-                        onClick={this.props.onModalDismissed}
+                        onClick={this.handleModalClose}
                     >
                         <div
                             onMouseEnter={this.onMouseEnterImage}
@@ -349,12 +386,11 @@ export default class ViewImageModal extends React.PureComponent {
                             >
                                 {fileName}
                             </Modal.Title>
-                            <div
-                                className={closeButtonClass}
-                                onClick={this.props.onModalDismissed}
-                            />
-                            <div className='modal-image__content'>
-                                {content}
+                            {closeButton}
+                            <div className='modal-image__background'>
+                                <div className={`modal-image__content${modalImageClass}`}>
+                                    {content}
+                                </div>
                             </div>
                             <PopoverBar
                                 showPublicLink={showPublicLink}
@@ -366,6 +402,11 @@ export default class ViewImageModal extends React.PureComponent {
                                 canDownloadFiles={this.props.canDownloadFiles}
                                 isExternalFile={isExternalFile}
                                 onGetPublicLink={this.handleGetPublicLink}
+                                scale={this.state.scale}
+                                showZoomControls={this.state.showZoomControls}
+                                handleZoomIn={this.handleZoomIn}
+                                handleZoomOut={this.handleZoomOut}
+                                handleZoomReset={this.handleZoomReset}
                             />
                         </div>
                     </div>
