@@ -37,7 +37,7 @@ describe('Quick switcher', () => {
         });
     });
 
-    it('Should add recent user on top of results', () => {
+    it('MM-T3447_1 Should add recent user on top of results', () => {
         cy.apiLogout();
 
         // # Login as test user
