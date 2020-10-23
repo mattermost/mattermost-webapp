@@ -155,6 +155,123 @@ describe('PostList', () => {
 
             expect(baseProps.actions.canLoadMorePosts).not.toHaveBeenCalled();
         });
+
+        test('should show search channel hint if user scrolled too far away from the bottom of the list', () => {
+            const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
+
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollHeight = 3000;
+            const clientHeight = 500;
+            const scrollOffset = 500;
+
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(wrapper.state('showScrollHint')).toBe(true);
+
+            screenHeightSpy.mockRestore();
+        });
+
+        test('should not show search channel hint if user scrolls not that far away', () => {
+            const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
+
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollHeight = 3000;
+            const clientHeight = 500;
+            const scrollOffset = 2500;
+
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(wrapper.state('showScrollHint')).toBe(false);
+
+            screenHeightSpy.mockRestore();
+        });
+
+        test('should hide search channel hint in case of dismiss', () => {
+            const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
+
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollHeight = 3000;
+            const clientHeight = 500;
+            const scrollOffset = 500;
+
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+            instance.handleScrollHintDismiss();
+
+            expect(wrapper.state('showScrollHint')).toBe(false);
+
+            screenHeightSpy.mockRestore();
+        });
+
+        test('should not show search channel hint on mobile', () => {
+            const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
+
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            wrapper.setState({isMobile: true});
+            const instance = wrapper.instance();
+
+            const scrollHeight = 3000;
+            const clientHeight = 500;
+            const scrollOffset = 500;
+
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(wrapper.state('showScrollHint')).toBe(false);
+
+            screenHeightSpy.mockRestore();
+        });
+
+        test('should not show search channel hint if it has already been dismissed', () => {
+            const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollHeight = 3000;
+            const clientHeight = 500;
+            const scrollOffset = 500;
+
+            instance.handleScrollHintDismiss();
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(wrapper.state('showScrollHint')).toBe(false);
+
+            screenHeightSpy.mockRestore();
+        });
     });
 
     describe('isAtBottom', () => {

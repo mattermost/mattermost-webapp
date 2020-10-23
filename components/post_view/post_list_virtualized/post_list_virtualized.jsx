@@ -28,7 +28,6 @@ const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = 1000;
 const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
-const HEIGHT_TRIGGER_FOR_SCROLL_HINT = window.screen.height * 3;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -171,6 +170,8 @@ class PostList extends React.PureComponent {
             Math.max(postIndex - 30, 0),
             Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
         ];
+
+        this.showScrollHintThreshold = this.getShowScrollHintThreshold();
     }
 
     componentDidMount() {
@@ -276,6 +277,8 @@ class PostList extends React.PureComponent {
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
+
+        this.showScrollHintThreshold = this.getShowScrollHintThreshold();
     }
 
     togglePostMenu = (opened) => {
@@ -389,9 +392,13 @@ class PostList extends React.PureComponent {
 
         if (!this.state.isMobile && !this.state.isScrollHintDismissed) {
             this.setState({
-                showScrollHint: offsetFromBottom > HEIGHT_TRIGGER_FOR_SCROLL_HINT,
+                showScrollHint: offsetFromBottom > this.showScrollHintThreshold,
             });
         }
+    }
+
+    getShowScrollHintThreshold = () => {
+        return window.screen.height * 3;
     }
 
     checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
@@ -435,7 +442,7 @@ class PostList extends React.PureComponent {
         }
     }
 
-    handleScrollTooltipDismiss = () => {
+    handleScrollHintDismiss = () => {
         this.setState({
             showScrollHint: false,
             isScrollHintDismissed: true,
@@ -592,7 +599,7 @@ class PostList extends React.PureComponent {
                                     <React.Fragment>
                                         <div>{this.renderToasts(width)}</div>
 
-                                        <PostListHint show={showScrollHint} onDismiss={this.handleScrollTooltipDismiss}>
+                                        <PostListHint show={showScrollHint} onDismiss={this.handleScrollHintDismiss}>
                                             <FormattedMessage 
                                                     id="postlist.toast.searchHint" 
                                                     defaultMessage="Tip: Try {searchShortcut} to search this channel" 
