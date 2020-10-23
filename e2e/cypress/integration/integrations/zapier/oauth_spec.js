@@ -10,6 +10,7 @@
 // Group: @integrations
 
 import {checkboxesTitleToIdMap} from '../../enterprise/system_console/channel_moderation/constants';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {
     enablePermission,
@@ -19,9 +20,14 @@ import {
 
 describe('Integrations page', () => {
     let user1;
+    let user2;
     let testChannelUrl1;
+    let oauthClientID;
+    let oauthClientSecret;
 
     before(() => {
+        cy.requireWebhookServer();
+
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
@@ -33,6 +39,11 @@ describe('Integrations page', () => {
         cy.apiInitSetup().then(({team, user}) => {
             user1 = user;
             testChannelUrl1 = `/${team.name}/channels/town-square`;
+
+            cy.apiCreateUser().then(({user: otherUser}) => {
+                user2 = otherUser;
+                cy.apiAddUserToTeam(team.id, user2.id);
+            });
         });
 
         goToSystemScheme();
@@ -123,4 +134,307 @@ describe('Integrations page', () => {
             });
         });
     });
+
+    it('MM-T648 Part 1 - OAuth 2.0 Zapier tests', () => {
+        cy.apiLogin(user1);
+        cy.visit(testChannelUrl1);
+
+        // # Navigate to OAuthApps in integrations menu
+        cy.get('#headerInfo').click();
+        cy.get('#integrations').click();
+        cy.get('#oauthApps').click();
+
+        // # Click on the Add button
+        cy.get('#addOauthApp').click();
+
+        // # Fill all fields
+        cy.get('#name').type('Test');
+        cy.get('#description').type('Test');
+        cy.get('#homepage').type('https://www.test.com/');
+        cy.get('#callbackUrls').type(getWebhookBaseUrl() + '/complete_oauth');
+
+        // # Save
+        cy.get('#saveOauthApp').click();
+
+        // * Copy button should be visible
+        cy.get('.fa-copy').should('exist');
+
+        // # Store client ID
+        cy.findByText('Client ID').parent().invoke('text').then((text) => {
+            cy.wrap(text.substring(11)).as('clientID');
+        });
+
+        // # Store client secret
+        cy.findByText('Client Secret').parent().invoke('text').then((text) => {
+            cy.wrap(text.substring(15)).as('clientSecret');
+        });
+
+        cy.get('@clientID').then((clientID) => {
+            oauthClientID = clientID;
+            cy.get('@clientSecret').then((clientSecret) => {
+                oauthClientSecret = clientSecret;
+
+                // # Send credentials
+                cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/send_oauth_credentials', data: {appID: clientID, appSecret: clientSecret}});
+            });
+        });
+
+        // # Click Done
+        cy.get('#doneButton').click();
+    });
+
+    it('Aux - Exchange tokens', () => {
+        cy.apiLogin(user1);
+
+        // # Visit the webhook url to start the OAuth handshake
+        cy.visit(getWebhookBaseUrl() + '/start_oauth');
+
+        // # Click on the allow button
+        cy.findByText('Allow').click();
+
+        // * Exchange succesful
+        cy.findByText('OK').should('exist');
+    });
+
+    it('MM-T648 Part 2 - OAuth 2.0 Zapier tests', () => {
+        // # Visit a channel
+        cy.visit(testChannelUrl1);
+
+        // # Wait for it to load
+        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = 'OAuth test 01';
+
+            // # Post message using OAuth credentials
+            cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/postOAuthMessage', data: {channelId, message}});
+
+            // * The message should be posted
+            cy.findByText(message).should('exist');
+        });
+    });
+
+    it('MM-T649 Edit Zapier', () => {
+        cy.apiLogin(user2);
+        cy.visit(testChannelUrl1);
+
+        // # Navigate to OAuthApps in integrations menu
+        cy.get('#headerInfo').click();
+        cy.get('#integrations').click();
+        cy.get('#oauthApps').click();
+
+        // # Other users should not see the apps from other users
+        cy.contains('.item-details', oauthClientID).should('not.exist');
+
+        // # Login as sysadmin
+        cy.apiAdminLogin();
+        cy.visit(testChannelUrl1);
+
+        // # Navigate to OAuthApps in integrations menu
+        cy.get('#headerInfo').click();
+        cy.get('#integrations').click();
+        cy.get('#oauthApps').click();
+
+        // * Sys admin should see the app
+        cy.contains('.item-details', oauthClientID).should('exist').within(() => {
+            // * Sys admin should see the Edit button
+            // # Click on the edit button
+            cy.findByText('Edit').should('exist').click();
+        });
+
+        // # Update description
+        cy.get('#description').type('Edited');
+
+        // # Save
+        cy.get('#saveOauthApp').click();
+
+        cy.contains('.item-details', oauthClientID).should('exist').within(() => {
+            // * Description should be editted
+            cy.findByText('TestEdited').should('exist');
+        });
+
+        // # Visit a channel
+        cy.visit(testChannelUrl1);
+
+        // # Wait for it to load
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = 'OAuth test 02';
+
+            // # Post message using OAuth credentials
+            cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/postOAuthMessage', data: {channelId, message}});
+
+            // * The message should be posted
+            cy.findByText(message).should('exist');
+        });
+    });
+
+    it('MM-T650 Deauthorize Zapier', () => {
+        cy.apiLogin(user1);
+        cy.visit(testChannelUrl1);
+
+        // # Go to OAuth apps settings
+        cy.get('#headerInfo').click();
+        cy.get('#accountSettings').click();
+        cy.get('#securityButton').click();
+        cy.get('#appsEdit').click();
+
+        // * The app we created should be present
+        // # Click deauthorize
+        cy.get(`[data-app="${oauthClientID}"]`).should('exist').click();
+
+        // * The app should no longer exist
+        cy.get(`[data-app="${oauthClientID}"]`).should('not.exist');
+
+        // # Close the account settings modal
+        cy.get('#accountSettingsHeader').within(() => {
+            cy.get('button.close').click();
+        });
+
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = 'OAuth test 03';
+
+            // # Post message using OAuth credentials
+            cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/postOAuthMessage', data: {channelId, message}});
+
+            // * The message should not be posted
+            cy.findByText(message).should('not.exist');
+        });
+    });
+
+    it('MM-T651 Part 1 Reconnect Zapier', () => {
+        cy.apiLogin(user1);
+
+        // # Visit the webhook url to start the OAuth handshake
+        cy.visit(getWebhookBaseUrl() + '/start_oauth');
+
+        // # Click on the allow button
+        cy.findByText('Allow').click();
+
+        // * Exchange succesful
+        cy.findByText('OK').should('exist');
+    });
+
+    it('MM-T651 Part 2 Reconnect Zapier', () => {
+        cy.apiLogin(user1);
+
+        // # Visit a channel
+        cy.visit(testChannelUrl1);
+
+        // # Wait for it to load
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = 'OAuth test 04';
+
+            // # Post message using OAuth credentials
+            cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/postOAuthMessage', data: {channelId, message}});
+
+            // * The message should be posted
+            cy.findByText(message).should('exist');
+        });
+    });
+
+    it('MM-T652 Regenerate Secret', () => {
+        cy.apiLogin(user1);
+        cy.visit(testChannelUrl1);
+
+        // # Navigate to OAuthApps in integrations menu
+        cy.get('#headerInfo').click();
+        cy.get('#integrations').click();
+        cy.get('#oauthApps').click();
+
+        cy.contains('.item-details', oauthClientID).within(() => {
+            // # Regenerate secret
+            cy.findByText('Regenerate Secret').click();
+            cy.contains('.item-details__token', 'Client Secret').within(() => {
+                cy.get('strong').invoke('text').then((clientSecret) => {
+                    // * Secret should be different to previous secret
+                    expect(clientSecret).to.not.equal(oauthClientSecret);
+
+                    // # Save secret for later
+                    oauthClientSecret = clientSecret;
+                });
+            });
+        });
+
+        // # Visit a channel
+        cy.visit(testChannelUrl1);
+
+        // # Wait for it to load
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = 'OAuth test 05';
+
+            // # Post message using OAuth credentials
+            cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/postOAuthMessage', data: {channelId, message}});
+
+            // * The message should be posted
+            cy.findByText(message).should('exist');
+        });
+    });
+
+    it('MM-T653 Unsuccessful reconnect with incorrect secret', () => {
+        cy.apiLogin(user2);
+
+        // # Visit the webhook url to start the OAuth handshake
+        cy.visit(getWebhookBaseUrl() + '/start_oauth', {failOnStatusCode: false});
+
+        // # Click on the allow button
+        cy.findByText('Allow').click();
+
+        // * Exchange not unsuccessful
+        cy.contains('Invalid client credentials.').should('exist');
+    });
+
+    it('MM-T654 Successful reconnect with updated secret', () => {
+        cy.apiAdminLogin(user2);
+
+        // # Send new credentials
+        cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/send_oauth_credentials', data: {appID: oauthClientID, appSecret: oauthClientSecret}});
+
+        // # Visit the webhook url to start the OAuth handshake
+        cy.visit(getWebhookBaseUrl() + '/start_oauth', {failOnStatusCode: false});
+
+        // # Click on the allow button
+        cy.findByText('Allow').click();
+
+        // * Exchange successful
+        cy.findByText('OK').should('exist');
+    });
+
+    it('MM-T655 Delete Zapier', () => {
+        cy.apiLogin(user1);
+        cy.visit(testChannelUrl1);
+
+        // # Navigate to OAuthApps in integrations menu
+        cy.get('#headerInfo').click();
+        cy.get('#integrations').click();
+        cy.get('#oauthApps').click();
+
+        cy.contains('.item-details', oauthClientID).within(() => {
+            // # Click Delete
+            cy.findByText('Delete').click();
+        });
+
+        // # Confirm Delete
+        cy.contains('#confirmModalButton', 'Delete').click();
+
+        // # Go back to channels
+        cy.visit(testChannelUrl1);
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = 'OAuth test 06';
+
+            // # Post message using OAuth credentials
+            cy.postIncomingWebhook({url: getWebhookBaseUrl() + '/postOAuthMessage', data: {channelId, message}});
+
+            // * The message should not be posted
+            cy.findByText(message).should('not.exist');
+        });
+    });
 });
+
+function getWebhookBaseUrl() {
+    return process.env.CYPRESS_webhookBaseUrl || 'http://localhost:3000';
+}

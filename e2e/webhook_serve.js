@@ -3,6 +3,7 @@
 
 const express = require('express');
 const axios = require('axios');
+var ClientOAuth2 = require('client-oauth2');
 
 const webhookUtils = require('./utils/webhook_utils');
 
@@ -26,7 +27,73 @@ server.post('/boolean_dialog_request', onBooleanDialogRequest);
 server.post('/slack_compatible_message_response', postSlackCompatibleMessageResponse);
 server.post('/send_message_to_channel', postSendMessageToChannel);
 
+server.post('/send_oauth_credentials', postSendOauthCredentials);
+server.get('/start_oauth', getStartOAuth);
+server.get('/complete_oauth', getCompleteOauth);
+server.post('/postOAuthMessage', postOAuthMessage);
+
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
+
+let appID;
+let appSecret;
+let client;
+let authedUser;
+function postSendOauthCredentials(req, res) {
+    appID = req.body.appID.trim();
+    appSecret = req.body.appSecret.trim();
+    client = new ClientOAuth2({
+        clientId: appID,
+        clientSecret: appSecret,
+        authorizationUri: getBaseUrl() + '/oauth/authorize',
+        accessTokenUri: getBaseUrl() + '/oauth/access_token',
+        redirectUri: getWebhookBaseUrl() + '/complete_oauth',
+    });
+    return res.send('OK');
+}
+
+function getStartOAuth(req, res) {
+    return res.redirect(client.code.getUri());
+}
+
+function getCompleteOauth(req, res) {
+    client.code.getToken(req.originalUrl).then((user) => {
+        authedUser = user;
+        return res.send('OK');
+    }).catch((reason) => {
+        return res.status(reason.status).send(reason);
+    });
+}
+
+async function postOAuthMessage(req, res) {
+    const {channelId, message, rootId, createAt} = req.body;
+    const apiUrl = getBaseUrl() + '/api/v4/posts';
+    authedUser.sign({
+        method: 'post',
+        url: apiUrl,
+    });
+    try {
+        axios({
+            url: apiUrl,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                Authorization: 'Bearer ' + authedUser.accessToken,
+            },
+            method: 'post',
+            data: {
+                channel_id: channelId,
+                message,
+                type: '',
+                create_at: createAt,
+                parent_id: rootId,
+                root_id: rootId,
+            },
+        });
+    } catch (err) {
+        // Do nothing
+    }
+    return res.send('OK');
+}
 
 function postSlackCompatibleMessageResponse(req, res) {
     const {spoiler, skipSlackParsing} = req.body.context;
@@ -52,7 +119,7 @@ function postMessageMenus(req, res) {
 }
 
 async function openDialog(dialog) {
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = getBaseUrl();
     await axios({
         method: 'post',
         url: `${baseUrl}/api/v4/actions/dialogs/open`,
@@ -154,10 +221,14 @@ function getWebhookBaseUrl() {
     return process.env.CYPRESS_webhookBaseUrl || 'http://localhost:3000';
 }
 
+function getBaseUrl() {
+    return process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+}
+
 // Convenient way to send response in a channel by using sysadmin account
 function sendSysadminResponse(message, channelId) {
     const username = process.env.CYPRESS_adminUsername || 'sysadmin';
     const password = process.env.CYPRESS_adminPassword || 'Sys@dmin-sample1';
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = getBaseUrl();
     postMessageAs({sender: {username, password}, message, channelId, baseUrl});
 }
