@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -22,7 +21,7 @@ export default class PremadeThemeChooser extends React.PureComponent {
                     continue;
                 }
 
-                const premadeTheme = $.extend(true, {}, Constants.THEMES[k]); // eslint-disable-line jquery/no-extend
+                const premadeTheme = Object.assign({}, Constants.THEMES[k]);
 
                 let activeClass = '';
                 if (premadeTheme.type === theme.type) {
