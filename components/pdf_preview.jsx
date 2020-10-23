@@ -40,6 +40,10 @@ export default class PDFPreview extends React.PureComponent {
             loading: true,
             success: false,
         };
+
+        for (let i = 0; i < MAX_PDF_PAGES; i++) {
+            this[`pdfCanvasRef-${i}`] = React.createRef();
+        }
     }
 
     componentDidMount() {
@@ -86,7 +90,7 @@ export default class PDFPreview extends React.PureComponent {
             return;
         }
 
-        if (!this[`pdfCanvasRef-${pageIndex}`]) {
+        if (!this[`pdfCanvasRef-${pageIndex}`].current) {
             return;
         }
         const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
@@ -113,7 +117,6 @@ export default class PDFPreview extends React.PureComponent {
         const numPages = pdf.numPages <= MAX_PDF_PAGES ? pdf.numPages : MAX_PDF_PAGES;
         this.setState({pdf, numPages});
         for (let i = 1; i <= pdf.numPages; i++) {
-            this[`pdfCanvasRef-${i}`] = React.createRef();
             pdf.getPage(i).then(this.onPageLoad);
         }
     }
