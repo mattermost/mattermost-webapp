@@ -143,9 +143,6 @@ describe('Managing bot accounts', () => {
 
         // * Verify appropriate error message is displayed for bot login
         cy.findByText('Bot login is forbidden.').should('exist').and('be.visible');
-
-        // # Re-login admin
-        cy.apiAdminLogin();
     });
 
     it('MM-T1856 Disable Bot', () => {
