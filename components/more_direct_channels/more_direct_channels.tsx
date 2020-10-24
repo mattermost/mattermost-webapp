@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ComponentProps} from 'react';
+import React, {ComponentProps, ReactNode} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {debounce} from 'lodash';
+import classNames from 'classnames';
 
 import {Client4} from 'mattermost-redux/client';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -20,8 +22,6 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Timestamp from 'components/timestamp';
-
-import GroupMessageOption from './group_message_option';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -310,9 +310,9 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
     }
 
-    search = (term: string) => {
+    search = debounce((term: string) => {
         this.props.actions.setModalSearchTerm(term);
-    }
+    }, 250);
 
     handleDelete = (values: Option[]) => {
         this.setState({values});
@@ -324,30 +324,32 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
         return (option as UserProfile).username;
     }
-
-    renderOption = (
-        option: Option,
-        isSelected: boolean,
-        add: (value: Option) => void,
-        select: (value: Option) => void,
-    ) => {
-        // Special case typing for Group Channels
+    optionDisplayParts = (option: Option): ReactNode => {
         if (isGroupOption(option)) {
             return (
-                <GroupMessageOption
-                    selectedItemRef={this.selectedItemRef}
-                    key={option.id}
-                    channel={option}
-                    isSelected={isSelected}
-                    onClick={() => add(option)}
-                    onMouseEnter={() => select(option)}
-                />
+                <>
+                    <div className='more-modal__gm-icon bg-text-200'>
+                        {option.profiles.length}
+                    </div>
+                    <div className='more-modal__details'>
+                        <div className='more-modal__name'>
+                            {option.profiles.map((profile) => `@${profile.username}`).join(', ')}
+                        </div>
+                    </div>
+                </>
             );
         }
 
+        const {
+            id,
+            delete_at: deleteAt,
+            is_bot: isBot,
+            last_picture_update: lastPictureUpdate,
+        } = option;
+
         const displayName = displayEntireNameForUser(option);
 
-        let modalName: string | React.ReactElement = displayName;
+        let modalName: ReactNode = displayName;
         if (option.id === this.props.currentUserId) {
             modalName = (
                 <FormattedMessage
@@ -370,36 +372,19 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             );
         }
 
-        let rowSelected = '';
-        if (isSelected) {
-            rowSelected = 'more-modal__row--selected';
-        }
-
-        const status = option.delete_at || option.is_bot ? undefined : this.props.statuses[option.id];
-        const email = option.is_bot ? null : option.email;
-        const lastPostAt = option.last_post_at;
-
         return (
-            <div
-                key={option.id}
-                ref={isSelected ? this.selectedItemRef : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
-                onClick={() => add(option)}
-                onMouseEnter={() => select(option)}
-            >
+            <>
                 <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={status}
+                    src={Client4.getProfilePictureUrl(id, lastPictureUpdate)}
+                    status={!deleteAt && !isBot ? this.props.statuses[id] : undefined}
                     size='md'
                 />
-                <div
-                    className='more-modal__details'
-                >
+                <div className='more-modal__details'>
                     <div className='more-modal__name_email'>
                         <div className='more-modal__name'>
                             {modalName}
                             <BotBadge
-                                show={Boolean(option.is_bot)}
+                                show={isBot}
                                 className='badge-popoverlist'
                             />
                             <GuestBadge
@@ -407,11 +392,35 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                                 className='badge-popoverlist'
                             />
                         </div>
-                        <div className='more-modal__description'>
-                            {email}
-                        </div>
+                        {!isBot && (
+                            <div className='more-modal__description'>
+                                {option.email}
+                            </div>
+                        )}
                     </div>
                 </div>
+            </>
+        );
+    }
+
+    renderOption = (
+        option: Option,
+        isSelected: boolean,
+        add: (value: Option) => void,
+        select: (value: Option) => void,
+    ) => {
+        const {id, last_post_at: lastPostAt} = option;
+
+        return (
+            <div
+                key={id}
+                ref={isSelected ? this.selectedItemRef : option.id}
+                className={classNames('more-modal__row clickable', {'more-modal__row--selected': isSelected})}
+                onClick={() => add(option)}
+                onMouseEnter={() => select(option)}
+            >
+                {this.optionDisplayParts(option)}
+
                 {!isMobile() && lastPostAt &&
                     <div className='more-modal__lastPostAt'>
                         <Timestamp
@@ -420,6 +429,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                         />
                     </div>
                 }
+
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
                         <AddIcon/>

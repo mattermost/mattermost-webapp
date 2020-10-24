@@ -4,12 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+import {noop as emptyFunction} from 'lodash';
 
 import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
 
+jest.useFakeTimers();
 describe('components/MoreDirectChannels', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-
     const baseProps = {
         currentUserId: 'current_user_id',
         currentTeamId: 'team_id',
@@ -33,7 +33,8 @@ describe('components/MoreDirectChannels', () => {
                 label: 'user_id_3',
                 value: 'user_id_3',
                 delete_at: 0,
-            }],
+            },
+        ],
         myDirectChannels: [],
         recentDirectChannelUsers: [],
         groupChannels: [],
@@ -140,10 +141,12 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should call on search', () => {
+        jest.useFakeTimers('modern');
         const props = {...baseProps, actions: {...baseProps.actions, setModalSearchTerm: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
-
         wrapper.instance().search('user_search');
+        expect(props.actions.setModalSearchTerm).not.toBeCalled();
+        jest.runAllTimers();
         expect(props.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);
         expect(props.actions.setModalSearchTerm).toBeCalledWith('user_search');
     });
@@ -211,6 +214,7 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should open a DM', (done) => {
+        jest.useFakeTimers('legacy');
         const user = {
             id: 'user_id_1',
             label: 'user_label_1',
@@ -236,6 +240,7 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should open a GM', (done) => {
+        jest.useFakeTimers('legacy');
         const wrapper = shallow(<MoreDirectChannels {...baseProps}/>);
         const handleHide = jest.fn();
         const exitToChannel = null;
