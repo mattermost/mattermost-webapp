@@ -20,6 +20,8 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
+import {getSubmissionPayload, shouldHandleCommand, getCloudAppCommands, getCloudAppCommandLocations} from 'components/suggestion/command_provider/command_parser';
+import {doPluginCall} from './plugins';
 
 export function executeCommand(message, args) {
     return async (dispatch, getState) => {
@@ -91,6 +93,21 @@ export function executeCommand(message, args) {
         case '/collapse':
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
+        }
+
+        if (shouldHandleCommand(message, getCloudAppCommandLocations(getState()))) {
+            const payload = getSubmissionPayload(message, getCloudAppCommands(), args);
+            try {
+                const res = await doPluginCall(payload);
+                if (res.markdown) {
+                    // alert(res.markdown);
+                }
+                console.log(res);
+            } catch (e) {
+                alert(e);
+                return {err: e};
+            }
+            return {data: true};
         }
 
         let data;

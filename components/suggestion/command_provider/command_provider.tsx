@@ -13,8 +13,10 @@ import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {getSelectedPost} from 'selectors/rhs';
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import Suggestion from '../suggestion.jsx';
+import Provider from '../provider.jsx';
+
+import {shouldHandleCommand, handleCommand, getSynchronousResults, getCloudAppCommandLocations} from './command_parser';
 
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
 
@@ -74,9 +76,11 @@ export default class CommandProvider extends Provider {
             return false;
         }
         if (UserAgent.isMobile()) {
-            return this.handleMobile(pretext, resultCallback);
+            this.handleMobile(pretext, resultCallback);
+        } else {
+            this.handleWebapp(pretext, resultCallback);
         }
-        return this.handleWebapp(pretext, resultCallback);
+        return true;
     }
 
     handleCompleteWord(term, pretext, callback) {
@@ -124,8 +128,6 @@ export default class CommandProvider extends Provider {
         ).catch(
             () => {}, //eslint-disable-line no-empty-function
         );
-
-        return true;
     }
 
     handleWebapp(pretext, resultCallback) {
@@ -139,13 +141,30 @@ export default class CommandProvider extends Provider {
         const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
 
         const args = {
-            channel_id: channel?.id,
+            channel_id: channel.id,
             ...(rootId && {root_id: rootId, parent_id: rootId}),
         };
 
-        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
+        if (shouldHandleCommand(command, getCloudAppCommandLocations(store.getState()))) {
+            handleCommand(command, getCloudAppCommandLocations(store.getState()), args).then((matches => {
+                const terms = matches.map((suggestion) => suggestion.complete);
+                resultCallback({
+                    matchedPretext: command,
+                    terms,
+                    items: matches,
+                    component: CommandSuggestion,
+                });
+            }))
+            return;
+        }
+
+        const syncSuggestions = getSynchronousResults(pretext, getCloudAppCommandLocations(store.getState()));
+
+        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args, this.commandDefinition).then(
             (data) => {
-                const matches = [];
+                const data = res;
+                let matches = [];
+
                 let cmd = 'Ctrl';
                 if (Utils.isMac()) {
                     cmd = '⌘';
@@ -159,6 +178,8 @@ export default class CommandProvider extends Provider {
                         iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
                     });
                 }
+
+                matches = matches.concat(syncSuggestions);
                 data.forEach((sug) => {
                     if (!this.contains(matches, '/' + sug.Complete)) {
                         matches.push({
@@ -184,8 +205,6 @@ export default class CommandProvider extends Provider {
         ).catch(
             () => {}, //eslint-disable-line no-empty-function
         );
-
-        return true;
     }
 
     shouldAddExecuteItem(data, pretext) {
