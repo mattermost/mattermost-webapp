@@ -72,7 +72,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInCurrentTeam(state);
     }
 
-    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
+    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm).
+        sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
     const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
     const myRecentDirectChannels =
         filterRecentChannels(getAllChannels(state), currentUserId).

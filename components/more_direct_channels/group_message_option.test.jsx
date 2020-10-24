@@ -15,7 +15,7 @@ describe('components/more_direct_channels/GroupMessageOption', () => {
 
     channel.profiles = [user, user2];
 
-    function renderElement(onAdd = jest.fn()) {
+    function renderElement(onClick = jest.fn()) {
         const selectedItemRef = {
             current: {
                 getBoundingClientRect: jest.fn(() => ({
@@ -30,7 +30,7 @@ describe('components/more_direct_channels/GroupMessageOption', () => {
             <GroupMessageOption
                 channel={channel}
                 isSelected={false}
-                onAdd={onAdd}
+                onClick={onClick}
                 selectedItemRef={selectedItemRef}
             />,
         );
@@ -58,14 +58,13 @@ describe('components/more_direct_channels/GroupMessageOption', () => {
         expect(count.text()).toBe('2');
     });
 
-    it('should call the onClick event with an array of users', () => {
-        const onAdd = jest.fn();
-        const wrapper = renderElement(onAdd);
+    it('should call the onClick event', () => {
+        const clickHandler = jest.fn();
+        const wrapper = renderElement(clickHandler);
         const option = wrapper.first();
 
         option.simulate('click');
 
-        expect(onAdd).toHaveBeenCalled();
-        expect(onAdd).toHaveBeenCalledWith([user, user2]);
+        expect(clickHandler).toHaveBeenCalled();
     });
 });

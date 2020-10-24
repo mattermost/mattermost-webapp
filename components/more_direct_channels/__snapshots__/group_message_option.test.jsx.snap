@@ -3,7 +3,7 @@
 exports[`components/more_direct_channels/GroupMessageOption should render the option 1`] = `
 <div
   className="more-modal__row clickable mentions__name"
-  onClick={[Function]}
+  onClick={[MockFunction]}
 >
   <div
     className="more-modal__gm-icon bg-text-200"

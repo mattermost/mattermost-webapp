@@ -38,8 +38,8 @@ export type Props<T extends Value> = {
     optionRenderer: (
         option: T,
         isSelected: boolean,
-        onAdd: (value: T) => void,
-        onMouseMove: (value: T) => void
+        add: (value: T) => void,
+        select: (value: T) => void
     ) => void;
     selectedItemRef?: React.RefObject<HTMLDivElement>;
     options: T[];

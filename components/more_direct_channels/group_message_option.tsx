@@ -1,17 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {isMobile} from 'utils/utils.jsx';
+
 import {Value} from 'components/multiselect/multiselect';
 
+import Timestamp from 'components/timestamp';
+
 import AddIcon from 'components/widgets/icons/fa_add_icon';
+
+import {TIME_SPEC} from './more_direct_channels';
 
 type Props = {
     channel: (Channel & Value & {profiles: UserProfile[]});
     isSelected: boolean;
-    onAdd: (users: UserProfile[]) => void;
+    onClick: MouseEventHandler;
+    onMouseEnter?: MouseEventHandler,
     selectedItemRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -23,7 +30,7 @@ export default class GroupMessageOption extends React.PureComponent<Props> {
     getStyle() {
         let className = 'mentions__name';
         if (this.props.isSelected) {
-            className += ' suggestion--selected';
+            className += ' more-modal__row--selected';
         }
         return className;
     }
@@ -32,17 +39,24 @@ export default class GroupMessageOption extends React.PureComponent<Props> {
         return this.props.channel.profiles.map((profile) => '@' + profile.username).join(', ');
     }
 
-    addValue = () => {
-        this.props.onAdd(this.props.channel.profiles);
-    }
-
     render() {
+        const {
+            channel: {
+                id,
+                last_post_at: lastPostAt,
+            },
+            isSelected,
+            onClick,
+            onMouseEnter,
+            selectedItemRef,
+        } = this.props;
         return (
             <div
-                key={this.props.channel.id}
+                key={id}
                 className={'more-modal__row clickable ' + this.getStyle()}
-                onClick={this.addValue}
-                ref={this.props.isSelected ? this.props.selectedItemRef : this.props.channel.id}
+                onClick={onClick}
+                onMouseEnter={onMouseEnter}
+                ref={isSelected ? selectedItemRef : id}
             >
                 <div className='more-modal__gm-icon bg-text-200'>
                     {this.props.channel.profiles.length}
@@ -52,6 +66,14 @@ export default class GroupMessageOption extends React.PureComponent<Props> {
                         {this.displayName()}
                     </div>
                 </div>
+                {!isMobile() && Boolean(lastPostAt) &&
+                    <div className='more-modal__lastPostAt'>
+                        <Timestamp
+                            {...TIME_SPEC}
+                            value={lastPostAt}
+                        />
+                    </div>
+                }
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
                         <AddIcon/>
