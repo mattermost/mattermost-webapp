@@ -98,14 +98,10 @@ export function executeCommand(message, args) {
         if (shouldHandleCommand(message, getCloudAppCommandLocations(getState()))) {
             const payload = getSubmissionPayload(message, getCloudAppCommands(), args);
             try {
-                const res = await doPluginCall(payload);
-                if (res.markdown) {
-                    // alert(res.markdown);
-                }
-                console.log(res);
+                await doPluginCall(payload);
             } catch (e) {
-                alert(e);
-                return {err: e};
+                GlobalActions.sendEphemeralPost(e.toString(), args.channel_id);
+                return {error: e};
             }
             return {data: true};
         }

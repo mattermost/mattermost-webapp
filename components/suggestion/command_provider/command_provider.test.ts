@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CommandProvider, {CommandSuggestion} from '.';
+import CommandProvider, {CommandSuggestion} from './command_provider';
 
 describe('CommandSuggestion', () => {
     const baseProps = {

@@ -33,7 +33,7 @@ export class CommandSuggestion extends Suggestion {
             symbolSpan = <span className='block mt-1'>{'↵'}</span>;
         }
         let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
-        if (item.iconData !== '' && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+        if (item.iconData && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             icon = (
                 <div
                     className='slash-command__icon'

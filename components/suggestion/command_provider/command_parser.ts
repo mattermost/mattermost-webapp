@@ -1,8 +1,16 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {getPluginsLocations} from 'mattermost-redux/selectors/entities/plugins';
 import {default as PluginLocationConst} from 'mattermost-redux/constants/plugins';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {PluginLocation} from 'mattermost-redux/types/plugins';
+
+import * as Utils from 'utils/utils.jsx';
+
 import {Call, CallExpandLevel, doPluginCall} from 'actions/plugins';
+
+import {EXECUTE_CURRENT_COMMAND_ITEM_ID} from './command_provider';
 
 export enum ElementType {
 	ElementTypeCommand       = 'command',
@@ -103,14 +111,18 @@ export type SuggestionChoice = {
     // }
 
 export const decorateSuggestionChoiceComplete = (pretext: string, choice: SuggestionChoice): SuggestionChoice => {
+    if (choice.complete?.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+        return choice;
+    }
+
     const words = pretext.split(' ');
     words.pop();
     const before = words.join(' ') + ' ';
 
-    let complete = choice.complete;
     if (choice.getComplete) {
-        complete = choice.getComplete(pretext, choice.suggestion);
+        choice.complete = choice.getComplete(pretext, choice.suggestion);
     }
+    choice.hint = choice.hint || '';
 
     if (!words.length) {
         // base command
@@ -129,9 +141,17 @@ const extractBaseCommand = (pretext: string) => {
 }
 
 export const shouldHandleCommand = (pretext: string, locations: PluginLocation[]): boolean => {
-    const base = extractBaseCommand(pretext);
+    for (const loc of locations) {
+        let trigger = loc.trigger;
+        if (trigger[0] !== '/') {
+            trigger = '/' + trigger;
+        }
 
-    return Boolean(locations.find((loc) => loc.trigger === base));
+        if (pretext.startsWith(trigger + ' ')) {
+            return true;
+        }
+    }
+    return false;
 }
 
 let ARGS = {};
@@ -218,6 +238,19 @@ export const getCurrentlyEditingToken = async (pretext: string, definitions: Sub
     if (cmd.sub_commands && cmd.sub_commands.length) {
         const subSuggestions = getSuggestionsForSubCommands(pretext, cmd);
         suggestions = suggestions.concat(subSuggestions);
+    } else {
+        let cmd = 'Ctrl';
+        if (Utils.isMac()) {
+            cmd = '⌘';
+        }
+        suggestions.unshift({
+            complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            suggestion: '/Execute Current Command',
+            hint: '',
+            description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
+            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+        });
+
     }
 
     if (cmd.args && cmd.args.length) {
@@ -288,7 +321,7 @@ export const getSuggestionsForField = async (field: AutocompleteElement, userInp
     }
 
     return [{
-        complete: userInput,
+        complete: '',
         suggestion: userInput,
         description: field.description,
         hint: field.hint,
@@ -300,7 +333,7 @@ export const getStaticSelectSuggestions = (field: AutocompleteStaticSelect, user
     return opts.map((opt) => ({
         complete: opt.label,
         suggestion: opt.label,
-        hint: opt.label,
+        // hint: opt.label,
         description: '',
     }));
 }
@@ -374,7 +407,7 @@ export const getSuggestionsForSubCommands = (cmdStr: string, cmd: SubCommand): S
                 complete: sub.pretext,
                 suggestion: sub.pretext,
                 description: sub.description,
-                hint: sub.pretext,
+                // hint: sub.pretext,
             });
         }
     }
