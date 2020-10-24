@@ -9,11 +9,13 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {GroupTeam} from 'mattermost-redux/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 
@@ -43,15 +45,15 @@ export type Props = {
     mfaEnabled: boolean;
     isDisabled?: boolean;
     actions: {
-        updateUserActive: (userId: string, active: boolean) => Promise<ActionResult | ActionResult[]>;
+        updateUserActive: (userId: string, active: boolean) => Promise<{error: ServerError}>;
         setNavigationBlocked: (blocked: boolean) => void;
         addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
     }
 }
 
 export type State = {
-    teams: Record<string, any> | null;
-    teamIds: Array<string> | null;
+    teams: TeamMembership[];
+    teamIds: Array<$ID<Team>>;
     loading: boolean;
     searching: boolean;
     showPasswordModal: boolean;
@@ -64,7 +66,7 @@ export type State = {
     user: UserProfile;
     addTeamOpen: boolean;
     refreshTeams: boolean;
-    error: string;
+    error: ServerError | null;
 }
 
 export default class SystemUserDetail extends React.PureComponent<Props & RouteComponentProps, State> {
@@ -73,13 +75,13 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
             email: '',
         } as UserProfile,
         mfaEnabled: false,
-    } as Props;
+    };
 
     constructor(props: Props & RouteComponentProps) {
         super(props);
         this.state = {
-            teams: null,
-            teamIds: null,
+            teams: [],
+            teamIds: [],
             loading: false,
             searching: false,
             showPasswordModal: false,
@@ -94,12 +96,12 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
             } as UserProfile,
             addTeamOpen: false,
             refreshTeams: true,
-            error: '',
+            error: null,
         };
     }
 
-    setTeamsData = (teams: Record<string, any>): void => {
-        const teamIds = teams.map((team: GroupTeam) => team.team_id);
+    setTeamsData = (teams: TeamMembership[]): void => {
+        const teamIds = teams.map((team) => team.team_id);
         this.setState({teams});
         this.setState({teamIds});
         this.setState({refreshTeams: false});
@@ -109,7 +111,7 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
         this.setState({addTeamOpen: true});
     }
 
-    addTeams = (teams: Array<any>): void => {
+    addTeams = (teams: Team[]): void => {
         const promises = [];
         for (const team of teams) {
             promises.push(this.props.actions.addUserToTeam(team.id, this.props.user.id));
@@ -143,7 +145,7 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
     handleMakeActive = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         this.props.actions.updateUserActive(this.props.user.id, true).
-            then(this.onUpdateActiveResult);
+            then((data) => this.onUpdateActiveResult(data.error));
     }
 
     handleShowDeactivateMemberModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -153,11 +155,11 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
 
     handleDeactivateMember = (): void => {
         this.props.actions.updateUserActive(this.props.user.id, false).
-            then(this.onUpdateActiveResult);
+            then((data) => this.onUpdateActiveResult(data.error));
         this.setState({showDeactivateMemberModal: false});
     }
 
-    onUpdateActiveResult = ({error}: any): void => {
+    onUpdateActiveResult = (error: ServerError): void => {
         if (error) {
             this.setState({error});
         }
