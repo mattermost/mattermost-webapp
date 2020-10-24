@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {uploadLicense, removeLicense} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -11,15 +11,18 @@ import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer, ping
 
 import LicenseSettings from './license_settings.jsx';
 
-function mapStateToProps(state) {
+import {GlobalState} from 'types/store'
+
+function mapStateToProps(state : GlobalState) {
     const config = getConfig(state);
     return {
         stats: state.entities.admin.analytics,
         upgradedFromTE: config.UpgradedFromTE === 'true',
+        // Todo this requires changes in Mattermost redux
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch : Dispatch) {
     return {
         actions: bindActionCreators({
             getLicenseConfig,

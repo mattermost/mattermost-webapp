@@ -16,25 +16,47 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-export default class LicenseSettings extends React.PureComponent {
-    static propTypes = {
-        license: PropTypes.object.isRequired,
-        enterpriseReady: PropTypes.bool.isRequired,
-        upgradedFromTE: PropTypes.bool.isRequired,
-        stats: PropTypes.object,
-        config: PropTypes.object,
-        isDisabled: PropTypes.bool,
-        actions: PropTypes.shape({
-            getLicenseConfig: PropTypes.func.isRequired,
-            uploadLicense: PropTypes.func.isRequired,
-            removeLicense: PropTypes.func.isRequired,
-            upgradeToE0: PropTypes.func.isRequired,
-            restartServer: PropTypes.func.isRequired,
-            ping: PropTypes.func.isRequired,
-            upgradeToE0Status: PropTypes.func.isRequired,
-            requestTrialLicense: PropTypes.func.isRequired,
-        }).isRequired,
+import {ActionResult, ActionFunc} from 'mattermost-redux/types/actions'
+import {StatusOK} from 'mattermost-redux/types/client4'
+
+type Props = {
+    licence : Object, // change later
+    enterpriseReady: boolean,
+    upgradedFromTE : boolean,
+    stats ?: Object, // change later
+    config ?: Object, // change later
+    isDisabled?: boolean,
+    actions : {
+        getLicenseConfig(): ActionResult,
+        uploadLicense(File): ActionFunc,
+        removeLicense(): ActionFunc ,
+        upgradeToE0(): Promise<StatusOK> ,
+        // restartServer: ,
+        // ping: ,
+        // upgradeToE0Status: ,
+        // requestTrialLicense: ,
     }
+}
+
+export default class LicenseSettings extends React.PureComponent<Props> {
+    // static propTypes = {
+    //     license: PropTypes.object.isRequired,
+    //     enterpriseReady: PropTypes.bool.isRequired,
+    //     upgradedFromTE: PropTypes.bool.isRequired,
+    //     stats: PropTypes.object,
+    //     config: PropTypes.object,
+    //     isDisabled: PropTypes.bool,
+    //     actions: PropTypes.shape({
+    //         getLicenseConfig: PropTypes.func.isRequired,``
+    //         uploadLicense: PropTypes.func.isRequired,
+    //         removeLicense: PropTypes.func.isRequired,
+    //         upgradeToE0: PropTypes.func.isRequired,
+    //         restartServer: PropTypes.func.isRequired,
+    //         ping: PropTypes.func.isRequired,
+    //         upgradeToE0Status: PropTypes.func.isRequired,
+    //         requestTrialLicense: PropTypes.func.isRequired,
+    //     }).isRequired,
+    // }
 
     constructor(props) {
         super(props);
