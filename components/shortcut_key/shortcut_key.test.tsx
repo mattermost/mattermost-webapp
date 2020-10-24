@@ -12,7 +12,7 @@ describe('components/ShortcutKey', () => {
     });
 
     test('should match snapshot for contrast key', () => {
-        const wrapper = shallow(<ShortcutKey variant={ShortcutKetVariant.contrast}>{'Shift'}</ShortcutKey>);
+        const wrapper = shallow(<ShortcutKey variant={ShortcutKetVariant.Contrast}>{'Shift'}</ShortcutKey>);
         expect(wrapper).toMatchSnapshot();
     });
 });

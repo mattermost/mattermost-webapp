@@ -11,9 +11,9 @@ export const SearchShortcut = () => {
 
     return (
         <React.Fragment>
-            <ShortcutKey variant={ShortcutKetVariant.contrast}>{controlKey}</ShortcutKey>
-            <ShortcutKey variant={ShortcutKetVariant.contrast}>{'Shift'}</ShortcutKey>
-            <ShortcutKey variant={ShortcutKetVariant.contrast}>{'F'}</ShortcutKey>
+            <ShortcutKey variant={ShortcutKetVariant.Contrast}>{controlKey}</ShortcutKey>
+            <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'Shift'}</ShortcutKey>
+            <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'F'}</ShortcutKey>
         </React.Fragment>
     );
 };

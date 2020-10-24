@@ -8,7 +8,7 @@ import {SearchShortcut} from 'components/search_shortcut';
 describe('components/SearchShortcut', () => {
     test('should match snapshot on Windows', () => {
         jest.mock('utils/utils', () => {
-            const original = require.requireActual('utils/utils');
+            const original = jest.requireActual('utils/utils');
             return {
                 ...original,
                 isMac: jest.fn(() => false),
@@ -21,7 +21,7 @@ describe('components/SearchShortcut', () => {
 
     test('should match snapshot on Mac', () => {
         jest.mock('utils/utils', () => {
-            const original = require.requireActual('utils/utils');
+            const original = jest.requireActual('utils/utils');
             return {
                 ...original,
                 isMac: jest.fn(() => true),
