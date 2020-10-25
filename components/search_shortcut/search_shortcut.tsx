@@ -4,16 +4,18 @@ import React from 'react';
 
 import {ShortcutKey, ShortcutKetVariant} from 'components/shortcut_key';
 
-import * as Utils from 'utils/utils.jsx';
+import {isMac} from 'utils/utils.jsx';
+import {isDesktopApp} from 'utils/user_agent';
+import './search_shortcut.scss';
 
 export const SearchShortcut = () => {
-    const controlKey = Utils.isMac() ? '⌘' : 'Ctrl';
+    const controlKey = isMac() ? '⌘' : 'Ctrl';
 
     return (
-        <React.Fragment>
+        <span className='search-shortcut'>
             <ShortcutKey variant={ShortcutKetVariant.Contrast}>{controlKey}</ShortcutKey>
-            <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'Shift'}</ShortcutKey>
+            {!isDesktopApp() && <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'Shift'}</ShortcutKey>}
             <ShortcutKey variant={ShortcutKetVariant.Contrast}>{'F'}</ShortcutKey>
-        </React.Fragment>
+        </span>
     );
 };

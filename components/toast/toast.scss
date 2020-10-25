@@ -81,26 +81,37 @@
     z-index: 3;
 
     width: auto;
+    height: auto;
+    margin-top: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: 1px solid var(--center-channel-color) inset;
 
-    background-color: rgb(255, 255, 255);
+    font-size: 14px;
+    color: var(--center-channel-color);
+
+    background-color: var(--center-channel-bg);
     transform: translateX(-50%);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
 
     .toast__message {
         position: static;
 
         display: inline-block;
+        height: auto;
+        padding-left: 12px;
 
-        color: rgb(0, 0, 0);
+        line-height: 20px;
     }
 
     .toast__dismiss {
         position: static;
 
         display: inline-block;
+        height: auto;
 
         &:hover {
-            background-color: rgb(255, 255, 255);
+            background-color: var(--center-channel-bg);
 
             svg {
                 fill: rgba(0,0,0,0.2);
@@ -108,7 +119,11 @@
         }
 
         svg {
-            fill: rgba(0,0,0,0.12);
+            fill: var(--center-channel-color-64);
+        }
+
+        .close-btn {
+            line-height: normal;
         }
     }
 }
