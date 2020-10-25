@@ -8,6 +8,9 @@ import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal';
 
 describe('components/LeaveTeamModal', () => {
     const requiredProps = {
+        currentUser: {
+            id: 'test',
+        },
         currentUserId: 'user_id',
         currentTeamId: 'team_id',
         publicChannels: [],
