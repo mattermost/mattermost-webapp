@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getPrivateChannels, getPublicChannels} from 'mattermost-redux/selectors/entities/channels';
 import {removeUserFromTeam as leaveTeam} from 'mattermost-redux/actions/teams';
@@ -25,10 +25,12 @@ function mapStateToProps(state: GlobalState) {
     const privateChannels = getPrivateChannels(state);
     const publicChannels = getPublicChannels(state);
     const show = isModalOpen(state, modalId);
+    const currentUser = getCurrentUser(state);
     return {
         currentUserId,
         currentTeamId,
         show,
+        currentUser,
         privateChannels,
         publicChannels,
     };
