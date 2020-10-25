@@ -44,6 +44,7 @@ Learn More:
 
 Get the Latest News:
 
+- **facebook** - Follow [Mattermost](https://www.facebook.com/MattermostHQ)
 - **linkedin** - Follow [Mattermost](https://www.linkedin.com/company/mattermost/)
 - **Twitter** - Follow [Mattermost](https://twitter.com/Mattermost)
 - **Email** - Subscribe to our [newsletter](http://mattermost.us11.list-manage.com/subscribe?u=6cdba22349ae374e188e7ab8e&id=2add1c8034) (1 or 2 per month)
