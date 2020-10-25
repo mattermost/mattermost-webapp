@@ -159,7 +159,7 @@ describe('at-mention', () => {
             and('have.text', `@${receiver.username}`);
     });
 
-    it('N14570 does not trigger notifications with "Your non-case sensitive username" unchecked', () => {
+    it('N14570 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
         ignoreUncaughtException();
 
         // # Set Notification settings
