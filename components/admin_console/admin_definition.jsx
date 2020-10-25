@@ -52,7 +52,7 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
-import BillingSubscriptions from './billing/billing_subscriptions';
+import BillingSubscriptions from './billing/billing_subscriptions.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
@@ -147,20 +147,20 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => {
-        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func;
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func;
     },
-    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func) {
                 return false;
             }
         }
         return true;
     },
-    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess) : func) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud) : func) {
                 return true;
             }
         }
@@ -175,6 +175,12 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    isPaidTier: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        if (!cloud?.subscription) {
+            return false;
+        }
+        return cloud.subscription.is_paid_tier === 'true';
+    },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
@@ -264,6 +270,7 @@ const AdminDefinition = {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
+            isHidden: it.not(it.isPaidTier),
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -3363,6 +3370,19 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.IgnoreGuestsLdapSync',
+                        label: t('admin.saml.ignoreGuestsLdapSyncTitle'),
+                        label_default: 'Ignore Guest Users when  Synchronizing with AD/LDAP',
+                        help_text: t('admin.saml.ignoreGuestsLdapSyncDesc'),
+                        help_text_default: 'When true, Mattermost will ignore Guest Users who are identified by the Guest Attribute, when synchronizing with AD/LDAP for user deactivation and removal and Guest deactivation will need to be managed manually via System Console > Users.',
+                        isDisabled: it.any(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
