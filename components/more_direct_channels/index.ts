@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
+
+import {intersectionBy} from 'lodash';
+
 import {
     getProfiles,
     getProfilesInTeam,
@@ -47,6 +51,8 @@ type OwnProps = {
     isExistingChannel: boolean;
 }
 
+type Props = ComponentProps<typeof MoreDirectChannels>;
+
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUserId = getCurrentUserId(state);
     let currentChannelMembers: UserProfile[] = [];
@@ -73,19 +79,23 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     }
 
     const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm).
+        sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at) as Props['groupChannels'];
+    const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId) as Props['myDirectChannels'];
+    const myRecentDirectChannels = filterRecentChannels(getAllChannels(state), currentUserId).
         sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
-    const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
-    const myRecentDirectChannels =
-        filterRecentChannels(getAllChannels(state), currentUserId).
-            sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
-    let recentDirectChannelUsers = myRecentDirectChannels.map((channel: Channel) => {
+    let recentDirectChannelUsers = myRecentDirectChannels.reduce((results, channel) => {
         const dmUserId = getUserIdFromChannelName(currentUserId, channel.name);
-        const user = getUser(state, dmUserId);
-        return {...user, last_post_at: channel.last_post_at};
-    });
+        if (dmUserId) {
+            const user = getUser(state, dmUserId);
+            if (user) {
+                results.push({...user, last_post_at: channel.last_post_at});
+            }
+        }
+        return results;
+    }, [] as Props['recentDirectChannelUsers']);
 
     if (searchTerm) {
-        recentDirectChannelUsers = recentDirectChannelUsers.filter((recent) => users.find((user: UserProfile) => user.id === recent.id));
+        recentDirectChannelUsers = intersectionBy(recentDirectChannelUsers, users, 'id');
     }
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};

@@ -216,13 +216,8 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             browserHistory.push(this.exitToChannel);
         }
 
-        if (this.props.onModalDismissed) {
-            this.props.onModalDismissed();
-        }
-
-        if (this.props.onHide) {
-            this.props.onHide();
-        }
+        this.props.onModalDismissed?.();
+        this.props.onHide?.();
     }
 
     handleSubmit = (values = this.state.values) => {
@@ -305,9 +300,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     }
 
     resetPaging = () => {
-        if (this.multiselect.current) {
-            this.multiselect.current.resetPaging();
-        }
+        this.multiselect.current?.resetPaging();
     }
 
     search = debounce((term: string) => {
@@ -319,10 +312,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     }
 
     renderAriaLabel = (option: Option) => {
-        if (!option) {
-            return '';
-        }
-        return (option as UserProfile).username;
+        return (option as UserProfile)?.username ?? '';
     }
     optionDisplayParts = (option: Option): ReactNode => {
         if (isGroupOption(option)) {
@@ -421,7 +411,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             >
                 {this.optionDisplayParts(option)}
 
-                {!isMobile() && lastPostAt &&
+                {!isMobile() && Boolean(lastPostAt) &&
                     <div className='more-modal__lastPostAt'>
                         <Timestamp
                             {...TIME_SPEC}
@@ -521,12 +511,28 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             return {label: user.username, value: user.id, ...user};
         });
 
-        const options: Option[] = [...recentDirectChannelsValues, ...usersValues, ...groupChannelsValues];
+        // UX: limit while searching
+        /* const options: Option[] = this.props.searchTerm ? [
+            ...recentDirectChannelsValues.slice(0, 8),
+            ...usersValues.slice(0, 8),
+            ...groupChannelsValues.slice(0, 6),
+        ] : [
+            ...recentDirectChannelsValues,
+            ...usersValues,
+            ...groupChannelsValues,
+        ]; */
+
+        const options: Option[] = [
+            ...recentDirectChannelsValues,
+            ...usersValues,
+            ...groupChannelsValues,
+        ];
+
         const body = (
             <MultiSelect<Option>
                 key='moreDirectChannelsList'
                 ref={this.multiselect}
-                options={options.slice(0, 20)}
+                options={recentDirectChannelsValues.length ? options.slice(0, 20) : options}
                 optionRenderer={this.renderOption}
                 selectedItemRef={this.selectedItemRef}
                 values={this.state.values}
