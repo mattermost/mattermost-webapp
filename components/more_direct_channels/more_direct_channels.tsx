@@ -511,28 +511,23 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             return {label: user.username, value: user.id, ...user};
         });
 
-        // UX: limit while searching
-        /* const options: Option[] = this.props.searchTerm ? [
-            ...recentDirectChannelsValues.slice(0, 8),
-            ...usersValues.slice(0, 8),
-            ...groupChannelsValues.slice(0, 6),
-        ] : [
-            ...recentDirectChannelsValues,
-            ...usersValues,
-            ...groupChannelsValues,
-        ]; */
+        let options: Option[];
 
-        const options: Option[] = [
-            ...recentDirectChannelsValues,
-            ...usersValues,
-            ...groupChannelsValues,
-        ];
+        if (!this.props.searchTerm && recentDirectChannelsValues.length) {
+            options = recentDirectChannelsValues.slice(0, 20);
+        } else {
+            options = [
+                ...recentDirectChannelsValues,
+                ...usersValues,
+                ...groupChannelsValues,
+            ];
+        }
 
         const body = (
             <MultiSelect<Option>
                 key='moreDirectChannelsList'
                 ref={this.multiselect}
-                options={recentDirectChannelsValues.length ? options.slice(0, 20) : options}
+                options={options}
                 optionRenderer={this.renderOption}
                 selectedItemRef={this.selectedItemRef}
                 values={this.state.values}

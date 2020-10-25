@@ -303,7 +303,7 @@ describe('components/MoreDirectChannels', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should limit the recent channels, users, groups to 20', () => {
+    test('should show up to 20 recent DMs if not searching', () => {
         const recentDirectChannelUsers = [
             {
                 id: 'user_id_98',
@@ -319,8 +319,19 @@ describe('components/MoreDirectChannels', () => {
             },
         ];
 
+        for (let i = 0; i < 25; i++) {
+            recentDirectChannelUsers.push(
+                {
+                    id: 'dm_user_id_' + i,
+                    label: 'dm_user_id' + i,
+                    value: 'dm_user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
         const users = [];
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 25; i++) {
             users.push(
                 {
                     id: 'user_id_' + i,
@@ -351,6 +362,100 @@ describe('components/MoreDirectChannels', () => {
         expect(options.length).toBe(20);
     });
 
+    test('should show normal results if no DMs', () => {
+        const recentDirectChannelUsers = [];
+
+        const users = [];
+        for (let i = 0; i < 25; i++) {
+            users.push(
+                {
+                    id: 'user_id_' + i,
+                    label: 'user_id' + i,
+                    value: 'user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const groupChannels = [
+            {
+                display_name: 'group_name_1',
+                id: 'group_1',
+            },
+            {
+                display_name: 'group_name_2',
+                id: 'group_2',
+            },
+
+        ];
+
+        const props = {...baseProps, users, recentDirectChannelUsers, groupChannels};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(27);
+    });
+
+    test('should show normal results if searching', () => {
+        const recentDirectChannelUsers = [
+            {
+                id: 'user_id_98',
+                label: 'z_user_id_98',
+                value: 'z_user_id_98',
+                delete_at: 0,
+            },
+            {
+                id: 'user_id_99',
+                label: 'a_user_id_99',
+                value: 'a_user_id_99',
+                delete_at: 0,
+            },
+        ];
+
+        for (let i = 0; i < 25; i++) {
+            recentDirectChannelUsers.push(
+                {
+                    id: 'dm_user_id_' + i,
+                    label: 'dm_user_id' + i,
+                    value: 'dm_user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const users = [];
+        for (let i = 0; i < 25; i++) {
+            users.push(
+                {
+                    id: 'user_id_' + i,
+                    label: 'user_id' + i,
+                    value: 'user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const groupChannels = [
+            {
+                display_name: 'group_name_1',
+                id: 'group_1',
+            },
+            {
+                display_name: 'group_name_2',
+                id: 'group_2',
+            },
+
+        ];
+
+        const props = {...baseProps, users, recentDirectChannelUsers, groupChannels, searchTerm: 'e'};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(54);
+    });
+
     test('should not include the users in the recent direct channel list again', () => {
         const user1 = {
             id: 'user_id_1',
@@ -378,6 +483,6 @@ describe('components/MoreDirectChannels', () => {
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         const multiselect = wrapper.find('MultiSelect');
         const options = multiselect.prop('options');
-        expect(options.length).toBe(3);
+        expect(options.length).toBe(2);
     });
 });
