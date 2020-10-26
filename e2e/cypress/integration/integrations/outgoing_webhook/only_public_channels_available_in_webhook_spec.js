@@ -13,7 +13,7 @@ describe('Messaging', () => {
     let testTeam;
     let testChannel
     let channel;
-    let publicChannel
+    let archiveChannel
     let privateChannel
 
     before(() => {
@@ -41,18 +41,22 @@ describe('Messaging', () => {
 
 
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Archive Test', 'O').then(({channel}) => {
-            publicChannel = channel;
+            archiveChannel = channel;
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
-            cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
-            cy.get('#channelSelect').contains(channel.display_name);
+            //cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+            //cy.get('#channelSelect').contains(channel.display_name);
         });
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Private Test', 'P').then(({channel}) => {
             privateChannel = channel;
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            //cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             //cy.uiArchiveChannel();
-            cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
-            cy.get('#channelSelect').should('not.contain', (channel.display_name);
+            //cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+            //cy.get('#channelSelect').should('not.contain', (channel.display_name);
+        });
+        cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+        cy.get('#channelSelect').should('not.contain', (channel.display_name);
+        cy.get('#channelSelect').contains(channel.display_name);
 
         cy.apiLogin(testUser);
 
