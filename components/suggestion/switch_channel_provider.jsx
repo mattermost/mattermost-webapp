@@ -24,7 +24,7 @@ import {
     getCurrentUserId,
     getUserIdsInChannels,
     getUser,
-    searchProfilesMatchingWithTerm,
+    makeSearchProfilesMatchingWithTerm,
 } from 'mattermost-redux/selectors/entities/users';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -44,6 +44,7 @@ import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;
+const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
 
 class SwitchChannelSuggestion extends Suggestion {
     static get propTypes() {
@@ -220,28 +221,20 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
         return -1;
     }
 
-    // If both channels start with search term then sort by last_viewed_at
-    if (aStartsWith && bStartsWith) {
-        if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
-            return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
-        } else if (wrappedA.last_viewed_at) {
-            return -1;
-        } else if (wrappedB.last_viewed_at) {
-            return 1;
-        }
-        return sortChannelsByTypeAndDisplayName('en', a, b);
+    // Sort channels starting with the search term first
+    if (aStartsWith && !bStartsWith) {
+        return -1;
+    } else if (!aStartsWith && bStartsWith) {
+        return 1;
     }
 
-    if (aStartsWith) {
-        return -1;
-    } else if (bStartsWith) {
-        return 1;
-    } else if (wrappedA.last_viewed_at && !wrappedB.last_viewed_at) {
-        return -1;
-    } else if (!wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
-        return 1;
-    } else if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+    // Sort recently viewed channels first
+    if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
         return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
+    } else if (wrappedA.last_viewed_at) {
+        return -1;
+    } else if (wrappedB.last_viewed_at) {
+        return 1;
     }
 
     // MM-12677 When this is migrated this needs to be fixed to pull the user's locale

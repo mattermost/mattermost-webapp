@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getUser, getProfiles, getProfilesInTeam, getProfilesWithoutTeam, searchProfilesStartingWithTerm, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getProfiles, getProfilesInTeam, getProfilesWithoutTeam, makeSearchProfilesStartingWithTerm, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -16,6 +16,8 @@ export function getUsers(state: GlobalState, loading: boolean, teamId: string, t
         // Show no users while loading.
         return [];
     }
+    const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();
+
     const filters = userSelectorOptionsFromFilter(filter);
     if (term) {
         let users = [];
