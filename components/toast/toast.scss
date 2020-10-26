@@ -83,6 +83,8 @@
     width: auto;
     height: auto;
     margin-top: 16px;
+    margin-left: 0;
+    margin-right: 0;
     padding-top: 8px;
     padding-bottom: 8px;
     border: 1px solid var(--center-channel-color) inset;
@@ -100,6 +102,7 @@
         display: inline-block;
         height: auto;
         padding-left: 12px;
+        vertical-align: middle;
 
         line-height: 20px;
     }
@@ -114,12 +117,12 @@
             background-color: var(--center-channel-bg);
 
             svg {
-                fill: rgba(0,0,0,0.2);
+                fill: var(--center-channel-color-72);
             }
         }
 
         svg {
-            fill: var(--center-channel-color-64);
+            fill: var(--center-channel-color-56);
         }
 
         .close-btn {
