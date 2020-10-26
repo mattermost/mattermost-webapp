@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @enterprise @system_console @visual_regression
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 describe('System Console - Enterprise', () => {
     const testCases = [
