@@ -182,10 +182,10 @@ ${payload}
 }
 
 /**
- * @route "POST /post_outgoing_webhook?override_username=={username}&override_icon_url={iconUrl}&response_type={comment}"
+ * @route "POST /post_outgoing_webhook?override_username={username}&override_icon_url={iconUrl}&response_type={comment}"
  * @query override_username - the user name that overrides the user name defined by the outgoing webhook
- * @query override_icon_url= the user icon url that overrides the user icon url defined by the outgoing webhook
- * @query response_type= -
+ * @query override_icon_url - the user icon url that overrides the user icon url defined by the outgoing webhook
+ * @query response_type - "in_channel" (default) or "comment"
  */
 function postOutgoingWebhook(req, res) {
     const {body, query} = req;
