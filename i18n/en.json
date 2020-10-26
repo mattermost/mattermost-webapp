@@ -302,6 +302,7 @@
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Failed",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Paid",
   "admin.billing.subscriptions.billing_summary.lastInvoice.partialCharges": "Partial charges",
+  "admin.billing.subscriptions.billing_summary.lastInvoice.pending": "Pending",
   "admin.billing.subscriptions.billing_summary.lastInvoice.seeBillingHistory": "See Billing History",
   "admin.billing.subscriptions.billing_summary.lastInvoice.taxes": "Taxes",
   "admin.billing.subscriptions.billing_summary.lastInvoice.title": "Last Invoice",
