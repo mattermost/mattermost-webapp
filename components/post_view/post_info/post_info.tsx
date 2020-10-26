@@ -158,7 +158,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     removePost = () => {
-        this.props.actions?.removePost(this.props.post);
+        this.props.actions.removePost(this.props.post);
     };
 
     createRemovePostButton = () => {
@@ -268,7 +268,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             const {post, isReadOnly, enableEmojiPicker, isMobile, actions} = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
-            actions?.emitShortcutReactToLastPostFrom?.(Locations.NO_WHERE);
+            actions.emitShortcutReactToLastPostFrom?.(Locations.NO_WHERE);
 
             // Following are the types of posts on which adding reaction is not possible
             const isDeletedPost = post && post.state === Posts.POST_DELETED;
