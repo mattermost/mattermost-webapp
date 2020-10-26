@@ -3259,7 +3259,6 @@
   "navbar_dropdown.viewMembers": "Bekijk leden",
   "next_steps_view.complete_profile_step.addAPhoto": "Voeg een foto toe",
   "next_steps_view.complete_profile_step.enterYourName": "Vul je naam in",
-  "next_steps_view.complete_profile_step.nameCannotBeBlank": "Je naam mag niet leeg zijn",
   "next_steps_view.complete_profile_step.nameWillBeDisplayed": "Je naam zal worden getoond in je berichten",
   "next_steps_view.complete_profile_step.pictureError": "Foto's moeten in BMP, JPG of PNG formaat zijn. Maximum bestandsgrootte is {max}.",
   "next_steps_view.complete_profile_step.saveProfile": "Profiel opslaan",

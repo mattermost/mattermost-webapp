@@ -3242,7 +3242,6 @@
   "navbar_dropdown.viewMembers": "查看成员",
   "next_steps_view.complete_profile_step.addAPhoto": "添加照片",
   "next_steps_view.complete_profile_step.enterYourName": "输入您的名称",
-  "next_steps_view.complete_profile_step.nameCannotBeBlank": "名称不能为空",
   "next_steps_view.complete_profile_step.nameWillBeDisplayed": "您的名称将与您的消息一起显示",
   "next_steps_view.complete_profile_step.pictureError": "照片必须为 BMP、JPG 或 PNG 格式。档案大小上限为 {max}。",
   "next_steps_view.complete_profile_step.saveProfile": "保存个人资料",

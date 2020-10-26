@@ -3230,7 +3230,6 @@
   "navbar_dropdown.viewMembers": "メンバーを見る",
   "next_steps_view.complete_profile_step.addAPhoto": "写真を追加する",
   "next_steps_view.complete_profile_step.enterYourName": "名前を入力してください",
-  "next_steps_view.complete_profile_step.nameCannotBeBlank": "名前蘭は空欄にはできません",
   "next_steps_view.complete_profile_step.nameWillBeDisplayed": "名前はメッセージと共に表示されます",
   "next_steps_view.complete_profile_step.pictureError": "画像はBMP、JPG、PNGのいずれかでなくてはなりません。ファイルサイズは最大 {max} までです。",
   "next_steps_view.complete_profile_step.saveProfile": "プロフィールを保存する",
