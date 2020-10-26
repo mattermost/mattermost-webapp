@@ -123,7 +123,7 @@ describe('Quick switcher', () => {
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
             cy.focused().type('a');
 
-            // * Should have recently interacted GM on top, Matching as Gaz becasue we have G prefixed for GM's
+            // * Should have recently interacted GM on top, Matching as Gaz because we have G prefixed for GM's
             cy.get('.suggestion--selected').should('exist').and('contain.text', 'Gaz');
             cy.get('body').type('{esc}', {force: true});
 
