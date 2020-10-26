@@ -2107,7 +2107,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} converted the channel from public to private",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} updated the channel display name from: {old} to: {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} removed the channel header (was: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} updated the channel header from: {old} to: {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} updated the channel header <br></br><strong>From:</strong> {old} <br></br><strong>To:</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} updated the channel header to: {new}",
   "api.channel.remove_member.removed": "{removedUsername} was removed from the channel",
   "api.channel.restore_channel.unarchived": "{username} unarchived the channel.",

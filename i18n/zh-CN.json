@@ -2041,7 +2041,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} 将频道从公开转换成私有",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} 更新了频道显示名从：{old} 到：{new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} 删除了频道标题 (曾是：{old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} 更新了频道标题从：{old} 到：{new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} 更新了频道标题 <br></br><strong>从：</strong>{old} <br></br><strong>到：</strong>{new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} 更新了频道标题到：{new}",
   "api.channel.remove_member.removed": "{removedUsername} 被移出频道",
   "api.channel.restore_channel.unarchived": "{username}取消归档了频道。",

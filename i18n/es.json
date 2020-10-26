@@ -2038,7 +2038,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} convirtió el canal de público a privado",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} ha actualizado el nombre del canal de: {old} a: {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} eliminó el encabezado del canal (era: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} ha actualizado el encabezado del canal de: {old} a: {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} ha actualizado el encabezado del canal <br></br><strong>de:</strong> {old} <br></br><strong>a:</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} ha actualizado el encabezado del canal a: {new}",
   "api.channel.remove_member.removed": "{removedUsername} ha sido eliminado del canal",
   "api.channel.restore_channel.unarchived": "{username} restauró el canal.",
