@@ -16,12 +16,14 @@ describe('Quick switcher', () => {
     let firstUser;
     let secondUser;
     let thirdUser;
+    let testChannel;
 
     before(() => {
         // # create three users for testing
-        cy.apiInitSetup().then(({user, team}) => {
+        cy.apiInitSetup().then(({user, team, channel}) => {
             testUser = user;
             testTeam = team;
+            testChannel  = channel;
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
         cy.apiCreateUser({prefix: 'az1'}).then(({user: user1}) => {
@@ -49,7 +51,8 @@ describe('Quick switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // # This is to remove the unread channel created on apiInitSetup
-        cy.focused().type('{enter}');
+        cy.focused().type(testChannel.display_name).wait(TIMEOUTS.HALF_SEC).type('{enter}');
+
         cy.postMessage('Testing quick switcher');
 
         // # Go to the DM channel of second user
