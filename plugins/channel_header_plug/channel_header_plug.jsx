@@ -21,6 +21,9 @@ class CustomMenu extends React.PureComponent {
         children: PropTypes.node,
         onClose: PropTypes.func.isRequired,
         rootCloseEvent: PropTypes.oneOf(['click', 'mousedown']),
+        actions: PropTypes.shape({
+            executeCommand: PropTypes.func.isRequired
+        }).isRequired
     }
 
     handleRootClose = () => {
@@ -135,6 +138,27 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
+    onClick = async (plugAction) => {
+        const response = await doPluginCall({
+            form_url: plugAction.form_url,
+            context: {
+                app_id: plugAction.app_id,
+                team_id: this.props.channel.team_id,
+                channel_id: this.props.channel.id,
+            },
+            from: [
+                {
+                    plugAction,
+                },
+            ],
+        });
+        if (response.type === 'command') {
+            response.data.args.command = response.data.command;
+            this.props.actions.executeCommand(response.data.command, response.data.args);
+            return
+        }
+    }
+
     createActionButton = (plugAction) => {
         return (
             <HeaderIconWrapper
@@ -147,19 +171,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         height='24'
                     />
                 )}
-                onClick={() => doPluginCall({
-                    form_url: plugAction.form_url,
-                    context: {
-                        app_id: plugAction.app_id,
-                        team_id: this.props.channel.team_id,
-                        channel_id: this.props.channel.id,
-                    },
-                    from: [
-                        {
-                            plugAction,
-                        },
-                    ],
-                })}
+                onClick={() => this.onClick(plugAction)}
                 buttonId={plugAction.location_id}
                 tooltipKey={'plugin'}
                 tooltipText={plugAction.aria_text}

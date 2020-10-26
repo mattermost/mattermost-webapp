@@ -12,6 +12,7 @@ import {getPluginsLocations} from 'mattermost-redux/selectors/entities/plugins';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {openModal} from 'actions/views/modals';
+import {executeCommand} from 'actions/command';
 import {
     flagPost,
     unflagPost,
@@ -64,6 +65,7 @@ function mapDispatchToProps(dispatch) {
             unpinPost,
             openModal,
             markPostAsUnread,
+            executeCommand,
         }, dispatch),
     };
 }

@@ -90,6 +90,8 @@ export default class DotMenu extends React.PureComponent {
              * Function to set the unread mark at given post
              */
             markPostAsUnread: PropTypes.func.isRequired,
+
+            executeCommand: PropTypes.func.isRequired,
         }).isRequired,
 
         canEdit: PropTypes.bool.isRequired,
@@ -255,6 +257,28 @@ export default class DotMenu extends React.PureComponent {
         );
     }
 
+    onClickLocation = async (item) => {
+        const response = await doPluginCall({
+            form_url: item.form_url,
+            context: {
+                app_id: item.app_id,
+                team_id: this.props.teamId,
+                channel_id: this.props.post.channel_id,
+                post_id: this.props.post.id,
+            },
+            from: [
+                {
+                    item,
+                },
+            ],
+        });
+        if (response.type === 'command') {
+            response.data.args.command = response.data.command;
+            this.props.actions.executeCommand(response.data.command, response.data.args);
+            return
+        }
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -296,22 +320,7 @@ export default class DotMenu extends React.PureComponent {
                 <Menu.ItemAction
                     text={item.text}
                     key={item.app_id + item.location_id}
-                    onClick={() => {
-                        doPluginCall({
-                            form_url: item.form_url,
-                            context: {
-                                app_id: item.app_id,
-                                team_id: this.props.teamId,
-                                channel_id: this.props.post.channel_id,
-                                post_id: this.props.post.id,
-                            },
-                            from: [
-                                {
-                                    item,
-                                },
-                            ],
-                        });
-                    }}
+                    onClick={() => this.onClickLocation(item)}
                     icon={(<img src={item.icon}/>)}
                 />
             );
