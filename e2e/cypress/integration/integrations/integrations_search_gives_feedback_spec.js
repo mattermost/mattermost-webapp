@@ -11,7 +11,7 @@
 
 describe('Integrations', () => {
     let teamA;
-    const searchterm = 'abcde'
+    const searchterm = 'abcde';
 
     before(() => {
         // # Setup with the new team
@@ -20,7 +20,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('MM-T569 Integrations Page', () => {
+    it('MM-T571 Integration search gives feed back when there are no results', () => {
         // # Visit the integrations page
         cy.visit(`/${teamA}/integrations`);
 
@@ -28,26 +28,23 @@ describe('Integrations', () => {
         cy.viewport(300, 500);
 
         // * Check incoming webhooks for no match message
-        cy.get('#incomingWebhooks > .section-title').click();
+        cy.get('#incomingWebhooks').click();
         cy.get('#searchInput').type(searchterm);
         cy.get('#emptySearchResultsMessage').contains(`No incoming webhooks match ${searchterm}`);
-        
+
         // * Check outgoing webhooks for no match message
-        cy.get('.category-title').click();
-        cy.get('#outgoingWebhooks > .section-title').click();
+        cy.get('#outgoingWebhooks').click();
         cy.get('#searchInput').clear().type(searchterm);
         cy.get('#emptySearchResultsMessage').contains(`No outgoing webhooks match ${searchterm}`);
 
         // * Check slash commands for no match message
-        cy.get('.category-title').click();
-        cy.get('#slashCommands > .section-title').click();
+        cy.get('#slashCommands').click();
         cy.get('#searchInput').clear().type(searchterm);
         cy.get('#emptySearchResultsMessage').contains(`No commands match ${searchterm}`);
 
         // * Check bot accounts for no match message
-        cy.get('.category-title').click();
-        cy.get('#botAccounts > .section-title').click();
+        cy.get('#botAccounts').click();
         cy.get('#searchInput').clear().type(searchterm);
         cy.get('#emptySearchResultsMessage').contains(`No bot accounts match ${searchterm}`);
-        });
     });
+});
