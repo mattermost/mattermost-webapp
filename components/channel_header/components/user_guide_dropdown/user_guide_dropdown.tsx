@@ -100,21 +100,20 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 className='userGuideHelp'
                 onToggle={this.buttonToggleState}
             >
-                <button
-                    id='channelHeaderUserGuideButton'
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    className={classNames('channel-header__icon', {'channel-header__icon--active': this.state.buttonActive})}
-                    type='button'
-                    aria-expanded='true'
+                <OverlayTrigger
+                    delayShow={500}
+                    placement='bottom'
+                    overlay={this.state.buttonActive ? <></> : tooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='bottom'
-                        overlay={this.state.buttonActive ? <></> : tooltip}
+                    <button
+                        id='channelHeaderUserGuideButton'
+                        className={classNames('channel-header__icon', {'channel-header__icon--active': this.state.buttonActive})}
+                        type='button'
+                        aria-expanded='true'
                     >
                         <UserGuideIcon className='icon'/>
-                    </OverlayTrigger>
-                </button>
+                    </button>
+                </OverlayTrigger>
                 <Menu
                     openLeft={true}
                     openUp={false}
