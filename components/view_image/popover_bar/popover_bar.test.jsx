@@ -10,6 +10,7 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
         enablePublicLink: false,
         canDownloadFiles: true,
         isExternalFile: false,
+        showZoomControls: false,
     };
 
     test('should match snapshot with public links disabled', () => {
@@ -75,5 +76,15 @@ describe('components/view_image/popover_bar/PopoverBar', () => {
 
             expect(wrapper.find('a').prop('download')).toBe(props.filename);
         });
+    });
+
+    test('should match snapshot with zoom controls enabled', () => {
+        const props = {
+            ...defaultProps,
+            showZoomControls: true,
+        };
+
+        const wrapper = shallow(<PopoverBar {...props}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 });

@@ -6,7 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console @group_mentions
+// Group: @enterprise @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -41,9 +41,6 @@ describe('Group Mentions', () => {
             regularUser = user;
             testTeam = team;
         });
-
-        // # Login as admin
-        cy.apiAdminLogin();
 
         // # Test LDAP configuration and server connection
         // # Synchronize user attributes
@@ -89,13 +86,7 @@ describe('Group Mentions', () => {
                 });
             });
 
-            const preferences = [{
-                user_id: user.id,
-                category: 'tutorial_step',
-                name: user.id,
-                value: '999',
-            }];
-            cy.apiSaveUserPreference(preferences, user.id);
+            cy.apiSaveTutorialStep(user.id, '999');
         });
     });
 

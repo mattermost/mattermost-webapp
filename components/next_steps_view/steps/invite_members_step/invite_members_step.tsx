@@ -103,11 +103,6 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             return;
         }
 
-        if (this.state.emails.length >= 10) {
-            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.')});
-            return;
-        }
-
         if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
             const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
@@ -118,7 +113,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                 emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined,
             });
         } else {
-            this.setState({emailInput: value, emailError: undefined});
+            this.setState({emailInput: value});
         }
     }
 
@@ -141,7 +136,8 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
     onBlur = () => {
         if (this.state.emailInput) {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
-            this.setState({emails: [...this.state.emails, ...emails], emailInput: '', emailError: undefined});
+            const newEmails = [...this.state.emails, ...emails];
+            this.setState({emails: newEmails, emailInput: '', emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined});
         }
     }
 

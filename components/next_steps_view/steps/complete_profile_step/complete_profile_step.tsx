@@ -19,6 +19,9 @@ import {StepComponentProps} from '../../steps';
 
 import './complete_profile_step.scss';
 
+const MAX_FULL_NAME_LENGTH = 128;
+const MAX_NAME_PART_LENGTH = 64;
+
 type Props = StepComponentProps & {
     maxFileSize: number;
     actions: {
@@ -64,7 +67,9 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
     private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let fullNameError;
         if (!event.target.value) {
-            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.nameCannotBeBlank', 'Your name can’t be blank');
+            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameCannotBeBlank', 'Your full name cannot be blank');
+        } else if (event.target.value.length > MAX_FULL_NAME_LENGTH) {
+            fullNameError = Utils.localizeMessage('next_steps_view.complete_profile_step.fullNameTooBig', 'Your name must be less than 128 character');
         }
 
         this.setState({fullName: event.target.value, fullNameError});
@@ -80,7 +85,9 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
 
     onFinish = () => {
         const splitName = this.state.fullName.split(' ');
-        const user = Object.assign({}, this.props.currentUser, {first_name: splitName[0], last_name: splitName.slice(1).join(' ')});
+        const firstName = splitName[0].slice(0, MAX_NAME_PART_LENGTH);
+        const lastName = splitName.slice(1).join(' ').slice(0, MAX_NAME_PART_LENGTH);
+        const user = Object.assign({}, this.props.currentUser, {first_name: firstName, last_name: lastName});
 
         this.props.actions.updateMe(user);
 
