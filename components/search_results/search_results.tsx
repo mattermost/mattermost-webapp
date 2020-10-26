@@ -288,4 +288,4 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
 SearchResults.defaultProps = defaultProps;
 
-export default React.memo(SearchResults, shouldRenderFromProps);;
+export default React.memo(SearchResults, shouldRenderFromProps);
