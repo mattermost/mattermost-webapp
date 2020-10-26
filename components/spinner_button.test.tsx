@@ -51,7 +51,25 @@ describe('components/SpinnerButton', () => {
             />,
         );
 
-        wrapper.find('.btn-primary').simulate('click');
+        wrapper.find('button').simulate('click');
         expect(onClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('should add properties to underlying button', () => {
+        const wrapper = mount(
+            <SpinnerButton
+                id='my-button-id'
+                className='btn btn-success'
+                spinningText='Test'
+            />,
+        );
+
+        const button = wrapper.find('button');
+
+        expect(button).not.toBeUndefined();
+        expect(button.type()).toEqual('button');
+        expect(button.props().id).toEqual('my-button-id');
+        expect(button.hasClass('btn')).toBeTruthy();
+        expect(button.hasClass('btn-success')).toBeTruthy();
     });
 });
