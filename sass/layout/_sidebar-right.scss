@@ -13,6 +13,10 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
+    body.announcement-banner-tall--fixed & {
+        height: calc(100% - 40px);
+    }
+
     &.move--left {
         @include single-transition(width, 0.25s, ease-in);
     }
@@ -154,7 +158,7 @@
         }
 
         &:active {
-            background-color: v(button-bg-08);
+            background-color: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
         }
     }
@@ -251,7 +255,7 @@
 
         &:active {
             color: v(button-bg);
-            background: v(button-bg-08);
+            background: rgba(var(--button-bg-rgb), 0.08);
         }
     }
 

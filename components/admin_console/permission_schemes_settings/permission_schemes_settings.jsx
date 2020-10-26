@@ -370,3 +370,7 @@ t('admin.permissions.roles.system_admin.name');
 t('admin.permissions.roles.system_user.name');
 t('admin.permissions.roles.team_admin.name');
 t('admin.permissions.roles.team_user.name');
+t('admin.permissions.group.manage_shared_channels.name');
+t('admin.permissions.group.manage_shared_channels.description');
+t('admin.permissions.permission.manage_shared_channels.name');
+t('admin.permissions.permission.manage_shared_channels.description');

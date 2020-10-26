@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import './input.css';
 
@@ -98,26 +99,26 @@ export default class Input extends React.PureComponent<Props, State> {
     public render() {
         const {value, placeholder, className, error: propError, hasError, addon, name, textPrefix, ...otherProps} = this.props;
         const {focused, error: stateError} = this.state;
-        let inputClass = className ? `Input form-control ${className}` : 'Input form-control';
-        let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
-        let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';
+
         const showLegend = Boolean(focused || value);
-
-        inputClass = showLegend ? inputClass + ' Input___focus' : inputClass;
-        fieldsetClass = showLegend ? fieldsetClass + ' Input_fieldset___legend' : fieldsetClass;
-        fieldsetErrorClass = showLegend ? fieldsetErrorClass + ' Input_fieldset___legend' : fieldsetErrorClass;
-
         const error = propError || stateError;
 
         return (
             <div className='Input_container'>
-                <fieldset className={error || hasError ? fieldsetErrorClass : fieldsetClass}>
-                    <legend className={showLegend ? 'Input_legend Input_legend___focus' : 'Input_legend'}>{showLegend ? placeholder : null}</legend>
+                <fieldset
+                    className={classNames('Input_fieldset', className, {
+                        Input_fieldset___error: error || hasError,
+                        Input_fieldset___legend: showLegend,
+                    })}
+                >
+                    <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
+                        {showLegend ? placeholder : null}
+                    </legend>
                     <div className='Input_wrapper'>
                         {textPrefix && <span>{textPrefix}</span>}
                         <input
                             id={`input_${name}`}
-                            className={inputClass}
+                            className={classNames('Input form-control', className, {Input__focus: showLegend})}
                             value={value}
                             placeholder={focused ? '' : placeholder}
                             name={name}

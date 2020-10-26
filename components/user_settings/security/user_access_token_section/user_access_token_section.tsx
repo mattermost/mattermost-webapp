@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -76,6 +75,8 @@ type State = {
 }
 
 export default class UserAccessTokenSection extends React.PureComponent<Props, State> {
+    private newtokendescriptionRef: React.RefObject<HTMLInputElement>;
+
     constructor(props: Props) {
         super(props);
 
@@ -88,6 +89,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             serverError: null,
             saving: false,
         };
+        this.newtokendescriptionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -122,7 +124,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
     handleCreateToken = async () => {
         this.handleCancelConfirm();
 
-        const description = this.refs.newtokendescription ? (this.refs.newtokendescription as HTMLInputElement).value : '';
+        const description = this.newtokendescriptionRef ? this.newtokendescriptionRef.current!.value : '';
 
         if (description === '') {
             this.setState({tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')});
@@ -464,7 +466,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                         <div className='col-sm-5'>
                             <input
                                 autoFocus={true}
-                                ref='newtokendescription'
+                                ref={this.newtokendescriptionRef}
                                 className='form-control'
                                 type='text'
                                 maxLength={64}

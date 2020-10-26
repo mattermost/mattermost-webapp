@@ -21,7 +21,7 @@ import * as Utils from 'utils/utils.jsx';
 
 type Props = {
     id: string;
-    channelId: string;
+    channelId?: string;
     rootId?: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
