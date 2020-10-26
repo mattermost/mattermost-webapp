@@ -9,8 +9,11 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+
+import {openModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
@@ -26,6 +29,7 @@ function mapStateToProps(state: GlobalState) {
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
         isCloud: getLicense(state).Cloud === 'true',
+        subscription: state.entities.cloud.subscription,
         preferences: getCategory(state, Preferences.CLOUD_UPGRADE_BANNER),
     };
 }
@@ -36,6 +40,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             {
                 savePreferences,
                 getStandardAnalytics,
+                openModal,
+                getCloudSubscription,
             },
             dispatch,
         ),

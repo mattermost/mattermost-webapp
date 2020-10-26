@@ -265,6 +265,10 @@ export default class UsersEmailsInput extends React.PureComponent {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
+    onBlur = () => {
+        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'input-blur'});
+    }
+
     render() {
         const values = this.props.value.map((v) => {
             if (v.id) {
@@ -300,6 +304,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     inputValue={this.props.inputValue}
                     openMenuOnFocus={true}
                     onFocus={this.onFocus}
+                    onBlur={this.onBlur}
                     tabSelectsValue={true}
                     value={values}
                     aria-label={this.props.ariaLabel}

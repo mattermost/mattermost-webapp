@@ -8,7 +8,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
 
-import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
 import {ActionResult, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelStats} from 'mattermost-redux/types/channels';
@@ -51,7 +51,7 @@ type Actions = {
 };
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
-    const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
+    const profiles = filterProfilesStartingWithTerm(Object.values(users), term);
     const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
 
     return filteredProfilesMap;

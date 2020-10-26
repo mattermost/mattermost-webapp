@@ -399,7 +399,7 @@ context('ldap', () => {
                 cy.get('#sidebarSwitcherButton').click();
 
                 // * Channel switcher hint should be visible
-                cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+                cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
                 cy.wait(TIMEOUTS.THREE_SEC);
 
                 // # Type channel display name on Channel switcher input
@@ -409,7 +409,7 @@ context('ldap', () => {
                 // * Should open up suggestion list for channels
                 // * Should match each channel item and group label
                 cy.get('#suggestionList').should('be.visible').children().within((el) => {
-                    cy.wrap(el).eq(1).should('contain', publicChannel.display_name);
+                    cy.wrap(el).should('contain', publicChannel.display_name);
                 });
 
                 // # Login as a admin and make channel private
@@ -424,7 +424,7 @@ context('ldap', () => {
                 cy.get('#sidebarSwitcherButton').click();
 
                 // * Channel switcher hint should be visible
-                cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+                cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
                 cy.wait(TIMEOUTS.THREE_SEC);
 
                 // # Type channel display name on Channel switcher input
