@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import PluginLocation from 'mattermost-redux/constants/plugins';
 
 import {doPluginCall} from 'actions/plugins';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
