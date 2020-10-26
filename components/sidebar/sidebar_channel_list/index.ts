@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
-import {getSortedUnreadChannelIds, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -18,18 +18,15 @@ import {
     stopDragging,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
-import {isUnreadFilterEnabled, makeGetCurrentlyDisplayedChannelsForTeam, getDraggingState, makeGetCollapsedStateForAllCategoriesByTeam} from 'selectors/views/channel_sidebar';
+import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
-import SidebarCategoryList from './sidebar_category_list';
+import SidebarChannelList from './sidebar_channel_list';
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
-    const getCurrentlyDisplayedChannelsForTeam = makeGetCurrentlyDisplayedChannelsForTeam();
-    const getCollapsedStateForAllCategoriesByTeam = makeGetCollapsedStateForAllCategoriesByTeam();
 
     return (state: GlobalState) => {
-        const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
         const currentTeam = getCurrentTeam(state);
 
         return {
@@ -37,10 +34,9 @@ function makeMapStateToProps() {
             currentChannel: getCurrentChannel(state),
             categories: getCategoriesForTeam(state, currentTeam.id),
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
-            unreadChannelIds: getSortedUnreadChannelIds(state, lastUnreadChannel, false, false, 'alpha'),
-            displayedChannels: getCurrentlyDisplayedChannelsForTeam(state, currentTeam.id),
+            unreadChannelIds: getUnreadChannelIds(state),
+            displayedChannels: getDisplayedChannels(state),
             draggingState: getDraggingState(state),
-            categoryCollapsedState: getCollapsedStateForAllCategoriesByTeam(state, currentTeam.id),
             newCategoryIds: state.views.channelSidebar.newCategoryIds,
         };
     };
@@ -60,4 +56,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarCategoryList);
+export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarChannelList);
