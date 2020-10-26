@@ -23,7 +23,7 @@ describe('Quick switcher', () => {
         cy.apiInitSetup().then(({user, team, channel}) => {
             testUser = user;
             testTeam = team;
-            testChannel  = channel;
+            testChannel = channel;
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
         cy.apiCreateUser({prefix: 'az1'}).then(({user: user1}) => {
