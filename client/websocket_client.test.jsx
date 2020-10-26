@@ -53,17 +53,15 @@ describe('WebSocketClient', () => {
 
     test('should call conn.onclose if waitForPong is called and timer is not cleared', () => {
         const clientSocket = new WebSocketClient();
-        clientSocket.conn = {
-            onclose: jest.fn(),
-        };
+        clientSocket.close = jest.fn();
 
         clientSocket.waitForPong();
-        expect(clientSocket.conn.onclose).not.toHaveBeenCalled();
+        expect(clientSocket.close).not.toHaveBeenCalled();
         clientSocket.clearPingPong();
         jest.runTimersToTime(2000);
-        expect(clientSocket.conn.onclose).not.toHaveBeenCalled();
+        expect(clientSocket.close).not.toHaveBeenCalled();
         clientSocket.waitForPong();
         jest.runTimersToTime(2000);
-        expect(clientSocket.conn.onclose).toHaveBeenCalled();
+        expect(clientSocket.close).toHaveBeenCalledWith(true);
     });
 });

@@ -225,7 +225,6 @@ export default class WebSocketClient {
     waitForPong() {
         this.pongTimer = setTimeout(() => {
             this.close(true);
-            this.conn.onclose();
         }, PONG_WAIT_TIME);
     }
 
