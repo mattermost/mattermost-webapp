@@ -1,0 +1,25 @@
+Description
+If a PR was created more than 14 days ago on GitHub, without being opted-in -- thus in an invalid state -- and was then opted-in, the PR would not be able to transition to a valid state.
+
+It could not transition to the waiting state, as it passed the app's old review period check, but could also not enter the eligible state as this is locked behind being in the waiting state.
+
+The simple fix here is to ensure that all PRs go through the waiting state (there is already duplicated logic that handles brand new PRs having their waiting since set to their creation date), before they ever enter the eligible state.
+
+Test process
+Have a PR created on GitHub more than 14 days ago
+Ensure the PR is not opted-in to Hacktoberfest
+Sign up and register with the app locally
+Observe the PR shows in an invalid state
+Opt the PR in
+Refresh the profile, the PR should show in the waiting state with 14 days remaining
+Have a PR created on GitHub more than 14 days ago
+Ensure the PR is opted-in to Hacktoberfest
+Sign up and register with the app locally
+Observe the PR shows immediately as eligible
+Requirements to merge
+ My code follows the style guidelines of this project
+ I have performed a self-review of my own code
+ I have commented my code in hard-to-understand areas
+ My changes generate no new warnings
+ I have added tests that prove my fix is effective or that my feature works
+ New and existing unit tests pass locally with my changes
