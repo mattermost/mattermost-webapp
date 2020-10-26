@@ -51,7 +51,7 @@ type Actions = {
 };
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
-    const profiles = filterProfilesStartingWithTerm(Object.keys(users).map((key) => users[key]), term);
+    const profiles = filterProfilesStartingWithTerm(Object.values(users), term);
     const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
 
     return filteredProfilesMap;
