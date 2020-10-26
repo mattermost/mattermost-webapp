@@ -6,9 +6,10 @@ import React from 'react';
 import {CloudCustomer, Subscription} from 'mattermost-redux/types/cloud';
 import {isEmpty} from 'lodash';
 
-import {t} from 'utils/i18n';
-import {AnnouncementBarTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
+import {isCustomerCardExpired} from 'utils/cloud_utils';
+import {AnnouncementBarTypes} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
 
@@ -32,18 +33,6 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
         if (isEmpty(this.props.customer)) {
             await this.props.actions.getCloudCustomer();
         }
-    }
-
-    isCreditCardExpired = () => {
-        if (!this.props.customer) {
-            return false;
-        }
-
-        // Will developers ever learn? :D
-        const expiryYear = this.props.customer.payment_method.exp_year + 2000;
-        const lastExpiryDate = new Date(expiryYear, this.props.customer.payment_method.exp_month - 1, 1);
-        lastExpiryDate.setMonth(lastExpiryDate.getMonth() + 1);
-        return lastExpiryDate <= new Date();
     }
 
     isMostRecentPaymentFailed = () => {
@@ -70,7 +59,7 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
             return false;
         }
 
-        if (!this.isCreditCardExpired() && !this.isMostRecentPaymentFailed()) {
+        if (!isCustomerCardExpired(this.props.customer) && !this.isMostRecentPaymentFailed()) {
             return false;
         }
 

@@ -29,6 +29,7 @@ import {
     ModalIdentifiers,
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
+import {isCustomerCardExpired} from 'utils/cloud_utils';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
@@ -59,19 +60,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
-    const isCreditCardExpired = () => {
-        if (!customer) {
-            return false;
-        }
-
-        // Will developers ever learn? :D
-        const expiryYear = customer.payment_method.exp_year + 2000;
-        const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month - 1, 1);
-        lastExpiryDate.setMonth(lastExpiryDate.getMonth() + 1);
-        return lastExpiryDate <= new Date();
-    };
-
-    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCreditCardExpired());
+    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCustomerCardExpired(customer));
 
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -251,18 +240,32 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     )}
                     {showCreditCardBanner && (
                         <AlertBanner
-                            mode='info'
+                            mode='danger'
                             title={
                                 <FormattedMessage
-                                    id='admin.billing.payment_info.creditCardAboutToExpire'
-                                    defaultMessage='Your credit card is about to expire'
+                                    id='admin.billing.subscription.creditCardHasExpired'
+                                    defaultMessage='Your credit card has expired'
                                 />
                             }
                             message={
-                                <FormattedMessage
-                                    id='admin.billing.payment_info.creditCardAboutToExpire.description'
-                                    defaultMessage='Please update your payment information to avoid any disruption.'
-                                />
+                                <>
+                                    <FormattedMessage
+                                        id='admin.billing.subscription.creditCardHasExpired.please'
+                                        defaultMessage='Please '
+                                    />
+                                    <BlockableLink
+                                        to='/admin_console/billing/payment_info'
+                                    >
+                                        <FormattedMessage
+                                            id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
+                                            defaultMessage='update your payment information'
+                                        />
+                                    </BlockableLink>
+                                    <FormattedMessage
+                                        id='admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption'
+                                        defaultMessage=' to avoid any disruption.'
+                                    />
+                                </>
                             }
                             onDismiss={() => setShowCreditCardBanner(false)}
                         />

@@ -32,8 +32,10 @@ const PaymentInfo: React.FC<Props> = () => {
 
         // Will developers ever learn? :D
         const expiryYear = customer.payment_method.exp_year + 2000;
-        const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month - 1, 1);
-        lastExpiryDate.setMonth(lastExpiryDate.getMonth() + 1);
+
+        // This works because we store the expiry month as the actual 1-12 base month, but Date uses a 0-11 base month
+        // But credit cards expire at the end of their expiry month, so we can just use that number.
+        const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month, 1);
         const currentDatePlus10Days = new Date();
         currentDatePlus10Days.setDate(currentDatePlus10Days.getDate() + 10);
         return lastExpiryDate <= currentDatePlus10Days;
