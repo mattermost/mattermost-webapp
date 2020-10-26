@@ -150,21 +150,18 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         variant: NoResultsVariant.ChannelSearch,
     };
 
-    switch (true) {
-    case isMentionSearch:
+    if (isMentionSearch) {
         noResultsProps.variant = NoResultsVariant.Mentions;
 
         titleDescriptor.id = 'search_header.title2';
         titleDescriptor.defaultMessage = 'Recent Mentions';
-        break;
-    case isFlaggedPosts:
+    } else if (isFlaggedPosts) {
         noResultsProps.variant = NoResultsVariant.FlaggedPosts;
         noResultsProps.subtitleValues = {icon: <FlagIcon className='icon  no-results__mini_icon'/>};
 
         titleDescriptor.id = 'search_header.title3';
         titleDescriptor.defaultMessage = 'Saved Posts';
-        break;
-    case isPinnedPosts:
+    } else if (isPinnedPosts) {
         noResultsProps.variant = NoResultsVariant.PinnedPosts;
         noResultsProps.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};
 
@@ -173,16 +170,13 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
         titleDescriptor.id = 'search_header.pinnedPosts';
         titleDescriptor.defaultMessage = 'Pinned Posts';
-        break;
-    case isCard:
+    } else if (isCard) {
         titleDescriptor.id = 'search_header.title5';
         titleDescriptor.defaultMessage = 'Extra information';
-        break;
-    case (!searchTerms && noResults):
+    } else if (!searchTerms && noResults) {
         titleDescriptor.id = 'search_header.search';
         titleDescriptor.defaultMessage = 'Search';
-        break;
-    default:
+    } else {
         noResultsProps.titleValues = {channelName: `"${searchTerms}"`};
 
         titleDescriptor.id = 'search_header.results';
