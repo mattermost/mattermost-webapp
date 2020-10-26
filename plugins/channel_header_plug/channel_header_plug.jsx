@@ -147,9 +147,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 channel_id: this.props.channel.id,
             },
             from: [
-                {
-                    plugAction,
-                },
+                plugAction,
             ],
         });
         if (response.type === 'command') {

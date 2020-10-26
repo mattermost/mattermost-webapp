@@ -266,9 +266,7 @@ export default class DotMenu extends React.PureComponent {
                 post_id: this.props.post.id,
             },
             from: [
-                {
-                    item,
-                },
+                item,
             ],
         });
         if (response.type === 'command') {
