@@ -75,6 +75,10 @@
         color: var(--sys-error-text);
     }
 
+    &.pending {
+        color: rgba(var(--sys-center-channel-color-rgb), 0.48);
+    }
+
     i {
         margin-left: 4px;
         font-size: 14.4px;

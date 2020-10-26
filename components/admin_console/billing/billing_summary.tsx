@@ -52,6 +52,41 @@ const noBillingHistory = (
     </div>
 );
 
+const getPaymentStatus = (status: string) => {
+    switch (status) {
+    case 'failed':
+        return (
+            <div className='BillingSummary__lastInvoice-headerStatus failed'>
+                <FormattedMessage
+                    id='admin.billing.subscriptions.billing_summary.lastInvoice.failed'
+                    defaultMessage='Failed'
+                />
+                <i className='icon icon-alert-outline'/>
+            </div>
+        );
+    case 'paid':
+        return (
+            <div className='BillingSummary__lastInvoice-headerStatus paid'>
+                <FormattedMessage
+                    id='admin.billing.subscriptions.billing_summary.lastInvoice.paid'
+                    defaultMessage='Paid'
+                />
+                <i className='icon icon-check-circle-outline'/>
+            </div>
+        );
+    default:
+        return (
+            <div className='BillingSummary__lastInvoice-headerStatus pending'>
+                <FormattedMessage
+                    id='admin.billing.subscriptions.billing_summary.lastInvoice.pending'
+                    defaultMessage='Pending'
+                />
+                <i className='icon icon-check-circle-outline'/>
+            </div>
+        );
+    }
+};
+
 const BillingSummary: React.FC = () => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
@@ -77,24 +112,7 @@ const BillingSummary: React.FC = () => {
                             defaultMessage='Last Invoice'
                         />
                     </div>
-                    {invoice.status === 'paid' &&
-                        <div className='BillingSummary__lastInvoice-headerStatus paid'>
-                            <FormattedMessage
-                                id='admin.billing.subscriptions.billing_summary.lastInvoice.paid'
-                                defaultMessage='Paid'
-                            />
-                            <i className='icon icon-check-circle-outline'/>
-                        </div>
-                    }
-                    {invoice.status === 'failed' &&
-                        <div className='BillingSummary__lastInvoice-headerStatus failed'>
-                            <FormattedMessage
-                                id='admin.billing.subscriptions.billing_summary.lastInvoice.failed'
-                                defaultMessage='Failed'
-                            />
-                            <i className='icon icon-alert-outline'/>
-                        </div>
-                    }
+                    {getPaymentStatus(invoice.status)}
                 </div>
                 <div className='BillingSummary__lastInvoice-date'>
                     <FormattedDate
