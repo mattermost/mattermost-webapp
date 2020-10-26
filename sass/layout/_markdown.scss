@@ -266,7 +266,7 @@ h6 {
         background: $white;
 
         &:nth-child(2n) {
-            background: rgba(var(--center-channel-color), 0.07);
+            background: rgba(var(--center-channel-color-rgb), 0.07);
         }
     }
 }
