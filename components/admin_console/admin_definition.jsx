@@ -79,7 +79,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 // name_default), the section in the config file (id), and a list of options to
 // configure (settings).
 //
-// All text fiels contains a transation key, and the <field>_default string are the
+// All text fields contains a translation key, and the <field>_default string are the
 // default text when the translation is still not avaiable (the english version
 // of the text).
 //
@@ -3370,6 +3370,19 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.IgnoreGuestsLdapSync',
+                        label: t('admin.saml.ignoreGuestsLdapSyncTitle'),
+                        label_default: 'Ignore Guest Users when  Synchronizing with AD/LDAP',
+                        help_text: t('admin.saml.ignoreGuestsLdapSyncDesc'),
+                        help_text_default: 'When true, Mattermost will ignore Guest Users who are identified by the Guest Attribute, when synchronizing with AD/LDAP for user deactivation and removal and Guest deactivation will need to be managed manually via System Console > Users.',
+                        isDisabled: it.any(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },

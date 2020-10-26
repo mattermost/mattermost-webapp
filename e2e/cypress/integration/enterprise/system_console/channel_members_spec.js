@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @enterprise
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Channel members test', () => {
