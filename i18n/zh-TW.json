@@ -3166,7 +3166,6 @@
   "navbar_dropdown.viewMembers": "檢視成員",
   "next_steps_view.complete_profile_step.addAPhoto": "新增相片",
   "next_steps_view.complete_profile_step.enterYourName": "輸入名稱",
-  "next_steps_view.complete_profile_step.nameCannotBeBlank": "名稱不能為空白",
   "next_steps_view.complete_profile_step.nameWillBeDisplayed": "名稱將跟訊息一起顯示",
   "next_steps_view.complete_profile_step.pictureError": "照片格式必須為 BMP、JPG 或 PNG。最大檔案大小為 {max}。",
   "next_steps_view.complete_profile_step.saveProfile": "儲存個人檔案",
