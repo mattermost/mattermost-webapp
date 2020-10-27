@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -25,6 +24,7 @@ export default class PDFPreview extends React.PureComponent {
         *  URL of pdf file to output and compare to update props url
         */
         fileUrl: PropTypes.string.isRequired,
+        scale: PropTypes.number.isRequired,
     }
 
     constructor(props) {
@@ -40,6 +40,10 @@ export default class PDFPreview extends React.PureComponent {
             loading: true,
             success: false,
         };
+
+        for (let i = 0; i < MAX_PDF_PAGES; i++) {
+            this[`pdfCanvasRef-${i}`] = React.createRef();
+        }
     }
 
     componentDidMount() {
@@ -69,22 +73,29 @@ export default class PDFPreview extends React.PureComponent {
 
         if (this.state.success) {
             for (let i = 0; i < this.state.numPages; i++) {
-                this.renderPDFPage(i);
+                this.renderPDFPage(i, prevProps);
             }
         }
     }
 
-    renderPDFPage = (pageIndex) => {
-        if (this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) {
+    downloadFile = (e) => {
+        const fileDownloadUrl = this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
+        e.preventDefault();
+        window.location.href = fileDownloadUrl;
+    }
+
+    renderPDFPage = (pageIndex, prevProps) => {
+        if ((this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) &&
+            (prevProps.scale === this.props.scale)) {
             return;
         }
 
-        const canvas = this.refs['pdfCanvas' + pageIndex];
+        const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
         const context = canvas.getContext('2d');
-        const viewport = this.state.pdfPages[pageIndex].getViewport(1);
+        const viewport = this.state.pdfPages[pageIndex].getViewport(this.props.scale);
 
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
+        this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
 
         const renderContext = {
             canvasContext: context,
@@ -148,7 +159,7 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 0; i < this.state.numPages; i++) {
             pdfCanvases.push(
                 <canvas
-                    ref={'pdfCanvas' + i}
+                    ref={this[`pdfCanvasRef-${i}`]}
                     key={'previewpdfcanvas' + i}
                 />,
             );
@@ -164,19 +175,22 @@ export default class PDFPreview extends React.PureComponent {
         }
 
         if (this.state.pdf.numPages > MAX_PDF_PAGES) {
-            const fileDownloadUrl = this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
-
             pdfCanvases.push(
-                <a
-                    key='previewpdfmorepages'
-                    href={fileDownloadUrl}
+                <div
                     className='pdf-max-pages'
+                    key='previewpdfmorepages'
                 >
-                    <FormattedMessage
-                        id='pdf_preview.max_pages'
-                        defaultMessage='Download to read more pages'
-                    />
-                </a>,
+                    <button
+                        className='btn btn-primary'
+                        onClick={this.downloadFile}
+                    >
+                        {<i className='icon icon-download-outline pdf-download-btn-spacer'/> }
+                        <FormattedMessage
+                            id='pdf_preview.max_pages'
+                            defaultMessage='Download to read more pages'
+                        />
+                    </button>
+                </div>,
             );
         }
 
@@ -187,4 +201,3 @@ export default class PDFPreview extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
