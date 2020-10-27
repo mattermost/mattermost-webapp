@@ -69,7 +69,7 @@ describe('components/admin_console/system_users/list/selectors', () => {
                 const term = 'term';
 
                 const expectedUsers = [{id: 'id1'}, {id: 'id2'}];
-                (users.searchProfilesInTeam as jest.Mock).mockReturnValue(expectedUsers)
+                (users.searchProfilesInTeam as jest.Mock).mockReturnValue(expectedUsers);
 
                 expect(getUsers(state, loading, teamId, term, filter)).toEqual(expectedUsers);
                 expect(users.searchProfilesInTeam).toBeCalledWith(state, teamId, term, false, {});
