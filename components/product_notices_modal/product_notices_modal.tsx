@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ProductNotices, ProductNotice} from 'mattermost-redux/types/product_notices';
 import {WebsocketStatus} from 'mattermost-redux/types/websocket';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Markdown from 'components/markdown';
 import GenericModal from 'components/generic_modal';
@@ -186,6 +187,11 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         return null;
     }
 
+    private trackClickEvent = () => {
+        const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
+        trackEvent('ui', `notice_click_${presentNoticeInfo.id}`);
+    }
+
     private renderActionButton(presentNoticeInfo: ProductNotice) {
         const noOfNotices = this.state.noticesData.length;
 
@@ -197,6 +203,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
                     rel='noopener noreferrer'
                     className='GenericModal__button actionButton'
                     href={presentNoticeInfo.actionParam}
+                    onClick={this.trackClickEvent}
                 >
                     {presentNoticeInfo.actionText}
                 </a>
@@ -209,6 +216,7 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
         const presentNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex];
         const noOfNotices = this.state.noticesData.length;
         if (noOfNotices === 1 && presentNoticeInfo.actionText) {
+            this.trackClickEvent();
             window.open(presentNoticeInfo.actionParam, '_blank');
         } else if (this.state.presentNoticeIndex + 1 < noOfNotices) {
             const nextNoticeInfo = this.state.noticesData[this.state.presentNoticeIndex + 1];
