@@ -172,11 +172,11 @@ describe('components/MoreDirectChannels', () => {
         expect(wrapper.state('values')).toEqual([user2]);
     });
 
-    test('should match renderOption snapshot', () => {
+    test('should match renderOptionValue snapshot', () => {
         const props = {...baseProps};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
 
-        expect(wrapper.instance().renderOption({id: 'user_id_1', username: 'username1', delete_at: 0}, true, jest.fn())).toMatchSnapshot();
+        expect(wrapper.instance().renderOptionValue({id: 'user_id_1', username: 'username1', delete_at: 0}, true, jest.fn())).toMatchSnapshot();
     });
 
     test('should match output on renderValue', () => {
@@ -201,7 +201,7 @@ describe('components/MoreDirectChannels', () => {
             type: 'G',
         };
 
-        expect(wrapper.instance().renderOption(channel, false, jest.fn())).toMatchSnapshot();
+        expect(wrapper.instance().renderOptionValue(channel, false, jest.fn())).toMatchSnapshot();
     });
 
     test('should not open a DM or GM if no user Ids', () => {
@@ -303,29 +303,39 @@ describe('components/MoreDirectChannels', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show up to 20 recent DMs if not searching', () => {
-        const recentDirectChannelUsers = [
+    test('should show up to 20 recent DMs/GMs if not searching, excluding current user', () => {
+        const recentDMUsers = [
             {
                 id: 'user_id_98',
                 label: 'z_user_id_98',
                 value: 'z_user_id_98',
                 delete_at: 0,
+                last_post_at: 1603600100601,
             },
             {
                 id: 'user_id_99',
                 label: 'a_user_id_99',
                 value: 'a_user_id_99',
                 delete_at: 0,
+                last_post_at: 1603600100601,
+            },
+            {
+                id: 'current_user_id',
+                label: 'current_user_label',
+                value: 'current_user_value',
+                delete_at: 0,
+                last_post_at: 1603600100601,
             },
         ];
 
         for (let i = 0; i < 25; i++) {
-            recentDirectChannelUsers.push(
+            recentDMUsers.push(
                 {
                     id: 'dm_user_id_' + i,
                     label: 'dm_user_id' + i,
                     value: 'dm_user_id' + i,
                     delete_at: 0,
+                    last_post_at: 1603600100601,
                 },
             );
         }
@@ -354,7 +364,7 @@ describe('components/MoreDirectChannels', () => {
 
         ];
 
-        const props = {...baseProps, users, recentDirectChannelUsers, groupChannels};
+        const props = {...baseProps, users, recentDMUsers, groupChannels};
 
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         const multiselect = wrapper.find('MultiSelect');
@@ -362,10 +372,17 @@ describe('components/MoreDirectChannels', () => {
         expect(options.length).toBe(20);
     });
 
-    test('should show normal results if no DMs', () => {
-        const recentDirectChannelUsers = [];
+    test('should show normal results if no recent DMs/GMs, excluding those already added, excluding currentUserId', () => {
+        const recentDMUsers = [];
 
-        const users = [];
+        const users = [
+            {
+                id: 'current_user_id',
+                label: 'current_user_label',
+                value: 'current_user_value',
+                delete_at: 0,
+            },
+        ];
         for (let i = 0; i < 25; i++) {
             users.push(
                 {
@@ -389,37 +406,40 @@ describe('components/MoreDirectChannels', () => {
 
         ];
 
-        const props = {...baseProps, users, recentDirectChannelUsers, groupChannels};
+        const props = {...baseProps, users, recentDMUsers, groupChannels};
 
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         const multiselect = wrapper.find('MultiSelect');
         const options = multiselect.prop('options');
-        expect(options.length).toBe(27);
+        expect(options.length).toBe(25);
     });
 
     test('should show normal results if searching', () => {
-        const recentDirectChannelUsers = [
+        const recentDMUsers = [
             {
                 id: 'user_id_98',
                 label: 'z_user_id_98',
                 value: 'z_user_id_98',
                 delete_at: 0,
+                last_post_at: 1603600100601,
             },
             {
                 id: 'user_id_99',
                 label: 'a_user_id_99',
                 value: 'a_user_id_99',
                 delete_at: 0,
+                last_post_at: 1603600100601,
             },
         ];
 
         for (let i = 0; i < 25; i++) {
-            recentDirectChannelUsers.push(
+            recentDMUsers.push(
                 {
                     id: 'dm_user_id_' + i,
                     label: 'dm_user_id' + i,
                     value: 'dm_user_id' + i,
                     delete_at: 0,
+                    last_post_at: 1603600100601,
                 },
             );
         }
@@ -440,20 +460,22 @@ describe('components/MoreDirectChannels', () => {
             {
                 display_name: 'group_name_1',
                 id: 'group_1',
+                last_post_at: 1603600100601,
             },
             {
                 display_name: 'group_name_2',
                 id: 'group_2',
+                last_post_at: 1603600100601,
             },
 
         ];
 
-        const props = {...baseProps, users, recentDirectChannelUsers, groupChannels, searchTerm: 'e'};
+        const props = {...baseProps, users, recentDMUsers, groupChannels, searchTerm: '*'};
 
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         const multiselect = wrapper.find('MultiSelect');
         const options = multiselect.prop('options');
-        expect(options.length).toBe(54);
+        expect(options.length).toBe(52);
     });
 
     test('should not include the users in the recent direct channel list again', () => {
@@ -461,12 +483,14 @@ describe('components/MoreDirectChannels', () => {
             id: 'user_id_1',
             username: 'z_user_id_1',
             delete_at: 0,
+            last_post_at: 1603600100601,
         };
 
         const user2 = {
             id: 'user_id_2',
             username: 'a_user_id_2',
             delete_at: 0,
+            last_post_at: 1603600100601,
         };
 
         const user3 = {
@@ -475,10 +499,10 @@ describe('components/MoreDirectChannels', () => {
             delete_at: 0,
         };
 
-        const recentDirectChannelUsers = [user1, user2];
+        const recentDMUsers = [user1, user2];
         const users = [user1, user2, user3];
 
-        const props = {...baseProps, users, recentDirectChannelUsers};
+        const props = {...baseProps, users, recentDMUsers};
 
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         const multiselect = wrapper.find('MultiSelect');

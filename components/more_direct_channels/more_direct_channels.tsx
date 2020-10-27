@@ -4,7 +4,7 @@
 import React, {ComponentProps, ReactNode} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {debounce} from 'lodash';
+import {debounce, partition, differenceBy} from 'lodash';
 import classNames from 'classnames';
 
 import {Client4} from 'mattermost-redux/client';
@@ -39,14 +39,22 @@ export const TIME_SPEC: ComponentProps<typeof Timestamp> = {
     ],
 };
 
-type UserProfileValue = UserProfile & Value;
-type GroupChannelValue = Channel & Value & {profiles: UserProfile[]};
+type GroupChannel = Channel & {profiles: UserProfile[]};
 
-function isGroupOption(option: Option): option is GroupChannelValue {
-    return (option as GroupChannelValue)?.type === 'G';
+function isGroupChannel(option: UserProfile | GroupChannel): option is GroupChannel {
+    return (option as GroupChannel)?.type === 'G';
 }
 
-type Option = (UserProfileValue | GroupChannelValue) & {last_post_at?: number};
+type Option = (UserProfile | GroupChannel) & {last_post_at?: number};
+type OptionValue = Option & Value;
+
+function optionValue(option: Option): OptionValue {
+    return {
+        value: option.id,
+        label: isGroupChannel(option) ? option.display_name : option.username,
+        ...option,
+    };
+}
 
 type Props = {
     currentUserId: string;
@@ -54,9 +62,9 @@ type Props = {
     currentTeamName: string;
     searchTerm: string;
     users: UserProfile[];
-    groupChannels: Array<{profiles: UserProfile[]} & Channel>;
+    groupChannels: GroupChannel[];
     myDirectChannels: Channel[];
-    recentDirectChannelUsers: (UserProfile & {last_post_at: number })[];
+    recentDMUsers?: (UserProfile & {last_post_at: number })[];
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
 
@@ -95,7 +103,7 @@ type Props = {
 }
 
 type State = {
-    values: Option[];
+    values: OptionValue[];
     show: boolean;
     search: boolean;
     saving: boolean;
@@ -105,7 +113,7 @@ type State = {
 export default class MoreDirectChannels extends React.PureComponent<Props, State> {
     searchTimeoutId: any;
     exitToChannel?: string;
-    multiselect: React.RefObject<MultiSelect<Option>>;
+    multiselect: React.RefObject<MultiSelect<OptionValue>>;
     selectedItemRef: React.RefObject<HTMLDivElement>;
     constructor(props: Props) {
         super(props);
@@ -114,7 +122,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         this.multiselect = React.createRef();
         this.selectedItemRef = React.createRef();
 
-        const values: Option[] = [];
+        const values: OptionValue[] = [];
 
         if (props.currentChannelMembers) {
             for (let i = 0; i < props.currentChannelMembers.length; i++) {
@@ -124,7 +132,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                     continue;
                 }
 
-                values.push({label: user.username, value: user.id, ...user});
+                values.push(optionValue(user));
             }
         }
 
@@ -250,10 +258,8 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         }
     };
 
-    addValue = (value: Option) => {
-        if (Array.isArray(value)) {
-            this.addUsers(value);
-        } else if ('profiles' in value) {
+    addValue = (value: OptionValue) => {
+        if (isGroupChannel(value)) {
             this.addUsers(value.profiles);
         } else {
             const values = Object.assign([], this.state.values);
@@ -267,13 +273,13 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     };
 
     addUsers = (users: UserProfile[]) => {
-        const values: Option[] = Object.assign([], this.state.values);
+        const values: OptionValue[] = Object.assign([], this.state.values);
         const existingUserIds = values.map((user) => user.id);
         for (const user of users) {
             if (existingUserIds.indexOf(user.id) !== -1) {
                 continue;
             }
-            values.push(user as Option);
+            values.push(optionValue(user));
         }
 
         this.setState({values});
@@ -307,15 +313,15 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         this.props.actions.setModalSearchTerm(term);
     }, 250);
 
-    handleDelete = (values: Option[]) => {
+    handleDelete = (values: OptionValue[]) => {
         this.setState({values});
     }
 
-    renderAriaLabel = (option: Option) => {
+    renderAriaLabel = (option: OptionValue) => {
         return (option as UserProfile)?.username ?? '';
     }
-    optionDisplayParts = (option: Option): ReactNode => {
-        if (isGroupOption(option)) {
+    optionDisplayParts = (option: OptionValue): ReactNode => {
+        if (isGroupChannel(option)) {
             return (
                 <>
                     <div className='more-modal__gm-icon bg-text-200'>
@@ -393,11 +399,41 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         );
     }
 
-    renderOption = (
-        option: Option,
+    renderValue(props: {data: OptionValue}) {
+        return (props.data as UserProfile).username;
+    }
+
+    handleSubmitImmediatelyOn = (value: OptionValue) => {
+        return value.id === this.props.currentUserId || Boolean(value.delete_at);
+    }
+
+    note = (): ReactNode => {
+        let note;
+        if (this.props.currentChannelMembers) {
+            if (this.state.values && this.state.values.length >= MAX_SELECTABLE_VALUES) {
+                note = (
+                    <FormattedMessage
+                        id='more_direct_channels.new_convo_note.full'
+                        defaultMessage={'You\'ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'}
+                    />
+                );
+            } else if (this.props.isExistingChannel) {
+                note = (
+                    <FormattedMessage
+                        id='more_direct_channels.new_convo_note'
+                        defaultMessage={'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.'}
+                    />
+                );
+            }
+        }
+        return note;
+    }
+
+    renderOptionValue = (
+        option: OptionValue,
         isSelected: boolean,
-        add: (value: Option) => void,
-        select: (value: Option) => void,
+        add: (value: OptionValue) => void,
+        select: (value: OptionValue) => void,
     ) => {
         const {id, last_post_at: lastPostAt} = option;
 
@@ -429,33 +465,49 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         );
     }
 
-    renderValue(props: {data: Option}) {
-        return (props.data as UserProfileValue).username;
-    }
+    computeOptions = (): Option[] => {
+        const {
+            currentUserId,
+            searchTerm,
+            myDirectChannels,
+            recentDMUsers = [],
+        } = this.props;
 
-    handleSubmitImmediatelyOn = (value: Option) => {
-        return value.id === this.props.currentUserId || Boolean(value.delete_at);
+        const {values} = this.state;
+
+        const [activeUsers, inactiveUsers] = partition(this.props.users, ({delete_at: deleteAt}) => deleteAt === 0);
+
+        const groupChannelsWithAvailableProfiles = this.props.groupChannels.filter(({profiles}) => differenceBy(profiles, values, 'id').length);
+        const [recentGroupChannels, groupChannels] = partition(groupChannelsWithAvailableProfiles, 'last_post_at');
+
+        let users = values.length ?
+            activeUsers.filter(({id}) => id !== currentUserId) :
+            activeUsers.concat(inactiveUsers);
+
+        users = users.filter((user) => (
+            (user.delete_at === 0 || myDirectChannels.some(({name}) => name.includes(user.id))) &&
+            !recentDMUsers.some(({id}) => id === user.id)
+        ));
+
+        const recent = [
+            ...values.length ? recentDMUsers.filter(({id}) => id !== currentUserId) : recentDMUsers,
+            ...recentGroupChannels,
+        ].sort((a, b) => b.last_post_at - a.last_post_at);
+
+        if (recent.length && !searchTerm) {
+            return recent.slice(0, 20);
+        }
+
+        return [
+            ...recent,
+            ...users,
+            ...groupChannels,
+        ];
     }
 
     render() {
-        let note;
-        if (this.props.currentChannelMembers) {
-            if (this.state.values && this.state.values.length >= MAX_SELECTABLE_VALUES) {
-                note = (
-                    <FormattedMessage
-                        id='more_direct_channels.new_convo_note.full'
-                        defaultMessage={'You\'ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'}
-                    />
-                );
-            } else if (this.props.isExistingChannel) {
-                note = (
-                    <FormattedMessage
-                        id='more_direct_channels.new_convo_note'
-                        defaultMessage={'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.'}
-                    />
-                );
-            }
-        }
+        const {bodyOnly} = this.props;
+        const {values} = this.state;
 
         const buttonSubmitText = localizeMessage('multiselect.go', 'Go');
         const buttonSubmitLoadingText = localizeMessage('multiselect.loading', 'Loading..');
@@ -465,70 +517,17 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 id='multiselect.numPeopleRemaining'
                 defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
                 values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
+                    num: MAX_SELECTABLE_VALUES - values.length,
                 }}
             />
         );
 
-        let users = this.props.users || [];
-
-        if (this.state.values.length) {
-            users = users.filter((user) => user.delete_at === 0 && user.id !== this.props.currentUserId);
-        } else {
-            const active: UserProfile[] = [];
-            const inactive: UserProfile[] = [];
-            for (const user of users) {
-                (user.delete_at ? inactive : active).push(user);
-            }
-            users = active.concat(inactive);
-        }
-
-        users = users.filter((user) => {
-            if (user.delete_at === 0) {
-                return true;
-            }
-            for (const channel of this.props.myDirectChannels) {
-                if (channel.name.indexOf(user.id) >= 0) {
-                    return true;
-                }
-            }
-            return false;
-        });
-
-        const recentDirectChannelUserIds = this.props.recentDirectChannelUsers.map((user) => user.id);
-        users = users.filter((user) => !recentDirectChannelUserIds.includes(user.id));
-
-        const usersValues = users.map((user) => {
-            return {label: user.username, value: user.id, ...user};
-        });
-
-        const groupChannels = this.props.groupChannels || [];
-        const groupChannelsValues = groupChannels.map((group) => {
-            return {label: group.display_name, value: group.id, ...group};
-        });
-
-        const recentDirectChannelsValues = this.props.recentDirectChannelUsers.map((user) => {
-            return {label: user.username, value: user.id, ...user};
-        });
-
-        let options: Option[];
-
-        if (!this.props.searchTerm && recentDirectChannelsValues.length) {
-            options = recentDirectChannelsValues.slice(0, 20);
-        } else {
-            options = [
-                ...recentDirectChannelsValues,
-                ...usersValues,
-                ...groupChannelsValues,
-            ];
-        }
-
         const body = (
-            <MultiSelect<Option>
+            <MultiSelect<OptionValue>
                 key='moreDirectChannelsList'
                 ref={this.multiselect}
-                options={options}
-                optionRenderer={this.renderOption}
+                options={this.computeOptions().map(optionValue)}
+                optionRenderer={this.renderOptionValue}
                 selectedItemRef={this.selectedItemRef}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
@@ -539,7 +538,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 handleDelete={this.handleDelete}
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
-                noteText={note}
+                noteText={this.note()}
                 maxValues={MAX_SELECTABLE_VALUES}
                 numRemainingText={numRemainingText}
                 buttonSubmitText={buttonSubmitText}
@@ -553,7 +552,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             />
         );
 
-        if (this.props.bodyOnly) {
+        if (bodyOnly) {
             return body;
         }
 

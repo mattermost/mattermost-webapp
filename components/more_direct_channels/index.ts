@@ -78,24 +78,25 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users = getProfilesInCurrentTeam(state);
     }
 
-    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm).
-        sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at) as Props['groupChannels'];
+    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm) as Props['groupChannels'];
     const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId) as Props['myDirectChannels'];
-    const myRecentDirectChannels = filterRecentChannels(getAllChannels(state), currentUserId).
-        sort((a: Channel, b: Channel) => b.last_post_at - a.last_post_at);
-    let recentDirectChannelUsers = myRecentDirectChannels.reduce((results, channel) => {
-        const dmUserId = getUserIdFromChannelName(currentUserId, channel.name);
-        if (dmUserId) {
-            const user = getUser(state, dmUserId);
-            if (user) {
-                results.push({...user, last_post_at: channel.last_post_at});
-            }
+
+    let recentDMUsers = myDirectChannels.reduce((results, channel) => {
+        if (!channel.last_post_at) {
+            return results;
         }
+
+        const user = getUser(state, getUserIdFromChannelName(currentUserId, channel.name));
+
+        if (user) {
+            results!.push({...user, last_post_at: channel.last_post_at});
+        }
+
         return results;
-    }, [] as Props['recentDirectChannelUsers']);
+    }, [] as Props['recentDMUsers']);
 
     if (searchTerm) {
-        recentDirectChannelUsers = intersectionBy(recentDirectChannelUsers, users, 'id');
+        recentDMUsers = intersectionBy(recentDMUsers, users, 'id');
     }
     const team = getCurrentTeam(state);
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
@@ -107,46 +108,28 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         users: users.sort(sortByUsername),
         myDirectChannels,
         groupChannels: filteredGroupChannels,
+        recentDMUsers,
         statuses: state.entities.users.statuses,
         currentChannelMembers,
         currentUserId,
         restrictDirectMessage,
-        recentDirectChannelUsers,
         totalCount: stats.total_users_count,
-        myRecentDirectChannels,
     };
 }
 
-const filterGroupChannels = memoizeResult((channels: Array<{profiles: Array<UserProfile>} & Channel>, term: string) => {
+const filterGroupChannels = memoizeResult((channels: Props['groupChannels'], term: string) => {
     return channels.filter((channel) => {
         const matches = filterProfilesMatchingTerm(channel.profiles, term);
         return matches.length > 0;
     });
 });
 
-const filterDirectChannels = memoizeResult((channels: Channel[], userId: string) => {
-    return Object.values(channels).filter((channel) => {
-        if (channel.type !== 'D') {
-            return false;
-        }
-        if (channel.name && channel.name.indexOf(userId) < 0) {
-            return false;
-        }
-        return true;
-    });
+const filterDirectChannels = memoizeResult((channels: RelationOneToOne<Channel, Channel>, userId: string) => {
+    return Object.values(channels).filter((channel) => (
+        channel.type === Constants.DM_CHANNEL &&
+        channel.name.includes(userId)
+    ));
 });
-
-const filterRecentChannels = (channels: RelationOneToOne<Channel, Channel>, userId: string) => {
-    return Object.values(channels).filter((channel) => {
-        if (channel.type !== Constants.DM_CHANNEL || channel.last_post_at === 0) {
-            return false;
-        }
-        if (channel.name && channel.name.indexOf(userId) < 0) {
-            return false;
-        }
-        return true;
-    });
-};
 
 type Actions = {
     getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;

@@ -171,7 +171,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
 </Modal>
 `;
 
-exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = `
+exports[`components/MoreDirectChannels should match renderOptionValue snapshot 1`] = `
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
