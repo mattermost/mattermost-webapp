@@ -340,7 +340,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             if (token.is_active) {
                 activeLink = (
                     <a
-                        data-name={token.id + '_deactivate'}
+                        id={token.id + '_deactivate'}
                         href='#'
                         onClick={(e) => {
                             e.preventDefault();
@@ -363,7 +363,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                 );
                 activeLink = (
                     <a
-                        data-name={token.id + '_activate'}
+                        id={token.id + '_activate'}
                         href='#'
                         onClick={(e) => {
                             e.preventDefault();
@@ -402,7 +402,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                         {activeLink}
                         {' - '}
                         <a
-                            data-name={token.id + '_delete'}
+                            id={token.id + '_delete'}
                             href='#'
                             onClick={(e) => {
                                 e.preventDefault();
