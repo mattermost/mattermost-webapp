@@ -248,6 +248,7 @@ export default class RequestButton extends React.PureComponent {
                 <div className={widgetClassNames}>
                     <div>
                         <button
+                            type='button'
                             className='btn btn-default'
                             onClick={this.handleRequest}
                             disabled={this.props.disabled}

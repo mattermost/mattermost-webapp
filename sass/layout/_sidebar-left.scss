@@ -585,7 +585,6 @@
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
-        position: sticky;
 
         .SidebarMenu_menuButton {
             height: 28px;
@@ -599,6 +598,10 @@
 
         .SidebarMenu:not(.menuOpen) {
             display: none;
+        }
+
+        &.SidebarChannelGroupHeader--sticky {
+            position: sticky;
         }
     }
 
@@ -635,7 +638,7 @@
             color: var(--sidebar-text);
         }
 
-        > div:not(.SidebarCategory_newLabel) {
+        .SidebarChannelGroupHeader_text {
             flex: 0 1 auto;
             overflow: hidden;
             text-overflow: ellipsis;
