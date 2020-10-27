@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -74,6 +73,7 @@ export default class ViewImageModal extends React.PureComponent {
             showZoomControls: false,
             scale: ZoomSettings.DEFAULT_SCALE,
         };
+        this.videoRef = React.createRef();
     }
 
     handleNext = (e) => {
@@ -115,8 +115,8 @@ export default class ViewImageModal extends React.PureComponent {
     onModalHidden = () => {
         document.removeEventListener('keyup', this.handleKeyPress);
 
-        if (this.refs.video) {
-            this.refs.video.stop();
+        if (this.videoRef.current) {
+            this.videoRef.current.stop();
         }
     }
 
@@ -328,7 +328,7 @@ export default class ViewImageModal extends React.PureComponent {
             leftArrow = (
                 <a
                     id='previewArrowLeft'
-                    ref='previewArrowLeft'
+                    ref={this.previewArrowLeft}
                     className='modal-prev-bar'
                     href='#'
                     onClick={this.handlePrev}
@@ -340,7 +340,7 @@ export default class ViewImageModal extends React.PureComponent {
             rightArrow = (
                 <a
                     id='previewArrowRight'
-                    ref='previewArrowRight'
+                    ref={this.previewArrowRight}
                     className='modal-next-bar'
                     href='#'
                     onClick={this.handleNext}
@@ -417,4 +417,3 @@ export default class ViewImageModal extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

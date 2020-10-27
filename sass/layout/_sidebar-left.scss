@@ -585,6 +585,7 @@
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
+        position: sticky;
 
         .SidebarMenu_menuButton {
             height: 28px;
@@ -622,7 +623,6 @@
         border: none;
         color: rgba(var(--sidebar-text-rgb), 0.6);
         background-color: var(--sidebar-bg);
-        position: sticky;
         top: 0;
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;

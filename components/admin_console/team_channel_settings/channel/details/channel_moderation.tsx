@@ -228,6 +228,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
                 <td>
                     {!isNil(props.guests) &&
                         <button
+                            type='button'
                             data-testid={`${props.name}-${Roles.GUESTS}`}
                             className={classNames(
                                 'checkbox',
@@ -247,6 +248,7 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
             <td>
                 {!isNil(props.members) &&
                     <button
+                        type='button'
                         data-testid={`${props.name}-${Roles.MEMBERS}`}
                         className={classNames(
                             'checkbox',

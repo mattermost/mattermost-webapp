@@ -137,6 +137,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                 />
             </div>
             <button
+                type='button'
                 onClick={onUpgradeMattermostCloud}
                 className='UpgradeMattermostCloud__upgradeButton'
             >
