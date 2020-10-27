@@ -2,20 +2,33 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getMyTeamMember, getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ServerError} from 'mattermost-redux/types/errors';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {addUserToTeamFromInvite} from 'actions/team_actions';
 import {login} from 'actions/views/login';
 
 import LoginController from './login_controller.jsx';
 
-function mapStateToProps(state: GlobalState) {
+interface State extends GlobalState {
+    storage: {
+        initialized: boolean;
+    }
+}
+
+type Actions = {
+    login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean, error: ServerError }>;
+    addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team, error: ServerError }>
+}
+
+function mapStateToProps(state: State) {
     const config = getConfig(state);
     const license = getLicense(state);
 
@@ -77,7 +90,7 @@ function mapStateToProps(state: GlobalState) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             login,
             addUserToTeamFromInvite,
         }, dispatch),

@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {ShallowWrapper} from 'enzyme';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import Constants from 'utils/constants';
@@ -40,7 +42,7 @@ describe('components/login/LoginController', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
             <LoginController {...baseProps}/>,
         );
 
@@ -51,7 +53,7 @@ describe('components/login/LoginController', () => {
         const props = {
             ...baseProps,
         };
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
             <LoginController {...props}/>,
         );
         wrapper.setState({sessionExpired: true});
@@ -64,7 +66,7 @@ describe('components/login/LoginController', () => {
             ...baseProps,
             initializing: true,
         };
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
@@ -78,7 +80,7 @@ describe('components/login/LoginController', () => {
         };
 
         LocalStorageStore.setWasLoggedIn(true);
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
@@ -95,7 +97,7 @@ describe('components/login/LoginController', () => {
         };
 
         LocalStorageStore.setWasLoggedIn(true);
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
@@ -111,7 +113,7 @@ describe('components/login/LoginController', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
