@@ -57,6 +57,11 @@ class RhsComment extends React.PureComponent {
         a11yIndex: PropTypes.number,
 
         /**
+         * If the user that made the post is a bot.
+         */
+        isBot: PropTypes.bool.isRequired,
+
+        /**
          * To Check if the current post is last in the list of RHS
          */
         isLastPost: PropTypes.bool,
@@ -81,6 +86,7 @@ class RhsComment extends React.PureComponent {
         super(props);
 
         this.postRef = React.createRef();
+        this.dotMenuRef = React.createRef();
 
         this.state = {
             showEmojiPicker: false,
@@ -240,7 +246,7 @@ class RhsComment extends React.PureComponent {
     };
 
     getDotMenuRef = () => {
-        return this.refs.dotMenu;
+        return this.dotMenuRef.current;
     };
 
     setHover = () => {
@@ -360,6 +366,22 @@ class RhsComment extends React.PureComponent {
                         />
                     </Badge>
                 );
+            } else if (isSystemMessage && this.props.isBot) {
+                userProfile = (
+                    <UserProfile
+                        userId={post.user_id}
+                        hideStatus={true}
+                    />
+                );
+
+                visibleMessage = (
+                    <span className='post__visibility'>
+                        <FormattedMessage
+                            id='post_info.message.visible'
+                            defaultMessage='(Only visible to you)'
+                        />
+                    </span>
+                );
             } else if (isSystemMessage) {
                 userProfile = (
                     <UserProfile
@@ -373,7 +395,6 @@ class RhsComment extends React.PureComponent {
                         disablePopover={true}
                     />
                 );
-
                 visibleMessage = (
                     <span className='post__visibility'>
                         <FormattedMessage
@@ -458,7 +479,7 @@ class RhsComment extends React.PureComponent {
 
             options = (
                 <div
-                    ref='dotMenu'
+                    ref={this.dotMenuRef}
                     className='col post-menu'
                 >
                     {dotMenu}

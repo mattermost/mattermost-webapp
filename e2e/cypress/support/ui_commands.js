@@ -283,23 +283,6 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
-/**
- * Click comment icon by post ID or to most recent post (if post ID is not provided)
- * This open up the RHS
- * @param {String} postId - Post ID
- * @param {String} menuItem - e.g. "Pin to channel"
- * @param {String} location - as 'CENTER', 'SEARCH'
- */
-Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
-    cy.clickPostDotMenu(postId, location).then(() => {
-        cy.get(`#post_${postId}`).should('be.visible').within(() => {
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
-                return cy.findByText(menuItem).scrollIntoView().should('be.visible');
-            });
-        });
-    });
-});
-
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
     cy.get('#rhsCloseButton').should('be.visible').click();
@@ -318,6 +301,20 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
 
 Cypress.Commands.add('getCurrentTeamId', () => {
     return cy.get('#headerTeamName').invoke('attr', 'data-teamid');
+});
+
+Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
+    let path;
+
+    // siteURL can be provided for cases where subpath is being tested
+    if (siteURL) {
+        path = window.location.href.substring(siteURL.length);
+    } else {
+        path = window.location.pathname;
+    }
+
+    const result = path.split('/', 2);
+    return `/${(result[0] ? result[0] : result[1])}`; // sometimes the first element is emply if path starts with '/'
 });
 
 Cypress.Commands.add('leaveTeam', () => {

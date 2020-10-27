@@ -104,6 +104,14 @@ before(() => {
                 cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
         }
+
+        // * Verify that the server database matches with the DB client and config at "cypress.json"
+        cy.apiRequireServerDBToMatch();
+
+        if (Cypress.env('runWithEELicense')) {
+            // * Verify that the server is loaded with license when running tests for EE
+            cy.apiRequireLicense();
+        }
     });
 });
 
@@ -125,6 +133,7 @@ function sysadminSetup(user) {
     cy.apiSaveTeammateNameDisplayPreference('username');
     cy.apiSaveLinkPreviewsPreference('true');
     cy.apiSaveCollapsePreviewsPreference('false');
+    cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
     cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
     cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
@@ -159,9 +168,7 @@ function sysadminSetup(user) {
                 }
             });
 
-            cy.apiGetChannelsForUser('me', defaultTeam.id).then((channelsRes) => {
-                const channels = channelsRes.body;
-
+            cy.apiGetChannelsForUser('me', defaultTeam.id).then(({channels}) => {
                 channels.forEach((channel) => {
                     if (
                         (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&

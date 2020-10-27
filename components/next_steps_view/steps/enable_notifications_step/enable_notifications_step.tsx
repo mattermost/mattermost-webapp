@@ -3,7 +3,7 @@
 
 import React, {useEffect} from 'react';
 
-import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications';
@@ -76,10 +76,8 @@ export default function EnableNotificationsStep(props: StepComponentProps) {
             cardBodyDefaultMessage={
                 'We recommend enabling desktop notifications so you don’t miss any important communications.'
             }
-            buttonMessageId={
-                'next_steps_view.notificationSetup.enableNotifications'
-            }
-            buttonDefaultMessage={'Enable notifications'}
+            buttonMessageId={'next_steps_view.notificationSetup.setNotifications'}
+            buttonDefaultMessage={'Set up notifications'}
             onClick={onFinish}
         />
     );

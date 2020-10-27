@@ -8,13 +8,13 @@ import {FormattedMessage} from 'react-intl';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import Accordion from 'components/accordion';
 import Card from 'components/card/card';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
+import {Preferences, RecommendedNextSteps} from 'utils/constants';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
-import {Preferences} from 'utils/constants';
 
 import {StepType} from './steps';
 import './next_steps_view.scss';
@@ -29,11 +29,13 @@ const TRANSITION_SCREEN_TIMEOUT = 3000;
 type Props = {
     currentUser: UserProfile;
     preferences: PreferenceType[];
-    isAdmin: boolean;
+    isFirstAdmin: boolean;
     steps: StepType[];
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         setShowNextStepsView: (show: boolean) => void;
+        closeRightHandSide: () => void;
+        getProfiles: () => void;
     };
 };
 
@@ -41,26 +43,35 @@ type State = {
     showFinalScreen: boolean;
     showTransitionScreen: boolean;
     animating: boolean;
+    show: boolean;
 }
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = {
             showFinalScreen: false,
             showTransitionScreen: false,
             animating: false,
+            show: false,
         };
     }
 
-    componentDidMount() {
-        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_welcome');
+    async componentDidMount() {
+        await this.props.actions.getProfiles();
 
-        // If all steps are complete, don't render this and skip to the tips screen
-        if (this.getIncompleteStep() === null) {
+        // If all steps are complete, or user has skipped, don't render this and skip to the tips screen
+        if (this.getIncompleteStep() === null || this.checkStepsSkipped()) {
             this.showFinalScreenNoAnimation();
         }
+        // eslint-disable-next-line react/no-did-mount-set-state
+        this.setState({show: true});
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_welcome');
+        this.props.actions.closeRightHandSide();
+    }
+
+    checkStepsSkipped = () => {
+        return this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true');
     }
 
     getStartingStep = () => {
@@ -83,7 +94,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     onClickHeader = (setExpanded: (expandedKey: string) => void, id: string) => {
         const stepIndex = this.getStepNumberFromId(id);
-        trackEvent(getAnalyticsCategory(this.props.isAdmin), `click_onboarding_step${stepIndex}`);
+        trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), `click_onboarding_step${stepIndex}`);
         setExpanded(id);
     }
 
@@ -97,10 +108,20 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         };
     }
 
+    onSkipAll = async () => {
+        this.showFinalScreen();
+        this.props.actions.savePreferences(this.props.currentUser.id, [{
+            user_id: this.props.currentUser.id,
+            category: Preferences.RECOMMENDED_NEXT_STEPS,
+            name: RecommendedNextSteps.SKIP,
+            value: 'true',
+        }]);
+    }
+
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return async (id: string) => {
             const stepIndex = this.getStepNumberFromId(id);
-            trackEvent(getAnalyticsCategory(this.props.isAdmin), `complete_onboarding_step${stepIndex}`);
+            trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), `complete_onboarding_step${stepIndex}`);
 
             await this.props.actions.savePreferences(this.props.currentUser.id, [{
                 category: Preferences.RECOMMENDED_NEXT_STEPS,
@@ -114,13 +135,13 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     }
 
     showFinalScreenNoAnimation = () => {
-        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
-        this.setState({showFinalScreen: true});
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
+        this.setState({showFinalScreen: true, animating: false});
     }
 
     showFinalScreen = () => {
-        trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_skip_getting_started', {channel_sidebar: false});
-        pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
+        trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), 'click_skip_getting_started', {channel_sidebar: false});
+        pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true, animating: true});
     }
 
@@ -131,7 +152,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     setTimerToFinalScreen = () => {
         if (this.state.showTransitionScreen) {
             setTimeout(() => {
-                pageVisited(getAnalyticsCategory(this.props.isAdmin), 'pageview_tips_next_steps');
+                pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
                 this.setState({showFinalScreen: true});
             }, TRANSITION_SCREEN_TIMEOUT);
         }
@@ -199,7 +220,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                     <step.component
                         id={id}
                         expanded={expandedKey === id}
-                        isAdmin={this.props.isAdmin}
+                        isAdmin={this.props.isFirstAdmin}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded)}
                         onSkip={this.onSkip(setExpanded)}
@@ -282,7 +303,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         <div className='NextStepsView__skipGettingStarted'>
                             <button
                                 className='NextStepsView__button tertiary'
-                                onClick={this.showFinalScreen}
+                                onClick={this.onSkipAll}
                             >
                                 <FormattedMessage
                                     id='next_steps_view.skipGettingStarted'
@@ -305,15 +326,21 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 id='app-content'
                 className='app__content NextStepsView'
             >
-                <OnboardingBgSvg/>
-                {this.renderMainBody()}
-                {this.renderTransitionScreen()}
-                <NextStepsTips
-                    showFinalScreen={this.state.showFinalScreen}
-                    animating={this.state.animating}
-                    stopAnimating={this.stopAnimating}
-                    isAdmin={this.props.isAdmin}
-                />
+                {this.state.show &&
+                <>
+                    <OnboardingBgSvg/>
+                    {this.renderMainBody()}
+                    {this.renderTransitionScreen()}
+                    <NextStepsTips
+                        showFinalScreen={this.state.showFinalScreen}
+                        animating={this.state.animating}
+                        stopAnimating={this.stopAnimating}
+                        isFirstAdmin={this.props.isFirstAdmin}
+                        savePreferences={this.props.actions.savePreferences}
+                        currentUserId={this.props.currentUser.id}
+                        setShowNextStepsView={this.props.actions.setShowNextStepsView}
+                    />
+                </>}
             </section>
         );
     }

@@ -173,7 +173,6 @@ export default class QuickSwitchModal extends React.PureComponent {
 
     render() {
         let providers = this.channelProviders;
-        let renderDividers = true;
 
         let header = (
             <h1>
@@ -203,7 +202,6 @@ export default class QuickSwitchModal extends React.PureComponent {
             let teamsActiveClass = '';
             if (this.state.mode === TEAM_MODE) {
                 providers = this.teamProviders;
-                renderDividers = false;
                 teamsActiveClass = 'active';
             } else {
                 channelsActiveClass = 'active';
@@ -270,7 +268,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             help = (
                 <FormattedMarkdownMessage
                     id='quick_switch_modal.help_no_team'
-                    defaultMessage='Type to find a channel. Use **▲/▼** to browse, **ENTER** to select, **ESC** to dismiss.'
+                    defaultMessage='Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.'
                 />
             );
         }
@@ -285,6 +283,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 restoreFocus={false}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
+                aria-describedby='quickSwitchHint'
                 animation={false}
             >
                 <Modal.Header
@@ -317,7 +316,6 @@ export default class QuickSwitchModal extends React.PureComponent {
                             listStyle='bottom'
                             completeOnTab={false}
                             spellCheck='false'
-                            renderDividers={renderDividers}
                             delayInputUpdate={true}
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}

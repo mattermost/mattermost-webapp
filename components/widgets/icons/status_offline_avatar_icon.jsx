@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function StatusDndAvatarIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -18,7 +16,7 @@ export default function StatusDndAvatarIcon(props) {
                 viewBox='-299 391 12 12'
                 style={style}
                 role='img'
-                aria-label={formatMessage({id: t('mobile.set_status.offline.icon'), defaultMessage: 'Offline Icon'})}
+                aria-label={formatMessage({id: 'mobile.set_status.offline.icon', defaultMessage: 'Offline Icon'})}
             >
                 <g>
                     <g>

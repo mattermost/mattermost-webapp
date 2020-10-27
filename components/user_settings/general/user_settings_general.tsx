@@ -8,7 +8,7 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -1223,7 +1223,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             let helpText = null;
             let imgSrc = null;
 
-            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPictureAttributeSet)) {
+            if ((this.props.user.auth_service === Constants.LDAP_SERVICE || this.props.user.auth_service === Constants.SAML_SERVICE) && this.props.ldapPictureAttributeSet) {
                 helpText = (
                     <span>
                         <FormattedMessage

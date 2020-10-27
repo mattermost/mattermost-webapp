@@ -11,7 +11,7 @@
 
 import {beRead, beUnread} from '../../support/assertions';
 
-import {markAsUnreadByPostIdFromMenu, verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
+import {verifyPostNextToNewMessageSeparator, switchToChannel} from './helpers';
 
 describe('channel unread posts', () => {
     let testUser;
@@ -29,8 +29,8 @@ describe('channel unread posts', () => {
             channelA = channel;
 
             // # Create second channel and add testUser
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((resp) => {
-                channelB = resp.body;
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
+                channelB = out.channel;
                 cy.apiAddUserToChannel(channelB.id, testUser.id);
             });
 
@@ -65,7 +65,7 @@ describe('channel unread posts', () => {
 
         // # Mark the last post as unread
         cy.getLastPostId().then((postId) => {
-            markAsUnreadByPostIdFromMenu(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
         // * Verify the notification separator line exists and present before the unread message
@@ -109,7 +109,8 @@ describe('channel unread posts', () => {
 
         // # Mark the post which is one page above from bottom as unread
         cy.getNthPostId(6).then((postId) => {
-            markAsUnreadByPostIdFromMenu(postId);
+            cy.get(`#post_${postId}`).scrollIntoView().should('be.visible');
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
         // * Verify the notification separator line exists and present before the unread message
@@ -134,7 +135,7 @@ describe('channel unread posts', () => {
 
         // # Mark the last post as unread
         cy.getLastPostId().then((postId) => {
-            markAsUnreadByPostIdFromMenu(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
         // * Verify the notification separator line exists and present before the unread message
