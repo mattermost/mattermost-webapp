@@ -3,25 +3,25 @@
 
 import $ from 'jquery';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-import {Client4} from 'mattermost-redux/client';
-import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import { Client4 } from 'mattermost-redux/client';
+import { Posts } from 'mattermost-redux/constants';
+import { getChannel, getRedirectChannelNameForTeam } from 'mattermost-redux/selectors/entities/channels';
+import { getConfig } from 'mattermost-redux/selectors/entities/general';
+import { getTeammateNameDisplaySetting, getBool } from 'mattermost-redux/selectors/entities/preferences';
+import { getCurrentUserId, getUser } from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
 } from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import { displayUsername } from 'mattermost-redux/utils/user_utils';
+import { getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam } from 'mattermost-redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
-import {browserHistory} from 'utils/browser_history';
-import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import { browserHistory } from 'utils/browser_history';
+import { searchForTerm } from 'actions/post_actions';
+import Constants, { FileTypes, UserStatuses } from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
@@ -30,9 +30,9 @@ import down from 'sounds/down.mp3';
 import hello from 'sounds/hello.mp3';
 import ripple from 'sounds/ripple.mp3';
 import upstairs from 'sounds/upstairs.mp3';
-import {t} from 'utils/i18n';
+import { t } from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
-import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import { getCurrentLocale, getTranslations } from 'selectors/i18n';
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -107,7 +107,7 @@ export function isUnhandledLineBreakKeyCombo(e) {
  */
 export function insertLineBreakFromKeyEvent(e) {
     const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
+    const { selectionEnd, selectionStart, value } = el;
 
     // replace text selection (or insert if no selection) with new line character
     const newValue = `${value.substr(0, selectionStart)}\n${value.substr(selectionEnd, value.length)}`;
@@ -324,25 +324,25 @@ export function areObjectsEqual(x, y) {
         }
 
         switch (typeof (x[p])) {
-        case 'object':
-        case 'function':
+            case 'object':
+            case 'function':
 
-            leftChain.push(x);
-            rightChain.push(y);
+                leftChain.push(x);
+                rightChain.push(y);
 
-            if (!areObjectsEqual(x[p], y[p])) {
-                return false;
-            }
+                if (!areObjectsEqual(x[p], y[p])) {
+                    return false;
+                }
 
-            leftChain.pop();
-            rightChain.pop();
-            break;
+                leftChain.pop();
+                rightChain.pop();
+                break;
 
-        default:
-            if (x[p] !== y[p]) {
-                return false;
-            }
-            break;
+            default:
+                if (x[p] !== y[p]) {
+                    return false;
+                }
+                break;
         }
     }
 
@@ -582,18 +582,18 @@ export function applyTheme(theme) {
         dndIndicator = theme.dndIndicator;
     } else {
         switch (theme.type) {
-        case 'Organization':
-            dndIndicator = Constants.THEMES.organization.dndIndicator;
-            break;
-        case 'Mattermost Dark':
-            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
-            break;
-        case 'Windows Dark':
-            dndIndicator = Constants.THEMES.windows10.dndIndicator;
-            break;
-        default:
-            dndIndicator = Constants.THEMES.default.dndIndicator;
-            break;
+            case 'Organization':
+                dndIndicator = Constants.THEMES.organization.dndIndicator;
+                break;
+            case 'Mattermost Dark':
+                dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
+                break;
+            case 'Windows Dark':
+                dndIndicator = Constants.THEMES.windows10.dndIndicator;
+                break;
+            default:
+                dndIndicator = Constants.THEMES.default.dndIndicator;
+                break;
         }
     }
     changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
@@ -1400,13 +1400,25 @@ export function imageURLForTeam(team) {
 export function fileSizeToString(bytes) {
     // it's unlikely that we'll have files bigger than this
     if (bytes > 1024 * 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024 * 1024)) + 'TB';
+        if (bytes > 1024 * 1024 * 1024 * 1024 * 10) {
+            return Math.round(bytes / (1024 * 1024 * 1024 * 1024)) + 'TB';
+        } else {
+            return Math.round((bytes / (1024 * 1024 * 1024 * 1024)) * 10) / 10 + 'TB';
+        }
     } else if (bytes > 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024)) + 'GB';
+        if (bytes > 1024 * 1024 * 1024 * 10) {
+            return Math.round(bytes / (1024 * 1024 * 1024)) + 'GB';
+        } else {
+            return Math.round((bytes / (1024 * 1024 * 1024)) * 10) / 10 + 'GB';
+        }
     } else if (bytes > 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024)) + 'MB';
+        if (bytes > 1024 * 1024 * 10) {
+            return Math.round(bytes / (1024 * 1024)) + 'MB';
+        } else {
+            return Math.round((bytes / (1024 * 1024)) * 10) / 10 + 'MB';
+        }
     } else if (bytes > 1024) {
-        return Math.floor(bytes / 1024) + 'KB';
+        return Math.round(bytes / 1024) + 'KB';
     }
 
     return bytes + 'B';
@@ -1620,7 +1632,7 @@ export function isValidPassword(password, passwordConfig) {
         );
     }
 
-    return {valid, error};
+    return { valid, error };
 }
 
 export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
@@ -1813,7 +1825,7 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
         users.unshift(Utils.localizeMessage('reaction.you', 'You'));
     }
 
-    return {currentUserReacted, users};
+    return { currentUserReacted, users };
 }
 
 const BOLD_MD = '**';
@@ -1827,7 +1839,7 @@ export function applyHotkeyMarkdown(e) {
     e.preventDefault();
 
     const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
+    const { selectionEnd, selectionStart, value } = el;
 
     // <prefix> <selection> <suffix>
     const prefix = value.substring(0, selectionStart);
@@ -1876,7 +1888,7 @@ export function applyHotkeyMarkdown(e) {
  */
 export function adjustSelection(inputBox, e) {
     const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
+    const { selectionEnd, selectionStart, value } = el;
 
     if (selectionStart === selectionEnd) {
         // nothing selected.
