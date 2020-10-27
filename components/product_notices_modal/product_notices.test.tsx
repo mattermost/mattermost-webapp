@@ -4,9 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+
 import GenericModal from 'components/generic_modal';
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import ProductNoticesModal from './product_notices_modal';
 
