@@ -181,6 +181,8 @@ export default class RhsThread extends React.Component<Props, State> {
             const postRepliesArray = Array.from(postReplies);
             return ((postRepliesArray[postRepliesArray.length - 1] as HTMLElement).offsetTop + offset) + rhsPostListRect.top === rhsPostListRect.bottom;
         }
+
+        return false;
     }
 
     private handleCardClick = (post: Post) => {
