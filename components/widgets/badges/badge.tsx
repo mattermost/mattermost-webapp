@@ -25,7 +25,7 @@ const Badge = ({
         <div className='Badge'>
             <div
                 {...attrs}
-                aria-role={attrs.onClick ? 'button' : undefined}
+                role={attrs.onClick ? 'button' : undefined}
                 className={'Badge__box ' + className}
             >
                 {children}
