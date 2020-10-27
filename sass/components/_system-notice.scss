@@ -11,11 +11,6 @@
     right: 12px;
     width: 280px;
     z-index: 9999;
-
-    .shadow--2 {
-        -moz-box-shadow: 0 20px 30px 0 rgba(var(--center-channel-color-rgb), 0.1), 0 14px 20px 0 rgba(var(--center-channel-color-rgb), 0.1);
-        -webkit-box-shadow: 0 20px 30px 0 rgba(var(--center-channel-color-rgb), 0.1), 0 14px 20px 0 rgba(var(--center-channel-color-rgb), 0.1);
-    }
 }
 
 .system-notice__header {
