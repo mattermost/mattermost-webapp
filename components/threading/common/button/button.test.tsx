@@ -50,6 +50,18 @@ describe('components/threading/common/button', () => {
         expect(wrapper.exists('.Button_prepended ReplyIcon')).toBe(true);
     });
 
+    test('should support appended content', () => {
+        const wrapper = shallow<typeof Button>(
+            <Button
+                append={<ReplyIcon className='Icon'/>}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+
+        expect(wrapper.exists('.Button_appended ReplyIcon')).toBe(true);
+    });
+
     test('should support children', () => {
         const wrapper = shallow<typeof Button>(
             <Button>
