@@ -13,7 +13,7 @@ import {getRandomId} from '../../utils';
 
 describe('Integrations', () => {
     let teamName;
-
+    
     before(() => {
         // # Setup with the new team and channel
         cy.apiInitSetup().then(({team, channel}) => {
@@ -38,7 +38,7 @@ describe('Integrations', () => {
                     callback_urls: ['https://mattermost.com'],
                 };
                 cy.apiCreateWebhook(newOutgoingHook, false);
-            });
+            })
 
             // # Setup 2 Slash Commands
             Cypress._.times(2, (i) => {
@@ -65,6 +65,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T571 Integration search gives feed back when there are no results', () => {
+
         // # Shrink the page, set up constants
         cy.viewport('ipad-2');
         const results = 'Test';
