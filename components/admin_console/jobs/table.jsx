@@ -368,6 +368,7 @@ class JobTable extends React.PureComponent {
                 <div className='job-table__create-button'>
                     <div>
                         <button
+                            type='button'
                             className='btn btn-default'
                             onClick={this.handleCreateJob}
                             disabled={this.props.disabled}

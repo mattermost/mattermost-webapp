@@ -1073,7 +1073,7 @@ class CreatePost extends React.PureComponent {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
         if (this.textboxRef.current) {
-            this.textboxRef.currrent.blur();
+            this.textboxRef.current.blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }

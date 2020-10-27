@@ -546,7 +546,7 @@ function debouncePostEvent(wait) {
     };
 
     return function fx(msg) {
-        if (timeout && count > 2) {
+        if (timeout && count > 4) {
             // If the timeout is going this is the second or further event so queue them up.
             if (queue.push(msg) > 200) {
                 // Don't run us out of memory, give up if the queue gets insane
@@ -594,6 +594,7 @@ export function handleNewPostEvent(msg) {
 
 export function handleNewPostEvents(queue) {
     return (myDispatch, myGetState) => {
+        // Note that this method doesn't properly update the sidebar state for these posts
         const posts = queue.map((msg) => JSON.parse(msg.data.post));
 
         // Receive the posts as one continuous block since they were received within a short period
