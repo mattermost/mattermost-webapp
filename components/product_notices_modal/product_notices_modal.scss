@@ -64,16 +64,46 @@
     }
     .GenericModal__button {
         padding: 10px 16px;
+        border: none;
         span {
             font-size: 12px;
             line-height: 9px;
         }
+        &.confirm {
+            background: var(--button-bg);
+            color: var(--button-color);
+
+            &:hover:not(.disabled) {
+                background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.16), rgba(var(--center-channel-color-rgb), 0.16)), var(--button-bg);
+            }
+
+            &:active {
+                background: linear-gradient(0deg, rgba(var(--center-channel-color-rgb), 0.32), rgba(var(--center-channel-color-rgb), 0.32)), var(--button-bg);
+            }
+
+            &:focus {
+                box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+            }
+        }
         &.actionButton {
-            border-width: 2px;
-            border-color: rgb(35, 137, 215);
-            border: 1px solid var(--sys-button-bg);
+            box-shadow: inset 0 0 0 1px var(--button-bg);
             border-radius: 4px;
             display: inline-block;
+            color: var(--button-bg);
+            background: var(--center-channel-bg);
+
+            &:hover {
+                background: rgba(var(--button-bg-rgb), 0.04);
+                text-decoration: none;
+            }
+
+            &:active {
+                background: rgba(var(--button-bg-rgb), 0.08);
+            }
+
+            &:focus {
+                box-shadow: inset 0 0 0 2px var(--button-bg);
+            }
         }
     }
 
