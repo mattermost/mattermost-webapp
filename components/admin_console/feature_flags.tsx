@@ -4,14 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {AdminConfig} from 'mattermost-redux/types/config';
+
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 type Props = {
-    config: Record<string, unknown>;
+    config: AdminConfig;
 };
 
 const FeatureFlags: React.FC<Props> = (props: Props) => {
-    const flags = props.config.FeatureFlags as Record<string, string>;
+    const flags = props.config.FeatureFlags;
     let settings = null;
     if (flags) {
         settings = Object.keys(flags).map((ffKey) => (
@@ -35,7 +37,7 @@ const FeatureFlags: React.FC<Props> = (props: Props) => {
                         <div className='banner__content'>
                             <FormattedMessage
                                 id='admin.feature_flags.introBanner'
-                                defaultMessage={'Feature flag values displayed here show the status of features enabled on this server. The values here are only for use debugging by the Mattermost support team.'}
+                                defaultMessage={'Feature flag values displayed here show the status of features enabled on this server. The values here are used only for troubleshooting by the Mattermost support team.'}
                             />
                         </div>
                     </div>
