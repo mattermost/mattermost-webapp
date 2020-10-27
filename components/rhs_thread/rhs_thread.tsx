@@ -173,12 +173,14 @@ export default class RhsThread extends React.Component<Props, State> {
     }
 
     private userIsAtLastPost = () => {
-        const postReplies = (this.rhspostlistRef.current as HTMLElement).childNodes;
-        const rhsPostListRect = (this.rhspostlistRef.current as HTMLElement).getBoundingClientRect();
+        const postReplies = (this.rhspostlistRef.current as HTMLElement)?.childNodes;
+        const rhsPostListRect = (this.rhspostlistRef.current as HTMLElement)?.getBoundingClientRect();
         const offset = 24;
-        const postRepliesArray = [...postReplies];
 
-        return ((postRepliesArray[postRepliesArray.length - 1] as HTMLElement).offsetTop + offset) + rhsPostListRect.top === rhsPostListRect.bottom;
+        if (postReplies) {
+            const postRepliesArray = Array.from(postReplies);
+            return ((postRepliesArray[postRepliesArray.length - 1] as HTMLElement).offsetTop + offset) + rhsPostListRect.top === rhsPostListRect.bottom;
+        }
     }
 
     private handleCardClick = (post: Post) => {
