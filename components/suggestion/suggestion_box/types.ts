@@ -18,7 +18,7 @@ export interface ISuggestionBoxProps{
     /**
      * The input component to render (it is passed through props to the QuickInput)
      */
-    inputComponent: any;
+    inputComponent?: any;
 
     /**
      * The value of in the input
@@ -119,7 +119,7 @@ export interface ISuggestionBoxProps{
     /**
      * Function called when input box loses focus
      */
-    onBlur?: (e: React.FocusEvent) => void ;
+    onBlur?: (e?: React.FocusEvent) => void;
 
     /**
      * Function called when input box value changes

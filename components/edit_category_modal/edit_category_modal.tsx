@@ -128,15 +128,17 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 id='editCategoryModal'
             >
                 <QuickInput
-                    autoFocus={true}
-                    className='form-control filter-textbox'
-                    type='text'
+                    {...{
+                        autoFocus: 'true',
+                        className: 'form-control filter-textbox',
+                        type: 'text',
+                        placeholder: localizeMessage('edit_category_modal.placeholder', 'Name your category'),
+                        maxLength: 22,
+                    }}
                     value={this.state.categoryName}
-                    placeholder={localizeMessage('edit_category_modal.placeholder', 'Name your category')}
                     clearable={true}
                     onClear={this.handleClear}
                     onChange={this.handleChange}
-                    maxLength={22}
                 />
                 {Boolean(helpText) && <span className='edit-category__helpText'>
                     {helpText}

@@ -33,7 +33,7 @@ type Props = {
     onSelect?: (e: React.SyntheticEvent) => void;
     onMouseUp?: (e: MouseEvent) => void;
     onKeyUp?: (e: KeyboardEvent) => void;
-    onBlur?: (e: FocusEvent) => void;
+    onBlur?: (e?: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     suggestionListStyle?: string;
@@ -174,7 +174,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onKeyUp?.(e);
     }
 
-    handleBlur = (e: FocusEvent) => {
+    handleBlur = (e?: FocusEvent) => {
         this.props.onBlur?.(e);
     }
 

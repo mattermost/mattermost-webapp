@@ -201,13 +201,15 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                 </label>
                 <div className='pt-2'>
                     <SuggestionBox
-                        className='form-control focused'
-                        type='search'
+                        {...{
+                            className: 'form-control focused',
+                            type: 'search',
+                            maxLength: '64',
+                        }}
                         onChange={this.onChange}
                         value={this.state.manualTimezoneInput}
                         onItemSelected={this.handleTimezoneSelected}
                         listComponent={SuggestionList}
-                        maxLength='64'
                         requiredCharacters={0}
                         providers={providers}
                         listStyle='bottom'
