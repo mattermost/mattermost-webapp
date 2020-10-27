@@ -1902,7 +1902,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} hat den Kanal von öffentlich zu privat umgewandelt",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} hat den Kanalanzeigenamen aktualisiert von: {old} auf: {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} hat die Kanalüberschrift entfernt (war: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} hat die Kanalüberschrift aktualisiert von: {old} auf: {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} hat die Kanalüberschrift aktualisiert <br></br><strong>von:</strong> {old} <br></br><strong>auf:</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} hat die Kanalüberschrift geändert zu: {new}",
   "api.channel.remove_member.removed": "{removedUsername} wurde aus dem Kanal entfernt",
   "api.channel.restore_channel.unarchived": "{username} hat den Kanal wiederhergestellt.",

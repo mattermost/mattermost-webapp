@@ -49,7 +49,10 @@ export default class SidebarHeader extends React.PureComponent<Props> {
                         </div>
                         <div className='user__name overflow--ellipsis whitespace--nowrap'>{'@' + me.username}</div>
                     </div>
-                    <button className='style--none'>
+                    <button
+                        type='button'
+                        className='style--none'
+                    >
                         <MenuIcon className='menu-icon'/>
                     </button>
                 </div>
