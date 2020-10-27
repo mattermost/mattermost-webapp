@@ -180,6 +180,12 @@
     .disabled {
         color: #999999;
     }
+
+    .pinned-posts-button {
+        svg {
+            fill: rgba(var(--center-channel-color), 0.6);
+        }
+    }
 }
 
 .row {
