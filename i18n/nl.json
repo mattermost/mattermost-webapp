@@ -2014,7 +2014,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} converteerde het kanaal van openbaar naar privé",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} heeft de weergavenaam van het kanaal bijgewerkt van: {old} naar: {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username}heeft de hoofding verwijderd (was: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} heeft de kanaalhoofding bijgewerkt van: {old} naar: {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} heeft de kanaalhoofding bijgewerkt <br></br><strong>van:</strong> {old} <br></br><strong>naar:</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} heeft de kanaalhoofding bijgewerkt naar: {new}",
   "api.channel.remove_member.removed": "{removedUsername} is verwijderd uit het kanaal",
   "api.channel.restore_channel.unarchived": "{username} archiveerde het kanaal.",

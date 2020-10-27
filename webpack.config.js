@@ -290,6 +290,7 @@ var config = {
                 {from: 'images/warning.png', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
+                {from: 'images/cloud', to: 'images'},
             ],
         }),
 

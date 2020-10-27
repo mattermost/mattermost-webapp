@@ -1977,7 +1977,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} herkese açık kanalı özel kanala dönüştürdü",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username}, {old} eski kanal adını {new} olarak değiştirdi",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} kanal başlığını kaldırdı (önceki: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username}, {old} eski kanal başlığını {new} olarak değiştirdi",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username}, {old} <strong>eski kanal başlığını</strong> <br></br>{new} <strong>olarak değiştirdi</strong>",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} kanal başlığını {new} olarak güncelledi",
   "api.channel.remove_member.removed": "{removedUsername} kanaldan çıkarıldı",
   "api.channel.restore_channel.unarchived": "{username} kanalı arşivden çıkardı.",
