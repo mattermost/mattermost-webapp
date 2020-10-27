@@ -37,9 +37,7 @@ const ThreadList = ({
                 <Button
                     className={'Button___large Margined'}
                     isActive={currentFilter === ''}
-                    onClick={useCallback(() => {
-                        setFilter('');
-                    }, [])}
+                    onClick={useCallback(() => setFilter(''), [setFilter])}
                 >
                     <FormattedMessage
                         id='threading.filters.allThreads'
@@ -50,9 +48,7 @@ const ThreadList = ({
                     className={'Button___large Margined'}
                     isActive={currentFilter === 'unread'}
                     hasDot={someUnread}
-                    onClick={useCallback(() => {
-                        setFilter('unread');
-                    }, [])}
+                    onClick={useCallback(() => setFilter('unread'), [setFilter])}
                 >
                     <FormattedMessage
                         id='threading.filters.unreads'
@@ -70,7 +66,7 @@ const ThreadList = ({
                     >
                         <Button
                             className={'Button___large Button___icon'}
-                            onClick={markAllRead}
+                            onClick={useCallback(markAllRead, [markAllRead])}
                         >
                             <span className='Icon'>
                                 <i className='icon-playlist-check'/>
