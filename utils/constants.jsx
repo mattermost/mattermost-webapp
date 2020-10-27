@@ -381,6 +381,8 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
     SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
+    USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
+    CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
 };
 
 export const TutorialSteps = {
@@ -748,6 +750,7 @@ export const PermissionsScope = {
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
+    [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -861,6 +864,13 @@ export const exportFormats = {
     EXPORT_FORMAT_CSV: 'csv',
     EXPORT_FORMAT_ACTIANCE: 'actiance',
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
+};
+
+export const ZoomSettings = {
+    DEFAULT_SCALE: 1,
+    SCALE_DELTA: 0.25,
+    MIN_SCALE: 0.25,
+    MAX_SCALE: 3.0,
 };
 
 export const Constants = {

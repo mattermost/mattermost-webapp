@@ -261,6 +261,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       className="checkbox checked"
       data-testid="create_post-guests"
       onClick={[Function]}
+      type="button"
     >
       <CheckboxCheckedIcon />
     </button>
@@ -270,6 +271,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       className="checkbox checked"
       data-testid="create_post-members"
       onClick={[Function]}
+      type="button"
     >
       <CheckboxCheckedIcon />
     </button>
@@ -303,6 +305,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
       className="checkbox checked"
       data-testid="create_post-members"
       onClick={[Function]}
+      type="button"
     >
       <CheckboxCheckedIcon />
     </button>

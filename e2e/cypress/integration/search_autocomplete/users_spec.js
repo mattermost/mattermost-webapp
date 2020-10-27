@@ -18,8 +18,8 @@ describe('Autocomplete without Elasticsearch - Users', () => {
     let testTeam;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
-        cy.apiRequireLicenseForFeature('Elasticsearch');
+        // # Remove license
+        cy.apiDeleteLicense();
 
         // # Create new team for tests
         cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then(({team}) => {

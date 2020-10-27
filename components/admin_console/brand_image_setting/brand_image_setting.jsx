@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -55,6 +54,9 @@ export default class BrandImageSetting extends React.PureComponent {
             brandImageTimestamp: Date.now(),
             error: '',
         };
+
+        this.imageRef = React.createRef();
+        this.fileInputRef = React.createRef();
     }
 
     componentDidMount() {
@@ -76,10 +78,10 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     componentDidUpdate() {
-        if (this.refs.image) {
+        if (this.imageRef.current) {
             const reader = new FileReader();
 
-            const img = this.refs.image;
+            const img = this.imageRef.current;
             reader.onload = (e) => {
                 $(img).attr('src', e.target.result); // eslint-disable-line jquery/no-attr
             };
@@ -89,7 +91,7 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     handleImageChange = () => {
-        const element = $(this.refs.fileInput);
+        const element = $(this.fileInputRef.current);
         if (element.prop('files').length > 0) {
             this.props.setSaveNeeded();
             this.setState({
@@ -158,7 +160,7 @@ export default class BrandImageSetting extends React.PureComponent {
             img = (
                 <div className='remove-image__img mb-5'>
                     <img
-                        ref='image'
+                        ref={this.imageRef}
                         alt='brand image'
                         src=''
                     />
@@ -183,6 +185,7 @@ export default class BrandImageSetting extends React.PureComponent {
                         )}
                     >
                         <button
+                            type='button'
                             className='remove-image__btn'
                             onClick={this.handleDeleteButtonPressed}
                         >
@@ -231,6 +234,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 <div className='col-sm-8'>
                     <div className='file__upload mt-5'>
                         <button
+                            type='button'
                             className={letbtnDefaultClass}
                             disabled={this.props.disabled}
                         >
@@ -240,7 +244,7 @@ export default class BrandImageSetting extends React.PureComponent {
                             />
                         </button>
                         <input
-                            ref='fileInput'
+                            ref={this.fileInputRef}
                             type='file'
                             accept='.jpg,.png,.bmp'
                             disabled={this.props.disabled}
@@ -260,4 +264,3 @@ export default class BrandImageSetting extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
