@@ -3,10 +3,7 @@
 
 import React from 'react';
 
-import {ShallowWrapper} from 'enzyme';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
 import Constants from 'utils/constants';
 import LocalStorageStore from 'stores/local_storage_store';
 import LoginController from 'components/login/login_controller/login_controller';
@@ -15,6 +12,9 @@ describe('components/login/LoginController', () => {
     const baseProps = {
         location: {
             search: '',
+            pathname: '/',
+            state: '',
+            hash: '',
         },
         isLicensed: false,
         customBrandText: '',
@@ -42,7 +42,7 @@ describe('components/login/LoginController', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <LoginController {...baseProps}/>,
         );
 
@@ -53,7 +53,7 @@ describe('components/login/LoginController', () => {
         const props = {
             ...baseProps,
         };
-        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <LoginController {...props}/>,
         );
         wrapper.setState({sessionExpired: true});
@@ -66,7 +66,7 @@ describe('components/login/LoginController', () => {
             ...baseProps,
             initializing: true,
         };
-        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
@@ -80,7 +80,7 @@ describe('components/login/LoginController', () => {
         };
 
         LocalStorageStore.setWasLoggedIn(true);
-        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
@@ -93,11 +93,14 @@ describe('components/login/LoginController', () => {
             initializing: false,
             location: {
                 search: '?extra=' + Constants.SIGNIN_CHANGE,
+                pathname: '/',
+                state: '',
+                hash: '',
             },
         };
 
         LocalStorageStore.setWasLoggedIn(true);
-        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
@@ -110,10 +113,13 @@ describe('components/login/LoginController', () => {
             initializing: false,
             location: {
                 search: '?extra=' + Constants.SIGNIN_CHANGE,
+                pathname: '/',
+                state: '',
+                hash: '',
             },
         };
 
-        const wrapper: ShallowWrapper<any, any, LoginController> = shallowWithIntl(
+        const wrapper = shallowWithIntl(
             <LoginController {...props}/>,
         );
 
