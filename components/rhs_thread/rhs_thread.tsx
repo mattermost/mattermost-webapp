@@ -128,7 +128,7 @@ export default class RhsThread extends React.Component<Props, State> {
 
         const curLastPost = curPostsArray[0];
 
-        if (curLastPost.user_id === this.props.currentUserId) {
+        if (this.userIsAtLastPost() || curLastPost.user_id === this.props.currentUserId) {
             this.scrollToBottom();
         }
     }
@@ -170,6 +170,15 @@ export default class RhsThread extends React.Component<Props, State> {
         if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
+    }
+
+    private userIsAtLastPost = () => {
+        const postReplies = (this.rhspostlistRef.current as HTMLElement).childNodes;
+        const rhsPostListRect = (this.rhspostlistRef.current as HTMLElement).getBoundingClientRect();
+        const offset = 24;
+        const postRepliesArray = [...postReplies];
+
+        return ((postRepliesArray[postRepliesArray.length - 1] as HTMLElement).offsetTop + offset) + rhsPostListRect.top === rhsPostListRect.bottom;
     }
 
     private handleCardClick = (post: Post) => {
