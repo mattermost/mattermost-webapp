@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import GenericModal from 'components/generic_modal';
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
@@ -12,8 +12,8 @@ import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 import ProductNoticesModal from './product_notices_modal';
 
 jest.mock('utils/user_agent');
-jest.mock('actions/diagnostics_actions.jsx', () => {
-    const original = jest.requireActual('actions/diagnostics_actions.jsx');
+jest.mock('actions/telemetry_actions.jsx', () => {
+    const original = jest.requireActual('actions/telemetry_actions.jsx');
     return {
         ...original,
         trackEvent: jest.fn(),
