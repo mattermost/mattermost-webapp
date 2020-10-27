@@ -809,6 +809,11 @@
             }
         }
     }
+		.channel-header__info {
+			.header-dropdown__icon {
+				color: rgba(var(--center-channel-color-rgb),0.8)
+			}
+		}
 
 }
 
