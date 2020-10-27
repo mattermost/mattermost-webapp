@@ -203,7 +203,7 @@ exports[`components/MoreDirectChannels should match renderOptionValue snapshot 1
             <span
               className="light"
             >
-              
+
             </span>
           </span>
           <BotBadge
