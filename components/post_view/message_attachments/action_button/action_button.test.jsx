@@ -37,7 +37,6 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('backgroundColor', '#ffffff');
         expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.default.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
         expect(buttonStyles).toHaveProperty('color', Constants.THEMES.default.onlineIndicator);
@@ -53,7 +52,6 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('backgroundColor', '#ffffff');
         expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.mattermostDark.errorTextColor, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
         expect(buttonStyles).toHaveProperty('color', Constants.THEMES.mattermostDark.errorTextColor);
@@ -68,7 +66,6 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('backgroundColor', '#ffffff');
         expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(Constants.THEMES.default.onlineIndicator, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
         expect(buttonStyles).toHaveProperty('color', Constants.THEMES.default.onlineIndicator);
@@ -83,7 +80,6 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         const wrapper = shallow(<ActionButton {...props}/>);
         const buttonStyles = wrapper.find('button').prop('style');
 
-        expect(buttonStyles).toHaveProperty('backgroundColor', '#ffffff');
         expect(buttonStyles).toHaveProperty('borderColor', changeOpacity(props.action.style, 0.25));
         expect(buttonStyles).toHaveProperty('borderWidth', 2);
         expect(buttonStyles).toHaveProperty('color', props.action.style);
