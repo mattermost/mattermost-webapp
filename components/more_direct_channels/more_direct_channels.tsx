@@ -39,14 +39,14 @@ export const TIME_SPEC: ComponentProps<typeof Timestamp> = {
     ],
 };
 
-type GroupChannel = Channel & {profiles: UserProfile[]};
+export type GroupChannel = Channel & {profiles: UserProfile[]};
 
 function isGroupChannel(option: UserProfile | GroupChannel): option is GroupChannel {
     return (option as GroupChannel)?.type === 'G';
 }
 
-type Option = (UserProfile | GroupChannel) & {last_post_at?: number};
-type OptionValue = Option & Value;
+export type Option = (UserProfile | GroupChannel) & {last_post_at?: number};
+export type OptionValue = Option & Value;
 
 function optionValue(option: Option): OptionValue {
     return {

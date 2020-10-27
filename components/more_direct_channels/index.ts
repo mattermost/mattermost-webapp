@@ -45,7 +45,7 @@ import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';
 
-import MoreDirectChannels from './more_direct_channels';
+import MoreDirectChannels, {GroupChannel} from './more_direct_channels';
 
 type OwnProps = {
     isExistingChannel: boolean;
@@ -117,7 +117,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     };
 }
 
-const filterGroupChannels = memoizeResult((channels: Props['groupChannels'], term: string) => {
+const filterGroupChannels = memoizeResult((channels: GroupChannel[], term: string) => {
     return channels.filter((channel) => {
         const matches = filterProfilesMatchingTerm(channel.profiles, term);
         return matches.length > 0;
