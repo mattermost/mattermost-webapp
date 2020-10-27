@@ -5,7 +5,6 @@
 import $ from 'jquery';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
@@ -75,6 +74,7 @@ type State = {
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
+    private rhspostlistRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -98,6 +98,8 @@ export default class RhsThread extends React.Component<Props, State> {
             topRhsPostId: '',
             openTime,
         };
+
+        this.rhspostlistRef = React.createRef();
     }
 
     public componentDidMount() {
@@ -220,8 +222,8 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         if (this.props.posts) {
-            const childNodes = (this.refs.rhspostlist as HTMLElement).childNodes;
-            const viewPort = (this.refs.rhspostlist as HTMLElement).getBoundingClientRect();
+            const childNodes = (this.rhspostlistRef.current as HTMLElement).childNodes;
+            const viewPort = (this.rhspostlistRef.current as HTMLElement).getBoundingClientRect();
             let topRhsPostId = '';
             const offset = 100;
 
@@ -386,10 +388,6 @@ export default class RhsThread extends React.Component<Props, State> {
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
-                    autoHeight={true}
-
-                    // Calculates viewport size minus header, comment box and button
-                    autoHeightMax={'calc(100vh - 190px - 56px - 62px)'}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
                     renderView={renderView}
@@ -420,16 +418,16 @@ export default class RhsThread extends React.Component<Props, State> {
                             />
                             {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div
-                                ref='rhspostlist'
+                                ref={this.rhspostlistRef}
                                 className='post-right-comments-container'
                                 id='rhsPostList'
                             >
                                 {commentsLists}
                             </div>
                         </div>
+                        {createComment}
                     </div>
                 </Scrollbars>
-                {createComment}
             </div>
         );
     }

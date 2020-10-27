@@ -128,6 +128,28 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
     });
 
+    test('should provide correct value for ignoreChannelMentions when channel is muted', () => {
+        const currentUser = {
+            id: 'current_user_id',
+            notify_props: {
+                desktop: NotificationLevels.ALL,
+                channel: 'true',
+            },
+        };
+        const channelMember = {
+            notify_props: {
+                mark_unread: NotificationLevels.MENTION,
+                ignore_channel_mentions: IgnoreChannelMentions.DEFAULT,
+            },
+        };
+        const props = {...baseProps, channelMember, currentUser};
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...props}/>,
+        );
+
+        expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
+    });
+
     test('should call onHide and match state on handleOnHide', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
