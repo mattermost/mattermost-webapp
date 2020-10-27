@@ -19,7 +19,8 @@ import {
     getCurrentUserId,
     getProfiles as selectProfiles,
     getProfilesInCurrentChannel,
-    getProfilesInCurrentTeam, searchProfiles as searchProfilesSelector,
+    getProfilesInCurrentTeam,
+    makeSearchProfilesStartingWithTerm,
     searchProfilesInCurrentTeam,
     getTotalUsersStats as getTotalUsersStatsSelector,
     getUser,
@@ -32,7 +33,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {sortByUsername, filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
@@ -53,73 +54,77 @@ type OwnProps = {
 
 type Props = ComponentProps<typeof MoreDirectChannels>;
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const currentUserId = getCurrentUserId(state);
-    let currentChannelMembers: UserProfile[] = [];
-    if (ownProps.isExistingChannel) {
-        currentChannelMembers = getProfilesInCurrentChannel(state);
-    }
+const makeMapStateToProps = () => {
+    const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();
 
-    const config = getConfig(state);
-    const restrictDirectMessage = config.RestrictDirectMessage;
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const currentUserId = getCurrentUserId(state);
+        let currentChannelMembers: UserProfile[] = [];
+        if (ownProps.isExistingChannel) {
+            currentChannelMembers = getProfilesInCurrentChannel(state);
+        }
 
-    const searchTerm = state.views.search.modalSearch;
+        const config = getConfig(state);
+        const restrictDirectMessage = config.RestrictDirectMessage;
 
-    let users: UserProfile[];
-    if (searchTerm) {
-        if (restrictDirectMessage === 'any') {
-            users = searchProfilesSelector(state, searchTerm, false);
+        const searchTerm = state.views.search.modalSearch;
+
+        let users: UserProfile[];
+        if (searchTerm) {
+            if (restrictDirectMessage === 'any') {
+                users = searchProfilesStartingWithTerm(state, searchTerm, false);
+            } else {
+                users = searchProfilesInCurrentTeam(state, searchTerm, false);
+            }
+        } else if (restrictDirectMessage === 'any') {
+            users = selectProfiles(state, {});
         } else {
-            users = searchProfilesInCurrentTeam(state, searchTerm, false);
+            users = getProfilesInCurrentTeam(state);
         }
-    } else if (restrictDirectMessage === 'any') {
-        users = selectProfiles(state, {});
-    } else {
-        users = getProfilesInCurrentTeam(state);
-    }
 
-    const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm) as Props['groupChannels'];
-    const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId) as Props['myDirectChannels'];
+        const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm) as Props['groupChannels'];
+        const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId) as Props['myDirectChannels'];
 
-    let recentDMUsers = myDirectChannels.reduce((results, channel) => {
-        if (!channel.last_post_at) {
+        let recentDMUsers = myDirectChannels.reduce((results, channel) => {
+            if (!channel.last_post_at) {
+                return results;
+            }
+
+            const user = getUser(state, getUserIdFromChannelName(currentUserId, channel.name));
+
+            if (user) {
+                results!.push({...user, last_post_at: channel.last_post_at});
+            }
+
             return results;
+        }, [] as Props['recentDMUsers']);
+
+        if (searchTerm) {
+            recentDMUsers = intersectionBy(recentDMUsers, users, 'id');
         }
+        const team = getCurrentTeam(state);
+        const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
-        const user = getUser(state, getUserIdFromChannelName(currentUserId, channel.name));
-
-        if (user) {
-            results!.push({...user, last_post_at: channel.last_post_at});
-        }
-
-        return results;
-    }, [] as Props['recentDMUsers']);
-
-    if (searchTerm) {
-        recentDMUsers = intersectionBy(recentDMUsers, users, 'id');
-    }
-    const team = getCurrentTeam(state);
-    const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
-
-    return {
-        currentTeamId: team.id,
-        currentTeamName: team.name,
-        searchTerm,
-        users: users.sort(sortByUsername),
-        myDirectChannels,
-        groupChannels: filteredGroupChannels,
-        recentDMUsers,
-        statuses: state.entities.users.statuses,
-        currentChannelMembers,
-        currentUserId,
-        restrictDirectMessage,
-        totalCount: stats.total_users_count,
+        return {
+            currentTeamId: team.id,
+            currentTeamName: team.name,
+            searchTerm,
+            users: users.sort(sortByUsername),
+            myDirectChannels,
+            groupChannels: filteredGroupChannels,
+            recentDMUsers,
+            statuses: state.entities.users.statuses,
+            currentChannelMembers,
+            currentUserId,
+            restrictDirectMessage,
+            totalCount: stats.total_users_count,
+        };
     };
-}
+};
 
 const filterGroupChannels = memoizeResult((channels: GroupChannel[], term: string) => {
     return channels.filter((channel) => {
-        const matches = filterProfilesMatchingTerm(channel.profiles, term);
+        const matches = filterProfilesStartingWithTerm(channel.profiles, term);
         return matches.length > 0;
     });
 });
@@ -165,4 +170,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoreDirectChannels);
+export default connect(makeMapStateToProps, mapDispatchToProps)(MoreDirectChannels);
