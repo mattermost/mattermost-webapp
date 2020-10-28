@@ -2453,6 +2453,7 @@
   "create_post.deactivated": "You are viewing an archived channel with a **deactivated user**. New messages cannot be posted.",
   "create_post.error_message": "Your message is too long. Character count: {length}/{limit}",
   "create_post.fileProcessing": "Processing...",
+  "create_post.fileUpload": "Upload a file",
   "create_post.icon": "Create a post",
   "create_post.post": "Post",
   "create_post.read_only": "This channel is read-only. Only members with permission can post here.",

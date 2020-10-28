@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -31,6 +32,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
+import OverlayTrigger from 'components/overlay_trigger';
 import CallButton from 'components/call_button';
 import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
@@ -40,6 +42,8 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
+import {allShortcuts, parsedShortcuts} from 'components/Shortcuts/shortcuts.js';
+import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
@@ -1418,20 +1422,43 @@ class CreatePost extends React.PureComponent {
             );
         }
 
+        const shortcuts = parsedShortcuts(allShortcuts);
+        const tooltip = (
+            <Tooltip
+                id='upload-tooltip'
+                className=''
+            >
+                <FormattedMessage
+                    id='create_post.fileUpload' 
+                    defaultMessage='Upload a file'
+                />
+                <ShortcutSequence shortcut={shortcuts.filesUpload}/>
+            </Tooltip>
+        );
+
         let fileUpload;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
-                <FileUpload
-                    ref={this.fileUploadRef}
-                    fileCount={this.getFileCount()}
-                    getTarget={this.getFileUploadTarget}
-                    onFileUploadChange={this.handleFileUploadChange}
-                    onUploadStart={this.handleUploadStart}
-                    onFileUpload={this.handleFileUploadComplete}
-                    onUploadError={this.handleUploadError}
-                    onUploadProgress={this.handleUploadProgress}
-                    postType='post'
-                />
+                <OverlayTrigger
+                    trigger={['hover']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={tooltip}
+                >
+                    <div>
+                        <FileUpload
+                            ref={this.fileUploadRef}
+                            fileCount={this.getFileCount()}
+                            getTarget={this.getFileUploadTarget}
+                            onFileUploadChange={this.handleFileUploadChange}
+                            onUploadStart={this.handleUploadStart}
+                            onFileUpload={this.handleFileUploadComplete}
+                            onUploadError={this.handleUploadError}
+                            onUploadProgress={this.handleUploadProgress}
+                            postType='post'
+                        />
+                    </div>
+                </OverlayTrigger>
             );
         }
 
