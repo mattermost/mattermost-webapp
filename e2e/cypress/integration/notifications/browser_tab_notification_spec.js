@@ -30,7 +30,7 @@ describe('Notifications', () => {
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
 
-            cy.apiCreateTeam(`test-team-${timestamp}`, `test-team-${timestamp}`).then(({team: anotherTeam}) => {
+            cy.apiCreateTeam('team-b', 'Team B').then(({team: anotherTeam}) => {
                 team2 = anotherTeam;
                 testTeam2TownSquareUrl = `/${team2.name}/channels/town-square`;
                 cy.apiAddUserToTeam(team2.id, user1.id);
