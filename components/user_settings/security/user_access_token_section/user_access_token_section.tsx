@@ -67,9 +67,9 @@ type State = {
     tokenError?: string;
     serverError?: string|null;
     saving?: boolean;
-    confirmTitle?: JSX.Element|null;
+    confirmTitle: React.ReactNode;
     confirmMessage?: ((state: State) => JSX.Element)|null;
-    confirmButton?: JSX.Element|null;
+    confirmButton: React.ReactNode;
     confirmComplete?: (() => void)|null;
     confirmHideCancel?: boolean;
 }
