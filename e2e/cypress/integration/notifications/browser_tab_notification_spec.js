@@ -48,7 +48,7 @@ describe('Notifications', () => {
         // # User 1 views team A
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Remove mention notification (for initial channel).
         cy.get('#publicChannelList').get('.unread-title').click();
@@ -60,14 +60,7 @@ describe('Notifications', () => {
         cy.get('.unread-title').should('not.exist');
 
         //* Favicons should be default(blue)
-        cy.get('link[rel=icon]').should('have.attr', 'href').then((defaultFaviconUrl) => {
-            cy.fixture('favicon-default-16x16.png').then((imageData) => {
-                cy.request({url: defaultFaviconUrl, encoding: 'base64'}).then((response) => {
-                    expect(response.status).to.equal(200);
-                    expect(response.body).to.eq(imageData);
-                });
-            });
-        });
+        verifyFaviconEquals('favicon-default-16x16.png');
 
         // # Have the other user post an at-mention for you in any channel on team B
         cy.apiGetChannelByName(team2.name, 'off-topic').then(({channel}) => {
@@ -84,20 +77,16 @@ describe('Notifications', () => {
         });
 
         // * Favicon should stay blue (not turn red) when there are mentions indicated
-        cy.get('link[rel=icon]').should('have.attr', 'href').then((defaultFaviconUrl) => {
-            cy.fixture('favicon-default-16x16.png').then((imageData) => {
-                cy.request({url: defaultFaviconUrl, encoding: 'base64'}).then((response) => {
-                    expect(response.status).to.equal(200);
-                    expect(response.body).to.eq(imageData);
-                });
-            });
-        });
+        verifyFaviconEquals('favicon-default-16x16.png');
     });
 
     it('MM-T560_2 Team sidebar icon - Badge with mention count increments when added to channel', () => {
         // # User 1 view and remain on team A
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
+
+        // * Browser tab should displays (1) * channel - [team name] Mattermost (for verify count increase)
+        cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
         // # Have another user view team B
         cy.apiLogin(user2);
@@ -139,4 +128,15 @@ describe('Notifications', () => {
             cy.get('.badge').contains('2');
         });
     });
+
+    function verifyFaviconEquals(expectedFixture) {
+        cy.get('link[rel=icon]').should('have.attr', 'href').then((defaultFaviconUrl) => {
+            cy.fixture(expectedFixture).then((imageData) => {
+                cy.request({url: defaultFaviconUrl, encoding: 'base64'}).then((response) => {
+                    expect(response.status).to.equal(200);
+                    expect(response.body).to.eq(imageData);
+                });
+            });
+        });
+    }
 });
