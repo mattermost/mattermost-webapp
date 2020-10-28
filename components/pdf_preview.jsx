@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -41,6 +40,10 @@ export default class PDFPreview extends React.PureComponent {
             loading: true,
             success: false,
         };
+
+        for (let i = 0; i < MAX_PDF_PAGES; i++) {
+            this[`pdfCanvasRef-${i}`] = React.createRef();
+        }
     }
 
     componentDidMount() {
@@ -86,12 +89,13 @@ export default class PDFPreview extends React.PureComponent {
             (prevProps.scale === this.props.scale)) {
             return;
         }
-        const canvas = this.refs['pdfCanvas' + pageIndex];
+
+        const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
         const context = canvas.getContext('2d');
         const viewport = this.state.pdfPages[pageIndex].getViewport(this.props.scale);
 
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
+        this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
 
         const renderContext = {
             canvasContext: context,
@@ -155,7 +159,7 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 0; i < this.state.numPages; i++) {
             pdfCanvases.push(
                 <canvas
-                    ref={'pdfCanvas' + i}
+                    ref={this[`pdfCanvasRef-${i}`]}
                     key={'previewpdfcanvas' + i}
                 />,
             );
@@ -197,4 +201,3 @@ export default class PDFPreview extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
