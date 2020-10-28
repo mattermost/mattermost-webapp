@@ -96,6 +96,20 @@ class CreateComment extends React.PureComponent {
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
+
+        /**
+         * The reactions to render on latest replyable post
+         */
+        reactionsByEmojiNameForLatestPost: PropTypes.array,
+
+        
+        /** Data used to challenge post reaction for latest replyable post */
+        latestPostReactionsCount: PropTypes.number,
+
+        /** To check if reaction is available in map */
+        emojiMap: PropTypes.object,
+
+
         locale: PropTypes.string.isRequired,
 
         /**
@@ -592,6 +606,29 @@ class CreateComment extends React.PureComponent {
             setTimeout(() => {
                 this.setState({errorClass: null});
             }, Constants.ANIMATION_TIMEOUT);
+        }
+
+        const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
+        let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
+
+        if (
+            isReaction &&
+            !isIncomingReactionPresentForLatestPost &&
+            isReaction[1] === '+' &&
+            this.props.emojiMap.has(isReaction[2]) &&
+            this.props.latestPostReactionsCount >= Constants.EMOJI_REACTIONS_LIMIT
+        ) {
+            const errorMessage = (
+                <FormattedMessage
+                    id='create_post.reaction_limit_message'
+                    defaultMessage='Reaction limit exceeded for this message.'
+                />
+            );
+            setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
+            return;
+        }
+
+        if (this.state.postError) {
             return;
         }
 
@@ -697,7 +734,9 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft, serverError});
+        this.setState({draft: updatedDraft, serverError}, () => {
+            this.scrollToBottom();
+        });
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 

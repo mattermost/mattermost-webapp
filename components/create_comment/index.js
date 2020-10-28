@@ -8,7 +8,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetMessageInHistoryItem, makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
@@ -30,11 +30,14 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
+import {getEmojiMap} from "selectors/emojis";
+import {getEmojiReactionsCount, getEmojiReactionsMap} from "utils/emoji_reaction";
 
 import CreateComment from './create_comment.jsx';
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
+    const getlatestPostReactions = makeGetReactionsForPost();
 
     return (state, ownProps) => {
         const err = state.requests.posts.createPost.error || {};
@@ -75,6 +78,12 @@ function makeMapStateToProps() {
         });
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
+        const latestPostId = ownProps.latestPostId;
+        const emojiMap = getEmojiMap(state);
+        const latestPostReactionsCount = getEmojiReactionsCount(
+            getlatestPostReactions(state, latestPostId)
+        );
+        const {emojiNames} = getEmojiReactionsMap(getlatestPostReactions(state, latestPostId));
 
         return {
             draft,
@@ -100,6 +109,9 @@ function makeMapStateToProps() {
             groupsWithAllowReference,
             useGroupMentions,
             channelMemberCountsByGroup,
+            latestPostReactionsCount,
+            emojiMap,
+            reactionsByEmojiNameForLatestPost: emojiNames,
         };
     };
 }
