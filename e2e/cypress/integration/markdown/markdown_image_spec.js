@@ -92,7 +92,7 @@ describe('Markdown', () => {
             });
 
             // * Verify that the preview modal opens
-            cy.get('div.modal-image__content').should('be.visible');
+            cy.get('div.modal-image__content').should('be.visible').trigger('mouseover');
 
             // # Close the modal
             cy.get('div.modal-close').should('exist').click({force: true});
@@ -115,7 +115,7 @@ describe('Markdown', () => {
             });
 
             // * Verify that the preview modal opens
-            cy.get('div.file-details__container').should('be.visible');
+            cy.get('div.file-details__container').should('be.visible').trigger('mouseover');
 
             // # Close the modal
             cy.get('div.modal-close').should('exist').click({force: true});
