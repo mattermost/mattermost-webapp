@@ -55,11 +55,6 @@ export const useInputHandler = (
 
     //old API
     const handleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement | any>) => {
-        const pretext = e.target.value.substring(0, e.target.selectionEnd).toLowerCase();
-
-        if (!composingFlag.current && pretextRef.current !== pretext) {
-            suggestionHandler.current.handlePretextChanged(pretext);
-        }
         const {onChange} = suggestionBoxProps;
         if (onChange) {
             onChange(e);
@@ -72,18 +67,12 @@ export const useInputHandler = (
         if (onComposition) {
             onComposition();
         }
-    }, [suggestionBoxProps.onComposition, pretextRef, composingFlag]);
+    }, [suggestionBoxProps.onComposition]);
 
     const handleCompositionUpdate = React.useCallback((e: React.CompositionEvent) => {
         if (!e.data) {
             return;
         }
-
-        // The caret appears before the CJK character currently being composed, so re-add it to the pretext
-        const textbox = qInputRefHandler.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionStart || undefined) + e.data;
-
-        suggestionHandler.current.handlePretextChanged(pretext);
         const {onComposition} = suggestionBoxProps;
         if (onComposition) {
             onComposition();

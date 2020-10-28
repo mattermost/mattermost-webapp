@@ -69,7 +69,8 @@ const SuggestionBox = React.forwardRef((props: ISuggestionBoxProps, ref) => {
             getValue().
             substring(0, qInputState.getSelection().selectionEnd || undefined).
             toLowerCase();
-        if (pretextRef.current !== pretext) {
+
+        if (pretextRef.current !== pretext && !composingFlag.current) {
             suggestionHandlerRef.current.handlePretextChanged(pretext);
         }
     }, [props.contextId, qInputState.getValue(), qInputState.getSelection().selectionEnd]);
