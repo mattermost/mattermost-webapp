@@ -61,40 +61,75 @@ export default class LeaveTeamModal extends React.PureComponent<Props> {
         const isGuest = Utils.isGuest(currentUser);
         const numOfPublicChannels = this.props.publicChannels.length;
         const numOfPrivateChannels = this.props.privateChannels.length;
-        let id;
-        let defaultMessage;
-
+        let modalMessage;
         if (isGuest) {
             if (numOfPublicChannels !== 0 && numOfPrivateChannels !== 0) {
-                id = 'leave_team_modal_guest.desc';
-                defaultMessage = "** You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels}} and {num_of_private_channels} private { num_of_private_channels,plural,one {channel} other {channels}} on this team.** You won't be able to rejoin it without an invitation from another team member. Are you sure?";
+                modalMessage = (
+                    <FormattedMarkdownMessage
+                        id='leave_team_modal_guest.desc'
+                        defaultMessage="** You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels}} and {num_of_private_channels} private { num_of_private_channels,plural,one {channel} other {channels}} on this team.** You won't be able to rejoin it without an invitation from another team member. Are you sure?"
+                        values={{
+                            num_of_public_channels: numOfPublicChannels,
+                            num_of_private_channels: numOfPrivateChannels,
+                        }}
+                    />
+                );
             } else if (numOfPublicChannels === 0) {
-                id = 'leave_team_modal_guest_only_public.desc';
-                defaultMessage = "** You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels}} on this team.** You won't be able to rejoin it without an invitation from another team member. Are you sure?";
+                modalMessage = (
+                    <FormattedMarkdownMessage
+                        id='leave_team_modal_guest_only_public.desc'
+                        defaultMessage="** You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels}} on this team.** You won't be able to rejoin it without an invitation from another team member. Are you sure?"
+                        values={{
+                            num_of_public_channels: numOfPublicChannels,
+                            num_of_private_channels: numOfPrivateChannels,
+                        }}
+                    />);
             } else {
-                id = 'leave_team_modal_guest_only_private.desc';
-                defaultMessage = "** You will be removed from {num_of_private_channels} private { num_of_private_channels,plural,one {channel} other {channels}} on this team.** You won't be able to rejoin it without an invitation from another team member. Are you sure?";
+                modalMessage = (
+                    <FormattedMarkdownMessage
+                        id='leave_team_modal_guest_only_private.desc'
+                        defaultMessage="** You will be removed from {num_of_private_channels} private { num_of_private_channels,plural,one {channel} other {channels}} on this team.** You won't be able to rejoin it without an invitation from another team member. Are you sure?"
+                        values={{
+                            num_of_public_channels: numOfPublicChannels,
+                            num_of_private_channels: numOfPrivateChannels,
+                        }}
+                    />
+                );
             }
         } else if (numOfPublicChannels !== 0 && numOfPrivateChannels !== 0) {
-            id = 'leave_team_modal.desc';
-            defaultMessage = "**You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels} } and {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team.** If the team is private you won't be able to rejoin it without an invitation from another team member. Are you sure?";
+            modalMessage = (
+                <FormattedMarkdownMessage
+                    id='leave_team_modal.desc'
+                    defaultMessage="**You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels} } and {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team.** If the team is private you won't be able to rejoin it without an invitation from another team member. Are you sure?"
+
+                    values={{
+                        num_of_public_channels: numOfPublicChannels,
+                        num_of_private_channels: numOfPrivateChannels,
+                    }}
+                />);
         } else if (numOfPublicChannels === 0) {
-            id = 'leave_team_modal_private.desc';
-            defaultMessage = "**You will be removed from {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team.** If the team is private you won't be able to rejoin it without an invitation from another team member. Are you sure?";
+            modalMessage = (
+                <FormattedMarkdownMessage
+                    id='leave_team_modal_private.desc'
+                    defaultMessage="**You will be removed from {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team.** If the team is private you won't be able to rejoin it without an invitation from another team member. Are you sure?"
+                    values={{
+                        num_of_public_channels: numOfPublicChannels,
+                        num_of_private_channels: numOfPrivateChannels,
+                    }}
+                />);
         } else {
-            id = 'leave_team_modal_public.desc';
-            defaultMessage = '**You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels} } on this team.** Are you sure?';
+            modalMessage = (
+                <FormattedMarkdownMessage
+                    id='leave_team_modal_public.desc'
+                    defaultMessage='**You will be removed from {num_of_public_channels} public { num_of_public_channels,plural,one {channel} other {channels} } on this team.** Are you sure?'
+                    values={{
+                        num_of_public_channels: numOfPublicChannels,
+                        num_of_private_channels: numOfPrivateChannels,
+                    }}
+                />
+            );
         }
 
-        const modalMessage = (
-            <FormattedMarkdownMessage
-                id={id}
-                defaultMessage={defaultMessage}
-                values={{
-                    num_of_public_channels: numOfPublicChannels,
-                    num_of_private_channels: numOfPrivateChannels,
-                }}
-            />);
         return (
             <Modal
                 dialogClassName='a11y__modal'
