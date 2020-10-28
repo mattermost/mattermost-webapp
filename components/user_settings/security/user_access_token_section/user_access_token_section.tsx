@@ -30,7 +30,7 @@ type Props = {
     userAccessTokens: {[tokenId: string]: {description: string; id: string; is_active: boolean}};
     setRequireConfirm: (isRequiredConfirm: boolean, confirmCopyToken: (confirmAction: () => void) => void) => void;
     actions: {
-        getUserAccessTokensForUser: (userId: string, num1: number, num2: number) => void;
+        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => void;
         createUserAccessToken: (userId: string, description: string) => Promise<{
             data: {token: string; description: string; id: string; is_active: boolean} | null;
             error?: {
