@@ -58,17 +58,10 @@ describe('Notifications', () => {
             originalFavicon = $path;
         });
 
-        // # Have another user view team B
-        cy.apiLogin(user2);
-        cy.visit(testTeam2TownSquareUrl);
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
-        // # Post a message with mentioning User 1 from Town Square
-        cy.postMessage(`@${user1.username}`);
-
-        // # Return to User 1
-        cy.visit(testTeam1TownSquareUrl);
-        cy.apiLogin(user1);
+        // # Have the other user post an at-mention for you in any channel on team B
+        cy.apiGetChannelByName(teamB.name, 'off-topic').then(({channel}) => {
+            cy.postMessageAs({sender: user2, message: `@${user1.username}`, channelId: channel.id});
+        });
 
         // * Browser tab should displays (1) * channel - [team name] Mattermost
         cy.title().should('include', '(1)');
@@ -119,26 +112,18 @@ describe('Notifications', () => {
             should('contain', `@${user1.username}`).
             should('contain', 'added to the channel');
 
-        cy.wait(TIMEOUTS.HALF_SEC);
-
-        // # Change User 2's view to Team 1
-        cy.visit(testTeam1TownSquareUrl);
-
-        // # Switch to User 1
+        // # Switch to User 1 and visit the town-square
+        cy.apiLogout();
         cy.apiLogin(user1);
-
-        // Because user changed by api, refresh is needed
         cy.visit(testTeam1TownSquareUrl);
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Title should be increased
         cy.title().should('include', '(1)');
 
         // * Team sidebar: Small dot left of team B icon in team sidebar
-        cy.get(`#${team2.name}TeamButton`).should('be.visible').
-            within(() => {
+        cy.get(`#${team2.name}TeamButton`).should('be.visible').within(() => {
             // * Team sidebar: a mention badge in top right corner of the badge with number "1"
-                cy.get('.badge').contains('1');
-            });
+            cy.get('.badge').contains('1');
+        });
     });
 });
