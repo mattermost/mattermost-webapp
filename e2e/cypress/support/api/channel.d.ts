@@ -194,5 +194,17 @@ declare namespace Cypress {
          *   });
          */
         apiAddUserToChannel(channelId: string, userId: string): Chainable<ChannelMembership>;
+
+        /**
+         * Remove a user from a channel by deleting the channel member object.
+         * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1members~1{user_id}/delete
+         * @param {string} channelId - Channel ID
+         * @param {string} userId - User ID to add to the channel
+         * @returns {ChannelMembership} `out.member` as `ChannelMembership`
+         *
+         * @example
+         *   cy.apiRemoveUserFromChannel('channel-id', 'user-id');
+         */
+        apiRemoveUserFromChannel(channelId: string, userId: string): Chainable<ChannelMembership>;
     }
 }
