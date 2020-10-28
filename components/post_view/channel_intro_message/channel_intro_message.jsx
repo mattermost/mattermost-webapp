@@ -242,33 +242,29 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     {!teamIsGroupConstrained &&
-                    <FormattedMessage
-                        id='intro_messages.inviteOthers'
-                        defaultMessage='Invite others to this team'
+                    <ToggleModalButtonRedux
+                        accessibilityLabel={Utils.localizeMessage('intro_messages.inviteOthers', 'Invite others to this team')}
+                        id='introTextInvite'
+                        className='intro-links color--link cursor--pointer'
+                        modalId={ModalIdentifiers.INVITATION}
+                        dialogType={InvitationModal}
                     >
-                        {(message) => (
-                            <ToggleModalButtonRedux
-                                accessibilityLabel={message}
-                                id='introTextInvite'
-                                className='intro-links color--link cursor--pointer'
-                                modalId={ModalIdentifiers.INVITATION}
-                                dialogType={InvitationModal}
-                            >
-                                <FormattedMessage
-                                    id='generic_icons.add'
-                                    defaultMessage='Add Icon'
-                                >
-                                    {(title) => (
-                                        <i
-                                            className='fa fa-user-plus'
-                                            title={title}
-                                        />
-                                    )}
-                                </FormattedMessage>
-                                {message}
-                            </ToggleModalButtonRedux>
-                        )}
-                    </FormattedMessage>
+                        <FormattedMessage
+                            id='generic_icons.add'
+                            defaultMessage='Add Icon'
+                        >
+                            {(title) => (
+                                <i
+                                    className='fa fa-user-plus'
+                                    title={title}
+                                />
+                            )}
+                        </FormattedMessage>
+                        <FormattedMessage
+                            id='intro_messages.inviteOthers'
+                            defaultMessage='Invite others to this team'
+                        />
+                    </ToggleModalButtonRedux>
                     }
                     {teamIsGroupConstrained &&
                     <ToggleModalButton
@@ -562,22 +558,18 @@ function createSetHeaderButton(channel) {
     }
 
     return (
-        <FormattedMessage
-            id='intro_messages.setHeader'
-            defaultMessage='Set a Header'
+        <ToggleModalButtonRedux
+            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+            accessibilityLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
+            className={'intro-links color--link'}
+            dialogType={EditChannelHeaderModal}
+            dialogProps={{channel}}
         >
-            {(message) => (
-                <ToggleModalButtonRedux
-                    modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                    accessibilityLabel={message}
-                    className={'intro-links color--link'}
-                    dialogType={EditChannelHeaderModal}
-                    dialogProps={{channel}}
-                >
-                    <EditIcon/>
-                    {message}
-                </ToggleModalButtonRedux>
-            )}
-        </FormattedMessage>
+            <EditIcon/>
+            <FormattedMessage
+                id='intro_messages.setHeader'
+                defaultMessage='Set a Header'
+            />
+        </ToggleModalButtonRedux>
     );
 }

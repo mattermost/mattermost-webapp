@@ -4799,7 +4799,7 @@ const AdminDefinition = {
                 name_default: 'Experimental Features',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonColor.title'),
                         label_default: 'AD/LDAP Login Button Color:',
@@ -4810,7 +4810,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonBorderColor.title'),
                         label_default: 'AD/LDAP Login Button Border Color:',
@@ -4821,7 +4821,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonTextColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonTextColor.title'),
                         label_default: 'AD/LDAP Login Button Text Color:',
@@ -4889,7 +4889,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonColor',
                         label: t('admin.experimental.emailSettingsLoginButtonColor.title'),
                         label_default: 'Email Login Button Color:',
@@ -4899,7 +4899,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.emailSettingsLoginButtonBorderColor.title'),
                         label_default: 'Email Login Button Border Color:',
@@ -4909,7 +4909,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonTextColor',
                         label: t('admin.experimental.emailSettingsLoginButtonTextColor.title'),
                         label_default: 'Email Login Button Text Color:',
@@ -5156,7 +5156,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonColor',
                         label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
                         label_default: 'SAML Login Button Color:',
@@ -5167,7 +5167,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.samlSettingsLoginButtonBorderColor.title'),
                         label_default: 'SAML Login Button Border Color:',
@@ -5178,7 +5178,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonTextColor',
                         label: t('admin.experimental.samlSettingsLoginButtonTextColor.title'),
                         label_default: 'SAML Login Button Text Color:',
