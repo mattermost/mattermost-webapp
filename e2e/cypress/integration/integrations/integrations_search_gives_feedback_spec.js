@@ -56,7 +56,7 @@ describe('Integrations', () => {
             // # Setup 2 bot accounts
             Cypress._.times(2, () => {
                 const randomBotName = `${getRandomId(2)}`;
-                cy.apiCreateBot(`bot-${randomBotName}`);
+                cy.apiCreateBot(`test-${randomBotName}`);
             });
 
             // # Visit the integrations page
