@@ -74,8 +74,8 @@ describe('Integrations', () => {
         // * Assert that a private channel does not display in the drop-down
         cy.get('#channelSelect').children().should('not.contain', privateChannel);
 
-        // * Assert that an archived / deleted channel does not appear in the drop-down // currently this fails due to a bug - should be not.contain
-        cy.get('#channelSelect').children().should('contain', archiveChannel);
+        // * Assert that an archived / deleted channel does not appear in the drop-down // currently this fails due to a bug
+        cy.get('#channelSelect').children().should('not.contain', archiveChannel);
 
         // Assert that a direct message channel does not appear in the drop-down
         cy.get('#channelSelect').children().should('not.contain', `@${dmChannel}`);
