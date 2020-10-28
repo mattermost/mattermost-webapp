@@ -57,6 +57,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       values={
         Object {
           "num_of_private_channels": 0,
+          "num_of_public_channels": 0,
         }
       }
     />
