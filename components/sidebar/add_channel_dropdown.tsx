@@ -89,18 +89,18 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
 
         return (
             <MenuWrapper className='AddChannelDropdown'>
-                <button
-                    className='AddChannelDropdown_dropdownButton'
-                    aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
+                <OverlayTrigger
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={tooltip}
+                    <button
+                        className='AddChannelDropdown_dropdownButton'
+                        aria-label={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
                     >
                         <i className='icon-plus'/>
-                    </OverlayTrigger>
-                </button>
+                    </button>
+                </OverlayTrigger>
                 <Menu
                     id='AddChannelDropdown'
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}

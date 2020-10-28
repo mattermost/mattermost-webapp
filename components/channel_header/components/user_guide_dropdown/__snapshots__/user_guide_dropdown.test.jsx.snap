@@ -6,41 +6,41 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
   className="userGuideHelp"
   onToggle={[Function]}
 >
-  <button
-    aria-expanded="true"
-    className="channel-header__icon"
-    id="channelHeaderUserGuideButton"
-    type="button"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="userGuideHelpTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Help"
+          id="channel_header.userHelpGuide"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="userGuideHelpTooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Help"
-            id="channel_header.userHelpGuide"
-          />
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-expanded="true"
+      className="channel-header__icon"
+      id="channelHeaderUserGuideButton"
+      type="button"
     >
       <UserGuideIcon
         className="icon"
       />
-    </OverlayTrigger>
-  </button>
+    </button>
+  </OverlayTrigger>
   <Menu
     ariaLabel="Add Channel Dropdown"
     id="AddChannelDropdown"
@@ -84,41 +84,41 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
   className="userGuideHelp"
   onToggle={[Function]}
 >
-  <button
-    aria-expanded="true"
-    className="channel-header__icon"
-    id="channelHeaderUserGuideButton"
-    type="button"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="userGuideHelpTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Help"
+          id="channel_header.userHelpGuide"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="userGuideHelpTooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Help"
-            id="channel_header.userHelpGuide"
-          />
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-expanded="true"
+      className="channel-header__icon"
+      id="channelHeaderUserGuideButton"
+      type="button"
     >
       <UserGuideIcon
         className="icon"
       />
-    </OverlayTrigger>
-  </button>
+    </button>
+  </OverlayTrigger>
   <Menu
     ariaLabel="Add Channel Dropdown"
     id="AddChannelDropdown"
