@@ -84,9 +84,11 @@ export const getUnreadChannels = (() => {
         (state: GlobalState) => getUnreadChannelIds(state),
         getCurrentChannelId,
         (allChannels, unreadChannelIds, currentChannelId) => {
-            const unreadChannels = unreadChannelIds.map((channelId) => allChannels[channelId]);
+            const unreadChannels = unreadChannelIds.
+                map((channelId) => allChannels[channelId]).
+                filter((channel) => channel.delete_at === 0);
 
-            if (unreadChannelIds.indexOf(currentChannelId) === -1) {
+            if (unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
                 unreadChannels.push(allChannels[currentChannelId]);
             }
 
