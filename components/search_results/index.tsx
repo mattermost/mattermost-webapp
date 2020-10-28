@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
-import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {
     getSearchResultsTerms,
@@ -18,15 +17,17 @@ import {
     getIsSearchingPinnedPost,
     getIsSearchGettingMore,
 } from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants.jsx';
 
-import SearchResults from './search_results.jsx';
+import SearchResults from './search_results';
+import {StateProps, OwnProps} from './types';
 
 function makeMapStateToProps() {
-    let results;
-    let posts;
+    let results: Post[];
+    let posts: Post[];
 
-    return function mapStateToProps(state) {
+    return function mapStateToProps(state: GlobalState) {
         const config = getConfig(state);
 
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
@@ -52,7 +53,9 @@ function makeMapStateToProps() {
             });
         }
 
-        const currentSearch = getCurrentSearchForCurrentTeam(state) || {};
+        // this is basically a hack to make ts compiler happy
+        // add correct type when it is known what exactly is returned from the function
+        const currentSearch = getCurrentSearchForCurrentTeam(state) as unknown as Record<string, any> || {};
 
         return {
             results: posts,
@@ -69,12 +72,5 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMorePostsForSearch,
-        }, dispatch),
-    };
-}
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);
+// eslint-disable-next-line @typescript-eslint/ban-types
+export default connect<StateProps, {}, OwnProps, GlobalState>(makeMapStateToProps)(SearchResults);
