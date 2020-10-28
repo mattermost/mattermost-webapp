@@ -1443,10 +1443,6 @@
             @include translate3d(0, 0, 0);
         }
 
-        .nav-pills__unread-indicator {
-            width: 260px;
-        }
-
         .team__header {
             @include clearfix;
             pointer-events: none;
@@ -1540,10 +1536,6 @@
 
         &.move--right {
             @include translate3d(0, 0, 0);
-        }
-
-        .nav-pills__unread-indicator {
-            width: 260px;
         }
 
         .team__header {
@@ -2219,10 +2211,6 @@
     #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
-
-        .nav-pills__unread-indicator {
-            width: 230px;
-        }
     }
 
     .inner-wrap {
@@ -2333,14 +2321,9 @@
     }
 
     .multi-teams {
-
         .sidebar--left,
         #SidebarContainer {
             width: 220px;
-
-            .nav-pills__unread-indicator {
-                width: 190px;
-            }
         }
     }
 
