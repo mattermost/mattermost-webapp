@@ -38,14 +38,13 @@ describe('Notifications', () => {
                 cy.apiAddUserToTeam(team2.id, user2.id);
             });
         });
-        
-        cy.apiGetConfig().then(({config})=>{
+
+        cy.apiGetConfig().then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });
     });
 
     it('MM-T560_1 Browser tab and team sidebar unreads and mentions - Mention in different team', () => {
-
         // # User 1 views team A
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
