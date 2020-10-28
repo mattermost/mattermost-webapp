@@ -644,7 +644,7 @@ describe('Messaging', () => {
         });
 
         // # Ensure the list and two bullets have been rendered
-        cy.getLastPostId().then((postId) => {
+        cy.getLastPostId().then(() => {
             cy.get('ol.markdown__list').should('be.visible').within(() => {
                 cy.contains(numberedListTextPart1);
                 cy.contains(numberedListTextPart2);
