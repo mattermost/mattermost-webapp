@@ -106,15 +106,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               }
             }
           />
-          <Connect(PostReaction)
-            channelId="channel_id"
-            getDotMenuRef={[Function]}
-            location="RHS_ROOT"
-            postId="id"
-            showEmojiPicker={false}
-            teamId="team_id"
-            toggleEmojiPicker={[Function]}
-          />
           <Connect(PostFlagIcon)
             isFlagged={false}
             location="RHS_ROOT"
@@ -566,15 +557,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
                 "user_id": "user_id",
               }
             }
-          />
-          <Connect(PostReaction)
-            channelId="channel_id"
-            getDotMenuRef={[Function]}
-            location="RHS_ROOT"
-            postId="id"
-            showEmojiPicker={false}
-            teamId="team_id"
-            toggleEmojiPicker={[Function]}
           />
           <Connect(PostFlagIcon)
             isFlagged={true}
