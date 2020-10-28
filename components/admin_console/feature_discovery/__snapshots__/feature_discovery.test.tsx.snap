@@ -28,6 +28,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       className="btn btn-primary"
       data-testid="featureDiscovery_primaryCallToAction"
       onClick={[Function]}
+      type="button"
     >
       <LoadingWrapper
         loading={false}

@@ -492,6 +492,7 @@ export default class GroupDetails extends React.PureComponent {
                                         isDisabled={isDisabled}
                                     >
                                         <button
+                                            type='button'
                                             id='add_team_or_channel'
                                             className='btn btn-primary'
                                         >

@@ -22,6 +22,7 @@ import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
+import UnreadChannels from '../unread_channels';
 
 export function renderView(props: any) {
     return (
@@ -49,14 +50,13 @@ export function renderThumbVertical(props: any) {
 
 type Props = {
     currentTeam: Team;
-    currentChannel: Channel;
+    currentChannelId: string;
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     displayedChannels: Channel[];
     newCategoryIds: string[];
     draggingState: DraggingState;
-    categoryCollapsedState: Record<string, boolean>;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -88,7 +88,7 @@ const categoryHeaderHeight = 32;
 // that the channel is not under the unread indicator.
 const scrollMarginWithUnread = 55;
 
-export default class SidebarCategoryList extends React.PureComponent<Props, State> {
+export default class SidebarChannelList extends React.PureComponent<Props, State> {
     channelRefs: Map<string, HTMLLIElement>;
     scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
@@ -121,7 +121,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (!this.props.currentChannel || !prevProps.currentChannel) {
+        if (!this.props.currentChannelId || !prevProps.currentChannelId) {
             return;
         }
 
@@ -131,14 +131,14 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
         }
 
         // Scroll to selected channel so it's in view
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             // This will be re-enabled when we can avoid animating the scroll on first load and team switch
-            // this.scrollToChannel(this.props.currentChannel.id);
+            // this.scrollToChannel(this.props.currentChannelId);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
         // close the LHS on mobile when you change channels
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             this.props.actions.close();
         }
 
@@ -162,12 +162,12 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannel) {
+        if (!this.props.currentChannelId) {
             return null;
         }
 
         return channelIds.find((channelId) => {
-            return channelId !== this.props.currentChannel!.id && this.props.unreadChannelIds.includes(channelId);
+            return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
     }
 
@@ -248,21 +248,20 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
         if (firstUnreadChannel) {
             const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
-            const firstUnreadPosition = firstUnreadElement ? firstUnreadElement.offsetTop : null;
 
-            if (firstUnreadPosition && ((firstUnreadPosition + firstUnreadElement!.offsetHeight) - scrollMargin - categoryHeaderHeight) < this.scrollbar.current!.getScrollTop()) {
+            if (firstUnreadElement && ((firstUnreadElement.offsetTop + firstUnreadElement.offsetHeight) - scrollMargin - categoryHeaderHeight) < this.scrollbar.current!.getScrollTop()) {
                 showTopUnread = true;
             }
         }
 
         if (lastUnreadChannel) {
             const lastUnreadElement = this.channelRefs.get(lastUnreadChannel);
-            const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.offsetTop : null;
 
-            if (lastUnreadPosition && (lastUnreadPosition + scrollMargin) > (this.scrollbar.current!.getScrollTop() + this.scrollbar.current!.getClientHeight())) {
+            if (lastUnreadElement && (lastUnreadElement.offsetTop + scrollMargin) > (this.scrollbar.current!.getScrollTop() + this.scrollbar.current!.getClientHeight())) {
                 showBottomUnread = true;
             }
         }
+
         if (showTopUnread !== this.state.showTopUnread || showBottomUnread !== this.state.showBottomUnread) {
             this.setState({
                 showTopUnread,
@@ -284,7 +283,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
-            const curChannelId = this.props.currentChannel!.id;
+            const curChannelId = this.props.currentChannelId;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -319,7 +318,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
             }
 
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentChannel!.id,
+                this.props.currentChannelId,
                 allChannelIds,
                 this.props.unreadChannelIds,
                 direction,
@@ -410,7 +409,44 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
 
     render() {
         const {categories} = this.props;
-        const renderedCategories = categories.map(this.renderCategory);
+
+        let channelList: React.ReactNode;
+        if (this.props.isUnreadFilterEnabled) {
+            channelList = (
+                <UnreadChannels
+                    getChannelRef={this.getChannelRef}
+                    setChannelRef={this.setChannelRef}
+                />
+            );
+        } else {
+            const renderedCategories = categories.map(this.renderCategory);
+
+            channelList = (
+                <DragDropContext
+                    onDragEnd={this.onDragEnd}
+                    onBeforeDragStart={this.onBeforeDragStart}
+                    onBeforeCapture={this.onBeforeCapture}
+                    onDragStart={this.onDragStart}
+                >
+                    <Droppable
+                        droppableId='droppable-categories'
+                        type='SIDEBAR_CATEGORY'
+                    >
+                        {(provided) => {
+                            return (
+                                <div
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
+                                    {renderedCategories}
+                                    {provided.placeholder}
+                                </div>
+                            );
+                        }}
+                    </Droppable>
+                </DragDropContext>
+            );
+        }
 
         const above = (
             <FormattedMessage
@@ -463,29 +499,7 @@ export default class SidebarCategoryList extends React.PureComponent<Props, Stat
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
-                    <DragDropContext
-                        onDragEnd={this.onDragEnd}
-                        onBeforeDragStart={this.onBeforeDragStart}
-                        onBeforeCapture={this.onBeforeCapture}
-                        onDragStart={this.onDragStart}
-                    >
-                        <Droppable
-                            droppableId='droppable-categories'
-                            type='SIDEBAR_CATEGORY'
-                        >
-                            {(provided) => {
-                                return (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.droppableProps}
-                                    >
-                                        {renderedCategories}
-                                        {provided.placeholder}
-                                    </div>
-                                );
-                            }}
-                        </Droppable>
-                    </DragDropContext>
+                    {channelList}
                 </Scrollbars>
             </div>
         );
