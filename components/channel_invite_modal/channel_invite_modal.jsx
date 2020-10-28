@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
@@ -64,6 +64,8 @@ export default class ChannelInviteModal extends React.PureComponent {
             saving: false,
             loadingUsers: true,
         };
+
+        this.selectedItemRef = React.createRef();
     }
 
     addValue = (value) => {
@@ -192,7 +194,7 @@ export default class ChannelInviteModal extends React.PureComponent {
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -247,7 +249,7 @@ export default class ChannelInviteModal extends React.PureComponent {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
             return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user) && !this.props.excludeUsers[user.id];
         });
 
@@ -261,6 +263,7 @@ export default class ChannelInviteModal extends React.PureComponent {
                 key='addUsersToChannelKey'
                 options={users}
                 optionRenderer={this.renderOption}
+                selectedItemRef={this.selectedItemRef}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
                 ariaLabelRenderer={this.renderAriaLabel}

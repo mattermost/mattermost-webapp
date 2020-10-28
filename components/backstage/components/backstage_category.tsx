@@ -31,12 +31,6 @@ export default class BackstageCategory extends React.PureComponent<Props> {
         };
     }
 
-    static get contextTypes() {
-        return {
-            router: PropTypes.object.isRequired,
-        };
-    }
-
     render() {
         const {name, title, icon, parentLink, children} = this.props;
 

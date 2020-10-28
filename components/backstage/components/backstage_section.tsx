@@ -25,12 +25,6 @@ export default class BackstageSection extends React.PureComponent {
         };
     }
 
-    static get contextTypes() {
-        return {
-            router: PropTypes.object.isRequired,
-        };
-    }
-
     getLink() {
         return this.props.parentLink + '/' + this.props.name;
     }
