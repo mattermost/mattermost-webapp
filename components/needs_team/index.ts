@@ -13,7 +13,7 @@ import {getTheme, getNewSidebarPreference} from 'mattermost-redux/selectors/enti
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
@@ -47,7 +47,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentTeamId: getCurrentTeamId(state),
         previousTeamId: getPreviousTeamId(state) as string,
         teamsList: getMyTeams(state),
-        currentChannelId: getCurrentChannelId(state),
+        currentChannel: getCurrentChannel(state),
         useLegacyLHS: !getNewSidebarPreference(state),
         plugins,
     };

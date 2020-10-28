@@ -5,6 +5,8 @@ import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
 
 import configureStore from 'store';
 
+import {TestHelper} from 'utils/test_helper';
+
 import * as Selectors from './channel_sidebar';
 
 describe('isCategoryCollapsed', () => {
@@ -34,7 +36,7 @@ describe('isCategoryCollapsed', () => {
 });
 
 describe('getUnreadChannels', () => {
-    const currentChanenl = {id: 'currentChanenl', delete_at: 0, total_msg_count: 0, last_post_at: 0};
+    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
     const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
     const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
     const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
@@ -43,7 +45,7 @@ describe('getUnreadChannels', () => {
         entities: {
             channels: {
                 channels: {
-                    currentChanenl,
+                    currentChannel,
                     readChannel,
                     unreadChannel1,
                     unreadChannel2,
@@ -51,9 +53,9 @@ describe('getUnreadChannels', () => {
                 channelsInTeam: {
                     team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
                 },
-                currentChannelId: 'currentChanenl',
+                currentChannelId: 'currentChannel',
                 myMembers: {
-                    currentChanenl: {notify_props: {}, mention_count: 0, msg_count: 0},
+                    currentChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
                     readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
                     unreadChannel1: {notify_props: {}, mention_count: 0, msg_count: 8},
                     unreadChannel2: {notify_props: {}, mention_count: 0, msg_count: 8},
@@ -65,11 +67,19 @@ describe('getUnreadChannels', () => {
             teams: {
                 currentTeamId: 'team1',
             },
+            general: {
+                config: {
+                    test: true,
+                },
+            },
+            preferences: {
+                myPreferences: {},
+            },
         },
         views: {
             channel: {
                 lastUnreadChannel: {
-                    id: 'currentChanenl',
+                    id: 'currentChannel',
                     hadMentions: false,
                 },
             },
@@ -77,7 +87,7 @@ describe('getUnreadChannels', () => {
     };
 
     test('should return channels sorted by recency', () => {
-        expect(Selectors.getUnreadChannels(baseState)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
+        expect(Selectors.getUnreadChannels(baseState)).toEqual([unreadChannel2, unreadChannel1, currentChannel]);
     });
 
     test('should return channels with mentions before those without', () => {
@@ -92,10 +102,16 @@ describe('getUnreadChannels', () => {
                         unreadChannel1: {notify_props: {}, mention_count: 2, msg_count: 8},
                     },
                 },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
+                },
             },
         };
 
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, unreadChannel2, currentChanenl]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, unreadChannel2, currentChannel]);
 
         state = {
             ...baseState,
@@ -109,10 +125,16 @@ describe('getUnreadChannels', () => {
                         unreadChannel2: {notify_props: {}, mention_count: 1, msg_count: 8},
                     },
                 },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
+                },
             },
         };
 
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChannel]);
     });
 
     test('should always return the current channel, even if it is not unread', () => {
@@ -123,6 +145,12 @@ describe('getUnreadChannels', () => {
                 channels: {
                     ...baseState.entities.channels,
                     currentChannelId: 'readChannel',
+                },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
                 },
             },
         };
@@ -142,6 +170,12 @@ describe('getUnreadChannels', () => {
                         ...baseState.entities.channels.myMembers,
                         unreadChannel1: {notify_props: {}, mention_count: 2, msg_count: 8},
                     },
+                },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
                 },
             },
             views: {
@@ -189,11 +223,17 @@ describe('getUnreadChannels', () => {
                         unreadChannel2: {notify_props: {mark_unread: 'all'}, total_msg_count: 10, mention_count: 2},
                     },
                 },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
+                },
             },
         };
 
         // No channels are muted
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChannel]);
 
         state = {
             ...state,
@@ -206,11 +246,17 @@ describe('getUnreadChannels', () => {
                         unreadChannel2: {notify_props: {mark_unread: 'mention'}, total_msg_count: 10, mention_count: 2},
                     },
                 },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
+                },
             },
         };
 
         // unreadChannel2 is muted and has a mention
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, currentChanenl, unreadChannel2]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, currentChannel, unreadChannel2]);
     });
 
     test('should not show archived channels unless they are the current channel', () => {
@@ -241,7 +287,7 @@ describe('getUnreadChannels', () => {
             },
         };
 
-        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChannel]);
 
         state = {
             ...state,

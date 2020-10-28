@@ -5,7 +5,7 @@
 
 import {createSelector} from 'reselect';
 
-import {getAllChannels, getCurrentChannelId, getMyChannelMemberships, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {getAllChannels, getCurrentChannel, getMyChannelMemberships, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetChannelsByCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -53,9 +53,9 @@ export const getChannelsInCategoryOrder = (() => {
         getCollapsedStateForAllCategories,
         (state: GlobalState) => getCategoriesForTeam(state, getCurrentTeamId(state)),
         (state: GlobalState) => getChannelsByCategory(state, getCurrentTeamId(state)),
-        getCurrentChannelId,
+        getCurrentChannel,
         (state: GlobalState) => getUnreadChannelIds(state),
-        (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds) => {
+        (collapsedState, categories, channelsByCategory, currentChannel, unreadChannelIds) => {
             return categories.map((category) => {
                 const channels = channelsByCategory[category.id];
                 const isCollapsed = collapsedState[category.id];
@@ -65,7 +65,7 @@ export const getChannelsInCategoryOrder = (() => {
                         const filterByUnread = (channelId: string) => channel.id === channelId;
                         const isUnread = unreadChannelIds.some(filterByUnread);
 
-                        return isUnread || currentChannelId === channel.id;
+                        return isUnread || currentChannel.id === channel.id;
                     };
                     return channels.filter(filter);
                 }
@@ -82,22 +82,22 @@ export const getUnreadChannels = (() => {
     const getUnsortedUnreadChannels = createSelector(
         getAllChannels,
         (state: GlobalState) => getUnreadChannelIds(state),
-        getCurrentChannelId,
-        (allChannels, unreadChannelIds, currentChannelId) => {
+        getCurrentChannel,
+        (allChannels, unreadChannelIds, currentChannel) => {
             const unreadChannels = [];
             for (const channelId of unreadChannelIds) {
                 const channel = allChannels[channelId];
 
                 // Only include an archived channel if it's the current channel
-                if (channel.delete_at > 0 && channel.id !== currentChannelId) {
+                if (channel.delete_at > 0 && channel.id !== currentChannel.id) {
                     continue;
                 }
 
                 unreadChannels.push(channel);
             }
 
-            if (unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
-                unreadChannels.push(allChannels[currentChannelId]);
+            if (unreadChannels.findIndex((channel) => channel.id === currentChannel.id) === -1) {
+                unreadChannels.push(allChannels[currentChannel.id]);
             }
 
             return unreadChannels;

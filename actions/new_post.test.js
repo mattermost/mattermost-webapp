@@ -55,6 +55,9 @@ describe('actions/new_post', () => {
             channels: {
                 currentChannelId: 'current_channel_id',
                 myMembers: {[latestPost.channel_id]: {channel_id: 'current_channel_id', user_id: 'current_user_id'}},
+                channels: {
+                    current_channel_id: {id: 'current_channel_id'},
+                },
             },
             teams: {
                 currentTeamId: 'team-1',
@@ -69,7 +72,15 @@ describe('actions/new_post', () => {
             users: {
                 currentUserId: 'current_user_id',
             },
-            general: {license: {IsLicensed: 'false'}},
+            general: {
+                license: {IsLicensed: 'false'},
+                config: {
+                    TeammateNameDisplay: 'username',
+                },
+            },
+            preferences: {
+                myPreferences: {},
+            },
         },
         views: {
             posts: {
@@ -110,6 +121,9 @@ describe('actions/new_post', () => {
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 0, roles: ''},
                         },
+                        channels: {
+                            [channelId]: {id: channelId},
+                        },
                     },
                     posts: {
                         posts: {
@@ -118,6 +132,14 @@ describe('actions/new_post', () => {
                     },
                     users: {
                         currentUserId,
+                    },
+                    general: {
+                        config: {
+                            test: true,
+                        },
+                    },
+                    preferences: {
+                        myPreferences: {},
                     },
                 },
             });
@@ -150,6 +172,9 @@ describe('actions/new_post', () => {
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: 0, roles: ''},
                         },
+                        channels: {
+                            [channelId]: {id: channelId},
+                        },
                     },
                     posts: {
                         posts: {
@@ -158,6 +183,14 @@ describe('actions/new_post', () => {
                     },
                     users: {
                         currentUserId,
+                    },
+                    general: {
+                        config: {
+                            test: true,
+                        },
+                    },
+                    preferences: {
+                        myPreferences: {},
                     },
                 },
             });
@@ -189,6 +222,10 @@ describe('actions/new_post', () => {
                             [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
                             [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
                         },
+                        channels: {
+                            [channelId]: {id: channelId},
+                            [otherChannelId]: {id: otherChannelId},
+                        },
                     },
                     posts: {
                         posts: {
@@ -197,6 +234,14 @@ describe('actions/new_post', () => {
                     },
                     users: {
                         currentUserId,
+                    },
+                    general: {
+                        config: {
+                            test: true,
+                        },
+                    },
+                    preferences: {
+                        myPreferences: {},
                     },
                 },
             });
@@ -228,6 +273,10 @@ describe('actions/new_post', () => {
                             [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
                             [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
                         },
+                        channels: {
+                            [channelId]: {id: channelId},
+                            [otherChannelId]: {id: otherChannelId},
+                        },
                     },
                     posts: {
                         posts: {
@@ -236,6 +285,14 @@ describe('actions/new_post', () => {
                     },
                     users: {
                         currentUserId,
+                    },
+                    general: {
+                        config: {
+                            test: true,
+                        },
+                    },
+                    preferences: {
+                        myPreferences: {},
                     },
                 },
             });
@@ -268,6 +325,10 @@ describe('actions/new_post', () => {
                             [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
                             [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
                         },
+                        channels: {
+                            [channelId]: {id: channelId},
+                            [otherChannelId]: {id: otherChannelId},
+                        },
                     },
                     posts: {
                         posts: {
@@ -276,6 +337,14 @@ describe('actions/new_post', () => {
                     },
                     users: {
                         currentUserId,
+                    },
+                    general: {
+                        config: {
+                            test: true,
+                        },
+                    },
+                    preferences: {
+                        myPreferences: {},
                     },
                 },
             });
@@ -304,6 +373,9 @@ describe('actions/new_post', () => {
                         },
                         myMembers: {
                             [channelId]: {channel_id: channelId, last_viewed_at: post1.create_at - 1, roles: ''},
+                        },
+                        channels: {
+                            [channelId]: {id: channelId},
                         },
                     },
                     posts: {
