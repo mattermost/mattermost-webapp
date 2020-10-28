@@ -43,6 +43,7 @@ export default class RemoveFileSetting extends Setting {
                         {this.props.fileName}
                     </div>
                     <button
+                        type='button'
                         className='btn btn-danger'
                         onClick={this.handleRemove}
                         ref='remove_button'

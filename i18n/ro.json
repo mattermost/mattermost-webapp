@@ -1962,7 +1962,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} a convertit canalul de la public la privat",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{username} a actualizat numele afișat al canalului de la: {old} la: {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} a eliminat antetul canalului (a fost: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} a actualizat antetul canalului de la: {old} la: {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} a actualizat antetul canalului <br></br><strong>de la:</strong> {old} <br></br><strong>la:</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} a actualizat antetul canalului la: {new}",
   "api.channel.remove_member.removed": "{removedUsername} a fost eliminat din canal",
   "api.channel.restore_channel.unarchived": "{username} a dezarhivat canalul.",
