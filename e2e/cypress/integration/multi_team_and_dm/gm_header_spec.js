@@ -10,6 +10,7 @@
 // Stage: @prod
 
 import {beRead, beUnread} from '../../support/assertions';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Multi-user group header', () => {
     let testUser;
@@ -53,14 +54,14 @@ describe('Multi-user group header', () => {
 
         // # type a header
         const header = 'this is a header!';
-        cy.get('#editChannelHeaderModalLabel').should('be.visible');
+        cy.get('#editChannelHeaderModalLabel').should('be.visible').wait(TIMEOUTS.ONE_SEC);
         cy.get('textarea#edit_textbox').should('be.visible').type(`${header}{enter}`);
         cy.get('#editChannelHeaderModalLabel').should('not.be.visible'); // wait for modal to disappear
 
         // * text appears in the top center panel
         cy.contains('#channelHeaderDescription span.header-description__text p', header);
 
-        checkSystemMessage('updated the channel header to:');
+        checkSystemMessage('updated the channel header');
 
         // * channel is marked as read for the current user
         cy.get(`#sidebarItem_${groupChannel.name}`).should(beRead);
@@ -87,7 +88,7 @@ describe('Multi-user group header', () => {
         // * text appears at the top
         cy.contains('#channelHeaderDescription span.header-description__text p', header);
 
-        checkSystemMessage('updated the channel header from:');
+        checkSystemMessage('updated the channel header');
 
         // * channel is marked as unread for other users
         cy.apiLogout();
