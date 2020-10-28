@@ -102,6 +102,14 @@ export default class RhsThread extends React.Component<Props, State> {
         this.rhspostlistRef = React.createRef();
     }
 
+    public getSnapshotBeforeUpdate(prevProps: Props) {
+        if (prevProps.posts.length < this.props.posts.length) {
+            const list = this.rhspostlistRef.current;
+            return list ? list.scrollHeight - list.scrollTop : null;
+        }
+        return null;
+    }
+
     public componentDidMount() {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
@@ -114,7 +122,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props) {
+    public componentDidUpdate(prevProps: Props, _prevState: State, snapshot: number) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -128,7 +136,11 @@ export default class RhsThread extends React.Component<Props, State> {
 
         const curLastPost = curPostsArray[0];
 
-        if (this.userIsAtLastPost() || curLastPost.user_id === this.props.currentUserId) {
+        if (snapshot !== null) {
+            this.scrollToBottom();
+        }
+
+        if (curLastPost.user_id === this.props.currentUserId) {
             this.scrollToBottom();
         }
     }
@@ -170,19 +182,6 @@ export default class RhsThread extends React.Component<Props, State> {
         if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
-    }
-
-    private userIsAtLastPost = () => {
-        const postReplies = (this.rhspostlistRef.current as HTMLElement)?.childNodes;
-        const rhsPostListRect = (this.rhspostlistRef.current as HTMLElement)?.getBoundingClientRect();
-        const offset = 24;
-
-        if (postReplies) {
-            const postRepliesArray = Array.from(postReplies);
-            return ((postRepliesArray[postRepliesArray.length - 1] as HTMLElement).offsetTop + offset) + rhsPostListRect.top === rhsPostListRect.bottom;
-        }
-
-        return false;
     }
 
     private handleCardClick = (post: Post) => {
