@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, MessageDescriptor} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 
@@ -25,7 +25,7 @@ type Props = {
         goBack: () => void;
         goForward: () => void;
     };
-    browserChannelPrev:MessageDescriptor;
+    shortcuts: any;
 };
 
 type State = {

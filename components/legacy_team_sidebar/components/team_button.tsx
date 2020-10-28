@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {injectIntl, IntlShape} from 'react-intl';
+import {MessageDescriptor, injectIntl, IntlShape, IntlFormatters} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -38,6 +38,13 @@ interface Props {
     isDraggable?: boolean;
     teamIndex?: number;
     teamId?: string;
+    shortcuts: {
+        teamNavigation:{
+            mac: MessageDescriptor;
+            default: MessageDescriptor;
+        }
+    };
+    values: Parameters<IntlFormatters['formatMessage']>[1],
 }
 
 // eslint-disable-next-line react/require-optimization

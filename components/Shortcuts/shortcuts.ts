@@ -279,7 +279,7 @@ export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescr
     },
 };
 
-export function parsedShortcuts(allshortcuts: MessageDescriptor) {
+export function parsedShortcuts(allshortcuts: Record<string, MessageDescriptor | {mac: MessageDescriptor, default: MessageDescriptor}>) {
     const ismac = Utils.isMac();
     const shortcuts = {};
     Object.keys(allshortcuts).forEach((s) => {

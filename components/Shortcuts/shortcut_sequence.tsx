@@ -12,7 +12,7 @@ type Props = {
 
 export default function ShortcutSequence({shortcut, values, hideDescription}: Props) {
     const {formatMessage} = useIntl();
-    const shortcutText = formatMessage(shortcut, {order: values});
+    const shortcutText = formatMessage(shortcut, {order: values}) as string;
     const splitShorcut = shortcutText.split('\t');
 
     let description;
