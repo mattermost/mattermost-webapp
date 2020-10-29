@@ -17,57 +17,36 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 type Props = {
-        showCloseButton: boolean=False;
-        color: string='';
-        textColor: string='';
-        type: string=AnnouncementBar.CRITICAL;
-        message: node.isRequired;
-        handleClose: ()=>void=null;
-        announcementBarCount: number;
-        showModal: boolean;
+        showCloseButton: boolean;
+        color: string;
+        textColor: string;
+        type: string;
+        message: React.ReactNode;
+        handleClose?: (e?:any)=>void;
+        announcementBarCount?: number;
+        showModal: ()=> void;
         modalButtonText: string;
         modalButtonDefaultText: string;
-        showLinkAsButton: boolean=False;
-        warnMetricStatus: object;
-        isTallBanner: boolean=False;
+        showLinkAsButton: boolean;
+        warnMetricStatus?: object;
+        isTallBanner: boolean;
         actions: {
             incrementAnnouncementBarCount: ()=>void;
             decrementAnnouncementBarCount: ()=>void;
         };
 }
-export default class AnnouncementBar extends React.PureComponent {
-//    static propTypes = {
-//        showCloseButton: PropTypes.bool,
-//        color: PropTypes.string,
-//        textColor: PropTypes.string,
-//        type: PropTypes.string,
-//        message: PropTypes.node.isRequired,
-//        handleClose: PropTypes.func,
-//        announcementBarCount: PropTypes.number.isRequired,
-//        showModal: PropTypes.bool,
-//        modalButtonText: PropTypes.string,
-//        modalButtonDefaultText: PropTypes.string,
-//        showLinkAsButton: PropTypes.bool,
-//        warnMetricStatus: PropTypes.object,
-//        isTallBanner: PropTypes.bool,
-//        actions: PropTypes.shape({
-//            incrementAnnouncementBarCount: PropTypes.func.isRequired,
-//            decrementAnnouncementBarCount: PropTypes.func.isRequired,
-//        }).isRequired,
-//    }
-//
-//    static defaultProps = {
-//        showCloseButton: false,
-//        color: '',
-//        textColor: '',
-//        type: AnnouncementBarTypes.CRITICAL,
-//        handleClose: null,
-//        onButtonClick: null,
-//        showLinkAsButton: false,
-//        isTallBanner: false,
-//    }
+export default class AnnouncementBar extends React.PureComponent<Props> {
+    
+		static defaultProps = {
+        showCloseButton: false,
+        color: '',
+        textColor: '',
+        type: AnnouncementBarTypes.CRITICAL,
+        showLinkAsButton: false,
+        isTallBanner: false,
+    }
 
-    componentDidMount() {
+    public componentDidMount() {// public for testing
         this.props.actions.incrementAnnouncementBarCount();
         if (this.props.isTallBanner) {
             document.body.classList.add('announcement-banner-tall--fixed');
@@ -76,7 +55,7 @@ export default class AnnouncementBar extends React.PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         if (this.props.announcementBarCount === 1 && !this.props.isTallBanner) {
             document.body.classList.remove('announcement-bar--fixed');
         } else if (this.props.announcementBarCount === 1 && this.props.isTallBanner) {
@@ -86,21 +65,21 @@ export default class AnnouncementBar extends React.PureComponent {
         this.props.actions.decrementAnnouncementBarCount();
     }
 
-    handleClose = (e) => {
+   public handleClose = (e: any) => {
         e.preventDefault();
         if (this.props.handleClose) {
             this.props.handleClose();
         }
     }
 
-    render() {
+    public render() {
         if (!this.props.message) {
             return null;
         }
 
         let barClass = 'announcement-bar';
-        const barStyle = {};
-        const linkStyle = {};
+        const barStyle = {backgroundColor: '' ,color: ''};
+        const linkStyle = {color:''};
         if (this.props.color && this.props.textColor) {
             barStyle.backgroundColor = this.props.color;
             barStyle.color = this.props.textColor;
