@@ -84,9 +84,17 @@ export const getUnreadChannels = (() => {
         (state: GlobalState) => getUnreadChannelIds(state),
         getCurrentChannelId,
         (allChannels, unreadChannelIds, currentChannelId) => {
-            const unreadChannels = unreadChannelIds.
-                map((channelId) => allChannels[channelId]).
-                filter((channel) => channel.delete_at === 0);
+            const unreadChannels = [];
+            for (const channelId of unreadChannelIds) {
+                const channel = allChannels[channelId];
+
+                // Only include an archived channel if it's the current channel
+                if (channel.delete_at > 0 && channel.id !== currentChannelId) {
+                    continue;
+                }
+
+                unreadChannels.push(channel);
+            }
 
             if (unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
                 unreadChannels.push(allChannels[currentChannelId]);
