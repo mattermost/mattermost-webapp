@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {incrementAnnouncementBarCount, decrementAnnouncementBarCount} from 'actions/views/announcement_bar';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 
-import AnnouncementBar from './announcement_bar.jsx';
+import AnnouncementBar from './announcement_bar';
 
 function mapStateToProps(state) {
     return {

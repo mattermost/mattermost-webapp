@@ -5,7 +5,6 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
 import {Tooltip} from 'react-bootstrap';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
@@ -17,37 +16,56 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
+type Props = {
+        showCloseButton: boolean=False;
+        color: string='';
+        textColor: string='';
+        type: string=AnnouncementBar.CRITICAL;
+        message: node.isRequired;
+        handleClose: ()=>void=null;
+        announcementBarCount: number;
+        showModal: boolean;
+        modalButtonText: string;
+        modalButtonDefaultText: string;
+        showLinkAsButton: boolean=False;
+        warnMetricStatus: object;
+        isTallBanner: boolean=False;
+        actions: {
+            incrementAnnouncementBarCount: ()=>void;
+            decrementAnnouncementBarCount: ()=>void;
+        };
+}
 export default class AnnouncementBar extends React.PureComponent {
-    static propTypes = {
-        showCloseButton: PropTypes.bool,
-        color: PropTypes.string,
-        textColor: PropTypes.string,
-        type: PropTypes.string,
-        message: PropTypes.node.isRequired,
-        handleClose: PropTypes.func,
-        announcementBarCount: PropTypes.number.isRequired,
-        showModal: PropTypes.bool,
-        modalButtonText: PropTypes.string,
-        modalButtonDefaultText: PropTypes.string,
-        showLinkAsButton: PropTypes.bool,
-        warnMetricStatus: PropTypes.object,
-        isTallBanner: PropTypes.bool,
-        actions: PropTypes.shape({
-            incrementAnnouncementBarCount: PropTypes.func.isRequired,
-            decrementAnnouncementBarCount: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    static defaultProps = {
-        showCloseButton: false,
-        color: '',
-        textColor: '',
-        type: AnnouncementBarTypes.CRITICAL,
-        handleClose: null,
-        onButtonClick: null,
-        showLinkAsButton: false,
-        isTallBanner: false,
-    }
+//    static propTypes = {
+//        showCloseButton: PropTypes.bool,
+//        color: PropTypes.string,
+//        textColor: PropTypes.string,
+//        type: PropTypes.string,
+//        message: PropTypes.node.isRequired,
+//        handleClose: PropTypes.func,
+//        announcementBarCount: PropTypes.number.isRequired,
+//        showModal: PropTypes.bool,
+//        modalButtonText: PropTypes.string,
+//        modalButtonDefaultText: PropTypes.string,
+//        showLinkAsButton: PropTypes.bool,
+//        warnMetricStatus: PropTypes.object,
+//        isTallBanner: PropTypes.bool,
+//        actions: PropTypes.shape({
+//            incrementAnnouncementBarCount: PropTypes.func.isRequired,
+//            decrementAnnouncementBarCount: PropTypes.func.isRequired,
+//        }).isRequired,
+//    }
+//
+//    static defaultProps = {
+//        showCloseButton: false,
+//        color: '',
+//        textColor: '',
+//        type: AnnouncementBarTypes.CRITICAL,
+//        handleClose: null,
+//        onButtonClick: null,
+//        showLinkAsButton: false,
+//        isTallBanner: false,
+//    }
 
     componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
