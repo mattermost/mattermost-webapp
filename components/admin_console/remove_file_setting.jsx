@@ -24,15 +24,15 @@ export default class RemoveFileSetting extends Setting {
     constructor(props) {
         super(props);
 
-        this.remove_button = React.createRef();
+        this.removeButtonRef = React.createRef();
     }
 
     handleRemove = (e) => {
         e.preventDefault();
 
-        $(this.remove_button.current).button('loading');
+        $(this.removeButtonRef.current).button('loading');
         this.props.onSubmit(this.props.id, () => {
-            $(this.remove_button.current).button('reset');
+            $(this.removeButtonRef.current).button('reset');
         });
     }
 
@@ -51,7 +51,7 @@ export default class RemoveFileSetting extends Setting {
                         type='button'
                         className='btn btn-danger'
                         onClick={this.handleRemove}
-                        ref={this.remove_button}
+                        ref={this.removeButtonRef}
                         disabled={this.props.disabled}
                         data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.removingText}`}
                     >
