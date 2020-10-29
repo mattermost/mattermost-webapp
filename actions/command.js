@@ -10,7 +10,7 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 
 import {openModal} from 'actions/views/modals';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';

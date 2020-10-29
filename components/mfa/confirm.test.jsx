@@ -4,13 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import Confirm from 'components/mfa/confirm.jsx';
 import Constants from 'utils/constants';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     redirectUserToDefaultTeam: jest.fn(),
 }));
 

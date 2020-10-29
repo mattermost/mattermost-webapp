@@ -39,4 +39,4 @@ export type RhsViewState = {
     isMenuOpen: boolean;
 };
 
-export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin';
+export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | null;

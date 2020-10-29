@@ -8,7 +8,7 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {CallResponseTypes, CallResponse, Call} from 'mattermost-redux/types/apps';
 
-import {sendEphemeralPost} from 'actions/global_actions.jsx';
+import {sendEphemeralPost} from 'actions/global_actions';
 import {openInteractiveDialog} from 'plugins/interactive_dialog';
 import {executeCommand} from 'actions/command';
 
@@ -17,6 +17,10 @@ export function doAppCall(call: Call): ActionFunc {
         const res = await Client4.executeAppCall(call) as CallResponse;
 
         if (res.markdown) {
+            if (!call.context.channel_id) {
+                return {data:false};
+            }
+            
             sendEphemeralPost(res.markdown, call.context.channel_id, call.context.root_id);
             return {data: true};
         }

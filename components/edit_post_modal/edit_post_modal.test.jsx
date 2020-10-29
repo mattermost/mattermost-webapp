@@ -14,7 +14,7 @@ import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Textbox from 'components/textbox';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitClearSuggestions: jest.fn(),
 }));
 

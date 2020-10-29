@@ -4,7 +4,7 @@
 import jqd from 'jquery-deferred';
 import {Client4} from 'mattermost-redux/client';
 
-import WebSocketClient from 'client/websocket_client.jsx';
+import WebSocketClient from 'client/websocket_client';
 
 var HEADER_TOKEN = 'token';
 

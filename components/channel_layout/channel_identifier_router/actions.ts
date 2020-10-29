@@ -13,7 +13,7 @@ import {History} from 'history';
 
 import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils.jsx';
 
 import {Match, MatchAndHistory} from './channel_identifier_router';

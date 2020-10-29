@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import { BatchAction } from 'redux-batched-actions';
+import { GlobalState } from './store';
 
 export type SuccessResult = {data: any;}
 

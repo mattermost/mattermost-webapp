@@ -18,7 +18,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import ConfirmModal from 'components/confirm_modal';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
 import SystemUsersList from './list';
 

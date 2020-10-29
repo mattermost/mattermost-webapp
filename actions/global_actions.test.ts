@@ -7,9 +7,10 @@ import {browserHistory} from 'utils/browser_history';
 import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 import LocalStorageStore from 'stores/local_storage_store';
-import {getState} from 'stores/redux_store';
 
-import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
+import { UserProfile } from 'mattermost-redux/types/users';
+import { Team } from 'mattermost-redux/types/teams';
 
 jest.mock('actions/views/rhs', () => ({
     closeMenu: jest.fn(),
@@ -23,13 +24,6 @@ jest.mock('actions/views/lhs', () => ({
 jest.mock('mattermost-redux/actions/users', () => ({
     loadMe: () => ({type: 'MOCK_RECEIVED_ME'}),
 }));
-
-jest.mock('stores/redux_store', () => {
-    return {
-        dispatch: jest.fn(),
-        getState: jest.fn(),
-    };
-});
 
 describe('actions/global_actions', () => {
     describe('redirectUserToDefaultTeam', () => {
@@ -59,8 +53,6 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
-
-            getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
@@ -136,8 +128,6 @@ describe('actions/global_actions', () => {
                 },
             });
 
-            getState.mockImplementation(store.getState);
-
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
@@ -211,8 +201,6 @@ describe('actions/global_actions', () => {
                 },
             });
 
-            getState.mockImplementation(store.getState);
-
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
@@ -285,8 +273,6 @@ describe('actions/global_actions', () => {
                 },
             });
 
-            getState.mockImplementation(store.getState);
-
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
@@ -318,8 +304,6 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
-
-            getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
@@ -414,12 +398,11 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
-            getState.mockImplementation(store.getState);
             LocalStorageStore.setPreviousTeamId(userId, teamId);
             LocalStorageStore.setPreviousChannelName(userId, teamId, directChannelId);
 
-            const result = await getTeamRedirectChannelIfIsAccesible({id: userId}, {id: teamId});
-            expect(result.id).toBe(directChannelId);
+            const result = await getTeamRedirectChannelIfIsAccesible({id: userId} as UserProfile, {id: teamId} as Team);
+            expect(result?.id).toBe(directChannelId);
         });
 
         it('should redirect to group message if that\'s the most recently used', async () => {
@@ -512,12 +495,11 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
-            getState.mockImplementation(store.getState);
             LocalStorageStore.setPreviousTeamId(userId, teamId);
             LocalStorageStore.setPreviousChannelName(userId, teamId, groupChannelId);
 
-            const result = await getTeamRedirectChannelIfIsAccesible({id: userId}, {id: teamId});
-            expect(result.id).toBe(groupChannelId);
+            const result = await getTeamRedirectChannelIfIsAccesible({id: userId} as UserProfile, {id: teamId} as Team);
+            expect(result?.id).toBe(groupChannelId);
         });
 
         it('should redirect to last channel on first team when current team is no longer available', async () => {
@@ -575,8 +557,6 @@ describe('actions/global_actions', () => {
                 },
             });
 
-            getState.mockImplementation(store.getState);
-
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/team1/channels/channel-in-team-1');
@@ -584,7 +564,7 @@ describe('actions/global_actions', () => {
     });
 
     test('toggleSideBarRightMenuAction', () => {
-        const dispatchMock = () => {};
+        const dispatchMock = async () => {return {data: true}};
         toggleSideBarRightMenuAction()(dispatchMock);
         expect(closeRhsMenu).toHaveBeenCalled();
         expect(closeRightHandSide).toHaveBeenCalled();

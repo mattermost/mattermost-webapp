@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';

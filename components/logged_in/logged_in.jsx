@@ -8,7 +8,7 @@ import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 import semver from 'semver';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
