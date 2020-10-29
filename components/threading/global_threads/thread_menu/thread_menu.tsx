@@ -18,9 +18,9 @@ type Props = {
     hasUnreads: boolean,
     actions: {
         follow: () => void,
-        unfollow: () => void,
+        unFollow: () => void,
         save: () => void,
-        unsave: () => void,
+        unSave: () => void,
         markRead: () => void,
         markUnread: () => void,
         openInChannel: () => void,
@@ -34,9 +34,9 @@ function ThreadMenu({
     hasUnreads,
     actions: {
         follow,
-        unfollow,
+        unFollow,
         save,
-        unsave,
+        unSave,
         markRead,
         markUnread,
         openInChannel,
@@ -78,7 +78,7 @@ function ThreadMenu({
                             id: t('threading.threadMenu.unfollowExtra'),
                             defaultMessage: 'You won’t be notified about replies',
                         })}
-                        onClick={unfollow}
+                        onClick={unFollow}
                     />
                 ) : (
                     <Menu.ItemAction
@@ -119,7 +119,7 @@ function ThreadMenu({
                 )}
                 {isSaved ? (
                     <Menu.ItemAction
-                        onClick={unsave}
+                        onClick={unSave}
                         text={formatMessage({
                             id: t('threading.threadMenu.unsave'),
                             defaultMessage: 'Unsave',

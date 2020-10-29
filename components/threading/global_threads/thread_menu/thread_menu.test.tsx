@@ -16,12 +16,12 @@ describe('components/threading/common/thread_menu', () => {
             isSaved: false,
             actions: {
                 follow: jest.fn(),
-                unfollow: jest.fn(),
+                unFollow: jest.fn(),
                 openInChannel: jest.fn(),
                 markRead: jest.fn(),
                 markUnread: jest.fn(),
                 save: jest.fn(),
-                unsave: jest.fn(),
+                unSave: jest.fn(),
                 copyLink: jest.fn(),
             },
         };
@@ -66,8 +66,8 @@ describe('components/threading/common/thread_menu', () => {
             />,
         );
         wrapper.find('button').simulate('click');
-        wrapper.find('button').find({onClick: props.actions.unfollow}).simulate('click');
-        expect(props.actions.unfollow).toHaveBeenCalled();
+        wrapper.find('button').find({onClick: props.actions.unFollow}).simulate('click');
+        expect(props.actions.unFollow).toHaveBeenCalled();
     });
 
     test('should allow opening in channel', () => {
@@ -124,8 +124,8 @@ describe('components/threading/common/thread_menu', () => {
             />,
         );
         wrapper.find('button').simulate('click');
-        wrapper.find('button').find({onClick: props.actions.unsave}).simulate('click');
-        expect(props.actions.unsave).toHaveBeenCalled();
+        wrapper.find('button').find({onClick: props.actions.unSave}).simulate('click');
+        expect(props.actions.unSave).toHaveBeenCalled();
     });
 
     test('should allow link copying', () => {

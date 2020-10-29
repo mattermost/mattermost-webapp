@@ -41,7 +41,6 @@
         }
     }
 
-
     &.Button___large {
         font-size: 14px;
 
@@ -57,15 +56,11 @@
         margin-left: 4px;
     }
 
-    .Icon svg {
-        width: 12px;
-        height: 12px;
-    }
     .Button_prepended {
-        margin-right: .75rem;
+        margin-right: .5em;
     }
     .Button_appended {
-        margin-left: .75rem;
+        margin-left: .5em;
     }
     .dot {
         position: absolute;

@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/threading/global_threads/thread_item should report total number of replies 1`] = `
-<div
+<article
   className="ThreadItem"
   onClick={[MockFunction]}
   tabIndex={0}
 >
-  <h4>
+  <h1>
     Johnny Depp
     <Memo(Badge)
       onClick={[Function]}
@@ -28,7 +28,7 @@ exports[`components/threading/global_threads/thread_item should report total num
       useTime={false}
       value={2020-09-29T02:30:15.701Z}
     />
-  </h4>
+  </h1>
   <span
     className="menu-anchor alt-visible"
   >
@@ -42,8 +42,8 @@ exports[`components/threading/global_threads/thread_item should report total num
           "openInChannel": [MockFunction],
           "save": [MockFunction],
           "select": [MockFunction],
-          "unfollow": [MockFunction],
-          "unsave": [MockFunction],
+          "unFollow": [MockFunction],
+          "unSave": [MockFunction],
         }
       }
       hasUnreads={false}
@@ -104,16 +104,16 @@ exports[`components/threading/global_threads/thread_item should report total num
       }
     />
   </div>
-</div>
+</article>
 `;
 
 exports[`components/threading/global_threads/thread_item should report unread mentions 1`] = `
-<div
+<article
   className="ThreadItem has-unreads"
   onClick={[MockFunction]}
   tabIndex={0}
 >
-  <h4>
+  <h1>
     <div
       className="indicator"
     >
@@ -144,7 +144,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
       value={2020-09-29T02:30:15.701Z}
     />
-  </h4>
+  </h1>
   <span
     className="menu-anchor alt-visible"
   >
@@ -158,8 +158,8 @@ exports[`components/threading/global_threads/thread_item should report unread me
           "openInChannel": [MockFunction],
           "save": [MockFunction],
           "select": [MockFunction],
-          "unfollow": [MockFunction],
-          "unsave": [MockFunction],
+          "unFollow": [MockFunction],
+          "unSave": [MockFunction],
         }
       }
       hasUnreads={true}
@@ -220,16 +220,16 @@ exports[`components/threading/global_threads/thread_item should report unread me
       }
     />
   </div>
-</div>
+</article>
 `;
 
 exports[`components/threading/global_threads/thread_item should report unread messages 1`] = `
-<div
+<article
   className="ThreadItem has-unreads"
   onClick={[MockFunction]}
   tabIndex={0}
 >
-  <h4>
+  <h1>
     <div
       className="indicator"
     >
@@ -258,7 +258,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       useTime={false}
       value={2020-09-29T02:30:15.701Z}
     />
-  </h4>
+  </h1>
   <span
     className="menu-anchor alt-visible"
   >
@@ -272,8 +272,8 @@ exports[`components/threading/global_threads/thread_item should report unread me
           "openInChannel": [MockFunction],
           "save": [MockFunction],
           "select": [MockFunction],
-          "unfollow": [MockFunction],
-          "unsave": [MockFunction],
+          "unFollow": [MockFunction],
+          "unSave": [MockFunction],
         }
       }
       hasUnreads={true}
@@ -334,5 +334,5 @@ exports[`components/threading/global_threads/thread_item should report unread me
       }
     />
   </div>
-</div>
+</article>
 `;

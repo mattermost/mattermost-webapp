@@ -9,21 +9,21 @@ import {t} from 'utils/i18n';
 
 type Props = {
     isFollowing: boolean;
-    start: MouseEventHandler<HTMLButtonElement>,
-    stop: MouseEventHandler<HTMLButtonElement>;
+    follow: MouseEventHandler<HTMLButtonElement>,
+    unFollow: MouseEventHandler<HTMLButtonElement>;
 }
 
 function FollowButton({
     isFollowing,
-    start,
-    stop,
+    follow,
+    unFollow,
     ...props
 }: Props & Exclude<ComponentProps<typeof Button>, Props>) {
     const {formatMessage} = useIntl();
     return (
         <Button
             {...props}
-            onClick={isFollowing ? stop : start}
+            onClick={isFollowing ? unFollow : follow}
             isActive={isFollowing}
         >
             {formatMessage(isFollowing ? {

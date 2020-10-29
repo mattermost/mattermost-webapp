@@ -76,12 +76,12 @@ storiesOf('Features/Threading/Global Threads', module).
                     actions={{
                         select: action('select'),
                         follow: action('follow'),
-                        unfollow: action('unfollow'),
+                        unFollow: action('unfollow'),
                         openInChannel: action('open in channel'),
                         markRead: action('mark as read'),
                         markUnread: action('mark as unread'),
                         save: action('save'),
-                        unsave: action('unsave'),
+                        unSave: action('unsave'),
                         copyLink: action('copy link'),
                     }}
                 />

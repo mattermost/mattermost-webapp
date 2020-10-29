@@ -10,8 +10,8 @@ exports[`components/threading/common/thread_menu should match snapshot 1`] = `
       "markUnread": [MockFunction],
       "openInChannel": [MockFunction],
       "save": [MockFunction],
-      "unfollow": [MockFunction],
-      "unsave": [MockFunction],
+      "unFollow": [MockFunction],
+      "unSave": [MockFunction],
     }
   }
   hasUnreads={false}
@@ -126,7 +126,7 @@ exports[`components/threading/common/thread_menu should match snapshot 1`] = `
                   className="Button_label"
                 >
                   <i
-                    className="Icon icon-dots-vertical"
+                    className="icon icon-dots-vertical"
                   />
                 </span>
               </button>
@@ -178,8 +178,8 @@ exports[`components/threading/common/thread_menu should match snapshot after ope
       "markUnread": [MockFunction],
       "openInChannel": [MockFunction],
       "save": [MockFunction],
-      "unfollow": [MockFunction],
-      "unsave": [MockFunction],
+      "unFollow": [MockFunction],
+      "unSave": [MockFunction],
     }
   }
   hasUnreads={false}
@@ -294,7 +294,7 @@ exports[`components/threading/common/thread_menu should match snapshot after ope
                   className="Button_label"
                 >
                   <i
-                    className="Icon icon-dots-vertical"
+                    className="icon icon-dots-vertical"
                   />
                 </span>
               </button>
