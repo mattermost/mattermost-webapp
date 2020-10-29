@@ -407,7 +407,7 @@
   "admin.channel_settings.channel_moderation.postReactionsDescMembers": "The ability for members to post reactions.",
   "admin.channel_settings.channel_moderation.subtitle": "Manage the actions available to channel members and guests.",
   "admin.channel_settings.channel_moderation.subtitleMembers": "Manage the actions available to channel members.",
-  "admin.channel_settings.channel_moderation.title": "Channel Moderation (Beta)",
+  "admin.channel_settings.channel_moderation.title": "Channel Moderation",
   "admin.channel_settings.channel_row.configure": "Edit",
   "admin.channel_settings.description": "Manage channel settings.",
   "admin.channel_settings.groupsPageTitle": "{siteName} Channels",
