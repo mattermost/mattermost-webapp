@@ -7,6 +7,7 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
@@ -21,20 +22,38 @@ import {formatText} from 'utils/text_formatting';
 import {Constants} from 'utils/constants.jsx';
 import EmojiMap from 'utils/emoji_map';
 
-interface TermsOfServiceProps {
+interface UpdateMyTermsOfServiceStatusResponse {
+  terms_of_service_create_at: number;
+  terms_of_service_id: string;
+  user_id: number;
+}
+
+export interface TermsOfServiceProps {
   location?: any,
   termsEnabled: boolean,
   actions: {
-    getTermsOfService: () => Promise<{ data: TermsOfService }>;
+    getTermsOfService: () => Promise<{ data: ReduxTermsOfService }>;
     updateMyTermsOfServiceStatus: (
       termsOfServiceId: string,
       accepted: boolean
-    ) => boolean;
+    ) => {data: UpdateMyTermsOfServiceStatusResponse};
   };
   emojiMap: EmojiMap;
 }
 
-export default class TermsOfService extends React.PureComponent {
+interface TermsOfServiceState {
+  customTermsOfServiceId: string;
+  customTermsOfServiceText: string;
+  loading: boolean;
+  loadingAgree: boolean;
+  loadingDisagree: boolean;
+  serverError: any;
+}
+
+export default class TermsOfService extends React.PureComponent<TermsOfServiceProps, TermsOfServiceState> {
+
+    formattedText: (text: string) => string;
+
     constructor(props: TermsOfServiceProps) {
         super(props);
 
@@ -76,7 +95,7 @@ export default class TermsOfService extends React.PureComponent {
         }
     };
 
-    handleLogoutClick = (e) => {
+    handleLogoutClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         GlobalActions.emitUserLoggedOutEvent('/login');
     };
@@ -113,7 +132,7 @@ export default class TermsOfService extends React.PureComponent {
         );
     };
 
-    registerUserAction = async (accepted, success) => {
+    registerUserAction = async (accepted: boolean, success: (data: UpdateMyTermsOfServiceStatusResponse) => void) => {
         const {data} = await this.props.actions.updateMyTermsOfServiceStatus(this.state.customTermsOfServiceId, accepted);
         if (data) {
             success(data);

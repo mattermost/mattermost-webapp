@@ -4,9 +4,11 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
-import TermsOfService from 'components/terms_of_service/terms_of_service.jsx';
+import {TermsOfServiceProps} from './terms_of_service';
+import TermsOfService from './terms_of_service';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import EmojiMap from 'utils/emoji_map';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
@@ -17,14 +19,14 @@ describe('components/terms_of_service/TermsOfService', () => {
     const getTermsOfService = jest.fn().mockResolvedValue({data: {id: 'tos_id', text: 'tos_text'}});
     const updateMyTermsOfServiceStatus = jest.fn().mockResolvedValue({data: true});
 
-    const baseProps = {
+    const baseProps: TermsOfServiceProps = {
         actions: {
             getTermsOfService,
             updateMyTermsOfServiceStatus,
         },
         location: {search: ''},
         termsEnabled: true,
-        emojiMap: {},
+        emojiMap: {} as EmojiMap,
     };
 
     test('should match snapshot', () => {
@@ -84,7 +86,7 @@ describe('components/terms_of_service/TermsOfService', () => {
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        (wrapper.instance() as TermsOfService).handleLogoutClick({preventDefault: jest.fn()});
+        (wrapper.instance() as TermsOfService).handleLogoutClick({ preventDefault: jest.fn() } as unknown as React.MouseEvent<HTMLAnchorElement, MouseEvent>);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledTimes(1);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledWith('/login');
     });
