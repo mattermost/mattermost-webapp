@@ -28,6 +28,7 @@ export default class InteractiveDialog extends React.PureComponent {
         submitLabel: PropTypes.string,
         notifyOnCancel: PropTypes.bool,
         state: PropTypes.string,
+        app_id: PropTypes.string,
         onHide: PropTypes.func,
         actions: PropTypes.shape({
             submitInteractiveDialog: PropTypes.func.isRequired,
@@ -90,13 +91,14 @@ export default class InteractiveDialog extends React.PureComponent {
             return;
         }
 
-        const {url, callbackId, state} = this.props;
+        const {url, callbackId, state, appID} = this.props;
 
         const dialog = {
             url,
             callback_id: callbackId,
             state,
             submission: values,
+            app_id: appID,
         };
 
         this.setState({submitting: true});
