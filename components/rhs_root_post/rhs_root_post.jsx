@@ -319,6 +319,7 @@ class RhsRootPost extends React.PureComponent {
 
         const dotMenu = (
             <DotMenu
+                emojiReactionCount={this.props.emojiReactionCount}
                 post={this.props.post}
                 location={Locations.RHS_ROOT}
                 isFlagged={this.props.isFlagged}

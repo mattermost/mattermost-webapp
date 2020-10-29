@@ -33,6 +33,7 @@ export default class DotMenu extends React.PureComponent {
         teamId: PropTypes.string,
         location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
         commentCount: PropTypes.number,
+        emojiReactionCount: PropTypes.number,
         isFlagged: PropTypes.bool,
         handleCommentClick: PropTypes.func,
         handleDropdownOpened: PropTypes.func,
@@ -96,6 +97,7 @@ export default class DotMenu extends React.PureComponent {
     static defaultProps = {
         post: {},
         commentCount: 0,
+        emojiReactionCount: 0,
         isFlagged: false,
         isReadOnly: false,
         pluginMenuItems: [],
@@ -255,6 +257,7 @@ export default class DotMenu extends React.PureComponent {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
+        const showAddReactionMenuItem = this.props.emojiReactionCount >= Constants.EMOJI_REACTIONS_LIMIT;
 
         const pluginItems = this.props.pluginMenuItems.
             filter((item) => {
@@ -290,6 +293,16 @@ export default class DotMenu extends React.PureComponent {
 
         if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
+        }
+        let showAddReactionButton = true;
+        if (
+            isMobile &&
+            !isSystemMessage &&
+            !this.props.isReadOnly &&
+            this.props.enableEmojiPicker &&
+            showAddReactionMenuItem
+        ){
+            showAddReactionButton = false;
         }
 
         return (
@@ -332,7 +345,7 @@ export default class DotMenu extends React.PureComponent {
                         permissions={[Permissions.ADD_REACTION]}
                     >
                         <Menu.ItemAction
-                            show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
+                            show={showAddReactionButton}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />

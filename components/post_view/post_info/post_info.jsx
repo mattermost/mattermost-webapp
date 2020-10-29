@@ -219,6 +219,7 @@ export default class PostInfo extends React.PureComponent {
         if (showDotMenuIcon) {
             dotMenu = (
                 <DotMenu
+                    emojiReactionCount={this.props.emojiReactionCount}
                     post={post}
                     commentCount={this.props.replyCount}
                     isFlagged={this.props.isFlagged}
