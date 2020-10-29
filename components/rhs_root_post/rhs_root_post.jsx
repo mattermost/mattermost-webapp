@@ -4,14 +4,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Tooltip } from 'react-bootstrap';
-import { Posts } from 'mattermost-redux/constants';
+import {FormattedMessage, injectIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
+import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants, { Locations } from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
-import { intlShape } from 'utils/react_intl';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -91,8 +91,8 @@ class RhsRootPost extends React.PureComponent {
 
     handleShortcutReactToLastPost = (isLastPost) => {
         if (isLastPost) {
-            const { post, enableEmojiPicker, channelIsArchived,
-                actions: { emitShortcutReactToLastPostFrom } } = this.props;
+            const {post, enableEmojiPicker, channelIsArchived,
+                actions: {emitShortcutReactToLastPostFrom}} = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
             emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -131,10 +131,10 @@ class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { shortcutReactToLastPostEmittedFrom, isLastPost } = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
-            shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
         }
@@ -196,7 +196,7 @@ class RhsRootPost extends React.PureComponent {
 
     handleAlt = (e) => {
         if (this.state.alt !== e.altKey) {
-            this.setState({ alt: e.altKey });
+            this.setState({alt: e.altKey});
         }
     }
 
@@ -217,8 +217,8 @@ class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const { post, author, reactions, isFlagged, emojiMap } = this.props;
-        this.setState({ currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap) });
+        const {post, author, reactions, isFlagged, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
     }
 
     getDotMenuRef = () => {
@@ -226,7 +226,7 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const { post, isReadOnly, teamId, channelIsArchived } = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -295,7 +295,7 @@ class RhsRootPost extends React.PureComponent {
                 );
             }
 
-            botIndicator = <BotBadge />;
+            botIndicator = <BotBadge/>;
         } else {
             userProfile = (
                 <UserProfile
