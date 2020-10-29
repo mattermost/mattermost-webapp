@@ -14,7 +14,7 @@ import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux
 import {getFilteredUsersStats, getProfiles, searchProfiles} from 'mattermost-redux/actions/users';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
-import {getProfiles as selectProfiles, getFilteredUsersStats as selectFilteredUserStats, searchProfilesStartingWithTerm, filterProfiles, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getProfiles as selectProfiles, getFilteredUsersStats as selectFilteredUserStats, makeSearchProfilesStartingWithTerm, filterProfiles, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {setUserGridSearch} from 'actions/views/search';
 import {GlobalState} from 'types/store';
@@ -40,6 +40,8 @@ function mapStateToProps(state: GlobalState, props: OwnProps) {
     const totalCount = selectFilteredUserStats(state)?.total_users_count || 0;
     const term = state.views.search.userGridSearch?.term || '';
     const filters = {roles: [role.name]};
+    const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();
+
 
     let users = [];
     let {usersToAdd} = props;
