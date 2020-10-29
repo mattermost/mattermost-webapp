@@ -1459,7 +1459,7 @@
   "api.channel.post_convert_channel_to_private.updated_from": "{username} перетворив канал із загальнодоступного на приватний",
   "api.channel.post_update_channel_displayname_message_and_forget.updated_from": "{Username} змінив псевдонім каналу з {old} на {new}",
   "api.channel.post_update_channel_header_message_and_forget.removed": "{Username} видалив заголовок каналу (було: {old})",
-  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} змінив(ла) заголовок каналу з {old} на {new}",
+  "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} змінив(ла) заголовок каналу <br></br><strong>з</strong> {old} <br></br><strong>на</strong> {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{Username} змінив(ла) заголовок каналу на {new}",
   "api.channel.remove_member.removed": "{removedUsername} був видалений з каналу",
   "api.channel.restore_channel.unarchived": "{username} архівує канал.",
