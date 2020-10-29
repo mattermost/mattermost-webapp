@@ -17,6 +17,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         currentUser: TestHelper.getUserMock(),
         expanded: true,
         isAdmin: true,
+        isEmailInvitesEnabled: true,
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
             regenerateTeamInviteId: jest.fn(),
