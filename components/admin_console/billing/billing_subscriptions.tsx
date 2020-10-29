@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -17,7 +17,6 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import AlertBanner from 'components/alert_banner';
-import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
@@ -29,7 +28,6 @@ import {
     ModalIdentifiers,
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
-import {isCustomerCardExpired} from 'utils/cloud_utils';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 import upgradeMattermostCloudImage from 'images/upgrade-mattermost-cloud-image.svg';
@@ -53,14 +51,11 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const customer = useSelector((state: GlobalState) => state.entities.cloud.customer);
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-
-    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCustomerCardExpired(customer));
 
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -98,10 +93,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
         }
 
         return false;
-    };
-
-    const shouldShowPaymentFailedBanner = () => {
-        return subscription?.last_invoice?.status === 'failed';
     };
 
     const handleHide = async () => {
@@ -194,35 +185,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {shouldShowPaymentFailedBanner() && (
-                        <AlertBanner
-                            mode='danger'
-                            title={formatMessage({
-                                id: 'billing.subscription.info.mostRecentPaymentFailed',
-                                defaultMessage: 'Your most recent payment failed',
-                            })}
-                            message={
-                                <>
-                                    <FormattedMessage
-                                        id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
-                                        defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please '
-                                    />
-                                    <BlockableLink
-                                        to='/admin_console/billing/payment_info'
-                                    >
-                                        <FormattedMessage
-                                            id='billing.subscription.info.mostRecentPaymentFailed.description.updatePaymentInformation'
-                                            defaultMessage='update your payment information'
-                                        />
-                                    </BlockableLink>
-                                    <FormattedMessage
-                                        id='billing.subscription.info.mostRecentPaymentFailed.description.avoidAnyDisruption'
-                                        defaultMessage=' to avoid any disruption.'
-                                    />
-                                </>
-                            }
-                        />
-                    )}
                     {shouldShowInfoBanner() && (
                         <AlertBanner
                             mode='info'
@@ -238,39 +200,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             onDismiss={() => handleHide()}
                         />
                     )}
-                    {showCreditCardBanner && (
-                        <AlertBanner
-                            mode='danger'
-                            title={
-                                <FormattedMessage
-                                    id='admin.billing.subscription.creditCardHasExpired'
-                                    defaultMessage='Your credit card has expired'
-                                />
-                            }
-                            message={
-                                <>
-                                    <FormattedMessage
-                                        id='admin.billing.subscription.creditCardHasExpired.please'
-                                        defaultMessage='Please '
-                                    />
-                                    <BlockableLink
-                                        to='/admin_console/billing/payment_info'
-                                    >
-                                        <FormattedMessage
-                                            id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
-                                            defaultMessage='update your payment information'
-                                        />
-                                    </BlockableLink>
-                                    <FormattedMessage
-                                        id='admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption'
-                                        defaultMessage=' to avoid any disruption.'
-                                    />
-                                </>
-                            }
-                            onDismiss={() => setShowCreditCardBanner(false)}
-                        />
-                    )}
-                    <div className='BillingSubscriptions__topWrapper'>
+                    <div
+                        className='BillingSubscriptions__topWrapper'
+                        style={{marginTop: '20px'}}
+                    >
                         <PlanDetails/>
                         {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
