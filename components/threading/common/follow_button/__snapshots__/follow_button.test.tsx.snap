@@ -2,9 +2,9 @@
 
 exports[`components/threading/common/follow_button should say follow and fire start action 1`] = `
 <Memo(FollowButton)
+  follow={[MockFunction]}
   isFollowing={false}
-  start={[MockFunction]}
-  stop={[MockFunction]}
+  unFollow={[Function]}
 >
   <Memo(Button)
     isActive={false}
@@ -33,9 +33,9 @@ exports[`components/threading/common/follow_button should say follow and fire st
 
 exports[`components/threading/common/follow_button should say following and fire stop action 1`] = `
 <Memo(FollowButton)
+  follow={[MockFunction]}
   isFollowing={true}
-  start={[MockFunction]}
-  stop={[MockFunction]}
+  unFollow={[MockFunction]}
 >
   <Memo(Button)
     isActive={true}

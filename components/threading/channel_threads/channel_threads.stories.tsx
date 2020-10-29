@@ -64,8 +64,8 @@ storiesOf('Features/Threading/Channel Threads', module).
                     isFollowing={boolean('is following', false)}
                     actions={{
                         follow: action('start following'),
-                        unfollow: action('stop following'),
-                        requestOpenThread: action('open thread'),
+                        unFollow: action('stop following'),
+                        openThread: action('open thread'),
                     }}
                 />
             </StoryBox>

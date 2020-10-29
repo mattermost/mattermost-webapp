@@ -57,7 +57,7 @@ const ThreadItem = ({
 
 }: Props) => {
     return (
-        <div
+        <article
             className={classNames('ThreadItem', {
                 'has-unreads': newReplies,
                 'is-selected': isSelected,
@@ -65,7 +65,7 @@ const ThreadItem = ({
             tabIndex={0}
             onClick={actions.select}
         >
-            <h4>
+            <h1>
                 {Boolean(newMentions || newReplies) && (
                     <div className='indicator'>
                         {newMentions ? (
@@ -95,7 +95,7 @@ const ThreadItem = ({
                     useTime={false}
                     units={THREADING_TIME}
                 />
-            </h4>
+            </h1>
             <span className='menu-anchor alt-visible'>
                 <ThreadMenu
                     isSaved={isSaved}
@@ -129,7 +129,7 @@ const ThreadItem = ({
                     )}
                 </div>
             )}
-        </div>
+        </article>
     );
 };
 

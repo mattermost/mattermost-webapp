@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/prop-types */
 
 import React, {memo, ComponentProps} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -14,7 +13,6 @@ import FollowButton from 'components/threading/common/follow_button';
 
 import Timestamp from 'components/timestamp';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
-import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 import {THREADING_TIME} from '../../common/options';
 
@@ -27,8 +25,8 @@ type Props = {
     isFollowing: boolean;
     actions: {
         follow: () => void,
-        unfollow: () => void,
-        requestOpenThread: () => void;
+        unFollow: () => void,
+        openThread: () => void;
     }
 };
 
@@ -41,8 +39,8 @@ function ThreadFooter({
     isFollowing,
     actions: {
         follow,
-        unfollow,
-        requestOpenThread: open,
+        unFollow,
+        openThread,
     },
 }: Props) {
     return (
@@ -76,8 +74,12 @@ function ThreadFooter({
             />
 
             <Button
-                onClick={open}
-                prepend={<ReplyIcon className='Icon'/>}
+                onClick={openThread}
+                prepend={
+                    <span className='icon'>
+                        <i className='icon-reply-outline'/>
+                    </span>
+                }
             >
                 <FormattedMessage
                     id='threading.numReplies'
@@ -88,8 +90,8 @@ function ThreadFooter({
 
             <FollowButton
                 isFollowing={isFollowing}
-                start={follow}
-                stop={unfollow}
+                follow={follow}
+                unFollow={unFollow}
             />
 
             {Boolean(lastReplyAt) && (

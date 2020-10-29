@@ -62,12 +62,12 @@ describe('components/threading/global_threads/thread_item', () => {
             actions: {
                 select: jest.fn(),
                 follow: jest.fn(),
-                unfollow: jest.fn(),
+                unFollow: jest.fn(),
                 openInChannel: jest.fn(),
                 markRead: jest.fn(),
                 markUnread: jest.fn(),
                 save: jest.fn(),
-                unsave: jest.fn(),
+                unSave: jest.fn(),
                 copyLink: jest.fn(),
             },
         };
@@ -138,12 +138,12 @@ describe('components/threading/global_threads/thread_item', () => {
             ['isFollowing', props.isFollowing],
             ['isSaved', props.isSaved],
             ['actions.follow', actions.follow],
-            ['actions.unfollow', actions.unfollow],
+            ['actions.unFollow', actions.unFollow],
             ['actions.openInChannel', actions.openInChannel],
             ['actions.markRead', actions.markRead],
             ['actions.markUnread', actions.markUnread],
             ['actions.save', actions.save],
-            ['actions.unsave', actions.unsave],
+            ['actions.unSave', actions.unSave],
             ['actions.copyLink', actions.copyLink],
         ]).forEach((val, prop) => {
             expect(wrapper.find(ThreadMenu).props()).toHaveProperty(prop, val);

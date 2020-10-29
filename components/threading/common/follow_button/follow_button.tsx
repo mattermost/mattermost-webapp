@@ -8,20 +8,20 @@ import Button from '../button';
 
 type Props = {
     isFollowing: boolean;
-    start: MouseEventHandler<HTMLButtonElement>,
-    stop: MouseEventHandler<HTMLButtonElement>;
+    follow: MouseEventHandler<HTMLButtonElement>,
+    unFollow: MouseEventHandler<HTMLButtonElement>;
 }
 
 function FollowButton({
     isFollowing,
-    start,
-    stop,
+    follow,
+    unFollow,
     ...props
 }: Props & Exclude<ComponentProps<typeof Button>, Props>) {
     return (
         <Button
             {...props}
-            onClick={isFollowing ? stop : start}
+            onClick={isFollowing ? unFollow : follow}
             isActive={isFollowing}
         >
             {isFollowing ? (
