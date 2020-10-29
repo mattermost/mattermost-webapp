@@ -19,19 +19,23 @@ import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
 import {Constants} from 'utils/constants.jsx';
+import EmojiMap from 'utils/emoji_map';
+
+interface TermsOfServiceProps {
+  location?: any,
+  termsEnabled: boolean,
+  actions: {
+    getTermsOfService: () => Promise<{ data: TermsOfService }>;
+    updateMyTermsOfServiceStatus: (
+      termsOfServiceId: string,
+      accepted: boolean
+    ) => boolean;
+  };
+  emojiMap: EmojiMap;
+}
 
 export default class TermsOfService extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object,
-        termsEnabled: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            getTermsOfService: PropTypes.func.isRequired,
-            updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
-        }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
-    };
-
-    constructor(props) {
+    constructor(props: TermsOfServiceProps) {
         super(props);
 
         this.state = {
@@ -43,7 +47,7 @@ export default class TermsOfService extends React.PureComponent {
             serverError: null,
         };
 
-        this.formattedText = memoizeResult((text) => formatText(text, {}, props.emojiMap));
+        this.formattedText = memoizeResult((text: string) => formatText(text, {}, props.emojiMap));
     }
 
     componentDidMount() {

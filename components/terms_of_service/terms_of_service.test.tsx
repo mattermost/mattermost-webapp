@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import TermsOfService from 'components/terms_of_service/terms_of_service.jsx';
 
@@ -62,13 +62,13 @@ describe('components/terms_of_service/TermsOfService', () => {
 
     test('should call updateTermsOfServiceStatus on registerUserAction', async () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        await wrapper.instance().registerUserAction(true, jest.fn());
+        await (wrapper.instance() as TermsOfService).registerUserAction(true, jest.fn());
         expect(baseProps.actions.updateMyTermsOfServiceStatus).toHaveBeenCalledTimes(1);
     });
 
     test('should match state and call updateTermsOfServiceStatus on handleAcceptTerms', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        wrapper.instance().handleAcceptTerms();
+        (wrapper.instance() as TermsOfService).handleAcceptTerms();
         expect(wrapper.state('loadingAgree')).toEqual(true);
         expect(wrapper.state('serverError')).toEqual(null);
         expect(baseProps.actions.updateMyTermsOfServiceStatus).toHaveBeenCalledTimes(1);
@@ -76,7 +76,7 @@ describe('components/terms_of_service/TermsOfService', () => {
 
     test('should match state and call updateTermsOfServiceStatus on handleRejectTerms', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        wrapper.instance().handleRejectTerms();
+        (wrapper.instance() as TermsOfService).handleRejectTerms();
         expect(wrapper.state('loadingDisagree')).toEqual(true);
         expect(wrapper.state('serverError')).toEqual(null);
         expect(baseProps.actions.updateMyTermsOfServiceStatus).toHaveBeenCalledTimes(1);
@@ -84,7 +84,7 @@ describe('components/terms_of_service/TermsOfService', () => {
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        wrapper.instance().handleLogoutClick({preventDefault: jest.fn()});
+        (wrapper.instance() as TermsOfService).handleLogoutClick({preventDefault: jest.fn()});
         expect(emitUserLoggedOutEvent).toHaveBeenCalledTimes(1);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledWith('/login');
     });
