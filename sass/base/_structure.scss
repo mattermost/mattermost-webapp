@@ -24,6 +24,12 @@ body {
             overflow: auto;
         }
     }
+
+    &#channel_view {
+        .channel-view {
+            background: var(--center-channel-bg);
+        }
+    }
 }
 
 *:focus {
