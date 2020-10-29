@@ -42,7 +42,6 @@ function mapStateToProps(state: GlobalState, props: OwnProps) {
     const filters = {roles: [role.name]};
     const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();
 
-
     let users = [];
     let {usersToAdd} = props;
     if (term) {
