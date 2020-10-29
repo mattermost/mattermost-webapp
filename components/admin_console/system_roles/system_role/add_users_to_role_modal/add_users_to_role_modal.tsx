@@ -10,7 +10,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Role} from 'mattermost-redux/types/roles';
 
-import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 import {filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {Client4} from 'mattermost-redux/client';
@@ -53,7 +53,7 @@ type State = {
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
     const profilesList: UserProfile[] = Object.keys(users).map((key) => users[key]);
-    const filteredProfilesList = filterProfilesMatchingTerm(profilesList, term);
+    const filteredProfilesList = filterProfilesStartingWithTerm(profilesList, term);
     return filterProfiles(profileListToMap(filteredProfilesList), {});
 }
 

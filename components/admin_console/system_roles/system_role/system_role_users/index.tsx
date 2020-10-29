@@ -9,7 +9,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
 import {getFilteredUsersStats, getProfiles, searchProfiles} from 'mattermost-redux/actions/users';
 
@@ -28,7 +28,7 @@ type OwnProps = {
 }
 
 function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
-    const profiles = filterProfilesMatchingTerm(Object.keys(users).map((key) => users[key]), term);
+    const profiles = filterProfilesStartingWithTerm(Object.keys(users).map((key) => users[key]), term);
     const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
 
     return filteredProfilesMap;
