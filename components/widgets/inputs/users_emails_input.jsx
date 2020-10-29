@@ -15,6 +15,7 @@ import MailIcon from 'components/widgets/icons/mail_icon';
 import MailPlusIcon from 'components/widgets/icons/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
@@ -102,6 +103,12 @@ export default class UsersEmailsInput extends React.PureComponent {
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
+        let botBadge = null;
+
+        if (user.is_bot) {
+            botBadge = <BotBadge/>;
+        }
+
         if (!isEmail(user.value) && isGuest(user)) {
             guestBadge = <GuestBadge/>;
         }
@@ -118,6 +125,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                         url={profileImg}
                     />
                     {this.renderUserName(user)}
+                    {botBadge}
                     {guestBadge}
                 </React.Fragment>
             );
@@ -140,6 +148,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     url={profileImg}
                 />
                 {getDisplayName(user)}
+                {botBadge}
                 {guestBadge}
             </React.Fragment>
         );
@@ -256,6 +265,10 @@ export default class UsersEmailsInput extends React.PureComponent {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
+    onBlur = () => {
+        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'input-blur'});
+    }
+
     render() {
         const values = this.props.value.map((v) => {
             if (v.id) {
@@ -291,6 +304,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     inputValue={this.props.inputValue}
                     openMenuOnFocus={true}
                     onFocus={this.onFocus}
+                    onBlur={this.onBlur}
                     tabSelectsValue={true}
                     value={values}
                     aria-label={this.props.ariaLabel}
