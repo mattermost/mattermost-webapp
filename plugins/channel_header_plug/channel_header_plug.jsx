@@ -9,7 +9,6 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
 
-import {doPluginCall} from 'actions/plugins';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
@@ -21,8 +20,9 @@ class CustomMenu extends React.PureComponent {
         children: PropTypes.node,
         onClose: PropTypes.func.isRequired,
         rootCloseEvent: PropTypes.oneOf(['click', 'mousedown']),
+        appBindings: PropTypes.array,
         actions: PropTypes.shape({
-            executeCommand: PropTypes.func.isRequired
+            doAppCall: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -139,7 +139,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     }
 
     onClick = async (plugAction) => {
-        const response = await doPluginCall({
+        doAppCall({
             form_url: plugAction.form_url,
             context: {
                 app_id: plugAction.app_id,
@@ -150,11 +150,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 plugAction,
             ],
         });
-        if (response.type === 'command') {
-            response.data.args.command = response.data.command;
-            this.props.actions.executeCommand(response.data.command, response.data.args);
-            return
-        }
     }
 
     createActionButton = (plugAction) => {
@@ -177,7 +172,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
-    createDropdown = (plugs, locations) => {
+    createDropdown = (plugs, appBindings) => {
         const componentItems = plugs.map((plug) => {
             return (
                 <li
@@ -195,7 +190,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             );
         });
 
-        const items = componentItems.concat(locations.map((plug) => {
+        const items = componentItems.concat(appBindings.map((plug) => {
             return (
                 <li
                     key={'channelHeaderPlug' + plug.app_id + plug.location_id}
@@ -203,22 +198,20 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => doPluginCall({
-                            form_url: plug.form_url,
+                        onClick={() => this.fireActionAndClose(() => doAppCall({
+                            form_url: plug.call.url,
                             context: {
                                 app_id: plug.app_id,
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },
                             from: [
-                                {
                                     plug,
-                                },
                             ],
                         }))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.icon}/>)}</span>
-                        <span>{plug.text}</span>
+                        <span>{plug.label}</span>
                     </a>
                 </li>
             );
@@ -279,16 +272,16 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     render() {
         const components = this.props.components || [];
-        const locations = this.props.locations || [];
+        const appBindings = this.props.appBindings || [];
 
-        if (components.length === 0 && locations.length === 0) {
+        if (components.length === 0 && appBindings.length === 0) {
             return null;
-        } else if (components.length + locations.length <= 5) {
+        } else if (components.length + appBindings.length <= 5) {
             const componentButtons = components.map(this.createComponentButton);
-            return componentButtons.concat(locations.map(this.createActionButton));
+            return componentButtons.concat(appBindings.map(this.createActionButton));
         }
 
-        return this.createDropdown(components, locations);
+        return this.createDropdown(components, appBindings);
     }
 }
 

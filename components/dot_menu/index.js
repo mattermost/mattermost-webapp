@@ -8,11 +8,10 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getPluginsLocations} from 'mattermost-redux/selectors/entities/plugins';
-import PluginLocation from 'mattermost-redux/constants/plugins';
+import {getAppsBindings} from 'mattermost-redux/selectors/entities/plugins';
+import AppsBindings from 'mattermost-redux/constants/plugins';
 
 import {openModal} from 'actions/views/modals';
-import {executeCommand} from 'actions/command';
 import {
     flagPost,
     unflagPost,
@@ -38,7 +37,7 @@ function mapStateToProps(state, ownProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const pluginLocations = getPluginsLocations(state, PluginLocation.PLUGIN_LOCATION_POST_MENU_ITEM);
+    const appsBindings = getAppsBindings(state, AppsBindings.APP_BINDING_POST_MENU_ITEM);
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -51,7 +50,7 @@ function mapStateToProps(state, ownProps) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
-        pluginLocations,
+        appsBindings,
     };
 }
 
@@ -65,7 +64,6 @@ function mapDispatchToProps(dispatch) {
             unpinPost,
             openModal,
             markPostAsUnread,
-            executeCommand,
         }, dispatch),
     };
 }

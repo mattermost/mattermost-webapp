@@ -9,7 +9,6 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {doPluginCall} from 'actions/plugins';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -46,7 +45,7 @@ export default class DotMenu extends React.PureComponent {
         enableEmojiPicker: PropTypes.bool.isRequired,
         channelIsArchived: PropTypes.bool.isRequired,
         currentTeamUrl: PropTypes.string.isRequired,
-        pluginLocations: PropTypes.array.isRequired,
+        appsBindings: PropTypes.array.isRequired,
 
         /*
          * Components for overriding provided by plugins
@@ -91,6 +90,8 @@ export default class DotMenu extends React.PureComponent {
             markPostAsUnread: PropTypes.func.isRequired,
 
             executeCommand: PropTypes.func.isRequired,
+
+            doAppCall: PropTypes.func.isRequired,
         }).isRequired,
 
         canEdit: PropTypes.bool.isRequired,
@@ -257,23 +258,19 @@ export default class DotMenu extends React.PureComponent {
     }
 
     onClickLocation = async (item) => {
-        const response = await doPluginCall({
-            form_url: item.form_url,
+        this.doAppCall({
+            url: item.call.url,
             context: {
                 app_id: item.app_id,
                 team_id: this.props.teamId,
                 channel_id: this.props.post.channel_id,
                 post_id: this.props.post.id,
+                root_id: this.props.post.root_id,
             },
             from: [
                 item,
             ],
         });
-        if (response.type === 'command') {
-            response.data.args.command = response.data.command;
-            this.props.actions.executeCommand(response.data.command, response.data.args);
-            return
-        }
     }
 
     render() {
@@ -312,10 +309,10 @@ export default class DotMenu extends React.PureComponent {
                 );
             });
 
-        const pluginLocationsItems = this.props.pluginLocations.map((item) => {
+        const appsBindings = this.props.appsBindings.map((item) => {
             return (
                 <Menu.ItemAction
-                    text={item.text}
+                    text={item.label}
                     key={item.app_id + item.location_id}
                     onClick={() => this.onClickLocation(item)}
                     icon={(<img src={item.icon}/>)}
@@ -419,9 +416,9 @@ export default class DotMenu extends React.PureComponent {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || pluginLocationsItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {(pluginItems.length > 0 || appsBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
-                    {pluginLocationsItems}
+                    {appsBindings}
                     <Pluggable
                         postId={this.props.post.id}
                         pluggableName={PLUGGABLE_COMPONENT}
