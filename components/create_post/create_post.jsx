@@ -465,8 +465,8 @@ class CreatePost extends React.PureComponent {
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
         }
-
-        if (this.state.postError) {
+        let isReactionLimitReached = this.props.reactionsByEmojiNameForLatestPost?.length >= Constants.EMOJI_REACTIONS_LIMIT;
+        if (this.state.postError && isReactionLimitReached) {
             this.setState({errorClass: 'animation--highlight'});
             setTimeout(() => {
                 this.setState({errorClass: null});
@@ -519,7 +519,7 @@ class CreatePost extends React.PureComponent {
             }
         } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
             let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
-            if (isReaction[1] === '+' && !isIncomingReactionPresentForLatestPost && this.props.reactionsByEmojiNameForLatestPost?.length >= Constants.EMOJI_REACTIONS_LIMIT) {
+            if (isReaction[1] === '+' && !isIncomingReactionPresentForLatestPost && isReactionLimitReached) {
                 const errorMessage = (
                     <FormattedMessage
                         id='create_post.emoji_reaction_limit_exceeded'

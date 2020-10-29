@@ -609,23 +609,22 @@ class CreateComment extends React.PureComponent {
         }
 
         const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
-        let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
-
-        if (
-            isReaction &&
-            !isIncomingReactionPresentForLatestPost &&
-            isReaction[1] === '+' &&
-            this.props.emojiMap.has(isReaction[2]) &&
-            this.props.latestPostReactionsCount >= Constants.EMOJI_REACTIONS_LIMIT
-        ) {
-            const errorMessage = (
-                <FormattedMessage
-                    id='create_post.reaction_limit_message'
-                    defaultMessage='Reaction limit exceeded for this message.'
-                />
-            );
-            setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
-            return;
+        if(isReaction && this.props.emojiMap.has(isReaction[2])){
+            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
+            if (
+                !isIncomingReactionPresentForLatestPost &&
+                isReaction[1] === '+' &&
+                this.props.latestPostReactionsCount >= Constants.EMOJI_REACTIONS_LIMIT
+            ) {
+                const errorMessage = (
+                    <FormattedMessage
+                        id='create_post.reaction_limit_message'
+                        defaultMessage='Reaction limit exceeded for this message.'
+                    />
+                );
+                setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
+                return;
+            }
         }
 
         if (this.state.postError) {
