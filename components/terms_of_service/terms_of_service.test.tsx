@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
-
-import {TermsOfServiceProps} from './terms_of_service';
-import TermsOfService from './terms_of_service';
+import {shallow} from 'enzyme';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+
 import EmojiMap from 'utils/emoji_map';
+
+import {TermsOfServiceProps, TermsOfService} from './terms_of_service';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
@@ -86,7 +86,7 @@ describe('components/terms_of_service/TermsOfService', () => {
 
     test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
-        (wrapper.instance() as TermsOfService).handleLogoutClick({ preventDefault: jest.fn() } as unknown as React.MouseEvent<HTMLAnchorElement, MouseEvent>);
+        (wrapper.instance() as TermsOfService).handleLogoutClick({preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLAnchorElement, MouseEvent>);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledTimes(1);
         expect(emitUserLoggedOutEvent).toHaveBeenCalledWith('/login');
     });
