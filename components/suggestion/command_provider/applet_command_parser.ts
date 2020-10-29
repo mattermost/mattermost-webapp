@@ -15,7 +15,7 @@ import {
     AutocompleteStaticSelect,
     AppletBinding,
     AppletContext,
-    FormMetadataResponse,
+    AppletFormMetadataResponse,
     AppletField,
     AppletSelectOption,
     AppletFieldTypes,
@@ -99,7 +99,7 @@ export const fetchCloudAppCommand = async (binding: AppletBinding): Promise<Appl
         },
     };
 
-    const res = await doAppletCall<void, FormMetadataResponse>(payload);
+    const res = await doAppletCall<void, AppletFormMetadataResponse>(payload);
     if (res.data) {
         const b = {
             ...binding,
@@ -587,90 +587,3 @@ const makePositionalArgumentToken = (name: string, value: string) => {
         value,
     };
 }
-
-const STATIC_BINDINGS: AppletBinding[] = [
-    {
-        app_id: 'jira',
-        name: '/michael',
-        bindings: [{
-            app_id: 'jira',
-            name: 'issue',
-            description: 'Interact with Jira issues',
-            bindings: [
-                {
-                    app_id: 'jira',
-                    name: 'view',
-                    description: 'View details of a Jira issue',
-                    func: {
-                        form: {
-                            fields: [
-                                {
-                                    name: 'project',
-                                    description: 'The Jira project description',
-                                    type: AppletFieldTypes.DYNAMIC_SELECT,
-                                    // flag_name: 'project',
-                                    hint: 'The Jira project hint',
-                                    // role_id: 'system_user',
-                                    positional: true,
-                                    source_url: '/projects',
-                                },
-                                {
-                                    name: 'issue',
-                                    description: 'The Jira issue key',
-                                    type: AppletFieldTypes.TEXT,
-                                    // flag_name: 'issue',
-                                    hint: 'MM-11343',
-                                    // role_id: 'system_user',
-                                    positional: false,
-                                },
-                            ],
-                        },
-                    },
-                },
-                {
-                    app_id: 'jira',
-                    name: 'create',
-                    description: 'Create a new Jira issue',
-                    func: {
-                        form: {
-                            fields: [
-                                {
-                                    name: 'project',
-                                    description: 'The Jira project description',
-                                    type: AppletFieldTypes.DYNAMIC_SELECT,
-                                    hint: 'The Jira project hint',
-                                    positional: false,
-                                    source_url: '/projects',
-                                },
-                                {
-                                    name: 'summary',
-                                    description: 'The Jira issue summary',
-                                    type: AppletFieldTypes.TEXT,
-                                    hint: 'The thing is working great!',
-                                    positional: false,
-                                },
-                                {
-                                    name: 'epic',
-                                    description: 'The Jira epic',
-                                    type: AppletFieldTypes.STATIC_SELECT,
-                                    hint: 'The thing is working great!',
-                                    positional: false,
-                                    options: [
-                                        {
-                                            label: 'Dylan Epic',
-                                            value: 'epic1',
-                                        },
-                                        {
-                                            label: 'Michael Epic',
-                                            value: 'epic2',
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    },
-                },
-            ],
-        }],
-    },
-];

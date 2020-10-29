@@ -113,8 +113,8 @@ describe('CommandParser', () => {
     describe('getForm', () => {
         test('filled out form', () => {
             const msg = '/jira issue view dynamic-value --issue  MM-32343';
-            const ls flattenCommandList(definitions);
-            const res = getForm(msg, ls[2]);
+            const flattened = flattenCommandList(definitions);
+            const res = getForm(msg, flattened[2]);
             expect(res).toBeTruthy();
             expect(res).toEqual({
                 issue: 'MM-32343',
