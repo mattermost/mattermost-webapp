@@ -162,6 +162,7 @@
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: var(--center-channel-color);
     }
 
     .caret {
@@ -178,6 +179,12 @@
 
     .disabled {
         color: #999999;
+    }
+
+    .pinned-posts-button {
+        svg {
+            fill: rgba(var(--center-channel-color), 0.6);
+        }
     }
 }
 
@@ -739,6 +746,11 @@
             }
         }
     }
+		.channel-header__info {
+			.header-dropdown__icon {
+				color: rgba(var(--center-channel-color-rgb),0.8)
+			}
+		}
 
 }
 
