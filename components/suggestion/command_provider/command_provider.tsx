@@ -16,7 +16,7 @@ import {getSelectedPost} from 'selectors/rhs';
 import Suggestion from '../suggestion.jsx';
 import Provider from '../provider.jsx';
 
-import {shouldHandleCommand, handleCommand, getSynchronousResults, getCloudAppCommandLocations} from './command_parser';
+import {shouldHandleCommand, handleCommand, getSynchronousResults, getCloudAppCommandLocations} from './applet_command_parser';
 
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
 
@@ -145,8 +145,10 @@ export default class CommandProvider extends Provider {
             ...(rootId && {root_id: rootId, parent_id: rootId}),
         };
 
-        if (shouldHandleCommand(command, getCloudAppCommandLocations(store.getState()))) {
-            handleCommand(command, getCloudAppCommandLocations(store.getState()), args).then((matches => {
+        const bindings = getCloudAppCommandLocations(store.getState());
+
+        if (shouldHandleCommand(command, bindings)) {
+            handleCommand(command, bindings, args).then((matches => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,

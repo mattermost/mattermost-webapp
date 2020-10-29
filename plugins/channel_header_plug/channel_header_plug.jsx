@@ -9,7 +9,7 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
 
-import {doPluginCall} from 'actions/plugins';
+import {doAppletCall} from 'actions/applets';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
@@ -147,7 +147,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         height='24'
                     />
                 )}
-                onClick={() => doPluginCall({
+                onClick={() => doAppletCall({
                     form_url: plugAction.form_url,
                     context: {
                         app_id: plugAction.app_id,
@@ -193,7 +193,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => doPluginCall({
+                        onClick={() => this.fireActionAndClose(() => doAppletCall({
                             form_url: plug.form_url,
                             context: {
                                 app_id: plug.app_id,

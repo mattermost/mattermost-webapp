@@ -10,7 +10,7 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import PluginLocation from 'mattermost-redux/constants/plugins';
 
-import {doPluginCall} from 'actions/plugins';
+import {doAppletCall} from 'actions/applets';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -297,7 +297,7 @@ export default class DotMenu extends React.PureComponent {
                     text={item.text}
                     key={item.app_id + item.location_id}
                     onClick={() => {
-                        doPluginCall({
+                        doAppletCall({
                             form_url: item.form_url,
                             context: {
                                 app_id: item.app_id,
