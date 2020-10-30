@@ -98,6 +98,7 @@ type State = {
     openUp: boolean,
     width: number,
     canEdit: boolean,
+    canDelete: boolean,
 }
 
 export default class DotMenu extends React.PureComponent<Props, State> {
@@ -123,6 +124,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             openUp: false,
             width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
+            canDelete: props.canDelete && !props.isReadOnly,
         };
 
         this.buttonRef = React.createRef();
@@ -334,7 +336,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 />
             );
         });
-        if (!this.props.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -417,7 +419,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    {!isSystemMessage && (this.state.canEdit || this.props.canDelete) && this.renderDivider('edit')}
+                    {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
                         show={this.state.canEdit}
@@ -426,7 +428,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                     />
                     <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
-                        show={this.props.canDelete}
+                        show={this.state.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
