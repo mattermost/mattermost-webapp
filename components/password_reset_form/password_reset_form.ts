@@ -1,36 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ServerError} from 'mattermost-redux/types/errors';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
+interface Props {
+  loction: object;
+  siteName: string;
+  actions: {
+    resetUserPassword: (token: string, newPassword: string) => Promise<{data: any; error: ServerError}>;
+  };
+}
 
-export default class PasswordResetForm extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        siteName: PropTypes.string,
-        actions: PropTypes.shape({
-            resetUserPassword: PropTypes.func.isRequired,
-        }).isRequired,
+interface State {
+    error: React.ReactNode;
+}
+
+export default class PasswordResetForm extends React.PureComponent<Props, State> {
+    state = {
+        error: null,
     };
+    passwordInput = React.createRef<HTMLInputElement>();
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            error: null,
-        };
-
-        this.passwordInput = React.createRef();
-    }
-
-    handlePasswordReset = async (e) => {
+    handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const password = this.passwordInput.current.value;
