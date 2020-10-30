@@ -23,6 +23,7 @@ type CustomMenuProps = {
     children?: ReactNode;
     onClose: () => void;
     rootCloseEvent?: 'click' | 'mousedown';
+    bsRole: string;
 }
 class CustomMenu extends React.PureComponent<CustomMenuProps> {
     handleRootClose = () => {
@@ -57,6 +58,7 @@ type CustomToggleProps = {
     children?: ReactNode;
     dropdownOpen?: boolean;
     onClick?: (e: React.MouseEvent) => void;
+    bsRole: string;
 }
 
 class CustomToggle extends React.PureComponent<CustomToggleProps> {
@@ -228,6 +230,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                     open={this.state.dropdownOpen}
                 >
                     <CustomToggle
+                        bsRole='toggle'
                         dropdownOpen={this.state.dropdownOpen}
                     >
                         <OverlayTrigger
@@ -260,6 +263,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                         </OverlayTrigger>
                     </CustomToggle>
                     <CustomMenu
+                        bsRole='menu'
                         open={this.state.dropdownOpen}
                         onClose={this.onClose}
                     >
