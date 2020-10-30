@@ -32,6 +32,11 @@ export type PluginComponent = {
     id: string;
     pluginId: string;
     component: React.Component;
+    subMenu?: any[]; // TODO Add more concrete type
+    text?: string;
+    filter?: (id: string) => boolean;
+    action?: (id?: string) => void;
+
 };
 
 export type PostPluginComponent = {

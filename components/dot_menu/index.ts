@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getAppsBindings} from 'mattermost-redux/selectors/entities/plugins';
-import AppsBindings from 'mattermost-redux/constants/plugins';
+import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
+import AppsBindings from 'mattermost-redux/constants/apps';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -24,20 +24,37 @@ import * as PostUtils from 'utils/post_utils.jsx';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
+import {doAppCall} from 'actions/apps';
 
-import DotMenu from './dot_menu.jsx';
+import DotMenu from './dot_menu';
+import { GlobalState } from 'types/store';
+import { GenericAction } from 'mattermost-redux/types/actions';
+import { Post } from 'mattermost-redux/types/posts';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    post: Post;
+    commentCount?: number;
+    isFlagged?: boolean;
+    handleCommentClick?: () => void;
+    handleDropdownOpened?: () => void;
+    handleAddReactionClick?: () => void;
+    isMenuOpen?: boolean;
+    isReadOnly?: boolean;
+    enableEmojiPicker: boolean;
+    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | 'NO_WHERE',
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const {post} = ownProps;
 
     const license = getLicense(state);
     const config = getConfig(state);
     const userId = getCurrentUserId(state);
-    const channel = getChannel(state, ownProps.post.channel_id);
+    const channel = getChannel(state, post.channel_id);
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appsBindings = getAppsBindings(state, AppsBindings.APP_BINDING_POST_MENU_ITEM);
+    const appsBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -46,15 +63,15 @@ function mapStateToProps(state, ownProps) {
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
-        shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, post, channel),
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
         appsBindings,
+        ...ownProps,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             flagPost,
@@ -64,6 +81,7 @@ function mapDispatchToProps(dispatch) {
             unpinPost,
             openModal,
             markPostAsUnread,
+            doAppCall,
         }, dispatch),
     };
 }

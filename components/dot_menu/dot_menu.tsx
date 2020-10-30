@@ -22,93 +22,94 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import { Post } from 'mattermost-redux/types/posts';
+import { Binding, Call } from 'mattermost-redux/types/apps';
+import { PluginComponent } from 'types/store/plugins';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 
-export default class DotMenu extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-        teamId: PropTypes.string,
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
-        commentCount: PropTypes.number,
-        isFlagged: PropTypes.bool,
-        handleCommentClick: PropTypes.func,
-        handleDropdownOpened: PropTypes.func,
-        handleAddReactionClick: PropTypes.func,
-        isMenuOpen: PropTypes.bool,
-        isReadOnly: PropTypes.bool,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isLicensed: PropTypes.bool.isRequired,
-        postEditTimeLimit: PropTypes.string.isRequired,
-        enableEmojiPicker: PropTypes.bool.isRequired,
-        channelIsArchived: PropTypes.bool.isRequired,
-        currentTeamUrl: PropTypes.string.isRequired,
-        appsBindings: PropTypes.array.isRequired,
-
-        /*
-         * Components for overriding provided by plugins
+export type Props = {
+    post: Post,
+    teamId?: string,
+    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | 'NO_WHERE',
+    commentCount?: number,
+    isFlagged?: boolean,
+    handleCommentClick?: () => void,
+    handleDropdownOpened?: () => void,
+    handleAddReactionClick?: () => void,
+    isMenuOpen?: boolean,
+    isReadOnly?: boolean,
+    pluginMenuItems?: PluginComponent[],
+    isLicensed: boolean,
+    postEditTimeLimit?: string,
+    enableEmojiPicker: boolean,
+    channelIsArchived: boolean,
+    currentTeamUrl: string,
+    appsBindings: Binding[],
+    canEdit: boolean,
+    canDelete: boolean,
+    /**
+     * Components for overriding provided by plugins
+     */
+    components: {
+        [componentName: string]: PluginComponent[],
+    },
+    actions: {
+        /**
+         * Function flag the post
          */
-        components: PropTypes.object.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function flag the post
-             */
-            flagPost: PropTypes.func.isRequired,
-
-            /**
-             * Function to unflag the post
-             */
-            unflagPost: PropTypes.func.isRequired,
-
-            /**
-             * Function to set the editing post
-             */
-            setEditingPost: PropTypes.func.isRequired,
-
-            /**
-             * Function to pin the post
-             */
-            pinPost: PropTypes.func.isRequired,
-
-            /**
-             * Function to unpin the post
-             */
-            unpinPost: PropTypes.func.isRequired,
-
-            /**
-             * Function to open a modal
-             */
-            openModal: PropTypes.func.isRequired,
-
-            /*
-             * Function to set the unread mark at given post
-             */
-            markPostAsUnread: PropTypes.func.isRequired,
-
-            executeCommand: PropTypes.func.isRequired,
-
-            doAppCall: PropTypes.func.isRequired,
-        }).isRequired,
-
-        canEdit: PropTypes.bool.isRequired,
-        canDelete: PropTypes.bool.isRequired,
+        flagPost: (id: string) => void,
+        /**
+         * Function to unflag the post
+         */
+        unflagPost: (id: string) => void,
+        /**
+         * Function to set the editing post
+         */
+        setEditingPost: (postId: string, commentCount: number, refocusId: string, title: string, isRHS: boolean) => void,
+        /**
+         * Function to pin the post
+         */
+        pinPost: (id: string) => void,
+        /**
+         * Function to unpin the post
+         */
+        unpinPost: (id: string) => void,
+        /**
+         * Function to open a modal
+         */
+        openModal: (modalData: any) => void, // TODO Improve typing
+        /**
+         * Function to set the unread mark at given post
+         */
+        markPostAsUnread: (post: Post) => void,
+        doAppCall: (call: Call) => void,
     }
+}
 
-    static defaultProps = {
-        post: {},
+type State = {
+    openUp: boolean,
+    width: number,
+    canEdit: boolean,
+}
+
+export default class DotMenu extends React.PureComponent<Props, State> {
+    editDisableAction: DelayedAction
+    buttonRef: React.RefObject<HTMLButtonElement>
+
+    public static defaultProps: Partial<Props> = {
+        post: {} as Post,
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
-        pluginMenuItems: [],
-        location: Locations.CENTER,
+        pluginMenuItems: [] as PluginComponent[],
+        location: 'CENTER',
         enableEmojiPicker: false,
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
@@ -123,13 +124,15 @@ export default class DotMenu extends React.PureComponent {
     }
 
     disableCanEditPostByTime() {
-        const {post, isLicensed, postEditTimeLimit} = this.props;
+        const {post, isLicensed} = this.props;
         const {canEdit} = this.state;
+
+        let postEditTimeLimit = this.props.postEditTimeLimit || String(Constants.UNSET_POST_EDIT_TIME_LIMIT);
 
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (parseInt(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -141,7 +144,7 @@ export default class DotMenu extends React.PureComponent {
         this.disableCanEditPostByTime();
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: Props) {
         return {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
@@ -165,7 +168,7 @@ export default class DotMenu extends React.PureComponent {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e) => {
+    handleAddReactionMenuItemActivated = (e: Event) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -186,12 +189,12 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    handleUnreadMenuItemActivated = (e) => {
+    handleUnreadMenuItemActivated = (e: Event) => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e) => {
+    handleDeleteMenuItemActivated = (e: Event) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -208,9 +211,13 @@ export default class DotMenu extends React.PureComponent {
     }
 
     handleEditMenuItemActivated = () => {
+        let commentCount = 0;
+        if (this.props.commentCount) {
+            commentCount = this.props.commentCount
+        }
         this.props.actions.setEditingPost(
             this.props.post.id,
-            this.props.commentCount,
+            commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
@@ -229,11 +236,11 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (menuRef) => {
+    refCallback = (menuRef?: any) => {
         if (menuRef) {
             const rect = menuRef.rect();
-            const buttonRect = this.buttonRef.current.getBoundingClientRect();
-            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
+            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+            const y = (typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y) || 0;
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
@@ -247,7 +254,7 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    renderDivider = (suffix) => {
+    renderDivider = (suffix: string) => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}
@@ -257,18 +264,21 @@ export default class DotMenu extends React.PureComponent {
         );
     }
 
-    onClickLocation = async (item) => {
-        this.doAppCall({
-            url: item.call.url,
+    onClickBinding = async (binding: Binding) => {
+        if (!binding.call) {
+            return
+        }
+        this.props.actions.doAppCall({
+            url: binding.call.url,
             context: {
-                app_id: item.app_id,
+                app_id: binding.app_id,
                 team_id: this.props.teamId,
                 channel_id: this.props.post.channel_id,
                 post_id: this.props.post.id,
                 root_id: this.props.post.root_id,
             },
             from: [
-                item,
+                binding,
             ],
         });
     }
@@ -277,7 +287,7 @@ export default class DotMenu extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        const pluginItems = this.props.pluginMenuItems.
+        const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
@@ -286,7 +296,7 @@ export default class DotMenu extends React.PureComponent {
                     return (
                         <Menu.ItemSubMenu
                             key={item.id + '_pluginmenuitem'}
-                            id={item.text.id}
+                            id={item.id}
                             postId={this.props.post.id}
                             text={item.text}
                             subMenu={item.subMenu}
@@ -307,19 +317,19 @@ export default class DotMenu extends React.PureComponent {
                         }}
                     />
                 );
-            });
+            }) || [];
 
         const appsBindings = this.props.appsBindings.map((item) => {
             return (
                 <Menu.ItemAction
                     text={item.label}
                     key={item.app_id + item.location_id}
-                    onClick={() => this.onClickLocation(item)}
+                    onClick={() => this.onClickBinding(item)}
                     icon={(<img src={item.icon}/>)}
                 />
             );
         });
-        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.props.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -402,7 +412,7 @@ export default class DotMenu extends React.PureComponent {
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
+                    {!isSystemMessage && (this.state.canEdit || this.props.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
                         show={this.state.canEdit}
@@ -411,7 +421,7 @@ export default class DotMenu extends React.PureComponent {
                     />
                     <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
-                        show={this.state.canDelete}
+                        show={this.props.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
