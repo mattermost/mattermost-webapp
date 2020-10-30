@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import { General } from 'mattermost-redux/constants';
+import { Team, TeamStats } from 'mattermost-redux/types/teams';
+import { RelationOneToOne } from 'mattermost-redux/types/utilities';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -25,20 +27,21 @@ import { formatPostsPerDayData, formatUsersWithPostsPerDayData } from '../format
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
 //TODO find out where the types for these are initialized if you do end up using these
-// type Props = {
-//     actions: any;
-//     teams: object[];
-//     stats: object;
-//     locale: string;
-// }
+type Props = {
+    actions: any;
+    teams: Team[];
+    stats: RelationOneToOne<Team, TeamStats>;
+    locale: string;
+}
 
-// type State = {
-//     team: any;
-//     recentlyActiveUsers: [];
-//     newUsers: [];
-// }
+type State = {
+    team: Team | null;
+    recentlyActiveUsers: [];
+    newUsers: [];
+    id: string;
+}
 
-export default class TeamAnalytics extends React.PureComponent {  //? do I have to add the <P,S> parameters here?
+export default class TeamAnalytics extends React.PureComponent<Props, State> {  //? do I have to add the <P,S> parameters here?
     static propTypes = {
 
         /*
@@ -57,24 +60,29 @@ export default class TeamAnalytics extends React.PureComponent {  //? do I have 
         locale: PropTypes.string.isRequired,
         stats: PropTypes.object.isRequired,
 
-        actions: PropTypes.shape({
+        // actions: PropTypes.shape({
 
-            /*
-             * Function to get teams
-             */
-            getTeams: PropTypes.func.isRequired,
+        //     /*
+        //      * Function to get teams
+        //      */
+        //     getTeams: PropTypes.func.isRequired,
 
-            /*
-             * Function to get users in a team
-             */
-            getProfilesInTeam: PropTypes.func.isRequired,
-        }).isRequired,
+        //     /*
+        //      * Function to get users in a team
+        //      */
+        //     getProfilesInTeam: PropTypes.func.isRequired,
+        // }).isRequired,
+        actions: {
+            // getTeams: (a: Team, b: Team) => { data: Team };
+            // getProfilesInTeam: PropTypes.func.isRequired;
+        }
     }
 
-    constructor(props: any) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
+            id: this.props.initialId,
             team: props.initialTeam,
             recentlyActiveUsers: [],
             newUsers: [],
@@ -89,13 +97,13 @@ export default class TeamAnalytics extends React.PureComponent {  //? do I have 
         this.props.actions.getTeams(0, 1000);
     }
 
-    componentDidUpdate(prevProps: any, prevState: any) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.team && prevState.team !== this.state.team) {
             this.getData(this.state.team.id);
         }
     }
 
-    getData = async (id: any) => {
+    getData = async (id: string) => {
         AdminActions.getStandardAnalytics(id);
         AdminActions.getPostsPerDayAnalytics(id);
         AdminActions.getBotPostsPerDayAnalytics(id);
@@ -109,18 +117,18 @@ export default class TeamAnalytics extends React.PureComponent {  //? do I have 
         });
     }
 
-    handleTeamChange = (e: any) => {
+    handleTeamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const teamId = e.target.value;
 
         let team;
-        this.props.teams.forEach((t: any) => {
+        this.props.teams.forEach((t: Team) => {
             if (t.id === teamId) {
                 team = t;
             }
         });
 
         this.setState({
-            team,
+            team: null, //! double check this
         });
 
         BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
@@ -145,8 +153,8 @@ export default class TeamAnalytics extends React.PureComponent {  //? do I have 
         }
 
         const stats = this.props.stats[this.state.team.id];
-        const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
-        const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
+        const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY], stats); //! need to sort out the arguments for this function
+        const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY], stats);
 
         let banner = (
             <div className='banner'>
@@ -227,7 +235,7 @@ export default class TeamAnalytics extends React.PureComponent {  //? do I have 
         const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers, this.props.locale);
         const newlyCreatedUsers = formatNewUsersData(this.state.newUsers, this.props.locale);
 
-        const teams = this.props.teams.sort((a: any, b: any) => {
+        const teams = this.props.teams.sort((a: Team, b: Team) => {
             const aName = a.display_name.toUpperCase();
             const bName = b.display_name.toUpperCase();
             if (aName === bName) {
@@ -237,7 +245,7 @@ export default class TeamAnalytics extends React.PureComponent {  //? do I have 
                 return 1;
             }
             return -1;
-        }).map((team: any) => {
+        }).map((team: Team) => {
             return (
                 <option
                     key={team.id}
