@@ -16,7 +16,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-type Props = {
+export type Props = {
 
     /**
      * Set to render the modal
