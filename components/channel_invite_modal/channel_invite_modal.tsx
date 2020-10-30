@@ -11,7 +11,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ClientError} from 'mattermost-redux/src/client/client4';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';

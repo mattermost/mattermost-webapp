@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 Cypress.Commands.add('uiCreateChannel', ({
     prefix = 'channel-',
@@ -64,4 +65,18 @@ Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
     }
 
     return cy.get('#channelLeaveChannel').click();
+});
+
+Cypress.Commands.add('goToDm', (username) => {
+    cy.get('#addDirectChannel').click({force: true});
+
+    // # Start typing part of a username that matches previously created users
+    cy.get('#selectItems input').type(username, {force: true});
+
+    cy.get('#multiSelectList');
+    cy.get('body').type('{downarrow}').type('{enter}');
+
+    // # With the arrow and enter keys, select the first user that matches our search query
+
+    return cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 });
