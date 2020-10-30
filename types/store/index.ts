@@ -113,7 +113,9 @@ export type GlobalState = BaseGlobalState & {
         };
 
         notice: {
-            [noticeType: string]: boolean;
+            hasBeenDismissed: {
+                [message: string]: boolean;
+            };
         };
 
         system: {
