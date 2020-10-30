@@ -517,8 +517,8 @@ class CreatePost extends React.PureComponent {
                     }
                 }
             }
-        } else if (isReaction && this.props.emojiMap.has(isReaction[2])) {
-            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
+        } else if (isReaction && this.props.emojiMap?.has(isReaction[2])) {
+            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
             if (isReaction[1] === '+' && !isIncomingReactionPresentForLatestPost && isReactionLimitReached) {
                 const errorMessage = (
                     <FormattedMessage
@@ -547,7 +547,7 @@ class CreatePost extends React.PureComponent {
             postError: null,
         });
 
-        
+
         cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
@@ -1429,7 +1429,7 @@ class CreatePost extends React.PureComponent {
         let callButton;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             callButton = (
-                <CallButton/>
+                <CallButton />
             );
         }
 

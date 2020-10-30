@@ -102,7 +102,7 @@ class CreateComment extends React.PureComponent {
          */
         reactionsByEmojiNameForLatestPost: PropTypes.array,
 
-        
+
         /** Data used to challenge post reaction for latest replyable post */
         latestPostReactionsCount: PropTypes.number,
 
@@ -277,6 +277,7 @@ class CreateComment extends React.PureComponent {
             uploadsProgressPercent: {},
             renderScrollbar: false,
             scrollbarWidth: 0,
+            postError: null,
             mentions: [],
             memberNotifyCount: 0,
         };
@@ -609,8 +610,8 @@ class CreateComment extends React.PureComponent {
         }
 
         const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
-        if(isReaction && this.props.emojiMap.has(isReaction[2])){
-            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1 ;
+        if (isReaction && this.props.emojiMap?.has(isReaction[2])) {
+            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
             if (
                 !isIncomingReactionPresentForLatestPost &&
                 isReaction[1] === '+' &&
@@ -622,6 +623,7 @@ class CreateComment extends React.PureComponent {
                         defaultMessage='Reaction limit exceeded for this message.'
                     />
                 );
+
                 setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
                 return;
             }
@@ -798,7 +800,7 @@ class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
-                       Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 this.applyHotkeyMarkdown(e);
             }
         }
@@ -1156,11 +1158,11 @@ class CreateComment extends React.PureComponent {
                             defaultMessage='File uploading'
                         />
                     ) : (
-                        <FormattedMessage
-                            id='create_comment.files'
-                            defaultMessage='Files uploading'
-                        />
-                    )}
+                            <FormattedMessage
+                                id='create_comment.files'
+                                defaultMessage='Files uploading'
+                            />
+                        )}
                 </span>
             );
         }
@@ -1212,7 +1214,7 @@ class CreateComment extends React.PureComponent {
                             'post-action--active': this.state.showEmojiPicker,
                         })}
                     >
-                        <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs '} />
                     </button>
                 </div>
             );

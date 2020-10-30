@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
+import {FormattedMessage} from 'react-intl';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
@@ -105,6 +106,7 @@ function createPost({
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
     useGroupMentions = true,
+    reactionsByEmojiNameForLatestPost = []
 } = {}) {
     return (
         <CreatePost
@@ -138,6 +140,7 @@ function createPost({
             canPost={true}
             useChannelMentions={true}
             useGroupMentions={useGroupMentions}
+            reactionsByEmojiNameForLatestPost={reactionsByEmojiNameForLatestPost}
         />
     );
 }
@@ -690,6 +693,51 @@ describe('components/create_post', () => {
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(addReaction).toHaveBeenCalledWith('a', 'smile');
+    });
+
+    it('onSubmit test for should show post creation error when existing post reactions exceeded limit', async () => {
+        const addReaction = jest.fn();
+
+        const wrapper = shallowWithIntl(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    addReaction,
+                },
+                reactionsByEmojiNameForLatestPost: new Array(Constants.EMOJI_REACTIONS_LIMIT),
+            }),
+        );
+
+        wrapper.setState({
+            message: '+:smile:',
+        });
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        jest.runOnlyPendingTimers();
+        wrapper.update();
+        expect(wrapper.state('postError')).toStrictEqual(<FormattedMessage defaultMessage="Reaction limit exceeded for this message." id="create_post.emoji_reaction_limit_exceeded" />);
+    });
+
+    it('onSubmit test for should not show post creation error when existing post reactions with in limit', async () => {
+        const addReaction = jest.fn();
+
+        const wrapper = shallowWithIntl(
+            createPost({
+                actions: {
+                    ...actionsProp,
+                    addReaction,
+                }
+            }),
+        );
+
+        wrapper.setState({
+            message: '+:smile:',
+        });
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        jest.runOnlyPendingTimers();
+        wrapper.update();
+        expect(wrapper.state('postError')).toBeNull();
     });
 
     it('onSubmit test for removeReaction message', () => {
