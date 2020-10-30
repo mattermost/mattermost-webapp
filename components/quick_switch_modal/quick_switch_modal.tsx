@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -17,33 +16,44 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
-import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
 
-export default class QuickSwitchModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * The function called to hide the modal
-         */
-        onHide: PropTypes.func.isRequired,
+    /**
+     * The function called to hide the modal
+     */
+    onHide: () => void;
 
-        /**
-         * Set to show team switcher
-         */
-        showTeamSwitcher: PropTypes.bool,
+    /**
+     * Set to show team switcher
+     */
+    showTeamSwitcher: boolean;
+    actions: {
+        joinChannelById: any,
+        switchToChannel: any
+    }
+}
 
-        actions: PropTypes.shape({
-            joinChannelById: PropTypes.func.isRequired,
-            switchToChannel: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type State = {
+    text: string;
+    mode: string|null;
+    hasSuggestions: boolean,
+    shouldShowLoadingSpinner: boolean,
+    pretext: string,
+}
 
-    constructor(props) {
+export default class QuickSwitchModal extends React.PureComponent<Props, State> {
+    private channelProviders: SwitchChannelProvider[];
+    private teamProviders: SwitchTeamProvider[];
+    private switchBox?: any;
+
+    constructor(props: Props) {
         super(props);
 
         this.channelProviders = [new SwitchChannelProvider()];
@@ -60,8 +70,8 @@ export default class QuickSwitchModal extends React.PureComponent {
         };
     }
 
-    focusTextbox = () => {
-        if (this.switchBox == null) {
+    private focusTextbox = (): void => {
+        if (this.switchBox === null) {
             return;
         }
 
@@ -72,18 +82,18 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    setSwitchBoxRef = (input) => {
+    private setSwitchBoxRef = (input: SuggestionBox): void => {
         this.switchBox = input;
         this.focusTextbox();
     };
 
-    onShow = () => {
+    private onShow = (): void => {
         this.setState({
             text: '',
         });
     };
 
-    onHide = () => {
+    private onHide = (): void => {
         this.focusPostTextbox();
         this.setState({
             text: '',
@@ -91,10 +101,10 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.props.onHide();
     };
 
-    focusPostTextbox = () => {
+    private focusPostTextbox = (): void => {
         if (!UserAgent.isMobile()) {
             setTimeout(() => {
-                const textbox = document.querySelector('#post_textbox');
+                const textbox = document.querySelector('#post_textbox') as HTMLElement;
                 if (textbox) {
                     textbox.focus();
                 }
@@ -102,18 +112,18 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    onChange = (e) => {
+    private onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
     };
 
-    handleKeyDown = (e) => {
+    private handleKeyDown = (e: React.ChangeEvent<HTMLInputElement>): void => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
             e.preventDefault();
             this.switchMode();
         }
     };
 
-    handleSubmit = async (selected) => {
+    private handleSubmit = async (selected: any) => {
         if (!selected) {
             return;
         }
@@ -125,7 +135,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
                 await joinChannelById(selectedChannel.id);
             }
-            switchToChannel(selectedChannel).then((result) => {
+            switchToChannel(selectedChannel).then((result: any) => {
                 if (result.data) {
                     this.onHide();
                 }
@@ -136,17 +146,17 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    enableChannelProvider = () => {
+    private enableChannelProvider = (): void => {
         this.channelProviders[0].disableDispatches = false;
         this.teamProviders[0].disableDispatches = true;
     };
 
-    enableTeamProvider = () => {
+    private enableTeamProvider = (): void => {
         this.teamProviders[0].disableDispatches = false;
         this.channelProviders[0].disableDispatches = true;
     };
 
-    switchMode = () => {
+    private switchMode = (): void => {
         if (this.state.mode === CHANNEL_MODE && this.props.showTeamSwitcher) {
             this.enableTeamProvider();
             this.setState({mode: TEAM_MODE});
@@ -156,7 +166,7 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     };
 
-    handleOnClick = (e) => {
+    private handleOnClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.preventDefault();
         const mode = e.currentTarget.getAttribute('data-mode');
         this.enableChannelProvider();
@@ -164,15 +174,15 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.focusTextbox();
     }
 
-    handleSuggestionsReceived = (suggestions) => {
-        const loadingPropPresent = suggestions.items.some((item) => item.loading);
+    handleSuggestionsReceived = (suggestions: any) => {
+        const loadingPropPresent = suggestions.items.some((item: any) => item.loading);
         this.setState({shouldShowLoadingSpinner: loadingPropPresent,
             pretext: suggestions.matchedPretext,
             hasSuggestions: suggestions.items.length > 0});
     }
 
     render() {
-        let providers = this.channelProviders;
+        let providers: SwitchChannelProvider[]|SwitchTeamProvider[] = this.channelProviders;
 
         let header = (
             <h1>

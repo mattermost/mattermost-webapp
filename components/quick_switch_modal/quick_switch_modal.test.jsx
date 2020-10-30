@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants';
 
-import QuickSwitchModal from 'components/quick_switch_modal/quick_switch_modal.jsx';
+import QuickSwitchModal from 'components/quick_switch_modal/quick_switch_modal';
 
 describe('components/QuickSwitchModal', () => {
     const baseProps = {
