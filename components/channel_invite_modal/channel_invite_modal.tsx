@@ -44,8 +44,8 @@ type Props = {
     includeUsers?: Dictionary<UserProfileValue>,
 
     actions: {
-        addUsersToChannel: (channelId: string, userIds: string[]) => Promise<{ error: ClientError }>,
-        getProfilesNotInChannel: (teamId: string, id: string, groupConstrained: boolean, page: number, usersPerPage?: number) => Promise<void>,
+        addUsersToChannel: any,
+        getProfilesNotInChannel: any,
         getTeamStats: (teamId: string) => ActionFunc,
         searchProfiles: (term: string, options: any) => ActionFunc
     }
@@ -154,7 +154,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
 
         this.setState({saving: true});
 
-        actions.addUsersToChannel(channel.id, userIds).then((result) => {
+        actions.addUsersToChannel(channel.id, userIds).then((result: any) => {
             if (result.error) {
                 this.handleInviteError(result.error);
             } else {
@@ -264,7 +264,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
             return user.delete_at === 0 &&
                 !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
                 (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
