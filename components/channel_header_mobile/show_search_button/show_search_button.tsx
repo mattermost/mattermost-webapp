@@ -2,19 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
 import SearchIcon from 'components/widgets/icons/search_icon';
 
-export default class ShowSearchButton extends React.PureComponent {
-    static propTypes = {
-        actions: PropTypes.shape({
-            openRHSSearch: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Actions = {
+    openRHSSearch: () => void;
+}
 
+type Props = {
+    actions: Actions
+}
+
+export default class ShowSearchButton extends React.PureComponent<Props> {
     handleClick = () => {
         this.props.actions.openRHSSearch();
     }
