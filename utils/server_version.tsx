@@ -12,7 +12,7 @@
  *     4.7.0.dev.3034fbc5fd566195d1b53e03890e35ff.true
  *     4.7.1.dev.d131dd02c5e6eec4693d9a0698aff95c.true
  */
-export function equalServerVersions(a: string, b: string): boolean {
+export function equalServerVersions(a?: string, b?: string): boolean {
     if (a === b) {
         return true;
     }

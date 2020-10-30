@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import VersionBar from './version_bar.jsx';
+import VersionBar from './version_bar';
 
-function mapStateToProps(state) {
+function mapStateToProps(state:any) {
     return {
         serverVersion: state.entities.general.serverVersion,
     };
