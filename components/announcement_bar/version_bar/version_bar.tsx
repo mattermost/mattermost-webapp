@@ -17,14 +17,13 @@ interface IMyComponentProps {
 interface IMyComponentState {
     serverVersionOnAppLoad?: string,
 }
-  
-export default class VersionBar extends React.PureComponent <IMyComponentProps, IMyComponentState> {
 
+export default class VersionBar extends React.PureComponent <IMyComponentProps, IMyComponentState> {
     constructor(props:IMyComponentProps) {
         super(props);
 
         this.state = {
-             serverVersionOnAppLoad: props.serverVersion,
+            serverVersionOnAppLoad: props.serverVersion,
         };
     }
 
