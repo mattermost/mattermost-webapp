@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import {Post} from 'mattermost-redux/types/posts';
+import {Binding, Call} from 'mattermost-redux/types/apps';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -16,15 +17,11 @@ import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-
 import Pluggable from 'plugins/pluggable';
-
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
-import { Post } from 'mattermost-redux/types/posts';
-import { Binding, Call } from 'mattermost-redux/types/apps';
-import { PluginComponent } from 'types/store/plugins';
+import {PluginComponent} from 'types/store/plugins';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -50,6 +47,7 @@ export type Props = {
     appsBindings: Binding[],
     canEdit: boolean,
     canDelete: boolean,
+
     /**
      * Components for overriding provided by plugins
      */
@@ -57,30 +55,37 @@ export type Props = {
         [componentName: string]: PluginComponent[],
     },
     actions: {
+
         /**
          * Function flag the post
          */
         flagPost: (id: string) => void,
+
         /**
          * Function to unflag the post
          */
         unflagPost: (id: string) => void,
+
         /**
          * Function to set the editing post
          */
         setEditingPost: (postId: string, commentCount: number, refocusId: string, title: string, isRHS: boolean) => void,
+
         /**
          * Function to pin the post
          */
         pinPost: (id: string) => void,
+
         /**
          * Function to unpin the post
          */
         unpinPost: (id: string) => void,
+
         /**
          * Function to open a modal
          */
         openModal: (modalData: any) => void, // TODO Improve typing
+
         /**
          * Function to set the unread mark at given post
          */
@@ -127,12 +132,12 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         const {post, isLicensed} = this.props;
         const {canEdit} = this.state;
 
-        let postEditTimeLimit = this.props.postEditTimeLimit || String(Constants.UNSET_POST_EDIT_TIME_LIMIT);
+        const postEditTimeLimit = this.props.postEditTimeLimit || String(Constants.UNSET_POST_EDIT_TIME_LIMIT);
 
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (parseInt(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (parseInt(postEditTimeLimit, 10) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -213,7 +218,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
     handleEditMenuItemActivated = () => {
         let commentCount = 0;
         if (this.props.commentCount) {
-            commentCount = this.props.commentCount
+            commentCount = this.props.commentCount;
         }
         this.props.actions.setEditingPost(
             this.props.post.id,
@@ -266,7 +271,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     onClickBinding = async (binding: Binding) => {
         if (!binding.call) {
-            return
+            return;
         }
         this.props.actions.doAppCall({
             url: binding.call.url,

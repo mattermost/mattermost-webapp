@@ -4,9 +4,10 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import DotMenu, {Props} from 'components/dot_menu/dot_menu';
-import { Locations } from 'utils/constants';
-import { Post } from 'mattermost-redux/types/posts';
+import {Locations} from 'utils/constants';
 
 jest.mock('utils/utils', () => {
     return {

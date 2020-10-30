@@ -7,8 +7,9 @@ import {IntlContext, IntlShape} from 'react-intl';
 
 import {Provider} from 'react-redux';
 
+import {AdditionalOverlayTriggerProps} from 'types/external/react-bootstrap';
+
 import store from 'stores/redux_store.jsx';
-import { AdditionalOverlayTriggerProps } from 'types/external/react-bootstrap';
 
 export {BaseOverlayTrigger};
 

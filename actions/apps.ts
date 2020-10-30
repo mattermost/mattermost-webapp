@@ -13,33 +13,33 @@ import {openInteractiveDialog} from 'plugins/interactive_dialog';
 import {executeCommand} from 'actions/command';
 
 export function doAppCall(call: Call): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         const res = await Client4.executeAppCall(call) as CallResponse;
 
         if (res.markdown) {
             if (!call.context.channel_id) {
-                return {data:false};
+                return {data: false};
             }
-            
+
             sendEphemeralPost(res.markdown, call.context.channel_id, call.context.root_id);
             return {data: true};
         }
 
         switch (res.type) {
-            case CallResponseTypes.MODAL:
-                if (!res.data) {
-                    return {data: false};
-                }
-                res.data.app_id = call.context.app_id;
-                openInteractiveDialog(res.data);
-                return {data: res};
-            case CallResponseTypes.COMMAND:
-                res.data.args.command = res.data.command;
-                return dispatch(executeCommand(res.data.command, res.data.args));
+        case CallResponseTypes.MODAL:
+            if (!res.data) {
+                return {data: false};
+            }
+            res.data.app_id = call.context.app_id;
+            openInteractiveDialog(res.data);
+            return {data: res};
+        case CallResponseTypes.COMMAND:
+            res.data.args.command = res.data.command;
+            return dispatch(executeCommand(res.data.command, res.data.args));
         }
 
         return {data: res};
-    }
+    };
 }
 
 export function submitInteractiveDialog(dialog: DialogSubmission): ActionFunc {

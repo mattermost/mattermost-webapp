@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {shallow} from 'enzyme';
-import { Call } from 'mattermost-redux/types/apps';
-import { Post } from 'mattermost-redux/types/posts';
 import React from 'react';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import {Locations, PostTypes} from 'utils/constants';
 

@@ -3,14 +3,15 @@
 
 import configureStore from 'redux-mock-store';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Team} from 'mattermost-redux/types/teams';
+
 import {browserHistory} from 'utils/browser_history';
 import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 import LocalStorageStore from 'stores/local_storage_store';
-
+import reduxStore from 'stores/redux_store';
 import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
-import { UserProfile } from 'mattermost-redux/types/users';
-import { Team } from 'mattermost-redux/types/teams';
 
 jest.mock('actions/views/rhs', () => ({
     closeMenu: jest.fn(),
@@ -24,6 +25,13 @@ jest.mock('actions/views/lhs', () => ({
 jest.mock('mattermost-redux/actions/users', () => ({
     loadMe: () => ({type: 'MOCK_RECEIVED_ME'}),
 }));
+
+jest.mock('stores/redux_store', () => {
+    return {
+        dispatch: jest.fn(),
+        getState: jest.fn(),
+    };
+});
 
 describe('actions/global_actions', () => {
     describe('redirectUserToDefaultTeam', () => {
@@ -53,6 +61,8 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
+
+            reduxStore.getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
@@ -128,6 +138,8 @@ describe('actions/global_actions', () => {
                 },
             });
 
+            reduxStore.getState.mockImplementation(store.getState);
+
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
@@ -201,6 +213,8 @@ describe('actions/global_actions', () => {
                 },
             });
 
+            reduxStore.getState.mockImplementation(store.getState);
+
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
@@ -273,6 +287,8 @@ describe('actions/global_actions', () => {
                 },
             });
 
+            reduxStore.getState.mockImplementation(store.getState);
+
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
@@ -304,6 +320,8 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
+
+            reduxStore.getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
@@ -398,6 +416,7 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
+            reduxStore.getState.mockImplementation(store.getState);
             LocalStorageStore.setPreviousTeamId(userId, teamId);
             LocalStorageStore.setPreviousChannelName(userId, teamId, directChannelId);
 
@@ -495,6 +514,7 @@ describe('actions/global_actions', () => {
                     },
                 },
             });
+            reduxStore.getState.mockImplementation(store.getState);
             LocalStorageStore.setPreviousTeamId(userId, teamId);
             LocalStorageStore.setPreviousChannelName(userId, teamId, groupChannelId);
 
@@ -557,6 +577,8 @@ describe('actions/global_actions', () => {
                 },
             });
 
+            reduxStore.getState.mockImplementation(store.getState);
+
             browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
             expect(browserHistory.push).toHaveBeenCalledWith('/team1/channels/channel-in-team-1');
@@ -564,7 +586,9 @@ describe('actions/global_actions', () => {
     });
 
     test('toggleSideBarRightMenuAction', () => {
-        const dispatchMock = async () => {return {data: true}};
+        const dispatchMock = async () => {
+            return {data: true};
+        };
         toggleSideBarRightMenuAction()(dispatchMock);
         expect(closeRhsMenu).toHaveBeenCalled();
         expect(closeRightHandSide).toHaveBeenCalled();

@@ -110,10 +110,7 @@ class BrowserStoreClass {
     }
 
     setLandingPageSeen(landingPageSeen: boolean) {
-        let value = 'false';
-        if (landingPageSeen) {
-            value = 'true'
-        }
+        const value = landingPageSeen ? 'true' : 'false';
         localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, value);
     }
 
@@ -134,5 +131,5 @@ class BrowserStoreClass {
     }
 }
 
-var BrowserStore = new BrowserStoreClass();
+const BrowserStore = new BrowserStoreClass();
 export default BrowserStore;

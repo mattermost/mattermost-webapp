@@ -17,6 +17,10 @@ import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entit
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/src/types/users';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -40,10 +44,6 @@ import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 import {openModal} from './views/modals';
-import { Channel, ChannelMembership } from 'mattermost-redux/types/channels';
-import { UserProfile } from 'mattermost-redux/src/types/users';
-import { DispatchFunc, GetStateFunc } from 'mattermost-redux/types/actions';
-import { Team } from 'mattermost-redux/types/teams';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -115,11 +115,11 @@ export function emitChannelClickEvent(channel: Channel) {
     }
 }
 
-export function updateNewMessagesAtInChannel(channelId: string, last_viewed_at = Date.now()) {
+export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {
     return {
         type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
         channel_id: channelId,
-        last_viewed_at,
+        last_viewed_at: lastViewedAt,
     };
 }
 
@@ -232,8 +232,8 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;
 
-        const timeBetweenUserTypingUpdatesMilliseconds = stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds)
-        const maxNotificationsPerChannel = stringToNumber(config.MaxNotificationsPerChannel)
+        const timeBetweenUserTypingUpdatesMilliseconds = stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds);
+        const maxNotificationsPerChannel = stringToNumber(config.MaxNotificationsPerChannel);
 
         if (((t - lastTimeTypingSent) > timeBetweenUserTypingUpdatesMilliseconds) &&
             (membersInChannel < maxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {
@@ -252,7 +252,7 @@ function stringToNumber(s?: string): number {
         return 0;
     }
 
-    return parseInt(s);
+    return parseInt(s, 10);
 }
 
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
@@ -319,10 +319,10 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
         channel = dmList.find((directChannel) => directChannel.name === channelName);
     }
 
-    let channelMember: ChannelMembership | null | undefined
+    let channelMember: ChannelMembership | null | undefined;
     if (channel) {
         channelMember = getMyChannelMember(state, channel.id);
-    } 
+    }
 
     if (!channel || !channelMember) {
         // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
@@ -371,7 +371,7 @@ export async function redirectUserToDefaultTeam() {
         return;
     }
 
-    let team: Team | undefined
+    let team: Team | undefined;
     if (teamId) {
         team = getTeam(state, teamId);
     }

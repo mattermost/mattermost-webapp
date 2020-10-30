@@ -10,6 +10,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
 import AppsBindings from 'mattermost-redux/constants/apps';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -21,15 +23,12 @@ import {
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-
+import {GlobalState} from 'types/store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 import {doAppCall} from 'actions/apps';
 
 import DotMenu from './dot_menu';
-import { GlobalState } from 'types/store';
-import { GenericAction } from 'mattermost-redux/types/actions';
-import { Post } from 'mattermost-redux/types/posts';
 
 type OwnProps = {
     post: Post;

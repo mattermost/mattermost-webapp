@@ -7,11 +7,12 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
 import AppBindings from 'mattermost-redux/constants/apps';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {doAppCall} from 'actions/apps';
+import {GlobalState} from 'types/store';
 
 import ChannelHeaderPlug from './channel_header_plug';
-import {doAppCall} from 'actions/apps';
-import { GlobalState } from 'types/store';
-import { GenericAction } from 'mattermost-redux/types/actions';
 
 function mapStateToProps(state: GlobalState) {
     return {

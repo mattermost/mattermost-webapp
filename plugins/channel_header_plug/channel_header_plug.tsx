@@ -3,19 +3,20 @@
 
 /* eslint-disable react/no-multi-comp */
 
-import React, { ReactNode } from 'react';
+import React, {ReactNode} from 'react';
 import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
 
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Theme} from 'mattermost-redux/types/preferences';
+import {Binding, Call} from 'mattermost-redux/types/apps';
+
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
-import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
+import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
-import { Binding, Call } from 'mattermost-redux/types/apps';
-import { PluginComponent } from 'types/store/plugins';
-import { Channel, ChannelMembership } from 'mattermost-redux/types/channels';
-import { Theme } from 'mattermost-redux/types/preferences';
+import {PluginComponent} from 'types/store/plugins';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -60,7 +61,9 @@ type CustomToggleProps = {
 
 class CustomToggle extends React.PureComponent<CustomToggleProps> {
     handleClick = (e: React.MouseEvent) => {
-        this.props.onClick && this.props.onClick(e);
+        if (this.props.onClick) {
+            this.props.onClick(e);
+        }
     }
 
     render() {
@@ -121,18 +124,11 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
     }
 
     createComponentButton = (plug: PluginComponent) => {
-        if (!plug.icon) {
-            return;
-        }
-        if (!plug.action) {
-            return;
-        }
-
         return (
             <HeaderIconWrapper
                 key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon'
-                iconComponent={plug.icon}
+                iconComponent={plug.icon!}
                 onClick={() => plug.action!(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
@@ -143,7 +139,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
     onClick = async (binding: Binding) => {
         if (!binding.call) {
-            return
+            return;
         }
 
         this.props.actions.doAppCall({
@@ -281,7 +277,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         if (components.length === 0 && appBindings.length === 0) {
             return null;
         } else if (components.length + appBindings.length <= 5) {
-            const componentButtons = components.map(this.createComponentButton);
+            const componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
             return componentButtons.concat(appBindings.map(this.createActionButton));
         }
 

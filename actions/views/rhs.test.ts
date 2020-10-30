@@ -2,11 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import configureStore, { MockStoreEnhanced } from 'redux-mock-store';
+import configureStore, {MockStoreEnhanced} from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as SearchActions from 'mattermost-redux/actions/search';
 import {SearchTypes} from 'mattermost-redux/action_types';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {
     updateRhsState,
@@ -29,12 +33,8 @@ import {
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
-import { GlobalState } from 'types/store';
-import { DispatchFunc } from 'mattermost-redux/types/actions';
-import { Post } from 'mattermost-redux/types/posts';
-import { UserProfile } from 'mattermost-redux/types/users';
-import { IDMappedObjects } from 'mattermost-redux/types/utilities';
-import { ViewsState } from 'types/store/views';
+import {GlobalState} from 'types/store';
+import {ViewsState} from 'types/store/views';
 
 const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 

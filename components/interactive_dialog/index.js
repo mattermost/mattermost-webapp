@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {submitInteractiveDialog} from 'actions/plugin';
+import {submitInteractiveDialog} from 'actions/apps';
 import {getEmojiMap} from 'selectors/emojis';
 
 import InteractiveDialog from './interactive_dialog';

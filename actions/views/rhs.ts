@@ -18,24 +18,22 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
-
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
-
-import { Post } from 'mattermost-redux/types/posts';
-import { RhsState } from 'types/store/rhs';
-import { DispatchFunc, GetStateFunc } from 'mattermost-redux/types/actions';
-import { GlobalState } from 'types/store';
+import {RhsState} from 'types/store/rhs';
+import {GlobalState} from 'types/store';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const postRootId = Utils.getRootId(post);
         await dispatch(PostActions.getPostThread(postRootId));
-        const state = getState() as GlobalState
+        const state = getState() as GlobalState;
 
         dispatch({
             type: ActionTypes.SELECT_POST,
@@ -45,14 +43,14 @@ function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previous
             timestamp: Date.now(),
         });
 
-        return {data: true}
+        return {data: true};
     };
 }
 
 function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState
-        
+        const state = getState() as GlobalState;
+
         dispatch({
             type: ActionTypes.SELECT_POST_CARD,
             postId: post.id,
@@ -60,7 +58,7 @@ function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, prev
             previousRhsState: previousRhsState || getRhsState(state),
         });
 
-        return {data: true}
+        return {data: true};
     };
 }
 
@@ -127,14 +125,14 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const userTimezone = getUserTimezone(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
-        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch? true : false, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch !== undefined && isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
     };
 }
 
 export function showSearchResults(isMentionSearch = false) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState
-        
+        const state = getState() as GlobalState;
+
         const searchTerms = getSearchTerms(state);
 
         if (isMentionSearch) {
@@ -160,27 +158,27 @@ export function showRHSPlugin(pluggableId: string) {
 
 export function hideRHSPlugin(pluggableId: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState
-        
+        const state = getState() as GlobalState;
+
         if (getPluggableId(state) === pluggableId) {
             dispatch(closeRightHandSide());
         }
 
-        return {data: true}
+        return {data: true};
     };
 }
 
 export function toggleRHSPlugin(pluggableId: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState
-        
+        const state = getState() as GlobalState;
+
         if (getPluggableId(state) === pluggableId) {
             dispatch(hideRHSPlugin(pluggableId));
             return {data: false};
         }
 
         dispatch(showRHSPlugin(pluggableId));
-        return {data: true}
+        return {data: true};
     };
 }
 
@@ -195,7 +193,7 @@ export function showFlaggedPosts() {
         });
 
         const results = await dispatch(getFlaggedPosts());
-        let data: any
+        let data: any;
         if ('data' in results) {
             data = results.data;
         }
@@ -203,7 +201,7 @@ export function showFlaggedPosts() {
         dispatch(batchActions([
             {
                 type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: data,
+                data,
             },
             {
                 type: SearchTypes.RECEIVED_SEARCH_TERM,
@@ -235,7 +233,7 @@ export function showPinnedPosts(channelId?: string) {
 
         const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
 
-        let data: any
+        let data: any;
         if ('data' in results) {
             data = results.data;
         }
@@ -243,7 +241,7 @@ export function showPinnedPosts(channelId?: string) {
         dispatch(batchActions([
             {
                 type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: data,
+                data,
             },
             {
                 type: SearchTypes.RECEIVED_SEARCH_TERM,
@@ -255,7 +253,7 @@ export function showPinnedPosts(channelId?: string) {
             },
         ]));
 
-        return {data: true}
+        return {data: true};
     };
 }
 
@@ -281,7 +279,7 @@ export function showMentions() {
             },
         ]));
 
-        return {data: true}
+        return {data: true};
     };
 }
 
@@ -299,7 +297,7 @@ export function closeRightHandSide() {
                 timestamp: 0,
             },
         ]));
-        return {data: true}
+        return {data: true};
     };
 }
 
@@ -349,7 +347,7 @@ export function openRHSSearch() {
 
         dispatch(updateRhsState(RHSStates.SEARCH));
 
-        return {data: true}
+        return {data: true};
     };
 }
 

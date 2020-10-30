@@ -5,7 +5,7 @@ import {GlobalState as BaseGlobalState} from 'mattermost-redux/types/store';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {PluginsState} from './plugins';
-import { ViewsState } from './views';
+import {ViewsState} from './views';
 
 export type DraggingState = {
     state?: string;

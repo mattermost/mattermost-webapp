@@ -19,6 +19,7 @@ import DialogIntroductionText from './dialog_introduction_text';
 
 export default class InteractiveDialog extends React.PureComponent {
     static propTypes = {
+        appID: PropTypes.string,
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,
         elements: PropTypes.arrayOf(PropTypes.object),
