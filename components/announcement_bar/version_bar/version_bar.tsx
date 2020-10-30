@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -12,18 +11,14 @@ import {AnnouncementBarTypes} from 'utils/constants';
 import AnnouncementBar from '../default_announcement_bar';
 
 interface IMyComponentProps {
-    serverVersion?: any,
+    serverVersion?: string,
 }
 
 interface IMyComponentState {
-    serverVersionOnAppLoad?: any,
+    serverVersionOnAppLoad?: string,
 }
   
 export default class VersionBar extends React.PureComponent <IMyComponentProps, IMyComponentState> {
-
-    static propTypes = {
-        serverVersion: PropTypes.string,
-    };
 
     constructor(props:IMyComponentProps) {
         super(props);
