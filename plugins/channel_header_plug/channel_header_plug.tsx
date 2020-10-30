@@ -3,8 +3,7 @@
 
 /* eslint-disable react/no-multi-comp */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
@@ -13,19 +12,18 @@ import HeaderIconWrapper from 'components/channel_header/components/header_icon_
 import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
+import { Binding, Call } from 'mattermost-redux/types/apps';
+import { PluginComponent } from 'types/store/plugins';
+import { Channel, ChannelMembership } from 'mattermost-redux/types/channels';
+import { Theme } from 'mattermost-redux/types/preferences';
 
-class CustomMenu extends React.PureComponent {
-    static propTypes = {
-        open: PropTypes.bool,
-        children: PropTypes.node,
-        onClose: PropTypes.func.isRequired,
-        rootCloseEvent: PropTypes.oneOf(['click', 'mousedown']),
-        appBindings: PropTypes.array,
-        actions: PropTypes.shape({
-            doAppCall: PropTypes.func.isRequired
-        }).isRequired
-    }
-
+type CustomMenuProps = {
+    open?: boolean;
+    children?: ReactNode;
+    onClose: () => void;
+    rootCloseEvent?: 'click' | 'mousedown';
+}
+class CustomMenu extends React.PureComponent<CustomMenuProps> {
     handleRootClose = () => {
         this.props.onClose();
     }
@@ -54,15 +52,15 @@ class CustomMenu extends React.PureComponent {
     }
 }
 
-class CustomToggle extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.element,
-        dropdownOpen: PropTypes.bool,
-        onClick: PropTypes.func,
-    }
+type CustomToggleProps = {
+    children?: ReactNode;
+    dropdownOpen?: boolean;
+    onClick?: (e: React.MouseEvent) => void;
+}
 
-    handleClick = (e) => {
-        this.props.onClick(e);
+class CustomToggle extends React.PureComponent<CustomToggleProps> {
+    handleClick = (e: React.MouseEvent) => {
+        this.props.onClick && this.props.onClick(e);
     }
 
     render() {
@@ -86,32 +84,30 @@ class CustomToggle extends React.PureComponent {
     }
 }
 
-export default class ChannelHeaderPlug extends React.PureComponent {
-    static propTypes = {
-
-        /*
-         * Components or actions to add as channel header buttons
-         */
-        components: PropTypes.array,
-        locations: PropTypes.array,
-
-        channel: PropTypes.object.isRequired,
-        channelMember: PropTypes.object.isRequired,
-
-        /*
-         * Logged in user's theme
-         */
-        theme: PropTypes.object.isRequired,
+type ChannelHeaderPlugProps = {
+    components?: PluginComponent[];
+    bindings?: Binding[];
+    channel: Channel;
+    channelMember: ChannelMembership;
+    theme: Theme;
+    actions: {
+        doAppCall: (call: Call) => void;
     }
+}
 
-    constructor(props) {
+type ChannelHeaderPlugState = {
+    dropdownOpen: boolean;
+}
+
+export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
+    constructor(props: ChannelHeaderPlugProps) {
         super(props);
         this.state = {
             dropdownOpen: false,
         };
     }
 
-    toggleDropdown = (dropdownOpen) => {
+    toggleDropdown = (dropdownOpen: boolean) => {
         this.setState({dropdownOpen});
     }
 
@@ -119,18 +115,25 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.toggleDropdown(false);
     }
 
-    fireActionAndClose = (action) => {
+    fireActionAndClose = (action: (...args: any) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
 
-    createComponentButton = (plug) => {
+    createComponentButton = (plug: PluginComponent) => {
+        if (!plug.icon) {
+            return;
+        }
+        if (!plug.action) {
+            return;
+        }
+
         return (
             <HeaderIconWrapper
                 key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon'
                 iconComponent={plug.icon}
-                onClick={() => plug.action(this.props.channel, this.props.channelMember)}
+                onClick={() => plug.action!(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
                 tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
@@ -138,42 +141,46 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
-    onClick = async (plugAction) => {
-        doAppCall({
-            form_url: plugAction.form_url,
+    onClick = async (binding: Binding) => {
+        if (!binding.call) {
+            return
+        }
+
+        this.props.actions.doAppCall({
+            url: binding.call.url,
             context: {
-                app_id: plugAction.app_id,
+                app_id: binding.app_id,
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
             from: [
-                plugAction,
+                binding,
             ],
         });
     }
 
-    createActionButton = (plugAction) => {
+    createActionButton = (binding: Binding) => {
         return (
             <HeaderIconWrapper
-                key={'channelHeaderButton' + plugAction.location_id}
+                key={'channelHeaderButton' + binding.location_id}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={(
                     <img
-                        src={plugAction.icon}
+                        src={binding.icon}
                         width='24'
                         height='24'
                     />
                 )}
-                onClick={() => this.onClick(plugAction)}
-                buttonId={plugAction.location_id}
+                onClick={() => this.onClick(binding)}
+                buttonId={binding.location_id}
                 tooltipKey={'plugin'}
-                tooltipText={plugAction.aria_text}
+                tooltipText={binding.label}
             />
         );
     }
 
-    createDropdown = (plugs, appBindings) => {
-        const componentItems = plugs.map((plug) => {
+    createDropdown = (plugs: PluginComponent[], appBindings: Binding[]) => {
+        const componentItems = plugs.filter((plug) => plug.action).map((plug) => {
             return (
                 <li
                     key={'channelHeaderPlug' + plug.id}
@@ -181,7 +188,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(plug.action)}
+                        onClick={() => this.fireActionAndClose(plug.action!)}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{plug.icon}</span>
                         <span>{plug.dropdownText}</span>
@@ -190,28 +197,28 @@ export default class ChannelHeaderPlug extends React.PureComponent {
             );
         });
 
-        const items = componentItems.concat(appBindings.map((plug) => {
+        const items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
             return (
                 <li
-                    key={'channelHeaderPlug' + plug.app_id + plug.location_id}
+                    key={'channelHeaderPlug' + binding.app_id + binding.location_id}
                 >
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => doAppCall({
-                            form_url: plug.call.url,
+                        onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
+                            url: binding.call!.url,
                             context: {
-                                app_id: plug.app_id,
+                                app_id: binding.app_id,
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },
                             from: [
-                                    plug,
+                                binding,
                             ],
                         }))}
                     >
-                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={plug.icon}/>)}</span>
-                        <span>{plug.label}</span>
+                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
+                        <span>{binding.label}</span>
                     </a>
                 </li>
             );
@@ -222,12 +229,10 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 <Dropdown
                     id='channelHeaderPlugDropdown'
                     onToggle={this.toggleDropdown}
-                    onSelect={this.onSelect}
                     open={this.state.dropdownOpen}
                 >
                     <CustomToggle
                         dropdownOpen={this.state.dropdownOpen}
-                        bsRole='toggle'
                     >
                         <OverlayTrigger
                             delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -259,7 +264,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                         </OverlayTrigger>
                     </CustomToggle>
                     <CustomMenu
-                        bsRole='menu'
                         open={this.state.dropdownOpen}
                         onClose={this.onClose}
                     >
@@ -272,7 +276,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     render() {
         const components = this.props.components || [];
-        const appBindings = this.props.appBindings || [];
+        const appBindings = this.props.bindings || [];
 
         if (components.length === 0 && appBindings.length === 0) {
             return null;

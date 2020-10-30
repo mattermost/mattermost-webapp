@@ -31,12 +31,14 @@ export type PluginsState = {
 export type PluginComponent = {
     id: string;
     pluginId: string;
-    component: React.Component;
+    component?: React.Component;
     subMenu?: any[]; // TODO Add more concrete type
     text?: string;
+    dropdownText?: string;
+    tooltipText?: string;
+    icon?: React.ReactElement;
     filter?: (id: string) => boolean;
-    action?: (id?: string) => void;
-
+    action?: (...args: any) => void;
 };
 
 export type PostPluginComponent = {
