@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
-import {General} from 'mattermost-redux/constants';
+import { FormattedDate, FormattedMessage } from 'react-intl';
+import { General } from 'mattermost-redux/constants';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -12,19 +12,33 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as AdminActions from 'actions/admin_actions';
 import BrowserStore from 'stores/browser_store';
-import {StatTypes} from 'utils/constants';
+import { StatTypes } from 'utils/constants';
 import Banner from 'components/admin_console/banner';
 import LineChart from 'components/analytics/line_chart';
 import StatisticCount from 'components/analytics/statistic_count';
 import TableChart from 'components/analytics/table_chart';
 
-import {getMonthLong} from 'utils/i18n';
+import { getMonthLong } from 'utils/i18n';
 
-import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format';
+import { formatPostsPerDayData, formatUsersWithPostsPerDayData } from '../format';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
-export default class TeamAnalytics extends React.PureComponent {
+//TODO find out where the types for these are initialized if you do end up using these
+// type Props = {
+//     actions: any;
+//     teams: object[];
+//     stats: object;
+//     locale: string;
+// }
+
+// type State = {
+//     team: any;
+//     recentlyActiveUsers: [];
+//     newUsers: [];
+// }
+
+export default class TeamAnalytics extends React.PureComponent {  //? do I have to add the <P,S> parameters here?
     static propTypes = {
 
         /*
@@ -57,7 +71,7 @@ export default class TeamAnalytics extends React.PureComponent {
         }).isRequired,
     }
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -75,19 +89,19 @@ export default class TeamAnalytics extends React.PureComponent {
         this.props.actions.getTeams(0, 1000);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: any, prevState: any) {
         if (this.state.team && prevState.team !== this.state.team) {
             this.getData(this.state.team.id);
         }
     }
 
-    getData = async (id) => {
+    getData = async (id: any) => {
         AdminActions.getStandardAnalytics(id);
         AdminActions.getPostsPerDayAnalytics(id);
         AdminActions.getBotPostsPerDayAnalytics(id);
         AdminActions.getUsersPerDayAnalytics(id);
-        const {data: recentlyActiveUsers} = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'last_activity_at');
-        const {data: newUsers} = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'create_at');
+        const { data: recentlyActiveUsers } = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'last_activity_at');
+        const { data: newUsers } = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'create_at');
 
         this.setState({
             recentlyActiveUsers,
@@ -95,11 +109,11 @@ export default class TeamAnalytics extends React.PureComponent {
         });
     }
 
-    handleTeamChange = (e) => {
+    handleTeamChange = (e: any) => {
         const teamId = e.target.value;
 
         let team;
-        this.props.teams.forEach((t) => {
+        this.props.teams.forEach((t: any) => {
             if (t.id === teamId) {
                 team = t;
             }
@@ -114,7 +128,7 @@ export default class TeamAnalytics extends React.PureComponent {
 
     render() {
         if (this.props.teams.length === 0 || !this.state.team || !this.props.stats[this.state.team.id]) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         if (this.state.team == null) {
@@ -213,7 +227,7 @@ export default class TeamAnalytics extends React.PureComponent {
         const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers, this.props.locale);
         const newlyCreatedUsers = formatNewUsersData(this.state.newUsers, this.props.locale);
 
-        const teams = this.props.teams.sort((a, b) => {
+        const teams = this.props.teams.sort((a: any, b: any) => {
             const aName = a.display_name.toUpperCase();
             const bName = b.display_name.toUpperCase();
             if (aName === bName) {
@@ -223,7 +237,7 @@ export default class TeamAnalytics extends React.PureComponent {
                 return 1;
             }
             return -1;
-        }).map((team) => {
+        }).map((team: any) => {
             return (
                 <option
                     key={team.id}
@@ -323,13 +337,13 @@ export default class TeamAnalytics extends React.PureComponent {
     }
 }
 
-export function formatRecentUsersData(data, locale) {
+export function formatRecentUsersData(data: any, locale: any) {
     if (data == null) {
         return [];
     }
 
-    const formattedData = data.map((user) => {
-        const item = {};
+    const formattedData = data.map((user: any) => {
+        const item: any = {};
         item.name = user.username;
         item.value = (
             <FormattedDate
@@ -350,13 +364,13 @@ export function formatRecentUsersData(data, locale) {
     return formattedData;
 }
 
-export function formatNewUsersData(data, locale) {
+export function formatNewUsersData(data: any, locale: any) {
     if (data == null) {
         return [];
     }
 
-    const formattedData = data.map((user) => {
-        const item = {};
+    const formattedData = data.map((user: any) => {
+        const item: any = {};
         item.name = user.username;
         item.value = (
             <FormattedDate
