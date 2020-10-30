@@ -8,7 +8,6 @@ import {Client4} from 'mattermost-redux/client';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ClientError} from 'mattermost-redux/src/client/client4';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
@@ -102,7 +101,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         this.setState({show: false});
     };
 
-    public handleInviteError = (err: ClientError): void => {
+    public handleInviteError = (err: any): void => {
         if (err) {
             this.setState({
                 saving: false,
