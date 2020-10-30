@@ -36,6 +36,7 @@ type Props = {
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
             data: boolean;
         }>;
+        clearChannelSelection: () => void;
     };
     isCloud: boolean;
 };
@@ -65,12 +66,26 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 dialogType: SidebarWhatsNewModal,
             });
         }
+
+        window.addEventListener('click', this.handleClearChannelSelection);
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
         }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('click', this.handleClearChannelSelection);
+    }
+
+    handleClearChannelSelection = (event: MouseEvent) => {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        this.props.actions.clearChannelSelection();
     }
 
     showMoreDirectChannelsModal = () => {

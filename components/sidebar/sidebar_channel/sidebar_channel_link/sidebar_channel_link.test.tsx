@@ -36,6 +36,12 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         showUnreadForMsgs: false,
         isMuted: false,
         isCollapsed: false,
+        isChannelSelected: false,
+        actions: {
+            multiSelectChannel: jest.fn(),
+            multiSelectChannelAdd: jest.fn(),
+            multiSelectChannelTo: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

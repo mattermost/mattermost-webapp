@@ -140,6 +140,8 @@ export type GlobalState = BaseGlobalState & {
             unreadFilterEnabled: boolean;
             draggingState: DraggingState;
             newCategoryIds: string[];
+            selectedChannelIds: string[];
+            lastSelectedChannel: string;
         };
 
         nextSteps: {

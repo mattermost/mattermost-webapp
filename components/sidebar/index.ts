@@ -15,7 +15,7 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {createCategory} from 'actions/views/channel_sidebar';
+import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -61,11 +61,13 @@ type Actions = {
     openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
         data: boolean;
     }>;
+    clearChannelSelection: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+            clearChannelSelection,
             createCategory,
             fetchMyCategories,
             openModal,

@@ -3,12 +3,12 @@
 
 import {createCategory as createCategoryRedux, moveChannelToCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCategory, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import {setItem} from 'actions/storage';
-import {DraggingState} from 'types/store';
+import {getChannelsInCategoryOrder} from 'selectors/views/channel_sidebar';
+import {DraggingState, GlobalState} from 'types/store';
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
 
 export function collapseCategory(categoryId: string) {
@@ -59,7 +59,7 @@ export function createCategory(teamId: string, displayName: string, channelIds?:
 // moveChannelInSidebar moves a channel to a given category in the sidebar, but it accounts for when the target index
 // may have changed due to archived channels not being shown in the sidebar.
 export function moveChannelInSidebar(categoryId: string, channelId: string, targetIndex: number) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const newIndex = adjustTargetIndexForMove(getState(), categoryId, channelId, targetIndex);
 
         return dispatch(moveChannelToCategory(categoryId, channelId, newIndex));
@@ -99,4 +99,70 @@ export function adjustTargetIndexForMove(state: GlobalState, categoryId: string,
     }
 
     return newIndex;
+}
+
+export function clearChannelSelection() {
+    return (dispatch: DispatchFunc) => {
+        return dispatch({
+            type: ActionTypes.MULTISELECT_CHANNEL_CLEAR,
+        });
+    };
+}
+
+export function multiSelectChannel(channelId: string) {
+    return {
+        type: ActionTypes.MULTISELECT_CHANNEL,
+        data: channelId,
+    };
+}
+
+export function multiSelectChannelAdd(channelId: string) {
+    return {
+        type: ActionTypes.MULTISELECT_CHANNEL_ADD,
+        data: channelId,
+    };
+}
+
+export function multiSelectChannelTo(channelId: string) {
+    return (dispatch: DispatchFunc, getState: () => GlobalState) => {
+        const state: GlobalState = getState();
+        const selectedChannelIds = state.views.channelSidebar.selectedChannelIds;
+        const lastSelected = state.views.channelSidebar.lastSelectedChannel;
+
+        // Nothing already selected
+        if (!selectedChannelIds.length) {
+            return dispatch({
+                type: ActionTypes.MULTISELECT_CHANNEL,
+                data: channelId,
+            });
+        }
+
+        const allChannelsIdsInOrder = getChannelsInCategoryOrder(state).map((channel) => channel.id);
+        const indexOfNew: number = allChannelsIdsInOrder.indexOf(channelId);
+        const indexOfLast: number = allChannelsIdsInOrder.indexOf(lastSelected);
+
+        // multi selecting in the same column
+        // need to select everything between the last index and the current index inclusive
+
+        // nothing to do here
+        if (indexOfNew === indexOfLast) {
+            return null;
+        }
+
+        const isSelectingForwards: boolean = indexOfNew > indexOfLast;
+        const start: number = isSelectingForwards ? indexOfLast : indexOfNew;
+        const end: number = isSelectingForwards ? indexOfNew : indexOfLast;
+
+        const inBetween = allChannelsIdsInOrder.slice(start, end + 1);
+
+        // everything inbetween needs to have it's selection toggled.
+        // with the exception of the start and end values which will always be selected
+
+        const sorted = isSelectingForwards ? inBetween : [...inBetween].reverse();
+
+        return dispatch({
+            type: ActionTypes.MULTISELECT_CHANNEL_TO,
+            data: sorted,
+        });
+    };
 }
