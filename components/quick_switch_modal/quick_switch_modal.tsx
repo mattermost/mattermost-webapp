@@ -23,7 +23,7 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
 
-type Props = {
+export type Props = {
 
     /**
      * The function called to hide the modal
@@ -51,7 +51,7 @@ type State = {
 export default class QuickSwitchModal extends React.PureComponent<Props, State> {
     private channelProviders: SwitchChannelProvider[];
     private teamProviders: SwitchTeamProvider[];
-    private switchBox?: any;
+    private switchBox: SuggestionBox|null;
 
     constructor(props: Props) {
         super(props);
@@ -87,12 +87,6 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         this.focusTextbox();
     };
 
-    private onShow = (): void => {
-        this.setState({
-            text: '',
-        });
-    };
-
     private onHide = (): void => {
         this.focusPostTextbox();
         this.setState({
@@ -123,7 +117,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         }
     };
 
-    private handleSubmit = async (selected: any) => {
+    public handleSubmit = async (selected?: any): Promise<void> => {
         if (!selected) {
             return;
         }
@@ -174,14 +168,14 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         this.focusTextbox();
     }
 
-    handleSuggestionsReceived = (suggestions: any) => {
+    private handleSuggestionsReceived = (suggestions: any): void => {
         const loadingPropPresent = suggestions.items.some((item: any) => item.loading);
         this.setState({shouldShowLoadingSpinner: loadingPropPresent,
             pretext: suggestions.matchedPretext,
             hasSuggestions: suggestions.items.length > 0});
     }
 
-    render() {
+    public render = (): JSX.Element => {
         let providers: SwitchChannelProvider[]|SwitchTeamProvider[] = this.channelProviders;
 
         let header = (
