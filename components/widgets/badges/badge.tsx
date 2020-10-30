@@ -10,7 +10,7 @@ type Props = {
     children: ReactNode;
 };
 
-type Attrs = HTMLAttributes<HTMLDivElement>
+type Attrs = HTMLAttributes<HTMLElement>
 
 const Badge = ({
     show = true,
@@ -21,15 +21,15 @@ const Badge = ({
     if (!show) {
         return null;
     }
+    const ButtonOrDiv: keyof JSX.IntrinsicElements = attrs.onClick ? 'button' : 'div';
     return (
         <div className='Badge'>
-            <div
+            <ButtonOrDiv
                 {...attrs}
-                role={attrs.onClick ? 'button' : undefined}
                 className={'Badge__box ' + className}
             >
                 {children}
-            </div>
+            </ButtonOrDiv>
         </div>
     );
 };
