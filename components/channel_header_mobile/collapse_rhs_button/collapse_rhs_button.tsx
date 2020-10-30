@@ -2,31 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import MenuIcon from 'components/widgets/icons/menu_icon';
 
-const CollapseRhsButton = ({
-    actions: {
-        toggleRhsMenu,
-    },
-}) => (
+type Actions = {
+    toggleRhsMenu: (e?:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
+type Props = {
+    actions: Actions
+}
+
+const CollapseRhsButton: React.FunctionComponent<Props> = (props: Props) => (
     <button
         key='navbar-toggle-menu'
         type='button'
         className='navbar-toggle navbar-right__icon menu-toggle pull-right'
         data-toggle='collapse'
         data-target='#sidebar-nav'
-        onClick={toggleRhsMenu}
+        onClick={props.actions.toggleRhsMenu}
     >
         <MenuIcon/>
     </button>
 );
-
-CollapseRhsButton.propTypes = {
-    actions: PropTypes.shape({
-        toggleRhsMenu: PropTypes.func.isRequired,
-    }).isRequired,
-};
 
 export default CollapseRhsButton;
