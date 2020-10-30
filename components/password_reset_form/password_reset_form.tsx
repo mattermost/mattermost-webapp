@@ -11,10 +11,10 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 interface Props {
-  loction: object;
-  siteName: string;
+  location: {search: any};
+  siteName: string | undefined;
   actions: {
-    resetUserPassword: (token: string, newPassword: string) => Promise<{data: any; error: ServerError}>;
+    resetUserPassword: (token: any, newPassword: string) => any;
   };
 }
 
@@ -23,15 +23,17 @@ interface State {
 }
 
 export default class PasswordResetForm extends React.PureComponent<Props, State> {
-    state = {
-        error: null,
-    };
-    passwordInput = React.createRef<HTMLInputElement>();
+    public passwordInput: React.RefObject<HTMLInputElement>; //Public because it is used by tests
+    public constructor(props: Props) {
+      super(props);
+      this.passwordInput = React.createRef<HTMLInputElement>();
+      this.state = { error: null };
+    }
 
-    handlePasswordReset = async (e: React.FormEvent) => {
+     handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const password = this.passwordInput.current.value;
+        const password = this.passwordInput.current!.value;
         if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
             this.setState({
                 error: (

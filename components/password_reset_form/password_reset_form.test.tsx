@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
@@ -38,8 +38,8 @@ describe('components/PasswordResetForm', () => {
             },
         };
 
-        const wrapper = mountWithIntl(<PasswordResetForm {...props}/>);
-        wrapper.instance().passwordInput.current.value = 'PASSWORD';
+        const wrapper: ShallowWrapper<any, any, PasswordResetForm> = mountWithIntl(<PasswordResetForm {...props}/>);
+        wrapper.instance().passwordInput.current!.value = 'PASSWORD';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
 
         expect(props.actions.resetUserPassword).toHaveBeenCalledWith('TOKEN', 'PASSWORD');
