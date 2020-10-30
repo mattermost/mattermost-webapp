@@ -18,7 +18,7 @@ describe('selectedChannelIds', () => {
         const state = Reducers.selectedChannelIds(
             initialState,
             {
-                type: ChannelTypes.SELECT_CHANNEL,
+                type: ActionTypes.MULTISELECT_CHANNEL,
                 data: 'new-channel',
             },
         );
@@ -36,7 +36,7 @@ describe('selectedChannelIds', () => {
         const state = Reducers.selectedChannelIds(
             initialState,
             {
-                type: ChannelTypes.SELECT_CHANNEL,
+                type: ActionTypes.MULTISELECT_CHANNEL,
                 data: 'channel-1',
             },
         );
@@ -52,7 +52,7 @@ describe('selectedChannelIds', () => {
         const state = Reducers.selectedChannelIds(
             initialState,
             {
-                type: ChannelTypes.SELECT_CHANNEL,
+                type: ActionTypes.MULTISELECT_CHANNEL,
                 data: 'channel-1',
             },
         );
