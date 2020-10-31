@@ -21,19 +21,19 @@ import {goToLastViewedChannel} from 'actions/views/channel';
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 
-import ChannelView from './channel_view.jsx';
+import ChannelView from './channel_view';
 
 // Temporary selector until getDirectTeammate is converted to be redux-friendly
 const getDeactivatedChannel = createSelector(
-    (state, channelId) => {
+    (state: any, channelId: any) => {
         return getDirectTeammate(state, channelId);
     },
-    (teammate) => {
+    (teammate: any) => {
         return Boolean(teammate && teammate.delete_at);
     },
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     const channel = getCurrentChannel(state);
 
     const config = getConfig(state);
@@ -71,7 +71,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
     return {
         actions: bindActionCreators({
             setShowNextStepsView,
