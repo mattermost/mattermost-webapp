@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot, with channel header 1`] = `
+exports[`components/ChannelHeaderMobile/NavbarInfoButton should match snapshot, with channel header 1`] = `
 <NavbarInfoButton
   actions={
     Object {
@@ -173,7 +173,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
 </NavbarInfoButton>
 `;
 
-exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot, without channel header 1`] = `
+exports[`components/ChannelHeaderMobile/NavbarInfoButton should match snapshot, without channel header 1`] = `
 <NavbarInfoButton
   actions={
     Object {

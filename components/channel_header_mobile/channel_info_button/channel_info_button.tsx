@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
+import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -15,20 +17,24 @@ import InfoIcon from 'components/widgets/icons/info_icon';
 import Popover from 'components/widgets/popover';
 const headerMarkdownOptions = {mentionHighlight: false};
 
-export default class NavbarInfoButton extends React.PureComponent {
-    static propTypes = {
-        channel: PropTypes.object.isRequired,
-        isReadOnly: PropTypes.bool.isRequired,
-        isRHSOpen: PropTypes.bool,
-        currentRelativeTeamUrl: PropTypes.string,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+interface MMOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void;
+}
 
-    headerOverlayRef = React.createRef();
+export interface NavbarInfoButtonProps {
+    channel: Channel,
+    isReadOnly: boolean,
+    isRHSOpen?: boolean,
+    currentRelativeTeamUrl?: string,
+    actions: {
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
+    }
+}
 
-    componentDidUpdate(prevProps) {
+export default class NavbarInfoButton extends React.PureComponent<NavbarInfoButtonProps> {
+    headerOverlayRef = React.createRef<MMOverlayTrigger>();
+
+    componentDidUpdate(prevProps: NavbarInfoButtonProps): void {
         const RHSChanged = !prevProps.isRHSOpen && this.props.isRHSOpen;
         const channelChanged = prevProps.channel?.id !== this.props.channel?.id;
         if (RHSChanged || channelChanged) {
@@ -36,7 +42,7 @@ export default class NavbarInfoButton extends React.PureComponent {
         }
     }
 
-    showEditChannelHeaderModal = () => {
+    showEditChannelHeaderModal = (): void => {
         this.hide();
 
         const {actions, channel} = this.props;
@@ -49,15 +55,15 @@ export default class NavbarInfoButton extends React.PureComponent {
         actions.openModal(modalData);
     }
 
-    hide = () => {
+    hide = (): void => {
         if (this.headerOverlayRef.current) {
             this.headerOverlayRef.current.hide();
         }
     }
 
-    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>): void => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
-    render() {
+    render(): ReactNode {
         const {channel, isReadOnly} = this.props;
 
         let popoverContent = null;
