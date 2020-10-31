@@ -10,8 +10,22 @@ import YoutubeVideo from './youtube_video';
 
 jest.mock('actions/integration_actions');
 
+type Props = {
+    googleDeveloperKey?: string,
+    link: string,
+    show: boolean,
+    metadata: {
+        title: string,
+        images: [{
+            secure_url?: string,
+            url?: string
+        }],
+    },
+    hasImageProxy?: boolean
+}
+
 describe('YoutubeVideo', () => {
-    const baseProps = {
+    const baseProps: Props = {
         googleDeveloperKey: 'googledevkey',
         hasImageProxy: false,
         link: 'https://www.youtube.com/watch?v=xqCoNej8Zxo',
@@ -38,7 +52,7 @@ describe('YoutubeVideo', () => {
     });
 
     test('should use url if secure_url is not present', () => {
-        const props = {
+        const props: Props = {
             ...baseProps,
             metadata: {
                 title: 'Youtube title',
