@@ -102,6 +102,7 @@ export default class RhsThread extends React.Component<Props, State> {
             topRhsPostId: '',
             openTime,
             postsContainerHeight: 0,
+            userScrolledToBottom: false,
         };
 
         this.rhspostlistRef = React.createRef();
@@ -112,10 +113,11 @@ export default class RhsThread extends React.Component<Props, State> {
     private resizeRhsPostList() {
         const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
         const createContainerHeight = this.postCreateContainerRef.current?.getBoundingClientRect().height;
+        const lastPost = this.containerRef.current?.children[0]?.getBoundingClientRect();
 
-        if (containerHeight && createContainerHeight) {
+        if (containerHeight && createContainerHeight && lastPost) {
             this.setState({
-                postsContainerHeight: containerHeight - createContainerHeight,
+                postsContainerHeight: containerHeight - (createContainerHeight + lastPost.height),
             });
         }
     }
@@ -147,7 +149,7 @@ export default class RhsThread extends React.Component<Props, State> {
 
         const curLastPost = curPostsArray[0];
 
-        if (curLastPost.user_id === this.props.currentUserId) {
+        if (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom) {
             this.scrollToBottom();
         }
     }
@@ -267,11 +269,11 @@ export default class RhsThread extends React.Component<Props, State> {
 
         const maxScroll = event.target.scrollHeight - event.target.getBoundingClientRect().height;
         const scrollTop = event.target.scrollTop;
+        const lastPost = this.containerRef.current?.children[0]?.getBoundingClientRect();
 
-        // TODO last post height ref
-        const userScrolledToBottom = scrollTop >= maxScroll - 24;
+        if (!this.state.isScrolling && lastPost) {
+            const userScrolledToBottom = scrollTop < maxScroll - lastPost.height;
 
-        if (!this.state.isScrolling) {
             this.setState({userScrolledToBottom, isScrolling: true});
         }
 
