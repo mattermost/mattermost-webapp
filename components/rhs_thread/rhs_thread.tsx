@@ -70,11 +70,15 @@ type State = {
     openTime: number;
     postsArray?: Record<string, any>[];
     isBusy?: boolean;
+    postsContainerHeight: number;
+    userScrolledToBottom: boolean;
 }
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
+    private containerRef: React.RefObject<HTMLDivElement>;
+    private postCreateContainerRef : React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -97,21 +101,28 @@ export default class RhsThread extends React.Component<Props, State> {
             isScrolling: false,
             topRhsPostId: '',
             openTime,
+            postsContainerHeight: 0,
         };
 
         this.rhspostlistRef = React.createRef();
+        this.containerRef = React.createRef();
+        this.postCreateContainerRef = React.createRef();
     }
 
-    public getSnapshotBeforeUpdate(prevProps: Props) {
-        if (prevProps.posts.length < this.props.posts.length) {
-            const list = this.rhspostlistRef.current;
-            return list ? list.scrollHeight - list.scrollTop : null;
+    private resizeRhsPostList() {
+        const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
+        const createContainerHeight = this.postCreateContainerRef.current?.getBoundingClientRect().height;
+
+        if (containerHeight && createContainerHeight) {
+            this.setState({
+                postsContainerHeight: containerHeight - createContainerHeight,
+            });
         }
-        return null;
     }
 
     public componentDidMount() {
         this.scrollToBottom();
+        this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
         if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
             this.props.actions.getPostThread(this.props.selected.id, true);
@@ -122,7 +133,7 @@ export default class RhsThread extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public componentDidUpdate(prevProps: Props, _prevState: State, snapshot: number) {
+    public componentDidUpdate(prevProps: Props) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -135,10 +146,6 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         const curLastPost = curPostsArray[0];
-
-        if (snapshot !== null) {
-            this.scrollToBottom();
-        }
 
         if (curLastPost.user_id === this.props.currentUserId) {
             this.scrollToBottom();
@@ -255,13 +262,17 @@ export default class RhsThread extends React.Component<Props, State> {
         }
     }
 
-    private handleScroll = (): void => {
+    private handleScroll = (event: React.EventHandler<MouseEvent>): void => {
         this.updateFloatingTimestamp();
 
+        const maxScroll = event.target.scrollHeight - event.target.getBoundingClientRect().height;
+        const scrollTop = event.target.scrollTop;
+
+        // TODO last post height ref
+        const userScrolledToBottom = scrollTop >= maxScroll - 24;
+
         if (!this.state.isScrolling) {
-            this.setState({
-                isScrolling: true,
-            });
+            this.setState({userScrolledToBottom, isScrolling: true});
         }
 
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
@@ -352,7 +363,10 @@ export default class RhsThread extends React.Component<Props, State> {
                 );
             } else {
                 createComment = (
-                    <div className='post-create__container'>
+                    <div
+                        className='post-create__container'
+                        ref={this.postCreateContainerRef}
+                    >
                         <CreateComment
                             channelId={selected.channel_id}
                             rootId={selected.id}
@@ -384,6 +398,7 @@ export default class RhsThread extends React.Component<Props, State> {
             <div
                 id='rhsContainer'
                 className='sidebar-right__body'
+                ref={this.containerRef}
             >
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
@@ -402,6 +417,8 @@ export default class RhsThread extends React.Component<Props, State> {
                     autoHideDuration={500}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
+                    autoHeight={true}
+                    autoHeightMax={this.state.postsContainerHeight}
                     renderView={renderView}
                     onScroll={this.handleScroll}
                 >
@@ -437,9 +454,9 @@ export default class RhsThread extends React.Component<Props, State> {
                                 {commentsLists}
                             </div>
                         </div>
-                        {createComment}
                     </div>
                 </Scrollbars>
+                {createComment}
             </div>
         );
     }
