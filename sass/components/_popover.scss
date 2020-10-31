@@ -1,5 +1,5 @@
 @charset 'UTF-8';
-@import 'compass/css3/transition';
+@import "compass/css3/transition";
 
 .app__body .popover.channel-header__popover {
     box-shadow: none;
@@ -85,12 +85,12 @@
 
     ul + p,
     ol + p {
-        margin-top: .6em;
+        margin-top: 0.6em;
     }
 
     p + ul,
     p + ol {
-        margin-top: .6em;
+        margin-top: 0.6em;
     }
 
     blockquote {
@@ -108,7 +108,7 @@
 
     .popover-title {
         @include border-radius(0);
-        background: alpha-color($black, .05);
+        background: alpha-color($black, 0.05);
         max-width: 100%;
         overflow: hidden;
         padding: 8px 10px;
@@ -144,6 +144,7 @@
     .popover__row {
         margin: 0 -15px 0;
         padding: 9px 15px 0;
+        border-color: var(--center-channel-color);
 
         &.first {
             border-top: 1px solid transparent;
@@ -187,7 +188,7 @@
 }
 
 .user-profile-popover .user-popover__username:only-child,
-.user-profile-popover .user-popover__username:only-child > a{
+.user-profile-popover .user-popover__username:only-child > a {
     max-width: 100%;
 }
 .user-profile-popover .Avatar {
@@ -209,8 +210,11 @@
 
             &:before {
                 position: absolute;
-                background: rgba(var(--center-channel-color-rgb), 0.04) !important;
-                content: '';
+                background: rgba(
+                    var(--center-channel-color-rgb),
+                    0.04
+                ) !important;
+                content: "";
                 width: 100%;
                 height: 100%;
                 top: 0;
@@ -226,7 +230,10 @@
         .popover-content {
             border-radius: 0 0 3px 3px;
             border-top: none;
-            @include box-shadow(rgba(var(--center-channel-color-rgb), 0.08) 0px 17px 50px 0px, rgba(var(--center-channel-color-rgb), 0.08) 0px 12px 15px 0px);
+            @include box-shadow(
+                rgba(var(--center-channel-color-rgb), 0.08) 0px 17px 50px 0px,
+                rgba(var(--center-channel-color-rgb), 0.08) 0px 12px 15px 0px
+            );
             background: v(center-channel-bg);
         }
 
@@ -245,7 +252,6 @@
     font-size: 0.8em;
     color: $white;
 }
-
 
 .user-popover__email {
     display: block;
@@ -288,7 +294,7 @@
     }
 
     &:before {
-        content: '';
+        content: "";
         height: 1px;
         background: rgba(var(--center-channel-color-rgb), 0.08);
         position: absolute;
@@ -328,7 +334,10 @@
 
             &::-webkit-scrollbar-thumb {
                 border: 1px solid v(center-channel-bg);
-                background-color: rgba(var(--center-channel-color-rgb), 0.24) !important;
+                background-color: rgba(
+                    var(--center-channel-color-rgb),
+                    0.24
+                ) !important;
                 border-radius: 4px;
             }
         }
@@ -351,7 +360,7 @@
         }
 
         .status--group {
-            background-color: rgba(var(--center-channel-color-rgb), 0.20);
+            background-color: rgba(var(--center-channel-color-rgb), 0.2);
             margin: 0;
             width: 1.8rem;
             height: 1.8rem;
@@ -366,7 +375,7 @@
         }
 
         .fa {
-            @include opacity(.5);
+            @include opacity(0.5);
             margin-right: 5px;
             top: 1px;
             position: relative;
@@ -392,7 +401,7 @@
 
     ul {
         span {
-            @include opacity(.8);
+            @include opacity(0.8);
         }
 
         strong,
@@ -410,7 +419,7 @@
         @include transition-duration(0.1s);
         @include transition-delay(0s);
         @include transition-timing-function(ease-in, step-end);
-}
+    }
 
     &.visible {
         @include opacity(1);
@@ -448,7 +457,7 @@
         padding: 14px 20px;
 
         .icon {
-            @include opacity(.8);
+            @include opacity(0.8);
             margin: 0 38px 0 24px;
             position: relative;
             top: 2px;
