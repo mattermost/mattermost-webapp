@@ -26,7 +26,7 @@ function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
     const config = getConfig(state);
     const isDataPrefechEnabled = config.ExperimentalDataPrefetch === 'true';
-    const currentChannel = getCurrentChannel(state);
+    const currentChannel = getCurrentChannel(state) || {};
 
     let canCreatePublicChannel = false;
     let canCreatePrivateChannel = false;

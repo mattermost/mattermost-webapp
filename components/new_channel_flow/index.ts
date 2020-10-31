@@ -19,7 +19,7 @@ import NewChannelFlow, {Props} from './new_channel_flow';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
-    const currentChannel = getCurrentChannel(state);
+    const currentChannel = getCurrentChannel(state) || {};
 
     let canCreatePublicChannel = false;
     let canCreatePrivateChannel = false;

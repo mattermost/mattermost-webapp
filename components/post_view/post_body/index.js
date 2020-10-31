@@ -20,7 +20,7 @@ function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
-    const currentChannel = getCurrentChannel(state);
+    const currentChannel = getCurrentChannel(state) || {};
     const channelIsArchived = currentChannel.delete_at !== 0;
 
     return {

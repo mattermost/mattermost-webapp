@@ -36,10 +36,9 @@ function mapStateToProps(state, ownProps) {
     }
 
     const selectedPost = getSelectedPost(state);
-    const currentChannel = getCurrentChannel(state);
-
     let channelId;
     if (selectedPost.exists === false) {
+        const currentChannel = getCurrentChannel(state) || {};
         channelId = currentChannel.id;
     } else {
         channelId = selectedPost.channel_id;

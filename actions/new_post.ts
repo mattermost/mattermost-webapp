@@ -45,7 +45,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
             }
         }
 
-        if (post.channel_id === getCurrentChannel(getState()).id) {
+        if (post.channel_id === getCurrentChannel(getState())?.id) {
             dispatch({
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: post.channel_id,
@@ -101,7 +101,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
                 markAsRead = true;
                 markAsReadOnServer = false;
             } else if (
-                post.channel_id === getCurrentChannel(state).id &&
+                post.channel_id === getCurrentChannel(state)?.id &&
                 window.isActive
             ) {
                 markAsRead = true;

@@ -23,7 +23,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUser = getCurrentUser(state);
     const currentTeam = getCurrentTeam(state);
     const redirectChannel = getRedirectChannelNameForTeam(state, currentTeam.id);
-    const currentChannel = getCurrentChannel(state);
+    const currentChannel = getCurrentChannel(state) || {};
     const active = ownProps.channel.id === currentChannel.id;
 
     const memberIds = getUserIdsInChannels(state);

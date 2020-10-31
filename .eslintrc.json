@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": [
     "plugin:mattermost/react",
     "plugin:cypress/recommended",

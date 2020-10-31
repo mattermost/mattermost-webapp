@@ -25,7 +25,7 @@ function makeMapStateToProps() {
         const currentTeam = getCurrentTeam(state);
 
         const member = getMyChannelMemberships(state)[ownProps.channelId];
-        const currentChannel = getCurrentChannel(state);
+        const currentChannel = getCurrentChannel(state) || {};
 
         // Unread counts
         let unreadMentions = 0;
