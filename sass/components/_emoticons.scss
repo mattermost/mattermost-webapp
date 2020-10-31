@@ -181,6 +181,7 @@
     padding: 13px 10px 13px 15px;
     background: $primary-color;
     border: 1px solid $light-gray;
+    border-color: rgba(var(--center-channel-color-rgb),0.2);
     color: $white;
     position: absolute;
     top: 0;
@@ -205,6 +206,7 @@
 }
 
 .modal-body .emoji-picker .emoji-picker__header {
+    border-color: rgba(var(--center-channel-color-rgb),0.2);
     .emoji-picker__header-title {
         margin-top: 0px;
     }
