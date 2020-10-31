@@ -513,7 +513,6 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body #sidebarDropdownMenu .menu-divider', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body .modal .settings-modal .settings-table .nav>li.active>button', 'color:' + theme.sidebarText);
         changeCss('@media(max-width: 768px){.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + changeOpacity(theme.sidebarText, 0.6));
-        changeCss('.app__body .sidebar--left .sidebar__switcher span', 'color:' + theme.sidebarText);
         changeCss('.channel-header .channel-header_plugin-dropdown a, .app__body .sidebar__switcher button', 'background:' + changeOpacity(theme.sidebarText, 0.08));
     }
 
@@ -586,14 +585,11 @@ export function applyTheme(theme) {
     // Including 'mentionBj' for backwards compatability (old typo)
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
         changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator svg', 'fill:' + theme.mentionColor);
-        changeCss('.app__body .sidebar--left .nav-pills__unread-indicator', 'color:' + theme.mentionColor);
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
         changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
     }
