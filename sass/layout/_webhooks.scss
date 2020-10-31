@@ -353,3 +353,11 @@
         }
     }
 }
+
+.app__body {
+    .attachment {
+        .attachment__container {
+            border-left-color: var(--sidebar-header-bg);
+        }
+    }
+}
