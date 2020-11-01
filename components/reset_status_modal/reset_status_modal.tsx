@@ -5,12 +5,15 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Preferences} from 'mattermost-redux/constants';
 
+import {UserStatus} from 'mattermost-redux/types/users';
+
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+
 import ConfirmModal from 'components/confirm_modal';
 import {toTitleCase} from 'utils/utils.jsx';
 import {UserStatuses} from 'utils/constants';
+
 import {t} from 'utils/i18n';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserStatus} from 'mattermost-redux/types/users'
 
 type Props = {
 
