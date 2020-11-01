@@ -9,7 +9,40 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     overlayType="center"
   />
   <withRouter(Connect(injectIntl(ChannelHeader)))
+    actions={
+      Object {
+        "getProfiles": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+        "goToLastViewedChannel": [MockFunction],
+        "setShowNextStepsView": [MockFunction],
+      }
+    }
     channelId="channelId"
+    channelIsArchived={true}
+    channelRolesLoading={true}
+    deactivatedChannel={false}
+    isCloud={false}
+    isOnboardingHidden={true}
+    match={
+      Object {
+        "params": Object {},
+        "url": "/team/channel/channelId",
+      }
+    }
+    showNextSteps={false}
+    showNextStepsEphemeral={false}
+    showNextStepsTips={false}
+    showTutorial={false}
+    viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
     channelId="channelId"
@@ -49,7 +82,40 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
     overlayType="center"
   />
   <withRouter(Connect(injectIntl(ChannelHeader)))
+    actions={
+      Object {
+        "getProfiles": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+        "goToLastViewedChannel": [MockFunction],
+        "setShowNextStepsView": [MockFunction],
+      }
+    }
     channelId="channelId"
+    channelIsArchived={false}
+    channelRolesLoading={true}
+    deactivatedChannel={false}
+    isCloud={false}
+    isOnboardingHidden={true}
+    match={
+      Object {
+        "params": Object {},
+        "url": "/team/channel/channelId",
+      }
+    }
+    showNextSteps={false}
+    showNextStepsEphemeral={false}
+    showNextStepsTips={false}
+    showTutorial={false}
+    viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
     channelId="channelId"
@@ -66,7 +132,40 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     overlayType="center"
   />
   <withRouter(Connect(injectIntl(ChannelHeader)))
+    actions={
+      Object {
+        "getProfiles": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+        "goToLastViewedChannel": [MockFunction],
+        "setShowNextStepsView": [MockFunction],
+      }
+    }
     channelId="channelId"
+    channelIsArchived={false}
+    channelRolesLoading={false}
+    deactivatedChannel={false}
+    isCloud={false}
+    isOnboardingHidden={true}
+    match={
+      Object {
+        "params": Object {},
+        "url": "/team/channel/channelId",
+      }
+    }
+    showNextSteps={false}
+    showNextStepsEphemeral={false}
+    showNextStepsTips={false}
+    showTutorial={false}
+    viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
     channelId="channelId"
