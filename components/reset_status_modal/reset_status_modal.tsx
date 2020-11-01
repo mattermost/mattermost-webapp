@@ -54,7 +54,7 @@ type Props = {
 type State = {
     show: boolean;
     currentUserStatus: any;
-    newStatus: boolean;
+    newStatus: string;
 };
 
 export default class ResetStatusModal extends React.PureComponent<Props, State> {
