@@ -124,8 +124,8 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         }
       />
       <CopyText
-        defaultMessage="Copy Client Secret"
-        idMessage="integrations.copy_client_secret"
+        defaultMessage="Copy"
+        idMessage="integrations.copy"
         value="http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic"
       />
     </p>
