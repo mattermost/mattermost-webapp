@@ -11,9 +11,9 @@ import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {autoResetStatus} from 'actions/user_actions.jsx';
 
-import ResetStatusModal from './reset_status_modal.jsx';
+import ResetStatusModal from './reset_status_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: any) {
     const {currentUserId} = state.entities.users;
     return {
         autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, ''),
@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
     return {
         actions: bindActionCreators({
             autoResetStatus,

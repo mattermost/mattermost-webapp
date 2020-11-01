@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
-import ResetStatusModal from 'components/reset_status_modal/reset_status_modal.jsx';
+import ResetStatusModal from 'components/reset_status_modal/reset_status_modal';
 
 describe('components/ResetStatusModal', () => {
     const autoResetStatus = jest.fn().mockImplementation(
@@ -41,9 +41,7 @@ describe('components/ResetStatusModal', () => {
                 savePreferences: newSavePreferences,
             },
         };
-        const wrapper = shallow(
-            <ResetStatusModal {...props}/>,
-        );
+        const wrapper: ShallowWrapper<any, any, ResetStatusModal> = shallow(<ResetStatusModal {...props}/>,);
         const currentUserStatus = {
             status: 'away',
             user_id: 'user_id_1',
@@ -88,9 +86,8 @@ describe('components/ResetStatusModal', () => {
                 savePreferences: newSavePreferences,
             },
         };
-        const wrapper = shallow(
-            <ResetStatusModal {...props}/>,
-        );
+        const wrapper: ShallowWrapper<any, any, ResetStatusModal> = shallow(<ResetStatusModal {...props}/>,);
+
         const currentUserStatus = {
             status: 'away',
             user_id: 'user_id_1',

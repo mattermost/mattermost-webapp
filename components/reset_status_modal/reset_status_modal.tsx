@@ -11,48 +11,55 @@ import {toTitleCase} from 'utils/utils.jsx';
 import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-export default class ResetStatusModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    /*
+     * The user's preference for whether their status is automatically reset
+     */
+    autoResetPref?: string;
+
+    /*
+     * Props value is used to update currentUserStatus
+     */
+    currentUserStatus?: string;
+            
+    /*
+     * Props value is used to reset status from status_dropdown
+     */
+    newStatus?: string;
+
+    /**
+     * Function called when modal is dismissed
+     */
+    onHide?: () => void;
+
+
+    actions: {
+        /*
+         * Function to get and then reset the user's status if needed
+         */
+        autoResetStatus: () => any;
 
         /*
-         * The user's preference for whether their status is automatically reset
+         * Function to set the status for a user
          */
-        autoResetPref: PropTypes.string,
+        setStatus: (status: any) => any;
 
         /*
-         * Props value is used to update currentUserStatus
+         * Function to save user preferences
          */
-        currentUserStatus: PropTypes.string,
+        savePreferences: (userId: any, preferences: any) => any;
+    }
+}
 
-        /*
-         * Props value is used to reset status from status_dropdown
-         */
-        newStatus: PropTypes.string,
+type State = {
+    show: boolean;
+    currentUserStatus: any;
+    newStatus: boolean;
+}
 
-        /**
-         * Function called when modal is dismissed
-         */
-        onHide: PropTypes.func,
-        actions: PropTypes.shape({
+export default class ResetStatusModal extends React.PureComponent<Props, State> {
 
-            /*
-             * Function to get and then reset the user's status if needed
-             */
-            autoResetStatus: PropTypes.func.isRequired,
-
-            /*
-             * Function to set the status for a user
-             */
-            setStatus: PropTypes.func.isRequired,
-
-            /*
-             * Function to save user preferences
-             */
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    constructor(props) {
+    public constructor(props: any) {
         super(props);
 
         this.state = {
@@ -62,9 +69,9 @@ export default class ResetStatusModal extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.props.actions.autoResetStatus().then(
-            (status) => {
+            (status: any) => {
                 const statusIsManual = status.manual;
                 const autoResetPrefNotSet = this.props.autoResetPref === '';
 
@@ -76,11 +83,11 @@ export default class ResetStatusModal extends React.PureComponent {
         );
     }
 
-    hideModal = () => {
+    public hideModal = () => {
         this.setState({show: false});
     };
 
-    onConfirm = (checked) => {
+    public onConfirm = (checked: boolean) => {
         this.hideModal();
 
         const newStatus = {...this.state.currentUserStatus};
@@ -93,7 +100,7 @@ export default class ResetStatusModal extends React.PureComponent {
         }
     };
 
-    onCancel = (checked) => {
+    public onCancel = (checked: boolean) => {
         this.hideModal();
 
         if (checked) {
@@ -103,7 +110,7 @@ export default class ResetStatusModal extends React.PureComponent {
         }
     };
 
-    renderModalMessage = () => {
+    public renderModalMessage = () => {
         if (this.props.currentUserStatus === UserStatuses.OUT_OF_OFFICE) {
             return (
                 <FormattedMessage
@@ -127,7 +134,7 @@ export default class ResetStatusModal extends React.PureComponent {
         );
     };
 
-    render() {
+    public render() {
         const userStatus = this.state.currentUserStatus.status || '';
         const userStatusId = 'modal.manual_status.title_' + userStatus;
         const manualStatusTitle = (
