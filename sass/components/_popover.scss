@@ -67,7 +67,12 @@
     }
 
     &.bottom,
-    &.right,
+
+    &.right {
+        > .arrow {
+            border-right-color: rgba(var(--center-channel-color), 0.25);
+        }
+    }
     &.top,
     &.left {
         > .arrow {
