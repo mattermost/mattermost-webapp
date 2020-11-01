@@ -41,7 +41,7 @@ describe('components/ResetStatusModal', () => {
                 savePreferences: newSavePreferences,
             },
         };
-        const wrapper: ShallowWrapper<any, any, ResetStatusModal> = shallow(<ResetStatusModal {...props}/>,);
+        const wrapper: ShallowWrapper<any, any, ResetStatusModal> = shallow(<ResetStatusModal {...props}/>);
         const currentUserStatus = {
             status: 'away',
             user_id: 'user_id_1',
@@ -86,7 +86,7 @@ describe('components/ResetStatusModal', () => {
                 savePreferences: newSavePreferences,
             },
         };
-        const wrapper: ShallowWrapper<any, any, ResetStatusModal> = shallow(<ResetStatusModal {...props}/>,);
+        const wrapper: ShallowWrapper<any, any, ResetStatusModal> = shallow(<ResetStatusModal {...props}/>);
 
         const currentUserStatus = {
             status: 'away',

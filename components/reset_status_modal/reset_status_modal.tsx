@@ -11,6 +11,7 @@ import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 type Props = {
+
     /*
      * The user's preference for whether their status is automatically reset
      */
@@ -20,7 +21,7 @@ type Props = {
      * Props value is used to update currentUserStatus
      */
     currentUserStatus?: string;
-            
+
     /*
      * Props value is used to reset status from status_dropdown
      */
@@ -31,8 +32,8 @@ type Props = {
      */
     onHide?: () => void;
 
-
     actions: {
+
         /*
          * Function to get and then reset the user's status if needed
          */
@@ -57,7 +58,6 @@ type State = {
 };
 
 export default class ResetStatusModal extends React.PureComponent<Props, State> {
-
     public constructor(props: any) {
         super(props);
 
