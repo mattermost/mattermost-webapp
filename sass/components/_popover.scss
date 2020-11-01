@@ -18,10 +18,6 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         border-color: v(center-channel-color-16);
     }
-
-    .popover.top > .arrow {
-        border-top-color: rgba(var(--center-channel-color), 0.25);
-    }
 }
 
 .popover {
@@ -72,7 +68,13 @@
 
     &.bottom,
     &.right,
-    &.top,
+
+    &.top {
+        > .arrow {
+            border-top-color: rgba(var(--center-channel-color), 0.25);
+        }
+    }
+
     &.left {
         > .arrow {
             display: none;
