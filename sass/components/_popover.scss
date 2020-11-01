@@ -72,6 +72,7 @@
     &.left {
         > .arrow {
             display: none;
+            border-left-color: rgba(var(--center-channel-color), 0.25);
 
             &:after {
                 border-color: transparent;
