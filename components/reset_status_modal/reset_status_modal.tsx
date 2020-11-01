@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Preferences} from 'mattermost-redux/constants';
@@ -49,13 +48,13 @@ type Props = {
          */
         savePreferences: (userId: any, preferences: any) => any;
     }
-}
+};
 
 type State = {
     show: boolean;
     currentUserStatus: any;
     newStatus: boolean;
-}
+};
 
 export default class ResetStatusModal extends React.PureComponent<Props, State> {
 
