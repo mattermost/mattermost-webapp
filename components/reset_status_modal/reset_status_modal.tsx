@@ -9,6 +9,8 @@ import ConfirmModal from 'components/confirm_modal';
 import {toTitleCase} from 'utils/utils.jsx';
 import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserStatus} from 'mattermost-redux/types/users'
 
 type Props = {
 
@@ -42,12 +44,12 @@ type Props = {
         /*
          * Function to set the status for a user
          */
-        setStatus: (status: any) => any;
+        setStatus: (status: UserStatus) => any;
 
         /*
          * Function to save user preferences
          */
-        savePreferences: (userId: any, preferences: any) => any;
+        savePreferences: (userId: string, preferences: Array<PreferenceType>) => any;
     }
 };
 
