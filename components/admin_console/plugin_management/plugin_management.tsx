@@ -1072,6 +1072,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                     <div className='col-sm-8'>
                                         <div className='file__upload'>
                                             <button
+                                                type='button'
                                                 className={classNames(['btn', {'btn-primary': enableUploads}])}
                                                 disabled={!enableUploadButton || this.props.isDisabled}
                                             >

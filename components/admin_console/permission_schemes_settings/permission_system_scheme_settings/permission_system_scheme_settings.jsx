@@ -81,7 +81,7 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent 
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (!this.state.loaded && this.rolesNeeded.every((roleName) => nextProps.roles[roleName])) {
             this.loadRolesIntoState(nextProps);
         }
