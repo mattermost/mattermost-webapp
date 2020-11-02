@@ -27,7 +27,7 @@ describe('Integrations', () => {
             cy.apiCreateUser().then(({user: user2}) => {
                 dmChannel = user2.username;
 
-                // Login as user1 and create a new team
+                // # Login as user1 and create a new team
                 cy.apiLogin(user).then(() => {
                     cy.apiCreateTeam('team', 'Users Team').then(({team}) => {
                         testTeam = team;
@@ -77,7 +77,7 @@ describe('Integrations', () => {
         // * Assert that an archived / deleted channel does not appear in the drop-down // currently this fails due to a bug
         cy.get('#channelSelect').children().should('not.contain', archiveChannel);
 
-        // Assert that a direct message channel does not appear in the drop-down
+        // * Assert that a direct message channel does not appear in the drop-down
         cy.get('#channelSelect').children().should('not.contain', `@${dmChannel}`);
     });
 });
