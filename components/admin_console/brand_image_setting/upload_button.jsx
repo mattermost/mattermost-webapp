@@ -55,6 +55,7 @@ export default class UploadButton extends React.PureComponent {
 
         return (
             <button
+                type='button'
                 className={primaryClass}
                 disabled={disabled}
                 onClick={onClick}
