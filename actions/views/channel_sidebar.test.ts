@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';
@@ -187,5 +188,156 @@ describe('adjustTargetIndexForMove', () => {
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
             });
         }
+    });
+});
+
+describe('multiSelectChannelTo', () => {
+    const channelIds = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
+
+    const initialState = {
+        entities: {
+            users: {
+                currentUserId: 'user',
+            },
+            channelCategories: {
+                byId: {
+                    category1: {
+                        id: 'category1',
+                        channel_ids: channelIds.map((id) => `category1_${id}`),
+                        sorting: CategorySorting.Manual,
+                    },
+                    category2: {
+                        id: 'category2',
+                        channel_ids: channelIds.map((id) => `category2_${id}`),
+                        sorting: CategorySorting.Manual,
+                    },
+                },
+                orderByTeam: {
+                    team1: ['category1', 'category2'],
+                },
+            },
+            channels: {
+                channels: {
+                    ...channelIds.reduce((init: {[key: string]: Partial<Channel>}, val) => {
+                        init[`category1_${val}`] = {id: `category1_${val}`, delete_at: 0};
+                        return init;
+                    }, {}),
+                    ...channelIds.reduce((init: {[key: string]: Partial<Channel>}, val) => {
+                        init[`category2_${val}`] = {id: `category2_${val}`, delete_at: 0};
+                        return init;
+                    }, {}),
+                },
+                myMembers: {
+                    ...channelIds.reduce((init: {[key: string]: Partial<ChannelMembership>}, val) => {
+                        init[`category1_${val}`] = {channel_id: `category1_${val}`, user_id: 'user'};
+                        return init;
+                    }, {}),
+                    ...channelIds.reduce((init: {[key: string]: Partial<ChannelMembership>}, val) => {
+                        init[`category2_${val}`] = {channel_id: `category2_${val}`, user_id: 'user'};
+                        return init;
+                    }, {}),
+                },
+                channelsInTeam: {
+                    team1: channelIds.map((id) => `category1_${id}`).concat(channelIds.map((id) => `category2_${id}`)),
+                },
+            },
+            teams: {
+                currentTeamId: 'team1',
+            },
+        },
+        views: {
+            channelSidebar: {
+                selectedChannelIds: [],
+                lastSelectedChannel: '',
+            },
+        },
+    };
+
+    test('should select single channel if none are selected', () => {
+        const store = configureStore(initialState);
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_five'));
+
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five']);
+    });
+
+    test('should select group of channels in ascending order', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    selectedChannelIds: ['category1_two'],
+                    lastSelectedChannel: 'category1_two',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_seven'));
+
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_two', 'category1_three', 'category1_four', 'category1_five', 'category1_six', 'category1_seven']);
+    });
+
+    test('should select group of channels in descending order and sort by ascending', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    selectedChannelIds: ['category1_five'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_four', 'category1_three', 'category1_two', 'category1_one']);
+    });
+
+    test('should select group of channels where some other channels were already selected', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    selectedChannelIds: ['category1_five', 'category2_six', 'category2_three'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_four', 'category1_three', 'category1_two', 'category1_one']);
+    });
+
+    test('should select group of channels where some other channels were already selected but in new selection', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    selectedChannelIds: ['category1_five', 'category1_three', 'category1_one'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
+
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_four', 'category1_three', 'category1_two', 'category1_one']);
+    });
+
+    test('should select group of channels across categories', () => {
+        const store = configureStore({
+            ...initialState,
+            views: {
+                channelSidebar: {
+                    selectedChannelIds: ['category1_five'],
+                    lastSelectedChannel: 'category1_five',
+                },
+            },
+        });
+
+        store.dispatch(Actions.multiSelectChannelTo('category2_two'));
+
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_six', 'category1_seven', 'category2_one', 'category2_two']);
     });
 });
