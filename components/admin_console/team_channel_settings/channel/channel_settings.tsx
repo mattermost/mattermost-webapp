@@ -28,10 +28,6 @@ export class ChannelsSettings extends React.PureComponent<Props> {
         };
     }
 
-    onPageChangedCallback = (state: ChannelSettingsState) => {
-        this.setState({...state});
-    }
-
     render = () => {
         return (
             <div className='wrapper--fixed'>
@@ -53,9 +49,7 @@ export class ChannelsSettings extends React.PureComponent<Props> {
                             subtitleDefault={'Manage channel settings.'}
                             subtitleValues={{...this.state}}
                         >
-                            <ChannelsList
-                                onPageChangedCallback={this.onPageChangedCallback}
-                            />
+                            <ChannelsList/>
                         </AdminPanel>
                     </div>
                 </div>
