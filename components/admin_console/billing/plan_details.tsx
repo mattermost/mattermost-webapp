@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'mm-react-bootstrap';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 import classNames from 'classnames';

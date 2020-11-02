@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'mm-react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
 

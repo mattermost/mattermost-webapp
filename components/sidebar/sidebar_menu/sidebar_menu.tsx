@@ -152,10 +152,10 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                 stopPropagationOnToggle={true}
             >
                 <OverlayTrigger
-                    delayShow={500}
+                    delay={{show: 500, hide: 0}}
                     placement='top'
                     overlay={tooltip}
-                    disabled={isMenuOpen}
+                    show={isMenuOpen ? false : undefined}
                 >
                     <button
                         ref={this.menuButtonRef}

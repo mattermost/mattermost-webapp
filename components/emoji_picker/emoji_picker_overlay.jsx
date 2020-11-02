@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Overlay} from 'react-bootstrap';
+import {Overlay} from 'mm-react-bootstrap';
 
 import {popOverOverlayPosition} from 'utils/position_utils.tsx';
 import {Constants} from 'utils/constants';

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'mm-react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
 

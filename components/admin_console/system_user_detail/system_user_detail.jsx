@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay, Tooltip} from 'mm-react-bootstrap';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 

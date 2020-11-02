@@ -4,7 +4,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {getFullName} from 'mattermost-redux/utils/user_utils';

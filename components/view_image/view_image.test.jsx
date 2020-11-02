@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {shallow} from 'enzyme';
 
 import PopoverBar from 'components/view_image/popover_bar';

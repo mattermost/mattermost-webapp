@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay, Tooltip} from 'mm-react-bootstrap';
 
 import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
 

@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'mm-react-bootstrap';
 import semver from 'semver';
 
 import {FormattedMessage} from 'react-intl';

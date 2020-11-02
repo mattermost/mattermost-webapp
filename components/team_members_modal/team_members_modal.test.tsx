@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 
 import TeamMembersModal from 'components/team_members_modal/team_members_modal';
 

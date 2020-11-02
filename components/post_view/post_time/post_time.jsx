@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'mm-react-bootstrap';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {isMobile} from 'utils/user_agent';

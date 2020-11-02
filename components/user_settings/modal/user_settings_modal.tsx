@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {RefObject} from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {Provider} from 'react-redux';
 
 import ReactDOM from 'react-dom';

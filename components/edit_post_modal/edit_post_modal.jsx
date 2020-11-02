@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

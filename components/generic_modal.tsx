@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import './generic_modal.scss';

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Popover as BSPopover, Sizes as BSSizes} from 'react-bootstrap';
+import {Popover as BSPopover, Sizes as BSSizes} from 'mm-react-bootstrap';
 
 const SizeMap = {xs: 'xsmall', sm: 'small', md: 'medium', lg: 'large'};
 export type Sizes = 'xs' | 'sm' | 'md' | 'lg';

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 
 import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal.jsx';
 

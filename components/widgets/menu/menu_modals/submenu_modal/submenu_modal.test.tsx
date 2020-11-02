@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 

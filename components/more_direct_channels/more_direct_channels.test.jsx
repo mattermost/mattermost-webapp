@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 
 import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
 

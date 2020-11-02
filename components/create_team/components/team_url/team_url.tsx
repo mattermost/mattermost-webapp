@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {Button, Tooltip} from 'react-bootstrap';
+import {Button, Tooltip} from 'mm-react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';

@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay, Tooltip} from 'mm-react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import * as I18n from 'i18n/i18n.jsx';

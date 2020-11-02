@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import {Tab, Tabs} from 'react-bootstrap';
+import {Tab, Tabs} from 'mm-react-bootstrap';
 
 import GifPicker from 'components/gif_picker/gif_picker.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';

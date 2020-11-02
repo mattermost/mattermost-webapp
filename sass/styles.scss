@@ -4,9 +4,16 @@
 @import 'compass/css3';
 
 // Dependencies
-@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap-3/dist/css/bootstrap.css';
 @import '~jasny-bootstrap/dist/css/jasny-bootstrap.css';
 @import '~font-awesome/css/font-awesome.css';
+
+// Bootstrap-4 components
+@import "~bootstrap/scss/functions";
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_tooltip';
+
 
 // styles.scss
 @import 'utils/module';

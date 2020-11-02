@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button} from 'mm-react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';

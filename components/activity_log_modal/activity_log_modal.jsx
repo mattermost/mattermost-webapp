@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';

@@ -3,7 +3,7 @@
 
 import {mount} from 'enzyme';
 import React from 'react';
-import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
+import {OverlayTrigger as BaseOverlayTrigger} from 'mm-react-bootstrap';
 import {FormattedMessage, IntlProvider} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
@@ -126,38 +126,5 @@ describe('OverlayTrigger', () => {
         expect(overlay.prop('className')).toContain('fade in');
         expect(overlay.prop('placement')).toBe('right');
         expect(overlay.prop('positionTop')).toBe(0);
-    });
-
-    test('disabled and style should both be supported', () => {
-        const props = {
-            ...baseProps,
-            overlay: (
-                <span
-                    style={{backgroundColor: 'red'}}
-                >
-                    {'test-overlay'}
-                </span>
-            ),
-            defaultOverlayShown: true, // Make sure the overlay is visible
-            disabled: true,
-        };
-
-        const wrapper = mount(
-            <IntlProvider {...intlProviderProps}>
-                <OverlayTrigger {...props}>
-                    <span/>
-                </OverlayTrigger>
-            </IntlProvider>,
-        );
-
-        // Dive into the react-bootstrap internals to find our overlay
-        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find('span'); // eslint-disable-line no-underscore-dangle
-
-        // Confirm that we've found the right span
-        expect(overlay.exists()).toBe(true);
-        expect(overlay.text()).toBe('test-overlay');
-
-        // Confirm that our props are included
-        expect(overlay.prop('style')).toMatchObject({backgroundColor: 'red', visibility: 'hidden'});
     });
 });

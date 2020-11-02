@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal} from 'mm-react-bootstrap';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {mount} from 'enzyme';

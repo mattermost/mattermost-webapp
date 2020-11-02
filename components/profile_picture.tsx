@@ -3,14 +3,10 @@
 
 import React from 'react';
 
-import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
+import OverlayTrigger from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
-
-interface MMOverlayTrigger extends BaseOverlayTrigger {
-    hide: () => void;
-}
 
 type Props = {
     hasMention?: boolean;
@@ -57,7 +53,6 @@ export default class ProfilePicture extends React.PureComponent<Props> {
         if (this.props.userId) {
             return (
                 <OverlayTrigger
-                    ref={this.overlay}
                     trigger='click'
                     placement='right'
                     rootClose={true}

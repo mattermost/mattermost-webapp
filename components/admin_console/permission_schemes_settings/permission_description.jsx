@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay, Tooltip} from 'mm-react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {generateId} from 'utils/utils.jsx';

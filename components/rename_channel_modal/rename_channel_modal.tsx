@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, MouseEvent} from 'react';
-import {Modal, Tooltip} from 'react-bootstrap';
+import {Modal, Tooltip} from 'mm-react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/src/types/channels';

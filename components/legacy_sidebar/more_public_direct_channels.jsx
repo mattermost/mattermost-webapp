@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal, Tabs, Tab} from 'react-bootstrap';
+import {Modal, Tabs, Tab} from 'mm-react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import MorePublicChannels from 'components/more_channels';

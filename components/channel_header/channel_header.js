@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip, Overlay} from 'react-bootstrap';
+import {Tooltip, Overlay} from 'mm-react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
 
