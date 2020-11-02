@@ -6,6 +6,7 @@ import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} 
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
@@ -57,6 +58,7 @@ type Props = {
     useChannelMentions: boolean;
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
+    priorityProfiles?: UserProfile[];
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -84,6 +86,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
                 searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
+                priorityProfiles: this.props.priorityProfiles,
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -123,6 +126,7 @@ export default class Textbox extends React.PureComponent<Props> {
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,
                         searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
+                        priorityProfiles: this.props.priorityProfiles,
                     });
                 }
             }

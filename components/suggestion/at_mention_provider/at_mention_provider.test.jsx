@@ -165,6 +165,415 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
         });
     });
 
+    it('should have priorityProfiles at the top', async () => {
+        const userid11 = {id: 'userid11', username: 'user11', first_name: 'firstname11', last_name: 'lastname11', nickname: 'nickname11'};
+        const userid12 = {id: 'userid12', username: 'user12', first_name: 'firstname12', last_name: 'lastname12', nickname: 'nickname12'};
+
+        const pretext = '@';
+        const matchedPretext = '@';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid11},
+            {type: Constants.MENTION_MEMBERS, ...userid12},
+            {type: Constants.MENTION_MEMBERS, ...userid10},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
+            {type: Constants.MENTION_SPECIAL, username: 'here'},
+            {type: Constants.MENTION_SPECIAL, username: 'channel'},
+            {type: Constants.MENTION_SPECIAL, username: 'all'},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
+
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [userid4],
+                    out_of_channel: [userid5, userid6],
+                }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid1, groupid2, groupid3],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
+            })),
+            priorityProfiles: [
+                userid11,
+                userid12,
+            ],
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [
+                '@user11',
+                '@user12',
+                '@nicknamer',
+                '@other',
+                '@user',
+                '@user2',
+                '@board',
+                '@developers',
+                '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid11},
+                {type: Constants.MENTION_MEMBERS, ...userid12},
+                {type: Constants.MENTION_MEMBERS, ...userid10},
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+                {type: Constants.MENTION_MEMBERS, ...userid1},
+                {type: Constants.MENTION_MEMBERS, ...userid2},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runOnlyPendingTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '@user11',
+                '@user12',
+                '@nicknamer',
+                '@other',
+                '@user',
+                '@user2',
+                '@board',
+                '@developers',
+                '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid11},
+                {type: Constants.MENTION_MEMBERS, ...userid12},
+                {type: Constants.MENTION_MEMBERS, ...userid10},
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+                {type: Constants.MENTION_MEMBERS, ...userid1},
+                {type: Constants.MENTION_MEMBERS, ...userid2},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@user11',
+                    '@user12',
+                    '@nicknamer',
+                    '@other',
+                    '@user',
+                    '@user2',
+                    '@user4',
+                    '@board',
+                    '@developers',
+                    '@software-engineers',
+                    '@here',
+                    '@channel',
+                    '@all',
+                    '@user5',
+                    '@user6.six-split',
+                ],
+                items: itemsCall3,
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should remove duplicates from results', async () => {
+        const userid11 = {id: 'userid11', username: 'user11', first_name: 'firstname11', last_name: 'lastname11', nickname: 'nickname11'};
+        const userid12 = {id: 'userid12', username: 'user12', first_name: 'firstname12', last_name: 'lastname12', nickname: 'nickname12'};
+
+        const pretext = '@';
+        const matchedPretext = '@';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid11},
+            {type: Constants.MENTION_MEMBERS, ...userid12},
+            {type: Constants.MENTION_MEMBERS, ...userid10},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
+            {type: Constants.MENTION_SPECIAL, username: 'here'},
+            {type: Constants.MENTION_SPECIAL, username: 'channel'},
+            {type: Constants.MENTION_SPECIAL, username: 'all'},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
+
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [userid4, userid11],
+                    out_of_channel: [userid5, userid6],
+                }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid1, groupid2, groupid3],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
+            })),
+            priorityProfiles: [
+                userid11,
+                userid12,
+            ],
+            profilesInChannel: [userid10, userid3, userid1, userid2, userid12],
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [
+                '@user11',
+                '@user12',
+                '@nicknamer',
+                '@other',
+                '@user',
+                '@user2',
+                '@board',
+                '@developers',
+                '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid11},
+                {type: Constants.MENTION_MEMBERS, ...userid12},
+                {type: Constants.MENTION_MEMBERS, ...userid10},
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+                {type: Constants.MENTION_MEMBERS, ...userid1},
+                {type: Constants.MENTION_MEMBERS, ...userid2},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runOnlyPendingTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '@user11',
+                '@user12',
+                '@nicknamer',
+                '@other',
+                '@user',
+                '@user2',
+                '@board',
+                '@developers',
+                '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid11},
+                {type: Constants.MENTION_MEMBERS, ...userid12},
+                {type: Constants.MENTION_MEMBERS, ...userid10},
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+                {type: Constants.MENTION_MEMBERS, ...userid1},
+                {type: Constants.MENTION_MEMBERS, ...userid2},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@user11',
+                    '@user12',
+                    '@nicknamer',
+                    '@other',
+                    '@user',
+                    '@user2',
+                    '@user4',
+                    '@board',
+                    '@developers',
+                    '@software-engineers',
+                    '@here',
+                    '@channel',
+                    '@all',
+                    '@user5',
+                    '@user6.six-split',
+                ],
+                items: itemsCall3,
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should sort results based on last_viewed_at', async () => {
+        const userid11 = {id: 'userid11', username: 'user11', first_name: 'firstname11', last_name: 'lastname11', nickname: 'nickname11'};
+        const userid12 = {id: 'userid12', username: 'user12', first_name: 'firstname12', last_name: 'lastname12', nickname: 'nickname12'};
+
+        const pretext = '@';
+        const matchedPretext = '@';
+        const itemsCall3 = [
+            {type: Constants.MENTION_MEMBERS, ...userid11},
+            {type: Constants.MENTION_MEMBERS, ...userid12},
+            {type: Constants.MENTION_MEMBERS, ...userid10},
+            {type: Constants.MENTION_MEMBERS, ...userid3},
+            {type: Constants.MENTION_MEMBERS, ...userid1},
+            {type: Constants.MENTION_MEMBERS, ...userid2},
+            {type: Constants.MENTION_MEMBERS, ...userid4},
+            {type: Constants.MENTION_GROUPS, ...groupid1},
+            {type: Constants.MENTION_GROUPS, ...groupid2},
+            {type: Constants.MENTION_GROUPS, ...groupid3},
+            {type: Constants.MENTION_SPECIAL, username: 'here'},
+            {type: Constants.MENTION_SPECIAL, username: 'channel'},
+            {type: Constants.MENTION_SPECIAL, username: 'all'},
+            {type: Constants.MENTION_NONMEMBERS, ...userid5},
+            {type: Constants.MENTION_NONMEMBERS, ...userid6},
+        ];
+
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [userid4, userid11],
+                    out_of_channel: [userid5, userid6],
+                }});
+            })),
+            searchAssociatedGroupsForReference: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({
+                    data: [groupid1, groupid2, groupid3],
+                });
+                expect(provider.updateMatches(resultCallback, itemsCall3)).toEqual(true);
+            })),
+            priorityProfiles: [
+                userid11,
+                userid12,
+            ],
+            profilesInChannel: [userid10, {...userid3, last_viewed_at: 10}, {...userid1, last_viewed_at: 11}, userid2, userid12],
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [
+                '@user11',
+                '@user12',
+                '@user',
+                '@other',
+                '@nicknamer',
+                '@user2',
+                '@board',
+                '@developers',
+                '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid11},
+                {type: Constants.MENTION_MEMBERS, ...userid12},
+                {type: Constants.MENTION_MEMBERS, ...userid1, last_viewed_at: 11},
+                {type: Constants.MENTION_MEMBERS, ...userid3, last_viewed_at: 10},
+                {type: Constants.MENTION_MEMBERS, ...userid10},
+                {type: Constants.MENTION_MEMBERS, ...userid2},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runOnlyPendingTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '@user11',
+                '@user12',
+                '@user',
+                '@other',
+                '@nicknamer',
+                '@user2',
+                '@board',
+                '@developers',
+                '@software-engineers',
+                '@here',
+                '@channel',
+                '@all',
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid11},
+                {type: Constants.MENTION_MEMBERS, ...userid12},
+                {type: Constants.MENTION_MEMBERS, ...userid1, last_viewed_at: 11},
+                {type: Constants.MENTION_MEMBERS, ...userid3, last_viewed_at: 10},
+                {type: Constants.MENTION_MEMBERS, ...userid10},
+                {type: Constants.MENTION_MEMBERS, ...userid2},
+                {type: Constants.MENTION_GROUPS, ...groupid1},
+                {type: Constants.MENTION_GROUPS, ...groupid2},
+                {type: Constants.MENTION_GROUPS, ...groupid3},
+                {type: Constants.MENTION_SPECIAL, username: 'here'},
+                {type: Constants.MENTION_SPECIAL, username: 'channel'},
+                {type: Constants.MENTION_SPECIAL, username: 'all'},
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+    });
+
     it('should suggest for "@", skipping the loading indicator if results load quickly', async () => {
         const pretext = '@';
         const matchedPretext = '@';
