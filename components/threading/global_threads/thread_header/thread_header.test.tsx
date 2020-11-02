@@ -77,7 +77,7 @@ describe('components/threading/global_threads/thread_header', () => {
 
         // verify ThreadMenu received transient/required props
         new Map<string, any>([
-            ['hasUnreads', expect.any(Boolean)],
+            ['hasUnreads', props.hasUnreads],
             ['isFollowing', props.isFollowing],
             ['isSaved', props.isSaved],
             ['actions.follow', actions.follow],
