@@ -53,7 +53,7 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
       <div
         className="manage-teams__user"
       >
-        <Avatar
+        <Memo(Avatar)
           size="lg"
           url="/api/v4/users/defaultuser/image"
           username="some-user"

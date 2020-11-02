@@ -4,16 +4,18 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamRow from './team_row.jsx';
+import {TestHelper} from 'utils/test_helper';
+
+import TeamRow from './team_row';
 
 describe('admin_console/team_channel_settings/team/TeamRow', () => {
-    const testTeam = {
+    const testTeam = TestHelper.getTeamMock({
         id: '123',
         display_name: 'team',
         type: 'O',
         group_constrained: false,
         name: 'DN',
-    };
+    });
     test('should match snapshot', () => {
         const wrapper = shallow(
             <TeamRow

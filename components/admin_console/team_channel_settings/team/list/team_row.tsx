@@ -2,19 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+
+import {Team} from 'mattermost-redux/types/teams';
 
 import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-export default class TeamRow extends React.PureComponent {
-    static propTypes = {
-        team: PropTypes.object.isRequired,
-        onRowClick: PropTypes.func.isRequired,
-    };
-
+type Props = {
+    team: Team,
+    onRowClick(id: string): void
+}
+export default class TeamRow extends React.PureComponent<Props> {
     handleRowClick = () => {
         const {team, onRowClick} = this.props;
         onRowClick(team.id);
