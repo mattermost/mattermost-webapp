@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {TeamsSettings} from './team_settings.jsx';
+import {TeamsSettings} from './team_settings';
 
 describe('admin_console/team_channel_settings/team/TeamSettings', () => {
     test('should match snapshot', () => {

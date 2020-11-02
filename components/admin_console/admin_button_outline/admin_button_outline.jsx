@@ -15,6 +15,7 @@ export default class AdminButtonOutline extends React.PureComponent {
     render() {
         return (
             <button
+                type='button'
                 onClick={this.props.onClick}
                 className={'AdminButtonOutline btn btn-primary'}
                 disabled={this.props.disabled}
