@@ -10,16 +10,16 @@ import {AnnouncementBarTypes} from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
 
-interface IMyComponentProps {
-    serverVersion?: string,
+interface Props {
+    serverVersion: string,
 }
 
-interface IMyComponentState {
-    serverVersionOnAppLoad?: string,
+interface State {
+    serverVersionOnAppLoad: string,
 }
 
-export default class VersionBar extends React.PureComponent <IMyComponentProps, IMyComponentState> {
-    constructor(props:IMyComponentProps) {
+export default class VersionBar extends React.PureComponent <Props, State> {
+    constructor(props:Props) {
         super(props);
 
         this.state = {
@@ -27,7 +27,7 @@ export default class VersionBar extends React.PureComponent <IMyComponentProps, 
         };
     }
 
-    static getDerivedStateFromProps(props:IMyComponentProps, state:IMyComponentState) {
+    static getDerivedStateFromProps(props:Props, state:State) {
         if (!state.serverVersionOnAppLoad && props.serverVersion) {
             return {
                 serverVersionOnAppLoad: props.serverVersion,
