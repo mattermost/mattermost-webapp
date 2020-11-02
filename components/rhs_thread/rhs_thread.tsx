@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
-import React, {UIEvent, MouseEvent} from 'react';
+import React, {UIEvent} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
