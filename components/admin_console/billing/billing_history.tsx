@@ -184,8 +184,8 @@ const BillingHistory: React.FC<Props> = () => {
                     <th>{''}</th>
                 </tr>
                 {billingHistory.map((invoice: Invoice) => {
-                    const fullUsers = invoice.line_items.filter((item) => item.metadata.type === 'full').reduce((val, item) => val + item.quantity, 0);
-                    const partialUsers = invoice.line_items.filter((item) => item.metadata.type === 'partial').reduce((val, item) => val + item.quantity, 0);
+                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
+                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
 
                     return (
                         <tr
