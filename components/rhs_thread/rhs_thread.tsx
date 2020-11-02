@@ -118,11 +118,10 @@ export default class RhsThread extends React.Component<Props, State> {
     private resizeRhsPostList() {
         const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
         const createContainerHeight = this.postCreateContainerRef.current?.getBoundingClientRect().height;
-        const lastPost = this.getLastPost()?.getBoundingClientRect();
-        const bottomMargin = 8;
-        if (containerHeight && createContainerHeight && lastPost) {
+        const headerHeight = 56;
+        if (containerHeight && createContainerHeight) {
             this.setState({
-                postsContainerHeight: (containerHeight - (createContainerHeight + lastPost.height)) + bottomMargin,
+                postsContainerHeight: containerHeight - (createContainerHeight + headerHeight),
             });
         }
     }
