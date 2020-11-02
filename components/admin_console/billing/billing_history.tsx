@@ -194,11 +194,11 @@ const BillingHistory: React.FC<Props> = () => {
                         >
                             <td>
                                 <FormattedDate
-                                    value={new Date(invoice.period_start)}
+                                    value={new Date(invoice.period_start).toUTCString()}
                                     month='2-digit'
                                     day='2-digit'
                                     year='numeric'
-                                    timeZone='utc'
+                                    timeZone='UTC'
                                 />
                             </td>
                             <td>
