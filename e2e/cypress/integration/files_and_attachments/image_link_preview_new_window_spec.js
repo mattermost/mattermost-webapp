@@ -38,19 +38,18 @@ describe('Image Link Preview', () => {
         // # Post a link to an externally hosted image
         cy.postMessage(link);
         cy.findByLabelText('file thumbnail').click().then(() => {
-            cy.findByTestId('imagePreview').should('be.visible').and('have.attr', 'src','http://localhost:8065/api/v4/image?url=http%3A%2F%2Fwww.traveller.com.au%2Fcontent%2Fdam%2Fimages%2Fg%2Fu%2Fn%2Fq%2Fh%2F0%2Fimage.related.articleLeadwide.620x349.gunpvd.png%2F1488330286332.png');
+            cy.findByTestId('imagePreview').should('be.visible').and('have.attr', 'src', 'http://localhost:8065/api/v4/image?url=http%3A%2F%2Fwww.traveller.com.au%2Fcontent%2Fdam%2Fimages%2Fg%2Fu%2Fn%2Fq%2Fh%2F0%2Fimage.related.articleLeadwide.620x349.gunpvd.png%2F1488330286332.png');
+
             //cy.findByTestId('imagePreview').should('have.attr', 'style').and('include', 'width: 649px').and('include', 'height: 349px');
             cy.findByText('File 1 of 1').should('be.visible');
             cy.findByText('Open').should('be.visible');
-            cy.findByTestId('imagePreview').then(function(el) {
+            cy.findByTestId('imagePreview').then((el) => {
                 const imageUrl = el.prop('src');
-                console.log(imageUrl)
                 cy.log(imageUrl);
                 cy.request(imageUrl).then((res) => {
                     expect(res.status).equal(200);
-                })
-            })
+                });
+            });
         });
-        //cy.findByTestId('imagePreview').click()
     });
 });
