@@ -126,7 +126,7 @@ exports[`components/threading/common/thread_menu should match snapshot 1`] = `
                   className="Button_label"
                 >
                   <i
-                    className="icon icon-dots-vertical"
+                    className="Icon icon-dots-vertical"
                   />
                 </span>
               </button>
@@ -294,7 +294,7 @@ exports[`components/threading/common/thread_menu should match snapshot after ope
                   className="Button_label"
                 >
                   <i
-                    className="icon icon-dots-vertical"
+                    className="Icon icon-dots-vertical"
                   />
                 </span>
               </button>
