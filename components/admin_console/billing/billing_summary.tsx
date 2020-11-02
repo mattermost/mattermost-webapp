@@ -211,7 +211,7 @@ const BillingSummary: React.FC = () => {
                         </div>
                     </div>
                 ))}
-                {invoice.tax &&
+                {Boolean(invoice.tax) &&
                     <div className='BillingSummary__lastInvoice-charge'>
                         <div className='BillingSummary__lastInvoice-chargeDescription'>
                             <FormattedMessage
