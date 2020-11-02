@@ -18,10 +18,9 @@ type Props = {
     channelName: string,
     isFollowing: boolean,
     isSaved: boolean,
-    isSelected: boolean,
     actions: {
         follow: () => void,
-        unfollow: () => void,
+        unFollow: () => void,
         openInChannel: () => void,
     }
 
@@ -44,15 +43,15 @@ const ThreadHeader = ({
                         defaultMessage: 'Thread',
                     })}
                 </span>
-                <Button onClick={useCallback(actions.openInChannel, [])}>
+                <Button onClick={useCallback(actions.openInChannel, [actions.openInChannel])}>
                     {channelName}
                 </Button>
             </h3>
             <div className='spacer'/>
             <FollowButton
                 isFollowing={isFollowing}
-                start={useCallback(actions.follow, [])}
-                stop={useCallback(actions.unfollow, [])}
+                follow={useCallback(actions.follow, [actions.follow])}
+                unFollow={useCallback(actions.unFollow, [actions.unFollow])}
             />
             <ThreadMenu
                 isFollowing={isFollowing}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/threading/global_threads/thread_list should report total number of replies 1`] = `
+exports[`components/threading/global_threads/thread_list should match snapshot 1`] = `
 <Memo(ThreadList)
   actions={
     Object {

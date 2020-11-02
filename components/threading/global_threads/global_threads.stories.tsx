@@ -91,7 +91,7 @@ storiesOf('Features/Threading/Global Threads', module).
     add('ThreadList', () => {
         const post = (
             <ThreadItem
-                name={text('team', users[0].name)}
+                name={text('name', users[0].name)}
                 channelName={text('channelName', 'Enterprise Team')}
                 previewText='Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console? Do we have a guideline for what minimum width we should support in the system console?'
 
@@ -109,12 +109,12 @@ storiesOf('Features/Threading/Global Threads', module).
                 actions={{
                     select: action('select'),
                     follow: action('follow'),
-                    unfollow: action('unfollow'),
+                    unFollow: action('unfollow'),
                     openInChannel: action('open in channel'),
                     markRead: action('mark as read'),
                     markUnread: action('mark as unread'),
                     save: action('save'),
-                    unsave: action('unsave'),
+                    unSave: action('unsave'),
                     copyLink: action('copy link'),
                 }}
             />
@@ -150,16 +150,15 @@ storiesOf('Features/Threading/Global Threads', module).
                     hasUnreads={boolean('has unreads', false)}
                     isFollowing={boolean('is following', true)}
                     isSaved={boolean('is saved', false)}
-                    isSelected={boolean('is selected', false)}
 
                     actions={{
                         follow: action('follow'),
-                        unfollow: action('unfollow'),
+                        unFollow: action('unfollow'),
                         openInChannel: action('open in channel'),
                         markRead: action('mark as read'),
                         markUnread: action('mark as unread'),
                         save: action('save'),
-                        unsave: action('unsave'),
+                        unSave: action('unsave'),
                         copyLink: action('copy link'),
                     }}
                 />
