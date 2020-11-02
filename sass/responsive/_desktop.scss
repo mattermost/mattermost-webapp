@@ -63,6 +63,12 @@
                     }
                 }
             }
+
+            .date-separator {
+                .separator_text {
+                    color: var(--center-channel-color)
+                }
+            }
         }
     }
 }
