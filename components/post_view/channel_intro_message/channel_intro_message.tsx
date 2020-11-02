@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
+
+import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
+
+import {Channel} from 'mattermost-redux/types/channels';
+
+import React from 'react';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -25,21 +29,21 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import {getMonthLong} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ChannelIntroMessage extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        channel: PropTypes.object.isRequired,
-        fullWidth: PropTypes.bool.isRequired,
-        locale: PropTypes.string.isRequired,
-        channelProfiles: PropTypes.array.isRequired,
-        enableUserCreation: PropTypes.bool,
-        isReadOnly: PropTypes.bool,
-        teamIsGroupConstrained: PropTypes.bool,
-        creatorName: PropTypes.string.isRequired,
-        teammate: PropTypes.object.isRequired,
-        teammateName: PropTypes.string,
-    };
+type Props = {
+    currentUserId: string;
+    channel: Channel;
+    fullWidth: boolean;
+    locale: string;
+    channelProfiles: Array<UserProfileRedux>;
+    enableUserCreation?: boolean;
+    isReadOnly?: boolean;
+    teamIsGroupConstrained?: boolean;
+    creatorName: string;
+    teammate: UserProfileRedux;
+    teammateName?: string;
+}
 
+export default class ChannelIntroMessage extends React.PureComponent<Props> {
     render() {
         const {
             currentUserId,
@@ -75,7 +79,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
     }
 }
 
-function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
+function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: Array<UserProfileRedux>, currentUserId: string) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
@@ -128,7 +132,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
     );
 }
 
-function createDMIntroMessage(channel, centeredIntro, teammate, teammateName) {
+function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate: UserProfileRedux, teammateName?: string) {
     const channelIntroId = 'channelIntro';
     if (teammate) {
         return (
@@ -181,7 +185,7 @@ function createDMIntroMessage(channel, centeredIntro, teammate, teammateName) {
     );
 }
 
-function createOffTopicIntroMessage(channel, centeredIntro) {
+function createOffTopicIntroMessage(channel: Channel, centeredIntro: string) {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const children = createSetHeaderButton(channel);
     let setHeaderButton = null;
@@ -228,7 +232,7 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained) {
+export function createDefaultIntroMessage(channel: Channel, centeredIntro: string, enableUserCreation?: boolean, isReadOnly?: boolean, teamIsGroupConstrained?: boolean) {
     let teamInviteLink = null;
 
     if (!isReadOnly && enableUserCreation) {
@@ -253,7 +257,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                             id='generic_icons.add'
                             defaultMessage='Add Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-user-plus'
                                     title={title}
@@ -276,7 +280,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                             id='generic_icons.add'
                             defaultMessage='Add Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-user-plus'
                                     title={title}
@@ -353,9 +357,9 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
     );
 }
 
-function createStandardIntroMessage(channel, centeredIntro, locale, creatorName) {
-    var uiName = channel.display_name;
-    var memberMessage;
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, locale: string, creatorName: string) {
+    const uiName = channel.display_name;
+    let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
 
     if (channelIsArchived) {
@@ -385,7 +389,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale, creatorName)
         />
     );
 
-    var createMessage;
+    let createMessage;
     if (creatorName === '') {
         if (channel.type === Constants.PRIVATE_CHANNEL) {
             createMessage = (
@@ -434,7 +438,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale, creatorName)
         );
     }
 
-    var purposeMessage = '';
+    let purposeMessage;
     if (channel.purpose && channel.purpose !== '') {
         if (channel.type === Constants.PRIVATE_CHANNEL) {
             purposeMessage = (
@@ -502,7 +506,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale, creatorName)
     );
 }
 
-function createInviteChannelButton(channel) {
+function createInviteChannelButton(channel: Channel) {
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
@@ -524,7 +528,7 @@ function createInviteChannelButton(channel) {
                     id='generic_icons.add'
                     defaultMessage='Add Icon'
                 >
-                    {(title) => (
+                    {(title: string) => (
                         <i
                             className='fa fa-user-plus'
                             title={title}
@@ -551,7 +555,7 @@ function createInviteChannelButton(channel) {
     );
 }
 
-function createSetHeaderButton(channel) {
+function createSetHeaderButton(channel: Channel) {
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
         return null;
