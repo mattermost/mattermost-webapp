@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
@@ -23,16 +22,19 @@ import {
     formatPostDoughtnutData,
     synchronizeChartLabels,
 } from '../format';
+import { Dictionary } from 'mattermost-redux/types/utilities';
+import { AnalyticsRow } from 'mattermost-redux/types/admin';
 
 const StatTypes = Constants.StatTypes;
 
-export default class SystemAnalytics extends React.PureComponent {
-    static propTypes = {
-        isLicensed: PropTypes.bool.isRequired,
-        stats: PropTypes.object,
-    }
+type Props = {
+    isLicensed: boolean;
+    stats?: Dictionary<number | AnalyticsRow[]>;
+}
 
-    componentDidMount() {
+export default class SystemAnalytics extends React.PureComponent<Props> {
+
+    public componentDidMount() {
         AdminActions.getStandardAnalytics();
         AdminActions.getPostsPerDayAnalytics();
         AdminActions.getBotPostsPerDayAnalytics();
@@ -43,8 +45,8 @@ export default class SystemAnalytics extends React.PureComponent {
         }
     }
 
-    render() {
-        const stats = this.props.stats;
+    public render() {
+        const stats = this.props.stats!;
         const isLicensed = this.props.isLicensed;
         const skippedIntensiveQueries = stats[StatTypes.TOTAL_POSTS] === -1;
 
@@ -80,7 +82,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         />
                     }
                     icon='fa-comment'
-                    count={stats[StatTypes.TOTAL_POSTS]}
+                    count={+stats[StatTypes.TOTAL_POSTS]}
                 />
             );
 
@@ -153,7 +155,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         />
                     }
                     icon='fa-signal'
-                    count={stats[StatTypes.TOTAL_SESSIONS]}
+                    count={+stats[StatTypes.TOTAL_SESSIONS]}
                 />
             );
 
@@ -167,7 +169,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         />
                     }
                     icon='fa-terminal'
-                    count={stats[StatTypes.TOTAL_COMMANDS]}
+                    count={+stats[StatTypes.TOTAL_COMMANDS]}
                 />
             );
 
@@ -181,7 +183,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         />
                     }
                     icon='fa-arrow-down'
-                    count={stats[StatTypes.TOTAL_IHOOKS]}
+                    count={+stats[StatTypes.TOTAL_IHOOKS]}
                 />
             );
 
@@ -195,7 +197,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         />
                     }
                     icon='fa-arrow-up'
-                    count={stats[StatTypes.TOTAL_OHOOKS]}
+                    count={+stats[StatTypes.TOTAL_OHOOKS]}
                 />
             );
 
@@ -210,7 +212,7 @@ export default class SystemAnalytics extends React.PureComponent {
                             />
                         }
                         icon='fa-user'
-                        count={stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS]}
+                        count={+stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS]}
                     />
                     <StatisticCount
                         id='masterDbConns'
@@ -221,7 +223,7 @@ export default class SystemAnalytics extends React.PureComponent {
                             />
                         }
                         icon='fa-terminal'
-                        count={stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS]}
+                        count={+stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS]}
                     />
                     <StatisticCount
                         id='replicaDbConns'
@@ -232,7 +234,7 @@ export default class SystemAnalytics extends React.PureComponent {
                             />
                         }
                         icon='fa-terminal'
-                        count={stats[StatTypes.TOTAL_READ_DB_CONNECTIONS]}
+                        count={+stats[StatTypes.TOTAL_READ_DB_CONNECTIONS]}
                     />
                 </div>
             );
@@ -285,7 +287,7 @@ export default class SystemAnalytics extends React.PureComponent {
                     />
                 }
                 icon='fa-user'
-                count={stats[StatTypes.TOTAL_USERS]}
+                count={+stats[StatTypes.TOTAL_USERS]}
             />
         );
 
@@ -299,7 +301,7 @@ export default class SystemAnalytics extends React.PureComponent {
                     />
                 }
                 icon='fa-users'
-                count={stats[StatTypes.TOTAL_TEAMS]}
+                count={+stats[StatTypes.TOTAL_TEAMS]}
             />
         );
 
@@ -313,7 +315,7 @@ export default class SystemAnalytics extends React.PureComponent {
                     />
                 }
                 icon='fa-globe'
-                count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS] + stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
+                count={+stats[StatTypes.TOTAL_PUBLIC_CHANNELS] + +stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
             />
         );
 
@@ -327,7 +329,7 @@ export default class SystemAnalytics extends React.PureComponent {
                     />
                 }
                 icon='fa-users'
-                count={stats[StatTypes.DAILY_ACTIVE_USERS]}
+                count={+stats[StatTypes.DAILY_ACTIVE_USERS]}
             />
         );
 
@@ -341,7 +343,7 @@ export default class SystemAnalytics extends React.PureComponent {
                     />
                 }
                 icon='fa-users'
-                count={stats[StatTypes.MONTHLY_ACTIVE_USERS]}
+                count={+stats[StatTypes.MONTHLY_ACTIVE_USERS]}
             />
         );
 
