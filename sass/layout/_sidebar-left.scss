@@ -903,13 +903,13 @@
         }
 
         &.selected {
-            background: rgba(var(--sidebar-text-active-border-rgb), 0.48);
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.24);
         }
 
     }
 
     .SidebarLink.selected {
-        background: rgba(var(--sidebar-text-active-border-rgb), 0.48);
+        background: rgba(var(--sidebar-text-active-border-rgb), 0.24);
     }
 
     .SidebarChannel.active .SidebarLink::before {
