@@ -120,6 +120,7 @@ const BillingSummary: React.FC = () => {
                         month='short'
                         year='numeric'
                         day='numeric'
+                        timeZone='UTC'
                     />
                 </div>
                 <div className='BillingSummary__lastInvoice-productName'>
@@ -210,7 +211,7 @@ const BillingSummary: React.FC = () => {
                         </div>
                     </div>
                 ))}
-                {invoice.tax &&
+                {Boolean(invoice.tax) &&
                     <div className='BillingSummary__lastInvoice-charge'>
                         <div className='BillingSummary__lastInvoice-chargeDescription'>
                             <FormattedMessage

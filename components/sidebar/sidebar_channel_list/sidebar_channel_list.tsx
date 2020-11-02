@@ -15,13 +15,13 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
+import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 export function renderView(props: any) {
@@ -50,7 +50,7 @@ export function renderThumbVertical(props: any) {
 
 type Props = {
     currentTeam: Team;
-    currentChannel: Channel;
+    currentChannelId: string;
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
@@ -121,7 +121,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (!this.props.currentChannel || !prevProps.currentChannel) {
+        if (!this.props.currentChannelId || !prevProps.currentChannelId) {
             return;
         }
 
@@ -131,14 +131,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         }
 
         // Scroll to selected channel so it's in view
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             // This will be re-enabled when we can avoid animating the scroll on first load and team switch
-            // this.scrollToChannel(this.props.currentChannel.id);
+            // this.scrollToChannel(this.props.currentChannelId);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
         // close the LHS on mobile when you change channels
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             this.props.actions.close();
         }
 
@@ -162,12 +162,12 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannel) {
+        if (!this.props.currentChannelId) {
             return null;
         }
 
         return channelIds.find((channelId) => {
-            return channelId !== this.props.currentChannel!.id && this.props.unreadChannelIds.includes(channelId);
+            return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
     }
 
@@ -283,7 +283,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
-            const curChannelId = this.props.currentChannel!.id;
+            const curChannelId = this.props.currentChannelId;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -318,7 +318,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             }
 
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentChannel!.id,
+                this.props.currentChannelId,
                 allChannelIds,
                 this.props.unreadChannelIds,
                 direction,
