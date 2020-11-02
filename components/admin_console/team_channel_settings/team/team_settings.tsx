@@ -3,13 +3,16 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {t} from 'utils/i18n';
 import TeamList from 'components/admin_console/team_channel_settings/team/list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
-export function TeamsSettings(props) {
+type Props = {
+    siteName: string,
+};
+
+export function TeamsSettings(props: Props) {
     return (
         <div className='wrapper--fixed'>
             <div className='admin-console__header'>
@@ -36,7 +39,3 @@ export function TeamsSettings(props) {
         </div>
     );
 }
-
-TeamsSettings.propTypes = {
-    siteName: PropTypes.string.isRequired,
-};

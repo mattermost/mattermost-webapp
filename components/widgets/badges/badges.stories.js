@@ -5,6 +5,7 @@ import React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {withKnobs, text, boolean} from '@storybook/addon-knobs';
+import {action} from '@storybook/addon-actions';
 
 import Badge from './badge';
 import GuestBadge from './guest_badge';
@@ -17,6 +18,20 @@ storiesOf('Widgets/Badges', module).
         () => {
             const content = text('Text', 'BADGE');
             return (<Badge show={boolean('Show', true)}>{content}</Badge>);
+        },
+    ).
+    add(
+        'regular badge, clickable',
+        () => {
+            const content = text('Text', 'BADGE');
+            return (
+                <Badge
+                    show={boolean('Show', true)}
+                    onClick={action('click!')}
+                >
+                    {content}
+                </Badge>
+            );
         },
     ).
     add(
