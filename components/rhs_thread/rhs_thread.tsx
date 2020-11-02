@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
-import React from 'react';
+import React, {UIEvent, MouseEvent} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -110,14 +110,19 @@ export default class RhsThread extends React.Component<Props, State> {
         this.postCreateContainerRef = React.createRef();
     }
 
+    private getLastPost() {
+        const childPosts = this.rhspostlistRef.current?.children;
+        return childPosts && childPosts[childPosts.length - 1];
+    }
+
     private resizeRhsPostList() {
         const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
         const createContainerHeight = this.postCreateContainerRef.current?.getBoundingClientRect().height;
-        const lastPost = this.containerRef.current?.children[0]?.getBoundingClientRect();
-
+        const lastPost = this.getLastPost()?.getBoundingClientRect();
+        const bottomMargin = 8;
         if (containerHeight && createContainerHeight && lastPost) {
             this.setState({
-                postsContainerHeight: containerHeight - (createContainerHeight + lastPost.height),
+                postsContainerHeight: (containerHeight - (createContainerHeight + lastPost.height)) + bottomMargin,
             });
         }
     }
@@ -191,6 +196,7 @@ export default class RhsThread extends React.Component<Props, State> {
         if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
+        this.resizeRhsPostList();
     }
 
     private handleCardClick = (post: Post) => {
@@ -264,17 +270,23 @@ export default class RhsThread extends React.Component<Props, State> {
         }
     }
 
-    private handleScroll = (event: React.EventHandler<MouseEvent>): void => {
+    private handleScroll = (event: React.UIEvent<HTMLDivElement, UIEvent>): void => {
         this.updateFloatingTimestamp();
+        const typeCastedEventTarget = (event.target as HTMLDivElement);
+        const maxScroll = typeCastedEventTarget.scrollHeight - typeCastedEventTarget.getBoundingClientRect().height;
+        const scrollTop = typeCastedEventTarget.scrollTop;
+        const lastPost = this.getLastPost()?.getBoundingClientRect();
 
-        const maxScroll = event.target.scrollHeight - event.target.getBoundingClientRect().height;
-        const scrollTop = event.target.scrollTop;
-        const lastPost = this.containerRef.current?.children[0]?.getBoundingClientRect();
+        if (!this.state.isScrolling) {
+            this.setState({
+                isScrolling: true,
+            });
+        }
 
-        if (!this.state.isScrolling && lastPost) {
-            const userScrolledToBottom = scrollTop < maxScroll - lastPost.height;
+        if (lastPost) {
+            const userScrolledToBottom = scrollTop >= maxScroll - lastPost.height;
 
-            this.setState({userScrolledToBottom, isScrolling: true});
+            this.setState({userScrolledToBottom});
         }
 
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
