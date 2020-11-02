@@ -26,9 +26,8 @@ describe('Integrations', () => {
             // # Create a second user
             cy.apiCreateUser().then(({user: user2}) => {
                 dmChannel = user2.username;
-
-                // # Login as user1 and create a new team
                 cy.apiLogin(user).then(() => {
+                    // # Create new team
                     cy.apiCreateTeam('team', 'Users Team').then(({team}) => {
                         testTeam = team;
 
@@ -57,6 +56,7 @@ describe('Integrations', () => {
                             cy.apiDeleteChannel(channel.id);
                         });
 
+                        // # Login as user1 and create a new team
                         cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
                     });
                 });
