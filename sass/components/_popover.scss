@@ -70,7 +70,7 @@
 
     &.right {
         > .arrow {
-            border-right-color: rgba(var(--center-channel-color), 0.25);
+            border-right-color: rgba(var(--center-channel-color-rgb), 0.25);
         }
     }
     &.top,
