@@ -385,7 +385,7 @@
   "admin.channel_settings.channel_moderation.postReactionsDescMembers": "La capacidad de los miembros de reaccionar a mensajes.",
   "admin.channel_settings.channel_moderation.subtitle": "Administrar las acciones disponibles para miembros y huéspedes del canal.",
   "admin.channel_settings.channel_moderation.subtitleMembers": "Administrar las acciones disponibles para miembros del canal.",
-  "admin.channel_settings.channel_moderation.title": "Moderación de Canal (Beta)",
+  "admin.channel_settings.channel_moderation.title": "Moderación de Canal",
   "admin.channel_settings.channel_row.configure": "Editar",
   "admin.channel_settings.description": "Gestionar configuraciones de canal.",
   "admin.channel_settings.groupsPageTitle": "Canales en {siteName}",
