@@ -269,7 +269,7 @@ export default class RhsThread extends React.Component<Props, State> {
         }
     }
 
-    private handleScroll = (event: React.UIEvent<HTMLDivElement, UIEvent>): void => {
+    private handleScroll = (event: React.UIEvent<any>): void => {
         this.updateFloatingTimestamp();
         const typeCastedEventTarget = (event.target as HTMLDivElement);
         const maxScroll = typeCastedEventTarget.scrollHeight - typeCastedEventTarget.getBoundingClientRect().height;
