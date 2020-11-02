@@ -184,6 +184,14 @@ export default class SidebarRight extends React.PureComponent {
             content = <RhsPlugin/>;
         }
 
+        if (content) {
+            content = (
+                <div className='post-right__container'>
+                    {content}
+                </div>
+            );
+        }
+
         return (
             <div
                 className={classNames('sidebar--right', {'sidebar--right--expanded': isSidebarRightExpanded}, {'move--left': isOpen})}
