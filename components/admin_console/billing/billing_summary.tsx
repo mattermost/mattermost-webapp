@@ -120,6 +120,7 @@ const BillingSummary: React.FC = () => {
                         month='short'
                         year='numeric'
                         day='numeric'
+                        timeZone='UTC'
                     />
                 </div>
                 <div className='BillingSummary__lastInvoice-productName'>
