@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Post, PostType} from 'mattermost-redux/types/posts';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {$ID} from 'mattermost-redux/types/utilities';
 
@@ -32,6 +34,16 @@ export function getSelectedPostCard(state: GlobalState) {
 export function getSelectedChannelId(state: GlobalState) {
     return state.views.rhs.selectedChannelId;
 }
+
+export const getSelectedChannel = (() => {
+    const getChannel = makeGetChannel();
+
+    return (state: GlobalState) => {
+        const channelId = getSelectedChannelId(state);
+
+        return getChannel(state, {id: channelId});
+    };
+})();
 
 export function getPluggableId(state: GlobalState) {
     return state.views.rhs.pluggableId;
