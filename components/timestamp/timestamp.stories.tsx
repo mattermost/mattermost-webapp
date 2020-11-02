@@ -115,7 +115,7 @@ storiesOf('Connected/Timestamp', module).
                                     value={moment().toDate()}
                                 >
                                     {({formatted}, {relative}) => (
-                                        <span>
+                                        <span style={{width: '100%'}}>
                                             <pre
                                                 style={{
                                                     display: 'inline-grid',
@@ -141,7 +141,10 @@ storiesOf('Connected/Timestamp', module).
                                         value={moment().add(diff, unit).toDate()}
                                     >
                                         {({formatted}, {relative}) => (
-                                            <span key={`span-${diff}`}>
+                                            <span
+                                                key={`span-${diff}`}
+                                                style={{width: '100%'}}
+                                            >
                                                 <pre
                                                     style={{
                                                         display: 'inline-grid',
