@@ -715,3 +715,9 @@
     text-overflow: ellipsis;
     white-space: pre;
 }
+
+.app__body {
+    .input-group-addon {
+        border-color: rgba(var(--center-channel-color-rgb), 0.1)
+    }
+} 
