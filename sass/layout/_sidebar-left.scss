@@ -904,12 +904,20 @@
 
         &.selected {
             background: rgba(var(--sidebar-text-active-border-rgb), 0.24);
+
+            &:hover {
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.32);
+            }
         }
 
     }
 
     .SidebarLink.selected {
         background: rgba(var(--sidebar-text-active-border-rgb), 0.24);
+
+        &:hover {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.32);
+        }
     }
 
     .SidebarChannel.active .SidebarLink::before {
