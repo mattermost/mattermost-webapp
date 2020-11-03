@@ -29,7 +29,6 @@ describe('Incoming webhook', () => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
-            otherUser = user;
 
             const newIncomingHook = {
                 channel_id: channel.id,
