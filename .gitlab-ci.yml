@@ -12,6 +12,9 @@ create-cache:
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
   cache:
     key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/
   script:
     - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
 
