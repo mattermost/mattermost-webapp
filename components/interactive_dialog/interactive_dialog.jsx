@@ -29,7 +29,6 @@ export default class InteractiveDialog extends React.PureComponent {
         submitLabel: PropTypes.string,
         notifyOnCancel: PropTypes.bool,
         state: PropTypes.string,
-        app_id: PropTypes.string,
         onHide: PropTypes.func,
         actions: PropTypes.shape({
             submitInteractiveDialog: PropTypes.func.isRequired,

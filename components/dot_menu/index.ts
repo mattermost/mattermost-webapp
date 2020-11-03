@@ -14,6 +14,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {openModal} from 'actions/views/modals';
+import {doAppCall} from 'actions/apps';
 import {
     flagPost,
     unflagPost,
@@ -22,13 +23,12 @@ import {
     setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
 import {GlobalState} from 'types/store';
+import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
-import {doAppCall} from 'actions/apps';
 
-import DotMenu from './dot_menu';
+import DotMenu, {Location} from './dot_menu';
 
 type OwnProps = {
     post: Post;
@@ -40,7 +40,7 @@ type OwnProps = {
     isMenuOpen?: boolean;
     isReadOnly?: boolean;
     enableEmojiPicker: boolean;
-    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | 'NO_WHERE',
+    location: Location,
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {

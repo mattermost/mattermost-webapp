@@ -6,18 +6,18 @@ const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
 
 export default class WebSocketClient {
-    conn: null | WebSocket;
-    connectionUrl: null | string;
-    sequence: number;
-    eventSequence: number;
-    connectFailCount: number;
-    eventCallback: null | ((msg: any) => void);
-    responseCallbacks: {[x:number]: ((msg: any) => void)};
-    firstConnectCallback: null | (() => void);
-    reconnectCallback: null | (() => void);
-    missedEventCallback: null | (() => void);
-    errorCallback: null | ((event: Event) => void);
-    closeCallback: null | ((connectFailCount: number) => void);
+    private conn: WebSocket | null;
+    private connectionUrl: string | null;
+    private sequence: number;
+    private eventSequence: number;
+    private connectFailCount: number;
+    private eventCallback: ((msg: any) => void) | null;
+    private responseCallbacks: {[x:number]: ((msg: any) => void)};
+    private firstConnectCallback: (() => void) | null;
+    private reconnectCallback: (() => void) | null;
+    private missedEventCallback: (() => void) | null;
+    private errorCallback: ((event: Event) => void) | null;
+    private closeCallback: ((connectFailCount: number) => void) | null;
 
     constructor() {
         this.conn = null;

@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {Binding, Call} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -91,12 +91,12 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 
 type ChannelHeaderPlugProps = {
     components?: PluginComponent[];
-    bindings?: Binding[];
+    bindings?: AppBinding[];
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: (call: Call) => void;
+        doAppCall: (call: AppCall) => void;
     }
 }
 
@@ -139,7 +139,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         );
     }
 
-    onClick = async (binding: Binding) => {
+    onClick = async (binding: AppBinding) => {
         if (!binding.call) {
             return;
         }
@@ -157,7 +157,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         });
     }
 
-    createActionButton = (binding: Binding) => {
+    createAppBindingButton = (binding: AppBinding) => {
         return (
             <HeaderIconWrapper
                 key={'channelHeaderButton' + binding.location_id}
@@ -170,14 +170,14 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                     />
                 )}
                 onClick={() => this.onClick(binding)}
-                buttonId={binding.location_id}
+                buttonId={binding.location_id || ''}
                 tooltipKey={'plugin'}
                 tooltipText={binding.label}
             />
         );
     }
 
-    createDropdown = (plugs: PluginComponent[], appBindings: Binding[]) => {
+    createDropdown = (plugs: PluginComponent[], appBindings: AppBinding[]) => {
         const componentItems = plugs.filter((plug) => plug.action).map((plug) => {
             return (
                 <li
@@ -280,9 +280,9 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
         if (components.length === 0 && appBindings.length === 0) {
             return null;
-        } else if (components.length + appBindings.length <= 5) {
+        } else if ((components.length + appBindings.length) <= 5) {
             const componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
-            return componentButtons.concat(appBindings.map(this.createActionButton));
+            return componentButtons.concat(appBindings.map(this.createAppBindingButton));
         }
 
         return this.createDropdown(components, appBindings);

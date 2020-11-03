@@ -42,6 +42,7 @@ describe('components/dot_menu/DotMenu', () => {
         canEdit: false,
         canDelete: false,
         appsBindings: [],
+        pluginMenuItems: [],
         location: Locations.CENTER,
     } as Props;
 

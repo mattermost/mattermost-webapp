@@ -6,34 +6,34 @@ import {submitInteractiveDialog as submitInteractiveDialogRedux} from 'mattermos
 import {DialogSubmission} from 'mattermost-redux/types/integrations';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {CallResponseTypes, CallResponse, Call} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppCallResponse, AppCall} from 'mattermost-redux/types/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openInteractiveDialog} from 'plugins/interactive_dialog';
 import {executeCommand} from 'actions/command';
 
-export function doAppCall(call: Call): ActionFunc {
+export function doAppCall(call: AppCall): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        const res = await Client4.executeAppCall(call) as CallResponse;
-
-        if (res.markdown) {
-            if (!call.context.channel_id) {
-                return {data: false};
-            }
-
-            sendEphemeralPost(res.markdown, call.context.channel_id, call.context.root_id);
-            return {data: true};
-        }
+        const res = await Client4.executeAppCall(call) as AppCallResponse<any>; // TODO use unknown and check types (may need type guards)
 
         switch (res.type) {
-        case CallResponseTypes.MODAL:
+        case AppCallResponseTypes.OK:
+            if (res.markdown) {
+                if (!call.context.channel_id) {
+                    return {data: res};
+                }
+
+                sendEphemeralPost(res.markdown, call.context.channel_id, call.context.root_id);
+            }
+            return {data: res};
+        case AppCallResponseTypes.MODAL:
             if (!res.data) {
-                return {data: false};
+                return {data: res};
             }
             res.data.app_id = call.context.app_id;
             openInteractiveDialog(res.data);
             return {data: res};
-        case CallResponseTypes.COMMAND:
+        case AppCallResponseTypes.COMMAND:
             res.data.args.command = res.data.command;
             return dispatch(executeCommand(res.data.command, res.data.args));
         }

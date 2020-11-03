@@ -172,7 +172,7 @@ export function showLeavePrivateChannelModal(channel: Channel) {
     });
 }
 
-export function showMobileSubMenuModal(elements:any) { //Using any, but the only place used is a list of submenu props.
+export function showMobileSubMenuModal(elements: any[]) { //Using any, but the only place used is a list of submenu props.
     const submenuModalData = {
         ModalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,

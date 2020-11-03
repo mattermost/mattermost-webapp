@@ -18,7 +18,7 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -67,11 +67,7 @@ export function updateRhsState(rhsState: string, channelId?: string) {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
             state: rhsState,
-        } as {
-            type: string,
-            state: string,
-            channelId?: string
-        };
+        } as GenericAction;
 
         if (rhsState === RHSStates.PIN) {
             action.channelId = channelId || getCurrentChannelId(getState());
@@ -125,7 +121,7 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const userTimezone = getUserTimezone(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
-        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: isMentionSearch !== undefined && isMentionSearch, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
     };
 }
 

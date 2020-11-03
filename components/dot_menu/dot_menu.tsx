@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {Binding, Call} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -27,26 +27,35 @@ const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 
+// TODO: Should substitute locations from contants.jsx
+export enum Location {
+    Center = 'CENTER',
+    RHSRoot = 'RHS_ROOT',
+    RHSComment = 'RHS_COMMENT',
+    Search = 'SEARCH',
+    Nowhere = 'NO_WHERE',
+}
+
 export type Props = {
-    post: Post,
-    teamId?: string,
-    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | 'NO_WHERE',
-    commentCount?: number,
-    isFlagged?: boolean,
-    handleCommentClick?: () => void,
-    handleDropdownOpened?: () => void,
-    handleAddReactionClick?: () => void,
-    isMenuOpen?: boolean,
-    isReadOnly?: boolean,
-    pluginMenuItems?: PluginComponent[],
-    isLicensed: boolean,
-    postEditTimeLimit?: string,
-    enableEmojiPicker: boolean,
-    channelIsArchived: boolean,
-    currentTeamUrl: string,
-    appsBindings: Binding[],
-    canEdit: boolean,
-    canDelete: boolean,
+    post: Post;
+    teamId?: string;
+    location: Location;
+    commentCount?: number;
+    isFlagged?: boolean;
+    handleCommentClick?: () => void;
+    handleDropdownOpened?: () => void;
+    handleAddReactionClick?: () => void;
+    isMenuOpen?: boolean;
+    isReadOnly?: boolean;
+    pluginMenuItems: PluginComponent[];
+    isLicensed: boolean;
+    postEditTimeLimit?: string;
+    enableEmojiPicker: boolean;
+    channelIsArchived: boolean;
+    currentTeamUrl: string;
+    appsBindings: AppBinding[];
+    canEdit: boolean;
+    canDelete: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -90,7 +99,7 @@ export type Props = {
          * Function to set the unread mark at given post
          */
         markPostAsUnread: (post: Post) => void,
-        doAppCall: (call: Call) => void,
+        doAppCall: (call: AppCall) => void,
     }
 }
 
@@ -111,7 +120,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         isFlagged: false,
         isReadOnly: false,
         pluginMenuItems: [] as PluginComponent[],
-        location: 'CENTER',
+        location: Location.Center,
         enableEmojiPicker: false,
     }
 
@@ -271,7 +280,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         );
     }
 
-    onClickBinding = async (binding: Binding) => {
+    onClickAppBinding = async (binding: AppBinding) => {
         if (!binding.call) {
             return;
         }
@@ -331,7 +340,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 <Menu.ItemAction
                     text={item.label}
                     key={item.app_id + item.location_id}
-                    onClick={() => this.onClickBinding(item)}
+                    onClick={() => this.onClickAppBinding(item)}
                     icon={(<img src={item.icon}/>)}
                 />
             );
