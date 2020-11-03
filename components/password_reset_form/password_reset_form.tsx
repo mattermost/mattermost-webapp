@@ -4,18 +4,17 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ServerError} from 'mattermost-redux/types/errors';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 interface Props {
-  location: {search: string};
-  siteName?: string;
-  actions: {
-    resetUserPassword: (token: string, newPassword: string) => any;
-  };
+    location: {search: string};
+    siteName?: string;
+    actions: {
+        resetUserPassword: (token: string, newPassword: string) => any;
+    };
 }
 
 interface State {
@@ -25,12 +24,12 @@ interface State {
 export default class PasswordResetForm extends React.PureComponent<Props, State> {
     public passwordInput: React.RefObject<HTMLInputElement>; //Public because it is used by tests
     public constructor(props: Props) {
-      super(props);
-      this.passwordInput = React.createRef<HTMLInputElement>();
-      this.state = { error: null };
+        super(props);
+        this.passwordInput = React.createRef<HTMLInputElement>();
+        this.state = {error: null};
     }
 
-     handlePasswordReset = async (e: React.FormEvent) => {
+    handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const password = this.passwordInput.current!.value;
