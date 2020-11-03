@@ -7,30 +7,47 @@ include:
   ref: master
   file: private.yml
 
-before_script:
-  - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .npm/
-    - node_modules/mattermost-redux
+create-cache:
+  stage: .pre
+  image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  script:
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/mattermost-redux
 
 lint:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/mattermost-redux
   script:
     - npm run check
 
 type-check:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/mattermost-redux
   script:
     - npm run check-types
 
 i18n-check:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/mattermost-redux
   script:
     - cp i18n/en.json /tmp/en.json
     - mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
@@ -46,6 +63,11 @@ i18n-check:
 test:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/mattermost-redux
   script:
     - npm run test-ci
   artifacts:
