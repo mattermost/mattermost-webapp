@@ -109,7 +109,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term = '') => {
+    onSearch = (term = '') => {
         this.loadPage(0, term, this.state.filters);
     };
 
