@@ -4,7 +4,10 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import DotMenu from 'components/dot_menu/dot_menu.jsx';
+import {Post} from 'mattermost-redux/types/posts';
+
+import DotMenu, {Props} from 'components/dot_menu/dot_menu';
+import {Locations} from 'utils/constants';
 
 jest.mock('utils/utils', () => {
     return {
@@ -24,13 +27,14 @@ jest.mock('utils/post_utils', () => {
 describe('components/dot_menu/DotMenu returning empty ("")', () => {
     test('should match snapshot, return empty ("") on Center', () => {
         const baseProps = {
-            post: {id: 'post_id_1'},
+            post: {id: 'post_id_1'} as Post,
             isLicensed: false,
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
             components: {},
             channelIsArchived: false,
             currentTeamUrl: '',
+            location: Locations.CENTER,
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
@@ -39,10 +43,13 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
+                doAppCall: jest.fn(),
             },
             canEdit: false,
             canDelete: false,
-        };
+            appsBindings: [],
+            pluginMenuItems: [],
+        } as Props;
 
         const wrapper = shallow(
             <DotMenu {...baseProps}/>,

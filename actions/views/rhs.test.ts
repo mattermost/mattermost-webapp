@@ -2,11 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import configureStore from 'redux-mock-store';
+import configureStore, {MockStoreEnhanced} from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as SearchActions from 'mattermost-redux/actions/search';
 import {SearchTypes} from 'mattermost-redux/action_types';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {
     updateRhsState,
@@ -29,8 +33,10 @@ import {
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
+import {GlobalState} from 'types/store';
+import {ViewsState} from 'types/store/views';
 
-const mockStore = configureStore([thunk]);
+const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
 const currentChannelId = '123';
 const currentTeamId = '321';
@@ -40,7 +46,7 @@ const previousSelectedPost = {
     id: 'post123',
     channel_id: 'channel123',
     root_id: 'root123',
-};
+} as Post;
 
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
 UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
@@ -50,13 +56,13 @@ const POST_CREATED_TIME = Date.now();
 global.Date.now = jest.fn(() => POST_CREATED_TIME);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
-    getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),
-    getProfilesAndStatusesForPosts: (...args) => ({type: 'MOCK_GET_PROFILES_AND_STATUSES_FOR_POSTS', args}),
+    getPostThread: (...args:any) => ({type: 'MOCK_GET_POST_THREAD', args}),
+    getProfilesAndStatusesForPosts: (...args:any) => ({type: 'MOCK_GET_PROFILES_AND_STATUSES_FOR_POSTS', args}),
 }));
 
 jest.mock('mattermost-redux/actions/search', () => ({
-    searchPostsWithParams: (...args) => ({type: 'MOCK_SEARCH_POSTS', args}),
-    clearSearch: (...args) => ({type: 'MOCK_CLEAR_SEARCH', args}),
+    searchPostsWithParams: (...args:any) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    clearSearch: (...args:any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
 }));
@@ -88,13 +94,13 @@ describe('rhs view actions', () => {
                             automaticTimezone: '',
                             manualTimezone: '',
                         },
-                    },
-                },
+                    } as UserProfile,
+                } as IDMappedObjects<UserProfile>,
             },
             posts: {
                 posts: {
                     [previousSelectedPost.id]: previousSelectedPost,
-                },
+                } as IDMappedObjects<Post>,
             },
             preferences: {myPreferences: {}},
         },
@@ -103,9 +109,9 @@ describe('rhs view actions', () => {
                 rhsState: null,
             },
         },
-    };
+    } as GlobalState;
 
-    let store;
+    let store: MockStoreEnhanced<GlobalState, DispatchFunc>;
 
     beforeEach(() => {
         store = mockStore(initialState);
@@ -130,7 +136,7 @@ describe('rhs view actions', () => {
             id: 'post123',
             channel_id: 'channel123',
             root_id: 'root123',
-        };
+        } as Post;
 
         test('it dispatches PostActions.getPostThread correctly', () => {
             store.dispatch(selectPostFromRightHandSideSearch(post));
@@ -149,7 +155,7 @@ describe('rhs view actions', () => {
                         rhs: {
                             rhsState: RHSStates.FLAG,
                         },
-                    },
+                    } as ViewsState,
                 });
 
                 await store.dispatch(selectPostFromRightHandSideSearch(post));
@@ -192,12 +198,12 @@ describe('rhs view actions', () => {
             const timeZoneOffset = getBrowserUtcOffset() * 60;
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}, true));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -213,7 +219,7 @@ describe('rhs view actions', () => {
                     searchTerms: terms,
                 },
             },
-        };
+        } as GlobalState;
 
         test('it dispatches the right actions', () => {
             store = mockStore(testInitialState);
@@ -234,7 +240,7 @@ describe('rhs view actions', () => {
 
     describe('showFlaggedPosts', () => {
         test('it dispatches the right actions', async () => {
-            SearchActions.getFlaggedPosts.mockReturnValue((dispatch) => {
+            (SearchActions.getFlaggedPosts as jest.Mock).mockReturnValue((dispatch: DispatchFunc) => {
                 dispatch({type: 'MOCK_GET_FLAGGED_POSTS'});
 
                 return {data: 'data'};
@@ -278,7 +284,7 @@ describe('rhs view actions', () => {
 
     describe('showPinnedPosts', () => {
         test('it dispatches the right actions for the current channel', async () => {
-            SearchActions.getPinnedPosts.mockReturnValue((dispatch) => {
+            (SearchActions.getPinnedPosts as jest.Mock).mockReturnValue((dispatch: DispatchFunc) => {
                 dispatch({type: 'MOCK_GET_PINNED_POSTS'});
 
                 return {data: 'data'};
@@ -331,7 +337,7 @@ describe('rhs view actions', () => {
         test('it dispatches the right actions for a specific channel', async () => {
             const channelId = 'channel1';
 
-            SearchActions.getPinnedPosts.mockReturnValue((dispatch) => {
+            (SearchActions.getPinnedPosts as jest.Mock).mockReturnValue((dispatch: DispatchFunc) => {
                 dispatch({type: 'MOCK_GET_PINNED_POSTS'});
 
                 return {data: 'data'};
@@ -404,14 +410,14 @@ describe('rhs view actions', () => {
         });
 
         test('it calls trackEvent correctly', () => {
-            trackEvent.mockClear();
+            (trackEvent as jest.Mock).mockClear();
 
             store.dispatch(showMentions());
 
             expect(trackEvent).toHaveBeenCalledTimes(1);
 
-            expect(trackEvent.mock.calls[0][0]).toEqual('api');
-            expect(trackEvent.mock.calls[0][1]).toEqual('api_posts_search_mention');
+            expect((trackEvent as jest.Mock).mock.calls[0][0]).toEqual('api');
+            expect((trackEvent as jest.Mock).mock.calls[0][1]).toEqual('api_posts_search_mention');
         });
     });
 
@@ -475,20 +481,20 @@ describe('rhs view actions', () => {
             ...initialState,
             views: {
                 rhs: {
-                    state: RHSStates.PLUGIN,
+                    rhsState: RHSStates.PLUGIN,
                     pluggableId,
                 },
             },
-        };
+        } as GlobalState;
 
         const stateWithoutPluginRhs = {
             ...initialState,
             views: {
                 rhs: {
-                    state: RHSStates.PIN,
+                    rhsState: RHSStates.PIN,
                 },
             },
-        };
+        } as GlobalState;
 
         describe('showRHSPlugin', () => {
             it('dispatches the right action', () => {
@@ -625,7 +631,7 @@ describe('rhs view actions', () => {
         });
 
         it('opens pinned posts', async () => {
-            SearchActions.getPinnedPosts.mockReturnValue((dispatch) => {
+            (SearchActions.getPinnedPosts as jest.Mock).mockReturnValue((dispatch: DispatchFunc) => {
                 dispatch({type: 'MOCK_GET_PINNED_POSTS'});
                 return {data: 'data'};
             });
@@ -656,7 +662,7 @@ describe('rhs view actions', () => {
         });
 
         it('opens flagged posts', async () => {
-            SearchActions.getFlaggedPosts.mockReturnValue((dispatch) => {
+            (SearchActions.getFlaggedPosts as jest.Mock).mockReturnValue((dispatch: DispatchFunc) => {
                 dispatch({type: 'MOCK_GET_FLAGGED_POSTS'});
 
                 return {data: 'data'};
@@ -732,7 +738,7 @@ describe('rhs view actions', () => {
                         searchTerms: terms,
                     },
                 },
-            };
+            } as GlobalState;
 
             store = mockStore(searchInitialState);
             await store.dispatch(openAtPrevious({searchVisible: true}));

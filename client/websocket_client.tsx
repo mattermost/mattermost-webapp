@@ -6,6 +6,19 @@ const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
 
 export default class WebSocketClient {
+    private conn: WebSocket | null;
+    private connectionUrl: string | null;
+    private sequence: number;
+    private eventSequence: number;
+    private connectFailCount: number;
+    private eventCallback: ((msg: any) => void) | null;
+    private responseCallbacks: {[x:number]: ((msg: any) => void)};
+    private firstConnectCallback: (() => void) | null;
+    private reconnectCallback: (() => void) | null;
+    private missedEventCallback: (() => void) | null;
+    private errorCallback: ((event: Event) => void) | null;
+    private closeCallback: ((connectFailCount: number) => void) | null;
+
     constructor() {
         this.conn = null;
         this.connectionUrl = null;
@@ -21,7 +34,7 @@ export default class WebSocketClient {
         this.closeCallback = null;
     }
 
-    initialize(connectionUrl = this.connectionUrl, token) {
+    initialize(connectionUrl = this.connectionUrl, token?: string) {
         if (this.conn) {
             return;
         }
@@ -107,7 +120,7 @@ export default class WebSocketClient {
                     console.log(msg); //eslint-disable-line no-console
                 }
 
-                if (this.responseCallbacks[msg.seq_reply]) {
+                if (this.responseCallbacks?.[msg.seq_reply]) {
                     this.responseCallbacks[msg.seq_reply](msg);
                     Reflect.deleteProperty(this.responseCallbacks, msg.seq_reply);
                 }
@@ -122,27 +135,27 @@ export default class WebSocketClient {
         };
     }
 
-    setEventCallback(callback) {
+    setEventCallback(callback: (msg:any) => void) {
         this.eventCallback = callback;
     }
 
-    setFirstConnectCallback(callback) {
+    setFirstConnectCallback(callback: () => void) {
         this.firstConnectCallback = callback;
     }
 
-    setReconnectCallback(callback) {
+    setReconnectCallback(callback: () => void) {
         this.reconnectCallback = callback;
     }
 
-    setMissedEventCallback(callback) {
+    setMissedEventCallback(callback: () => void) {
         this.missedEventCallback = callback;
     }
 
-    setErrorCallback(callback) {
+    setErrorCallback(callback: (event: Event) => void) {
         this.errorCallback = callback;
     }
 
-    setCloseCallback(callback) {
+    setCloseCallback(callback: (connectFailCount: number) => void) {
         this.closeCallback = callback;
     }
 
@@ -157,7 +170,7 @@ export default class WebSocketClient {
         }
     }
 
-    sendMessage(action, data, responseCallback) {
+    sendMessage(action: string, data: any, responseCallback?: () => void) {
         const msg = {
             action,
             seq: this.sequence++,
@@ -176,15 +189,18 @@ export default class WebSocketClient {
         }
     }
 
-    userTyping(channelId, parentId, callback) {
-        const data = {};
+    userTyping(channelId: string, parentId: string, callback?: () => void) {
+        const data = {} as {
+            channel_id: string,
+            parent_id: string,
+        };
         data.channel_id = channelId;
         data.parent_id = parentId;
 
         this.sendMessage('user_typing', data, callback);
     }
 
-    userUpdateActiveStatus(userIsActive, manual, callback) {
+    userUpdateActiveStatus(userIsActive: boolean, manual: boolean, callback?: () => void) {
         const data = {
             user_is_active: userIsActive,
             manual,
@@ -192,12 +208,14 @@ export default class WebSocketClient {
         this.sendMessage('user_update_active_status', data, callback);
     }
 
-    getStatuses(callback) {
+    getStatuses(callback?: () => void) {
         this.sendMessage('get_statuses', null, callback);
     }
 
-    getStatusesByIds(userIds, callback) {
-        const data = {};
+    getStatusesByIds(userIds: string[], callback?: () => void) {
+        const data = {} as {
+            user_ids: string[],
+        };
         data.user_ids = userIds;
         this.sendMessage('get_statuses_by_ids', data, callback);
     }
