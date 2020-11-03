@@ -10,6 +10,9 @@
 
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
+
 describe('Messaging', () => {
     let testTeam;
     let testChannel;
@@ -39,11 +42,40 @@ describe('Messaging', () => {
     it('MM-T2503 Boolean value check', () => {
         // * Open the /dialog box and complete the form
         cy.postMessage('/dialog');
-        cy.findByTestId('someemailemail').type('test@mattermost.com');
-        cy.findByTestId('somepasswordpassword').type('testpassword');
-        cy.findByTestId('somenumbernumber').type('42');
-        cy.findAllByPlaceholderText('Select an option...', {multiple: true}).click({multiple: true}).then(() => {
-            cy.findAllByText('Option1', {multiple: true}).click({multiple: true});
-        })
+        cy.findAllByTestId('someemailemail').type('test@mattermost.com');
+        cy.findAllByTestId('somepasswordpassword').type('testpassword');
+        cy.findAllByTestId('somenumbernumber').type('42');
+        
+        cy.get(':nth-child(8) > :nth-child(2) > .select-suggestion-container > :nth-child(2) > .form-control').type('{downarrow}{enter}');
+        
+        cy.get('#someboolean').click(); //enables to true
+        //cy.get('#someboolean').click(); //enables to true
+        
+        cy.get('#someboolean_optional').click(); // enables to true
+        //cy.findByTestId('someboolean_optional').click(); // enables to true
+        
+        cy.get('#someboolean_default_true').should('be.checked'); // checks that is is already enabled
+        //cy.findByTestId('someboolean_default_true').click(); // checks that is is already enabled
+
+        cy.get('#someboolean_default_true_optional').should('be.checked'); // checks that it is already enabled
+        //cy.findByTestId('someboolean_default_true_optional').click(); // checks that it is already enabled
+
+        cy.get('#someboolean_default_false').click() // enables to true
+        //cy.findByTestId('someboolean_default_false').click() // enables to true
+
+        cy.get('#someboolean_default_false_optional').click() // enables to true
+        //cy.findByTestId('someboolean_default_false_optional').click() // enables to true
+
+        // # Check the radio box 
+        cy.get('[value="opt1"]').click();
+
+        // # Save the form and submit
+        cy.get('#interactiveDialogSubmit').click();
+
+        cy.waitUntil(() => cy.getLastPost().then((el) => {
+            const postedMessageEl = el.find('.post__body')[0];
+            return Boolean(postedMessageEl && postedMessageEl.textContent.includes('Data:'));
+        }));
+        //cy.get('.post__body').should('be.visible').and('contain.text', ` "someboolean_default_false": true,`).and('contain.text', ` "someboolean_default_false_optional": true,`);
     });
-});
+});     
