@@ -59,7 +59,7 @@ describe('Bot Tokens', () => {
                         and('have.text', message);
                 });
 
-                // Revoke bot token
+                // # Revoke bot token
                 cy.apiRevokeAccessToken(tokenId);
 
                 // # Post message as bot through api with revoked auth token
