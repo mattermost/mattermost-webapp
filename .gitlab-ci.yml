@@ -14,9 +14,9 @@ lint:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-      - node-modules/mattermost-redux
+      - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node-modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
   script:
     - npm run check
 
@@ -27,9 +27,9 @@ type-check:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-      - node-modules/mattermost-redux
+      - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node-modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
   script:
     - npm run check-types
 
@@ -40,9 +40,9 @@ i18n-check:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-      - node-modules/mattermost-redux
+      - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node-modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
   script:
     - cp i18n/en.json /tmp/en.json
     - mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
@@ -62,9 +62,9 @@ test:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-      - node-modules/mattermost-redux
+      - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node-modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
   script:
     - npm run test-ci
   artifacts:
