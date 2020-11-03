@@ -72,7 +72,6 @@
     &.left {
         > .arrow {
             display: none;
-            border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
 
             &:after {
                 border-color: transparent;
@@ -82,6 +81,12 @@
 
     &.bottom {
         margin-top: 10px;
+    }
+
+    &.left {
+        > .arrow {
+            border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
     }
 
     ul + p,
