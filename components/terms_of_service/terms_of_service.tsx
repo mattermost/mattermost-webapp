@@ -21,7 +21,7 @@ import {formatText} from 'utils/text_formatting';
 import {Constants} from 'utils/constants.jsx';
 import EmojiMap from 'utils/emoji_map';
 
-interface UpdateMyTermsOfServiceStatusResponse {
+export interface UpdateMyTermsOfServiceStatusResponse {
     terms_of_service_create_at: number;
     terms_of_service_id: string;
     user_id: number;
@@ -46,7 +46,7 @@ interface TermsOfServiceState {
     loading: boolean;
     loadingAgree: boolean;
     loadingDisagree: boolean;
-    serverError: JSX.Element | null;
+    serverError: React.ReactNode;
 }
 
 export default class TermsOfService extends React.PureComponent<TermsOfServiceProps, TermsOfServiceState> {
