@@ -17,27 +17,27 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 type Props = {
-        showCloseButton: boolean;
-        color: string;
-        textColor: string;
-        type: string;
-        message: React.ReactNode;
-        handleClose?: (e?:any)=>void;
-        announcementBarCount?: number;
-        showModal: ()=> void;
-        modalButtonText: string;
-        modalButtonDefaultText: string;
-        showLinkAsButton: boolean;
-        warnMetricStatus?: object;
-        isTallBanner: boolean;
-        actions: {
-            incrementAnnouncementBarCount: ()=>void;
-            decrementAnnouncementBarCount: ()=>void;
-        };
+    showCloseButton: boolean;
+    color: string;
+    textColor: string;
+    type: string;
+    message: React.ReactNode;
+    handleClose?: (e?:any)=>void;
+    announcementBarCount?: number;
+    showModal: ()=> void;
+    modalButtonText: string;
+    modalButtonDefaultText: string;
+    showLinkAsButton: boolean;
+    warnMetricStatus?: Record<string, unknown>;
+    isTallBanner: boolean;
+    actions: {
+        incrementAnnouncementBarCount: ()=>void;
+        decrementAnnouncementBarCount: ()=>void;
+    };
 }
+
 export default class AnnouncementBar extends React.PureComponent<Props> {
-    
-		static defaultProps = {
+    static defaultProps = {
         showCloseButton: false,
         color: '',
         textColor: '',
@@ -65,7 +65,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         this.props.actions.decrementAnnouncementBarCount();
     }
 
-   public handleClose = (e: any) => {
+    public handleClose = (e: any) => {
         e.preventDefault();
         if (this.props.handleClose) {
             this.props.handleClose();
@@ -78,8 +78,8 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         }
 
         let barClass = 'announcement-bar';
-        const barStyle = {backgroundColor: '' ,color: ''};
-        const linkStyle = {color:''};
+        const barStyle = {backgroundColor: '', color: ''};
+        const linkStyle = {color: ''};
         if (this.props.color && this.props.textColor) {
             barStyle.backgroundColor = this.props.color;
             barStyle.color = this.props.textColor;
