@@ -11,10 +11,10 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
 interface Props {
-  location: {search: any};
-  siteName: string | undefined;
+  location: {search: string};
+  siteName?: string;
   actions: {
-    resetUserPassword: (token: any, newPassword: string) => any;
+    resetUserPassword: (token: string, newPassword: string) => any;
   };
 }
 

@@ -12,7 +12,7 @@ import {GlobalState} from 'types/store';
 import PasswordResetForm from './password_reset_form';
 
 type Actions = {
-    resetUserPassword: (token: any, newPassword: string) => any;
+    resetUserPassword: (token: string, newPassword: string) => any;
 }
 function mapStateToProps(state: GlobalState) {
     const {SiteName: siteName} = getConfig(state);
