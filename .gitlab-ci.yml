@@ -7,14 +7,13 @@ include:
   ref: master
   file: private.yml
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .npm/
-
 lint:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
   before_script:
     - npm ci --cache .npm --prefer-offline
   script:
@@ -23,12 +22,24 @@ lint:
 type-check:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
   script:
     - npm run check-types
 
 i18n-check:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
   script:
     - cp i18n/en.json /tmp/en.json
     - mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
@@ -44,6 +55,10 @@ i18n-check:
 test:
   stage: test
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
   before_script:
     - npm ci --cache .npm --prefer-offline
   script:
