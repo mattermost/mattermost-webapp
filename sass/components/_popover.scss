@@ -68,13 +68,7 @@
 
     &.bottom,
     &.right,
-
-    &.top {
-        > .arrow {
-            border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
-        }
-    }
-
+    &.top,
     &.left {
         > .arrow {
             display: none;
@@ -87,6 +81,12 @@
 
     &.bottom {
         margin-top: 10px;
+    }
+
+    &.top {
+        > .arrow {
+            border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
     }
 
     ul + p,
