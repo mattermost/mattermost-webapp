@@ -19,6 +19,7 @@ import DialogIntroductionText from './dialog_introduction_text';
 
 export default class InteractiveDialog extends React.PureComponent {
     static propTypes = {
+        appID: PropTypes.string,
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,
         elements: PropTypes.arrayOf(PropTypes.object),
@@ -90,13 +91,14 @@ export default class InteractiveDialog extends React.PureComponent {
             return;
         }
 
-        const {url, callbackId, state} = this.props;
+        const {url, callbackId, state, appID} = this.props;
 
         const dialog = {
             url,
             callback_id: callbackId,
             state,
             submission: values,
+            app_id: appID,
         };
 
         this.setState({submitting: true});

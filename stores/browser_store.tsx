@@ -12,27 +12,30 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 class BrowserStoreClass {
-    setItem(name, value) {
+    hasCheckedLocalStorage?: boolean;
+    localStorageSupported?: boolean;
+
+    setItem(name: string, value: string) {
         dispatch(Actions.setItem(name, value));
     }
 
-    getItem(name, defaultValue) {
+    getItem(name: string, defaultValue: string) {
         return Selectors.makeGetItem(name, defaultValue)(getState());
     }
 
-    removeItem(name) {
+    removeItem(name: string) {
         dispatch(Actions.removeItem(name));
     }
 
-    setGlobalItem(name, value) {
+    setGlobalItem(name: string, value: string) {
         dispatch(Actions.setGlobalItem(name, value));
     }
 
-    getGlobalItem(name, defaultValue = null) {
+    getGlobalItem(name: string, defaultValue = null) {
         return Selectors.makeGetGlobalItem(name, defaultValue)(getState());
     }
 
-    removeGlobalItem(name) {
+    removeGlobalItem(name: string) {
         dispatch(Actions.removeGlobalItem(name));
     }
 
@@ -49,7 +52,7 @@ class BrowserStoreClass {
         }
     }
 
-    isSignallingLogout(logoutId) {
+    isSignallingLogout(logoutId: string) {
         return logoutId === sessionStorage.getItem(StoragePrefixes.LOGOUT);
     }
 
@@ -64,11 +67,11 @@ class BrowserStoreClass {
         }
     }
 
-    isSignallingLogin(loginId) {
+    isSignallingLogin(loginId: string) {
         return loginId === sessionStorage.getItem(StoragePrefixes.LOGIN);
     }
 
-    clear(options) {
+    clear(options?: any) {
         dispatch(Actions.clear(options));
     }
 
@@ -84,7 +87,7 @@ class BrowserStoreClass {
             if (localStorage.getItem('__testLocal__') === '1') {
                 this.localStorageSupported = true;
             }
-            localStorage.removeItem('__testLocal__', '1');
+            localStorage.removeItem('__testLocal__');
         } catch (e) {
             this.localStorageSupported = false;
         }
@@ -106,26 +109,27 @@ class BrowserStoreClass {
         return localStorage.getItem(StoragePrefixes.LANDING_PAGE_SEEN);
     }
 
-    setLandingPageSeen(landingPageSeen) {
-        localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, landingPageSeen);
+    setLandingPageSeen(landingPageSeen: boolean) {
+        const value = landingPageSeen ? 'true' : 'false';
+        localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, value);
     }
 
-    getLandingPreference(siteUrl) {
+    getLandingPreference(siteUrl?: string) {
         return localStorage.getItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl));
     }
 
-    setLandingPreferenceToMattermostApp(siteUrl) {
+    setLandingPreferenceToMattermostApp(siteUrl?: string) {
         localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.MATTERMOSTAPP);
     }
 
-    setLandingPreferenceToBrowser(siteUrl) {
+    setLandingPreferenceToBrowser(siteUrl?: string) {
         localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.BROWSER);
     }
 
-    clearLandingPreference(siteUrl) {
+    clearLandingPreference(siteUrl?: string) {
         localStorage.removeItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl));
     }
 }
 
-var BrowserStore = new BrowserStoreClass();
+const BrowserStore = new BrowserStoreClass();
 export default BrowserStore;

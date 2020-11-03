@@ -4,8 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {submitInteractiveDialog} from 'mattermost-redux/actions/integrations';
-
+import {submitInteractiveDialog} from 'actions/apps';
 import {getEmojiMap} from 'selectors/emojis';
 
 import InteractiveDialog from './interactive_dialog';
@@ -26,6 +25,7 @@ function mapStateToProps(state) {
         submitLabel: data.dialog.submit_label,
         notifyOnCancel: data.dialog.notify_on_cancel,
         state: data.dialog.state,
+        appID: data.app_id,
         emojiMap: getEmojiMap(state),
     };
 }

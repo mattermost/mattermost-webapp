@@ -4,9 +4,11 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {Locations, PostTypes} from 'utils/constants';
 
-import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
+import DotMenu, {Props, PLUGGABLE_COMPONENT} from './dot_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -18,7 +20,7 @@ jest.mock('utils/utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: {id: 'post_id_1', is_pinned: false, type: ''},
+        post: {id: 'post_id_1', is_pinned: false} as Post,
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -35,18 +37,21 @@ describe('components/dot_menu/DotMenu', () => {
             unpinPost: jest.fn(),
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
+            doAppCall: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
-        pluginLocations: [],
-    };
+        appsBindings: [],
+        pluginMenuItems: [],
+        location: Locations.CENTER,
+    } as Props;
 
     test('should match snapshot, on Center', () => {
         const props = {
             ...baseProps,
             canEdit: true,
         };
-        const wrapper = shallow(
+        const wrapper = shallow<DotMenu>(
             <DotMenu {...props}/>,
         );
 
@@ -99,7 +104,7 @@ describe('components/dot_menu/DotMenu', () => {
             post: {
                 ...baseProps.post,
                 type: PostTypes.JOIN_CHANNEL,
-            },
+            } as Post,
         };
         const wrapper = shallow(
             <DotMenu {...props}/>,
@@ -160,7 +165,7 @@ describe('components/dot_menu/DotMenu', () => {
         const props = {
             ...baseProps,
             location: Locations.SEARCH,
-        };
+        } as Props;
         const wrapper = shallow(
             <DotMenu {...props}/>,
         );

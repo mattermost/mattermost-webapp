@@ -16,7 +16,11 @@ import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMembershi
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
-import {fetchPluginLocations} from 'mattermost-redux/actions/plugins';
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/src/types/users';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {browserHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -29,7 +33,7 @@ import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
-import BrowserStore from 'stores/browser_store.jsx';
+import BrowserStore from 'stores/browser_store';
 import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
@@ -44,19 +48,19 @@ import {openModal} from './views/modals';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function emitChannelClickEvent(channel) {
-    async function userVisitedFakeChannel(chan, success, fail) {
+export function emitChannelClickEvent(channel: Channel) {
+    async function userVisitedFakeChannel(chan: Channel, success: (received: Channel) => void, fail: () => void) {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
         const otherUserId = Utils.getUserIdFromChannelName(chan);
-        const {data: receivedChannel} = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
-        if (receivedChannel) {
-            success(receivedChannel);
+        const res = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
+        if ('data' in res) {
+            success(res.data);
         } else {
             fail();
         }
     }
-    function switchToChannel(chan) {
+    function switchToChannel(chan: Channel) {
         const state = getState();
         const userId = getCurrentUserId(state);
         const teamId = chan.team_id || getCurrentTeamId(state);
@@ -93,7 +97,7 @@ export function emitChannelClickEvent(channel) {
             member: member || {},
         }]));
 
-        dispatch(fetchPluginLocations(userId, chan.id));
+        dispatch(fetchAppBindings(userId, chan.id));
     }
 
     if (channel.fake) {
@@ -103,7 +107,7 @@ export function emitChannelClickEvent(channel) {
                 switchToChannel(data);
             },
             () => {
-                browserHistory.push('/' + this.state.currentTeam.name);
+                browserHistory.push('/'); //+ this.state.currentTeam.name);
             },
         );
     } else {
@@ -111,11 +115,11 @@ export function emitChannelClickEvent(channel) {
     }
 }
 
-export function updateNewMessagesAtInChannel(channelId, last_viewed_at = Date.now()) {
+export function updateNewMessagesAtInChannel(channelId: string, lastViewedAt = Date.now()) {
     return {
         type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
         channel_id: channelId,
-        last_viewed_at,
+        last_viewed_at: lastViewedAt,
     };
 }
 
@@ -130,7 +134,7 @@ export function toggleShortcutsModal() {
     });
 }
 
-export function showChannelPurposeUpdateModal(channel) {
+export function showChannelPurposeUpdateModal(channel: Channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL,
         value: true,
@@ -138,7 +142,7 @@ export function showChannelPurposeUpdateModal(channel) {
     });
 }
 
-export function showChannelNameUpdateModal(channel) {
+export function showChannelNameUpdateModal(channel: Channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
         value: true,
@@ -146,7 +150,7 @@ export function showChannelNameUpdateModal(channel) {
     });
 }
 
-export function showGetPublicLinkModal(fileId) {
+export function showGetPublicLinkModal(fileId: string) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,
         value: true,
@@ -161,14 +165,14 @@ export function showGetTeamInviteLinkModal() {
     });
 }
 
-export function showLeavePrivateChannelModal(channel) {
+export function showLeavePrivateChannelModal(channel: Channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
         value: channel,
     });
 }
 
-export function showMobileSubMenuModal(elements) {
+export function showMobileSubMenuModal(elements: any[]) { //Using any, but the only place used is a list of submenu props.
     const submenuModalData = {
         ModalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,
@@ -180,7 +184,7 @@ export function showMobileSubMenuModal(elements) {
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message, channelId, parentId) {
+export function sendEphemeralPost(message: string, channelId: string, parentId?: string) {
     const timestamp = Utils.getTimestamp();
     const post = {
         id: Utils.generateId(),
@@ -198,7 +202,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
     dispatch(handleNewPost(post));
 }
 
-export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, channelId, postRootId = '', timestamp) {
+export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: string, addedUserId: string, channelId: string, postRootId = '', timestamp: number) {
     const post = {
         id: Utils.generateId(),
         user_id: user.id,
@@ -220,16 +224,19 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, 
 }
 
 let lastTimeTypingSent = 0;
-export function emitLocalUserTypingEvent(channelId, parentPostId) {
-    const userTyping = async (actionDispatch, actionGetState) => {
+export function emitLocalUserTypingEvent(channelId: string, parentPostId: string) {
+    const userTyping = async (actionDispatch: DispatchFunc, actionGetState: GetStateFunc) => {
         const state = actionGetState();
         const config = getConfig(state);
         const t = Date.now();
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;
 
-        if (((t - lastTimeTypingSent) > config.TimeBetweenUserTypingUpdatesMilliseconds) &&
-            (membersInChannel < config.MaxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {
+        const timeBetweenUserTypingUpdatesMilliseconds = stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds);
+        const maxNotificationsPerChannel = stringToNumber(config.MaxNotificationsPerChannel);
+
+        if (((t - lastTimeTypingSent) > timeBetweenUserTypingUpdatesMilliseconds) &&
+            (membersInChannel < maxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {
             WebSocketClient.userTyping(channelId, parentPostId);
             lastTimeTypingSent = t;
         }
@@ -238,6 +245,14 @@ export function emitLocalUserTypingEvent(channelId, parentPostId) {
     };
 
     return dispatch(userTyping);
+}
+
+function stringToNumber(s?: string): number {
+    if (!s) {
+        return 0;
+    }
+
+    return parseInt(s, 10);
 }
 
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
@@ -265,21 +280,21 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
 }
 
 export function toggleSideBarRightMenuAction() {
-    return (doDispatch) => {
+    return (doDispatch: DispatchFunc) => {
         doDispatch(closeRightHandSide());
         doDispatch(closeLhs());
         doDispatch(closeRhsMenu());
     };
 }
 
-export function emitBrowserFocus(focus) {
+export function emitBrowserFocus(focus: boolean) {
     dispatch({
         type: ActionTypes.BROWSER_CHANGE_FOCUS,
         focus,
     });
 }
 
-export async function getTeamRedirectChannelIfIsAccesible(user, team) {
+export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, team: Team) {
     let state = getState();
     let channel = null;
 
@@ -304,7 +319,10 @@ export async function getTeamRedirectChannelIfIsAccesible(user, team) {
         channel = dmList.find((directChannel) => directChannel.name === channelName);
     }
 
-    let channelMember = getMyChannelMember(state, channel && channel.id);
+    let channelMember: ChannelMembership | null | undefined;
+    if (channel) {
+        channelMember = getMyChannelMember(state, channel.id);
+    }
 
     if (!channel || !channelMember) {
         // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
@@ -353,7 +371,11 @@ export async function redirectUserToDefaultTeam() {
         return;
     }
 
-    const team = getTeam(state, teamId);
+    let team: Team | undefined;
+    if (teamId) {
+        team = getTeam(state, teamId);
+    }
+
     if (team && team.delete_at === 0) {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
