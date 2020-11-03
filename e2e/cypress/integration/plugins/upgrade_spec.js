@@ -124,7 +124,7 @@ describe('Plugin remains enabled when upgraded', () => {
 
         // * Confirm demo plugin is not enabled
         cy.apiGetAllPlugins().then((response) => {
-            const {active, inactive} = response.body;
+            const {active, inactive} = response.plugins;
             cy.log('inactive', inactive);
             cy.log('manifest', manifest);
 
