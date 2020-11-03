@@ -299,25 +299,25 @@ export default class Reaction extends React.Component {
         }
 
         return (
-            <button
-                id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
-                aria-label={ariaLabelEmoji}
-                className={`Reaction ${this.state.reactedClass} ${readOnlyClass}`}
-                onClick={this.handleClick}
-                ref={this.reactionButtonRef}
+            <OverlayTrigger
+                delayShow={500}
+                placement='top'
+                shouldUpdatePosition={true}
+                overlay={
+                    <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
+                        {tooltip}
+                        <br/>
+                        {clickTooltip}
+                    </Tooltip>
+                }
+                onEnter={this.loadMissingProfiles}
             >
-                <OverlayTrigger
-                    delayShow={500}
-                    placement='top'
-                    shouldUpdatePosition={true}
-                    overlay={
-                        <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
-                            {tooltip}
-                            <br/>
-                            {clickTooltip}
-                        </Tooltip>
-                    }
-                    onEnter={this.loadMissingProfiles}
+                <button
+                    id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
+                    aria-label={ariaLabelEmoji}
+                    className={`Reaction ${this.state.reactedClass} ${readOnlyClass}`}
+                    onClick={this.handleClick}
+                    ref={this.reactionButtonRef}
                 >
                     <span className='d-flex align-items-center'>
                         <span
@@ -340,8 +340,8 @@ export default class Reaction extends React.Component {
                             </span>
                         </span>
                     </span>
-                </OverlayTrigger>
-            </button>
+                </button>
+            </OverlayTrigger>
         );
     }
 }

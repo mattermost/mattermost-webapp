@@ -83,7 +83,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
         let ignoreChannelMentionsDefault = IgnoreChannelMentions.OFF;
 
-        if (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false') {
+        if (channelMemberNotifyProps.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
             ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
         }
 

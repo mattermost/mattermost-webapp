@@ -16,6 +16,9 @@
  *   --group=[group]
  *      Selects spec files with matching group. It can be of multiple values separated by comma.
  *      E.g. "--group='@channel,@messaging'" will select files with either @channel or @messaging.
+ *   --exclude-group=[group]
+ *      Exclude spec files with matching group. It can be of multiple values separated by comma.
+ *      E.g. "--exclude-group='@enterprise'" will select files except @enterprise.
  *   --invert
  *      Selected files are those not matching any of the specified stage or group.
  *
@@ -35,6 +38,12 @@
  *      - will run all non-production tests
  * 4. "BROWSER='chrome' HEADLESS='false' node run_tests.js --stage='@prod' --group='@channel,@messaging'"
  *      - will run spec files matching stage and group values in Chrome (headed)
+ * 5. "CYPRESS_runWithEELicense=true node run_tests.js --stage='@prod'"
+ *      - will run all production tests
+ *      - typical test run for Enterprise Edition, given license file can be found in `cypress/fixtures` folder
+ * 6. "node run_tests.js --stage='@prod' --exclude-group='@enterprise'"
+ *      - will run all production tests except @enterprise group
+ *      - typical test run for Team Edition
  */
 
 const os = require('os');
@@ -72,17 +81,11 @@ async function runTests() {
         return;
     }
 
-    const {invert, group, stage} = argv;
-
     let hasFailed = false;
     for (let i = 0; i < finalTestFiles.length; i++) {
-        const testFile = finalTestFiles[i];
-        const testStage = stage ? `Stage: "${stage}" ` : '';
-        const testGroup = group ? `Group: "${group}" ` : '';
+        printMessage(finalTestFiles, i);
 
-        // Log which files were being tested
-        console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && group ? '| ' : ''}${testGroup}`));
-        console.log(chalk.magenta(`(Testing ${i + 1} of ${finalTestFiles.length})  - `, testFile));
+        const testFile = finalTestFiles[i];
 
         const result = await cypress.run({
             browser,
@@ -144,6 +147,21 @@ async function runTests() {
     }
 
     chai.expect(hasFailed, FAILURE_MESSAGE).to.be.false;
+}
+
+function printMessage(testFiles, index) {
+    const {invert, excludeGroup, group, stage} = argv;
+
+    const testFile = testFiles[index];
+    const testStage = stage ? `Stage: "${stage}" ` : '';
+    const withGroup = group || excludeGroup;
+    const groupMessage = group ? `"${group}"` : 'All';
+    const excludeGroupMessage = excludeGroup ? `except "${excludeGroup}"` : '';
+    const testGroup = withGroup ? `Group: ${groupMessage} ${excludeGroupMessage}` : '';
+
+    // Log which files were being tested
+    console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && withGroup ? '| ' : ''}${testGroup}`));
+    console.log(chalk.magenta(`(Testing ${index + 1} of ${testFiles.length})  - `, testFile));
 }
 
 runTests();
