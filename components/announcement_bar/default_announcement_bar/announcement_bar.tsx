@@ -24,9 +24,9 @@ type Props = {
     message: React.ReactNode;
     handleClose?: (e?:any)=>void;
     announcementBarCount?: number;
-    showModal: ()=> void;
-    modalButtonText: string;
-    modalButtonDefaultText: string;
+    showModal?: ()=> void;
+    modalButtonText?: string;
+    modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
     warnMetricStatus?: Record<string, unknown>;
     isTallBanner: boolean;
