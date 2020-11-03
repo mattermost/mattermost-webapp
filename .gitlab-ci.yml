@@ -1,5 +1,6 @@
 stages:
   - test
+  - build
   - publish
 
 include:
@@ -26,11 +27,28 @@ lint:
   extends: .check
   script:
     - npm run check
+  tags:
+    - runner-1
+
+test:
+  extends: .check
+  script:
+    - npm run test-ci
+  artifacts:
+    paths:
+      - build/
+    reports:
+      junit: build/
+    expire_in: 7 days
+  tags:
+    - runner-2
 
 type-check:
   extends: .check
   script:
     - npm run check-types
+  tags:
+    - runner-3
 
 i18n-check:
   extends: .check
@@ -45,14 +63,5 @@ i18n-check:
     - npm run mmjstool -- i18n clean-empty --webapp-dir . --mobile-dir /tmp/fake-mobile-dir --check
 
     - rm -rf tmp
-
-test:
-  extends: .check
-  script:
-    - npm run test-ci
-  artifacts:
-    paths:
-      - build/
-    reports:
-      junit: build/
-    expire_in: 7 days
+  tags:
+    - runner-3
