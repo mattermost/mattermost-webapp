@@ -16,7 +16,7 @@ lint:
       - .npm/
       - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   script:
     - npm run check
 
@@ -29,7 +29,7 @@ type-check:
       - .npm/
       - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   script:
     - npm run check-types
 
@@ -42,7 +42,7 @@ i18n-check:
       - .npm/
       - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   script:
     - cp i18n/en.json /tmp/en.json
     - mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
@@ -64,7 +64,7 @@ test:
       - .npm/
       - node_modules/mattermost-redux
   before_script:
-    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   script:
     - npm run test-ci
   artifacts:
