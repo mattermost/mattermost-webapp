@@ -356,13 +356,18 @@
                     .theme-elements__body {
                         @include border-radius(0 0 3px 3px);
                         @include legacy-pie-clearfix;
-                        @include alpha-property(background-color, $white, .05);
-                        display: none;
+                        @include alpha-property(background-color, $white, 0.05);
+
                         margin: 0 20px 0 0;
-                        padding: 24px 0 0 24px;
+                        padding: 0 0 0 24px;
+                        transition: all 0.4s ease-out;
+                        max-height: 0;
+                        overflow-y: hidden;
 
                         &.open {
-                            display: block;
+                            max-height: 1200px;
+                            margin: 0 20px 0 0;
+                            padding: 24px 0 0 24px;
                         }
                     }
 
@@ -479,6 +484,10 @@
             background-color: rgba(0,0,0,0.1);
             padding: 15px;
             margin-top: 10px;
+        }
+
+        .nav-pills > li button {
+            color: rgba(var(--sidebar-text-rgb), 0.6);
         }
     }
 

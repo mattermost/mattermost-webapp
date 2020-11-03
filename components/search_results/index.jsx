@@ -89,6 +89,7 @@ function makeMapStateToProps() {
             isSearchGettingMore: getIsSearchGettingMore(state),
             isSearchAtEnd: currentSearch.isEnd,
             isSearchFilesAtEnd: currentSearch.isFilesEnd,
+            searchPage: currentSearch.params?.page,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         };
     };

@@ -130,6 +130,7 @@ class SearchResults extends React.Component {
         isSearchGettingMore: PropTypes.bool,
         isSearchAtEnd: PropTypes.bool,
         isSearchFilesAtEnd: PropTypes.bool,
+        searchPage: PropTypes.number,
         compactDisplay: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -259,6 +260,13 @@ class SearchResults extends React.Component {
             noResults = (!fileResults || fileResults.length === 0);
         }
         const searchTerms = this.props.searchTerms;
+
+        // to avoid loading icon showing infinitely, if the first page
+        // has results but no scroll, trigger the second page search
+        // to mark search as ended
+        if (this.props.searchPage === 0 && !noResults && !this.props.isSearchAtEnd) {
+            this.loadMorePosts();
+        }
 
         let ctls = null;
         let loadingMorePostsComponent = null;

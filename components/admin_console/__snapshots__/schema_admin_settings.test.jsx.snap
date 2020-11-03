@@ -702,6 +702,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       placement="top"
       rootClose={false}
       show={false}
+      target={null}
     >
       <Tooltip
         bsClass="tooltip"

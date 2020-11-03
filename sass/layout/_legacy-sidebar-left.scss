@@ -71,6 +71,7 @@
 
     .sidebar__switcher {
         flex: 0 0 45px;
+        border-color: rgba(var(--sidebar-text-rgb), 0.2);
         bottom: 0;
         display: block;
         padding-bottom: 0;
@@ -110,6 +111,10 @@
         .switch__shortcut {
             margin-left: 4px;
         }
+
+        span {
+            color: var(--sidebar-text);
+        }
     }
 
     .search__form {
@@ -144,68 +149,6 @@
             >h4, >.nav-more {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
             }
-        }
-    }
-
-    .nav-pills__unread-indicator {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        margin-left: 50%;
-        padding: 8px;
-        width: 188px;
-        height: auto;
-        font-size: 14px;
-        line-height: 16px;
-        text-align: center;
-        @include border-radius(4px);
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
-        font-weight: 700;
-        z-index: 1;
-        cursor: pointer;
-        transform: translateX(-50%);
-        opacity: 0;
-        visibility: hidden;
-
-        .icon {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 8px;
-        }
-
-        body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in, step-end);
-        }
-    }
-
-    .nav-pills__unread-indicator-top {
-        top: 16px;
-
-        .icon {
-            svg {
-                @include transform(rotate(180deg));
-            }
-        }
-    }
-
-    .nav-pills__unread-indicator-bottom {
-        bottom: 16px;
-    }
-
-    .nav-pills__unread-indicator--visible {
-        opacity: 1;
-        visibility: visible;
-
-        body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
         }
     }
 
@@ -285,6 +228,10 @@
 
                 .status {
                     flex: 0 0 auto;
+
+                    &.status--group {
+                        background: rgba(var(--sidebar-text-rgb), 0.3);
+                    }
                 }
 
                 .icon {
