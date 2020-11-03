@@ -22,6 +22,8 @@ prepare:
       - node_modules/
   script:
     - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
+  tags:
+    - docker
 
 lint:
   extends: .check
