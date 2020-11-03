@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import {Dispatch} from 'redux';
+
+import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -19,28 +21,36 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 
 const TOP_OFFSET = -7;
 
-export default class PostReaction extends React.PureComponent {
-    static propTypes = {
-        channelId: PropTypes.string,
-        postId: PropTypes.string.isRequired,
-        teamId: PropTypes.string.isRequired,
-        getDotMenuRef: PropTypes.func.isRequired,
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT]).isRequired,
-        showEmojiPicker: PropTypes.bool.isRequired,
-        toggleEmojiPicker: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            addReaction: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
 
-    static defaultProps = {
-        location: Locations.CENTER,
+type Props = {
+    channelId?: string;
+    postId: string;
+    teamId: string;
+    getDotMenuRef: React.ReactInstance;
+    location: LocationTypes;
+    showEmojiPicker: boolean;
+    toggleEmojiPicker: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    actions: {
+        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+    };
+}
+
+type State = {
+    location: LocationTypes;
+    showEmojiPicker: boolean;
+}
+
+export default class PostReaction extends React.PureComponent<Props, State> {
+    public static defaultProps: Partial<Props> = {
+        location: Locations.CENTER as 'CENTER',
         showEmojiPicker: false,
     };
 
-    handleAddEmoji = (emoji) => {
+    handleAddEmoji = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
-        const emojiName = emoji.name || emoji.aliases[0];
+        const emojiName = (emoji as CustomEmoji).name ||
+            (emoji as SystemEmoji).aliases[0];
         this.props.actions.addReaction(this.props.postId, emojiName);
         this.props.toggleEmojiPicker();
     };

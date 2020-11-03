@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
@@ -23,29 +23,61 @@ const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
 const TOKEN_NOT_CREATING = 'not_creating';
 
-export default class UserAccessTokenSection extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        active: PropTypes.bool,
-        updateSection: PropTypes.func,
-        userAccessTokens: PropTypes.object,
-        setRequireConfirm: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            getUserAccessTokensForUser: PropTypes.func.isRequired,
-            createUserAccessToken: PropTypes.func.isRequired,
-            revokeUserAccessToken: PropTypes.func.isRequired,
-            enableUserAccessToken: PropTypes.func.isRequired,
-            disableUserAccessToken: PropTypes.func.isRequired,
-            clearUserAccessTokens: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    user: UserProfile;
+    active?: boolean;
+    updateSection: (section: string) => void;
+    userAccessTokens: {[tokenId: string]: {description: string; id: string; is_active: boolean}};
+    setRequireConfirm: (isRequiredConfirm: boolean, confirmCopyToken: (confirmAction: () => void) => void) => void;
+    actions: {
+        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => void;
+        createUserAccessToken: (userId: string, description: string) => Promise<{
+            data: {token: string; description: string; id: string; is_active: boolean} | null;
+            error?: {
+                message: string;
+            };
+        }>;
+        revokeUserAccessToken: (tokenId: string) => Promise<{
+            data: string;
+            error?: {
+                message: string;
+            };
+        }>;
+        enableUserAccessToken: (tokenId: string) => Promise<{
+            data: string;
+            error?: {
+                message: string;
+            };
+        }>;
+        disableUserAccessToken: (tokenId: string) => Promise<{
+            data: string;
+            error?: {
+                message: string;
+            };
+        }>;
+        clearUserAccessTokens: () => void;
+    };
+}
 
-    static defaultProps = {
-        user: {},
-        active: false,
-    }
+type State = {
+    active?: boolean;
+    showConfirmModal: boolean;
+    newToken?: {token: string; description: string; id: string; is_active: boolean} | null;
+    tokenCreationState?: string;
+    tokenError?: string;
+    serverError?: string|null;
+    saving?: boolean;
+    confirmTitle?: React.ReactNode;
+    confirmMessage?: ((state: State) => JSX.Element)|null;
+    confirmButton?: React.ReactNode;
+    confirmComplete?: (() => void)|null;
+    confirmHideCancel?: boolean;
+}
 
-    constructor(props) {
+export default class UserAccessTokenSection extends React.PureComponent<Props, State> {
+    private newtokendescriptionRef: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -57,6 +89,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
             serverError: null,
             saving: false,
         };
+        this.newtokendescriptionRef = React.createRef();
     }
 
     componentDidMount() {
@@ -65,7 +98,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
         this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         if (!nextProps.active && prevState.active) {
             return {
                 active: nextProps.active,
@@ -90,9 +123,8 @@ export default class UserAccessTokenSection extends React.PureComponent {
 
     handleCreateToken = async () => {
         this.handleCancelConfirm();
-        this.newtokendescriptionRef = React.createRef();
 
-        const description = this.newtokendescriptionRef ? this.newtokendescriptionRef.current.value : '';
+        const description = this.newtokendescriptionRef ? this.newtokendescriptionRef.current!.value : '';
 
         if (description === '') {
             this.setState({tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')});
@@ -112,7 +144,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
         }
     }
 
-    confirmCopyToken = (confirmAction) => {
+    confirmCopyToken = (confirmAction: () => void) => {
         this.setState({
             showConfirmModal: true,
             confirmTitle: (
@@ -121,7 +153,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                     defaultMessage='Copied Your Token?'
                 />
             ),
-            confirmMessage: (state) => (
+            confirmMessage: (state: State) => (
                 <div>
                     <FormattedMessage
                         id='user.settings.tokens.confirmCopyMessage'
@@ -148,7 +180,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                                 id='user.settings.tokens.token'
                                 defaultMessage='Access Token: '
                             />
-                            {state.newToken.token}
+                            {state.newToken!.token}
                         </strong>
                     )}
                 </div>
@@ -179,7 +211,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
     }
 
     confirmCreateToken = () => {
-        if (!UserUtils.isSystemAdmin(this.props.user.roles)) {
+        if (!UserUtils.isSystemAdmin(this.props.user!.roles)) {
             this.handleCreateToken();
             return;
         }
@@ -213,13 +245,13 @@ export default class UserAccessTokenSection extends React.PureComponent {
         });
     }
 
-    saveTokenKeyPress = (e) => {
+    saveTokenKeyPress = (e: React.KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.confirmCreateToken();
         }
     }
 
-    confirmRevokeToken = (tokenId) => {
+    confirmRevokeToken = (tokenId: string) => {
         const token = this.props.userAccessTokens[tokenId];
 
         this.setState({
@@ -254,7 +286,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
         });
     }
 
-    revokeToken = async (tokenId) => {
+    revokeToken = async (tokenId: string) => {
         const {error} = await this.props.actions.revokeUserAccessToken(tokenId);
         if (error) {
             this.setState({serverError: error.message});
@@ -262,7 +294,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
         this.handleCancelConfirm();
     }
 
-    activateToken = async (tokenId) => {
+    activateToken = async (tokenId: string) => {
         const {error} = await this.props.actions.enableUserAccessToken(tokenId);
         if (error) {
             this.setState({serverError: error.message});
@@ -271,7 +303,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
         }
     }
 
-    deactivateToken = async (tokenId) => {
+    deactivateToken = async (tokenId: string) => {
         const {error} = await this.props.actions.disableUserAccessToken(tokenId);
         if (error) {
             this.setState({serverError: error.message});
@@ -296,19 +328,19 @@ export default class UserAccessTokenSection extends React.PureComponent {
             );
         }
 
-        const tokenList = [];
+        const tokenList: JSX.Element[] = [];
         Object.values(this.props.userAccessTokens).forEach((token) => {
             if (this.state.newToken && this.state.newToken.id === token.id) {
                 return;
             }
 
-            let activeLink;
+            let activeLink: JSX.Element;
             let activeStatus;
 
             if (token.is_active) {
                 activeLink = (
                     <a
-                        name={token.id + '_deactivate'}
+                        id={token.id + '_deactivate'}
                         href='#'
                         onClick={(e) => {
                             e.preventDefault();
@@ -331,7 +363,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                 );
                 activeLink = (
                     <a
-                        name={token.id + '_activate'}
+                        id={token.id + '_activate'}
                         href='#'
                         onClick={(e) => {
                             e.preventDefault();
@@ -370,7 +402,7 @@ export default class UserAccessTokenSection extends React.PureComponent {
                         {activeLink}
                         {' - '}
                         <a
-                            name={token.id + '_delete'}
+                            id={token.id + '_delete'}
                             href='#'
                             onClick={(e) => {
                                 e.preventDefault();
@@ -501,21 +533,21 @@ export default class UserAccessTokenSection extends React.PureComponent {
                             id='user.settings.tokens.name'
                             defaultMessage='Token Description: '
                         />
-                        {this.state.newToken.description}
+                        {this.state.newToken!.description}
                     </div>
                     <div className='whitespace--nowrap overflow--ellipsis'>
                         <FormattedMessage
                             id='user.settings.tokens.id'
                             defaultMessage='Token ID: '
                         />
-                        {this.state.newToken.id}
+                        {this.state.newToken!.id}
                     </div>
                     <strong className='word-break--all'>
                         <FormattedMessage
                             id='user.settings.tokens.token'
                             defaultMessage='Access Token: '
                         />
-                        {this.state.newToken.token}
+                        {this.state.newToken!.token}
                     </strong>
                 </div>
             );

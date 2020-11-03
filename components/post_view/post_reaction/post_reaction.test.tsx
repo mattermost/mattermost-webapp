@@ -4,14 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PostReaction from 'components/post_view/post_reaction/post_reaction.jsx';
+import {Emoji} from 'mattermost-redux/types/emojis';
+
+import PostReaction from 'components/post_view/post_reaction/post_reaction';
 
 describe('components/post_view/PostReaction', () => {
     const baseProps = {
         channelId: 'current_channel_id',
         postId: 'post_id_1',
         teamId: 'current_team_id',
-        getDotMenuRef: jest.fn(),
+        getDotMenuRef: jest.fn() as any,
         showIcon: false,
         showEmojiPicker: false,
         toggleEmojiPicker: jest.fn(),
@@ -27,8 +29,9 @@ describe('components/post_view/PostReaction', () => {
 
     test('should call addReaction and toggleEmojiPicker on handleAddEmoji', () => {
         const wrapper = shallow(<PostReaction {...baseProps}/>);
+        const instance = wrapper.instance() as PostReaction;
 
-        wrapper.instance().handleAddEmoji({name: 'smile'});
+        instance.handleAddEmoji({name: 'smile'} as Emoji);
         expect(baseProps.actions.addReaction).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.addReaction).toHaveBeenCalledWith('post_id_1', 'smile');
         expect(baseProps.toggleEmojiPicker).toHaveBeenCalledTimes(1);

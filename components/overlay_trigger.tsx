@@ -13,6 +13,7 @@ export {BaseOverlayTrigger};
 
 type Props = OverlayTriggerProps & {
     disabled?: boolean;
+    className?: string;
 };
 
 const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
