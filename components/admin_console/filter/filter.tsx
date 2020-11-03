@@ -188,6 +188,7 @@ class Filter extends React.PureComponent<Props, State> {
                 ref={this.filterRef}
             >
                 <button
+                    type='button'
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     className={classNames('Filter_button', {Filter__active: this.state.show})}
                     onClick={this.togglePopover}
@@ -232,6 +233,7 @@ class Filter extends React.PureComponent<Props, State> {
                     </div>
 
                     <button
+                        type='button'
                         className='Filter_apply style--none btn btn-primary'
                         disabled={!this.state.optionsModified}
                         onClick={this.onFilter}

@@ -62,7 +62,7 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
 });
 
 function mapStateToProps(state: GlobalState) {
-    const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
+    const lastUnreadChannel = state.views.channel.lastUnreadChannel;
     const memberships = getMyChannelMemberships(state);
     const unreadChannels = getUnreadChannels(state, lastUnreadChannel);
     const prefetchQueueObj = prefetchQueue(unreadChannels, memberships);

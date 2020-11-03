@@ -220,6 +220,7 @@ export default class LicenseSettings extends React.PureComponent {
                         <div>
                             <p>
                                 <button
+                                    type='button'
                                     onClick={this.handleUpgrade}
                                     className='btn btn-primary'
                                 >
@@ -265,6 +266,7 @@ export default class LicenseSettings extends React.PureComponent {
                             </p>
                             <p>
                                 <button
+                                    type='button'
                                     onClick={this.handleRestart}
                                     className='btn btn-primary'
                                 >
@@ -332,6 +334,7 @@ export default class LicenseSettings extends React.PureComponent {
                         href='https://about.mattermost.com/enterprise-edition-terms/'
                     >{'Enterprise Edition Terms of Service'}</a>{' and '}
                     <a
+                        data-testid='privacyPolicyLink'
                         rel='noopener noreferrer'
                         target='_blank'
                         href='https://about.mattermost.com/default-privacy-policy/'
@@ -346,6 +349,7 @@ export default class LicenseSettings extends React.PureComponent {
                     {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
                     <p className='trial'>
                         <button
+                            type='button'
                             className='btn btn-primary'
                             onClick={this.requestLicense}
                             disabled={isDisabled}
@@ -468,6 +472,7 @@ export default class LicenseSettings extends React.PureComponent {
                 </label>
                 <div className='col-sm-8'>
                     <button
+                        type='button'
                         className='btn btn-danger'
                         onClick={this.handleRemove}
                         disabled={this.props.isDisabled}
@@ -534,7 +539,10 @@ export default class LicenseSettings extends React.PureComponent {
                 </label>
                 <div className='col-sm-8'>
                     <div className='file__upload'>
-                        <button className='btn btn-primary'>
+                        <button
+                            type='button'
+                            className='btn btn-primary'
+                        >
                             <FormattedMessage
                                 id='admin.license.choose'
                                 defaultMessage='Choose File'
