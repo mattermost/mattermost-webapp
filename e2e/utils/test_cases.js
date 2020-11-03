@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console */
+
 // See reference: https://support.smartbear.com/tm4j-cloud/api-docs/
 
 const axios = require('axios');
+const chalk = require('chalk');
 
 const {getAllTests} = require('./report');
 
@@ -74,7 +77,7 @@ function saveToEndpoint(url, data) {
         },
         data,
     }).catch((error) => {
-        console.log('Something went wrong:', error.response.data.message); // eslint-disable-line no-console
+        console.log('Something went wrong:', error.response.data.message);
         return error.response.data;
     });
 }
@@ -143,11 +146,11 @@ async function createTestExecutions(report, testCycle) {
         // Temporarily log to verify cases that were being saved.
         console.log(index, key); // eslint-disable-line no-console
 
-        promises.push(saveToEndpoint('https://api.adaptavist.io/tm4j/v2/testexecutions', testExecution));
+        promises.push(saveTestExecution(testExecution, index));
     });
 
     await Promise.all(promises);
-    console.log('Successfully saved test cases into the Test Management System'); // eslint-disable-line no-console
+    console.log('Successfully saved test cases into the Test Management System');
 }
 
 const saveTestCases = async (allReport) => {
@@ -157,6 +160,36 @@ const saveTestCases = async (allReport) => {
 
     await createTestExecutions(allReport, testCycle);
 };
+
+const RETRY = [];
+
+async function saveTestExecution(testExecution, index) {
+    await axios({
+        method: 'POST',
+        url: 'https://api.adaptavist.io/tm4j/v2/testexecutions',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            Authorization: process.env.TM4J_API_KEY,
+        },
+        data: testExecution,
+    }).then(() => {
+        console.log(chalk.green('Success:', index, testExecution.testCaseKey));
+    }).catch((error) => {
+        // Retry on 500 error code / internal server error
+        if (!error.response || error.response.data.errorCode === 500) {
+            if (RETRY[testExecution.testCaseKey]) {
+                RETRY[testExecution.testCaseKey] += 1;
+            } else {
+                RETRY[testExecution.testCaseKey] = 1;
+            }
+
+            saveTestExecution(testExecution, index);
+            console.log(chalk.magenta('Retry:', index, testExecution.testCaseKey, `(${RETRY[testExecution.testCaseKey]}x)`));
+        } else {
+            console.log(chalk.red('Error:', index, testExecution.testCaseKey, error.response.data.message));
+        }
+    });
+}
 
 module.exports = {
     saveTestCases,

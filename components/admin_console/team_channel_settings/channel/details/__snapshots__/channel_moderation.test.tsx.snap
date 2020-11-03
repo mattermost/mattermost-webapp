@@ -6,7 +6,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
   id="channel_moderation"
   subtitleDefault="Manage the actions available to channel members and guests."
   subtitleId="admin.channel_settings.channel_moderation.subtitle"
-  titleDefault="Channel Moderation (Beta)"
+  titleDefault="Channel Moderation"
   titleId="admin.channel_settings.channel_moderation.title"
 >
   <div
@@ -96,7 +96,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
   id="channel_moderation"
   subtitleDefault="Manage the actions available to channel members and guests."
   subtitleId="admin.channel_settings.channel_moderation.subtitle"
-  titleDefault="Channel Moderation (Beta)"
+  titleDefault="Channel Moderation"
   titleId="admin.channel_settings.channel_moderation.title"
 >
   <div
@@ -157,7 +157,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
   id="channel_moderation"
   subtitleDefault="Manage the actions available to channel members and guests."
   subtitleId="admin.channel_settings.channel_moderation.subtitle"
-  titleDefault="Channel Moderation (Beta)"
+  titleDefault="Channel Moderation"
   titleId="admin.channel_settings.channel_moderation.title"
 >
   <div
@@ -319,7 +319,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
   id="channel_moderation"
   subtitleDefault="Manage the actions available to channel members and guests."
   subtitleId="admin.channel_settings.channel_moderation.subtitle"
-  titleDefault="Channel Moderation (Beta)"
+  titleDefault="Channel Moderation"
   titleId="admin.channel_settings.channel_moderation.title"
 >
   <div
@@ -417,7 +417,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
   id="channel_moderation"
   subtitleDefault="Manage the actions available to channel members."
   subtitleId="admin.channel_settings.channel_moderation.subtitleMembers"
-  titleDefault="Channel Moderation (Beta)"
+  titleDefault="Channel Moderation"
   titleId="admin.channel_settings.channel_moderation.title"
 >
   <div
@@ -472,7 +472,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelModeration Should ma
   id="channel_moderation"
   subtitleDefault="Manage the actions available to channel members and guests."
   subtitleId="admin.channel_settings.channel_moderation.subtitle"
-  titleDefault="Channel Moderation (Beta)"
+  titleDefault="Channel Moderation"
   titleId="admin.channel_settings.channel_moderation.title"
 >
   <div
