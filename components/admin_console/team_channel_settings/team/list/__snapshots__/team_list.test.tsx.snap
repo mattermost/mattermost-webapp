@@ -79,6 +79,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
     }
     loading={false}
     nextPage={[Function]}
+    onSearch={[Function]}
     page={0}
     placeholderEmpty={
       <FormattedMessage
@@ -234,6 +235,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
     }
     loading={false}
     nextPage={[Function]}
+    onSearch={[Function]}
     page={0}
     placeholderEmpty={
       <FormattedMessage
