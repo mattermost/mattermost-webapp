@@ -50,6 +50,7 @@ export default class ViewImageModal extends React.PureComponent {
 
         canDownloadFiles: PropTypes.bool.isRequired,
         enablePublicLink: PropTypes.bool.isRequired,
+        enableOfficeFilePreviews: PropTypes.bool.isRequired,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
     };
 
@@ -239,7 +240,6 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
             return null;
         }
-
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
         const showPublicLink = !fileInfo.link;
         const fileName = fileInfo.link || fileInfo.name;
@@ -279,6 +279,16 @@ export default class ViewImageModal extends React.PureComponent {
                             />
                         </React.Suspense>
                     </div>
+                );
+            } else if (this.props.enableOfficeFilePreviews && fileInfo && fileInfo.extension && [FileTypes.DOCX, FileTypes.PPTX, FileTypes.XLSX, FileTypes.DOC, FileTypes.PPT, FileTypes.XLS, FileTypes.ODT, FileTypes.ODP, FileTypes.ODS, FileTypes.RTF].indexOf(fileInfo.extension) !== -1) {
+                const previewUrl = getFilePreviewUrl(fileInfo.id);
+                content = (
+                    <React.Suspense fallback={null}>
+                        <PDFPreview
+                            fileInfo={fileInfo}
+                            fileUrl={previewUrl}
+                        />
+                    </React.Suspense>
                 );
             } else if (CodePreview.supports(fileInfo)) {
                 dialogClassName += ' modal-code';
