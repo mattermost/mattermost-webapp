@@ -1,317 +1,559 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/search_bar/SearchBar should match snapshot with search 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
+<div
+  className="sidebar-right__table"
 >
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocussed={false}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocussed={false}
-    searchTerms="test"
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autoComplete="off"
+      className="search__form"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        aria-label="Search"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        clearable={true}
+        completeOnTab={true}
+        containerClass="w-full"
+        data-a11y-sort-order="9"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClear={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value="test"
+      />
+    </form>
+  </div>
+</div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
+<div
+  className="sidebar-right__table"
 >
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocussed={false}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocussed={false}
-    searchTerms=""
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autoComplete="off"
+      className="search__form"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        aria-label="Search"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        clearable={true}
+        completeOnTab={true}
+        containerClass="w-full"
+        data-a11y-sort-order="9"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClear={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value=""
+      />
+      <Popover
+        className="search-help-popover"
+        id="searchbar-help-popup"
+        placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
+      >
+        <SearchHint
+          highlightedIndex={-1}
+          onMouseDown={[Function]}
+          onOptionHover={[Function]}
+          onOptionSelected={[Function]}
+          options={
+            Array [
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages from a user",
+                  "id": "search_list_option.from",
+                },
+                "searchTerm": "From:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages in a channel",
+                  "id": "search_list_option.in",
+                },
+                "searchTerm": "In:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages on a date",
+                  "id": "search_list_option.on",
+                },
+                "searchTerm": "On:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages before a date",
+                  "id": "search_list_option.before",
+                },
+                "searchTerm": "Before:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages after a date",
+                  "id": "search_list_option.after",
+                },
+                "searchTerm": "After:",
+              },
+              Object {
+                "additionalDisplay": "—",
+                "message": Object {
+                  "defaultMessage": "Exclude search terms",
+                  "id": "search_list_option.exclude",
+                },
+                "searchTerm": "-",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages with phrases",
+                  "id": "search_list_option.phrases",
+                },
+                "searchTerm": "\\"\\"",
+              },
+            ]
+          }
+          withTitle={true}
+        />
+      </Popover>
+    </form>
+  </div>
+</div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search on focus 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
+<div
+  className="sidebar-right__table"
 >
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocussed={true}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocussed={false}
-    searchTerms=""
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autoComplete="off"
+      className="search__form search__form--focused"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        aria-label="Search"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        clearable={true}
+        completeOnTab={true}
+        containerClass="w-full"
+        data-a11y-sort-order="9"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClear={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value=""
+      />
+      <Popover
+        className="search-help-popover visible"
+        id="searchbar-help-popup"
+        placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
+      >
+        <SearchHint
+          highlightedIndex={-1}
+          onMouseDown={[Function]}
+          onOptionHover={[Function]}
+          onOptionSelected={[Function]}
+          options={
+            Array [
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages from a user",
+                  "id": "search_list_option.from",
+                },
+                "searchTerm": "From:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages in a channel",
+                  "id": "search_list_option.in",
+                },
+                "searchTerm": "In:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages on a date",
+                  "id": "search_list_option.on",
+                },
+                "searchTerm": "On:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages before a date",
+                  "id": "search_list_option.before",
+                },
+                "searchTerm": "Before:",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages after a date",
+                  "id": "search_list_option.after",
+                },
+                "searchTerm": "After:",
+              },
+              Object {
+                "additionalDisplay": "—",
+                "message": Object {
+                  "defaultMessage": "Exclude search terms",
+                  "id": "search_list_option.exclude",
+                },
+                "searchTerm": "-",
+              },
+              Object {
+                "message": Object {
+                  "defaultMessage": "Messages with phrases",
+                  "id": "search_list_option.phrases",
+                },
+                "searchTerm": "\\"\\"",
+              },
+            ]
+          }
+          withTitle={true}
+        />
+      </Popover>
+    </form>
+  </div>
+</div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search on focus in mobile 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
+<div
+  className="sidebar-right__table"
 >
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocussed={true}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocussed={false}
-    searchTerms=""
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autoComplete="off"
+      className="search__form search__form--focused"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <div
+        className="search__font-icon"
+      >
+        <i
+          className="icon icon-magnify icon-16"
+        />
+      </div>
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        aria-label="Search"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        clearable={true}
+        completeOnTab={true}
+        containerClass="w-full"
+        data-a11y-sort-order="9"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        forceSuggestionsWhenBlur={false}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClear={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value=""
+      />
+    </form>
+  </div>
+</div>
 `;
