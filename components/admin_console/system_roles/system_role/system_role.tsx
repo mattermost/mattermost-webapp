@@ -32,7 +32,7 @@ type Props = {
     actions: {
         editRole(role: Role): Promise<ActionResult>;
         updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
-        setNavigationBlocked: (blocked: boolean) => void,
+        setNavigationBlocked: (blocked: boolean) => void;
     }
 }
 
@@ -110,7 +110,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
     handleSubmit = async () => {
         this.setState({saving: true, saveNeeded: false});
         const {usersToRemove, usersToAdd, updatedRolePermissions, permissionsToUpdate} = this.state;
-        const {role, actions: {editRole, updateUserRoles}} = this.props;
+        const {role, actions: {editRole, updateUserRoles, setNavigationBlocked}} = this.props;
         let serverError = null;
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
@@ -166,6 +166,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             saveKey += 1;
         }
 
+        setNavigationBlocked(serverError !== null);
         this.setState({
             saveNeeded: (serverError !== null),
             saving: false,
