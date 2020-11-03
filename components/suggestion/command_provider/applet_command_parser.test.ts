@@ -8,6 +8,7 @@ import {
     getForm,
     setCommands,
     getSuggestionForExecute,
+    AppCommandParser,
 } from './applet_command_parser';
 
 import {AppletBinding, AppletFieldTypes} from 'actions/applet_types'
@@ -102,10 +103,14 @@ const definitions: AppletBinding[] = [
 setCommands(definitions);
 
 describe('CommandParser', () => {
+    let parser: AppCommandParser;
+    beforeEach(() => {
+        parser = new AppCommandParser(definitions);
+    });
 
     describe('flattenCommandList', () => {
         test('should parse', () => {
-            const cmds = flattenCommandList(definitions, '');
+            const cmds = parser.flattenCommandList(definitions, '');
             expect(cmds).toHaveLength(4);
         });
     });
@@ -113,8 +118,8 @@ describe('CommandParser', () => {
     describe('getForm', () => {
         test('filled out form', () => {
             const msg = '/jira issue view dynamic-value --issue  MM-32343';
-            const flattened = flattenCommandList(definitions);
-            const res = getForm(msg, flattened[2]);
+            const flattened = parser.flattenCommandList(definitions);
+            const res = parser.getForm(msg, flattened[2]);
             expect(res).toBeTruthy();
             expect(res).toEqual({
                 issue: 'MM-32343',
@@ -125,27 +130,27 @@ describe('CommandParser', () => {
 
     describe('getSynchronousResults', () => {
         test('string matches 1', () => {
-            const res = getSynchronousResults('/', definitions);
+            const res = parser.getAppSuggestionsForBindings('/', definitions);
             expect(res).toHaveLength(1);
         });
 
         test('string matches 2', () => {
-            const res = getSynchronousResults('/ji', definitions);
+            const res = parser.getAppSuggestionsForBindings('/ji', definitions);
             expect(res).toHaveLength(1);
         });
 
         test('string matches 3', () => {
-            const res = getSynchronousResults('/jira', definitions);
+            const res = parser.getAppSuggestionsForBindings('/jira', definitions);
             expect(res).toHaveLength(1);
         });
 
         test('string is past base command', () => {
-            const res = getSynchronousResults('/jira ', definitions);
+            const res = parser.getAppSuggestionsForBindings('/jira ', definitions);
             expect(res).toHaveLength(0);
         });
 
         test('string does not match', () => {
-            const res = getSynchronousResults('/other', definitions);
+            const res = parser.getAppSuggestionsForBindings('/other', definitions);
             expect(res).toHaveLength(0);
         });
     });
@@ -153,47 +158,47 @@ describe('CommandParser', () => {
     describe('getMatchedCommand', () => {
         test('should return null if no command matches', () => {
             let res;
-            res = getMatchedCommand('/hey', definitions);
+            res = parser.matchBinding('/hey', definitions);
             expect(res).toBeNull();
         });
 
         test('should return null if theres no space after', () => {
             let res;
-            res = getMatchedCommand('/jira', definitions);
+            res = parser.matchBinding('/jira', definitions);
             expect(res).toBeNull();
         });
 
         test('should return parent', () => {
             let res;
-            res = getMatchedCommand('/jira ', definitions);
+            res = parser.matchBinding('/jira ', definitions);
             expect(res).toBeTruthy();
             expect(res.name).toEqual(definitions[0].name);
         });
 
         test('should return parent while typing 1', () => {
             let res;
-            res = getMatchedCommand('/jira iss', definitions);
+            res = parser.matchBinding('/jira iss', definitions);
             expect(res).toBeTruthy();
             expect(res.name).toEqual(definitions[0].name);
         });
 
         test('should return parent while typing 2', () => {
             let res;
-            res = getMatchedCommand('/jira issue', definitions);
+            res = parser.matchBinding('/jira issue', definitions);
             expect(res).toBeTruthy();
             expect(res.name).toEqual(definitions[0].name);
         });
 
         test('should return child after space', () => {
             let res;
-            res = getMatchedCommand('/jira issue ', definitions);
+            res = parser.matchBinding('/jira issue ', definitions);
             expect(res).toBeTruthy();
             expect(res.name).toEqual('issue');
         });
 
         test('should return nested child', () => {
             let res;
-            res = getMatchedCommand('/jira issue view ', definitions);
+            res = parser.matchBinding('/jira issue view ', definitions);
             expect(res).toBeTruthy();
             expect(res.name).toEqual('view');
         });
@@ -209,7 +214,7 @@ describe('CommandParser', () => {
                 'issue',
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(1);
             expect(res).toEqual([
@@ -230,7 +235,7 @@ describe('CommandParser', () => {
                 'issue ',
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
@@ -257,7 +262,7 @@ describe('CommandParser', () => {
                 'c'
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(1);
             expect(res).toEqual([
@@ -282,11 +287,11 @@ describe('CommandParser', () => {
                 '--summa',
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
-                getSuggestionForExecute(cmdStr),
+                parser.getSuggestionForExecute(cmdStr),
                 {
                     suggestion: '--summary',
                     complete: '--summary',
@@ -307,7 +312,7 @@ describe('CommandParser', () => {
                 '',
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(4);
         });
@@ -326,12 +331,12 @@ describe('CommandParser', () => {
             const f = Client4.executePluginCall
             Client4.executePluginCall = () => Promise.resolve({data: [{label: 'special-label', value: 'special-value'}]});
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
             Client4.executePluginCall = f;
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
-                getSuggestionForExecute(cmdStr),
+                parser.getSuggestionForExecute(cmdStr),
                 {
                     suggestion: 'special-value',
                     description: 'special-label',
@@ -353,11 +358,11 @@ describe('CommandParser', () => {
                 '',
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
-                getSuggestionForExecute(cmdStr),
+                parser.getSuggestionForExecute(cmdStr),
                 {
                     suggestion: '--issue',
                     complete: '--issue',
@@ -382,11 +387,11 @@ describe('CommandParser', () => {
                 '  ',
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
-                getSuggestionForExecute(cmdStr),
+                parser.getSuggestionForExecute(cmdStr),
                 {
                     suggestion: '--issue',
                     complete: '--issue',
@@ -412,11 +417,11 @@ describe('CommandParser', () => {
                 ''
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(3);
             expect(res).toEqual([
-                getSuggestionForExecute(cmdStr),
+                parser.getSuggestionForExecute(cmdStr),
                 {
                     suggestion: 'Dylan Epic',
                     complete: 'Dylan Epic',
@@ -441,7 +446,7 @@ describe('CommandParser', () => {
                 'M'
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(2);
             const sug = res[1];
@@ -463,10 +468,10 @@ describe('CommandParser', () => {
                 'Nope'
             ].join(' ');
 
-            res = await getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
 
             expect(res).toHaveLength(1);
-            expect(res).toEqual([getSuggestionForExecute(cmdStr)])
+            expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)])
         });
     });
 });

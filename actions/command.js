@@ -20,7 +20,7 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
-import {getSubmissionPayload, shouldHandleCommand, getCloudAppCommands, getCloudAppCommandLocations} from 'components/suggestion/command_provider/applet_command_parser';
+import {getSubmissionPayload, shouldHandleCommand, getAppCommandLocations} from 'components/suggestion/command_provider/applet_command_parser';
 import {doAppletCall} from './applets';
 
 export function executeCommand(message, args) {
@@ -95,7 +95,7 @@ export function executeCommand(message, args) {
                 dispatch(PostActions.resetEmbedVisibility());
         }
 
-        const bindings = getCloudAppCommandLocations(state);
+        const bindings = getAppCommandLocations(state);
         if (shouldHandleCommand(message, bindings)) {
             try {
                 const payload = await getSubmissionPayload(message, bindings, args);

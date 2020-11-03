@@ -10,19 +10,23 @@ import * as Utils from 'utils/utils.jsx';
 
 import {
     AppletCall,
-    AutocompleteDynamicSelect,
-    AutocompleteElement,
-    AutocompleteStaticSelect,
+    // AutocompleteDynamicSelect,
+    // AutocompleteElement,
+    // AutocompleteStaticSelect,
     AppletBinding,
     AppletContext,
     AppletFormMetadataResponse,
     AppletField,
     AppletSelectOption,
     AppletFieldTypes,
+    AppletCallResponse,
+    AppletFunction,
+    AppBinding,
 } from 'actions/applet_types';
 
 import {EXECUTE_CURRENT_COMMAND_ITEM_ID} from './command_provider';
 import {doAppletCall} from 'actions/applets';
+import {CallResponseTypes} from 'actions/app_daniel';
 
 export type SuggestionChoice = {
     suggestion: string;
@@ -33,535 +37,573 @@ export type SuggestionChoice = {
     iconData?: string;
 }
 
-export const decorateSuggestionChoiceComplete = (pretext: string, choice: SuggestionChoice): SuggestionChoice => {
-    if (choice.complete?.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
-        return choice;
-    }
-
-    const words = pretext.split(' ');
-    words.pop();
-    const before = words.join(' ') + ' ';
-
-    if (choice.getComplete) {
-        choice.complete = choice.getComplete(pretext, choice.suggestion);
-    }
-    choice.hint = choice.hint || '';
-
-    if (!words.length) {
-        // base command
-        return choice;
-    }
-
-    return {
-        ...choice,
-        suggestion: '/' + choice.suggestion,
-        complete: before + choice.suggestion,
-    };
-}
+type BindingWithFullPretext = AppletBinding & {fullPretext: string}
 
 const extractBaseCommand = (pretext: string) => {
     return pretext.substring(1).split(' ')[0];
 }
 
-export const shouldHandleCommand = (pretext: string, bindings: AppletBinding[]): boolean => {
-    for (const binding of bindings) {
-        let trigger = binding.name;
-        if (!trigger) {
-            continue;
-        }
-
-        if (trigger[0] !== '/') {
-            trigger = '/' + trigger;
-        }
-
-        if (pretext.startsWith(trigger + ' ')) {
-            return true;
-        }
-    }
-    return false;
-}
-
 let ARGS: AppletContext = {};
 let COMMANDS: AppletBinding[] = [];
+
 export const setCommands = ((cmds: AppletBinding[]) => COMMANDS = cmds); // hacky for tests
 
-export const fetchCloudAppCommand = async (binding: AppletBinding): Promise<AppletBinding | void> => {
-    if (!binding.call) {
-        return;
-    }
-
-    const payload: AppletCall = {
-        ...binding.call,
-        as_modal: true,
-        context: {
-            ...ARGS,
-            app_id: binding.app_id,
-        },
-    };
-
-    const res = await doAppletCall<void, AppletFormMetadataResponse>(payload);
-    if (res.data) {
-        const b = {
-            ...binding,
-            func: res.data,
-        }
-        COMMANDS.push(b);
-        return b;
-    }
-}
-
-export const getCloudAppCommandLocations = (state: GlobalState): AppletBinding[] => {
+export const getAppCommandLocations = (state: GlobalState): AppletBinding[] => {
     // return STATIC_BINDINGS;
     const bindings = getPluginsLocations(state, "/command");
     return bindings;
 }
 
-export const getCloudAppCommand = (name: string): AppletBinding | void => {
-    return COMMANDS.find((c) => c.name === name);
-}
+export class AppCommandParser {
+    private bindings: AppletBinding[];
+    private context: AppletContext;
 
-export const getCloudAppCommands = (): AppletBinding[] => {
-    return COMMANDS;
-}
-
-export const handleCommand = async (pretext: string, bindings: AppletBinding[], args: {channel_id: string; root_id?: string;}): Promise<SuggestionChoice[]> => {
-    ARGS = {
-        app_id: '',
-        acting_user_id: '',
-        channel_id: args.channel_id,
-        root_post_id: args.root_id,
-    };
-
-    const base = extractBaseCommand(pretext);
-    let binding = getCloudAppCommand(base);
-    if (!binding) {
-        binding = bindings.find((b) => b.name === base);
-        if (!binding) {
-            return [];
+    constructor(bindings: AppletBinding[], context: AppletContext & {root_id?: string}) {
+        if (context.root_id) {
+            context.root_post_id = context.root_id;
         }
-        if (binding.call) {
-            binding = await fetchCloudAppCommand(binding);
+
+        this.bindings = bindings;
+        this.context = context;
+    }
+
+    decorateSuggestionChoiceComplete = (pretext: string, choice: SuggestionChoice): SuggestionChoice => {
+        if (choice.complete?.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+            return choice;
         }
-    }
 
-    if (!binding) {
-        return [{suggestion: 'oh no'}]
-    }
-    const res = await getCurrentlyEditingToken(pretext, [binding]);
-    return res.map((sug) => decorateSuggestionChoiceComplete(pretext, sug));
-}
+        const words = pretext.split(' ');
+        words.pop();
+        const before = words.join(' ') + ' ';
 
-export const getSynchronousResults = (pretext: string, bindings: AppletBinding[]): SuggestionChoice[] => {
-    const result: SuggestionChoice[] = [];
-    for (const binding of bindings) {
-        let trigger = binding.name;
-        if (trigger[0] !== '/') {
-            trigger = '/' + trigger;
+        if (choice.getComplete) {
+            choice.complete = choice.getComplete(pretext, choice.suggestion);
         }
-        if (trigger.startsWith(pretext)) {
-            result.push(decorateSuggestionChoiceComplete(pretext, {
-                complete: trigger,
-                suggestion: trigger,
-                // description: cmd.description,
-                // hint: cmd.pretext,
-            }));
+        choice.hint = choice.hint || '';
+
+        if (!words.length) {
+            // base command
+            return choice;
         }
+
+        return {
+            ...choice,
+            suggestion: '/' + choice.suggestion,
+            complete: before + choice.suggestion,
+        };
     }
 
-    return result;
-}
-
-export const getCurrentlyEditingToken = async (pretext: string, bindings: AppletBinding[]): Promise<SuggestionChoice[]> => {
-    if (!pretext.length) {
-    }
-
-    let cmd = getMatchedCommand(pretext, bindings);
-
-    if (!cmd) {
-        return [];
-    }
-
-    let suggestions: SuggestionChoice[] = [];
-    if (cmd.bindings && cmd.bindings.length) {
-        const subSuggestions = getSuggestionsForSubCommands(pretext, cmd);
-        suggestions = suggestions.concat(subSuggestions);
-    } else {
-        // Add "Execute Current Command" suggestion
-        const execute = getSuggestionForExecute(pretext);
-        suggestions = [execute, ...suggestions];
-    }
-
-    if (cmd.call && !cmd.func) {
-        cmd = await fetchCloudAppCommand(cmd);
-    }
-
-    if (cmd.func && cmd.func.form) {
-        const argSuggestions = await getSuggestionsForArguments(pretext, cmd);
-        suggestions = suggestions.concat(argSuggestions);
-    }
-
-    return suggestions;
-};
-
-export const getSuggestionForExecute = (pretext: string): SuggestionChoice => {
-    let cmd = 'Ctrl';
-    if (Utils.isMac()) {
-        cmd = '⌘';
-    }
-
-    return {
-        complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
-        suggestion: '/Execute Current Command',
-        hint: '',
-        description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
-        iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
-    }
-}
-
-const getSuggestionsForArguments = async (pretext: string, binding: AppletBinding): Promise<SuggestionChoice[]> => {
-    if (!binding.func || !binding.func.form) {
-        return [];
-    }
-
-    const form = binding.func.form;
-    const positionalDefinitions = form.fields.filter((d) => d.positional);
-
-    let tokens = getTokens(pretext);
-
-    tokens = tokens.slice(binding.fullPretext?.split(' ').length);
-    const lastToken = tokens.pop();
-
-    const position = tokens.length;
-
-    const field = positionalDefinitions[position];
-    if (field) {
-        return getSuggestionsForField(field, lastToken.value, pretext);
-    }
-
-    const previousToken = tokens[position-1];
-    if (previousToken && previousToken.type === 'flag') {
-        const field = form.fields.find((arg) => arg.name === previousToken.name);
-        if (field) {
-            return getSuggestionsForField(field, lastToken.value, pretext);
-        }
-        return [];
-    }
-
-    // '', '-', or '--' (show named args)
-    if ('--'.startsWith(lastToken.value.trim())) {
-        const available = form.fields.filter((arg) => {
-            if (arg.positional) {
-                return false;
+    isAppCommand = (pretext: string): boolean => {
+        for (const binding of this.bindings) {
+            let trigger = binding.name;
+            if (!trigger) {
+                continue;
             }
-            if (tokens.find((t) => t.type === 'flag' && t.name === arg.name)) {
-                return false;
+
+            if (trigger[0] !== '/') {
+                trigger = '/' + trigger;
             }
-            if (arg.name.startsWith(lastToken.name)) {
+
+            if (pretext.startsWith(trigger + ' ')) {
                 return true;
             }
-
-            return false;
-        });
-        return getSuggestionsFromFlags(available);
+        }
+        return false;
     }
 
-    return [{suggestion: 'Default Argument Suggestion'}];
-};
+    fetchAppCommand = async (binding: AppletBinding): Promise<AppletBinding | undefined> => {
+        if (!binding.call) {
+            return;
+        }
 
-export const getSuggestionsForField = async (field: AutocompleteElement, userInput: string, pretext: string): Promise<SuggestionChoice[]> => {
-    switch (field.type) {
-        case AppletFieldTypes.BOOL:
-            return getBooleanSuggestions(userInput);
-        case AppletFieldTypes.DYNAMIC_SELECT:
-            return getDynamicSelectSuggestions(field as AutocompleteDynamicSelect, userInput, pretext)
-        case AppletFieldTypes.STATIC_SELECT:
-            return getStaticSelectSuggestions(field as AutocompleteStaticSelect, userInput)
+        const payload: AppletCall = {
+            ...binding.call,
+            as_modal: true,
+            context: {
+                ...ARGS,
+                app_id: binding.app_id,
+            },
+        };
+
+        let res: AppletFormMetadataResponse | undefined;
+        try {
+            res = await doAppletCall<void, AppletFunction>(payload);
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+
+        if (res && res.data) {
+            const b = {
+                ...binding,
+                func: res.data,
+            }
+            COMMANDS.push(b);
+            return b;
+        }
     }
 
-    return [{
-        complete: '',
-        suggestion: userInput,
-        description: field.description,
-        hint: field.hint,
-    }];
-}
+    getAppCommand = (name: string): AppletBinding | void => {
+        return COMMANDS.find((c) => c.name === name);
+    }
 
-export const getStaticSelectSuggestions = (field: AutocompleteStaticSelect, userInput: string): SuggestionChoice[] => {
-    const opts = field.options.filter((opt) => opt.label.toLowerCase().startsWith(userInput.toLowerCase()));
-    return opts.map((opt) => ({
-        complete: opt.label,
-        suggestion: opt.label,
-        // hint: opt.label,
-        description: '',
-    }));
-}
+    getAppCommands = (): AppletBinding[] => {
+        return COMMANDS;
+    }
 
-export const getDynamicSelectSuggestions = async (field: AppletField, userInput: string, cmdStr: string): Promise<SuggestionChoice[]> => {
-    const values = getForm(cmdStr, COMMANDS);
+    getAppCommandSuggestions = async (pretext: string): Promise<SuggestionChoice[]> => {
+        ARGS = {
+            app_id: '',
+            acting_user_id: '',
+            channel_id: this.context.channel_id,
+            root_post_id: this.context.root_post_id || this.context.root_id,
+        };
 
-    const cmd = getMatchedCommand(cmdStr, COMMANDS);
+        const base = extractBaseCommand(pretext);
+        let binding = this.getAppCommand(base);
+        if (!binding) {
+            binding = this.bindings.find((b) => b.name === base);
+            if (!binding) {
+                return [];
+            }
+            if (binding.call) {
+                binding = await this.fetchAppCommand(binding);
+            }
+        }
 
-    const payload: AppletCall = {
-        url: field.source_url || '',
-        context: {
-            ...ARGS,
-            app_id: cmd.app_id,
-        },
-        values,
-        raw_command: cmdStr,
+        if (!binding) {
+            return [{suggestion: 'oh no'}]
+        }
+        const suggestions = await this.getCurrentlyEditingToken(pretext);
+        return suggestions.map((suggestion) => this.decorateSuggestionChoiceComplete(pretext, suggestion));
+    }
+
+    getAppSuggestionsForBindings = (pretext: string): SuggestionChoice[] => {
+        const result: SuggestionChoice[] = [];
+        for (const binding of this.bindings) {
+            let trigger = binding.name;
+            if (trigger[0] !== '/') {
+                trigger = '/' + trigger;
+            }
+            if (trigger.startsWith(pretext)) {
+                result.push(this.decorateSuggestionChoiceComplete(pretext, {
+                    complete: trigger,
+                    suggestion: trigger,
+                    // description: cmd.description,
+                    // hint: cmd.pretext,
+                }));
+            }
+        }
+
+        return result;
+    }
+
+    getCurrentlyEditingToken = async (pretext: string, fullText: string): Promise<SuggestionChoice[]> => {
+        if (!pretext.length) {
+        }
+
+        let cmd = this.matchBinding(pretext);
+
+        if (!cmd) {
+            return [];
+        }
+
+        let suggestions: SuggestionChoice[] = [];
+        if (cmd.bindings && cmd.bindings.length) {
+            return this.getSuggestionsForSubCommands(pretext, cmd);
+        }
+
+        if (cmd.call && !cmd.func) {
+            cmd = await this.fetchAppCommand(cmd);
+        }
+
+        if (cmd.func && cmd.func.form) {
+            const argSuggestions = await this.getSuggestionsForArguments(pretext, cmd);
+            suggestions = suggestions.concat(argSuggestions);
+
+            // Add "Execute Current Command" suggestion
+            const formIsComplete = this.checkIfRequiredsAreSatisfied(fullText, cmd);
+            if (formIsComplete) {
+                const execute = this.getSuggestionForExecute(pretext);
+                suggestions = [execute, ...suggestions];
+            }
+        }
+
+        return suggestions;
     };
 
-    const res = await doAppletCall<{}, AppletSelectOption[]>(payload);
-    if (!res.data) {
-        return [{suggestion: 'Received no data for dynamic suggestions'}];
+    checkIfRequiredsAreSatisfied = (fullText: string, binding: AppBinding): boolean => {
+        return true;
+    };
+
+    getSuggestionForExecute = (pretext: string): SuggestionChoice => {
+        let cmd = 'Ctrl';
+        if (Utils.isMac()) {
+            cmd = '⌘';
+        }
+
+        return {
+            complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            suggestion: '/Execute Current Command',
+            hint: '',
+            description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
+            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+        }
     }
 
-    return res.data.map(({label, value, icon_data}): SuggestionChoice => ({
-        description: label,
-        suggestion: value,
-        hint: '',
-        iconData: icon_data,
-    }));
-}
+    getSuggestionsForArguments = async (pretext: string, binding: AppletBinding): Promise<SuggestionChoice[]> => {
+        if (!binding.func || !binding.func.form) {
+            return [];
+        }
 
-export const getBooleanSuggestions = (userInput: string): SuggestionChoice[] => {
-    const suggestions: SuggestionChoice[] = [];
+        const form = binding.func.form;
+        const positionalDefinitions = form.fields.filter((d) => d.positional);
 
-    if ('true'.startsWith(userInput)) {
-        suggestions.push({
-            complete: 'true',
-            suggestion: 'true',
-        });
+        let tokens = this.getTokens(pretext);
+
+        tokens = tokens.slice(binding.fullPretext?.split(' ').length);
+        const lastToken = tokens.pop();
+
+        const position = tokens.length;
+
+        const field = positionalDefinitions[position];
+        if (field) {
+            return this.getSuggestionsForField(field, lastToken.value, pretext);
+        }
+
+        const previousToken = tokens[position - 1];
+        if (previousToken && previousToken.type === 'flag') {
+            const field = form.fields.find((arg) => arg.name === previousToken.name);
+            if (field) {
+                return this.getSuggestionsForField(field, lastToken.value, pretext);
+            }
+            return [];
+        }
+
+        // '', '-', or '--' (show named args)
+        if ('--'.startsWith(lastToken.value.trim())) {
+            const available = form.fields.filter((arg) => {
+                if (arg.positional) {
+                    return false;
+                }
+                if (tokens.find((t) => t.type === 'flag' && t.name === arg.name)) {
+                    return false;
+                }
+                if (arg.name.startsWith(lastToken.name)) {
+                    return true;
+                }
+
+                return false;
+            });
+            return this.getSuggestionsFromFlags(available);
+        }
+
+        return [{suggestion: 'Default Argument Suggestion'}];
+    };
+
+    getSuggestionsForField = async (field: AutocompleteElement, userInput: string, pretext: string): Promise<SuggestionChoice[]> => {
+        switch (field.type) {
+            case AppletFieldTypes.BOOL:
+                return this.getBooleanSuggestions(userInput);
+            case AppletFieldTypes.DYNAMIC_SELECT:
+                return this.getDynamicSelectSuggestions(field as AutocompleteDynamicSelect, userInput, pretext)
+            case AppletFieldTypes.STATIC_SELECT:
+                return this.getStaticSelectSuggestions(field as AutocompleteStaticSelect, userInput)
+        }
+
+        return [{
+            complete: '',
+            suggestion: userInput,
+            description: field.description,
+            hint: field.hint,
+        }];
     }
-    if ('false'.startsWith(userInput)) {
-        suggestions.push({
-            complete: 'false',
-            suggestion: 'false',
-        });
-    }
-    return suggestions;
-}
 
-export const getSuggestionsFromFlags = (flags: AutocompleteElement[]): SuggestionChoice[] => {
-    return flags.map((flag) => ({
-        complete: '--' + flag.name,
-        suggestion: '--' + flag.name,
-        description: flag.description,
-        hint: flag.hint,
-    }));
-};
-
-export const getSuggestionsForSubCommands = (cmdStr: string, binding: AppletBinding): SuggestionChoice[] => {
-    if (!binding.bindings || !binding.bindings.length) {
-        return [];
+    getStaticSelectSuggestions = (field: AutocompleteStaticSelect, userInput: string): SuggestionChoice[] => {
+        const opts = field.options.filter((opt) => opt.label.toLowerCase().startsWith(userInput.toLowerCase()));
+        return opts.map((opt) => ({
+            complete: opt.label,
+            suggestion: opt.label,
+            // hint: opt.label,
+            description: '',
+        }));
     }
 
-    const result: SuggestionChoice[] = [];
+    getDynamicSelectSuggestions = async (field: AppletField, userInput: string, cmdStr: string): Promise<SuggestionChoice[]> => {
+        const values = this.getForm(cmdStr, COMMANDS);
 
-    cmdStr = cmdStr.substring((binding.fullPretext + ' ').length).toLowerCase().trim();
-    for (const sub of binding.bindings) {
-        if (sub.name.toLowerCase().startsWith(cmdStr)) {
-            result.push({
-                complete: sub.name,
-                suggestion: sub.name,
-                description: sub.description,
-                // hint: sub.pretext,
+        const cmd = this.matchBinding(cmdStr, COMMANDS);
+
+        const payload: AppletCall = {
+            url: field.source_url || '',
+            context: {
+                ...ARGS,
+                app_id: cmd.app_id,
+            },
+            values,
+            raw_command: cmdStr,
+        };
+
+        let res: AppletCallResponse<AppletSelectOption[]> | undefined;
+        try {
+            res = await doAppletCall<{}, AppletSelectOption[]>(payload);
+        } catch (e) {
+            console.error(e);
+            return [{suggestion: `Error: ${e.message}`}];
+        }
+
+        if (!res?.data?.length) {
+            return [{suggestion: 'Received no data for dynamic suggestions'}];
+        }
+
+        return res.data.map(({label, value, icon_data}): SuggestionChoice => ({
+            description: label,
+            suggestion: value,
+            hint: '',
+            iconData: icon_data,
+        }));
+    }
+
+    getBooleanSuggestions = (userInput: string): SuggestionChoice[] => {
+        const suggestions: SuggestionChoice[] = [];
+
+        if ('true'.startsWith(userInput)) {
+            suggestions.push({
+                complete: 'true',
+                suggestion: 'true',
             });
         }
-    }
-
-    return result;
-}
-
-export const getMatchedCommand = (cmdStr: string, bindings: AppletBinding[]): AppletBinding => {
-    const endsInSpace = cmdStr[cmdStr.length-1] === ' ';
-    cmdStr = cmdStr.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
-    if (endsInSpace) {
-        cmdStr += ' ';
-    }
-    cmdStr = cmdStr.substring(1);
-
-    const flattened = flattenCommandList(bindings, '');
-    return flattened.reduce((prev, current) => {
-        if (!cmdStr.startsWith(current.fullPretext + ' ')) {
-            return prev;
+        if ('false'.startsWith(userInput)) {
+            suggestions.push({
+                complete: 'false',
+                suggestion: 'false',
+            });
         }
-        if (!prev) {
-            return current;
-        }
-        if (prev.fullPretext.length > current.fullPretext.length) {
-            return prev;
-        }
-        return current;
-    }, null);
-};
-
-type BindingWithFullPretext = AppletBinding & {fullPretext: string};
-
-export const flattenCommandList = (bindings: AppletBinding[], trigger=''): BindingWithFullPretext[] => {
-    let result: BindingWithFullPretext[] = [];
-    for (const binding of bindings) {
-        const newPretext = trigger + binding.name;
-        result.push({
-            ...binding,
-            fullPretext: newPretext,
-        });
-        if (binding.bindings && binding.bindings.length) {
-            const children = flattenCommandList(binding.bindings, newPretext + ' ');
-            result = result.concat(children);
-        }
+        return suggestions;
     }
 
-    return result;
-}
-
-export const getSubmissionPayload = async (cmdStr: string, bindings: AppletBinding[], args: AppletContext): Promise<AppletCall | void> => {
-    flattenCommandList(bindings)
-    let cmd = getMatchedCommand(cmdStr, bindings);
-    if (!cmd || !cmd.call) {
-        return;
-    }
-    if (cmd.call && !cmd.func) {
-        cmd = await fetchCloudAppCommand(cmd);
-    }
-
-    const values = getForm(cmdStr, cmd);
-
-    const payload: AppletCall = {
-        ...cmd.call,
-        context: {
-            ...args,
-            app_id: cmd.app_id,
-        },
-        values,
-        raw_command: cmdStr,
+    getSuggestionsFromFlags = (flags: AutocompleteElement[]): SuggestionChoice[] => {
+        return flags.map((flag) => ({
+            complete: '--' + flag.name,
+            suggestion: '--' + flag.name,
+            description: flag.description,
+            hint: flag.hint,
+        }));
     };
-    return payload;
-};
 
-export const getForm = (cmdStr: string, cmd: AppletBinding): {[name: string]: AutocompleteElement} => {
-    if (!cmd) {
-        return {error: 'no command'};
-    }
-
-    if (!cmd.func || !cmd.func.form) {
-        return {};
-    }
-
-    cmdStr = cmdStr.substring(1);
-    cmdStr = cmdStr.substring(cmd.fullPretext.length).trim();
-
-    const tokens = getTokens(cmdStr);
-    const positionalDefinitions = cmd.func.form.fields.filter((f) => f.positional);
-
-    const resolvedTokens = resolveNamedArguments(tokens);
-
-    const form = cmd.func.form;
-
-    const res: {[name: string]: any} = {};
-    resolvedTokens.forEach((token, i) => {
-        let name = token.name || '';
-        if (!name.length && token.type === 'positional' && positionalDefinitions[i]) {
-            name = positionalDefinitions[i].name;
+    getSuggestionsForSubCommands = (cmdStr: string, binding: AppletBinding): SuggestionChoice[] => {
+        if (!binding.bindings || !binding.bindings.length) {
+            return [];
         }
 
-        if (!name.length) {
-            // throw {error: ['couldnt find item', token]};
+        const result: SuggestionChoice[] = [];
+
+        cmdStr = cmdStr.substring((binding.fullPretext + ' ').length).toLowerCase().trim();
+        for (const sub of binding.bindings) {
+            if (sub.name.toLowerCase().startsWith(cmdStr)) {
+                result.push({
+                    complete: sub.name,
+                    suggestion: sub.name,
+                    description: sub.description,
+                    // hint: sub.pretext,
+                });
+            }
+        }
+
+        return result;
+    }
+
+    matchBinding = (cmdStr: string): AppletBinding => {
+        const endsInSpace = cmdStr[cmdStr.length - 1] === ' ';
+        cmdStr = cmdStr.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
+        if (endsInSpace) {
+            cmdStr += ' ';
+        }
+        cmdStr = cmdStr.substring(1);
+
+        const flattened = this.flattenCommandList(this.bindings, '');
+        return flattened.reduce((prev, current) => {
+            if (!cmdStr.startsWith(current.fullPretext + ' ')) {
+                return prev;
+            }
+            if (!prev) {
+                return current;
+            }
+            if (prev.fullPretext.length > current.fullPretext.length) {
+                return prev;
+            }
+            return current;
+        }, null);
+    };
+
+
+    flattenCommandList = (bindings: AppletBinding[], trigger = ''): BindingWithFullPretext[] => {
+        let result: BindingWithFullPretext[] = [];
+        for (const binding of bindings) {
+            const newPretext = trigger + binding.name;
+            result.push({
+                ...binding,
+                fullPretext: newPretext,
+            });
+            if (binding.bindings && binding.bindings.length) {
+                const children = this.flattenCommandList(binding.bindings, newPretext + ' ');
+                result = result.concat(children);
+            }
+        }
+
+        return result;
+    }
+
+    getSubmissionPayload = async (cmdStr: string): Promise<AppletCall | void> => {
+        this.flattenCommandList(this.bindings)
+        let cmd = this.matchBinding(cmdStr, this.bindings);
+        if (!cmd || !cmd.call) {
             return;
         }
-
-        const arg = form.fields.find((arg) => arg.name === name);
-        if (!arg) {
-            // throw {error: ['couldnt find item 2', token]};
-            return;
+        if (cmd.call && !cmd.func) {
+            cmd = await this.fetchAppCommand(cmd);
         }
 
-        // res[arg.name] = {
-        //     ...arg,
-        //     value: token.value,
-        // };
-        res[arg.name] = token.value;
-    });
+        const values = this.getForm(cmdStr, cmd);
 
-    return res;
-}
+        const payload: AppletCall = {
+            ...cmd.call,
+            context: {
+                ...args,
+                app_id: cmd.app_id,
+            },
+            values,
+            raw_command: cmdStr,
+        };
+        return payload;
+    };
 
-export const resolveNamedArguments = (tokens: Token[]) => {
-    const result = [];
-
-    let namedArg = '';
-    for (const token of tokens) {
-        if (token.type === 'flag') {
-            namedArg = token.name;
-            continue;
+    getForm = (cmdStr: string, cmd: AppletBinding): {[name: string]: AutocompleteElement} => {
+        if (!cmd) {
+            return {error: 'no command'};
         }
 
-        if (namedArg.length) {
-            result.push(makeNamedArgumentToken(namedArg, token.value));
-            namedArg = '';
-        } else {
-            result.push(makePositionalArgumentToken('', token.value));
+        if (!cmd.func || !cmd.func.form) {
+            return {};
         }
+
+        cmdStr = cmdStr.substring(1);
+        cmdStr = cmdStr.substring(cmd.fullPretext.length).trim();
+
+        const tokens = this.getTokens(cmdStr);
+        const positionalDefinitions = cmd.func.form.fields.filter((f) => f.positional);
+
+        const resolvedTokens = this.resolveNamedArguments(tokens);
+
+        const form = cmd.func.form;
+
+        const res: {[name: string]: any} = {};
+        resolvedTokens.forEach((token, i) => {
+            let name = token.name || '';
+            if (!name.length && token.type === 'positional' && positionalDefinitions[i]) {
+                name = positionalDefinitions[i].name;
+            }
+
+            if (!name.length) {
+                // throw {error: ['couldnt find item', token]};
+                return;
+            }
+
+            const arg = form.fields.find((arg) => arg.name === name);
+            if (!arg) {
+                // throw {error: ['couldnt find item 2', token]};
+                return;
+            }
+
+            // res[arg.name] = {
+            //     ...arg,
+            //     value: token.value,
+            // };
+            res[arg.name] = token.value;
+        });
+
+        return res;
     }
 
-    return result;
+    resolveNamedArguments = (tokens: Token[]) => {
+        const result = [];
+
+        let namedArg = '';
+        for (const token of tokens) {
+            if (token.type === 'flag') {
+                namedArg = token.name;
+                continue;
+            }
+
+            if (namedArg.length) {
+                result.push(makeNamedArgumentToken(namedArg, token.value));
+                namedArg = '';
+            } else {
+                result.push(makePositionalArgumentToken('', token.value));
+            }
+        }
+
+        return result;
+    }
+
+
+
+    getTokens = (cmdString: string): Token[] => {
+        const tokens: Token[] = [];
+        const words = cmdString.split(' ');
+
+        let quotedArg = '';
+
+        words.forEach((word, index) => {
+            if (!word.trim().length) {
+                if (quotedArg.length) {
+                    quotedArg += word;
+                }
+
+                if (index === words.length - 1) {
+                    tokens.push(makePositionalArgumentToken('', quotedArg));
+                }
+                return;
+            }
+
+            if (quotedArg.length) {
+                quotedArg += ` ${word}`;
+                if (index === words.length - 1) {
+                    tokens.push(makePositionalArgumentToken('', word));
+                    return;
+                }
+                if (word.endsWith('"')) {
+                    const trimmed = quotedArg.substring(1, quotedArg.length - 1);
+                    tokens.push(makePositionalArgumentToken('', trimmed));
+                    quotedArg = '';
+                } else if (index === words.length - 1) {
+                    tokens.push(makePositionalArgumentToken('', word));
+                }
+                return;
+            }
+
+            if (word.startsWith('"')) {
+                quotedArg = word;
+                return;
+            }
+
+            if (word.startsWith('--')) {
+                // if there is a named argument before this, it will be ignored
+                tokens.push(makeNamedFlagToken(word.substring(2), ''));
+                return;
+            }
+
+            tokens.push(makePositionalArgumentToken('', word));
+        });
+
+        return tokens;
+    }
 }
 
 type Token = {
     type: string;
     name: string;
     value: string;
-}
-
-export const getTokens = (cmdString: string): Token[] => {
-    const tokens: Token[] = [];
-    const words = cmdString.split(' ');
-
-    let quotedArg = '';
-
-    words.forEach((word, index) => {
-        if (!word.trim().length) {
-            if (quotedArg.length) {
-                quotedArg += word;
-            }
-
-            if (index === words.length - 1) {
-                tokens.push(makePositionalArgumentToken('', quotedArg));
-            }
-            return;
-        }
-
-        if (quotedArg.length) {
-            quotedArg += ` ${word}`;
-            if (index === words.length - 1) {
-                tokens.push(makePositionalArgumentToken('', word));
-                return;
-            }
-            if (word.endsWith('"')) {
-                const trimmed = quotedArg.substring(1, quotedArg.length - 1);
-                tokens.push(makePositionalArgumentToken('', trimmed));
-                quotedArg = '';
-            } else if (index === words.length - 1) {
-                tokens.push(makePositionalArgumentToken('', word));
-            }
-            return;
-        }
-
-        if (word.startsWith('"')) {
-            quotedArg = word;
-            return;
-        }
-
-        if (word.startsWith('--')) {
-            // if there is a named argument before this, it will be ignored
-            tokens.push(makeNamedFlagToken(word.substring(2), ''));
-            return;
-        }
-
-        tokens.push(makePositionalArgumentToken('', word));
-    });
-
-    return tokens;
 }
 
 const makeNamedFlagToken = (name: string, value: string) => {

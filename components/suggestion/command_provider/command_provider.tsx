@@ -16,7 +16,7 @@ import {getSelectedPost} from 'selectors/rhs';
 import Suggestion from '../suggestion.jsx';
 import Provider from '../provider.jsx';
 
-import {shouldHandleCommand, handleCommand, getSynchronousResults, getCloudAppCommandLocations} from './applet_command_parser';
+import {shouldHandleCommand, handleCommand, getSynchronousResults, getAppCommandLocations, AppCommandParser} from './applet_command_parser';
 
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
 
@@ -141,14 +141,15 @@ export default class CommandProvider extends Provider {
         const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
 
         const args = {
-            channel_id: channel.id,
+            channel_id: channel?.id,
             ...(rootId && {root_id: rootId, parent_id: rootId}),
         };
 
-        const bindings = getCloudAppCommandLocations(store.getState());
+        const bindings = getAppCommandLocations(store.getState());
+        const parser = new AppCommandParser(bindings, args);
 
-        if (shouldHandleCommand(command, bindings)) {
-            handleCommand(command, bindings, args).then((matches => {
+        if (parser.isAppCommand(command)) {
+            parser.getAppCommandSuggestions(command).then((matches => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,
@@ -160,9 +161,9 @@ export default class CommandProvider extends Provider {
             return;
         }
 
-        const syncSuggestions = getSynchronousResults(pretext, getCloudAppCommandLocations(store.getState()));
+        const syncSuggestions = parser.getAppSuggestionsForBindings(pretext);
 
-        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args, this.commandDefinition).then(
+        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
             (data) => {
                 let matches = [];
 

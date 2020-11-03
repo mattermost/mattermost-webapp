@@ -1,17 +1,17 @@
-export type AppletBinding = {
-    // For use by Mattermost only, not for apps
+export type AppsState = {
+    bindings: AppBinding[];
+};
+
+export type AppBinding = {
     app_id: string;
-
     location_id?: string;
-
-    // For PostMenu, ChannelHeader locations specifies the icon.
     icon?: string;
 
-    // Name is the (usually short) primary text to display at the location.
+    // Label is the (usually short) primary text to display at the location.
     // - For LocationPostMenu is the menu item text.
     // - For LocationChannelHeader is the dropdown text.
     // - For LocationCommand is the name of the command
-    name: string;
+    label: string;
 
     // Hint is the secondary text to display
     // - LocationPostMenu: not used
@@ -30,93 +30,97 @@ export type AppletBinding = {
 
     // A Binding is either to a Call, or is a "container" for other locations -
     // i.e. menu sub-items or subcommands.
-    call?: AppletCall;
-    bindings?: AppletBinding[];
-
-    func?: AppletFunction;
+    call?: AppCall;
+    bindings?: AppBinding[];
 };
 
-export type AppletCall = {
+export type AppCallValues = {
+    [name: string]: string;
+ }
+
+export type AppCall = {
     url: string;
-    context: AppletContext;
-    values?: {[name: string]: string};
+    context: AppContext;
+    values?: AppCallValues;
     as_modal?: boolean;
     raw_command?: string;
+    from?: AppBinding[];
 }
 
-export type AppletCallResponseType = string;
+export type AppCallResponseType = string;
 
-export const AppletCallResponseTypes: {[name: string]: AppletCallResponseType} = {
-    CALL: 'call',
-    MODAL: 'modal',
+export const AppCallResponseTypes: {[name: string]: AppCallResponseType} = {
     OK: 'ok',
-    NAVIGATE: 'navigate',
     ERROR: 'error',
+    MODAL: 'modal',
+    NAVIGATE: 'navigate',
+    CALL: 'call',
+    COMMAND: 'command',
 };
 
-export type AppletCallResponse<Res = {}> = {
-    type: AppletCallResponseType;
-
+export type AppCallResponse<Res = {}> = {
+    type: AppCallResponseType;
     markdown?: string;
     data?: Res;
-
     error?: string;
-
     url?: string;
     use_external_browser?: boolean;
-
-    call?: AppletCall;
+    call?: AppCall;
 }
 
-export type AppletContext = {
+export type AppContext = {
     app_id: string;
-    acting_user_id: string;
+    acting_user_id?: string;
     user_id?: string;
+    channel_id?: string;
     team_id?: string;
-    channel_id: string;
     post_id?: string;
-    root_post_id?: string;
-    props?: {[name: string]: string};
-};
+    root_id?: string;
+    props?: AppContextProps;
+}
 
-export type AppletExpandLevel = string;
+export type AppContextProps = {
+    [name: string]: string;
+}
 
-const AppletExpandLevels: {[name: string]: AppletExpandLevel} = {
+export type AppExpandLevel = string;
+
+export const AppExpandLevels: {[name: string]: AppExpandLevel} = {
     EXPAND_ALL: 'All',
     EXPAND_SUMMARY: 'Summary',
 };
 
-export type AppletExpand = {
-    app?: AppletExpandLevel;
-    acting_user?: AppletExpandLevel;
-    channel?: AppletExpandLevel;
-    config?: AppletExpandLevel;
-    mentioned?: AppletExpandLevel;
-    parent_post?: AppletExpandLevel;
-    post?: AppletExpandLevel;
-    root_post?: AppletExpandLevel;
-    team?: AppletExpandLevel;
-    user?: AppletExpandLevel;
+export type AppExpand = {
+    app?: AppExpandLevel;
+    acting_user?: AppExpandLevel;
+    channel?: AppExpandLevel;
+    config?: AppExpandLevel;
+    mentioned?: AppExpandLevel;
+    parent_post?: AppExpandLevel;
+    post?: AppExpandLevel;
+    root_post?: AppExpandLevel;
+    team?: AppExpandLevel;
+    user?: AppExpandLevel;
 }
 
-export type AppletForm = {
+export type AppForm = {
     title?: string;
     header?: string;
     footer?: string;
     icon?: string;
-    fields: AppletField[];
+    fields: AppField[];
     depends_on?: string[];
 };
 
-export type AppletSelectOption = {
+export type AppSelectOption = {
     label: string;
     value: string;
     icon_data?: string;
 };
 
-export type AppletFieldType = string;
+export type AppFieldType = string;
 
-export const AppletFieldTypes: {[name: string]: AppletFieldType} = {
+export const AppFieldTypes: {[name: string]: AppFieldType} = {
     TEXT: 'text',
     STATIC_SELECT: 'static_select',
     DYNAMIC_SELECT: 'dynamic_select',
@@ -126,10 +130,10 @@ export const AppletFieldTypes: {[name: string]: AppletFieldType} = {
 }
 
 // This should go in mattermost-redux
-export type AppletField = {
+export type AppField = {
     // Name is the name of the JSON field to use.
     name: string;
-    type: AppletFieldType;
+    type: AppFieldType;
     is_required?: boolean;
 
     // Present (default) value of the field
@@ -149,7 +153,7 @@ export type AppletField = {
     // Select props
     refresh_on_change_to?: string[];
     source_url?: string;
-    options?: AppletSelectOption[];
+    options?: AppSelectOption[];
 
     // Text props
     subtype?: string;
@@ -157,14 +161,14 @@ export type AppletField = {
     max_length?: number;
 }
 
-export type AppletFunction = {
-    form?: AppletForm;
-    expand?: AppletExpand;
+export type AppFunction = {
+    form?: AppForm;
+    expand?: AppExpand;
 };
 
-export type AppletFormMetadataResponse = AppletCallResponse<AppletFunction>;
+export type AppFormMetadataResponse = AppCallResponse<AppFunction>;
 
-const SAMPLE_APPLET_FORM_METADATA_RESPONSE: AppletFormMetadataResponse = {
+const SAMPLE_APP_FORM_METADATA_RESPONSE: AppFormMetadataResponse = {
     type: 'ok',
     data: {
         "form": {
