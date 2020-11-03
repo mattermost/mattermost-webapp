@@ -39,8 +39,8 @@ exports[`components/RhsThread should match snapshot 1`] = `
     rootPostId="id"
   />
   <Scrollbars
-    autoHeight={false}
-    autoHeightMax={200}
+    autoHeight={true}
+    autoHeightMax={0}
     autoHeightMin={0}
     autoHide={true}
     autoHideDuration={500}
@@ -113,17 +113,17 @@ exports[`components/RhsThread should match snapshot 1`] = `
           id="rhsPostList"
         />
       </div>
-      <div
-        className="post-create__container"
-      >
-        <Connect(injectIntl(CreateComment))
-          channelId="channel_id"
-          latestPostId="id"
-          rootDeleted={false}
-          rootId="id"
-        />
-      </div>
     </div>
   </Scrollbars>
+  <div
+    className="post-create__container"
+  >
+    <Connect(injectIntl(CreateComment))
+      channelId="channel_id"
+      latestPostId="id"
+      rootDeleted={false}
+      rootId="id"
+    />
+  </div>
 </div>
 `;
