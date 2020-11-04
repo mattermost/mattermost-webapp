@@ -10,6 +10,7 @@
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as MESSAGES from '../../fixtures/messages';
 
 describe('Notifications', () => {
     let user1;
@@ -126,6 +127,46 @@ describe('Notifications', () => {
         cy.get(`#${team2.name}TeamButton`).should('be.visible').within(() => {
             // * Team sidebar: a mention badge in top right corner of the badge with number "1"
             cy.get('.badge').contains('2');
+        });
+    });
+
+    it('MM-T561 Browser tab and team sidebar - direct messages don\'t add indicator on team icon in team sidebar (but do in browser tab)', () => {
+        // # User A: Join teams A and B. Open team A
+        cy.apiLogin(user1);
+        cy.visit(testTeam1TownSquareUrl);
+
+        // # Remove mention notification (for initial channel).
+        cy.get('#publicChannelList').get('.unread-title').click();
+
+        // # User B: Join team B
+        cy.apiLogout();
+        cy.apiLogin(user2);
+        cy.visit(testTeam2TownSquareUrl);
+
+        // # User B: Post a direct message to user A
+        cy.get('#addDirectChannel').click();
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.get('#selectItems').should('be.visible').type(`${user1.username}`);
+        cy.findByText('Loading').should('be.visible');
+        cy.findByText('Loading').should('not.exist');
+        cy.get('#multiSelectList').findByText(`@${user1.username}`).click();
+        cy.findByText('Go').click();
+        cy.postMessage(MESSAGES.SMALL);
+
+        cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
+
+        // * User A: Open team A
+        cy.apiLogout();
+        cy.apiLogin(user1);
+        cy.visit(testTeam1TownSquareUrl);
+
+        // * Browser tab: (1) * Town Square - [team name] Mattermost
+        cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
+
+        // * Team sidebar: No unread / mention indicator in team sidebar on either team
+        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
+        cy.get(`#${team2.name}TeamButton`).parent().within(() => {
+            cy.get('.badge').should('not.be.visible');
         });
     });
 
