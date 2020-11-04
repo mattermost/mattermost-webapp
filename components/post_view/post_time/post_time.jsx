@@ -69,11 +69,11 @@ export default class PostTime extends React.PureComponent {
                 useDate={false}
             />
         );
-
+        
         const content = isMobile() || !isPermalink ? (
             <div
                 role='presentation'
-                className='post__permalink'
+                className='post_permalink_mobile_view'
             >
                 {postTime}
             </div>
