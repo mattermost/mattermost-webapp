@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
@@ -25,103 +26,90 @@ describe('Channel sidebar', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
-
-        // # Close "What's new" modal
-        cy.uiCloseWhatsNewModal();
     });
 
     it('MM-T3161_1 should create a new category from sidebar menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
-        // * check if the category exists
-        cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
+        // * Check if the category exists
+        cy.findByLabelText(categoryName).should('be.visible');
     });
 
     it('MM-T3161_2 should create a new category from category menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
-        // # create a category from category menu
-        cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').within(() => {
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
-            cy.get('.icon-folder-plus-outline').parents('button').click();
+        // # Create new category from category menu
+        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
+            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+            cy.findByText('Create New Category').click();
         });
 
         const newCategoryName = `category-${getRandomId()}`;
         cy.get('#editCategoryModal input').type(newCategoryName).type('{enter}');
 
-        // * check if the newly created category exists
-        cy.get(`button[aria-label='${newCategoryName}']`).should('contain', newCategoryName);
+        // * Check if the newly created category exists
+        cy.findByLabelText(newCategoryName).should('be.visible');
     });
 
     it('MM-T3161_3 move an existing channel to a new category', () => {
         const newCategoryName = `category-${getRandomId()}`;
 
-        // # move to a new category
+        // # Move to a new category
         cy.get('#sidebarItem_off-topic').parent().then((element) => {
-            // # get id of the channel
+            // # Get id of the channel
             const id = element[0].getAttribute('data-rbd-draggable-id');
             cy.get('#sidebarItem_off-topic').parent('li').within(() => {
-                // # open dropown next to channel name
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
+                // # Open dropdown next to channel name
+                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
 
-                // # open sub menu
+                // # Open sub menu
                 cy.get(`#moveTo-${id}`).parent('.SubMenuItem').trigger('mouseover');
 
-                // # click on move to new category
+                // # Click on move to new category
                 cy.get(`#moveToNewCategory-${id}`).parent('.SubMenuItem').click();
             });
         });
         cy.get('#editCategoryModal input').type(newCategoryName).type('{enter}');
 
-        // * check if the newly created category exists
-        cy.get(`button[aria-label='${newCategoryName}']`).should('contain', newCategoryName);
+        // * Check if the newly created category exists
+        cy.findByLabelText(newCategoryName).should('be.visible');
     });
 
     it('MM-T3163 Rename a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
-        cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
-        cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').then((element) => {
-            // # get id of the category
-            const id = element[0].getAttribute('data-rbd-draggable-id');
-            cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').within(() => {
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
 
-                // # click on rename menu item
-                cy.get(`#rename-${id}`).click();
-            });
-
-            const renameCategory = `category-${getRandomId()}`;
-
-            // # rename category
-            cy.get('#editCategoryModal input').clear().type(renameCategory).type('{enter}');
-
-            // * check if the previous category exist
-            cy.get(`button[aria-label='${categoryName}']`).should('not.exist');
-
-            // * check if the renamed category exists
-            cy.get(`button[aria-label='${renameCategory}']`).should('contain', renameCategory);
+        // # Rename category from category menu
+        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
+            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+            cy.findByText('Rename Category').click();
         });
+
+        const renameCategory = `category-${getRandomId()}`;
+
+        // # Rename category
+        cy.get('#editCategoryModal input').clear().type(renameCategory).type('{enter}');
+
+        // * Check if the previous category exist
+        cy.findByLabelText(categoryName).should('not.exist');
+
+        // * Check if the renamed category exists
+        cy.findByLabelText(renameCategory).should('be.visible');
     });
 
     it('MM-T3165 Delete a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
-        cy.get(`button[aria-label='${categoryName}']`).should('contain', categoryName);
-        cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').then((element) => {
-            // # get id of the category
-            const id = element[0].getAttribute('data-rbd-draggable-id');
-            cy.get(`button[aria-label='${categoryName}']`).parents('.SidebarChannelGroup').within(() => {
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
 
-                // # click on delete menu item
-                cy.get(`#delete-${id}`).click();
-            });
-
-            // # click on delete button
-            cy.get('.GenericModal__button.delete').click();
-
-            // * check if the deleted category exists
-            cy.get(`button[aria-label='${categoryName}']`).should('not.exist');
+        // # Delete category from category menu
+        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
+            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+            cy.findByText('Delete Category').click();
         });
+
+        // # Click on delete button
+        cy.get('.GenericModal__button.delete').click();
+
+        // * Check if the deleted category exists
+        cy.findByLabelText(categoryName).should('not.exist');
     });
 });
 
@@ -129,13 +117,20 @@ function createCategoryFromSidebarMenu() {
     // # Start with a new category
     const categoryName = `category-${getRandomId()}`;
 
-    // # Click on the siebar menu dropdown
-    cy.get('.AddChannelDropdown_dropdownButton').click();
+    // # Click on the sidebar menu dropdown
+    cy.findByLabelText('Add Channel Dropdown').click();
 
     // # Click on create category link
-    cy.get('#createCategory').click();
+    cy.findByText('Create New Category').should('be.visible').click();
 
-    // # Enter category name and hit enter
-    cy.get('#editCategoryModal input').type(categoryName).type('{enter}');
+    // # Verify that Create Category modal has shown up.
+    // # Wait for a while until the modal has fully loaded, especially during first-time access.
+    cy.get('#editCategoryModal').should('be.visible').wait(TIMEOUTS.HALF_SEC).within(() => {
+        cy.findByText('Create New Category').should('be.visible');
+
+        // # Enter category name and hit enter
+        cy.findByPlaceholderText('Name your category').should('be.visible').type(categoryName).type('{enter}');
+    });
+
     return categoryName;
 }

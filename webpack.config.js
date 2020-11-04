@@ -275,7 +275,7 @@ var config = {
             meta: {
                 csp: {
                     'http-equiv': 'Content-Security-Policy',
-                    content: 'script-src \'self\' cdn.rudderlabs.com/' + CSP_UNSAFE_EVAL_IF_DEV,
+                    content: 'script-src \'self\' cdn.rudderlabs.com/ js.stripe.com/v3 ' + CSP_UNSAFE_EVAL_IF_DEV,
                 },
             },
         }),
@@ -290,6 +290,7 @@ var config = {
                 {from: 'images/warning.png', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
+                {from: 'images/cloud', to: 'images'},
             ],
         }),
 

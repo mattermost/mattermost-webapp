@@ -1,14 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const dbClient = Cypress.env('dbClient');
+const dbConnection = Cypress.env('dbConnection');
 const dbConfig = {
-    client: Cypress.env('dbClient'),
-    connection: Cypress.env('dbConnection'),
+    client: dbClient,
+    connection: dbConnection,
 };
 
-Cypress.Commands.add('requireServerDBToMatch', () => {
+const message = `Compare "cypress.json" against "config.json" of mattermost-server. It should match database driver and connection string.
+
+The value at "cypress.json" is based on default mattermost-server's local database: 
+{"dbClient": "${dbClient}", "dbConnection": "${dbConnection}"}
+
+If your server is using database other than the default, you may export those as env variables, like:
+"__CYPRESS_dbClient=[dbClient] CYPRESS_dbConnection=[dbConnection] npm run cypress:open__"
+`;
+
+Cypress.Commands.add('apiRequireServerDBToMatch', () => {
     cy.apiGetConfig().then(({config}) => {
-        expect(config.SqlSettings.DriverName, 'Should match server DB. Also manually check that the connection string is correct and match the one being used by the server.').to.equal(Cypress.env('dbClient'));
+        if (config.SqlSettings.DriverName !== dbClient) {
+            expect(config.SqlSettings.DriverName, message).to.equal(dbClient);
+        }
     });
 });
 
@@ -34,8 +47,8 @@ Cypress.Commands.add('dbGetActiveUserSessions', ({username, userId, limit}) => {
  * @returns {Object} user - user object
  */
 Cypress.Commands.add('dbGetUser', ({username}) => {
-    cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage}) => {
-        expect(errorMessage).to.be.undefined;
+    cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage, error}) => {
+        verifyError(error, errorMessage);
 
         cy.wrap({user});
     });
@@ -68,3 +81,9 @@ Cypress.Commands.add('dbUpdateUserSession', ({sessionId, userId, fieldsToUpdate}
         cy.wrap({session});
     });
 });
+
+function verifyError(error, errorMessage) {
+    if (errorMessage) {
+        expect(errorMessage, `${errorMessage}\n\n${message}\n\n${JSON.stringify(error)}`).to.be.undefined;
+    }
+}

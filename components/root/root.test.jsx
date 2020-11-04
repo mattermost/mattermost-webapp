@@ -15,7 +15,7 @@ jest.mock('fastclick', () => ({
     attach: () => {}, // eslint-disable-line no-empty-function
 }));
 
-jest.mock('actions/diagnostics_actions', () => ({
+jest.mock('actions/telemetry_actions', () => ({
     trackLoadTime: () => {}, // eslint-disable-line no-empty-function
 }));
 
@@ -47,8 +47,8 @@ jest.mock('mattermost-redux/client', () => {
 
 describe('components/Root', () => {
     const baseProps = {
-        diagnosticsEnabled: true,
-        diagnosticId: '1234ab',
+        telemetryEnabled: true,
+        telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
         actions: {
@@ -201,8 +201,8 @@ describe('components/Root', () => {
     });
 
     test('should call for enableRudderEvents on call of onConfigLoaded if url and key for rudder is set', () => {
-        Constants.DIAGNOSTICS_RUDDER_KEY = 'testKey';
-        Constants.DIAGNOSTICS_RUDDER_DATAPLANE_URL = 'url';
+        Constants.TELEMETRY_RUDDER_KEY = 'testKey';
+        Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
 
         const wrapper = shallow(<Root {...baseProps}/>);
         wrapper.instance().onConfigLoaded();

@@ -66,6 +66,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
                         <button
+                            type='button'
                             className={
                                 classNames(
                                     'btn',

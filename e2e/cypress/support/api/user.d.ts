@@ -31,6 +31,19 @@ declare namespace Cypress {
         apiLogin(user: UserProfile): Chainable<UserProfile>;
 
         /**
+         * Login to server via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {string} user.username - username of a user
+         * @param {string} user.password - password of  user
+         * @param {string} token - MFA token for the session
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
+         */
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>
+
+        /**
          * Login as admin via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
          * @returns {UserProfile} out.user: `UserProfile` object
@@ -39,6 +52,17 @@ declare namespace Cypress {
          *   cy.apiAdminLogin();
          */
         apiAdminLogin(): Chainable<UserProfile>;
+
+        /**
+         * Login as admin via API.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {string} token - MFA token for the session
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiAdminLoginWithMFA({token: '123456'});
+         */
+        apiAdminLoginWithMFA(): Chainable<UserProfile>;
 
         /**
          * Logout a user's active session from server via API.
@@ -258,5 +282,16 @@ declare namespace Cypress {
         *   });
         */
         apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
+
+        /**
+         * Update a user MFA.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+         * @param {String} userId - ID of user to patch
+         * @param {boolean} activate - Whether MFA is going to be enabled or disabled
+         * @param {string} token - MFA token/code
+         * @example
+         *   cy.apiActivateUserMFA('user-id', activate: false);
+         */
+        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
     }
 }

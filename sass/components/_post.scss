@@ -4,7 +4,7 @@
     .custom-textarea {
         border-radius: 4px;
         background: transparent;
-        border: 1px solid v(center-channel-color-24);
+        border: 1px solid rgba(v(center-channel-color-rgb), 0.24);
         height: 100%;
         line-height: 20px;
         min-height: 46px;
@@ -14,7 +14,7 @@
         word-wrap: break-word;
 
         &:focus {
-            border: 2px solid v(center-channel-color-32);
+            border: 2px solid rgba(v(center-channel-color-rgb), 0.32);
             box-shadow: none;
             padding: 11px 0 11px 14px;
         }
@@ -49,7 +49,7 @@
         z-index: 2;
 
         &:focus {
-            border-color: v(center-channel-color-40);
+            border-color: rgba(v(center-channel-color-rgb), 0.4);
         }
 
         p {
@@ -561,19 +561,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        fill: v(center-channel-color-56);
-        color: v(center-channel-color-56);
+        fill: rgba(v(center-channel-color-rgb), 0.56);
+        color: rgba(v(center-channel-color-rgb), 0.56);
 
         &:hover {
-            background: v(center-channel-color-08);
-            fill: v(center-channel-color-72);
-            color: v(center-channel-color-72);
+            background: rgba(v(center-channel-color-rgb), 0.08);
+            fill: rgba(v(center-channel-color-rgb), 0.72);
+            color: rgba(v(center-channel-color-rgb), 0.72);
         }
 
         &:active,
         &--active,
         &--active:hover {
-            background: v(button-bg-08);
+            background: rgba(var(--button-bg-rgb), 0.08);
             fill: v(button-bg);
             color: v(button-bg);
         }
@@ -665,7 +665,7 @@
     word-wrap: break-word;
 
     &:hover {
-        background-color: v(center-channel-color-04);
+        background-color: rgba(v(center-channel-color-rgb), 0.04);
     }
 
     .browser--ie & {
@@ -1225,7 +1225,7 @@
 
             .post-pre-header__link-separator {
                 margin: 0px 5px;
-                color: var(--center-channel-color-32);
+                color: rgba(var(--center-channel-color-rgb), 0.32);
                 font-size: 4px;
                 vertical-align: top;
             }
@@ -1532,7 +1532,7 @@
 
     .post-add-reaction-emoji-picker-open {
         .Reaction {
-            background-color: v(button-bg-08);
+            background-color: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
             fill: v(button-bg);
         }
@@ -1772,7 +1772,7 @@
 }
 
 .post--pinned-or-flagged {
-    background-color: var(--mention-highlight-bg-12);
+    background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
 }
 
 .Badge {
@@ -1986,7 +1986,7 @@
 @keyframes postPinnedOrFlaggedHighlight {
     100% {
       background: initial;
-      background-color: var(--mention-highlight-bg-12);
+      background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
     }
 }
 

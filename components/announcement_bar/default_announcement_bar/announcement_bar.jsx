@@ -15,7 +15,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import WarnMetricAckModal from 'components/warn_metric_ack_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {

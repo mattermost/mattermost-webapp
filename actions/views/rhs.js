@@ -19,7 +19,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';

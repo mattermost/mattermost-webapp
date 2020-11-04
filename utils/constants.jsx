@@ -100,6 +100,7 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
 export const ActionTypes = keyMirror({
@@ -273,6 +274,7 @@ export const ModalIdentifiers = {
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
+    CLOUD_PURCHASE: 'cloud_purchase',
 };
 
 export const UserStatuses = {
@@ -379,6 +381,8 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
     SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
+    USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
+    CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
 };
 
 export const TutorialSteps = {
@@ -401,6 +405,11 @@ export const RecommendedNextSteps = {
 
 export const CloudBanners = {
     HIDE: 'hide',
+};
+
+export const TELEMETRY_CATEGORIES = {
+    CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_ADMIN: 'cloud_admin',
 };
 
 export const PostTypes = {
@@ -669,6 +678,10 @@ export const AboutLinks = {
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
 };
 
+export const CloudLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
+};
+
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
     [Permissions.INVITE_GUEST]: 'team_scope',
@@ -737,6 +750,7 @@ export const PermissionsScope = {
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
+    [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -850,6 +864,13 @@ export const exportFormats = {
     EXPORT_FORMAT_CSV: 'csv',
     EXPORT_FORMAT_ACTIANCE: 'actiance',
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
+};
+
+export const ZoomSettings = {
+    DEFAULT_SCALE: 1,
+    SCALE_DELTA: 0.25,
+    MIN_SCALE: 0.25,
+    MAX_SCALE: 3.0,
 };
 
 export const Constants = {
@@ -1524,8 +1545,8 @@ export const Constants = {
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     ANIMATION_TIMEOUT: 1000,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
-    DIAGNOSTICS_RUDDER_KEY: 'placeholder_rudder_key',
-    DIAGNOSTICS_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
+    TELEMETRY_RUDDER_KEY: 'placeholder_rudder_key',
+    TELEMETRY_RUDDER_DATAPLANE_URL: 'placeholder_rudder_dataplane_url',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
@@ -1560,3 +1581,4 @@ t('suggestion.archive');
 t('suggestion.mention.groups');
 
 export default Constants;
+

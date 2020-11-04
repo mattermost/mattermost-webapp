@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/post_list_row should have class hideAnimation for NEWER_MESSAGES_LOADER if loadingNewerPosts is false 1`] = `
+<div
+  className="loading-screen"
+>
+  <div
+    className="loading__content hideAnimation"
+  >
+    <div
+      className="round round-1"
+    />
+    <div
+      className="round round-2"
+    />
+    <div
+      className="round round-3"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list_row should have class hideAnimation for OLDER_MESSAGES_LOADER if loadingOlderPosts is false 1`] = `
+<div
+  className="loading-screen"
+>
+  <div
+    className="loading__content hideAnimation"
+  >
+    <div
+      className="round round-1"
+    />
+    <div
+      className="round round-2"
+    />
+    <div
+      className="round round-3"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list_row should render channel intro message 1`] = `<Connect(ChannelIntroMessage) />`;
+
+exports[`components/post_view/post_list_row should render combined post 1`] = `
+<Connect(Connect(injectIntl(Post)))
+  combinedId="user-activity-1234-5678"
+  isLastPost={false}
+  previousPostId="abcd"
+  shouldHighlight={false}
+  togglePostMenu={[MockFunction]}
+/>
+`;
+
+exports[`components/post_view/post_list_row should render date line 1`] = `
+<Memo(DateSeparator)
+  date={1553106600000}
+  key="1553106600000"
+/>
+`;
+
+exports[`components/post_view/post_list_row should render manual load messages trigger 1`] = `
+<button
+  className="more-messages-text theme style--none color--link"
+  onClick={[MockFunction]}
+>
+  <FormattedMessage
+    defaultMessage="Load More Messages"
+    id="posts_view.loadMore"
+  />
+</button>
+`;
+
+exports[`components/post_view/post_list_row should render more messages loading indicator 1`] = `
+<div
+  className="loading-screen"
+>
+  <div
+    className="loading__content"
+  >
+    <div
+      className="round round-1"
+    />
+    <div
+      className="round round-2"
+    />
+    <div
+      className="round round-3"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_list_row should render new messages line 1`] = `
+<NewMessageSeparator
+  separatorId="start-of-new-messages"
+/>
+`;
+
+exports[`components/post_view/post_list_row should render post 1`] = `
+<Connect(injectIntl(Post))
+  isLastPost={false}
+  postId="1234"
+  previousPostId="abcd"
+  shouldHighlight={false}
+  togglePostMenu={[MockFunction]}
+/>
+`;

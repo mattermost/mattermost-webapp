@@ -128,13 +128,8 @@ describe('Toast', () => {
         const oldPostNumber = 28;
 
         cy.getNthPostId(-oldPostNumber).then((postId) => {
-            cy.get(`#post_${postId}`).trigger('mouseover');
-            cy.clickPostDotMenu(postId, 'CENTER');
-
             // # Mark post as unread
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
-                cy.findByText('Mark as Unread').should('be.visible').click();
-            });
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
 
             // # Visit another channel and come back to the same channel again
             cy.get('#sidebarItem_off-topic').should('be.visible').scrollIntoView().click();

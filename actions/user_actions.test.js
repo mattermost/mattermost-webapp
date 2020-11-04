@@ -11,7 +11,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import * as UserActions from 'actions/user_actions';
 import {getState} from 'stores/redux_store';
 import TestHelper from 'tests/helpers/client-test-helper';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 const mockStore = configureStore([thunk]);
 
@@ -87,8 +87,8 @@ jest.mock('stores/redux_store', () => {
     };
 });
 
-jest.mock('actions/diagnostics_actions.jsx', () => {
-    const original = jest.requireActual('actions/diagnostics_actions.jsx');
+jest.mock('actions/telemetry_actions.jsx', () => {
+    const original = jest.requireActual('actions/telemetry_actions.jsx');
     return {
         ...original,
         trackEvent: jest.fn(),

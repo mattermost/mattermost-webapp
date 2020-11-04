@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {Team} from 'mattermost-redux/types/teams';
 
-import {pageVisited, trackEvent} from 'actions/diagnostics_actions';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Input from 'components/input';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
@@ -18,6 +18,8 @@ import * as Utils from 'utils/utils';
 import {StepComponentProps} from '../../steps';
 
 import './team_profile_step.scss';
+
+const MAX_TEAM_NAME_LENGTH = 64;
 
 type Props = StepComponentProps & {
     team: Team & {last_team_icon_update?: number};
@@ -64,7 +66,9 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
     private handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let teamNameError;
         if (!event.target.value) {
-            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team name can’t be blank');
+            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameCannotBeBlank', 'Team name cannot be blank');
+        } else if (event.target.value.length > MAX_TEAM_NAME_LENGTH) {
+            teamNameError = Utils.localizeMessage('next_steps_view.team_profile_step.nameTooBig', 'Team name must be less than 64 characters');
         }
 
         this.setState({teamName: event.target.value, teamNameError});

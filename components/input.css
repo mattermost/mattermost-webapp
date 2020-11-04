@@ -19,6 +19,7 @@
     font-size: 12px;
     line-height: 30px;
     display: flex;
+    margin: 2px 0;
 }
 
 .Input_container {
@@ -74,9 +75,13 @@
     padding: 0 1px;
 }
 
+.Input_fieldset:hover {
+    border-color: rgba(var(--center-channel-color-rgb), 0.48);
+}
+
 .Input_fieldset:focus-within {
-    border-color: transparent;
-    box-shadow: 0 0 0 2px var(--button-bg);
+    border-color: var(--button-bg);
+    box-shadow: inset 0 0 0 1px var(--button-bg);
     color: var(--button-bg);
 }
 
@@ -89,12 +94,16 @@
 
 .Input_fieldset___error {
     color: var(--error-text);
-    border-color: transparent;
-    box-shadow: 0 0 0 1px var(--error-text);
+    border-color: var(--error-text);
 }
 .Input_fieldset___error:focus-within {
     color: var(--error-text);
-    box-shadow: 0 0 0 2px var(--error-text);
+    border-color: var(--error-text);
+    box-shadow: inset 0 0 0 1px var(--error-text);
+}
+
+.Input_fieldset___error:hover {
+    border-color: var(--error-text);
 }
 
 .Input_legend {
@@ -109,7 +118,7 @@
     font-size: 10px;
     line-height: 16px;
     z-index: 4;
-    top: -10px;
+    top: -8px;
     background-color: var(--center-channel-bg);
     padding: 0 4px;
     white-space: nowrap;

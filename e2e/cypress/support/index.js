@@ -104,6 +104,14 @@ before(() => {
                 cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
         }
+
+        // * Verify that the server database matches with the DB client and config at "cypress.json"
+        cy.apiRequireServerDBToMatch();
+
+        if (Cypress.env('runWithEELicense')) {
+            // * Verify that the server is loaded with license when running tests for EE
+            cy.apiRequireLicense();
+        }
     });
 });
 

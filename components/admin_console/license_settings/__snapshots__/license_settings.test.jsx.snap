@@ -48,6 +48,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={false}
@@ -169,6 +170,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={true}
@@ -190,6 +192,14 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                       />
                     </LoadingWrapper>
                   </button>
+                </p>
+                <p
+                  className="upgrade-legal-terms"
+                >
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
+                    id="admin.license.enterprise.upgrade.accept-terms"
+                  />
                 </p>
               </div>
             </div>
@@ -354,6 +364,7 @@ Your subscription details are as follows:
               </a>
                and 
               <a
+                data-testid="privacyPolicyLink"
                 href="https://about.mattermost.com/default-privacy-policy/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -381,6 +392,7 @@ Your subscription details are as follows:
               className="btn btn-danger"
               id="remove-button"
               onClick={[Function]}
+              type="button"
             >
               <FormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
@@ -502,6 +514,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               </a>
                and 
               <a
+                data-testid="privacyPolicyLink"
                 href="https://about.mattermost.com/default-privacy-policy/"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -529,6 +542,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               className="btn btn-danger"
               id="remove-button"
               onClick={[Function]}
+              type="button"
             >
               <FormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
@@ -621,6 +635,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 <button
                   className="btn btn-primary"
                   onClick={[Function]}
+                  type="button"
                 >
                   <LoadingWrapper
                     loading={false}
@@ -682,6 +697,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
             >
               <button
                 className="btn btn-primary"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Choose File"
@@ -771,6 +787,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 <button
                   className="btn btn-primary"
                   onClick={[Function]}
+                  type="button"
                 >
                   <LoadingWrapper
                     loading={false}
@@ -837,6 +854,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             >
               <button
                 className="btn btn-primary"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Choose File"
@@ -957,6 +975,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={false}
@@ -978,6 +997,14 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                       />
                     </LoadingWrapper>
                   </button>
+                </p>
+                <p
+                  className="upgrade-legal-terms"
+                >
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
+                    id="admin.license.enterprise.upgrade.accept-terms"
+                  />
                 </p>
               </div>
             </div>
@@ -1088,6 +1115,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={false}
@@ -1109,6 +1137,14 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                       />
                     </LoadingWrapper>
                   </button>
+                </p>
+                <p
+                  className="upgrade-legal-terms"
+                >
+                  <injectIntl(FormattedMarkdownMessage)
+                    defaultMessage="By clicking **Upgrade to Enterprise Edition**, I agree to the terms of the Mattermost Enterprise Edition License."
+                    id="admin.license.enterprise.upgrade.accept-terms"
+                  />
                 </p>
               </div>
             </div>

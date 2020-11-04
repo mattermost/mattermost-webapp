@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -33,7 +34,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.clickPostPinIcon(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Click pin icon next to search box
             cy.get('#channelHeaderPinButton').should('exist').click();
@@ -56,7 +57,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.clickPostPinIcon(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Find the 'Pinned' span in the post pre-header to verify that the post was actually pinned
             cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
@@ -68,7 +69,7 @@ describe('Messaging', () => {
             cy.get(`#rhsPostMessageText_${postId}`).should('exist');
 
             // # On a message in center channel, Click [...] > Un-pin from channel
-            cy.getPostMenu(postId, 'Unpin from Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Unpin from Channel');
 
             // * Post disappears from RHS
             cy.get(`#rhsPostMessageText_${postId}`).should('not.exist');
@@ -84,7 +85,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.clickPostPinIcon(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Search for "Hello"
             cy.get('#searchBox').should('be.visible').type('Hello').type('{enter}');
@@ -93,7 +94,7 @@ describe('Messaging', () => {
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('exist');
 
             // # On a message in center channel, Click [...] > Un-pin from channel
-            cy.getPostMenu(postId, 'Unpin from Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Unpin from Channel');
 
             // * Post still appears in RHS search results, but Pinned badge is removed
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('not.exist');
@@ -106,7 +107,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.clickPostPinIcon(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Click save icon
             cy.clickPostSaveIcon(postId);
@@ -123,7 +124,7 @@ describe('Messaging', () => {
                 and('have.class', 'post--highlight');
 
             // # In permalink view, click [...] > Un-pin from channel
-            cy.getPostMenu(postId, 'Unpin from Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Unpin from Channel');
 
             // * Pinned badge is removed in both center and RHS
             cy.get(`#post_${postId}`).findByText('Pinned').should('not.exist');
@@ -137,7 +138,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.clickPostPinIcon(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # And also save the message
             cy.clickPostSaveIcon(postId);
@@ -149,14 +150,14 @@ describe('Messaging', () => {
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('exist');
 
             // # In center channel, click [...] > Un-pin from channel
-            cy.getPostMenu(postId, 'Unpin from Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Unpin from Channel');
 
             // * Post still appears in saved posts list, and Pinned badge is removed in both center and RHS
             cy.get(`#post_${postId}`).findByText('Pinned').should('not.exist');
             cy.get(`#searchResult_${postId}`).findByText('Pinned').should('not.exist');
 
             // # In center channel, click [...] > Pin to channel
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // * Pinned badge returns on message in both center and RHS
             cy.get(`#post_${postId}`).findByText('Pinned').should('exist');
@@ -170,7 +171,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // # On a message in center channel, click then pin the post to the channel
-            cy.clickPostPinIcon(postId);
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);

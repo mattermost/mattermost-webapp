@@ -220,6 +220,33 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="about"
+            icon="fa-info-circle"
+            key="about"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="about.license"
+              key="about.license"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             definitionKey="reporting"
             icon="fa-bar-chart"
             key="reporting"
@@ -618,6 +645,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <FormattedMessage
                   defaultMessage="Features"
                   id="admin.sidebar.experimentalFeatures"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="experimental.feature_flags"
+              key="experimental.feature_flags"
+              name="experimental/feature_flags"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Feature Flags"
+                  id="admin.feature_flags.title"
                 />
               }
             />

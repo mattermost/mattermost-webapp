@@ -60,6 +60,14 @@ Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => 
 
 // Type Cmd or Ctrl depending on OS
 Cypress.Commands.add('typeCmdOrCtrl', () => {
+    typeCmdOrCtrlInt('#post_textbox');
+});
+
+Cypress.Commands.add('typeCmdOrCtrlForEdit', () => {
+    typeCmdOrCtrlInt('#edit_textbox');
+});
+
+function typeCmdOrCtrlInt(textboxSelector) {
     let cmdOrCtrl;
     if (isMac()) {
         cmdOrCtrl = '{cmd}';
@@ -67,12 +75,16 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
         cmdOrCtrl = '{ctrl}';
     }
 
-    cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
-});
+    cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
+}
 
 Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
+});
+
+Cypress.Commands.add('isMac', () => {
+    isMac();
 });
 
 function isMac() {
@@ -281,31 +293,6 @@ Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
  */
 Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
-});
-
-/**
- * Click comment icon by post ID or to most recent post (if post ID is not provided)
- * This open up the RHS
- * @param {String} postId - Post ID
- * @param {String} menuItem - e.g. "Pin to channel"
- * @param {String} location - as 'CENTER', 'SEARCH'
- */
-Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
-    cy.clickPostDotMenu(postId, location).then(() => {
-        cy.get(`#post_${postId}`).should('be.visible').within(() => {
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
-                return cy.findByText(menuItem).scrollIntoView().should('be.visible');
-            });
-        });
-    });
-});
-
-/**
- * Click Pin to Channel icon by post ID or to most recent post (if post ID is not provided)
- * @param {String} postId - Post ID
- */
-Cypress.Commands.add('clickPostPinIcon', (postId) => {
-    cy.getPostMenu(postId, 'Pin to Channel').click();
 });
 
 // Close RHS by clicking close button
