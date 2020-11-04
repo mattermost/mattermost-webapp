@@ -70,6 +70,9 @@ export type State = {
 }
 
 export default class SystemUserDetail extends React.PureComponent<Props & RouteComponentProps, State> {
+    errorMessageRef: React.RefObject<HTMLDivElement>;
+    errorMessageRefCurrent: React.ReactInstance | undefined;
+
     public static defaultProps = {
         user: {
             email: '',
@@ -98,6 +101,8 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
             refreshTeams: true,
             error: null,
         };
+
+        this.errorMessageRef = React.createRef();
     }
 
     setTeamsData = (teams: TeamMembership[]): void => {
@@ -340,6 +345,12 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
         return authLine;
     }
 
+    componentDidMount(): void {
+        if (this.errorMessageRef.current) {
+            this.errorMessageRefCurrent = this.errorMessageRef.current;
+        }
+    }
+
     render(): React.ReactNode {
         const {user} = this.props;
         let deactivateMemberModal;
@@ -484,14 +495,14 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
                     />
                     <div
                         className='error-message'
-                        ref='errorMessage'
+                        ref={this.errorMessageRef}
                     >
                         <FormError error={this.state.serverError}/>
                     </div>
                     <Overlay
                         show={this.state.errorTooltip}
                         placement='top'
-                        target={this.refs.errorMessage}
+                        target={this.errorMessageRefCurrent}
                     >
                         <Tooltip id='error-tooltip' >
                             {this.state.serverError}
