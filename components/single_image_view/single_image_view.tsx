@@ -19,7 +19,7 @@ const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 type Props = {
     post: Post;
-    fileInfo: FileInfo;
+    fileInfo: FileInfo | undefined;
     isRhsOpen: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;
