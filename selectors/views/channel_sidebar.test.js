@@ -34,10 +34,10 @@ describe('isCategoryCollapsed', () => {
 });
 
 describe('getUnreadChannels', () => {
-    const currentChanenl = {id: 'currentChanenl', total_msg_count: 0, last_post_at: 0};
-    const readChannel = {id: 'readChannel', total_msg_count: 10, last_post_at: 300};
-    const unreadChannel1 = {id: 'unreadChannel1', total_msg_count: 10, last_post_at: 100};
-    const unreadChannel2 = {id: 'unreadChannel2', total_msg_count: 10, last_post_at: 200};
+    const currentChanenl = {id: 'currentChanenl', delete_at: 0, total_msg_count: 0, last_post_at: 0};
+    const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
+    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
+    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
 
     const baseState = {
         entities: {
@@ -211,5 +211,49 @@ describe('getUnreadChannels', () => {
 
         // unreadChannel2 is muted and has a mention
         expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel1, currentChanenl, unreadChannel2]);
+    });
+
+    test('should not show archived channels unless they are the current channel', () => {
+        const archivedChannel = {id: 'archivedChannel', delete_at: 1, total_msg_count: 10, last_post_at: 400};
+
+        let state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channels: {
+                    ...baseState.entities.channels,
+                    channels: {
+                        ...baseState.entities.channels.channels,
+                        archivedChannel,
+                    },
+                    channelsInTeam: {
+                        ...baseState.entities.channels.channelsInTeam,
+                        team1: [
+                            ...baseState.entities.channels.channelsInTeam.team1,
+                            'archivedChannel',
+                        ],
+                    },
+                    myMembers: {
+                        ...baseState.entities.channels.myMembers,
+                        archivedChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
+                    },
+                },
+            },
+        };
+
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChanenl]);
+
+        state = {
+            ...state,
+            entities: {
+                ...state.entities,
+                channels: {
+                    ...state.entities.channels,
+                    currentChannelId: 'archivedChannel',
+                },
+            },
+        };
+
+        expect(Selectors.getUnreadChannels(state)).toEqual([archivedChannel, unreadChannel2, unreadChannel1]);
     });
 });
