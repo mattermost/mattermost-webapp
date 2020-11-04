@@ -6,9 +6,9 @@ import {shallow} from 'enzyme';
 
 import TermsOfService from 'components/terms_of_service/terms_of_service.jsx';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitUserLoggedOutEvent: jest.fn(),
     redirectUserToDefaultTeam: jest.fn(),
 }));

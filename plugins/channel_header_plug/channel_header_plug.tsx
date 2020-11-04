@@ -3,25 +3,29 @@
 
 /* eslint-disable react/no-multi-comp */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
 
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Theme} from 'mattermost-redux/types/preferences';
+
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from '../../components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
+import {PluginComponent} from 'types/store/plugins';
 
-class CustomMenu extends React.PureComponent {
-    static propTypes = {
-        open: PropTypes.bool,
-        children: PropTypes.node,
-        onClose: PropTypes.func.isRequired,
-        rootCloseEvent: PropTypes.oneOf(['click', 'mousedown']),
-    }
+type CustomMenuProps = {
+    open?: boolean;
+    children?: React.ReactNode;
+    onClose: () => void;
+    rootCloseEvent?: 'click' | 'mousedown';
+    bsRole: string;
+}
 
+class CustomMenu extends React.PureComponent<CustomMenuProps> {
     handleRootClose = () => {
         this.props.onClose();
     }
@@ -50,15 +54,18 @@ class CustomMenu extends React.PureComponent {
     }
 }
 
-class CustomToggle extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.element,
-        dropdownOpen: PropTypes.bool,
-        onClick: PropTypes.func,
-    }
+type CustomToggleProps = {
+    children?: React.ReactNode;
+    dropdownOpen?: boolean;
+    onClick?: (e: React.MouseEvent) => void;
+    bsRole: string;
+}
 
-    handleClick = (e) => {
-        this.props.onClick(e);
+class CustomToggle extends React.PureComponent<CustomToggleProps> {
+    handleClick = (e: React.MouseEvent) => {
+        if (this.props.onClick) {
+            this.props.onClick(e);
+        }
     }
 
     render() {
@@ -82,31 +89,26 @@ class CustomToggle extends React.PureComponent {
     }
 }
 
-export default class ChannelHeaderPlug extends React.PureComponent {
-    static propTypes = {
+type ChannelHeaderPlugProps = {
+    components: PluginComponent[];
+    channel: Channel;
+    channelMember: ChannelMembership;
+    theme: Theme;
+}
 
-        /*
-         * Components or actions to add as channel header buttons
-         */
-        components: PropTypes.array,
+type ChannelHeaderPlugState = {
+    dropdownOpen: boolean;
+}
 
-        channel: PropTypes.object.isRequired,
-        channelMember: PropTypes.object.isRequired,
-
-        /*
-         * Logged in user's theme
-         */
-        theme: PropTypes.object.isRequired,
-    }
-
-    constructor(props) {
+export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
+    constructor(props: ChannelHeaderPlugProps) {
         super(props);
         this.state = {
             dropdownOpen: false,
         };
     }
 
-    toggleDropdown = (dropdownOpen) => {
+    toggleDropdown = (dropdownOpen: boolean) => {
         this.setState({dropdownOpen});
     }
 
@@ -114,18 +116,18 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         this.toggleDropdown(false);
     }
 
-    fireActionAndClose = (action) => {
+    fireActionAndClose = (action: (...args: any) => void) => { // TODO add more specific types
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
 
-    createButton = (plug) => {
+    createButton = (plug: PluginComponent) => {
         return (
             <HeaderIconWrapper
                 key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon'
-                iconComponent={plug.icon}
-                onClick={() => plug.action(this.props.channel, this.props.channelMember)}
+                iconComponent={plug.icon!}
+                onClick={() => plug.action!(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
                 tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
@@ -133,8 +135,8 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         );
     }
 
-    createDropdown = (plugs) => {
-        const items = plugs.map((plug) => {
+    createDropdown = (plugs: PluginComponent[]) => {
+        const items = plugs.filter((plug) => plug.action).map((plug) => {
             return (
                 <li
                     key={'channelHeaderPlug' + plug.id}
@@ -142,7 +144,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(plug.action)}
+                        onClick={() => this.fireActionAndClose(plug.action!)}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{plug.icon}</span>
                         <span>{plug.dropdownText}</span>
@@ -156,7 +158,6 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 <Dropdown
                     id='channelHeaderPlugDropdown'
                     onToggle={this.toggleDropdown}
-                    onSelect={this.onSelect}
                     open={this.state.dropdownOpen}
                 >
                     <CustomToggle

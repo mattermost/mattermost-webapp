@@ -4,9 +4,11 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {Locations, PostTypes} from 'utils/constants';
 
-import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
+import DotMenu, {Props, PLUGGABLE_COMPONENT} from './dot_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -18,7 +20,7 @@ jest.mock('utils/utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: {id: 'post_id_1', is_pinned: false, type: ''},
+        post: {id: 'post_id_1', is_pinned: false} as Post,
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -27,6 +29,7 @@ describe('components/dot_menu/DotMenu', () => {
         components: {},
         channelIsArchived: false,
         currentTeamUrl: '',
+        location: Locations.CENTER,
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),
@@ -38,14 +41,15 @@ describe('components/dot_menu/DotMenu', () => {
         },
         canEdit: false,
         canDelete: false,
-    };
+        pluginMenuItems: [],
+    } as Props;
 
     test('should match snapshot, on Center', () => {
         const props = {
             ...baseProps,
             canEdit: true,
         };
-        const wrapper = shallow(
+        const wrapper = shallow<DotMenu>(
             <DotMenu {...props}/>,
         );
 
@@ -99,7 +103,7 @@ describe('components/dot_menu/DotMenu', () => {
                 ...baseProps.post,
                 type: PostTypes.JOIN_CHANNEL,
             },
-        };
+        } as Props;
         const wrapper = shallow(
             <DotMenu {...props}/>,
         );
@@ -159,7 +163,7 @@ describe('components/dot_menu/DotMenu', () => {
         const props = {
             ...baseProps,
             location: Locations.SEARCH,
-        };
+        } as Props;
         const wrapper = shallow(
             <DotMenu {...props}/>,
         );

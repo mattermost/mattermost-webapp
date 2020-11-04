@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {Locations} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
