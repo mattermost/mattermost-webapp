@@ -62,6 +62,747 @@ exports[`components/ReactionList should not render add reaction button when exis
       ]
     }
   />
+  <Connect(Reaction)
+    emojiName="smile"
+    key="smile"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "smile",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="grin"
+    key="grin"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "grin",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="laughing"
+    key="laughing"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "laughing",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="satisfied"
+    key="satisfied"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "satisfied",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="sweat_smile"
+    key="sweat_smile"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "sweat_smile",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="joy"
+    key="joy"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "joy",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="rofl"
+    key="rofl"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "rofl",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="relaxed"
+    key="relaxed"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "relaxed",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="blush"
+    key="blush"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "blush",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="innocent"
+    key="innocent"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "innocent",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="slightly_smiling_face"
+    key="slightly_smiling_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "slightly_smiling_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="upside_down_face"
+    key="upside_down_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "upside_down_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="wink"
+    key="wink"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "wink",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="relieved"
+    key="relieved"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "relieved",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="heart_eyes"
+    key="heart_eyes"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "heart_eyes",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="kissing_heart"
+    key="kissing_heart"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "kissing_heart",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="kissing"
+    key="kissing"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "kissing",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="kissing_smiling_eyes"
+    key="kissing_smiling_eyes"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "kissing_smiling_eyes",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="kissing_closed_eyes"
+    key="kissing_closed_eyes"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "kissing_closed_eyes",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="yum"
+    key="yum"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "yum",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="stuck_out_tongue_winking_eye"
+    key="stuck_out_tongue_winking_eye"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "stuck_out_tongue_winking_eye",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="stuck_out_tongue_closed_eyes"
+    key="stuck_out_tongue_closed_eyes"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "stuck_out_tongue_closed_eyes",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="stuck_out_tongue"
+    key="stuck_out_tongue"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "stuck_out_tongue",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="money_mouth_face"
+    key="money_mouth_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "money_mouth_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="hugs"
+    key="hugs"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "hugs",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="nerd_face"
+    key="nerd_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "nerd_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="sunglasses"
+    key="sunglasses"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "sunglasses",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="clown_face"
+    key="clown_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "clown_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="cowboy_hat_face"
+    key="cowboy_hat_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "cowboy_hat_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="smirk"
+    key="smirk"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "smirk",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="unamused"
+    key="unamused"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "unamused",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="disappointed"
+    key="disappointed"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "disappointed",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="pensive"
+    key="pensive"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "pensive",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="worried"
+    key="worried"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "worried",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="confused"
+    key="confused"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "confused",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="slightly_frowning_face"
+    key="slightly_frowning_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "slightly_frowning_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="frowning_face"
+    key="frowning_face"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "frowning_face",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="persevere"
+    key="persevere"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "persevere",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
+  <Connect(Reaction)
+    emojiName="confounded"
+    key="confounded"
+    post={
+      Object {
+        "id": "post_id",
+      }
+    }
+    reactions={
+      Array [
+        Object {
+          "create_at": 1542994995740,
+          "emoji_name": "confounded",
+          "post_id": "xbqfo5qb4bb4ffmj9hqfji6fiw",
+          "user_id": "1rj9fokoeffrigu7sk5uc8aiih",
+        },
+      ]
+    }
+  />
   <div
     className="post-add-reaction"
   />

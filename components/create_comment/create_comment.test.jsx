@@ -576,7 +576,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('postError')).toStrictEqual(
             <FormattedMessage
                 defaultMessage='Reaction limit exceeded for this message.'
-                id='create_post.emoji_reaction_limit_exceeded'
+                id='create_post.reaction_limit_message'
             />);
     });
 
