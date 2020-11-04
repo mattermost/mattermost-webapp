@@ -5,8 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ReactionList from './reaction_list.jsx';
-import {EmojiIndicesByAlias} from '../../../utils/emoji';
-import Constants from '../../../utils/constants';
+import {EmojiIndicesByAlias} from 'utils/emoji';
+import Constants from 'utils/constants';
 
 describe('components/ReactionList', () => {
     const reaction = {
