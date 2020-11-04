@@ -33,7 +33,7 @@ export type Props = {
     previewEnabled?: boolean;
     isEmbedVisible?: boolean;
     toggleEmbedVisibility: () => void;
-    actions?: {
+    actions: {
         editPost: (post: { id: string; props: Record<string, any> }) => void;
     };
 };
@@ -141,7 +141,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
             props,
         };
 
-        return this.props.actions?.editPost(patchedPost);
+        return this.props.actions.editPost(patchedPost);
     };
 
     hasPreviewBeenRemoved() {
