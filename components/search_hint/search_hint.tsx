@@ -18,6 +18,8 @@ type Props = {
     options: SearchTerm[];
     highlightedIndex?: number;
     onOptionHover?: (index: number) => void;
+    onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
+    searchType?: 'files' | 'messages';
 }
 
 const SearchHint = (props: Props) => {
@@ -26,6 +28,38 @@ const SearchHint = (props: Props) => {
             props.onOptionHover(optionIndex);
         }
     };
+
+    if (props.onSearchTypeSelected) {
+        if (!props.searchType) {
+            return (
+                <div
+                    className='search-hint__search-type-selector'
+                    onMouseDown={props.onMouseDown}
+                >
+                    <div>
+                        <FormattedMessage
+                            id='search_bar.usage.search_type_question'
+                            defaultMessage='What are you searching for?'
+                        />
+                    </div>
+                    <div className='button-container'>
+                        <button onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}>
+                            <FormattedMessage
+                                id='search_bar.usage.search_type_messages'
+                                defaultMessage='Messages'
+                            />
+                        </button>
+                        <button onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}>
+                            <FormattedMessage
+                                id='search_bar.usage.search_type_files'
+                                defaultMessage='Files'
+                            />
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+    }
 
     return (
         <React.Fragment>

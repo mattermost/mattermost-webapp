@@ -92,6 +92,23 @@
     padding: 0;
     position: relative;
 
+    .searchTypeBadge {
+        display: flex;
+        background: rgba(v(button-bg-rgb), 0.08);
+        color: v(button-bg);
+        padding: 2px 0 2px 7px;
+        @include border-radius(4px);
+        position: relative;
+        left: 26px;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 10px;
+        .icon-close {
+            cursor: pointer;
+        }
+    }
+
     .search-bar__container & {
         @include border-radius(4px);
         border: 1px solid v(center-channel-color-24);
@@ -309,6 +326,29 @@
 
 .search-hint__suggestion-list__value {
     margin-left: 16px;
+}
+
+.search-hint__search-type-selector {
+    padding: 18px 24px;
+    font-weight: 600;
+    font-size: 14px;
+
+    .button-container {
+        display: flex;
+    }
+
+    button {
+        @include border-radius(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: v(button-bg);
+        border-color: v(button-bg);
+        background: v(center-channel-bg);
+        padding: 11px 9px;
+        margin: 24px 8px 14px 0;
+    }
 }
 
 .sidebar--right__subheader {

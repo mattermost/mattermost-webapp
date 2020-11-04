@@ -62,6 +62,7 @@ export default class SearchBar extends React.PureComponent {
             highlightedSearchHintIndex: -1,
             visibleSearchHintOptions: SearchBar.determineVisibleSearchHintOptions(props.searchTerms),
             lastSearchTerms: '',
+            searchType: '',
         };
 
         this.suggestionProviders = [
@@ -202,6 +203,11 @@ export default class SearchBar extends React.PureComponent {
         }
     }
 
+    handleSearchTypeSelected = (searchType) => {
+        this.setState({searchType});
+        this.focus();
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         const terms = this.props.searchTerms.trim();
@@ -299,6 +305,8 @@ export default class SearchBar extends React.PureComponent {
                         onMouseDown={this.keepInputFocused}
                         highlightedIndex={this.state.highlightedSearchHintIndex}
                         onOptionHover={this.setHoverHintIndex}
+                        onSearchTypeSelected={this.state.searchType ? undefined : this.handleSearchTypeSelected}
+                        searchType={this.state.searchType}
                     />
                 </Popover>
             );
@@ -398,6 +406,28 @@ export default class SearchBar extends React.PureComponent {
                         <div className='search__font-icon'>
                             <i className='icon icon-magnify icon-16'/>
                         </div>
+
+                        {this.state.searchType !== '' &&
+                            <div
+                                className='searchTypeBadge'
+                                onMouseDown={this.keepInputFocused}
+                            >
+                                {this.state.searchType === 'messages' &&
+                                    <FormattedMessage
+                                        id='search_bar.search_types.messages'
+                                        defaultMessage='MESSAGES'
+                                    />}
+                                {this.state.searchType === 'files' &&
+                                    <FormattedMessage
+                                        id='search_bar.search_types.files'
+                                        defaultMessage='FILES'
+                                    />}
+                                <i
+                                    className='icon icon-close icon-16'
+                                    onClick={() => this.setState({searchType: ''})}
+                                />
+                            </div>}
+
                         <SuggestionBox
                             ref={this.getSearch}
                             id={this.props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}
