@@ -283,6 +283,8 @@ class CreateComment extends React.PureComponent {
             mentions: [],
             memberNotifyCount: 0,
         };
+
+        this.reactionLimitTimer = null;
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;
@@ -313,6 +315,7 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+        clearTimeout(this.reactionLimitTimer);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -626,7 +629,7 @@ class CreateComment extends React.PureComponent {
                     />
                 );
 
-                setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
+                this.reactionLimitTimer = setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
                 return;
             }
         }

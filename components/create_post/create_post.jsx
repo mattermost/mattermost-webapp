@@ -328,6 +328,7 @@ class CreatePost extends React.PureComponent {
             memberNotifyCount: 0,
         };
 
+        this.reactionLimitTimer = null;
         this.lastBlurAt = 0;
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
@@ -383,6 +384,7 @@ class CreatePost extends React.PureComponent {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
             cancelAnimationFrame(this.saveDraftFrame);
         }
+        clearTimeout(this.reactionLimitTimer);
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -526,7 +528,7 @@ class CreatePost extends React.PureComponent {
                         defaultMessage='Reaction limit exceeded for this message.'
                     />
                 );
-                setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
+                this.reactionLimitTimer = setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
                 this.setState({submitting: false});
                 return;
             }
