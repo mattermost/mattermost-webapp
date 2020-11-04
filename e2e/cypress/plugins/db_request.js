@@ -64,7 +64,7 @@ const dbGetUser = async ({dbConfig, params: {username}}) => {
 
         return {user: convertKeysToLowercase(user)};
     } catch (error) {
-        const errorMessage = 'Failed to get a user from the database.';
+        const errorMessage = error;
         return {error, errorMessage};
     }
 };

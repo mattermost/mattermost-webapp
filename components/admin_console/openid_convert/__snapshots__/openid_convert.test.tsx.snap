@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/OpenIdConvert should match snapshot 1`] = `
+<div
+  className="OpenIdConvert"
+>
+  <div
+    className="OpenIdConvert_imageWrapper"
+  >
+    <img
+      alt="OpenId Convert Image"
+      className="OpenIdConvert_image"
+      src={null}
+    />
+  </div>
+  <div
+    className="OpenIdConvert_copyWrapper"
+  >
+    <div
+      className="OpenIdConvert__heading"
+    >
+      <FormattedMessage
+        defaultMessage="OAuth 2.0 is being deprecated and replace by OpenID Connect."
+        id="admin.openidconvert.heading"
+      />
+    </div>
+    <p>
+      <FormattedMessage
+        defaultMessage="Convert your OAuth 2.0 configuration to the new OpenID Connect standard."
+        id="admin.openidconvert.message"
+      />
+    </p>
+    <div
+      className="OpenIdConvert_actionWrapper"
+    >
+      <button
+        className="btn"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Convert to OpenId Connect"
+          id="admin.openidconvert.text"
+        />
+      </button>
+      <a
+        className="btn-secondary"
+        data-testid="openid_learn_more"
+        href="https://docs.mattermost.com/deployment/sso-gitlab.html"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <FormattedMessage
+          defaultMessage="Learn more"
+          id="admin.openidconvert.help"
+        />
+      </a>
+      <div
+        className="error-message"
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

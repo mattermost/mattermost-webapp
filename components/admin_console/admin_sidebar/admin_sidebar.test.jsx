@@ -259,6 +259,7 @@ describe('components/AdminSidebar', () => {
                 MessageExport: 'true',
                 Elasticsearch: 'true',
                 CustomPermissionsSchemes: 'true',
+                OpenId: 'true',
             },
             config: {
                 ExperimentalSettings: {
@@ -267,6 +268,20 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                GitLabSettings: {
+                    Scope: '',
+                },
+                GoogleSettings: {
+                    Id: 'googleID',
+                    Secret: 'googleSecret',
+                    Scope: '',
+                },
+                Office365Settings: {
+                    Scope: '',
+                },
+                OpenIdSettings: {
+                    Scope: '',
                 },
             },
             adminDefinition: AdminDefinition,
@@ -291,6 +306,32 @@ describe('components/AdminSidebar', () => {
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
+            },
+            consoleAccess: {
+                read: {
+                    about: true,
+                    reporting: true,
+                    user_management: true,
+                    environment: true,
+                    site_configuration: true,
+                    authentication: true,
+                    plugins: true,
+                    integrations: true,
+                    compliance: true,
+                    experimental: true,
+                },
+                write: {
+                    about: true,
+                    reporting: true,
+                    user_management: true,
+                    environment: true,
+                    site_configuration: true,
+                    authentication: true,
+                    plugins: true,
+                    integrations: true,
+                    compliance: true,
+                    experimental: true,
+                },
             },
         };
 

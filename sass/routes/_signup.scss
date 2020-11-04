@@ -374,6 +374,14 @@ body {
                 }
             }
 
+            &.openid {
+                background: #0079d6;
+
+                &:hover {
+                    background: darken(#0079d6, 10%);
+                }
+            }
+
             &.ldap {
                 background: #3AA1CF;
 

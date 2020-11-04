@@ -210,6 +210,7 @@ class AdminSidebar extends React.PureComponent {
                             key={subDefinitionKey}
                             definitionKey={subDefinitionKey}
                             name={item.url}
+                            tag={item.tag}
                             title={
                                 <FormattedMessage
                                     id={item.title}
