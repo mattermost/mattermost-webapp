@@ -30,8 +30,8 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
-import {getEmojiMap} from "selectors/emojis";
-import {getEmojiReactionsCount, getEmojiReactionsMap} from "utils/emoji_reaction";
+import {getEmojiMap} from 'selectors/emojis';
+import {getEmojiReactionsCount, getEmojiReactionsMap} from 'utils/emoji_reaction';
 
 import CreateComment from './create_comment.jsx';
 
@@ -81,7 +81,7 @@ function makeMapStateToProps() {
         const latestPostId = ownProps.latestPostId;
         const emojiMap = getEmojiMap(state);
         const latestPostReactionsCount = getEmojiReactionsCount(
-            getlatestPostReactions(state, latestPostId)
+            getlatestPostReactions(state, latestPostId),
         );
         const {emojiNames} = getEmojiReactionsMap(getlatestPostReactions(state, latestPostId));
 

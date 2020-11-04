@@ -4,9 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ReactionList from './reaction_list.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji';
 import Constants from 'utils/constants';
+
+import ReactionList from './reaction_list.jsx';
 
 describe('components/ReactionList', () => {
     const reaction = {
@@ -60,8 +61,10 @@ describe('components/ReactionList', () => {
     test('should not render add reaction button when existing reactions exceeded limit', async () => {
         const mappedReactions = {...reactions};
         for (const [emoji, index] of [...EmojiIndicesByAlias]) {
-            if (+Constants.EMOJI_REACTIONS_LIMIT === +index) {break;}
-            mappedReactions[`${reaction.user_id}-${emoji}`] = await {...reaction, emoji_name: emoji}
+            if (Number(Constants.EMOJI_REACTIONS_LIMIT) === Number(index)) {
+                break;
+            }
+            mappedReactions[`${reaction.user_id}-${emoji}`] = {...reaction, emoji_name: emoji};
         }
 
         const props = {
@@ -74,7 +77,7 @@ describe('components/ReactionList', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('.post-reaction-list').text()).toBe("")
+        expect(wrapper.find('.post-reaction-list').text()).toBe('');
     });
 
     test('should render add reaction button when existing reactions within limit', async () => {
@@ -83,6 +86,6 @@ describe('components/ReactionList', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('.post-reaction-list').text()).toBe("<EmojiPickerOverlay /><AddReactionIcon />")
+        expect(wrapper.find('.post-reaction-list').text()).toBe('<EmojiPickerOverlay /><AddReactionIcon />');
     });
 });

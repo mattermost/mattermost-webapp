@@ -301,7 +301,7 @@ export default class DotMenu extends React.PureComponent {
             !this.props.isReadOnly &&
             this.props.enableEmojiPicker &&
             showAddReactionMenuItem
-        ){
+        ) {
             showAddReactionButton = false;
         }
 

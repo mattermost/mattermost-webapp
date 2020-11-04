@@ -106,7 +106,7 @@ function createPost({
     emojiMap = new EmojiMap(new Map()),
     isTimezoneEnabled = false,
     useGroupMentions = true,
-    reactionsByEmojiNameForLatestPost = []
+    reactionsByEmojiNameForLatestPost = [],
 } = {}) {
     return (
         <CreatePost
@@ -715,7 +715,11 @@ describe('components/create_post', () => {
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         jest.runOnlyPendingTimers();
         wrapper.update();
-        expect(wrapper.state('postError')).toStrictEqual(<FormattedMessage defaultMessage="Reaction limit exceeded for this message." id="create_post.emoji_reaction_limit_exceeded" />);
+        expect(wrapper.state('postError')).toStrictEqual(
+            <FormattedMessage
+                defaultMessage='Reaction limit exceeded for this message.'
+                id='create_post.emoji_reaction_limit_exceeded'
+            />);
     });
 
     it('onSubmit test for should not show post creation error when existing post reactions with in limit', async () => {
@@ -726,7 +730,7 @@ describe('components/create_post', () => {
                 actions: {
                     ...actionsProp,
                     addReaction,
-                }
+                },
             }),
         );
 

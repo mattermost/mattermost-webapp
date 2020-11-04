@@ -13,7 +13,7 @@ import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
-import {getEmojiReactionsCount} from "utils/emoji_reaction";
+import {getEmojiReactionsCount} from 'utils/emoji_reaction';
 
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
@@ -40,7 +40,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
         shortcutReactToLastPostEmittedFrom,
-        emojiReactionCount
+        emojiReactionCount,
     };
 }
 

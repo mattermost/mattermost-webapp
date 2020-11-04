@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from "react";
-
 export function getEmojiReactionsMap(reactions) {
     const reactionsByName = new Map();
     const emojiNames = [];
@@ -19,10 +17,10 @@ export function getEmojiReactionsMap(reactions) {
             }
         }
     }
-    return { reactionsByName, emojiNames };
+    return {reactionsByName, emojiNames};
 }
 
 export function getEmojiReactionsCount(reactions) {
-    const { emojiNames } = getEmojiReactionsMap(reactions);
+    const {emojiNames} = getEmojiReactionsMap(reactions);
     return emojiNames?.length;
 }

@@ -467,7 +467,7 @@ class CreatePost extends React.PureComponent {
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
         }
-        let isReactionLimitReached = this.props.reactionsByEmojiNameForLatestPost?.length >= Constants.EMOJI_REACTIONS_LIMIT;
+        const isReactionLimitReached = this.props.reactionsByEmojiNameForLatestPost?.length >= Constants.EMOJI_REACTIONS_LIMIT;
         if (this.state.postError && isReactionLimitReached) {
             this.setState({errorClass: 'animation--highlight'});
             setTimeout(() => {
@@ -520,7 +520,7 @@ class CreatePost extends React.PureComponent {
                 }
             }
         } else if (isReaction && this.props.emojiMap?.has(isReaction[2])) {
-            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
+            const isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
             if (isReaction[1] === '+' && !isIncomingReactionPresentForLatestPost && isReactionLimitReached) {
                 const errorMessage = (
                     <FormattedMessage
@@ -548,7 +548,6 @@ class CreatePost extends React.PureComponent {
             submitting: false,
             postError: null,
         });
-
 
         cancelAnimationFrame(this.saveDraftFrame);
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);

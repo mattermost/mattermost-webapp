@@ -18,7 +18,7 @@ import {
     getPost,
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
-    makeGetReactionsForPost
+    makeGetReactionsForPost,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {
@@ -45,7 +45,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {getEmojiReactionsMap} from "utils/emoji_reaction";
+import {getEmojiReactionsMap} from 'utils/emoji_reaction';
 
 import CreatePost from './create_post.jsx';
 
@@ -131,7 +131,7 @@ function makeMapStateToProps() {
             useGroupMentions,
             channelMemberCountsByGroup,
             isLDAPEnabled,
-            reactionsByEmojiNameForLatestPost: emojiNames
+            reactionsByEmojiNameForLatestPost: emojiNames,
         };
     };
 }

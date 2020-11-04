@@ -108,7 +108,7 @@ class CreateComment extends React.PureComponent {
         latestPostReactionsCount: PropTypes.number,
 
         /**
-         * To check if reaction is available in map 
+         * To check if reaction is available in map
          */
         emojiMap: PropTypes.object,
 
@@ -616,7 +616,7 @@ class CreateComment extends React.PureComponent {
 
         const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
         if (isReaction && this.props.emojiMap?.has(isReaction[2])) {
-            let isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
+            const isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
             if (
                 !isIncomingReactionPresentForLatestPost &&
                 isReaction[1] === '+' &&

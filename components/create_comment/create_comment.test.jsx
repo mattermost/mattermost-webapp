@@ -562,7 +562,7 @@ describe('components/CreateComment', () => {
             onSubmit,
             reactionsByEmojiNameForLatestPost: [],
             latestPostReactionsCount: Constants.EMOJI_REACTIONS_LIMIT + 1,
-            emojiMap: new EmojiMap(new Map())
+            emojiMap: new EmojiMap(new Map()),
         };
 
         const wrapper = shallowWithIntl(
@@ -573,7 +573,11 @@ describe('components/CreateComment', () => {
         wrapper.instance().handleSubmit({preventDefault});
         jest.runOnlyPendingTimers();
         wrapper.update();
-        expect(wrapper.state('postError')).toStrictEqual(<FormattedMessage defaultMessage="Reaction limit exceeded for this message." id="create_post.reaction_limit_message" />);
+        expect(wrapper.state('postError')).toStrictEqual(
+            <FormattedMessage
+                defaultMessage='Reaction limit exceeded for this message.'
+                id='create_post.emoji_reaction_limit_exceeded'
+            />);
     });
 
     test('should not show post creation error when post reactions within limit', () => {
@@ -589,7 +593,7 @@ describe('components/CreateComment', () => {
             onSubmit,
             reactionsByEmojiNameForLatestPost: [],
             latestPostReactionsCount: Constants.EMOJI_REACTIONS_LIMIT - 2,
-            emojiMap: new EmojiMap(new Map())
+            emojiMap: new EmojiMap(new Map()),
         };
 
         const wrapper = shallowWithIntl(
