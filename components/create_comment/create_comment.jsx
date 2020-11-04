@@ -103,7 +103,7 @@ class CreateComment extends React.PureComponent {
         reactionsByEmojiNameForLatestPost: PropTypes.array,
 
         /**
-         * Data used to challenge post reaction for latest replyable post 
+         * Used for disabling add reactions button
          */
         latestPostReactionsCount: PropTypes.number,
 

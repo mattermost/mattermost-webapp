@@ -30,8 +30,8 @@ export default class PostInfo extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
-        * The number of emoji reactions this post has received
-        */
+         * Used for disabling add reactions button
+         */
         emojiReactionCount: PropTypes.number,
 
         /*
