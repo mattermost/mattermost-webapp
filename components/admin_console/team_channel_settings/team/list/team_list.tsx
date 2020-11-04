@@ -2,33 +2,45 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {debounce} from 'mattermost-redux/actions/helpers';
+
+import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
 
 import {browserHistory} from 'utils/browser_history';
 
 import * as Utils from 'utils/utils.jsx';
 
-import DataGrid from 'components/admin_console/data_grid/data_grid';
+import DataGrid, {Column} from 'components/admin_console/data_grid/data_grid';
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_list.scss';
+import {FilterOptions} from 'components/admin_console/filter/filter';
 
 const ROW_HEIGHT = 80;
-export default class TeamList extends React.PureComponent {
-    static propTypes = {
-        actions: PropTypes.shape({
-            searchTeams: PropTypes.func.isRequired,
-            getData: PropTypes.func.isRequired,
-        }).isRequired,
-        data: PropTypes.array,
-        total: PropTypes.number,
-    };
 
-    constructor(props) {
+type Props = {
+    data: Team[],
+    total: number,
+    actions: {
+        searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>,
+        getData(page: number, size: number): void
+    }
+}
+
+type State = {
+    loading: boolean,
+    term: string,
+    teams: Team[],
+    page: number,
+    total: number,
+    searchErrored: boolean,
+    filters: TeamSearchOpts,
+}
+export default class TeamList extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loading: false,
@@ -45,7 +57,7 @@ export default class TeamList extends React.PureComponent {
         this.loadPage();
     }
 
-    isSearching = (term, filters) => {
+    isSearching = (term: string, filters: TeamSearchOpts) => {
         return (term.length + Object.keys(filters).length) > 0;
     }
 
@@ -75,7 +87,7 @@ export default class TeamList extends React.PureComponent {
     }
 
     searchTeams = async (page = 0, term = '', filters = {}) => {
-        let teams = [];
+        let teams: Team[] = [];
         let total = 0;
         let searchErrored = true;
         const response = await this.props.actions.searchTeams(term, {page, per_page: PAGE_SIZE, ...filters});
@@ -87,7 +99,7 @@ export default class TeamList extends React.PureComponent {
         this.setState({page, loading: false, teams, total, searchErrored});
     }
 
-    searchTeamsDebounced = debounce((page, term, filters = {}) => this.searchTeams(page, term, filters), 300);
+    searchTeamsDebounced = debounce((page, term, filters = {}) => this.searchTeams(page, term, filters), 300, false, () => {});
 
     nextPage = () => {
         this.loadPage(this.state.page + 1, this.state.term, this.state.filters);
@@ -101,8 +113,8 @@ export default class TeamList extends React.PureComponent {
         this.loadPage(0, term, this.state.filters);
     };
 
-    onFilter = ({management}) => {
-        const filters = {};
+    onFilter = ({management}: FilterOptions) => {
+        const filters: TeamSearchOpts = {};
 
         const {
             group_constrained: {value: groupConstrained},
@@ -125,7 +137,7 @@ export default class TeamList extends React.PureComponent {
                 }
 
                 if (allowOpenInvite || inviteOnly) {
-                    filters.allow_open_invite = allowOpenInvite;
+                    filters.allow_open_invite = Boolean(allowOpenInvite);
                 }
             }
         }
@@ -133,7 +145,7 @@ export default class TeamList extends React.PureComponent {
         this.loadPage(0, this.state.term, filters);
     }
 
-    getColumns = () => {
+    getColumns = (): Column[] => {
         const name = (
             <FormattedMessage
                 id='admin.team_settings.team_list.nameHeader'
@@ -168,7 +180,7 @@ export default class TeamList extends React.PureComponent {
         ];
     }
 
-    renderManagementMethodText = (team) => {
+    renderManagementMethodText = (team: Team) => {
         if (team.group_constrained) {
             return (
                 <FormattedMessage
