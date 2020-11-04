@@ -89,6 +89,12 @@
         }
     }
 
+    &.left {
+        > .arrow {
+            border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
+    }
+
     ul + p,
     ol + p {
         margin-top: .6em;
