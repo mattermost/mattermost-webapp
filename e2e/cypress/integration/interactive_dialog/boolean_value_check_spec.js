@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging
+// Group: @interactive_dialog
 
 describe('Messaging', () => {
     let testChannel;
