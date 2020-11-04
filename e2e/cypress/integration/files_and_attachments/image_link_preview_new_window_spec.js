@@ -34,21 +34,37 @@ describe('Image Link Preview', () => {
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
         const link = 'http://www.traveller.com.au/content/dam/images/g/u/n/q/h/0/image.related.articleLeadwide.620x349.gunpvd.png/1488330286332.png';
+        const baseUrl = Cypress.config('baseUrl');
+        const encodedIconUrl = encodeURIComponent('http://www.traveller.com.au/content/dam/images/g/u/n/q/h/0/image.related.articleLeadwide.620x349.gunpvd.png/1488330286332.png');
 
         // # Post a link to an externally hosted image
         cy.postMessage(link);
-        cy.findByLabelText('file thumbnail').click().then(() => {
-            cy.findByTestId('imagePreview').should('be.visible').and('have.attr', 'src', 'http://localhost:8065/api/v4/image?url=http%3A%2F%2Fwww.traveller.com.au%2Fcontent%2Fdam%2Fimages%2Fg%2Fu%2Fn%2Fq%2Fh%2F0%2Fimage.related.articleLeadwide.620x349.gunpvd.png%2F1488330286332.png');
 
-            //cy.findByTestId('imagePreview').should('have.attr', 'style').and('include', 'width: 649px').and('include', 'height: 349px');
+        cy.findByLabelText('file thumbnail').click().then(() => {
+            // * Assert that the image has the correct url
+            cy.findByTestId('imagePreview').should('have.attr', 'src', `${baseUrl}/api/v4/image?url=${encodedIconUrl}`);
+
+            // * Assert container elements
+            cy.findByTestId('fileCountFooter').should('be.visible');
             cy.findByText('File 1 of 1').should('be.visible');
             cy.findByText('Open').should('be.visible');
+
+            // * Assert that clicking the image will open in a new tab
+            cy.get('a[href*="image"]').should('have.attr', 'target', '_blank');
+
+            // * Assert image is available to be clicked (cypress limitation for opening new child window)
             cy.findByTestId('imagePreview').then((el) => {
                 const imageUrl = el.prop('src');
                 cy.log(imageUrl);
                 cy.request(imageUrl).then((res) => {
                     expect(res.status).equal(200);
                 });
+            });
+
+            // * Close the image then assert that it is closed
+            cy.findByTestId('imagePreview').trigger('mouseover').then(() => {
+                cy.get('div.modal-close').click();
+                cy.findByTestId('imagePreview').should('not.exist');
             });
         });
     });
