@@ -35,6 +35,11 @@ type Props = {
     isRHS?: boolean;
 
     /*
+     * An array of paths on the server that are managed by another server
+     */
+    managedResourcePaths?: string[];
+
+    /*
      * An array of words that can be used to mention a user
      */
     mentionKeys?: Array<MentionKey>;
@@ -125,6 +130,7 @@ export default class Markdown extends React.PureComponent<Props> {
             proxyImages: this.props.hasImageProxy && this.props.proxyImages,
             team: this.props.team,
             minimumHashtagLength: this.props.minimumHashtagLength,
+            managedResourcePaths: this.props.managedResourcePaths,
         }, this.props.options);
 
         const htmlFormattedText = formatText(this.props.message, options, this.props.emojiMap);
