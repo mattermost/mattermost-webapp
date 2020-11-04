@@ -102,13 +102,15 @@ class CreateComment extends React.PureComponent {
          */
         reactionsByEmojiNameForLatestPost: PropTypes.array,
 
-
-        /** Data used to challenge post reaction for latest replyable post */
+        /**
+         * Data used to challenge post reaction for latest replyable post 
+         */
         latestPostReactionsCount: PropTypes.number,
 
-        /** To check if reaction is available in map */
+        /**
+         * To check if reaction is available in map 
+         */
         emojiMap: PropTypes.object,
-
 
         locale: PropTypes.string.isRequired,
 
@@ -800,7 +802,7 @@ class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
             } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B) ||
-                Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+                       Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 this.applyHotkeyMarkdown(e);
             }
         }
@@ -1158,11 +1160,11 @@ class CreateComment extends React.PureComponent {
                             defaultMessage='File uploading'
                         />
                     ) : (
-                            <FormattedMessage
-                                id='create_comment.files'
-                                defaultMessage='Files uploading'
-                            />
-                        )}
+                        <FormattedMessage
+                            id='create_comment.files'
+                            defaultMessage='Files uploading'
+                        />
+                    )}
                 </span>
             );
         }
@@ -1214,7 +1216,7 @@ class CreateComment extends React.PureComponent {
                             'post-action--active': this.state.showEmojiPicker,
                         })}
                     >
-                        <EmojiIcon className={'icon icon--emoji emoji-rhs '} />
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
                     </button>
                 </div>
             );

@@ -1429,7 +1429,7 @@ class CreatePost extends React.PureComponent {
         let callButton;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             callButton = (
-                <CallButton />
+                <CallButton/>
             );
         }
 

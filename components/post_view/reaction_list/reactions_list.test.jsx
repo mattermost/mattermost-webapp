@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 
 import ReactionList from './reaction_list.jsx';
-import { EmojiIndicesByAlias } from '../../../utils/emoji';
+import {EmojiIndicesByAlias} from '../../../utils/emoji';
 import Constants from '../../../utils/constants';
 
 describe('components/ReactionList', () => {
@@ -16,7 +16,7 @@ describe('components/ReactionList', () => {
         create_at: 1542994995740,
     };
 
-    const reactions = { [reaction.user_id + '-' + reaction.emoji_name]: reaction };
+    const reactions = {[reaction.user_id + '-' + reaction.emoji_name]: reaction};
 
     const post = {
         id: 'post_id',
@@ -43,7 +43,7 @@ describe('components/ReactionList', () => {
         };
 
         const wrapper = shallow(
-            <ReactionList {...props} />,
+            <ReactionList {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -51,17 +51,17 @@ describe('components/ReactionList', () => {
 
     test('should render when there are reactions', () => {
         const wrapper = shallow(
-            <ReactionList {...baseProps} />,
+            <ReactionList {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should not render add reaction button when existing reactions exceeded limit', async () => {
-        const mappedReactions = { ...reactions };
+        const mappedReactions = {...reactions};
         for (const [emoji, index] of [...EmojiIndicesByAlias]) {
-            if (+Constants.EMOJI_REACTIONS_LIMIT === +index) { break; }
-            mappedReactions[`${reaction.user_id}-${emoji}`] = await { ...reaction, emoji_name: emoji }
+            if (+Constants.EMOJI_REACTIONS_LIMIT === +index) {break;}
+            mappedReactions[`${reaction.user_id}-${emoji}`] = await {...reaction, emoji_name: emoji}
         }
 
         const props = {
@@ -70,7 +70,7 @@ describe('components/ReactionList', () => {
         };
 
         const wrapper = shallow(
-            <ReactionList {...props} />,
+            <ReactionList {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -79,7 +79,7 @@ describe('components/ReactionList', () => {
 
     test('should render add reaction button when existing reactions within limit', async () => {
         const wrapper = shallow(
-            <ReactionList {...baseProps} />,
+            <ReactionList {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

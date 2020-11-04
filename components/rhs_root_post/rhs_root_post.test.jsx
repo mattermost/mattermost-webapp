@@ -2,16 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { Posts } from 'mattermost-redux/constants';
+import {Posts} from 'mattermost-redux/constants';
 
-import { shallowWithIntl } from 'tests/helpers/intl-test-helper';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsRootPost from 'components/rhs_root_post/rhs_root_post.jsx';
 import EmojiMap from 'utils/emoji_map';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import PostReaction from 'components/post_view/post_reaction';
-import { Locations, EMOJI_REACTIONS_LIMIT } from 'utils/constants';
+import {Locations, EMOJI_REACTIONS_LIMIT} from 'utils/constants';
 
 jest.mock('utils/post_utils.jsx', () => ({
     isEdited: jest.fn().mockReturnValue(true),
@@ -68,7 +68,7 @@ describe('components/RhsRootPost', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps} />,
+            <RhsRootPost {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -80,7 +80,7 @@ describe('components/RhsRootPost', () => {
             isFlagged: true,
         };
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -95,7 +95,7 @@ describe('components/RhsRootPost', () => {
             },
         };
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -111,7 +111,7 @@ describe('components/RhsRootPost', () => {
             },
         };
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -119,12 +119,12 @@ describe('components/RhsRootPost', () => {
 
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps} />,
+            <RhsRootPost {...baseProps}/>,
         );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
 
-        wrapper.setState({ alt: true });
+        wrapper.setState({alt: true});
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(true);
     });
@@ -136,26 +136,26 @@ describe('components/RhsRootPost', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
 
-        wrapper.setState({ alt: true });
+        wrapper.setState({alt: true});
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
     });
 
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps} />,
+            <RhsRootPost {...baseProps}/>,
         );
 
-        wrapper.simulate('click', { altKey: false });
+        wrapper.simulate('click', {altKey: false});
 
         expect(baseProps.actions.markPostAsUnread).not.toHaveBeenCalled();
 
-        wrapper.simulate('click', { altKey: true });
+        wrapper.simulate('click', {altKey: true});
 
         expect(baseProps.actions.markPostAsUnread).toHaveBeenCalled();
     });
@@ -167,21 +167,21 @@ describe('components/RhsRootPost', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
-        wrapper.simulate('click', { altKey: false });
+        wrapper.simulate('click', {altKey: false});
 
         expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
 
-        wrapper.simulate('click', { altKey: true });
+        wrapper.simulate('click', {altKey: true});
 
         expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
     });
 
     test('should pass props correctly to PostFlagIcon', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps} />,
+            <RhsRootPost {...baseProps}/>,
         );
 
         const flagIcon = wrapper.find(PostFlagIcon);
@@ -193,7 +193,7 @@ describe('components/RhsRootPost', () => {
 
     test('should pass props correctly to PostPreHeader', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...baseProps} />,
+            <RhsRootPost {...baseProps}/>,
         );
 
         const postPreHeader = wrapper.find(PostPreHeader);
@@ -210,7 +210,7 @@ describe('components/RhsRootPost', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
         const postReaction = wrapper.find(PostReaction);
@@ -224,7 +224,7 @@ describe('components/RhsRootPost', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...props} />,
+            <RhsRootPost {...props}/>,
         );
 
         const postReaction = wrapper.find(PostReaction);

@@ -73,7 +73,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -92,7 +92,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex, getChannelMemberCountsByGroup};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         // should clear draft uploads on mount
@@ -112,7 +112,7 @@ describe('components/CreateComment', () => {
         const getChannelMemberCountsByGroup = jest.fn();
         const props = {...baseProps, useGroupMentions, getChannelMemberCountsByGroup};
 
-        shallowWithIntl(<CreateComment {...props} />);
+        shallowWithIntl(<CreateComment {...props}/>);
 
         // should not load channel member counts on mount without useGroupmentions
         expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
@@ -126,7 +126,7 @@ describe('components/CreateComment', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.setState({draft});
@@ -135,7 +135,7 @@ describe('components/CreateComment', () => {
 
     test('should correctly change state when toggleEmojiPicker is called', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.instance().toggleEmojiPicker();
@@ -147,7 +147,7 @@ describe('components/CreateComment', () => {
 
     test('should correctly change state when hideEmojiPicker is called', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.instance().hideEmojiPicker();
@@ -165,7 +165,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const mockImpl = () => {
@@ -191,8 +191,7 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe(':smile: ');
 
-        wrapper.setState({
-            draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
             caretPosition: 'test'.length, // cursor is at the end
         });
         wrapper.instance().handleEmojiClick({name: 'smile'});
@@ -203,8 +202,7 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe('test :smile:  ');
 
-        wrapper.setState({
-            draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
             caretPosition: 'test '.length, // cursor is at the end
         });
         wrapper.instance().handleEmojiClick({name: 'smile'});
@@ -220,7 +218,7 @@ describe('components/CreateComment', () => {
 
     test('handlePostError should update state with the correct error', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.instance().handlePostError('test error 1');
@@ -240,7 +238,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, draft, updateCommentDraftWithRootId};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -269,7 +267,7 @@ describe('components/CreateComment', () => {
 
     test('getFileCount should return the correct count', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         expect(wrapper.instance().getFileCount()).toBe(3);
@@ -283,7 +281,7 @@ describe('components/CreateComment', () => {
 
     test('should correctly change state when showPostDeletedModal is called', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.instance().showPostDeletedModal();
@@ -294,7 +292,7 @@ describe('components/CreateComment', () => {
         const resetCreatePostRequest = jest.fn();
         const props = {...baseProps, resetCreatePostRequest};
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         wrapper.instance().hidePostDeletedModal();
@@ -312,7 +310,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const focusTextbox = jest.fn();
@@ -340,7 +338,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const instance = wrapper.instance();
@@ -362,7 +360,7 @@ describe('components/CreateComment', () => {
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
@@ -381,7 +379,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         wrapper.setProps({createPostErrorId: 'api.post.create_post.root_id.app_error'});
@@ -398,7 +396,7 @@ describe('components/CreateComment', () => {
         it('is called when rootId changes', () => {
             const props = {...baseProps, draft};
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             const focusTextbox = jest.fn();
@@ -418,7 +416,7 @@ describe('components/CreateComment', () => {
         it('is called when selectPostFocussedAt changes', () => {
             const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             const focusTextbox = jest.fn();
@@ -438,7 +436,7 @@ describe('components/CreateComment', () => {
         it('is not called when rootId and selectPostFocussedAt have not changed', () => {
             const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             const focusTextbox = jest.fn();
@@ -462,7 +460,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const testMessage = 'new msg';
@@ -493,7 +491,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
@@ -523,7 +521,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const scrollToBottom = jest.fn();
@@ -537,12 +535,12 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
         const props = {...baseProps, draft, onSubmit};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const preventDefault = jest.fn();
@@ -568,7 +566,7 @@ describe('components/CreateComment', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const preventDefault = jest.fn();
@@ -595,7 +593,7 @@ describe('components/CreateComment', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         const preventDefault = jest.fn();
@@ -630,7 +628,7 @@ describe('components/CreateComment', () => {
                     };
 
                     const wrapper = shallowWithIntl(
-                        <CreateComment {...props} />,
+                        <CreateComment {...props}/>,
                     );
 
                     wrapper.instance().handleSubmit({preventDefault});
@@ -653,7 +651,7 @@ describe('components/CreateComment', () => {
                     };
 
                     const wrapper = shallowWithIntl(
-                        <CreateComment {...props} />,
+                        <CreateComment {...props}/>,
                     );
 
                     wrapper.instance().handleSubmit({preventDefault});
@@ -676,7 +674,7 @@ describe('components/CreateComment', () => {
                     };
 
                     const wrapper = shallowWithIntl(
-                        <CreateComment {...props} />,
+                        <CreateComment {...props}/>,
                     );
 
                     wrapper.instance().handleSubmit({preventDefault});
@@ -700,7 +698,7 @@ describe('components/CreateComment', () => {
                     };
 
                     const wrapper = shallowWithIntl(
-                        <CreateComment {...props} />,
+                        <CreateComment {...props}/>,
                     );
 
                     wrapper.instance().handleSubmit({preventDefault});
@@ -724,7 +722,7 @@ describe('components/CreateComment', () => {
                 };
 
                 const wrapper = shallowWithIntl(
-                    <CreateComment {...props} />,
+                    <CreateComment {...props}/>,
                 );
 
                 wrapper.instance().handleSubmit({preventDefault});
@@ -748,7 +746,7 @@ describe('components/CreateComment', () => {
                 };
 
                 const wrapper = shallowWithIntl(
-                    <CreateComment {...props} />,
+                    <CreateComment {...props}/>,
                 );
 
                 await wrapper.instance().handleSubmit({preventDefault});
@@ -776,7 +774,7 @@ describe('components/CreateComment', () => {
                 };
 
                 const wrapper = shallowWithIntl(
-                    <CreateComment {...props} />,
+                    <CreateComment {...props}/>,
                 );
 
                 await wrapper.instance().handleSubmit({preventDefault});
@@ -817,7 +815,7 @@ describe('components/CreateComment', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             await wrapper.instance().handleSubmit({preventDefault});
@@ -890,7 +888,7 @@ describe('components/CreateComment', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             await wrapper.instance().handleSubmit({preventDefault});
@@ -931,7 +929,7 @@ describe('components/CreateComment', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             await wrapper.instance().handleSubmit({preventDefault});
@@ -961,7 +959,7 @@ describe('components/CreateComment', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
@@ -995,7 +993,7 @@ describe('components/CreateComment', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             const submitPromise = wrapper.instance().handleSubmit({preventDefault});
@@ -1019,7 +1017,7 @@ describe('components/CreateComment', () => {
                 };
 
                 const wrapper = shallowWithIntl(
-                    <CreateComment {...props} />,
+                    <CreateComment {...props}/>,
                 );
 
                 wrapper.instance().handleSubmit({preventDefault});
@@ -1041,7 +1039,7 @@ describe('components/CreateComment', () => {
                 };
 
                 const wrapper = shallowWithIntl(
-                    <CreateComment {...props} />,
+                    <CreateComment {...props}/>,
                 );
 
                 wrapper.instance().handleSubmit({preventDefault});
@@ -1063,7 +1061,7 @@ describe('components/CreateComment', () => {
             };
 
             const wrapper = shallowWithIntl(
-                <CreateComment {...props} />,
+                <CreateComment {...props}/>,
             );
 
             wrapper.instance().handleSubmit({preventDefault});
@@ -1082,7 +1080,7 @@ describe('components/CreateComment', () => {
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         wrapper.setState({draft});
@@ -1109,7 +1107,7 @@ describe('components/CreateComment', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
         expect(wrapper.state('draft')).toEqual(draft);
 
@@ -1126,7 +1124,7 @@ describe('components/CreateComment', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
         wrapper.setState({draft});
         expect(wrapper.state('draft')).toEqual(draft);
@@ -1138,7 +1136,7 @@ describe('components/CreateComment', () => {
     test('should match snapshot read only channel', () => {
         const props = {...baseProps, readOnlyChannel: true};
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -1147,7 +1145,7 @@ describe('components/CreateComment', () => {
     test('should match snapshot when cannot post', () => {
         const props = {...baseProps, canPost: false};
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -1156,7 +1154,7 @@ describe('components/CreateComment', () => {
     test('should match snapshot, emoji picker disabled', () => {
         const props = {...baseProps, enableEmojiPicker: false};
         const wrapper = shallowWithIntl(
-            <CreateComment {...props} />,
+            <CreateComment {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -1164,7 +1162,7 @@ describe('components/CreateComment', () => {
 
     test('check for handleFileUploadChange callback for focus', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
@@ -1264,7 +1262,7 @@ describe('components/CreateComment', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
 
         wrapper.instance().scrollToBottom = jest.fn();
@@ -1468,7 +1466,7 @@ describe('components/CreateComment', () => {
 
     test('should show preview and edit mode, and return focus on preview disable', () => {
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps} />,
+            <CreateComment {...baseProps}/>,
         );
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
