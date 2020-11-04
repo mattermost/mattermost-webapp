@@ -102,7 +102,7 @@ const getPermissionsMap = memoizeResult((permissions: string[]) => {
     }, {} as Record<string, boolean>);
 });
 
-const getSectionsListForRole = memoizeResult((sections: SystemSection[], roleName: string) => {
+const getSectionsListForRole = memoizeResult((sections: SystemSection[], roleName: string, sectionsByRole: Record<string, Record<string, boolean>>) => {
     return sections.filter((section) => (!sectionsByRole[roleName] || sectionsByRole[roleName][section.name]));
 });
 
@@ -130,7 +130,31 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
     }
 
     getRows = (permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSections: Record<string, boolean>) => {
-        return getSectionsListForRole(sectionsList, this.props.role.name).map((section: SystemSection) => {
+        let editedSectionsByRole = {
+            ...sectionsByRole
+        };
+
+        if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_USER_MANAGER) {
+            let permissionsToShow: Record<string, boolean> = {};
+            Object.keys(permissionsMap).forEach((permission) => {
+                if (permission.startsWith('sysconsole_')) {
+                    const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
+                    permissionsToShow = {
+                        ...permissionsToShow,
+                        [permissionShortName]: true
+                    };
+                }
+            });
+
+            editedSectionsByRole = {
+                [Constants.PERMISSIONS_SYSTEM_USER_MANAGER]: {
+                    ...editedSectionsByRole[Constants.PERMISSIONS_SYSTEM_USER_MANAGER],
+                    ...permissionsToShow
+                },
+            }
+        }
+
+        return getSectionsListForRole(sectionsList, this.props.role.name, editedSectionsByRole).map((section: SystemSection) => {
             return (
                 <SystemRolePermission
                     key={section.name}
