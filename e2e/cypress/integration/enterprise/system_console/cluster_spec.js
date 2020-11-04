@@ -7,7 +7,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @enterprise @system_console
 
 describe('Cluster', () => {
     before(() => {
