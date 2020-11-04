@@ -44,6 +44,26 @@ describe('Notifications', () => {
         });
     });
 
+    it('MM-T556 Browser tab and team sidebar notification - no unreads/mentions', () => {
+        // # Remove mention notification (for initial channel).
+        cy.apiLogin(user1);
+        cy.visit(testTeam1TownSquareUrl);
+
+        // # User 1 views team A
+        cy.get('#publicChannelList').get('.unread-title').click();
+        cy.visit(testTeam1TownSquareUrl);
+
+        cy.title().should('include', `Town Square - ${team1.display_name} ${siteName}`);
+
+        // * Browser tab shows channel name with no unread indicator
+        cy.get(`#${team1.name}TeamButton`).parent('.unread').should('not.be.visible');
+        cy.get('.badge').should('not.be.visible');
+
+        // * No unread/mention indicator in team sidebar
+        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
+        cy.get('.badge').should('not.be.visible');
+    });
+
     it('MM-T560_1 Browser tab and team sidebar unreads and mentions - Mention in different team', () => {
         // # User 1 views team A
         cy.apiLogin(user1);
