@@ -88,7 +88,7 @@ const sectionsList: SystemSection[] = [
     },
 ];
 
-const sectionsByRole: Record<string, Record<string, boolean>> = {
+const SECTIONS_BY_ROLES: Record<string, Record<string, boolean>> = {
     [Constants.PERMISSIONS_SYSTEM_USER_MANAGER]: {
         user_management: true,
         authentication: true,
@@ -131,7 +131,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
     getRows = (permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSections: Record<string, boolean>) => {
         let editedSectionsByRole = {
-            ...sectionsByRole
+            ...SECTIONS_BY_ROLES,
         };
 
         if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_USER_MANAGER) {
@@ -141,7 +141,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
                     const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
                     permissionsToShow = {
                         ...permissionsToShow,
-                        [permissionShortName]: true
+                        [permissionShortName]: true,
                     };
                 }
             });
@@ -149,9 +149,9 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
             editedSectionsByRole = {
                 [Constants.PERMISSIONS_SYSTEM_USER_MANAGER]: {
                     ...editedSectionsByRole[Constants.PERMISSIONS_SYSTEM_USER_MANAGER],
-                    ...permissionsToShow
+                    ...permissionsToShow,
                 },
-            }
+            };
         }
 
         return getSectionsListForRole(sectionsList, this.props.role.name, editedSectionsByRole).map((section: SystemSection) => {
