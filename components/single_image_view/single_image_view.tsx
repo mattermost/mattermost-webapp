@@ -19,7 +19,7 @@ const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 type Props = {
     post: Post;
-    fileInfo: FileInfo | undefined;
+    fileInfo?: FileInfo;
     isRhsOpen: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;
@@ -40,10 +40,6 @@ type State = {
 export default class SingleImageView extends React.PureComponent<Props, State> {
     private mounted: boolean;
     static defaultProps = {
-        fileInfo: {
-            width: undefined,
-            height: undefined,
-        },
         compactDisplay: false,
     };
 
@@ -54,8 +50,8 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             loaded: false,
             showPreviewModal: false,
             dimensions: {
-                width: props.fileInfo.width,
-                height: props.fileInfo.height,
+                width: props.fileInfo?.width || 0,
+                height: props.fileInfo?.height || 0,
             },
         };
     }
@@ -65,11 +61,11 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        if ((props.fileInfo.width !== state.dimensions.width) || props.fileInfo.height !== state.dimensions.height) {
+        if ((props.fileInfo?.width !== state.dimensions.width) || props.fileInfo.height !== state.dimensions.height) {
             return {
                 dimensions: {
-                    width: props.fileInfo.width,
-                    height: props.fileInfo.height,
+                    width: props.fileInfo?.width,
+                    height: props.fileInfo?.height,
                 },
             };
         }
@@ -104,6 +100,10 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         const {
             loaded,
         } = this.state;
+
+        if (fileInfo === undefined) {
+            return <></>;
+        }
 
         const {has_preview_image: hasPreviewImage, id} = fileInfo;
         const fileURL = getFileUrl(id);
