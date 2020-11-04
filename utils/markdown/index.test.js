@@ -185,7 +185,7 @@ this is long text this is long text this is long text this is long text this is 
             {name: 'relative link to a channel', link: '/reiciendis-0/channels/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
             {name: 'relative link to a DM', link: '/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
             {name: 'relative permalink', link: '/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
-            {name: 'relative link to the system console', link: '/admin_console/', handled: true},
+            {name: 'relative link to the system console', link: '/admin_console', handled: true},
             {name: 'relative link to a specific system console page', link: '/admin_console/plugins/plugin_com.github.matterpoll.matterpoll', handled: true},
 
             {name: 'link to a plugin-handled path', link: 'http://localhost/plugins/example', handled: false},
