@@ -14,6 +14,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
 
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -166,6 +167,9 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             saveKey += 1;
         }
 
+        if (serverError === null) {
+            browserHistory.push('/admin_console/user_management/system_roles');
+        }
         setNavigationBlocked(serverError !== null);
         this.setState({
             saveNeeded: (serverError !== null),
