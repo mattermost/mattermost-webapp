@@ -80,6 +80,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
             className="btn btn-default"
             id="revoke-all-users"
             onClick={[Function]}
+            type="button"
           >
             <FormattedMessage
               defaultMessage="Revoke All Sessions"

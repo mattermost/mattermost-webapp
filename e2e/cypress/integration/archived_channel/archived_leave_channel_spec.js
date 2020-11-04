@@ -256,37 +256,6 @@ describe('Leave an archived channel', () => {
             cy.get('#quickSwitchModalLabel button.close').click();
         });
     });
-
-    it('MM-T1677 Archived channels are not shown as unread in channel switcher', () => {
-        // # As the test user join a public channel then open any other channel in the drawer
-        cy.uiCreateChannel({prefix: 'archived-not-read'}).then(({name}) => {
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
-
-            // # As another user post in the channel from step 1. then archive it
-            cy.apiLogout();
-            cy.apiLogin(otherUser);
-            cy.visit(`/${testTeam.name}/channels/${name}`);
-            cy.postMessage('this is an message not read by the test user');
-            cy.uiArchiveChannel().then(() => {
-                cy.apiLogout();
-                cy.apiLogin(testUser);
-                cy.visit(`/${testTeam.name}/channels/off-topic`);
-                cy.contains('#channelHeaderTitle', 'Off-Topic');
-
-                // # As the test user hit CTRL/CMD+K (or ⌘+k) and locate the channel
-                cy.typeCmdOrCtrl().type('K', {release: true});
-                cy.get('#quickSwitchInput').type('archived-');
-
-                // * Channel does not appear at the top with other unread channels
-                cy.get('#suggestionList').should('be.visible');
-                cy.findByTestId(name).should('be.visible');
-                cy.contains('div.suggestion-list__divider', 'Unread Channels').should('not.be.visible');
-                cy.contains('div.suggestion-list__divider', 'Archived Channels').should('be.visible');
-
-                cy.get('#quickSwitchModalLabel button.close').click();
-            });
-        });
-    });
 });
 
 function createArchivedChannel(channelOptions, messages, memberUsernames) {

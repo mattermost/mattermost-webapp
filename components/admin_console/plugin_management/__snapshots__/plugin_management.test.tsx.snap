@@ -138,6 +138,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -468,6 +469,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -896,6 +898,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -1227,6 +1230,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
                 <button
                   className="btn btn-primary"
                   disabled={true}
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -1558,6 +1562,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -1892,6 +1897,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -2223,6 +2229,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 <button
                   className="btn btn-primary"
                   disabled={true}
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -2529,6 +2536,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -2860,6 +2868,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 <button
                   className="btn"
                   disabled={true}
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -3191,6 +3200,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -3582,6 +3592,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -3942,6 +3953,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -4302,6 +4314,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
@@ -4662,6 +4675,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               >
                 <button
                   className="btn btn-primary"
+                  type="button"
                 >
                   <FormattedMessage
                     defaultMessage="Choose File"
