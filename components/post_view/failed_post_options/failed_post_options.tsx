@@ -1,20 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class FailedPostOptions extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            createPost: PropTypes.func.isRequired,
-            removePost: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+import {Post} from 'mattermost-redux/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
-    retryPost = (e) => {
+type CreatePostAction =
+    (post: Post, files?: FileInfo[]) => (dispatch: DispatchFunc) => Promise<{data: boolean}>;
+type RemovePostAction =
+    (post: ExtendedPost) => (dispatch: DispatchFunc, getState: GetStateFunc) => void;
+
+type Props = {
+    post: Post;
+    actions: {
+        createPost: CreatePostAction;
+        removePost: RemovePostAction;
+    };
+};
+
+export default class FailedPostOptions extends React.PureComponent<Props> {
+    retryPost = (e: MouseEvent) : void => {
         e.preventDefault();
 
         const post = {...this.props.post};
@@ -22,13 +31,13 @@ export default class FailedPostOptions extends React.PureComponent {
         this.props.actions.createPost(post);
     }
 
-    cancelPost = (e) => {
+    cancelPost = (e: MouseEvent) : void => {
         e.preventDefault();
 
         this.props.actions.removePost(this.props.post);
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <span className='pending-post-actions'>
                 <a

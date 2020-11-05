@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CommentedOn from 'components/post_view/commented_on/commented_on.jsx';
+import {Post} from 'mattermost-redux/src/types/posts';
+
+import CommentedOn from 'components/post_view/commented_on/commented_on';
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
 
 describe('components/post_view/CommentedOn', () => {
@@ -19,11 +21,28 @@ describe('components/post_view/CommentedOn', () => {
                 from_webhook: 'true',
                 override_username: 'override_username',
             },
-        },
-        actions: {
-            showSearchResults: jest.fn(),
-            updateSearchTerms: jest.fn(),
-        },
+            create_at: 0,
+            update_at: 10,
+            edit_at: 20,
+            delete_at: 30,
+            is_pinned: false,
+            user_id: 'user_id',
+            channel_id: 'channel_id',
+            root_id: 'root_id',
+            parent_id: 'parent_id',
+            original_id: 'original_id',
+            type: 'system_add_remove',
+            hashtags: 'hashtags',
+            pending_post_id: 'pending_post_id',
+            reply_count: 1,
+            metadata: {
+                embeds: [],
+                emojis: [],
+                files: [],
+                images: {},
+                reactions: [],
+            },
+        } as Post,
     };
 
     test('should match snapshot', () => {
@@ -59,6 +78,7 @@ describe('components/post_view/CommentedOn', () => {
         const newProps = {
             ...baseProps,
             post: {
+                ...baseProps.post,
                 ...newPost,
             },
             enablePostUsernameOverride: true,
@@ -84,6 +104,7 @@ describe('components/post_view/CommentedOn', () => {
         const newProps = {
             ...baseProps,
             post: {
+                ...baseProps.post,
                 ...newPost,
             },
             enablePostUsernameOverride: true,
@@ -111,6 +132,7 @@ describe('components/post_view/CommentedOn', () => {
         const newProps = {
             ...baseProps,
             post: {
+                ...baseProps.post,
                 ...newPost,
             },
             enablePostUsernameOverride: true,
@@ -139,6 +161,7 @@ describe('components/post_view/CommentedOn', () => {
         const newProps = {
             ...baseProps,
             post: {
+                ...baseProps.post,
                 ...newPost,
             },
             enablePostUsernameOverride: true,

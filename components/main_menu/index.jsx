@@ -14,6 +14,7 @@ import {
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {isAdmin} from 'utils/utils.jsx';
 
@@ -103,6 +104,7 @@ function mapStateToProps(state) {
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
         showNextSteps: showNextSteps(state),
+        subscription: state.entities.cloud.subscription,
     };
 }
 
@@ -115,6 +117,7 @@ function mapDispatchToProps(dispatch) {
             closeRightHandSide,
             closeRhsMenu,
             unhideNextSteps,
+            getCloudSubscription,
         }, dispatch),
     };
 }

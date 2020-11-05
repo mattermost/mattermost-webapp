@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import NewMessageSeparator from './new_message_separator.jsx';
+import NewMessageSeparator from './new_message_separator';
 
 describe('components/post_view/new_message_separator', () => {
     test('should render new_message_separator', () => {

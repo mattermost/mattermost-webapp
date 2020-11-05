@@ -2,28 +2,42 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
+
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
-import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook/edit_incoming_webhook.jsx';
+import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook/edit_incoming_webhook';
+import {TestHelper} from '../../../utils/test_helper';
 
 describe('components/integrations/EditIncomingWebhook', () => {
     const hook = {
         id: 'id',
-        token: 'token',
+        create_at: 0,
+        update_at: 10,
+        delete_at: 20,
+        user_id: 'user_id',
+        channel_id: 'channel_id',
+        team_id: 'team_id',
+        display_name: 'display_name',
+        description: 'description',
+        username: 'username',
+        icon_url: 'http://test/icon.png',
+        channel_locked: false,
     };
 
-    let updateIncomingHook = null;
-    let getIncomingHook = null;
-    let actions = {};
+    const updateIncomingHook = jest.fn();
+    const getIncomingHook = jest.fn();
+    const actions = {
+        updateIncomingHook: updateIncomingHook as (hook: IncomingWebhook) => Promise<ActionResult>,
+        getIncomingHook: getIncomingHook as (hookId: string) => Promise<ActionResult>,
+    };
 
     const requiredProps = {
         hookId: 'somehookid',
         teamId: 'testteamid',
-        team: {
-            id: 'testteamid',
-            name: 'test',
-        },
+        team: TestHelper.getTeamMock(),
         updateIncomingHookRequest: {
             status: 'not_started',
             error: null,
@@ -34,18 +48,8 @@ describe('components/integrations/EditIncomingWebhook', () => {
     };
 
     afterEach(() => {
-        updateIncomingHook = null;
-        getIncomingHook = null;
-        actions = {};
-    });
-
-    beforeEach(() => {
-        updateIncomingHook = jest.fn();
-        getIncomingHook = jest.fn();
-        actions = {
-            updateIncomingHook,
-            getIncomingHook,
-        };
+        updateIncomingHook.mockReset();
+        getIncomingHook.mockReset();
     });
 
     test('should show Loading screen when no hook is provided', () => {
@@ -75,12 +79,9 @@ describe('components/integrations/EditIncomingWebhook', () => {
     test('should have called submitHook when editIncomingHook is initiated (no server error)', async () => {
         const newUpdateIncomingHook = jest.fn().mockReturnValue({data: ''});
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
-        const asyncHook = {
-            id: 'id',
-            token: 'token',
-        };
+        const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper: ShallowWrapper<any, any, EditIncomingWebhook> = shallow(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
         await instance.editIncomingHook(asyncHook);
@@ -93,12 +94,9 @@ describe('components/integrations/EditIncomingWebhook', () => {
     test('should have called submitHook when editIncomingHook is initiated (with server error)', async () => {
         const newUpdateIncomingHook = jest.fn().mockReturnValue({data: ''});
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
-        const asyncHook = {
-            id: 'id',
-            token: 'token',
-        };
+        const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper: ShallowWrapper<any, any, EditIncomingWebhook> = shallow(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
         await instance.editIncomingHook(asyncHook);
@@ -112,12 +110,9 @@ describe('components/integrations/EditIncomingWebhook', () => {
         const newUpdateIncomingHook = jest.fn().mockReturnValue({data: 'data'});
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
         browserHistory.push = jest.fn();
-        const asyncHook = {
-            id: 'id',
-            token: 'token',
-        };
+        const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper: ShallowWrapper<any, any, EditIncomingWebhook> = shallow(<EditIncomingWebhook {...props}/>);
 
         const instance = wrapper.instance();
         await instance.editIncomingHook(asyncHook);

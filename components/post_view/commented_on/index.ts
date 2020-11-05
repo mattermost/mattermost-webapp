@@ -2,18 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {showSearchResults, updateSearchTerms} from 'actions/views/rhs';
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import {getDisplayNameByUser} from 'utils/utils.jsx';
 
-import CommentedOn from './commented_on.jsx';
+import CommentedOn from './commented_on';
 
-function mapStateToProps(state, ownProps) {
+type Props = {
+    post: Post;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     let displayName = '';
     if (ownProps.post) {
         const user = getUser(state, ownProps.post.user_id);
@@ -29,13 +34,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            showSearchResults,
-            updateSearchTerms,
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentedOn);
+export default connect(mapStateToProps)(CommentedOn);

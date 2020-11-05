@@ -19,8 +19,18 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
   }
   initialHook={
     Object {
+      "channel_id": "channel_id",
+      "channel_locked": false,
+      "create_at": 0,
+      "delete_at": 20,
+      "description": "description",
+      "display_name": "display_name",
+      "icon_url": "http://test/icon.png",
       "id": "id",
-      "token": "token",
+      "team_id": "team_id",
+      "update_at": 10,
+      "user_id": "user_id",
+      "username": "username",
     }
   }
   loading={
@@ -32,8 +42,21 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
   serverError=""
   team={
     Object {
-      "id": "testteamid",
-      "name": "test",
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
+      "id": "team_id",
+      "invite_id": "",
+      "name": "DN",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />
@@ -58,8 +81,18 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
   }
   initialHook={
     Object {
+      "channel_id": "channel_id",
+      "channel_locked": false,
+      "create_at": 0,
+      "delete_at": 20,
+      "description": "description",
+      "display_name": "display_name",
+      "icon_url": "http://test/icon.png",
       "id": "id",
-      "token": "token",
+      "team_id": "team_id",
+      "update_at": 10,
+      "user_id": "user_id",
+      "username": "username",
     }
   }
   loading={
@@ -71,8 +104,21 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
   serverError=""
   team={
     Object {
-      "id": "testteamid",
-      "name": "test",
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
+      "id": "team_id",
+      "invite_id": "",
+      "name": "DN",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />
@@ -97,8 +143,18 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
   }
   initialHook={
     Object {
+      "channel_id": "channel_id",
+      "channel_locked": false,
+      "create_at": 0,
+      "delete_at": 20,
+      "description": "description",
+      "display_name": "display_name",
+      "icon_url": "http://test/icon.png",
       "id": "id",
-      "token": "token",
+      "team_id": "team_id",
+      "update_at": 10,
+      "user_id": "user_id",
+      "username": "username",
     }
   }
   loading={
@@ -110,8 +166,21 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
   serverError=""
   team={
     Object {
-      "id": "testteamid",
-      "name": "test",
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
+      "id": "team_id",
+      "invite_id": "",
+      "name": "DN",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />
@@ -143,8 +212,18 @@ exports[`components/integrations/EditIncomingWebhook should show AbstractIncomin
   }
   initialHook={
     Object {
+      "channel_id": "channel_id",
+      "channel_locked": false,
+      "create_at": 0,
+      "delete_at": 20,
+      "description": "description",
+      "display_name": "display_name",
+      "icon_url": "http://test/icon.png",
       "id": "id",
-      "token": "token",
+      "team_id": "team_id",
+      "update_at": 10,
+      "user_id": "user_id",
+      "username": "username",
     }
   }
   loading={
@@ -156,8 +235,21 @@ exports[`components/integrations/EditIncomingWebhook should show AbstractIncomin
   serverError=""
   team={
     Object {
-      "id": "testteamid",
-      "name": "test",
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
+      "id": "team_id",
+      "invite_id": "",
+      "name": "DN",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />

@@ -2,18 +2,31 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import EditIncomingWebhook from './edit_incoming_webhook.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
-function mapStateToProps(state, ownProps) {
+import EditIncomingWebhook from './edit_incoming_webhook';
+
+type Props = {
+    location: Location;
+}
+
+type Actions = {
+    updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
+    getIncomingHook: (hookId: string) => Promise<ActionResult>;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
-    const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
+    const hookId = (new URLSearchParams(ownProps.location.search)).get('id') || '';
 
     return {
         hookId,
@@ -24,9 +37,9 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             updateIncomingHook,
             getIncomingHook,
         }, dispatch),
