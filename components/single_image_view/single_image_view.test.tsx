@@ -4,21 +4,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SingleImageView from 'components/single_image_view/single_image_view.jsx';
+import SingleImageView from 'components/single_image_view/single_image_view';
 import SizeAwareImage from 'components/size_aware_image';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/SingleImageView', () => {
     const baseProps = {
-        postId: 'original_post_id',
-        fileInfo: {
-            id: 'file_info_id',
-            post_id: 'post_id',
-            name: 'name',
-            extension: 'jpg',
-            has_preview_image: true,
-            width: 350,
-            height: 200,
-        },
+        post: TestHelper.getPostMock({id: 'original_post_id'}),
+        fileInfo: TestHelper.getFileInfoMock({id: 'file_info_id'}),
         isRhsOpen: false,
         isEmbedVisible: true,
         actions: {
@@ -38,12 +31,11 @@ describe('components/SingleImageView', () => {
     });
 
     test('should match snapshot, SVG image', () => {
-        const fileInfo = {
+        const fileInfo = TestHelper.getFileInfoMock({
             id: 'svg_file_info_id',
-            post_id: 'post_id',
             name: 'name_svg',
             extension: 'svg',
-        };
+        });
         const props = {...baseProps, fileInfo};
         const wrapper = shallow(
             <SingleImageView {...props}/>,
@@ -62,7 +54,7 @@ describe('components/SingleImageView', () => {
         );
 
         wrapper.setState({showPreviewModal: false});
-        wrapper.instance().handleImageClick({preventDefault: jest.fn()});
+        wrapper.find('SizeAwareImage').at(0).simulate('click', {preventDefault: () => {}});
         expect(wrapper.state('showPreviewModal')).toEqual(true);
     });
 
@@ -72,7 +64,8 @@ describe('components/SingleImageView', () => {
         );
 
         wrapper.setState({showPreviewModal: true});
-        wrapper.instance().showPreviewModal();
+        const instance = wrapper.instance() as SingleImageView;
+        instance.showPreviewModal();
         expect(wrapper.state('showPreviewModal')).toEqual(false);
     });
 
@@ -89,7 +82,8 @@ describe('components/SingleImageView', () => {
             <SingleImageView {...props}/>,
         );
 
-        wrapper.instance().toggleEmbedVisibility();
+        const instance = wrapper.instance() as SingleImageView;
+        instance.toggleEmbedVisibility();
         expect(props.actions.toggleEmbedVisibility).toHaveBeenCalledTimes(1);
         expect(props.actions.toggleEmbedVisibility).toBeCalledWith('original_post_id');
     });
