@@ -13,7 +13,7 @@ import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import {shortcuts} from 'components/shortcuts/shortcuts';
-import ShortcutSequence from 'components/shortcuts/shortcut_sequence/shortcut_sequence';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
 
 const toolTips = {
     flaggedPosts: {

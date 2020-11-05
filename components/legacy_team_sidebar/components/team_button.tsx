@@ -17,7 +17,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
 import {shortcuts} from 'components/shortcuts/shortcuts';
-import ShortcutSequence from 'components/shortcuts/shortcut_sequence/shortcut_sequence';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
 
 interface Props {
     btnClass?: string;
