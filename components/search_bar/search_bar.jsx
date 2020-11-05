@@ -134,6 +134,10 @@ export default class SearchBar extends React.PureComponent {
             e.preventDefault();
         }
 
+        if (Utils.isKeyPressed(e, KeyCodes.BACKSPACE) && !this.props.searchTerms && this.state.searchType) {
+            this.handleSearchTypeSelected('');
+        }
+
         if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             const newIndex = highlightedSearchHintIndex === visibleSearchHintOptions.length - 1 ? 0 : highlightedSearchHintIndex + 1;
             this.setState({highlightedSearchHintIndex: newIndex, indexChangedViaKeyPress: true});

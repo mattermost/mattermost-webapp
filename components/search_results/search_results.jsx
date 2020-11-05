@@ -172,7 +172,7 @@ class SearchResults extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
-        this.filterFilesSearchByExt([]);
+        this.props.actions.filterFilesSearchByExt([]);
     }
 
     shouldComponentUpdate(nextProps, nextState) {

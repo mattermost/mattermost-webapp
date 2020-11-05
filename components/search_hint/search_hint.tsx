@@ -19,7 +19,7 @@ type Props = {
     highlightedIndex?: number;
     onOptionHover?: (index: number) => void;
     onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
-    searchType?: 'files' | 'messages';
+    searchType?: 'files' | 'messages' | '';
 }
 
 const SearchHint = (props: Props) => {
@@ -63,11 +63,27 @@ const SearchHint = (props: Props) => {
 
     return (
         <React.Fragment>
-            {props.withTitle &&
+            {props.withTitle && !props.searchType &&
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title'
                         defaultMessage='Search Options'
+                    />
+                </h4>
+            }
+            {props.withTitle && props.searchType === 'files'  &&
+                <h4 className='search-hint__title'>
+                    <FormattedMessage
+                        id='search_bar.usage.title_files'
+                        defaultMessage='File search Options'
+                    />
+                </h4>
+            }
+            {props.withTitle && props.searchType === 'messages' &&
+                <h4 className='search-hint__title'>
+                    <FormattedMessage
+                        id='search_bar.usage.title_messages'
+                        defaultMessage='Message search Options'
                     />
                 </h4>
             }
