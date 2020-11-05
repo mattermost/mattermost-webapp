@@ -34,6 +34,7 @@ interface IQInputTextboxProps{
 }
 
 const QuickInputTextbox = React.forwardRef((props: IQInputTextboxProps, ref) => {
+    const defaultValueRef = React.useRef<string>(props.value);
     const {
         value, inputComponent,
         onSelect, onCompositionUpdate, onChange, // old callbacks
@@ -50,6 +51,7 @@ const QuickInputTextbox = React.forwardRef((props: IQInputTextboxProps, ref) => 
         props.inputComponent || 'input',
         {
             ...remainedProps,
+            defaultValue: defaultValueRef.current,
             ref,
 
             // add value as props (controlled components)

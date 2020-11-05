@@ -79,10 +79,9 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
             };
 
             const {elements, ...rest} = baseProps;
-            elements.push(selectElement);
             const props = {
                 ...rest,
-                elements,
+                elements: [...elements, selectElement],
             };
 
             const store = mockStore({});
