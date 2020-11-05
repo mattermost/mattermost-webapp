@@ -199,7 +199,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         <div
           className="col-sm-12"
         >
-          <QuickInput
+          <ForwardRef
             className="form-control filter-textbox search_input"
             clearable={true}
             delayInputUpdate={false}
@@ -217,6 +217,15 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
               Object {
                 "defaultMessage": "Search Plugins",
                 "id": "marketplace_modal.search",
+              }
+            }
+            quickInputState={
+              QuickInputState {
+                "textboxState": Object {
+                  "selectionEnd": null,
+                  "selectionStart": null,
+                  "value": "",
+                },
               }
             }
             value=""
@@ -280,7 +289,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         <div
           className="col-sm-12"
         >
-          <QuickInput
+          <ForwardRef
             className="form-control filter-textbox search_input"
             clearable={true}
             delayInputUpdate={false}
@@ -298,6 +307,15 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
               Object {
                 "defaultMessage": "Search Plugins",
                 "id": "marketplace_modal.search",
+              }
+            }
+            quickInputState={
+              QuickInputState {
+                "textboxState": Object {
+                  "selectionEnd": null,
+                  "selectionStart": null,
+                  "value": "",
+                },
               }
             }
             value=""
@@ -361,7 +379,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         <div
           className="col-sm-12"
         >
-          <QuickInput
+          <ForwardRef
             className="form-control filter-textbox search_input"
             clearable={true}
             delayInputUpdate={false}
@@ -379,6 +397,15 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
               Object {
                 "defaultMessage": "Search Plugins",
                 "id": "marketplace_modal.search",
+              }
+            }
+            quickInputState={
+              QuickInputState {
+                "textboxState": Object {
+                  "selectionEnd": null,
+                  "selectionStart": null,
+                  "value": "",
+                },
               }
             }
             value=""

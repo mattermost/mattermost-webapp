@@ -4,7 +4,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
 <div
   className="textarea-wrapper textarea-wrapper--preview"
 >
-  <SuggestionBox
+  <ForwardRef
     channelId="channelId"
     className="form-control custom-textarea custom-textarea--emoji-picker bad-connection custom-textarea--preview"
     completeOnTab={true}
@@ -121,7 +121,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
 <div
   className="textarea-wrapper"
 >
-  <SuggestionBox
+  <ForwardRef
     channelId="channelId"
     className="form-control custom-textarea"
     completeOnTab={true}
@@ -221,7 +221,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
 <div
   className="textarea-wrapper"
 >
-  <SuggestionBox
+  <ForwardRef
     channelId="channelId"
     className="form-control custom-textarea"
     completeOnTab={true}
@@ -321,7 +321,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
 <div
   className="textarea-wrapper"
 >
-  <SuggestionBox
+  <ForwardRef
     channelId="channelId"
     className="form-control custom-textarea"
     completeOnTab={true}

@@ -65,7 +65,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       <i
         className="icon icon-magnify icon-16"
       />
-      <SuggestionBox
+      <ForwardRef
         className="form-control focused"
         completeOnTab={false}
         containerClass=""

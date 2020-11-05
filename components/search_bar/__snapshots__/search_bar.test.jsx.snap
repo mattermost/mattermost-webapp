@@ -43,7 +43,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
           className="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
+      <ForwardRef
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
         autoFocus={false}
@@ -148,7 +148,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
           className="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
+      <ForwardRef
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
         autoFocus={false}
@@ -322,7 +322,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
           className="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
+      <ForwardRef
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
         autoFocus={false}
@@ -496,7 +496,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
           className="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
+      <ForwardRef
         aria-describedby="searchbar-help-popup"
         aria-label="Search"
         autoFocus={false}
