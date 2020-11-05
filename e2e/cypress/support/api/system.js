@@ -18,8 +18,11 @@ Cypress.Commands.add('apiGetClientLicense', () => {
 });
 
 Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
+    Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${key}__.`});
+
     return uploadLicenseIfNotExist().then(({license}) => {
-        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
+        const hasLicenseMessage = `Server ${license.IsLicensed === 'true' ? 'has' : 'has no'} EE license.`;
+        expect(license.IsLicensed, hasLicenseMessage).to.equal('true');
 
         let hasLicenseKey = false;
         for (const [k, v] of Object.entries(license)) {
@@ -29,15 +32,19 @@ Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
             }
         }
 
-        expect(hasLicenseKey, `No license for feature: ${key}`).to.equal(true);
+        const hasLicenseKeyMessage = `Server ${hasLicenseKey ? 'has' : 'has no'} EE license for feature: __${key}__`;
+        expect(hasLicenseKey, hasLicenseKeyMessage).to.equal(true);
 
         return cy.wrap({license});
     });
 });
 
 Cypress.Commands.add('apiRequireLicense', () => {
+    Cypress.log({name: 'EE License', message: 'Checking if server has license.'});
+
     return uploadLicenseIfNotExist().then(({license}) => {
-        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
+        const hasLicenseMessage = `Server ${license.IsLicensed === 'true' ? 'has' : 'has no'} EE license.`;
+        expect(license.IsLicensed, hasLicenseMessage).to.equal('true');
 
         return cy.wrap({license});
     });

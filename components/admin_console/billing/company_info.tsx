@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
 
+import {pageVisited} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import CompanyInfoDisplay from './company_info_display';
@@ -20,6 +21,8 @@ const CompanyInfo: React.FC<Props> = () => {
 
     useEffect(() => {
         dispatch(getCloudCustomer());
+
+        pageVisited('cloud_admin', 'pageview_billing_company_info');
     }, []);
 
     return (
@@ -31,9 +34,11 @@ const CompanyInfo: React.FC<Props> = () => {
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
                     <CompanyInfoDisplay/>
-                    <div style={{border: '1px solid #000', width: '100%', height: '194px', marginTop: '20px'}}>
+                    { /* Billing Admins section
+                        <div style={{border: '1px solid #000', width: '100%', height: '194px', marginTop: '20px'}}>
                         {'Billing Admins Card'}
-                    </div>
+                        </div>
+                    */}
                 </div>
             </div>
         </div>

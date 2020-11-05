@@ -26,58 +26,68 @@ const grepFiles = (command) => {
 };
 
 function getTestFiles() {
-    const {invert, group, stage} = argv;
+    const {invert, excludeGroup, group, stage} = argv;
 
     const allFiles = grepFiles(grepCommand());
 
-    const stageFiles = [];
+    let stageFiles = allFiles;
     if (stage) {
         const sc = grepCommand(stage.split(',').join('\\|'));
-        stageFiles.push(...grepFiles(sc));
-    }
-    const groupFiles = [];
-    if (group) {
-        const gc = grepCommand(group.split(',').join('\\|'));
-        groupFiles.push(...grepFiles(gc));
+        stageFiles = grepFiles(sc);
     }
 
+    let groupFiles = [...stageFiles];
+    if (group) {
+        const gc = grepCommand(group.split(',').join('\\|'));
+        groupFiles = grepFiles(gc);
+    }
+
+    const excludeGroupFiles = [];
+    if (excludeGroup) {
+        const egc = grepCommand(excludeGroup.split(',').join('\\|'));
+        excludeGroupFiles.push(...grepFiles(egc));
+    }
+
+    const finalGroupFiles = without(groupFiles, ...excludeGroupFiles);
+    const withGroup = group || excludeGroup;
+
     if (invert) {
-        // Return no test file if no stage and group, but inverted
-        if (!stage && !group) {
+        // Return no test file if no stage and withGroup, but inverted
+        if (!stage && !withGroup) {
             return [];
         }
 
         // Return all excluding stage files
-        if (stage && !group) {
+        if (stage && !withGroup) {
             return without(allFiles, ...stageFiles);
         }
 
         // Return all excluding group files
-        if (!stage && group) {
-            return without(allFiles, ...groupFiles);
+        if (!stage && withGroup) {
+            return without(allFiles, ...finalGroupFiles);
         }
 
         // Return all excluding group and stage files
-        return without(allFiles, ...intersection(stageFiles, groupFiles));
+        return without(allFiles, ...intersection(stageFiles, finalGroupFiles));
     }
 
     // Return all files if no stage and group flags
-    if (!stage && !group) {
+    if (!stage && !withGroup) {
         return allFiles;
     }
 
     // Return stage files if no group flag
-    if (stage && !group) {
+    if (stage && !withGroup) {
         return stageFiles;
     }
 
     // Return group files if no stage flag
-    if (!stage && group) {
-        return groupFiles;
+    if (!stage && withGroup) {
+        return finalGroupFiles;
     }
 
-    // Return files if both in stage and group
-    return intersection(stageFiles, groupFiles);
+    // Return files if both in stage and withGroup
+    return intersection(stageFiles, finalGroupFiles);
 }
 
 function getSkippedFiles(initialTestFiles, platform, browser, headless) {

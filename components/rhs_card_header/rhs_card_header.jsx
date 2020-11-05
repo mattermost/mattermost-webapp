@@ -112,15 +112,15 @@ export default class RhsCardHeader extends React.PureComponent {
 
         if (backToResultsTooltip) {
             back = (
-                <a
-                    href='#'
-                    onClick={this.handleBack}
-                    className='sidebar--right__back'
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={backToResultsTooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
-                        overlay={backToResultsTooltip}
+                    <a
+                        href='#'
+                        onClick={this.handleBack}
+                        className='sidebar--right__back'
                     >
                         <FormattedMessage
                             id='generic_icons.back'
@@ -133,8 +133,8 @@ export default class RhsCardHeader extends React.PureComponent {
                                 />
                             )}
                         </FormattedMessage>
-                    </OverlayTrigger>
-                </a>
+                    </a>
+                </OverlayTrigger>
             );
         }
 
