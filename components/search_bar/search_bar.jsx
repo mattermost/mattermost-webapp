@@ -305,7 +305,7 @@ export default class SearchBar extends React.PureComponent {
                         onMouseDown={this.keepInputFocused}
                         highlightedIndex={this.state.highlightedSearchHintIndex}
                         onOptionHover={this.setHoverHintIndex}
-                        onSearchTypeSelected={this.state.searchType ? undefined : this.handleSearchTypeSelected}
+                        onSearchTypeSelected={this.state.searchType || this.props.searchTerms ? undefined : this.handleSearchTypeSelected}
                         searchType={this.state.searchType}
                     />
                 </Popover>
@@ -424,7 +424,7 @@ export default class SearchBar extends React.PureComponent {
                                     />}
                                 <i
                                     className='icon icon-close icon-16'
-                                    onClick={() => this.setState({searchType: ''})}
+                                    onClick={() => this.handleSearchTypeSelected('')}
                                 />
                             </div>}
 
