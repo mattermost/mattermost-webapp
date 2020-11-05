@@ -67,8 +67,6 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         newConfig.GitLabSettings.AuthEndpoint = '';
         newConfig.GitLabSettings.TokenEndpoint = '';
 
-        newConfig.FileSettings.MaxFileSize = '-1';
-
         const {error: err} = await this.props.actions.updateConfig(newConfig);
         if (err) {
             this.setState({serverError: err.message});

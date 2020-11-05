@@ -111,7 +111,7 @@ describe('System console-OpenId Connect', () => {
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
-            expect(config.GitlabSettings.Secret).to.equal(FAKE_SETTING);
+            expect(config.GitLabSettings.Secret).to.equal(FAKE_SETTING);
             expect(config.GitLabSettings.Id).to.equal('GitlabId');
             expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
         });
@@ -137,7 +137,7 @@ describe('System console-OpenId Connect', () => {
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
-            expect(config.GitlabSettings.Secret).to.equal(FAKE_SETTING);
+            expect(config.Office365Settings.Secret).to.equal(FAKE_SETTING);
             expect(config.Office365Settings.Id).to.equal('Office365Id');
             expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
         });
