@@ -329,7 +329,7 @@
 }
 
 .search-hint__search-type-selector {
-    padding: 18px 24px;
+    padding: 18px 24px 16px 24px;
     font-weight: 600;
     font-size: 14px;
 
@@ -346,8 +346,11 @@
         color: v(button-bg);
         border-color: v(button-bg);
         background: v(center-channel-bg);
-        padding: 11px 9px;
-        margin: 24px 8px 14px 0;
+        padding: 9px 15px;
+        margin: 18px 8px 16px 0;
+        .icon {
+            font-size: 14px;
+        }
     }
 }
 
