@@ -9,10 +9,10 @@
         max-width: 100%;
         font-size: 12px;
         font-weight: 600;
+        line-height: 16px;
         padding: 4px 8px;
         word-break: break-word;
         text-align: center;
-        line-height: 16px;
         font-family: 'Open Sans';
     }
 
@@ -20,9 +20,5 @@
         .tooltip-inner {
             white-space: nowrap;
         }
-    }
-
-    .tooltip-help {
-        color: rgba(255, 255, 255, 0.64);
     }
 }

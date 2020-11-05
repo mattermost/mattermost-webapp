@@ -10,7 +10,7 @@ import {Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {shortcuts} from 'components/Shortcuts/shortcuts';
+import {shortcuts} from 'components/shortcuts/shortcuts';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
@@ -44,7 +44,7 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence/shortcut_sequence.tsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
@@ -1423,30 +1423,20 @@ class CreatePost extends React.PureComponent {
             );
         }
 
-        const tooltip = (
-            <Tooltip
-                id='upload-tooltip'
-            >
-                <FormattedMessage
-                    id='create_post.fileUpload'
-                    defaultMessage='Upload a file'
-                />
-                <ShortcutSequence
-                    shortcut={shortcuts.filesUpload}
-                    hideDescription={true}
-                />
-            </Tooltip>
-        );
-
         let fileUpload;
-        const tooltipTriggers = ['hover', 'focus'];
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <OverlayTrigger
-                    trigger={tooltipTriggers}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
-                    overlay={tooltip}
+                    overlay={(
+                        <Tooltip id='upload-tooltip'>
+                            <ShortcutSequence
+                                shortcut={shortcuts.filesUpload}
+                                hoistDescription={true}
+                            />
+                        </Tooltip>
+                    )}
                 >
                     <div>
                         <FileUpload

@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 
-import {shortcuts} from 'components/Shortcuts/shortcuts';
-
 import {trackEvent} from 'actions/telemetry_actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -15,7 +13,9 @@ import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import ShortcutSequence from 'components/Shortcuts/shortcut_sequence';
+
+import {shortcuts} from 'components/shortcuts/shortcuts';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
 
 type Props = {
     canGoForward: boolean;
@@ -25,7 +25,6 @@ type Props = {
         goBack: () => void;
         goForward: () => void;
     };
-    shortcuts: any;
 };
 
 type State = {
@@ -65,11 +64,10 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             <Tooltip
                 id='upload-tooltip'
             >
-                <FormattedMessage
-                    id='shortcuts.browser.channel_prev'
-                    defaultMessage='Upload a file'
+                <ShortcutSequence
+                    shortcut={shortcuts.browserChannelPrev}
+                    hoistDescription={true}
                 />
-                <ShortcutSequence shortcut={shortcuts.browserChannelPrev}/>
             </Tooltip>
         );
 
@@ -77,11 +75,10 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             <Tooltip
                 id='upload-tooltip'
             >
-                <FormattedMessage
-                    id='shortcuts.browser.channel_next'
-                    defaultMessage='Upload a file'
+                <ShortcutSequence
+                    shortcut={shortcuts.browserChannelNext}
+                    hoistDescription={true}
                 />
-                <ShortcutSequence shortcut={shortcuts.browserChannelNext}/>
             </Tooltip>
         );
 

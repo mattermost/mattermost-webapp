@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
@@ -12,10 +12,62 @@ import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-import {shortcuts} from 'components/Shortcuts/shortcuts';
-import ShortcutSequence from 'components/Shortcuts/shortcut_sequence.tsx';
+import {shortcuts} from 'components/shortcuts/shortcuts';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence/shortcut_sequence';
 
-export default function HeaderIconWrapper({
+const toolTips = {
+    flaggedPosts: {
+        class: 'text-nowrap',
+        id: 'flaggedTooltip',
+        messageID: t('channel_header.flagged'),
+        message: 'Saved posts',
+    },
+    pinnedPosts: {
+        class: '',
+        id: 'pinnedPostTooltip',
+        messageID: t('channel_header.pinnedPosts'),
+        message: 'Pinned posts',
+    },
+    recentMentions: {
+        class: '',
+        id: 'recentMentionsTooltip',
+        messageID: t('channel_header.recentMentions'),
+        message: 'Recent mentions',
+        shortcut: shortcuts.navMentions,
+    },
+    search: {
+        class: '',
+        id: 'searchTooltip',
+        messageID: t('channel_header.search'),
+        message: 'Search',
+    },
+};
+
+function getTooltip(key) {
+    if (toolTips[key] == null) {
+        return null;
+    }
+
+    return (
+        <Tooltip
+            id={toolTips[key].id}
+            className={toolTips[key].class}
+        >
+            <FormattedMessage
+                id={toolTips[key].messageID}
+                defaultMessage={toolTips[key].message}
+            />
+            {toolTips[key].shortcut && (
+                <ShortcutSequence
+                    shortcut={toolTips[key].shortcut}
+                    hideDescription={true}
+                />
+            )}
+        </Tooltip>
+    );
+}
+
+function HeaderIconWrapper({
     iconComponent,
     ariaLabel,
     buttonClass,
@@ -25,57 +77,6 @@ export default function HeaderIconWrapper({
     tooltipText,
     isRhsOpen,
 }) {
-    const toolTips = {
-        flaggedPosts: {
-            class: 'text-nowrap',
-            id: 'flaggedTooltip',
-            messageID: t('channel_header.flagged'),
-            message: 'Saved posts',
-        },
-        pinnedPosts: {
-            class: '',
-            id: 'pinnedPostTooltip',
-            messageID: t('channel_header.pinnedPosts'),
-            message: 'Pinned posts',
-        },
-        recentMentions: {
-            class: '',
-            id: 'recentMentionsTooltip',
-            messageID: t('channel_header.recentMentions'),
-            message: 'Recent mentions',
-        },
-        search: {
-            class: '',
-            id: 'searchTooltip',
-            messageID: t('channel_header.search'),
-            message: 'Search',
-        },
-    };
-
-    function getTooltip(key) {
-        if (toolTips[key] == null) {
-            return null;
-        }
-
-        return (
-            <Tooltip
-                id={toolTips[key].id}
-                className={toolTips[key].class}
-            >
-                <FormattedMessage
-                    id={toolTips[key].messageID}
-                    defaultMessage={toolTips[key].message}
-                />
-                {key === 'recentMentions' && (
-                    <ShortcutSequence
-                        shortcut={shortcuts.navMentions}
-                        hideDescription={true}
-                    />
-                )}
-            </Tooltip>
-        );
-    }
-
     let tooltip;
     if (tooltipKey === 'plugin' && tooltipText) {
         tooltip = (
@@ -142,3 +143,5 @@ HeaderIconWrapper.propTypes = {
     tooltipText: PropTypes.node,
     isRhsOpen: PropTypes.bool,
 };
+
+export default memo(HeaderIconWrapper);

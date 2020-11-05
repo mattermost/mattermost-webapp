@@ -2,11 +2,14 @@
 // See LICENSE.txt for license information.
 import {MessageDescriptor} from 'react-intl';
 
-import * as Utils from 'utils/utils';
-
 import {t} from 'utils/i18n';
+export type ShortcutMessage = MessageDescriptor | {default: MessageDescriptor, mac?: MessageDescriptor};
 
-export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescriptor, default: MessageDescriptor}> = {
+export function isMessageDescriptor(descriptor: ShortcutMessage): descriptor is MessageDescriptor {
+    return Boolean((descriptor as MessageDescriptor).id);
+}
+
+export const shortcuts: Record<string, ShortcutMessage> = {
     mainHeader: {
         default: {
             id: t('shortcuts.header'),
@@ -254,11 +257,11 @@ export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescr
     teamNavigation: {
         default: {
             id: t('team.button.tooltip'),
-            defaultMessage: 'shortcut:\tCtrl|Alt|{order}',
+            defaultMessage: 'Ctrl|Alt|{order}',
         },
         mac: {
             id: t('team.button.tooltip.mac'),
-            defaultMessage: '⌘ |⌥ |{order}',
+            defaultMessage: '⌘|⌥|{order}',
         },
     },
     browserInputHeader: {
@@ -278,21 +281,3 @@ export const allShortcuts: Record<string, MessageDescriptor | {mac: MessageDescr
         defaultMessage: 'Create a new line:\tShift|Enter',
     },
 };
-
-export function parsedShortcuts(allshortcuts: Record<string, MessageDescriptor | {mac: MessageDescriptor, default: MessageDescriptor}>) {
-    const ismac = Utils.isMac();
-    const shortcuts = {};
-    Object.keys(allshortcuts).forEach((s) => {
-        if (ismac && allshortcuts[s].mac) {
-            shortcuts[s] = allshortcuts[s].mac;
-        } else if (!ismac && allshortcuts[s].default) {
-            shortcuts[s] = allshortcuts[s].default;
-        } else {
-            shortcuts[s] = allshortcuts[s];
-        }
-    });
-
-    return shortcuts;
-}
-
-export const shortcuts = parsedShortcuts(allShortcuts);

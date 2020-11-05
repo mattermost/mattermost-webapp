@@ -153,7 +153,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -166,7 +166,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -178,7 +178,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -191,7 +191,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--active"
       buttonId="channelHeaderFlagButton"
@@ -361,7 +361,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -374,7 +374,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -386,7 +386,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--active"
       buttonId="channelHeaderMentionButton"
@@ -399,7 +399,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
@@ -569,7 +569,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--active"
       buttonId="channelHeaderPinButton"
@@ -582,7 +582,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -594,7 +594,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -607,7 +607,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
@@ -719,7 +719,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -732,7 +732,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -744,7 +744,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -757,7 +757,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
@@ -961,7 +961,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -974,7 +974,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -986,7 +986,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -999,7 +999,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
@@ -1175,7 +1175,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -1188,7 +1188,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -1200,7 +1200,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -1213,7 +1213,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
@@ -1424,7 +1424,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -1437,7 +1437,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -1449,7 +1449,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -1462,7 +1462,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"
@@ -1632,7 +1632,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         }
       }
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon channel-header__icon--wide"
       buttonId="channelHeaderPinButton"
@@ -1653,7 +1653,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       onClick={[Function]}
       tooltipKey="pinnedPosts"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
@@ -1665,7 +1665,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       onClick={[Function]}
       tooltipKey="search"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderMentionButton"
@@ -1678,7 +1678,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       onClick={[Function]}
       tooltipKey="recentMentions"
     />
-    <HeaderIconWrapper
+    <Memo(HeaderIconWrapper)
       ariaLabel={true}
       buttonClass="channel-header__icon"
       buttonId="channelHeaderFlagButton"

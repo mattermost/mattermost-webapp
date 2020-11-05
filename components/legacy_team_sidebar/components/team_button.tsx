@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {MessageDescriptor, injectIntl, IntlShape, IntlFormatters} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -16,8 +16,8 @@ import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
-import {shortcuts} from 'components/Shortcuts/shortcuts';
-import ShortcutSequence from 'components/Shortcuts/shortcut_sequence';
+import {shortcuts} from 'components/shortcuts/shortcuts';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence/shortcut_sequence';
 
 interface Props {
     btnClass?: string;
@@ -38,13 +38,6 @@ interface Props {
     isDraggable?: boolean;
     teamIndex?: number;
     teamId?: string;
-    shortcuts: {
-        teamNavigation:{
-            mac: MessageDescriptor;
-            default: MessageDescriptor;
-        }
-    };
-    values: Parameters<IntlFormatters['formatMessage']>[1],
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -127,12 +120,10 @@ class TeamButton extends React.PureComponent<Props> {
             toolTip = (
                 <>
                     {toolTip}
-                    <div className='tooltip-help'>
-                        <ShortcutSequence
-                            shortcut={shortcuts.teamNavigation}
-                            values={this.props.order}
-                        />
-                    </div>
+                    <ShortcutSequence
+                        shortcut={shortcuts.teamNavigation}
+                        values={{order: this.props.order}}
+                    />
                 </>
             );
 
