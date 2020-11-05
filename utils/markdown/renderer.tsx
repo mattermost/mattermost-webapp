@@ -207,11 +207,11 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
-        const isInternalLink = outHref.startsWith(this.formattingOptions.siteURL) || outHref.startsWith('/');
+        const isInternalLink = outHref.startsWith(this.formattingOptions.siteURL || '') || outHref.startsWith('/');
 
         let openInNewTab;
         if (isInternalLink) {
-            const path = outHref.startsWith('/') ? outHref : outHref.substring(this.formattingOptions.siteURL.length);
+            const path = outHref.startsWith('/') ? outHref : outHref.substring(this.formattingOptions.siteURL?.length || 0);
 
             // Paths managed by plugins and public file links aren't handled by the web app
             const unhandledPaths = [

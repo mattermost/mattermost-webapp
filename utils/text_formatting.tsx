@@ -55,8 +55,7 @@ export type Team = {
     name: string;
     displayName: string;
 };
-
-export interface TextFormattingOptions {
+interface TextFormattingOptionsBase {
 
     /**
    * If specified, this word is highlighted in the resulting html.
@@ -161,9 +160,9 @@ export interface TextFormattingOptions {
      * An array of paths on the server that are managed by another server. Any path provided will be treated as an
      * external link that will not by handled by react-router.
      *
-     * Defaults to the empty array.
+     * Defaults to an empty array.
      */
-    managedResourcePaths?: string[];
+    managedResourcePaths: string[];
 
     /**
    * A custom renderer object to use in the formatWithRenderer function.
@@ -180,13 +179,14 @@ export interface TextFormattingOptions {
     minimumHashtagLength: number;
 }
 
-export const defaultTextFormattingOptions: Partial<TextFormattingOptions> = {
+export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
+
+const DEFAULT_OPTIONS: TextFormattingOptions = {
     mentionHighlight: true,
     disableGroupHighlight: false,
     singleline: false,
     emoticons: true,
     markdown: true,
-    siteURL: '',
     atMentions: false,
     minimumHashtagLength: 3,
     proxyImages: false,
@@ -198,7 +198,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 
 export function formatText(
     text: string,
-    inputOptions: Partial<TextFormattingOptions> = {},
+    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
     emojiMap: EmojiMap,
 ) {
     if (!text || typeof text !== 'string') {
@@ -206,7 +206,7 @@ export function formatText(
     }
 
     let output = text;
-    const options = Object.assign({}, defaultTextFormattingOptions, inputOptions) as TextFormattingOptions;
+    const options = Object.assign({}, inputOptions);
     const hasPhrases = (/"([^"]*)"/).test(options.searchTerm || '');
 
     if (options.searchMatches && !hasPhrases) {
