@@ -4,6 +4,7 @@ exports[`RemoveFromTeamButton should match snapshot init 1`] = `
 <button
   className="btn btn-danger"
   onClick={[Function]}
+  type="button"
 >
   <FormattedMessage
     defaultMessage="Remove from Team"

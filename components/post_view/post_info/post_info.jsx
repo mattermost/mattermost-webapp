@@ -307,7 +307,7 @@ export default class PostInfo extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={
-                        <Tooltip>
+                        <Tooltip id={`viewAdditionalInfo-${post.id}`}>
                             <FormattedMessage
                                 id='post_info.info.view_additional_info'
                                 defaultMessage='View additional info'

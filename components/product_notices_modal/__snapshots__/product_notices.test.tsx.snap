@@ -81,6 +81,7 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
     className="GenericModal__button actionButton"
     href="http://download.com/path"
     id="actionButton"
+    onClick={[Function]}
     rel="noopener noreferrer"
     target="_blank"
   >
@@ -150,6 +151,7 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
     className="GenericModal__button actionButton"
     href="http://download.com/path"
     id="actionButton"
+    onClick={[Function]}
     rel="noopener noreferrer"
     target="_blank"
   >
