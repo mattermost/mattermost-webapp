@@ -12,8 +12,8 @@ import './messages_or_files_selector.scss';
 type Props = {
     selected: string;
     selectedFilter: string;
-    messagesCounter: number;
-    filesCounter: number;
+    messagesCounter: string;
+    filesCounter: string;
     onChange: (value: string) => void;
     onFilter: (filter: string) => void;
 };

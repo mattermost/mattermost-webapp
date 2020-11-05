@@ -359,8 +359,8 @@ class SearchResults extends React.Component {
                     <SearchResultsItem
                         key={item.id}
                         compactDisplay={this.props.compactDisplay}
-                        post={this.state.searchType === MESSAGES_SEARCH_TYPE && item}
-                        fileInfo={this.state.searchType === FILES_SEARCH_TYPE && item}
+                        post={this.state.searchType === MESSAGES_SEARCH_TYPE ? item: undefined}
+                        fileInfo={this.state.searchType === FILES_SEARCH_TYPE ? item : undefined}
                         matches={this.props.matches[item.id]}
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
@@ -424,8 +424,8 @@ class SearchResults extends React.Component {
                 <MessageOrFileSelector
                     selected={this.state.searchType}
                     selectedFilter={this.state.filterType}
-                    messagesCounter={this.props.isSearchAtEnd ? results.length : `${results.length}+`}
-                    filesCounter={this.props.isSearchFilesAtEnd ? fileResults.length : `${fileResults.length}+`}
+                    messagesCounter={this.props.isSearchAtEnd ? `${results.length}` : `${results.length}+`}
+                    filesCounter={this.props.isSearchFilesAtEnd ? `${fileResults.length}` : `${fileResults.length}+`}
                     onChange={(searchType) => this.setState({searchType})}
                     onFilter={this.handleFilterChange}
                 />
