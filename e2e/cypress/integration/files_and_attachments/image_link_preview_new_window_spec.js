@@ -32,10 +32,10 @@ describe('Image Link Preview', () => {
         });
     });
 
-    it('MM-T331 Image link preview - Collapse and expand', () => {
+    it('MM-T329 Image link preview', () => {
         const link = 'http://www.traveller.com.au/content/dam/images/g/u/n/q/h/0/image.related.articleLeadwide.620x349.gunpvd.png/1488330286332.png';
         const baseUrl = Cypress.config('baseUrl');
-        const encodedIconUrl = encodeURIComponent('http://www.traveller.com.au/content/dam/images/g/u/n/q/h/0/image.related.articleLeadwide.620x349.gunpvd.png/1488330286332.png');
+        const encodedIconUrl = encodeURIComponent(link);
 
         // # Post a link to an externally hosted image
         cy.postMessage(link);
