@@ -10,7 +10,6 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
 
-import {doAppletCall} from 'actions/applets';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';

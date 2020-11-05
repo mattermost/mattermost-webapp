@@ -1,97 +1,107 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+
 import {Client4} from 'mattermost-redux/client';
+
+import {AppBinding, AppFieldTypes, AppForm} from 'mattermost-redux/types/apps';
+
 import {
-    getCurrentlyEditingToken,
-    SuggestionChoice,
-    flattenCommandList,
-    getMatchedCommand,
-    getSynchronousResults,
-    getForm,
-    setCommands,
-    getSuggestionForExecute,
+    AutocompleteSuggestion,
     AppCommandParser,
-} from './applet_command_parser';
+    AutocompleteSuggestionWithComplete,
+} from './app_command_parser';
+import {reduxTestState} from './test_data';
 
-import {AppletBinding, AppletFieldTypes} from 'actions/applet_types'
+const mockStore = configureStore([thunk]);
 
-const definitions: AppletBinding[] = [
+const definitions: AppBinding[] = [
     {
         app_id: 'jira',
-        name: 'jira',
+        location_id: '/command',
+        label: 'jira',
         bindings: [{
             app_id: 'jira',
-            name: 'issue',
+            label: 'issue',
             description: 'Interact with Jira issues',
             bindings: [
                 {
                     app_id: 'jira',
-                    name: 'view',
+                    label: 'view',
                     description: 'View details of a Jira issue',
                     func: {
-                        form: {
-                            fields: [
-                                {
-                                    name: 'project',
-                                    description: 'The Jira project description',
-                                    type: AppletFieldTypes.DYNAMIC_SELECT,
-                                    // flag_name: 'project',
-                                    hint: 'The Jira project hint',
-                                    // role_id: 'system_user',
-                                    positional: true,
-                                    source_url: '/projects',
-                                },
-                                {
-                                    name: 'issue',
-                                    description: 'The Jira issue key',
-                                    type: AppletFieldTypes.TEXT,
-                                    // flag_name: 'issue',
-                                    hint: 'MM-11343',
-                                    // role_id: 'system_user',
-                                    positional: false,
-                                },
-                            ],
+                        data: {
+                            form: {
+                                fields: [
+                                    {
+                                        name: 'project',
+                                        autocomplete_label: 'project',
+                                        description: 'The Jira project description',
+                                        type: AppFieldTypes.DYNAMIC_SELECT,
+                                        // flag_name: 'project',
+                                        hint: 'The Jira project hint',
+                                        // role_id: 'system_user',
+                                        position: 1,
+                                        source_url: '/projects',
+                                    },
+                                    {
+                                        name: 'issue',
+                                        autocomplete_label: 'issue',
+                                        description: 'The Jira issue key',
+                                        type: AppFieldTypes.TEXT,
+                                        // flag_name: 'issue',
+                                        hint: 'MM-11343',
+                                        // role_id: 'system_user',
+                                    },
+                                ],
+                            } as AppForm,
                         },
                     },
                 },
                 {
                     app_id: 'jira',
-                    name: 'create',
+                    label: 'create',
                     description: 'Create a new Jira issue',
                     func: {
-                        form: {
-                            fields: [
-                                {
-                                    name: 'project',
-                                    description: 'The Jira project description',
-                                    type: AppletFieldTypes.DYNAMIC_SELECT,
-                                    hint: 'The Jira project hint',
-                                    positional: false,
-                                    source_url: '/projects',
-                                },
-                                {
-                                    name: 'summary',
-                                    description: 'The Jira issue summary',
-                                    type: AppletFieldTypes.TEXT,
-                                    hint: 'The thing is working great!',
-                                    positional: false,
-                                },
-                                {
-                                    name: 'epic',
-                                    description: 'The Jira epic',
-                                    type: AppletFieldTypes.STATIC_SELECT,
-                                    hint: 'The thing is working great!',
-                                    positional: false,
-                                    options: [
-                                        {
-                                            label: 'Dylan Epic',
-                                            value: 'epic1',
-                                        },
-                                        {
-                                            label: 'Michael Epic',
-                                            value: 'epic2',
-                                        },
-                                    ],
-                                },
-                            ],
+                        data: {
+                            form: {
+                                fields: [
+                                    {
+                                        name: 'project',
+                                        autocomplete_label: 'project',
+                                        description: 'The Jira project description',
+                                        type: AppFieldTypes.DYNAMIC_SELECT,
+                                        hint: 'The Jira project hint',
+                                        source_url: '/projects',
+                                    },
+                                    {
+                                        name: 'summary',
+                                        autocomplete_label: 'summary',
+                                        description: 'The Jira issue summary',
+                                        type: AppFieldTypes.TEXT,
+                                        hint: 'The thing is working great!',
+                                    },
+                                    {
+                                        name: 'epic',
+                                        autocomplete_label: 'epic',
+                                        description: 'The Jira epic',
+                                        type: AppFieldTypes.STATIC_SELECT,
+                                        hint: 'The thing is working great!',
+                                        options: [
+                                            {
+                                                label: 'Dylan Epic',
+                                                value: 'epic1',
+                                            },
+                                            {
+                                                label: 'Michael Epic',
+                                                value: 'epic2',
+                                            },
+                                        ],
+                                    },
+                                ],
+                            } as AppForm,
                         },
                     },
                 },
@@ -100,18 +110,36 @@ const definitions: AppletBinding[] = [
     },
 ];
 
-setCommands(definitions);
+describe('AppCommandParser', () => {
+    const makeStore = async (bindings: AppBinding[]) => {
+        const initialState = {
+            ...reduxTestState,
+            entities: {
+                ...reduxTestState.entities,
+                apps: {bindings},
+            },
+        } as any;
+        const testStore = await mockStore(initialState);
 
-describe('CommandParser', () => {
+        return testStore;
+    }
+
     let parser: AppCommandParser;
-    beforeEach(() => {
-        parser = new AppCommandParser(definitions);
+    beforeEach(async () => {
+        const store = await makeStore(definitions);
+        parser = new AppCommandParser(store.dispatch, store.getState, '');
     });
 
     describe('flattenCommandList', () => {
         test('should parse', () => {
-            const cmds = parser.flattenCommandList(definitions, '');
-            expect(cmds).toHaveLength(4);
+            const bindings = parser.flattenCommandList(definitions, '');
+            expect(bindings).toHaveLength(4);
+            expect(bindings.map((b) => b.fullPretext)).toEqual([
+                'jira',
+                'jira issue',
+                'jira issue view',
+                'jira issue create',
+            ]);
         });
     });
 
@@ -128,93 +156,93 @@ describe('CommandParser', () => {
         });
     });
 
-    describe('getSynchronousResults', () => {
+    describe('getAppSuggestionsForBindings', () => {
         test('string matches 1', () => {
-            const res = parser.getAppSuggestionsForBindings('/', definitions);
+            const res = parser.getAppSuggestionsForBindings('/');
             expect(res).toHaveLength(1);
         });
 
         test('string matches 2', () => {
-            const res = parser.getAppSuggestionsForBindings('/ji', definitions);
+            const res = parser.getAppSuggestionsForBindings('/ji');
             expect(res).toHaveLength(1);
         });
 
         test('string matches 3', () => {
-            const res = parser.getAppSuggestionsForBindings('/jira', definitions);
+            const res = parser.getAppSuggestionsForBindings('/jira');
             expect(res).toHaveLength(1);
         });
 
         test('string is past base command', () => {
-            const res = parser.getAppSuggestionsForBindings('/jira ', definitions);
+            const res = parser.getAppSuggestionsForBindings('/jira ');
             expect(res).toHaveLength(0);
         });
 
         test('string does not match', () => {
-            const res = parser.getAppSuggestionsForBindings('/other', definitions);
+            const res = parser.getAppSuggestionsForBindings('/other');
             expect(res).toHaveLength(0);
         });
     });
 
-    describe('getMatchedCommand', () => {
+    describe('matchBinding', () => {
         test('should return null if no command matches', () => {
             let res;
-            res = parser.matchBinding('/hey', definitions);
+            res = parser.matchBinding('/hey');
             expect(res).toBeNull();
         });
 
         test('should return null if theres no space after', () => {
             let res;
-            res = parser.matchBinding('/jira', definitions);
+            res = parser.matchBinding('/jira');
             expect(res).toBeNull();
         });
 
         test('should return parent', () => {
             let res;
-            res = parser.matchBinding('/jira ', definitions);
+            res = parser.matchBinding('/jira ');
             expect(res).toBeTruthy();
-            expect(res.name).toEqual(definitions[0].name);
+            expect(res.label).toEqual(definitions[0].label);
         });
 
         test('should return parent while typing 1', () => {
             let res;
-            res = parser.matchBinding('/jira iss', definitions);
+            res = parser.matchBinding('/jira iss');
             expect(res).toBeTruthy();
-            expect(res.name).toEqual(definitions[0].name);
+            expect(res.label).toEqual(definitions[0].label);
         });
 
         test('should return parent while typing 2', () => {
             let res;
-            res = parser.matchBinding('/jira issue', definitions);
+            res = parser.matchBinding('/jira issue');
             expect(res).toBeTruthy();
-            expect(res.name).toEqual(definitions[0].name);
+            expect(res.label).toEqual(definitions[0].label);
         });
 
         test('should return child after space', () => {
             let res;
-            res = parser.matchBinding('/jira issue ', definitions);
+            res = parser.matchBinding('/jira issue ');
             expect(res).toBeTruthy();
-            expect(res.name).toEqual('issue');
+            expect(res.label).toEqual('issue');
         });
 
         test('should return nested child', () => {
             let res;
-            res = parser.matchBinding('/jira issue view ', definitions);
+            res = parser.matchBinding('/jira issue view ');
             expect(res).toBeTruthy();
-            expect(res.name).toEqual('view');
+            expect(res.label).toEqual('view');
         });
     });
 
-    describe('getCurrentlyEditingToken', () => {
+    describe('getSuggestionsForCursorPosition', () => {
         test('choosing subcommand 1', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
                 'issue',
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(1);
             expect(res).toEqual([
@@ -228,14 +256,14 @@ describe('CommandParser', () => {
 
         test('choosing subcommand 2', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
                 'issue ',
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
@@ -254,7 +282,7 @@ describe('CommandParser', () => {
 
         test('choosing subcommand 3', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -262,7 +290,7 @@ describe('CommandParser', () => {
                 'c'
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(1);
             expect(res).toEqual([
@@ -276,7 +304,7 @@ describe('CommandParser', () => {
 
         test('typing flag', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -287,7 +315,7 @@ describe('CommandParser', () => {
                 '--summa',
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
@@ -303,7 +331,7 @@ describe('CommandParser', () => {
 
         test('show flag args', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -312,14 +340,14 @@ describe('CommandParser', () => {
                 '',
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(4);
         });
 
         test('show positional arg for project value', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -328,11 +356,11 @@ describe('CommandParser', () => {
                 '',
             ].join(' ');
 
-            const f = Client4.executePluginCall
-            Client4.executePluginCall = () => Promise.resolve({data: [{label: 'special-label', value: 'special-value'}]});
+            const f = Client4.executeAppCall
+            Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: [{label: 'special-label', value: 'special-value'}]}));
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
-            Client4.executePluginCall = f;
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
+            Client4.executeAppCall = f;
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
@@ -348,7 +376,7 @@ describe('CommandParser', () => {
 
         test('show positional arg for issue view project value', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -358,7 +386,7 @@ describe('CommandParser', () => {
                 '',
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
@@ -374,7 +402,7 @@ describe('CommandParser', () => {
 
         test('works with random spaces', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -387,7 +415,7 @@ describe('CommandParser', () => {
                 '  ',
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(2);
             expect(res).toEqual([
@@ -403,7 +431,7 @@ describe('CommandParser', () => {
 
         test('static options', async () => {
             let cmdStr = '';
-            let res: SuggestionChoice[] = [];
+            let res: AutocompleteSuggestionWithComplete[] = [];
 
             cmdStr = [
                 '/jira',
@@ -417,7 +445,7 @@ describe('CommandParser', () => {
                 ''
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(3);
             expect(res).toEqual([
@@ -446,7 +474,7 @@ describe('CommandParser', () => {
                 'M'
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(2);
             const sug = res[1];
@@ -468,7 +496,7 @@ describe('CommandParser', () => {
                 'Nope'
             ].join(' ');
 
-            res = await parser.getCurrentlyEditingToken(cmdStr, definitions);
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(1);
             expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)])

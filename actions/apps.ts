@@ -12,9 +12,9 @@ import {sendEphemeralPost} from 'actions/global_actions';
 import {openInteractiveDialog} from 'plugins/interactive_dialog';
 import {executeCommand} from 'actions/command';
 
-export function doAppCall(call: AppCall): ActionFunc {
+export function doAppCall<Req={}, Res={}>(call: AppCall): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        const res = await Client4.executeAppCall(call) as AppCallResponse<any>; // TODO use unknown and check types (may need type guards)
+        const res = await Client4.executeAppCall(call) as AppCallResponse<Res>; // TODO use unknown and check types (may need type guards)
 
         switch (res.type) {
         case AppCallResponseTypes.OK:
@@ -34,8 +34,16 @@ export function doAppCall(call: AppCall): ActionFunc {
             openInteractiveDialog(res.data);
             return {data: res};
         case AppCallResponseTypes.COMMAND:
-            res.data.args.command = res.data.command;
-            return dispatch(executeCommand(res.data.command, res.data.args));
+            if (res.data?.args && res.data?.command) {
+                res.data.args.command = res.data.command;
+                return dispatch(executeCommand(res.data.command, res.data.args));
+            }
+
+        case AppCallResponseTypes.ERROR:
+            if (res.error && call.context.channel_id) {
+                sendEphemeralPost(res.error, call.context.channel_id, call.context.root_id);
+            }
+            return {data: false};
         }
 
         return {data: res};

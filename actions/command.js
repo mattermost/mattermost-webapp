@@ -20,8 +20,8 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
-import {getSubmissionPayload, shouldHandleCommand, getAppCommandLocations} from 'components/suggestion/command_provider/applet_command_parser';
-import {doAppletCall} from './applets';
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
+import {doAppCall} from './apps';
 
 export function executeCommand(message, args) {
     return async (dispatch, getState) => {
@@ -95,16 +95,15 @@ export function executeCommand(message, args) {
             dispatch(PostActions.resetEmbedVisibility());
         }
 
-        const bindings = getAppCommandLocations(state);
-        if (shouldHandleCommand(message, bindings)) {
+        const parser = new AppCommandParser(dispatch, getState, args.root_id);
+        if (parser.isAppCommand(msg)) {
+            const payload = await parser.getSubmissionPayload(message);
             try {
-                const payload = await getSubmissionPayload(message, bindings, args);
-                await doAppletCall(payload);
-            } catch (e) {
-                GlobalActions.sendEphemeralPost(e.toString(), args.channel_id);
-                return {error: e};
+                await dispatch(doAppCall(payload));
+                return {data: true};
+            } catch (err) {
+                return {error: err};
             }
-            return {data: true};
         }
 
         let data;
