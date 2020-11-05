@@ -178,6 +178,10 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
+    getDotMenu = () => {
+        return this.refs.dotMenu;
+    };
+
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean) => {
         if (!this.props.shouldShowDotMenu) {
             return null;
@@ -209,7 +213,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     channelId={post.channel_id}
                     postId={post.id}
                     teamId={this.props.teamId}
-                    getDotMenuRef={this.refs.dotMenu}
+                    getDotMenuRef={this.getDotMenu}
                     showEmojiPicker={this.state.showEmojiPicker}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                 />
