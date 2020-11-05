@@ -21,7 +21,7 @@ export default class UserList extends React.PureComponent {
         isDisabled: PropTypes.bool,
 
         // the type of user list row to render
-        rowComponentType: PropTypes.node,
+        rowComponentType: PropTypes.object,
     }
 
     static defaultProps = {
