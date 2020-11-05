@@ -46,10 +46,10 @@ export default class ViewImageModal extends React.PureComponent {
         /**
          * The index number of starting image
          **/
-        startIndex: PropTypes.number.isRequired,
+        startIndex: PropTypes.number,
 
-        canDownloadFiles: PropTypes.bool.isRequired,
-        enablePublicLink: PropTypes.bool.isRequired,
+        canDownloadFiles: PropTypes.bool,
+        enablePublicLink: PropTypes.bool,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
     };
 
@@ -130,7 +130,7 @@ export default class ViewImageModal extends React.PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const updatedProps = {};
-        if (props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
+        if (props.fileInfos[state.imageIndex] && props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
             updatedProps.showZoomControls = true;
         } else {
             updatedProps.showZoomControls = false;

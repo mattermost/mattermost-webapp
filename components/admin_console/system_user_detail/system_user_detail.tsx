@@ -2,13 +2,20 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, RouteComponentProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
+
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 
@@ -33,30 +40,51 @@ import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon.jsx';
 
 import './system_user_detail.scss';
 
-export default class SystemUserDetail extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        mfaEnabled: PropTypes.bool.isRequired,
-        isDisabled: PropTypes.bool,
-        actions: PropTypes.shape({
-            updateUserActive: PropTypes.func.isRequired,
-            setNavigationBlocked: PropTypes.func.isRequired,
-            addUserToTeam: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    user: UserProfile;
+    mfaEnabled: boolean;
+    isDisabled?: boolean;
+    actions: {
+        updateUserActive: (userId: string, active: boolean) => Promise<{error: ServerError}>;
+        setNavigationBlocked: (blocked: boolean) => void;
+        addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
     }
+}
 
-    static defaultProps = {
+export type State = {
+    teams: TeamMembership[];
+    teamIds: Array<$ID<Team>>;
+    loading: boolean;
+    searching: boolean;
+    showPasswordModal: boolean;
+    showDeactivateMemberModal: boolean;
+    saveNeeded: boolean;
+    saving: boolean;
+    serverError: string | null;
+    errorTooltip: boolean;
+    customComponentWrapperClass: string;
+    user: UserProfile;
+    addTeamOpen: boolean;
+    refreshTeams: boolean;
+    error: ServerError | null;
+}
+
+export default class SystemUserDetail extends React.PureComponent<Props & RouteComponentProps, State> {
+    errorMessageRef: React.RefObject<HTMLDivElement>;
+    errorMessageRefCurrent: React.ReactInstance | undefined;
+
+    public static defaultProps = {
         user: {
-            email: null,
-        },
+            email: '',
+        } as UserProfile,
         mfaEnabled: false,
-    }
+    };
 
-    constructor(props) {
+    constructor(props: Props & RouteComponentProps) {
         super(props);
         this.state = {
-            teams: null,
-            teamIds: null,
+            teams: [],
+            teamIds: [],
             loading: false,
             searching: false,
             showPasswordModal: false,
@@ -68,101 +96,102 @@ export default class SystemUserDetail extends React.PureComponent {
             customComponentWrapperClass: '',
             user: {
                 email: this.props.user.email,
-            },
+            } as UserProfile,
             addTeamOpen: false,
             refreshTeams: true,
+            error: null,
         };
 
         this.errorMessageRef = React.createRef();
     }
 
-    setTeamsData = (teams) => {
+    setTeamsData = (teams: TeamMembership[]): void => {
         const teamIds = teams.map((team) => team.team_id);
         this.setState({teams});
         this.setState({teamIds});
         this.setState({refreshTeams: false});
     }
 
-    openAddTeam = () => {
+    openAddTeam = (): void => {
         this.setState({addTeamOpen: true});
     }
 
-    addTeams = (teams) => {
+    addTeams = (teams: Team[]): void => {
         const promises = [];
         for (const team of teams) {
             promises.push(this.props.actions.addUserToTeam(team.id, this.props.user.id));
         }
-        Promise.all(promises).finally(this.setState({refreshTeams: true}));
+        Promise.all(promises).finally(() => this.setState({refreshTeams: true}));
     }
 
-    closeAddTeam = () => {
+    closeAddTeam = (): void => {
         this.setState({addTeamOpen: false});
     }
 
-    doPasswordReset = (user) => {
+    doPasswordReset = (user: UserProfile): void => {
         this.setState({
             showPasswordModal: true,
             user,
         });
     }
 
-    doPasswordResetDismiss = () => {
+    doPasswordResetDismiss = (): void => {
         this.setState({
             showPasswordModal: false,
         });
     }
 
-    doPasswordResetSubmit = () => {
+    doPasswordResetSubmit = (): void => {
         this.setState({
             showPasswordModal: false,
         });
     }
 
-    handleMakeActive = (e) => {
+    handleMakeActive = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         this.props.actions.updateUserActive(this.props.user.id, true).
-            then(this.onUpdateActiveResult);
+            then((data) => this.onUpdateActiveResult(data.error));
     }
 
-    handleShowDeactivateMemberModal = (e) => {
+    handleShowDeactivateMemberModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         this.setState({showDeactivateMemberModal: true});
     }
 
-    handleDeactivateMember = () => {
+    handleDeactivateMember = (): void => {
         this.props.actions.updateUserActive(this.props.user.id, false).
-            then(this.onUpdateActiveResult);
+            then((data) => this.onUpdateActiveResult(data.error));
         this.setState({showDeactivateMemberModal: false});
     }
 
-    onUpdateActiveResult = ({error}) => {
+    onUpdateActiveResult = (error: ServerError): void => {
         if (error) {
             this.setState({error});
         }
     }
 
-    handleDeactivateCancel = () => {
+    handleDeactivateCancel = (): void => {
         this.setState({showDeactivateMemberModal: false});
     }
 
     // TODO: add error handler function
-    handleResetMfa = (e) => {
+    handleResetMfa = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         adminResetMfa(this.props.user.id, null, null);
     }
 
-    handleEmailChange = (e) => {
+    handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const emailChanged = e.target.value !== this.props.user.email;
         this.setState({
             user: {
                 email: e.target.value,
-            },
+            } as UserProfile,
             saveNeeded: emailChanged,
         });
         this.props.actions.setNavigationBlocked(emailChanged);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
         if (this.state.user.email !== this.props.user.email) {
             if (!isEmail(this.state.user.email)) {
@@ -180,8 +209,8 @@ export default class SystemUserDetail extends React.PureComponent {
                 () => {
                     this.props.history.push('/admin_console/user_management/users');
                 },
-                (err) => {
-                    const serverError = err.message ? err.message : err;
+                (err: Error) => {
+                    const serverError = (err.message ? err.message : err) as string;
                     this.setState({serverError});
                 },
             );
@@ -195,7 +224,7 @@ export default class SystemUserDetail extends React.PureComponent {
         }
     }
 
-    renderDeactivateMemberModal = (user) => {
+    renderDeactivateMemberModal = (user: UserProfile): React.ReactNode => {
         const title = (
             <FormattedMessage
                 id='deactivate_member_modal.title'
@@ -254,7 +283,7 @@ export default class SystemUserDetail extends React.PureComponent {
         );
     }
 
-    renderActivateDeactivate = () => {
+    renderActivateDeactivate = (): React.ReactNode => {
         if (this.props.user.delete_at > 0) {
             return (
                 <AdminButtonOutline
@@ -277,7 +306,7 @@ export default class SystemUserDetail extends React.PureComponent {
         );
     }
 
-    renderRemoveMFA = () => {
+    renderRemoveMFA = (): React.ReactNode => {
         if (this.props.user.mfa_active) {
             return (
                 <AdminButtonOutline
@@ -292,7 +321,7 @@ export default class SystemUserDetail extends React.PureComponent {
         return null;
     }
 
-    getAuthenticationText() {
+    getAuthenticationText(): string {
         const {user, mfaEnabled} = this.props;
         let authLine;
 
@@ -316,11 +345,13 @@ export default class SystemUserDetail extends React.PureComponent {
         return authLine;
     }
 
-    componentDidMount() {
-        this.errorMessageRefCurrent = this.errorMessageRef.current;
+    componentDidMount(): void {
+        if (this.errorMessageRef.current) {
+            this.errorMessageRefCurrent = this.errorMessageRef.current;
+        }
     }
 
-    render() {
+    render(): React.ReactNode {
         const {user} = this.props;
         let deactivateMemberModal;
         let currentRoles = (
@@ -458,21 +489,18 @@ export default class SystemUserDetail extends React.PureComponent {
                 <div className='admin-console-save'>
                     <SaveButton
                         saving={this.state.saving}
-                        disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
+                        disabled={!this.state.saveNeeded}
                         onClick={this.handleSubmit}
                         savingMessage={Utils.localizeMessage('admin.saving', 'Saving Config...')}
                     />
                     <div
                         className='error-message'
                         ref={this.errorMessageRef}
-                        onMouseOver={this.openTooltip}
-                        onMouseOut={this.closeTooltip}
                     >
                         <FormError error={this.state.serverError}/>
                     </div>
                     <Overlay
                         show={this.state.errorTooltip}
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
                         target={this.errorMessageRefCurrent}
                     >
