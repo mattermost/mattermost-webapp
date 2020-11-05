@@ -15,6 +15,8 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
     };
 
     it('should match, init', () => {
+        const elementMock = {addEventListener: jest.fn()};
+        jest.spyOn(document, 'querySelector').mockImplementation(() => elementMock);
         const wrapper = shallow(
             <CustomThemeChooser {...baseProps}/>,
         );
@@ -23,6 +25,8 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
     });
 
     it('should create a custom theme when the code theme changes', () => {
+        const elementMock = {addEventListener: jest.fn()};
+        jest.spyOn(document, 'querySelector').mockImplementation(() => elementMock);
         const wrapper = shallow(
             <CustomThemeChooser {...baseProps}/>,
         );

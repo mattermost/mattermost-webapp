@@ -60,7 +60,8 @@ export default class SearchBar extends React.PureComponent {
             focused: false,
             keepInputFocused: false,
             highlightedSearchHintIndex: -1,
-            visibleSearchHintOptions: this.determineVisibleSearchHintOptions(props.searchTerms),
+            visibleSearchHintOptions: SearchBar.determineVisibleSearchHintOptions(props.searchTerms),
+            lastSearchTerms: '',
         };
 
         this.suggestionProviders = [
@@ -81,15 +82,19 @@ export default class SearchBar extends React.PureComponent {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {searchTerms} = nextProps;
+    static getDerivedStateFromProps(props, state) {
+        const {searchTerms} = props;
 
-        this.setState({
-            visibleSearchHintOptions: this.determineVisibleSearchHintOptions(searchTerms),
-        });
+        if (searchTerms !== state.lastSearchTerms) {
+            return {
+                visibleSearchHintOptions: SearchBar.determineVisibleSearchHintOptions(searchTerms),
+                lastSearchTerms: searchTerms,
+            };
+        }
+        return null;
     }
 
-    determineVisibleSearchHintOptions = (searchTerms) => {
+    static determineVisibleSearchHintOptions = (searchTerms) => {
         let visibleSearchHintOptions = [];
 
         if (searchTerms.trim() === '') {

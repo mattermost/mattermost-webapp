@@ -40,7 +40,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
   />
   <Scrollbars
     autoHeight={true}
-    autoHeightMax="calc(100vh - 190px - 56px - 62px)"
+    autoHeightMax={0}
     autoHeightMin={0}
     autoHide={true}
     autoHideDuration={500}

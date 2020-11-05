@@ -236,6 +236,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                                 'click_close_purchasing_screen',
                             );
+                            this.props.actions.getCloudSubscription();
                             this.props.actions.closeModal();
                         }}
                         ref={this.modal}

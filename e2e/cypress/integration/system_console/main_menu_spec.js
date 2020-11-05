@@ -55,25 +55,5 @@ describe('Main menu', () => {
         // * Verify log out button is visible
         cy.findByText('Log Out').should('be.visible');
     });
-
-    it('MM-T913 About opens About modal', () => {
-        // # click to open about modal
-        cy.findByText('About Mattermost').click();
-
-        // * Verify server link text has correct link destination and opens in a new tab
-        verifyLink('server', 'https://about.mattermost.com/platform-notice-txt/');
-
-        // * Verify link text has correct link destination and opens in a new tab
-        verifyLink('desktop', 'https://about.mattermost.com/desktop-notice-txt/');
-
-        // * Verify link text has correct matches link destination and opens in a new tab
-        verifyLink('mobile', 'https://about.mattermost.com/mobile-notice-txt/');
-
-        // * Verify version exists in modal
-        cy.findByText('Mattermost Version:').should('be.visible');
-
-        // * Verify licensed to exists in modal
-        cy.findByText('Licensed to:').should('be.visible');
-    });
 });
 

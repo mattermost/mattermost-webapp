@@ -20,13 +20,9 @@ describe('Team Settings', () => {
     const email = `${username}@gmail.com`;
     const emailDomain = 'gmail.com';
 
-    let isLicensed;
-
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
-        });
+        // # Delete license
+        cy.apiDeleteLicense();
 
         // # Disable LDAP and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
@@ -43,7 +39,7 @@ describe('Team Settings', () => {
         allowOnlyUserFromSpecificDomain(emailDomain);
 
         // # Invite a new user (with the email declared in the parent scope)
-        inviteUserByEmail(email, isLicensed);
+        inviteUserByEmail(email);
 
         // # Logout from sysadmin account
         cy.apiLogout();

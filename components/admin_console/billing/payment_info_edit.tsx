@@ -34,7 +34,7 @@ const PaymentInfoEdit: React.FC = () => {
 
     const [showCreditCardWarning, setShowCreditCardWarning] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    const [isValid, setIsValid] = useState(false);
+    const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
     const [isServerError, setIsServerError] = useState(false);
     const [billingDetails, setBillingDetails] = useState<BillingDetails>({
         address: paymentInfo?.billing_address?.line1 || '',
@@ -152,7 +152,7 @@ const PaymentInfoEdit: React.FC = () => {
                         defaultMessage='Cancel'
                     />
                 </BlockableLink>
-                {!isValid &&
+                {isValid === false &&
                     <span className='PaymentInfoEdit__error'>
                         <i className='icon icon-alert-outline'/>
                         <FormattedMessage

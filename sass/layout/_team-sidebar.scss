@@ -146,6 +146,10 @@
 
             .team-btn {
                 color: var(--sidebar-header-text-color);
+
+                .badge {
+                    border-color: rgba(var(--sidebar-text-rgb), 0.5);
+                }
             }
 
             .order-indicator {
@@ -187,6 +191,11 @@
     .team-sidebar {
         .team-wrapper {
             .team-container {
+                &::before,
+                &.active::before,
+                &.unread::before {
+                    background: var(--sidebar-text-active-border);
+                }
             }
         }
     }
