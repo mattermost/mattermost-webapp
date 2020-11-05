@@ -10,7 +10,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     <div
       className="col-sm-12"
     >
-      <QuickInput
+      <ForwardRef
         className="form-control filter-textbox"
         clearable={false}
         delayInputUpdate={false}
@@ -27,6 +27,15 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
           Object {
             "defaultMessage": "Search channels",
             "id": "filtered_channels_list.search",
+          }
+        }
+        quickInputState={
+          QuickInputState {
+            "textboxState": Object {
+              "selectionEnd": null,
+              "selectionStart": null,
+              "value": "",
+            },
           }
         }
         value=""
