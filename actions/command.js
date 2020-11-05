@@ -97,7 +97,7 @@ export function executeCommand(message, args) {
 
         const parser = new AppCommandParser(dispatch, getState, args.root_id);
         if (parser.isAppCommand(msg)) {
-            const payload = await parser.getSubmissionPayload(message);
+            const payload = await parser.composeCallFromCommandStr(message);
             try {
                 await dispatch(doAppCall(payload));
                 return {data: true};

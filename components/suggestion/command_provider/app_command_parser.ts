@@ -45,7 +45,7 @@ const extractBaseCommand = (pretext: string) => {
 }
 
 const getFormFromBinding = (binding: AppBinding): AppForm => {
-    return binding?.func?.data?.form;
+    return binding.form;
 }
 
 type AutocompleteElement = {};
@@ -173,7 +173,7 @@ export class AppCommandParser {
         if (res && res.data) {
             const b = {
                 ...binding,
-                func: res.data,
+                form: res.data.form,
             }
             this.fullCommands.push(b);
             return b;
@@ -233,30 +233,30 @@ export class AppCommandParser {
         if (!pretext.length) {
         }
 
-        let cmd = this.matchBinding(pretext);
+        let binding = this.matchBinding(pretext);
 
-        if (!cmd) {
+        if (!binding) {
             return [];
         }
 
         let suggestions: AutocompleteSuggestionWithComplete[] = [];
-        if (cmd.bindings && cmd.bindings.length) {
-            return this.getSuggestionsForBinding(pretext, cmd);
+        if (binding.bindings && binding.bindings.length) {
+            return this.getSuggestionsForBinding(pretext, binding);
         }
 
-        if (cmd.call && !cmd.func) {
-            cmd = await this.fetchAppCommand(cmd);
+        if (binding.call && !getFormFromBinding(binding)) {
+            binding = await this.fetchAppCommand(binding);
         }
 
-        const form = getFormFromBinding(cmd);
+        const form = getFormFromBinding(binding);
         if (form) {
-            const argSuggestions = await this.getSuggestionsForArguments(pretext, cmd);
+            const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
             suggestions = suggestions.concat(argSuggestions);
 
             // Add "Execute Current Command" suggestion
             // TODO get full text from SuggestionBox
             const fullText = pretext;
-            const formIsComplete = this.checkIfRequiredsAreSatisfied(fullText, cmd);
+            const formIsComplete = this.checkIfRequiredsAreSatisfied(fullText, binding);
             if (formIsComplete) {
                 const execute = this.getSuggestionForExecute(pretext);
                 suggestions = [execute, ...suggestions];
@@ -271,24 +271,24 @@ export class AppCommandParser {
     };
 
     composeCallFromCommandStr = async (cmdStr: string): Promise<AppCall | void> => {
-        let cmd = this.matchBinding(cmdStr);
-        if (!cmd || !cmd.call) {
+        let binding = this.matchBinding(cmdStr);
+        if (!binding || !binding.call) {
             return;
         }
 
-        const call = cmd.call;
-        if (call && !cmd.func) {
-            cmd = await this.fetchAppCommand(cmd);
+        const call = binding.call;
+        if (call && !getFormFromBinding(binding)) {
+            binding = await this.fetchAppCommand(binding);
         }
 
-        const values = this.getForm(cmdStr, cmd);
+        const values = this.getForm(cmdStr, binding);
 
         const payload: AppCall = {
             ...call,
             as_modal: false,
             context: {
                 ...this.getAppContext(),
-                app_id: cmd.app_id,
+                app_id: binding.app_id,
             },
             values,
             raw_command: cmdStr,
@@ -337,16 +337,16 @@ export class AppCommandParser {
     };
 
     getSuggestionForExecute = (pretext: string): AutocompleteSuggestion => {
-        let cmd = 'Ctrl';
+        let key = 'Ctrl';
         if (Utils.isMac()) {
-            cmd = '⌘';
+            key = '⌘';
         }
 
         return {
             complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
             suggestion: '/Execute Current Command',
             hint: '',
-            description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
+            description: 'Select this option or use ' + key + '+Enter to execute the current command.',
             iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
         }
     }
@@ -433,13 +433,13 @@ export class AppCommandParser {
     getDynamicSelectSuggestions = async (field: AppField, userInput: string, cmdStr: string): Promise<AutocompleteSuggestion[]> => {
         const values = this.getForm(cmdStr, this.getCommandBindings());
 
-        const cmd = this.matchBinding(cmdStr);
+        const binding = this.matchBinding(cmdStr);
 
         const payload: AppCall = {
             url: field.source_url || '',
             context: {
                 ...this.getAppContext(),
-                app_id: cmd.app_id,
+                app_id: binding.app_id,
             },
             values,
             raw_command: cmdStr,
