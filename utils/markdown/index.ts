@@ -3,7 +3,7 @@
 
 import marked from 'marked';
 
-import {convertEntityToCharacter} from 'utils/text_formatting';
+import {convertEntityToCharacter, TextFormattingOptions} from 'utils/text_formatting';
 
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
 
@@ -13,7 +13,7 @@ import Renderer from './renderer';
 
 const removeMarkdown = new RemoveMarkdown();
 
-export function format(text: string, options = {}, emojiMap: EmojiMap) {
+export function format(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
     return formatWithRenderer(text, new Renderer({}, options, emojiMap));
 }
 

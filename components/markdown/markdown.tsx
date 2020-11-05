@@ -52,7 +52,7 @@ type Props = {
     /*
      * Any additional text formatting options to be used
      */
-    options: TextFormattingOptions;
+    options: Partial<TextFormattingOptions>;
 
     /*
      * The root Site URL for the page

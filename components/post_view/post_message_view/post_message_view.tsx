@@ -19,7 +19,7 @@ import {TextFormattingOptions} from 'utils/text_formatting';
 type Props = {
     post: Post; /* The post to render the message for */
     enableFormatting?: boolean; /* Set to enable Markdown formatting */
-    options?: TextFormattingOptions; /* Options specific to text formatting */
+    options?: Partial<TextFormattingOptions>; /* Options specific to text formatting */
     compactDisplay?: boolean; /* Set to render post body compactly */
     isRHS?: boolean; /* Flags if the post_message_view is for the RHS (Reply). */
     isRHSOpen?: boolean; /* Whether or not the RHS is visible */
