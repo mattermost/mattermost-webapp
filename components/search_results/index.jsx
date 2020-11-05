@@ -14,6 +14,7 @@ import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entitie
 
 import {
     getSearchResultsTerms,
+    getInitialSearchType,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
     getIsSearchingPinnedPost,
@@ -83,6 +84,7 @@ function makeMapStateToProps() {
             fileResults: files,
             matches: getSearchMatches(state),
             searchTerms: getSearchResultsTerms(state),
+            initialSearchType: getInitialSearchType(state),
             isSearchingTerm: getIsSearchingTerm(state),
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),

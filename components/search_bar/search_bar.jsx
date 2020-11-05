@@ -37,6 +37,7 @@ export default class SearchBar extends React.PureComponent {
         getFocus: PropTypes.func,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
+            updateInitialSearchType: PropTypes.func,
             showSearchResults: PropTypes.func,
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
@@ -193,6 +194,7 @@ export default class SearchBar extends React.PureComponent {
 
     handleSearch = async (terms) => {
         if (terms.length) {
+            await this.props.actions.updateInitialSearchType(this.state.searchType);
             const {error} = await this.props.actions.showSearchResults(this.props.isMentionSearch);
 
             if (!error) {

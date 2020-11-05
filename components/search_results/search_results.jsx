@@ -124,6 +124,7 @@ class SearchResults extends React.Component {
         matches: PropTypes.object,
         fileResults: PropTypes.array,
         searchTerms: PropTypes.string,
+        initialSearchType: PropTypes.string,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
@@ -159,7 +160,7 @@ class SearchResults extends React.Component {
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
-            searchType: MESSAGES_SEARCH_TYPE,
+            searchType: props.initialSearchType || MESSAGES_SEARCH_TYPE,
             filterType: 'all',
         };
         this.scrollbars = React.createRef();

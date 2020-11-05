@@ -123,6 +123,17 @@ function searchTerms(state = '', action) {
     }
 }
 
+function initialSearchType(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE:
+        return action.searchType;
+    case ActionTypes.CLOSE_RHS_MENU:
+        return '';
+    default:
+        return state;
+    }
+}
+
 function pluggableId(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_STATE:
@@ -247,6 +258,7 @@ export default combineReducers({
     filesSearchExtFilter,
     rhsState,
     searchTerms,
+    initialSearchType,
     searchResultsTerms,
     pluggableId,
     isSearchingFlaggedPost,

@@ -90,6 +90,13 @@ export function updateSearchTerms(terms) {
     };
 }
 
+export function updateInitialSearchType(searchType) {
+    return {
+        type: ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE,
+        searchType,
+    };
+}
+
 function updateSearchResultsTerms(terms) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,

@@ -31,6 +31,7 @@ export type RhsViewState = {
     filesSearchExtFilter: string[],
     rhsState: RhsState;
     searchTerms: string;
+    initialSearchType: string;
     pluggableId: string;
     searchResultsTerms: string;
     isSearchingFlaggedPost: boolean;
