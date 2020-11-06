@@ -179,7 +179,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     getDotMenu = () => {
-        return this.refs.dotMenu;
+        return this.refs.dotMenu as HTMLDivElement;
     };
 
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean) => {
