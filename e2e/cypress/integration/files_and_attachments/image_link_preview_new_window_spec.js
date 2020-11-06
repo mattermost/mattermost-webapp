@@ -55,7 +55,6 @@ describe('Image Link Preview', () => {
             // * Assert image is available to be clicked (cypress limitation for opening new child window)
             cy.findByTestId('imagePreview').then((el) => {
                 const imageUrl = el.prop('src');
-                cy.log(imageUrl);
                 cy.request(imageUrl).then((res) => {
                     expect(res.status).equal(200);
                 });
