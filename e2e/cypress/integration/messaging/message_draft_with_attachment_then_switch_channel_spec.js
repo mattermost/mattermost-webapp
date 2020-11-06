@@ -19,8 +19,8 @@ describe('Message Draft with attachment and Switch Channels', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testChannel1 = channel;
 
-            cy.apiCreateChannel(team.id, 'channel', 'Channel').then((res) => {
-                testChannel2 = res.body;
+            cy.apiCreateChannel(team.id, 'channel', 'Channel').then((out) => {
+                testChannel2 = out.channel;
             });
             cy.visit(`/${team.name}/channels/town-square`);
         });

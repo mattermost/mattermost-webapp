@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import EditCategoryModal from 'components/edit_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import DataPrefetch from 'components/data_prefetch';
@@ -15,10 +15,10 @@ import {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import AddChannelDropdown from './add_channel_dropdown';
-import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
-import SidebarCategoryList from './sidebar_category_list';
+import SidebarChannelList from './sidebar_channel_list';
+import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
@@ -177,7 +177,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
-                <SidebarCategoryList
+                <SidebarChannelList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}

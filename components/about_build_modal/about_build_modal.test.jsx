@@ -7,7 +7,10 @@ import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
+
 import {AboutLinks} from 'utils/constants';
+
+import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
 
 describe('components/AboutBuildModal', () => {
     const RealDate = Date;
@@ -67,6 +70,20 @@ describe('components/AboutBuildModal', () => {
         const wrapper = shallowAboutBuildModal({config: teamConfig, license: {}});
         expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.2');
         expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for cloud edition', () => {
+        license.Cloud = 'true';
+        const wrapper = shallow(
+            <AboutBuildModalCloud
+                config={config}
+                license={license}
+                show={true}
+                onHide={jest.fn()}
+                doHide={jest.fn()}
+            />,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 

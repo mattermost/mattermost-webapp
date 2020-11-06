@@ -10,6 +10,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
@@ -23,6 +24,7 @@ function mapStateToProps(state: GlobalState) {
         analytics: state.entities.admin.analytics,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
+        subscription: state.entities.cloud.subscription,
     };
 }
 
@@ -31,6 +33,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 getStandardAnalytics,
+                getCloudSubscription,
             },
             dispatch,
         ),

@@ -4,15 +4,13 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function InfoSmallIcon(props) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
             <svg
                 className='svg-text-color'
-                aria-label={formatMessage({id: t('generic_icons.info'), defaultMessage: 'Info Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.info', defaultMessage: 'Info Icon'})}
                 width='24px'
                 height='24px'
                 viewBox='0 0 24 24'

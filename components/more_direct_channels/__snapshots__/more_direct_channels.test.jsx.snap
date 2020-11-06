@@ -108,6 +108,11 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       submitImmediatelyOn={[Function]}
       users={
         Array [
@@ -324,6 +329,11 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       submitImmediatelyOn={[Function]}
       users={
         Array [
@@ -398,5 +408,10 @@ exports[`components/MoreDirectChannels should render the group channel option 1`
   }
   isSelected={false}
   onAdd={[Function]}
+  selectedItemRef={
+    Object {
+      "current": null,
+    }
+  }
 />
 `;

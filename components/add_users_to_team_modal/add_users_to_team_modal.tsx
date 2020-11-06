@@ -49,6 +49,8 @@ type State = {
 }
 
 export default class AddUsersToTeamModal extends React.PureComponent<Props, State> {
+    selectedItemRef: React.RefObject<HTMLDivElement>;
+
     public constructor(props: Props) {
         super(props);
 
@@ -67,6 +69,8 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
             loading: true,
             filterOptions,
         };
+
+        this.selectedItemRef = React.createRef();
     }
     public componentDidMount = async () => {
         await this.props.actions.getProfilesNotInTeam(this.props.team.id, false, 0, USERS_PER_PAGE * 2);
@@ -109,7 +113,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -237,6 +241,7 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
                         key='addUsersToTeamKey'
                         options={options}
                         optionRenderer={this.renderOption}
+                        selectedItemRef={this.selectedItemRef}
                         ariaLabelRenderer={this.renderAriaLabel}
                         values={this.state.values}
                         valueRenderer={this.renderValue}

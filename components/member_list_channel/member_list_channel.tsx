@@ -38,7 +38,8 @@ export type Props = {
             page: number,
             perPage: number,
             teamId?: string,
-            channelId?: string
+            channelId?: string,
+            options?: any
         ) => Promise<{
             data: boolean;
         }>;
@@ -78,7 +79,7 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
         } = this.props;
 
         await Promise.all([
-            actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, currentChannelId),
+            actions.loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, currentTeamId, currentChannelId, {active: true}),
             actions.getChannelMembers(currentChannelId),
             actions.getChannelStats(currentChannelId),
         ]);
@@ -127,7 +128,7 @@ export default class MemberListChannel extends React.PureComponent<Props, State>
     }
 
     nextPage = (page: number) => {
-        this.props.actions.loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE);
+        this.props.actions.loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE, undefined, undefined, {active: true});
     }
 
     handleSearch = (term: string) => {

@@ -4,7 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
 export default function DraftIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -17,7 +16,7 @@ export default function DraftIcon(props) {
                 height='14px'
                 viewBox='0 0 50 51'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.channel.draft'), defaultMessage: 'Channel Draft Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.channel.draft', defaultMessage: 'Channel Draft Icon'})}
             >
                 <g
                     stroke='none'

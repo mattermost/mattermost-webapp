@@ -52,6 +52,10 @@
     .channels-input__input {
         color: var(--center-channel-color);
         margin-left: 6px;
+
+        .a11y--focused {
+            box-shadow: none;
+        }
     }
     input {
         height: inherit;

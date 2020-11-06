@@ -104,7 +104,7 @@ describe('Post PreHeader', () => {
             cy.get('div.post-pre-header').should('not.be.visible');
 
             // # Pin the post.
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // * Check that the post is highlighted
             cy.get(`#post_${postId}`).
@@ -148,8 +148,8 @@ describe('Post PreHeader', () => {
             // # Close the RHS
             cy.get('#searchResultsCloseButton').should('be.visible').click();
 
-            // # unpin the post
-            cy.getPostMenu(postId, 'Unpin from Channel').click();
+            // # Unpin the post
+            cy.uiClickPostDropdownMenu(postId, 'Unpin from Channel');
 
             // * Check that the post pre-header is not visible
             cy.get('div.post-pre-header').should('not.be.visible');
@@ -165,7 +165,7 @@ describe('Post PreHeader', () => {
 
         cy.getLastPostId().then((postId) => {
             // # Pin the post.
-            cy.getPostMenu(postId, 'Pin to Channel').click();
+            cy.uiClickPostDropdownMenu(postId, 'Pin to Channel');
 
             // # Save the post
             cy.clickPostSaveIcon(postId);

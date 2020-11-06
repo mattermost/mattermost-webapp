@@ -24,7 +24,7 @@
         .post {
             &.post--thread {
                 .post-pre-header__icons-container {
-                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly 
+                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
                     width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
                     margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
                 }
@@ -220,7 +220,7 @@
         .dropdown-menu {
             >li {
                 >div {
-                    border-top-color: var(--center-channel-color-08) !important;
+                    border-top-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
 
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
@@ -584,7 +584,7 @@
         }
 
         .post-add-reaction {
-            .post-reaction {
+            .Reaction {
                 opacity: 1;
                 visibility: visible;
             }
@@ -665,12 +665,12 @@
             }
         }
 
-        .post-pre-header {    
+        .post-pre-header {
             .post-pre-header__icons-container {
                 padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
                 width: 40px; // If the width of post__img changes, this needs to be adjusted accordingly
                 margin-left: 0px;
-    
+
                 .icon--post-pre-header {
                     &:nth-of-type(even) {
                         margin-left: 8px;
@@ -1249,6 +1249,11 @@
                     height: calc(100% - 48px - #{$announcement-bar-height});
                     top: calc(48px + #{$announcement-bar-height});
                 }
+
+                body.announcement-banner-tall--fixed & {
+                    height: calc(100% - 48px - 40px);
+                    top: calc(48px + 40px);
+                }
             }
 
             .Menu__content {
@@ -1443,10 +1448,6 @@
             @include translate3d(0, 0, 0);
         }
 
-        .nav-pills__unread-indicator {
-            width: 260px;
-        }
-
         .team__header {
             @include clearfix;
             pointer-events: none;
@@ -1540,10 +1541,6 @@
 
         &.move--right {
             @include translate3d(0, 0, 0);
-        }
-
-        .nav-pills__unread-indicator {
-            width: 260px;
         }
 
         .team__header {
@@ -1653,7 +1650,7 @@
 
         .SidebarMenu, .AddChannelDropdown {
             display: block !important;
-    
+
             .Menu {
                 top: 0 !important;
             }
@@ -1885,7 +1882,7 @@
     .signup-team-all {
         max-height: calc(75vh - (118px + 187px));
     }
-    
+
 }
 
 @media screen and (max-width: 640px) {
@@ -1923,6 +1920,12 @@
         &.announcement-bar--fixed {
             .modal {
                 padding-top: $announcement-bar-height;
+            }
+        }
+
+        &.announcement-banner-tall--fixed {
+            .modal {
+                padding-top: 40px;
             }
         }
 
@@ -2219,10 +2222,6 @@
     #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
-
-        .nav-pills__unread-indicator {
-            width: 230px;
-        }
     }
 
     .inner-wrap {
@@ -2333,14 +2332,9 @@
     }
 
     .multi-teams {
-
         .sidebar--left,
         #SidebarContainer {
             width: 220px;
-
-            .nav-pills__unread-indicator {
-                width: 190px;
-            }
         }
     }
 
@@ -2355,6 +2349,7 @@
     }
 
     .tutorial-steps__container {
+        background: v(center-channel-bg);
         left: 0;
         position: fixed;
         top: 0;

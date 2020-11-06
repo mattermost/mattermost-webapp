@@ -100,6 +100,11 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />
@@ -207,6 +212,11 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />

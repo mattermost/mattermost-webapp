@@ -94,12 +94,12 @@ describe('at-mention', () => {
                 cy.apiAddUserToTeam(testTeam.id, sender.id);
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                townsquareChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                townsquareChannelId = out.channel.id;
             });
 
-            cy.apiGetChannelByName(testTeam.name, 'off-topic').then((res) => {
-                offTopicChannelId = res.body.id;
+            cy.apiGetChannelByName(testTeam.name, 'off-topic').then((out) => {
+                offTopicChannelId = out.channel.id;
             });
 
             // # Login as receiver and visit off-topic channel
@@ -159,7 +159,7 @@ describe('at-mention', () => {
             and('have.text', `@${receiver.username}`);
     });
 
-    it('N14570 does not trigger notifications with "Your non-case sensitive username" unchecked', () => {
+    it('N14570 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
         ignoreUncaughtException();
 
         // # Set Notification settings

@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import configureStore from 'redux-mock-store';
 import {shallow} from 'enzyme';
+import React from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -40,14 +38,6 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             savePreferences: () => true,
         },
     };
-    const mockStore = configureStore();
-    const state = {
-        views: {
-            settings: {},
-        },
-    };
-
-    const store = mockStore(state);
 
     test('should match snapshot', () => {
         const wrapper = shallow(<UserSettingsSidebar {...defaultProps}/>);
@@ -102,10 +92,6 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         const props = {...defaultProps, activeSection: 'groupChannels'};
         const wrapper = mountWithIntl(
             <UserSettingsSidebar {...props}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         wrapper.find('#noneOption').simulate('change');
@@ -185,10 +171,6 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
             }};
         const wrapper = mountWithIntl(
             <UserSettingsSidebar {...props}/>,
-            {
-                context: {store},
-                childContextTypes: {store: PropTypes.object},
-            },
         );
 
         wrapper.find('#recentSectionEnabled').simulate('change');

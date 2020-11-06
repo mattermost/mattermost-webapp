@@ -31,8 +31,8 @@ describe('Channels', () => {
             testTeam = team;
 
             // # Create a test channel
-            cy.apiCreateChannel(team.id, 'channel-test', 'Channel').then((channelRes) => {
-                testChannel = channelRes.body;
+            cy.apiCreateChannel(team.id, 'channel-test', 'Channel').then(({channel}) => {
+                testChannel = channel;
 
                 // # Create second user and add him to the team
                 cy.apiCreateUser().then(({user: user2}) => {

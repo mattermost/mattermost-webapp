@@ -10,6 +10,7 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
   dialogClassName="a11y__modal GenericModal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="genericModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -71,6 +72,7 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
   dialogClassName="a11y__modal GenericModal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="genericModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -153,6 +155,7 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
   dialogClassName="a11y__modal GenericModal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="genericModal"
   keyboard={true}
   manager={
     ModalManager {

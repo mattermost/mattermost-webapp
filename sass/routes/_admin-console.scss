@@ -23,6 +23,10 @@
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
+
+        .announcement-banner-tall--fixed & {
+            height: calc(100vh - 40px);
+        }
     }
 
     .admin-console__wrapper {
@@ -79,6 +83,10 @@
         .announcement-bar--fixed & {
             height: calc(100vh - 205px);
         }
+
+        .announcement-banner-tall--fixed & {
+            height: calc(100vh - 205px);
+        }
     }
 
     .Select-value-label {
@@ -105,7 +113,7 @@
         background-color: $white;
         border: 1px solid $light-gray;
 
-        &:focus {
+        &:focus:not(.Input) {
             @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6));
             border-color: #66afe9;
             outline: 0;
@@ -117,6 +125,10 @@
 
         .placeholder-text {
             color: $gray;
+        }
+
+        &.Input {
+            border: none;
         }
     }
 
@@ -502,7 +514,7 @@
         font-weight: 400;
         margin-top: 10px;
     }
-    .trial-legal-terms {
+    .trial-legal-terms, .upgrade-legal-terms {
         margin-top: 10px;
         margin-bottom: 0;
         color: $dark-gray;
@@ -594,6 +606,11 @@
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
         padding-bottom: $announcement-bar-height;
+    }
+
+    body.announcement-banner-tall--fixed & {
+        top: 40px;
+        padding-bottom: 40px;
     }
 
     .dropdown-menu {

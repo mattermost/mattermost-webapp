@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function StatusAwayIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -16,7 +14,7 @@ export default function StatusAwayIcon(props) {
                 viewBox='0 0 20 20'
                 style={style}
                 role='img'
-                aria-label={formatMessage({id: t('mobile.set_status.away.icon'), defaultMessage: 'Away Icon'})}
+                aria-label={formatMessage({id: 'mobile.set_status.away.icon', defaultMessage: 'Away Icon'})}
             >
                 <path
                     className='away--icon'

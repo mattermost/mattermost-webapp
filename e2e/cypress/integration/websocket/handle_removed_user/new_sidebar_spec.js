@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @websocket
 
-import {testWithConfig} from '../../../support/hooks';
 import {getRandomId} from '../../../utils';
 
 import {
@@ -23,13 +22,13 @@ import {
 describe('Handle removed user - new sidebar', () => {
     const sidebarItemClass = '.SidebarChannel';
 
-    testWithConfig({
-        ServiceSettings: {
-            ExperimentalChannelSidebarOrganization: 'default_on',
-        },
-    });
-
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });

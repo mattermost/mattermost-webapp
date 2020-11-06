@@ -11,21 +11,11 @@
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
-// Custom command should follow naming convention of having `external` prefix, e.g. `externalAddUserToTeam`.
+// Custom command should follow naming convention of having `external` prefix, e.g. `externalActivateUser`.
 // ***************************************************************
 
 declare namespace Cypress {
     interface Chainable<Subject = any> {
-
-        /**
-         * Makes an external request as a sysadmin and adds a user to a team directly via API
-         * @param {String} teamId - The team ID
-         * @param {String} userId - The user ID
-         *
-         * @example
-         *   cy.externalAddUserToTeam('team-id', 'user-id');
-         */
-        externalAddUserToTeam(teamId: string, userId: string): Chainable;
 
         /**
          * Makes an external request as a sysadmin and activate/deactivate a user directly via API

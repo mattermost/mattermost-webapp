@@ -73,8 +73,8 @@ describe('CS15445 Join/leave messages', () => {
 
     it('Single User: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((res) => {
-            cy.visit(`/${testTeam.name}/channels/${res.body.name}`);
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Add users to channel
             addNumberOfUsersToChannel(1);
@@ -91,8 +91,8 @@ describe('CS15445 Join/leave messages', () => {
 
     it('Combined Users: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
-        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then((res) => {
-            cy.visit(`/${testTeam.name}/channels/${res.body.name}`);
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             addNumberOfUsersToChannel(3);
 

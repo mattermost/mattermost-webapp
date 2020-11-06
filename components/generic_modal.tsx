@@ -19,6 +19,9 @@ type Props = {
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
     isConfirmDisabled?: boolean;
+    id: string;
+    autoCloseOnCancelButton?: boolean;
+    autoCloseOnConfirmButton?: boolean;
 };
 
 type State = {
@@ -28,6 +31,9 @@ type State = {
 export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
         show: true,
+        id: 'genericModal',
+        autoCloseOnCancelButton: true,
+        autoCloseOnConfirmButton: true,
     };
 
     constructor(props: Props) {
@@ -44,7 +50,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.onHide();
+        if (this.props.autoCloseOnCancelButton) {
+            this.onHide();
+        }
         if (this.props.handleCancel) {
             this.props.handleCancel();
         }
@@ -52,7 +60,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.onHide();
+        if (this.props.autoCloseOnConfirmButton) {
+            this.onHide();
+        }
         if (this.props.handleConfirm) {
             this.props.handleConfirm();
         }
@@ -118,6 +128,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 restoreFocus={true}
                 role='dialog'
                 aria-labelledby='genericModalLabel'
+                id={this.props.id}
             >
                 <Modal.Header
                     closeButton={true}

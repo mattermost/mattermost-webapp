@@ -211,6 +211,11 @@ describe('handleUnicodeEmoji', () => {
             expect(output).toBe(t.output);
         });
     }
+
+    test('without emojiMap, should work as unsupported emoji', () => {
+        const output = handleUnicodeEmoji('👍', undefined, UNICODE_EMOJI_REGEX);
+        expect(output).toBe('<span class="emoticon emoticon--unicode">👍</span>');
+    });
 });
 
 describe('linkOnlyMarkdown', () => {

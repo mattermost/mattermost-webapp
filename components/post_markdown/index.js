@@ -3,7 +3,7 @@
 import {createSelector} from 'reselect';
 import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getMyGroupMentionKeysForChannel} from 'mattermost-redux/selectors/entities/groups';
+import {getMyGroupMentionKeysForChannel, getMyGroupMentionKeys} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
@@ -14,7 +14,7 @@ export function makeGetMentionKeysForPost() {
     return createSelector(
         getCurrentUserMentionKeys,
         (state, post) => post,
-        (state, post, channel) => getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id),
+        (state, post, channel) => (channel ? getMyGroupMentionKeysForChannel(state, channel.team_id, channel.id) : getMyGroupMentionKeys(state)),
         (mentionKeysWithoutGroups, post, groupMentionKeys) => {
             let mentionKeys = mentionKeysWithoutGroups;
             if (!post?.props?.disable_group_highlight) { // eslint-disable-line camelcase

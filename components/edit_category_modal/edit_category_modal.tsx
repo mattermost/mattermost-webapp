@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import QuickInput from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
@@ -125,6 +125,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 handleCancel={this.handleCancel}
                 confirmButtonText={editButtonText}
                 isConfirmDisabled={this.isConfirmDisabled()}
+                id='editCategoryModal'
             >
                 <QuickInput
                     autoFocus={true}

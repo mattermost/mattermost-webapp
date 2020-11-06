@@ -56,6 +56,8 @@ export default class AddGroupsToChannelModal extends React.PureComponent {
             addError: null,
             loadingGroups: true,
         };
+
+        this.selectedItemRef = React.createRef();
     }
 
     componentDidMount() {
@@ -174,13 +176,13 @@ export default class AddGroupsToChannelModal extends React.PureComponent {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd, onMouseMove) {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -280,6 +282,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent {
                         key='addGroupsToChannelKey'
                         options={groupsToShow}
                         optionRenderer={this.renderOption}
+                        selectedItemRef={this.selectedItemRef}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
                         perPage={GROUPS_PER_PAGE}

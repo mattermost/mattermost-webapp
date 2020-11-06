@@ -156,6 +156,14 @@ interface TextFormattingOptionsBase {
    */
     autolinkedUrlSchemes: string[];
 
+    /*
+     * An array of paths on the server that are managed by another server. Any path provided will be treated as an
+     * external link that will not by handled by react-router.
+     *
+     * Defaults to an empty array.
+     */
+    managedResourcePaths: string[];
+
     /**
    * A custom renderer object to use in the formatWithRenderer function.
    *
@@ -851,7 +859,7 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
         const emojiCode = codePoints.map((codePoint) => codePoint.toString(16)).join('-');
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
-        if (emojiMap.hasUnicode(emojiCode)) {
+        if (emojiMap && emojiMap.hasUnicode(emojiCode)) {
             const emoji = emojiMap.getUnicode(emojiCode);
 
             return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);

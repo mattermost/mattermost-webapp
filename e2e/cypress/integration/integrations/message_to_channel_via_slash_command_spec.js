@@ -23,8 +23,8 @@ describe('Integrations', () => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
-            cy.apiGetChannelByName(team.name, 'off-topic').then((res) => {
-                offTopicChannel = res.body;
+            cy.apiGetChannelByName(team.name, 'off-topic').then(({channel}) => {
+                offTopicChannel = channel;
             });
         });
     });

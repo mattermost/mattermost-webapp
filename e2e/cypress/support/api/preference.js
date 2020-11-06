@@ -233,3 +233,10 @@ Cypress.Commands.add('apiHideSidebarWhatsNewModalPreference', (userId, value) =>
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiGetUserPreference', (userId) => {
+    return cy.request(`/api/v4/users/${userId}/preferences`).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
+});

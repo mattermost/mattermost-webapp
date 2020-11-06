@@ -9,7 +9,7 @@ import {withKnobs, text} from '@storybook/addon-knobs';
 import ChannelsInput from './channels_input';
 import UsersEmailsInput from './users_emails_input';
 
-storiesOf('Inputs', module).
+storiesOf('Widgets/Inputs', module).
     addDecorator(withKnobs).
     add(
         'channels input',

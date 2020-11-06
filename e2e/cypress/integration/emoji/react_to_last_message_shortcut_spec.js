@@ -36,8 +36,8 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
 
-                cy.apiGetChannelByName(testTeam.name, 'town-square').then((res) => {
-                    townsquareChannel = res.body;
+                cy.apiGetChannelByName(testTeam.name, 'town-square').then((out) => {
+                    townsquareChannel = out.channel;
                 });
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {

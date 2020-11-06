@@ -89,19 +89,17 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
     it('Effect of changing System Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
         // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
         cy.apiAdminLogin();
-        cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then((response) => {
-            const randomChannel = response.body;
-
+        cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then(({channel}) => {
             goToSystemScheme();
             cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
             saveConfigForScheme();
 
             // # Visit Channel page and Search for the channel.
             // * ensure manage members for members is disabled
-            visitChannelConfigPage(randomChannel);
+            visitChannelConfigPage(channel);
             cy.findByTestId(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS).should('be.disabled');
 
-            visitChannel(regularUser, randomChannel, testTeam);
+            visitChannel(regularUser, channel, testTeam);
 
             // # View members modal
             viewManageChannelMembersModal('View');
@@ -114,22 +112,20 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
     it('Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
         // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
         cy.apiAdminLogin();
-        cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then((response) => {
-            const randomChannel = response.body;
-
-            goToPermissionsAndCreateTeamOverrideScheme(randomChannel.name, testTeam);
-            deleteOrEditTeamScheme(randomChannel.name, 'edit');
+        cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then(({channel}) => {
+            goToPermissionsAndCreateTeamOverrideScheme(channel.name, testTeam);
+            deleteOrEditTeamScheme(channel.name, 'edit');
             cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
             saveConfigForScheme(false);
 
             // # Visit Channel page and Search for the channel.
             // * Assert message for manage member for members appears and that it's disabled
-            visitChannelConfigPage(randomChannel);
+            visitChannelConfigPage(channel);
             cy.findByTestId('admin-channel_settings-channel_moderation-manageMembers-disabledMember').
-                should('have.text', `Manage members for members are disabled in ${randomChannel.name} Team Scheme.`);
+                should('have.text', `Manage members for members are disabled in ${channel.name} Team Scheme.`);
             cy.findByTestId(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS).should('be.disabled');
 
-            visitChannel(regularUser, randomChannel, testTeam);
+            visitChannel(regularUser, channel, testTeam);
 
             // # View members modal
             viewManageChannelMembersModal('View');

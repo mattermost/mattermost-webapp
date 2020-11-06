@@ -17,7 +17,29 @@ Cypress.Commands.add('apiLogin', (user) => {
         body: {login_id: user.username, password: user.password},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
+        return cy.wrap({
+            user: {
+                ...response.body,
+                password: user.password,
+            },
+        });
+    });
+});
+
+Cypress.Commands.add('apiLoginWithMFA', (user, token) => {
+    cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/login',
+        method: 'POST',
+        body: {login_id: user.username, password: user.password, token},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({
+            user: {
+                ...response.body,
+                password: user.password,
+            },
+        });
     });
 });
 
@@ -25,6 +47,12 @@ Cypress.Commands.add('apiAdminLogin', () => {
     const admin = getAdminAccount();
 
     return cy.apiLogin(admin);
+});
+
+Cypress.Commands.add('apiAdminLoginWithMFA', (token) => {
+    const admin = getAdminAccount();
+
+    return cy.apiLoginWithMFA(admin, token);
 });
 
 Cypress.Commands.add('apiLogout', () => {
@@ -36,7 +64,7 @@ Cypress.Commands.add('apiLogout', () => {
     });
 
     // * Verify logged out
-    cy.visit('/login?extra=expired').url().should('include', '/login?extra=expired');
+    cy.visit('/login?extra=expired').url().should('include', '/login');
 
     // # Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
@@ -290,6 +318,32 @@ Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiResetPassword', (userId, currentPass, newPass) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/users/${userId}/password`,
+        body: {
+            current_password: currentPass,
+            new_password: newPass,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiGenerateMfaSecret', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: `/api/v4/users/${userId}/mfa/generate`,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({code: response.body});
     });
 });
 

@@ -15,10 +15,6 @@ import {getAdminAccount} from '../../support/env';
 describe('Messaging', () => {
     const sysadmin = getAdminAccount();
     let newChannel;
-    let botsUserId;
-    let botName;
-    let botToken;
-    let yesterdaysDate;
 
     before(() => {
         // # Set ServiceSettings to expected values
@@ -38,24 +34,22 @@ describe('Messaging', () => {
 
     it('MM-T93 Replying to an older bot post that has no post content and no attachment pretext', () => {
         // # Get yesterdays date in UTC
-        yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
-        botName = 'bot-' + Date.now();
+        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const botName = 'bot-' + Date.now();
 
         // # Create a bot and get userID
-        cy.apiCreateBot(botName, 'Test Bot', 'test bot for E2E test replying to older bot post').then((response) => {
-            botsUserId = response.body.user_id;
-            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botsUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
+        cy.apiCreateBot(botName, 'Test Bot', 'test bot for E2E test replying to older bot post').then(({bot}) => {
+            const botUserId = bot.user_id;
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
             // # Get token from bots id
-            cy.apiAccessToken(botsUserId, 'Create token').then((token) => {
-                botToken = token;
-
+            cy.apiAccessToken(botUserId, 'Create token').then((token) => {
                 //# Add bot to team
-                cy.apiAddUserToTeam(newChannel.team_id, botsUserId);
+                cy.apiAddUserToTeam(newChannel.team_id, botUserId);
 
                 // # Post message with auth token
                 const props = {attachments: [{text: 'Some Text posted by bot that has no content and no attachment pretext'}]};
-                cy.postBotMessage({token: botToken, props, channelId: newChannel.id, createAt: yesterdaysDate}).
+                cy.postBotMessage({token, props, channelId: newChannel.id, createAt: yesterdaysDate}).
                     its('id').
                     should('exist').
                     as('yesterdaysBotPost');
@@ -83,7 +77,7 @@ describe('Messaging', () => {
 
                 cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('equal', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
                     cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);
@@ -103,27 +97,26 @@ describe('Messaging', () => {
         // # Verify RHS is closed
         cy.get('#rhsContainer').should('not.be.visible');
     });
+
     it('MM-T91 Replying to an older post by a user that has no content (only file attachments)', () => {
         // # Get yesterdays date in UTC
-        yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
-        botName = 'bot-' + Date.now();
+        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const botName = 'bot-' + Date.now();
 
         // # Create a bot and get userID
-        cy.apiCreateBot(botName, 'Test Bot', 'test bot for E2E test replying to older bot post').then((response) => {
-            botsUserId = response.body.user_id;
-            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botsUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
+        cy.apiCreateBot(botName, 'Test Bot', 'test bot for E2E test replying to older bot post').then(({bot}) => {
+            const botUserId = bot.user_id;
+            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
             // # Get token from bots id
-            cy.apiAccessToken(botsUserId, 'Create token').then((token) => {
-                botToken = token;
-
+            cy.apiAccessToken(botUserId, 'Create token').then((token) => {
                 //# Add bot to team
-                cy.apiAddUserToTeam(newChannel.team_id, botsUserId);
+                cy.apiAddUserToTeam(newChannel.team_id, botUserId);
 
                 // # Post message with auth token
                 const message = 'Hello message from ' + botName;
                 const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
-                cy.postBotMessage({token: botToken, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
+                cy.postBotMessage({token, message, props, channelId: newChannel.id, createAt: yesterdaysDate}).
                     its('id').
                     should('exist').
                     as('yesterdaysPost');
@@ -151,7 +144,7 @@ describe('Messaging', () => {
 
                 cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'dateTime').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'dateTime').should('equal', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
                     cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'dateTime').and('not.equal', originalTimeStamp);

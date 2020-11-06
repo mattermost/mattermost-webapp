@@ -23,9 +23,12 @@ type Props = {
     attributes: {[attribute: string]: string};
 }
 
-export default class LinkTooltip extends React.PureComponent<Props> {
+type State = {
+    show: boolean;
+}
+
+export default class LinkTooltip extends React.PureComponent<Props, State> {
     private tooltipContainerRef: RefObject<any>;
-    private show: boolean;
     private hideTimeout: number;
     private showTimeout: number;
     private popper?: Popper;
@@ -34,16 +37,19 @@ export default class LinkTooltip extends React.PureComponent<Props> {
         super(props);
 
         this.tooltipContainerRef = React.createRef();
-        this.show = false;
         this.showTimeout = -1;
         this.hideTimeout = -1;
+
+        this.state = {
+            show: false,
+        };
     }
 
     public showTooltip = (e: any): void => {
         //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
         window.clearTimeout(this.hideTimeout);
 
-        if (!this.show) {
+        if (!this.state.show) {
             const $target: JQuery = $(e.target);
             const target: Element = $target.get(0);
             const $tooltipContainer: JQuery = $(this.tooltipContainerRef.current);
@@ -53,7 +59,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
             window.clearTimeout(this.showTimeout);
 
             this.showTimeout = window.setTimeout(() => {
-                this.show = true;
+                this.setState({show: true});
 
                 $tooltipContainer.show(); // eslint-disable-line jquery/no-show
                 $tooltipContainer.children().on('mouseover', () => clearTimeout(this.hideTimeout));
@@ -79,7 +85,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
         window.clearTimeout(this.hideTimeout);
 
         this.hideTimeout = window.setTimeout(() => {
-            this.show = false;
+            this.setState({show: false});
 
             //prevent executing the showTimeout after the hideTooltip
             clearTimeout(this.showTimeout);
@@ -105,6 +111,7 @@ export default class LinkTooltip extends React.PureComponent<Props> {
                     >
                         <Pluggable
                             href={href}
+                            show={this.state.show}
                             pluggableName='LinkTooltip'
                         />
                     </div>,

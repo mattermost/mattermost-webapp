@@ -128,8 +128,8 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
             const name = 'hellothere';
 
             // # Create a new channel
-            cy.apiCreateChannel(testTeam.id, name, name).then((channelResponse) => {
-                channelId = channelResponse.body.id;
+            cy.apiCreateChannel(testTeam.id, name, name).then(({channel}) => {
+                channelId = channel.id;
             });
 
             // * Verify channel without special characters appears normally

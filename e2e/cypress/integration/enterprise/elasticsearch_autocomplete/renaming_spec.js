@@ -69,9 +69,7 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
         const newChannelName = 'updatedchannel' + Date.now();
 
         // # Create a new channel
-        cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
-            const channel = channelResponse.body;
-
+        cy.apiCreateChannel(testTeam.id, channelName, channelName).then(({channel}) => {
             // # Channel should appear in search results pre-change
             searchAndVerifyChannel(channel);
 
@@ -118,8 +116,8 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
             const channelName = 'another-channel' + Date.now();
 
             // # Create a new channel
-            cy.apiCreateChannel(testTeam.id, channelName, channelName).then((channelResponse) => {
-                testChannel = channelResponse.body;
+            cy.apiCreateChannel(testTeam.id, channelName, channelName).then(({channel}) => {
+                testChannel = channel;
 
                 // # Channel should appear in search results pre-change
                 searchAndVerifyChannel(testChannel);

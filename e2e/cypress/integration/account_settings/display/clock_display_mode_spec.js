@@ -19,9 +19,22 @@ describe('Account Settings > Display > Clock Display Mode', () => {
     const replyMessage1 = 'Reply 1 for clock display mode';
     const replyMessage2 = 'Reply 2 for clock display mode';
 
+    let testTeam;
+    let testChannel;
+
     before(() => {
+        // # Enable Timezone
+        cy.apiUpdateConfig({
+            DisplaySettings: {
+                ExperimentalTimezone: true,
+            },
+        });
+
         // # Login as new user, visit town-square and post a message
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            testTeam = team;
+            testChannel = channel;
+
             cy.visit(`/${team.name}/channels/town-square`);
             cy.postMessage(mainMessage);
 
@@ -30,11 +43,6 @@ describe('Account Settings > Display > Clock Display Mode', () => {
             cy.postMessageReplyInRHS(replyMessage1);
             cy.postMessageReplyInRHS(replyMessage2);
         });
-    });
-
-    after(() => {
-        // # Set clock display to 12-hour
-        setClockDisplayTo12Hour();
     });
 
     it('MM-T2098 Clock display mode setting to "12-hour clock"', () => {
@@ -57,7 +65,7 @@ describe('Account Settings > Display > Clock Display Mode', () => {
         });
     });
 
-    it('MM-T2096 Clock display mode setting to "24-hour clock"', () => {
+    it('MM-T2096_1 Clock Display - Can switch from 12-hr to 24-hr', () => {
         // # Set clock display to 24-hour
         setClockDisplayTo24Hour();
 
@@ -74,6 +82,24 @@ describe('Account Settings > Display > Clock Display Mode', () => {
         // * Verify clock format is 24-hour for reply message 2
         cy.getNthPostId(-1).then((postId) => {
             verifyClockFormatIs24HourForPostWithMessage(postId, replyMessage2);
+        });
+    });
+
+    it('MM-T2096_2 Clock Display - Can switch from 12-hr to 24-hr', () => {
+        cy.apiAdminLogin().then(({user}) => {
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            // # Set clock display to 24-hour
+            setClockDisplayTo24Hour();
+
+            // # Post a message with time after 1pm
+            const now = new Date();
+            const nextYear = now.getFullYear() + 1;
+            const futureDate = Date.UTC(nextYear, 0, 5, 14, 37); // Jan 5, 2:37pm
+            cy.postMessageAs({sender: user, message: 'Hello from Jan 5, 2:37pm', channelId: testChannel.id, createAt: futureDate});
+
+            // * Message posted shows timestamp in 24-hour format, e.g. 14:37
+            cy.getLastPost().find('time').should('contain', '14:37').and('have.attr', 'datetime', `${nextYear}-01-05T14:37:00.000Z`);
         });
     });
 });

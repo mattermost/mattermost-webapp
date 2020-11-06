@@ -43,10 +43,10 @@ describe('Message deletion', () => {
                 cy.get('#deletePostModal').should('be.visible');
 
                 // * Check that confirmation dialog contains correct text
-                cy.get('#deletePostModal').should('have', 'Are you sure you want to delete this Post?');
+                cy.get('#deletePostModal').should('contain', 'Are you sure you want to delete this Post?');
 
                 // * Check that confirmation dialog shows that the post has one comment on it
-                cy.get('#deletePostModal').should('have', 'This post has 1 comment on it.');
+                cy.get('#deletePostModal').should('contain', 'This post has 1 comment on it.');
 
                 // # Confirm deletion.
                 cy.get('#deletePostModalButton').click();
@@ -66,7 +66,7 @@ describe('Message deletion', () => {
 
             cy.getLastPostId().then((replyMessageId) => {
                 // * Check that last message do not contain (message deleted)
-                cy.get(`#post_${replyMessageId}`).should('not.have', '(message deleted)');
+                cy.get(`#post_${replyMessageId}`).should('not.contain', '(message deleted)');
             });
         });
     });

@@ -123,7 +123,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
         return (
             <HeaderIconWrapper
                 key={'channelHeaderButton' + plug.id}
-                buttonClass='channel-header__icon style--none'
+                buttonClass='channel-header__icon'
                 iconComponent={plug.icon}
                 onClick={() => plug.action(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}

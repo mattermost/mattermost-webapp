@@ -180,6 +180,11 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />
@@ -367,6 +372,11 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       perPage={50}
       placeholderText="Search and add members"
       saving={false}
+      selectedItemRef={
+        Object {
+          "current": null,
+        }
+      }
       valueRenderer={[Function]}
       values={Array []}
     />

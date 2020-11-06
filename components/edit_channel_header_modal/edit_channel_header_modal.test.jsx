@@ -12,12 +12,6 @@ import Textbox from 'components/textbox';
 
 const KeyCodes = Constants.KeyCodes;
 
-jest.mock('react-dom', () => ({
-    findDOMNode: () => ({
-        blur: jest.fn(),
-    }),
-}));
-
 describe('components/EditChannelHeaderModal', () => {
     const channel = {
         id: 'fake-id',

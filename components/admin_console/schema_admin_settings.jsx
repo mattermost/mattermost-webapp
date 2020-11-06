@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -86,6 +85,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             showConfirmId: '',
             clientWarning: '',
         };
+        this.errorMessageRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -539,12 +539,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     defaultMessage={setting.no_result_default}
                 />
             );
-            const notPresent = (
-                <FormattedMessage
-                    id={setting.not_present}
-                    defaultMessage={setting.not_present_default}
-                />
-            );
+
             return (
                 <MultiSelectSetting
                     key={this.props.schema.id + '_language_' + setting.key}
@@ -557,7 +552,6 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     setByEnv={this.isSetByEnv(setting.key)}
                     onChange={(changedId, value) => this.handleChange(changedId, value.join(','))}
                     noResultText={noResultText}
-                    notPresent={notPresent}
                 />
             );
         }
@@ -1065,7 +1059,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                     <div
                         className='error-message'
                         data-testid='errorMessage'
-                        ref='errorMessage'
+                        ref={this.errorMessageRef}
                         onMouseOver={this.openTooltip}
                         onMouseOut={this.closeTooltip}
                     >
@@ -1081,7 +1075,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                         show={this.state.errorTooltip}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
-                        target={this.refs.errorMessage}
+                        target={this.errorMessageRef.current}
                     >
                         <Tooltip id='error-tooltip' >
                             {this.state.serverError}

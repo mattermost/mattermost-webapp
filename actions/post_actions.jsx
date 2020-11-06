@@ -24,7 +24,7 @@ import {
 import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
 
-import {completePostReceive} from './post_utils';
+import {completePostReceive} from './new_post';
 
 export function handleNewPost(post, msg) {
     return async (dispatch, getState) => {

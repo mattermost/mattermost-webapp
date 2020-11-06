@@ -30,7 +30,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
   theme={Object {}}
 >
   <HeaderIconWrapper
-    buttonClass="channel-header__icon style--none"
+    buttonClass="channel-header__icon"
     buttonId="someid"
     iconComponent={
       <i
@@ -91,7 +91,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
           }
         >
           <button
-            className="channel-header__icon style--none"
+            className="channel-header__icon"
             id="someid"
             onClick={[Function]}
             onMouseOut={[Function]}

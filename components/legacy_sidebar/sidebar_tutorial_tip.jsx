@@ -120,7 +120,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
                 placement='right'
                 screens={screens}
                 overlayClass='tip-overlay--sidebar'
-                diagnosticsTag='tutorial_tip_2_channels'
+                telemetryTag='tutorial_tip_2_channels'
             />
         );
     }

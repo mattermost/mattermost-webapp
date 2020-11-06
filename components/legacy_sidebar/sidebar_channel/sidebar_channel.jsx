@@ -9,7 +9,7 @@ import {injectIntl} from 'react-intl';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';

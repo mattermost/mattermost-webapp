@@ -11,6 +11,7 @@ describe('component/UserLimitModal', () => {
         show: true,
         actions: {
             closeModal: () => { },
+            openModal: jest.fn(),
         },
     };
 

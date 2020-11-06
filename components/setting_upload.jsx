@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 export default class SettingsUpload extends React.PureComponent {
@@ -41,7 +40,9 @@ export default class SettingsUpload extends React.PureComponent {
 
     doSubmit = (e) => {
         e.preventDefault();
-        var inputnode = ReactDOM.findDOMNode(this.uploadinput.current);
+
+        const inputnode = this.uploadinput.current;
+
         if (inputnode.files && inputnode.files[0]) {
             this.props.submit(inputnode.files[0]);
         } else {

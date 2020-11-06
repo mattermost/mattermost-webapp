@@ -69,6 +69,8 @@ class EditPostModal extends React.PureComponent {
             scrollbarWidth: 0,
             prevShowState: props.editingPost.show,
         };
+
+        this.editModalBody = React.createRef();
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -95,7 +97,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     getContainer = () => {
-        return this.refs.editModalBody;
+        return this.editModalBody.current;
     }
 
     toggleEmojiPicker = () => {
@@ -467,7 +469,7 @@ class EditPostModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body
                     bsClass={`modal-body edit-modal-body${this.state.showEmojiPicker ? ' edit-modal-body--add-reaction' : ''}`}
-                    ref='editModalBody'
+                    ref={this.editModalBody}
                 >
                     <div className='post-create__container'>
                         <div

@@ -269,6 +269,7 @@
             .emoticon {
                 position: relative;
                 top: -1px;
+                overflow: hidden;
             }
         }
 
@@ -296,8 +297,7 @@
 
         .header-description__text {
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            display: block;
 
             ul {
                 &:first-child {

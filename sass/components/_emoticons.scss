@@ -156,12 +156,12 @@
         text-decoration: none;
 
         &:hover {
-            background-color: v(center-channel-color-04);
+            background-color: rgba(var(--center-channel-color-rgb), 0.04);
             color: v(center-channel-color);
         }
 
         &:active {
-            background-color: v(center-channel-color-16);
+            background-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
 
@@ -318,11 +318,11 @@
 
     &.selected,
     &:hover {
-        background-color: v(center-channel-color-16);
+        background-color: rgba(var(--center-channel-color-rgb), 0.16);
     }
 
     &:active {
-        background-color: v(center-channel-color-32);
+        background-color: rgba(var(--center-channel-color-rgb), 0.32);
     }
 
     > div {

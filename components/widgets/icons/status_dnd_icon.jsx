@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function StatusDndIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -16,7 +14,7 @@ export default function StatusDndIcon(props) {
                 viewBox='0 0 20 20'
                 style={style}
                 role='img'
-                aria-label={formatMessage({id: t('mobile.set_status.dnd.icon'), defaultMessage: 'Do Not Disturb Icon'})}
+                aria-label={formatMessage({id: 'mobile.set_status.dnd.icon', defaultMessage: 'Do Not Disturb Icon'})}
             >
                 <path
                     className='dnd--icon'

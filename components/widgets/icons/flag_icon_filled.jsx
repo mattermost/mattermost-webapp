@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function FlagIconFilled(props) {
     const {formatMessage} = useIntl();
     return (
@@ -15,7 +13,7 @@ export default function FlagIconFilled(props) {
                 height='15px'
                 viewBox='0 0 12 15'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.flagged'), defaultMessage: 'Flagged Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.flagged', defaultMessage: 'Flagged Icon'})}
             >
                 <g
                     stroke='none'

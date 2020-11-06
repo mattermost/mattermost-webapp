@@ -11,7 +11,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {SidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import LocalizedIcon from 'components/localized_icon';
 

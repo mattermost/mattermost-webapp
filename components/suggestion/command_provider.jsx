@@ -139,7 +139,7 @@ export default class CommandProvider extends Provider {
         const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
 
         const args = {
-            channel_id: channel.id,
+            channel_id: channel?.id,
             ...(rootId && {root_id: rootId, parent_id: rootId}),
         };
 

@@ -1,0 +1,151 @@
+.PlanDetails {
+    padding: 28px 32px;
+    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    background: var(--sys-center-channel-bg);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+    width: 568px;
+    border-radius: 4px;
+}
+
+.PlanDetails__top {
+    display: flex;
+    align-items: center;
+}
+
+.PlanDetails__productName {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--sys-center-channel-color);
+}
+
+.PlanDetails__userCount {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: auto;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+    &.withinLimit {
+        color: var(--sys-sidebar-text-active-border);
+    }
+
+    &.overLimit {
+        color: var(--sys-error-text);
+    }
+}
+
+.PlanDetails__plan {
+    margin-top: 16px;
+    display: flex;
+    color: var(--sys-center-channel-color);
+    align-items: flex-end;
+}
+
+.PlanDetails__planName {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 32px;
+}
+
+.PlanDetails__planCaveat {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 4px;
+}
+
+.PlanDetails__teamAndChannelCount {
+    margin-top: 24px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--sys-center-channel-color);
+}
+
+.PlanDetails__description {
+    margin-top: 8px;
+    color: #579EFF;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.PlanDetails__feature {
+    margin-top: 12px;
+    color: var(--sys-center-channel-color);
+    line-height: 16px;
+
+    i {
+        font-size: 14.4px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    span {
+        margin-left: 8px;
+        font-size: 12px;
+    }
+}
+
+.PlanDetails__currentPlan {
+    margin-top: 24px;
+    color: var(--sys-sidebar-text-active-border);
+    display: flex;
+    align-items: center;
+
+    i {
+        font-size: 18px;
+        line-height: 21px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    span {
+        margin-left: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 14px;
+    }
+}
+
+.PlanDetails__seatsAndSubscriptionDates {
+    margin-top: 24px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--sys-center-channel-color);
+}
+
+.PlanDetails__seats {
+    font-weight: 600;
+    display: flex;
+}
+
+.PlanDetails__seats-registered {
+    margin-left: 4px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+    &.overLimit {
+        color: var(--sys-error-text);
+    }
+
+    i {
+        font-size: 14.4px;
+        line-height: 17px;
+        margin-left: 4px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+}
+
+.PlanDetails__subscriptionDate {
+    margin-top: 8px;
+}
+
+#BillingSubscriptions__seatOverageTooltip {
+    margin-left: -5px;
+}

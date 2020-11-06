@@ -24,12 +24,6 @@ jest.mock('actions/global_actions.jsx', () => ({
     toggleShortcutsModal: jest.fn(),
 }));
 
-jest.mock('react-dom', () => ({
-    findDOMNode: () => ({
-        blur: jest.fn(),
-    }),
-}));
-
 jest.mock('actions/post_actions.jsx', () => ({
     createPost: jest.fn(() => {
         return new Promise((resolve) => {
@@ -257,7 +251,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
@@ -306,7 +300,7 @@ describe('components/create_post', () => {
 
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
-        wrapper.instance().refs = {textbox: {blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {blur: jest.fn()};
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: Constants.KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
@@ -903,7 +897,7 @@ describe('components/create_post', () => {
         }));
 
         const instance = wrapper.instance();
-        instance.refs = {textbox: {blur: jest.fn()}};
+        instance.textboxRef.current = {blur: jest.fn()};
 
         instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {
@@ -1143,7 +1137,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1203,7 +1197,7 @@ describe('components/create_post', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);
@@ -1217,7 +1211,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1250,7 +1244,7 @@ describe('components/create_post', () => {
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
         wrapper.setState({
             message: 'test',
             caretPosition: 'test'.length, // cursor is at the end
@@ -1308,8 +1302,8 @@ describe('components/create_post', () => {
     testComponentForMarkdownHotkeys(
         (value) => createPost({draft: {...draftProp, message: value}}),
         (wrapper, setSelectionRangeFn) => {
-            wrapper.instance().refs = {
-                textbox: {
+            wrapper.instance().textboxRef = {
+                current: {
                     getInputBox: jest.fn(() => {
                         return {
                             focus: jest.fn(),
@@ -1328,8 +1322,8 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: value}}));
 
         const setSelectionRangeFn = jest.fn();
-        wrapper.instance().refs = {
-            textbox: {
+        wrapper.instance().textboxRef = {
+            current: {
                 getInputBox: jest.fn(() => {
                     return {
                         focus: jest.fn(),

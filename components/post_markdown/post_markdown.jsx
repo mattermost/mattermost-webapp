@@ -34,7 +34,7 @@ export default class PostMarkdown extends React.PureComponent {
         /*
          * The id of the channel that this post is being rendered in
          */
-        channelId: PropTypes.string.isRequired,
+        channelId: PropTypes.string,
 
         channel: PropTypes.object,
 

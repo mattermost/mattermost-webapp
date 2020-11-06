@@ -32,8 +32,8 @@ describe('Join an open team from a direct message link', () => {
             });
 
             // # Create a public channel inside the open team
-            cy.apiCreateChannel(openTeam.id, 'open-team-channel', 'open-team-channel').then((response) => {
-                publicChannelInOpenTeam = response.body;
+            cy.apiCreateChannel(openTeam.id, 'open-team-channel', 'open-team-channel').then(({channel}) => {
+                publicChannelInOpenTeam = channel;
             });
 
             // # Create test user

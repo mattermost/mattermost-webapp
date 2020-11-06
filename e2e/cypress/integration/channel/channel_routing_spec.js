@@ -46,23 +46,21 @@ describe('Channel routing', () => {
 
     it('should go to private channel view', () => {
         // # Create a private channel
-        cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private channel', 'P').then((response) => {
+        cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private channel', 'P').then(({channel}) => {
             // # Go to the newly created channel
-            cy.visit(`/${testTeam.name}/channels/${response.body.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');
 
             // # Remove the created channel
-            cy.apiDeleteChannel(response.body.id);
+            cy.apiDeleteChannel(channel.id);
         });
     });
 
     it('should go to self direct channel using the multiple ways to go', () => {
         // # Create a self direct channel
-        cy.apiCreateDirectChannel([testUser.id, testUser.id]).then((response) => {
-            const ownDMChannel = response.body;
-
+        cy.apiCreateDirectChannel([testUser.id, testUser.id]).then(({channel: ownDMChannel}) => {
             // # Visit the channel using the channel name
             cy.visit(`/${testTeam.name}/channels/${testUser.id}__${testUser.id}`);
 
@@ -91,9 +89,7 @@ describe('Channel routing', () => {
 
     it('should go to other user direct channel using multiple ways to go', () => {
         // # Create a direct channel between two users
-        cy.apiCreateDirectChannel([testUser.id, otherUser1.id]).then((response) => {
-            const dmChannel = response.body;
-
+        cy.apiCreateDirectChannel([testUser.id, otherUser1.id]).then(({channel: dmChannel}) => {
             // # Visit the channel using the channel name
             cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser1.id}`);
 
@@ -124,9 +120,7 @@ describe('Channel routing', () => {
         const userGroupIds = [testUser.id, otherUser1.id, otherUser2.id];
 
         // # Create a group channel for 3 users
-        cy.apiCreateGroupChannel(userGroupIds).then((response) => {
-            const gmChannel = response.body;
-
+        cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Visit the channel using the name using the channels route
             cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
 

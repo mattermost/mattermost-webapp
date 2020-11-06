@@ -41,12 +41,10 @@ describe('Notifications', () => {
         // # Login as first user
         cy.apiLogin(firstUser);
 
-        cy.apiCreateChannel(testTeam.id, 'test_channel', 'Test Channel').then((response) => {
-            const testChannel = response.body;
-
+        cy.apiCreateChannel(testTeam.id, 'test_channel', 'Test Channel').then(({channel}) => {
             // # Visit the newly created channel as the first user and invite the second user
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-            cy.apiAddUserToChannel(testChannel.id, secondUser.id);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.apiAddUserToChannel(channel.id, secondUser.id);
 
             // # Go to the 'Off Topic' channel and logout
             cy.get('#sidebarItem_off-topic', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
@@ -57,16 +55,16 @@ describe('Notifications', () => {
             cy.visit(`/${testTeam.name}`);
 
             // * Verify that the channel that the first created is visible and that there is one unread mention (for being invited)
-            cy.get(`#sidebarItem_${testChannel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
-                cy.findByText(testChannel.display_name).should('be.visible');
+            cy.get(`#sidebarItem_${channel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
+                cy.findByText(channel.display_name).should('be.visible');
                 cy.get('#unreadMentions').should('have.text', '1');
             });
 
             // # Go to the test channel
-            cy.get(`#sidebarItem_${testChannel.name}`).click();
+            cy.get(`#sidebarItem_${channel.name}`).click();
 
             // # Verify that the mention does not exist anymore
-            checkUnreadMentions(testChannel);
+            checkUnreadMentions(channel);
 
             // # Leave the test channel and logout
             cy.get('#channelHeaderDropdownButton').should('be.visible').click();
@@ -86,7 +84,7 @@ describe('Notifications', () => {
             });
 
             // * Verify that the first user did not get a mention from the test channel when the second user left
-            checkUnreadMentions(testChannel);
+            checkUnreadMentions(channel);
         });
     });
 

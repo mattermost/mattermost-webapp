@@ -16,11 +16,22 @@ describe('components/more_direct_channels/GroupMessageOption', () => {
     channel.profiles = [user, user2];
 
     function renderElement(onAdd = jest.fn()) {
+        const selectedItemRef = {
+            current: {
+                getBoundingClientRect: jest.fn(() => ({
+                    bottom: 100,
+                    top: 50,
+                })),
+                scrollIntoView: jest.fn(),
+            },
+        };
+
         return shallow(
             <GroupMessageOption
                 channel={channel}
                 isSelected={false}
                 onAdd={onAdd}
+                selectedItemRef={selectedItemRef}
             />,
         );
     }

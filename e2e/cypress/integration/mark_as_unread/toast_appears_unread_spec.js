@@ -23,11 +23,11 @@ describe('Verify unread toast appears after repeated manual marking post as unre
         cy.apiInitSetup().then(({team, user}) => {
             otherUser = user;
 
-            cy.apiGetChannelByName(team.name, 'town-square').then((res) => {
-                townSquareChannel = res.body;
+            cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
+                townSquareChannel = channel;
 
-                cy.apiGetChannelByName(team.name, 'off-topic').then((res2) => {
-                    offTopicChannel = res2.body;
+                cy.apiGetChannelByName(team.name, 'off-topic').then((out) => {
+                    offTopicChannel = out.channel;
 
                     // Toast only seems to appear after first visiting the channel
                     // So we need to visit the channel then navigate away

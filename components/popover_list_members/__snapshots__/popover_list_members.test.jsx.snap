@@ -4,34 +4,35 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 <div
   id="channelMember"
 >
-  <button
-    aria-label="members"
-    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
-    id="member_popover"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    disabled={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="channelMembersTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Members"
+          id="channel_header.channelMembers"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="channelMembersTooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Members"
-            id="channel_header.channelMembers"
-          />
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-label="members"
+      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      id="member_popover"
+      onClick={[Function]}
     >
       <div
         className="d-flex align-items-center"
@@ -48,8 +49,8 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           2
         </span>
       </div>
-    </OverlayTrigger>
-  </button>
+    </button>
+  </OverlayTrigger>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -88,7 +89,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
             status="online"
             user={
               Object {
-                "delete_at": 0,
                 "id": "member_id_1",
               }
             }
@@ -100,7 +100,6 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
             status="offline"
             user={
               Object {
-                "delete_at": 0,
                 "id": "member_id_2",
               }
             }
@@ -116,34 +115,35 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 <div
   id="channelMember"
 >
-  <button
-    aria-label="members"
-    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
-    id="member_popover"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    disabled={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="channelMembersTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Members"
+          id="channel_header.channelMembers"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="channelMembersTooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Members"
-            id="channel_header.channelMembers"
-          />
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-label="members"
+      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      id="member_popover"
+      onClick={[Function]}
     >
       <div
         className="d-flex align-items-center"
@@ -160,8 +160,8 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           2
         </span>
       </div>
-    </OverlayTrigger>
-  </button>
+    </button>
+  </OverlayTrigger>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -200,7 +200,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
             status="online"
             user={
               Object {
-                "delete_at": 0,
                 "id": "member_id_1",
               }
             }
@@ -212,7 +211,6 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
             status="offline"
             user={
               Object {
-                "delete_at": 0,
                 "id": "member_id_2",
               }
             }
@@ -228,34 +226,35 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
 <div
   id="channelMember"
 >
-  <button
-    aria-label="members"
-    className="member-popover__trigger channel-header__icon channel-header__icon--wide "
-    id="member_popover"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    disabled={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="channelMembersTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Members"
+          id="channel_header.channelMembers"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="channelMembersTooltip"
-          placement="right"
-        >
-          <FormattedMessage
-            defaultMessage="Members"
-            id="channel_header.channelMembers"
-          />
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-label="members"
+      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      id="member_popover"
+      onClick={[Function]}
     >
       <div
         className="d-flex align-items-center"
@@ -272,8 +271,8 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           2
         </span>
       </div>
-    </OverlayTrigger>
-  </button>
+    </button>
+  </OverlayTrigger>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -320,7 +319,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
             status="online"
             user={
               Object {
-                "delete_at": 0,
                 "id": "member_id_1",
               }
             }
@@ -332,7 +330,6 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
             status="offline"
             user={
               Object {
-                "delete_at": 0,
                 "id": "member_id_2",
               }
             }

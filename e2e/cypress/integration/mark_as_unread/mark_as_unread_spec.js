@@ -12,7 +12,7 @@
 
 import {beRead, beUnread} from '../../support/assertions';
 
-import {verifyPostNextToNewMessageSeparator, switchToChannel, showCursor, notShowCursor, markAsUnreadFromMenu} from './helpers';
+import {verifyPostNextToNewMessageSeparator, switchToChannel, showCursor, notShowCursor} from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -30,12 +30,10 @@ describe('Mark as Unread', () => {
             testUser = user;
             channelA = channel;
 
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then(
-                (resp) => {
-                    channelB = resp.body;
-                    cy.apiAddUserToChannel(channelB.id, testUser.id);
-                },
-            );
+            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
+                channelB = out.channel;
+                cy.apiAddUserToChannel(channelB.id, testUser.id);
+            });
 
             cy.apiCreateUser().then(({user: user2}) => {
                 const otherUser = user2;
@@ -147,17 +145,20 @@ describe('Mark as Unread', () => {
     it('Should be able to mark channel as unread from post menu', () => {
         switchToChannel(channelA);
 
-        markAsUnreadFromMenu(post2);
+        // # Mark post2 as unread
+        cy.uiClickPostDropdownMenu(post2.id, 'Mark as Unread');
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post2');
 
-        markAsUnreadFromMenu(post1);
+        // # Mark post1 as unread
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread');
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post1');
 
-        markAsUnreadFromMenu(post3);
+        // # Mark post3 as unread
+        cy.uiClickPostDropdownMenu(post3.id, 'Mark as Unread');
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post3');
@@ -186,12 +187,14 @@ describe('Mark as Unread', () => {
         // Show the RHS
         cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
 
-        markAsUnreadFromMenu(post1, 'rhsPost', 'RHS_ROOT');
+        // # Mark post1 as unread in RHS as root thread
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread', 'RHS_ROOT');
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post1');
 
-        markAsUnreadFromMenu(post3, 'rhsPost', 'RHS_COMMENT');
+        // # Mark post3 as unread in RHS as comment
+        cy.uiClickPostDropdownMenu(post3.id, 'Mark as Unread', 'RHS_COMMENT');
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post3');
@@ -287,7 +290,7 @@ describe('Mark as Unread', () => {
         cy.clickPostCommentIcon(post1.id);
 
         // # Mark the post as unread from RHS
-        markAsUnreadFromMenu(post1, 'rhsPostMessageText', 'RHS_ROOT');
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread', 'RHS_ROOT');
 
         // * Verify the New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post1');

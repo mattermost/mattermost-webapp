@@ -152,11 +152,10 @@ context('ldap', () => {
             cy.apiAdminLogin();
 
             cy.apiGetTeamByName(testSettings.teamName).then(({team}) => {
-                cy.apiGetChannelByName(testSettings.teamName, 'town-square').then((r2) => {
-                    const channelId = r2.body.id;
+                cy.apiGetChannelByName(testSettings.teamName, 'town-square').then(({channel}) => {
                     cy.apiGetUserByEmail(guest1.email).then(({user}) => {
                         cy.apiAddUserToTeam(team.id, user.id).then(() => {
-                            cy.apiAddUserToChannel(channelId, user.id);
+                            cy.apiAddUserToChannel(channel.id, user.id);
                         });
                     });
 

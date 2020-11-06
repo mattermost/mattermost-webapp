@@ -40,6 +40,8 @@ export default class ChannelSelectorModal extends React.PureComponent {
             loadingChannels: true,
             channels: [],
         };
+
+        this.selectedItemRef = React.createRef();
     }
 
     componentDidMount() {
@@ -140,7 +142,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd, onMouseMove) {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -149,7 +151,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
         return (
             <div
                 key={option.id}
-                ref={isSelected ? 'selected' : option.id}
+                ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
                 onMouseMove={() => onMouseMove(option)}
@@ -212,6 +214,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
                         key='addChannelsToSchemeKey'
                         options={this.state.channels}
                         optionRenderer={this.renderOption}
+                        selectedItemRef={this.selectedItemRef}
                         values={this.state.values}
                         valueRenderer={this.renderValue}
                         perPage={CHANNELS_PER_PAGE}

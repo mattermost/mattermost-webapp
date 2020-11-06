@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function MattermostLogo(props) {
     const {formatMessage} = useIntl();
     return (
@@ -17,7 +15,7 @@ export default function MattermostLogo(props) {
                 viewBox='0 0 500 500'
                 style={style.background}
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.mattermost'), defaultMessage: 'Mattermost Logo'})}
+                aria-label={formatMessage({id: 'generic_icons.mattermost', defaultMessage: 'Mattermost Logo'})}
             >
                 <g>
                     <g>

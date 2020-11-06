@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import DisplayName from 'components/create_team/components/display_name.jsx';
 import Constants from 'utils/constants';
+import {cleanUpUrlable} from 'utils/url';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -37,9 +38,44 @@ describe('/components/create_team/components/display_name', () => {
         expect(wrapper.prop('updateParent')).toHaveBeenCalled();
     });
 
+    test('should pass state to updateParent function', () => {
+        const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
+
+        wrapper.find('button').simulate('click', {
+            preventDefault: () => jest.fn(),
+        });
+
+        expect(wrapper.prop('updateParent')).toHaveBeenCalledWith(defaultProps.state);
+    });
+
+    test('should pass updated team name to updateParent function', () => {
+        const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
+        const teamDisplayName = 'My Test Team';
+        const newState = {
+            ...defaultProps.state,
+            team: {
+                ...defaultProps.state.team,
+                display_name: teamDisplayName,
+                name: cleanUpUrlable(teamDisplayName),
+            },
+        };
+
+        wrapper.find('.form-control').instance().value = teamDisplayName;
+        wrapper.find('.form-control').simulate('change');
+
+        wrapper.find('button').simulate('click', {
+            preventDefault: () => jest.fn(),
+        });
+
+        expect(wrapper.prop('updateParent')).toHaveBeenCalledWith(defaultProps.state);
+        expect(wrapper.prop('updateParent').mock.calls[0][0]).toEqual(newState);
+    });
+
     test('should display isRequired error', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         wrapper.find('.form-control').instance().value = '';
+        wrapper.find('.form-control').simulate('change');
+
         wrapper.find('button').simulate('click', {
             preventDefault: () => jest.fn(),
         });
@@ -56,6 +92,7 @@ describe('/components/create_team/components/display_name', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         const input = wrapper.find('.form-control').instance();
         input.value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
+        wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
             preventDefault: () => jest.fn(),

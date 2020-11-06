@@ -1,0 +1,185 @@
+.BillingSummary {
+    background-color: var(--sys-center-channel-bg);
+    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    width: 332px;
+    margin-left: 20px;
+    padding: 28px 32px;
+}
+
+.BillingSummary__noBillingHistory {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.BillingSummary__noBillingHistory-graphic {
+    align-self: center;
+}
+
+.BillingSummary__noBillingHistory-title {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 32px;
+    font-weight: 600;
+}
+
+.BillingSummary__noBillingHistory-message {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--sys-center-channel-color);
+}
+
+.BillingSummary__noBillingHistory-link {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--sys-button-bg);
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.BillingSummary__lastInvoice {
+    color: var(--sys-center-channel-color);
+
+    hr {
+        margin: 12px 0;
+        border-color: rgba(var(--sys-center-channel-color-rgb), 0.32);
+    }
+}
+
+.BillingSummary__lastInvoice-header {
+    display: flex;
+    align-items: center;
+}
+
+.BillingSummary__lastInvoice-headerTitle {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.BillingSummary__lastInvoice-headerStatus {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+
+    &.paid {
+        color: var(--sys-online-indicator);
+    }
+
+    &.failed {
+        color: var(--sys-error-text);
+    }
+
+    &.pending {
+        color: rgba(var(--sys-center-channel-color-rgb), 0.48);
+    }
+
+    i {
+        margin-left: 4px;
+        font-size: 14.4px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+}
+
+.BillingSummary__lastInvoice-date {
+    margin-top: 8px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+}
+
+.BillingSummary__lastInvoice-productName {
+    margin-top: 32px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.BillingSummary__lastInvoice-charge {
+    display: flex;
+    margin: 12px 0;
+
+    &.total {
+        font-weight: 600;
+    }
+}
+
+.BillingSummary__lastInvoice-chargeAmount {
+    margin-left: auto;
+}
+
+.BillingSummary__lastInvoice-partialCharges {
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+    & + .BillingSummary__lastInvoice-charge {
+        margin-top: 4px;
+    }
+}
+
+.BillingSummary__lastInvoice-download {
+    margin-top: 32px;
+    margin-bottom: 16px;
+}
+
+.BillingSummary__lastInvoice-downloadButton {
+    background: var(--sys-button-bg);
+    padding: 11px 20px;
+    border-radius: 4px;
+    width: fit-content;
+    display: flex;
+    color: var(--sys-button-color);
+    align-items: center;
+
+    &:hover:not(.disabled) {
+        background: linear-gradient(0deg, rgba(var(--sys-center-channel-color-rgb), 0.16), rgba(var(--sys-center-channel-color-rgb), 0.16)), var(--sys-button-bg);
+        text-decoration: none;
+        color: var(--sys-button-color);
+    }
+
+    &:active {
+        background: linear-gradient(0deg, rgba(var(--sys-center-channel-color-rgb), 0.32), rgba(var(--sys-center-channel-color-rgb), 0.32)), var(--sys-button-bg);
+        text-decoration: none;
+        color: var(--sys-button-color);
+    }
+
+    &:focus {
+        box-shadow: inset 0 0 0 2px var(--sys-sidebar-text-active-border);
+        text-decoration: none;
+        color: var(--sys-button-color);
+    }
+
+    &.disabled {
+        color: rgba(var(--sys-center-channel-color-rgb), 0.32);
+        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+    }
+
+    > i {
+        font-size: 18px;
+        line-height: 21px;
+
+        &::before {
+            margin: 0;
+        }
+    }
+
+    > span {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 14px;
+        margin-left: 8px;
+    }
+}
+
+.BillingSummary__lastInvoice-billingHistory {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 9.5px;
+}

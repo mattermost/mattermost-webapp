@@ -4,14 +4,12 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function MessageIcon(props) {
     const {formatMessage} = useIntl();
     return (
         <button
             {...props}
-            aria-label={formatMessage({id: t('members_popover.button.message'), defaultMessage: 'message'})}
+            aria-label={formatMessage({id: 'members_popover.button.message', defaultMessage: 'message'})}
             className='style--none icon icon__message'
             tabIndex='-1'
         >
@@ -20,7 +18,7 @@ export default function MessageIcon(props) {
                 height='16px'
                 viewBox='0 0 18 16'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.message'), defaultMessage: 'Message Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.message', defaultMessage: 'Message Icon'})}
             >
                 <g
                     stroke='none'

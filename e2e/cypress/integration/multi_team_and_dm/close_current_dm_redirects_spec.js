@@ -132,9 +132,7 @@ const sendDirectMessageToUser = (user, message) => {
 
 const closeDirectMessageViaXButton = (sender, recipient, team) => {
     // # Find the username in the 'Direct Messages' list and trigger the 'x' button to appear (hover over the username)
-    cy.apiGetChannelsForUser(sender.id, team.id).then((response) => {
-        const channels = response.body;
-
+    cy.apiGetChannelsForUser(sender.id, team.id).then(({channels}) => {
         // Get the name of the channel to build the CSS selector for that specific DM link in the sidebar
         const channelDmWithFirstUser = channels.find((channel) =>
             channel.type === 'D' && channel.name.includes(recipient.id),

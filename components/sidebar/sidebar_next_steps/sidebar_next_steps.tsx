@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {StepType} from 'components/next_steps_view/steps';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
@@ -146,6 +146,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
             <div
                 className={classNames('SidebarNextSteps', {
                     active: this.props.active,
+                    tips: !this.props.showNextSteps,
                 })}
                 onClick={this.showNextSteps}
             >

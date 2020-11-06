@@ -9,7 +9,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics, sendWarnMetricAck} from 'mattermost-redux/actions/admin';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -28,8 +28,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     return {
         stats: state.entities.admin.analytics,
         user: getCurrentUser(state),
-        license: getLicense(state),
-        diagnosticId: config.DiagnosticId,
+        telemetryId: config.DiagnosticId,
         show: isModalOpen(state, ModalIdentifiers.WARN_METRIC_ACK),
         closeParentComponent: ownProps.closeParentComponent,
     };

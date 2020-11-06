@@ -4,14 +4,12 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function BackIcon() {
     const {formatMessage} = useIntl();
     return (
         <i
             className='fa fa-angle-left'
-            title={formatMessage({id: t('generic_icons.back'), defaultMessage: 'Back Icon'})}
+            title={formatMessage({id: 'generic_icons.back', defaultMessage: 'Back Icon'})}
         />
     );
 }

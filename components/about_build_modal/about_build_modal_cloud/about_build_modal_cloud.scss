@@ -1,0 +1,73 @@
+.about-modal.cloud {
+    position: absolute;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    .modal-content{
+        overflow: hidden;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+
+        .modal-header {
+            width: 600px;
+            height: 66px;
+        }
+        .modal-body {
+            overflow: hidden;
+            padding: 0px 64px;
+            height: 294px;
+            width: 600px;
+            .about-modal__logo {
+                padding-left: 0;
+                padding-right: 32px;
+                svg {
+                    height: 104px;
+                    width: 104px;
+                }
+            }
+            .about-modal__title {
+                margin: 0;
+                font-weight: 600;
+                font-size: 24px;
+                line-height: 32px;
+            }
+            .about-modal__content {
+                padding-top: 46px;
+
+            }
+            .subtitle {
+                width: 294px;
+                height: 24px;
+                left: 0px;
+                top: 32px;
+                font-size: 16px;
+                line-height: 24px;
+                color: var(--center-channel-color);
+                margin-bottom: 16px;
+            }
+            .description, .form-group {
+                width: 342px;
+                height: 20px;
+                left: 0px;
+                top: 0px;
+                font-size: 14px;
+                line-height: 20px;
+                color: rgba(var(--center-channel-color-rgb), 0.64);
+                align-self: center;
+                margin: 0px 0px;
+            }
+
+            .about-footer {
+                margin-top: 16px;
+                font-size: 12px;
+                line-height: 16px;
+                color: rgba(var(--center-channel-color-rgb), 0.64);
+                .copy-right {
+                    margin-top: 12px;
+                }
+            }
+        }
+    }
+}

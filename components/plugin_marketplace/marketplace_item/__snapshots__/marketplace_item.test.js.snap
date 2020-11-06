@@ -18,7 +18,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -30,6 +30,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         >
           (1.0.0)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -92,7 +100,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -104,6 +112,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         >
           (1.0.0)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -164,7 +180,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -176,6 +192,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         >
           (1.0.0)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -238,7 +262,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -250,6 +274,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
         >
           (1.0.0)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -308,7 +340,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -320,6 +352,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         >
           (1.0.0)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -382,7 +422,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with one label
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -394,12 +434,20 @@ exports[`components/MarketplaceItem MarketplaceItem should render with one label
         >
           (1.0.0)
         </span>
-        <Label
-          description="some description"
-          key="someName"
-          name="someName"
-          url="http://example.com/info"
-        />
+      </a>
+      <Label
+        description="some description"
+        key="someName"
+        name="someName"
+        url="http://example.com/info"
+      />
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -462,7 +510,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -474,6 +522,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         >
           (1.0.0)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description error_text"
         >
@@ -536,7 +592,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with two label
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -548,18 +604,26 @@ exports[`components/MarketplaceItem MarketplaceItem should render with two label
         >
           (1.0.0)
         </span>
-        <Label
-          description="some description"
-          key="someName"
-          name="someName"
-          url="http://example.com/info"
-        />
-        <Label
-          description="some description2"
-          key="someName2"
-          name="someName2"
-          url="http://example.com/info2"
-        />
+      </a>
+      <Label
+        description="some description"
+        key="someName"
+        name="someName"
+        url="http://example.com/info"
+      />
+      <Label
+        description="some description2"
+        key="someName2"
+        name="someName2"
+        url="http://example.com/info2"
+      />
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -622,7 +686,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -634,6 +698,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         >
           (0.9.9)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -696,7 +768,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
       className="more-modal__details"
     >
       <a
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -708,6 +780,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         >
           (0.9.9)
         </span>
+      </a>
+      <a
+        aria-label="test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <p
           className="more-modal__description"
         >
@@ -768,7 +848,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
       className="more-modal__details"
     >
       <span
-        aria-label="name, test plugin"
+        aria-label="name"
         className="style--none"
       >
         name
@@ -777,6 +857,11 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         >
           (1.0.0)
         </span>
+      </span>
+      <span
+        aria-label="test plugin"
+        className="style--none"
+      >
         <p
           className="more-modal__description"
         >

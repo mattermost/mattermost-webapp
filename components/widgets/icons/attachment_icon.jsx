@@ -4,8 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
 export default function AttachmentIcon(props) {
     const {formatMessage} = useIntl();
     return (
@@ -15,7 +13,7 @@ export default function AttachmentIcon(props) {
                 height='16px'
                 viewBox='0 0 16 16'
                 role='img'
-                aria-label={formatMessage({id: t('generic_icons.attach'), defaultMessage: 'Attachment Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.attach', defaultMessage: 'Attachment Icon'})}
             >
                 <g
                     fill='inherit'

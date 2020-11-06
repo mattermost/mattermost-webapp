@@ -346,7 +346,7 @@ export function makeCreateAriaLabelForPost() {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    let message = post.message;
+    let message = post.message || '';
     let match;
 
     // Match all the shorthand forms of emojis first

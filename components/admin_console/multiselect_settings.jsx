@@ -15,14 +15,11 @@ export default class MultiSelectSetting extends React.PureComponent {
         values: PropTypes.array.isRequired,
         label: PropTypes.node.isRequired,
         selected: PropTypes.array.isRequired,
-        mustBePresent: PropTypes.string,
         onChange: PropTypes.func.isRequired,
         disabled: PropTypes.bool,
         setByEnv: PropTypes.bool.isRequired,
         helpText: PropTypes.node,
         noResultText: PropTypes.node,
-        errorText: PropTypes.node,
-        notPresent: PropTypes.node,
     };
 
     static defaultProps = {
@@ -40,20 +37,8 @@ export default class MultiSelectSetting extends React.PureComponent {
             return n.value;
         });
 
-        if (this.props.selected.length > 0 && this.props.mustBePresent && values.join(',').indexOf(this.props.mustBePresent) === -1) {
-            this.setState({error: this.props.notPresent});
-        } else {
-            this.props.onChange(this.props.id, values);
-            this.setState({error: false});
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        if (newProps.selected.length > 0 && newProps.mustBePresent && newProps.selected.join(',').indexOf(newProps.mustBePresent) === -1) {
-            this.setState({error: this.props.notPresent});
-        } else {
-            this.setState({error: false});
-        }
+        this.props.onChange(this.props.id, values);
+        this.setState({error: false});
     }
 
     calculateValue = () => {

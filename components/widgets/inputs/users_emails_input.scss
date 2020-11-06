@@ -18,6 +18,10 @@
 
             .users-emails-input__input {
                 border-bottom: 1px dotted var(--error-text);
+
+                .a11y--focused {
+                    box-shadow: none;
+                }
             }
         }
     }
@@ -26,6 +30,10 @@
         .users-emails-input__control {
             .users-emails-input__input {
                 border-bottom: 0;
+
+                .a11y--focused {
+                    box-shadow: none;
+                }
             }
         }
     }
@@ -49,6 +57,10 @@
             .users-emails-input__value-container {
                 .users-emails-input__input {
                     border-bottom: 0;
+
+                    .a11y--focused {
+                        box-shadow: none;
+                    }
                 }
             }
         }
@@ -70,6 +82,10 @@
     .users-emails-input__input {
         color: var(--center-channel-color);
         margin-left: 6px;
+
+        .a11y--focused {
+            box-shadow: none;
+        }
     }
     input {
         height: inherit;
