@@ -1,0 +1,23 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.shortcut-line {
+
+    .shortcut-key {
+        border-radius: 2px;
+        padding: 2px 8px;
+        + .shortcut-key {
+            margin-left: 2px;
+        }
+    }
+}
+
+.tooltip-inner .shortcut-line {
+    margin-top: 6px;
+    margin-bottom: 4px;
+    color: rgba(255, 255, 255, .72);
+
+    .shortcut-key {
+        background: rgba(255, 255, 255, .08);
+    }
+}
