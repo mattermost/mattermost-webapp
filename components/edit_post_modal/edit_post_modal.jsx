@@ -297,7 +297,7 @@ class EditPostModal extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
-        
+
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
         const ctrlEnterKeyCombo = (ctrlSend || codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
