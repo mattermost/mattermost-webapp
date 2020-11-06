@@ -28,33 +28,27 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 
     get value() {
-        return this.textAreaRef.current?.value;
+        return (this.textAreaRef.current as HTMLTextAreaElement).value;
     }
 
-    set value(value) {
-        if (this.textAreaRef.current && value) {
-            this.textAreaRef.current.value = value;
-        }
+    set value(value: string) {
+        (this.textAreaRef.current as HTMLTextAreaElement).value = value;
     }
 
     get selectionStart() {
-        return this.textAreaRef.current?.selectionStart;
+        return (this.textAreaRef.current as HTMLTextAreaElement).selectionStart;
     }
 
     set selectionStart(selectionStart) {
-        if (this.textAreaRef.current && selectionStart) {
-            this.textAreaRef.current.selectionStart = selectionStart;
-        }
+        (this.textAreaRef.current as HTMLTextAreaElement).selectionStart = selectionStart;
     }
 
     get selectionEnd() {
-        return this.textAreaRef.current?.selectionEnd;
+        return (this.textAreaRef.current as HTMLTextAreaElement).selectionEnd;
     }
 
     set selectionEnd(selectionEnd) {
-        if (this.textAreaRef.current && selectionEnd) {
-            this.textAreaRef.current.selectionStart = selectionEnd;
-        }
+        (this.textAreaRef.current as HTMLTextAreaElement).selectionEnd = selectionEnd;
     }
 
     focus() {
