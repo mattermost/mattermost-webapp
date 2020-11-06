@@ -10,10 +10,6 @@
 // Group: @system_console
 
 describe('Unsaved Changes', () => {
-    before(() => {
-        cy.apiAdminLogin();
-    });
-
     it('MM-T955 Warning leaving changed page without saving: Leave page, discard changes', () => {
         // # Make a change on any page.
         cy.visit('/admin_console/environment/file_storage');
