@@ -9,6 +9,8 @@
 
 // Group: @channel_sidebar
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {clickCategoryMenuItem} from './helpers';
 
 describe('Category muting', () => {
@@ -21,6 +23,9 @@ describe('Category muting', () => {
 
         cy.apiInitSetup({loginAfter: true}).then((({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Wait for the team to load
+            cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         }));
     });
 
