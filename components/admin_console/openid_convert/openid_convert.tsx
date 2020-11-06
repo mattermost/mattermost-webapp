@@ -50,7 +50,9 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         const newConfig = JSON.parse(JSON.stringify(this.props.config));
 
         newConfig.Office365Settings.Scope = openidScope;
-        newConfig.Office365Settings.DiscoveryEndpoint = 'https://login.microsoftonline.com/' + newConfig.Office365Settings.DirectoryId + '/v2.0/.well-known/openid-configuration';
+        if(newConfig.Office365Settings.DirectoryId) {
+            newConfig.Office365Settings.DiscoveryEndpoint = 'https://login.microsoftonline.com/' + newConfig.Office365Settings.DirectoryId + '/v2.0/.well-known/openid-configuration';
+        }
         newConfig.Office365Settings.UserApiEndpoint = '';
         newConfig.Office365Settings.AuthEndpoint = '';
         newConfig.Office365Settings.TokenEndpoint = '';
@@ -62,7 +64,10 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         newConfig.GoogleSettings.TokenEndpoint = '';
 
         newConfig.GitLabSettings.Scope = openidScope;
-        newConfig.GitLabSettings.DiscoveryEndpoint = newConfig.GitLabSettings.Url + '/.well-known/openid-configuration';
+        if(newConfig.GitLabSettings.UserApiEndpoint) {
+            const url = newConfig.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+            newConfig.GitLabSettings.DiscoveryEndpoint = url + '/.well-known/openid-configuration';
+        }
         newConfig.GitLabSettings.UserApiEndpoint = '';
         newConfig.GitLabSettings.AuthEndpoint = '';
         newConfig.GitLabSettings.TokenEndpoint = '';

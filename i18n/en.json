@@ -1223,7 +1223,7 @@
   "admin.openid.clientSecretDescription": "The Client ID you received when registering your application with your provider.",
   "admin.openid.clientSecretExample": "E.g.: \"adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq\"",
   "admin.openid.clientSecretTitle": "Client Secret:",
-  "admin.openid.discovery.placehoder": "E.g.: \"https://openid.provider.com/.well-known/openid-configuration\"",
+  "admin.openid.discovery.placeholder": "E.g.: \"https://openid.provider.com/.well-known/openid-configuration\"",
   "admin.openid.discoveryEndpointDesc": "Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.",
   "admin.openid.discoveryEndpointTitle": "Discovery Endpoint:",
   "admin.openid.EnableMarkdownDesc": "Follow provider directions for creating an OpenId Application",

@@ -38,7 +38,7 @@ describe('System console-OpenId Connect', () => {
         // * Check if server has license
         cy.apiRequireLicense();
     });
-    it('MM- - Set to Generic OpenId', () => {
+    it('MM-27688 - Set to Generic OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -67,7 +67,7 @@ describe('System console-OpenId Connect', () => {
         verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', 'http://localhost:8065/oauth/openid/login?extra=expired');
     });
 
-    it('MM- - Set to Google OpenId', () => {
+    it('MM-27688 - Set to Google OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -93,7 +93,7 @@ describe('System console-OpenId Connect', () => {
         verifyOAuthLogin('GoogleButton', 'Google Apps', '', 'http://localhost:8065/oauth/google/login?extra=expired');
     });
 
-    it('MM- - Set to Gitlab OpenId', () => {
+    it('MM-27688- Set to Gitlab OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -119,7 +119,7 @@ describe('System console-OpenId Connect', () => {
         verifyOAuthLogin('GitLabButton', 'GitLab', '', 'http://localhost:8065/oauth/gitlab/login?extra=expired');
     });
 
-    it('MM- - Set to Exchange OpenId', () => {
+    it('MM-27688 - Set to Exchange OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 

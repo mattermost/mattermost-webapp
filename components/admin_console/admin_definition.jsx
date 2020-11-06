@@ -4618,7 +4618,7 @@ const AdminDefinition = {
                         key: 'OpenIdSettings.DiscoveryEndpoint',
                         label: t('admin.openid.discoveryEndpointTitle'),
                         label_default: 'Discovery Endpoint:',
-                        placeholder: t('admin.openid.discovery.placehoder'),
+                        placeholder: t('admin.openid.discovery.placeholder'),
                         placeholder_default: 'E.g.: "https://openid.provider.com/.well-known/openid-configuration"',
                         help_text: t('admin.openid.discoveryEndpointDesc'),
                         help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
