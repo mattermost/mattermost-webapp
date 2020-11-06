@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PostList from './post_list';
-import PostView from './post_view.js';
+import PostView from './post_view';
 
 describe('components/post_view/post_view', () => {
     const baseProps = {

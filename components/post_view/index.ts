@@ -23,7 +23,7 @@ type Params = {
     path: string;
 }
 
-export const isChannelLoading = (params: Params, channel: Channel, team: Team, teammate: UserProfile, teamMemberships:TeamMembership) => {
+export const isChannelLoading = (params: Params, channel: Channel, team: Team, teammate: UserProfile, teamMemberships?:TeamMembership) => {
     if (params.postid) {
         return false;
     }
