@@ -189,7 +189,7 @@ export const it = {
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
 
-const uses_legacy_oauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
     return it.any(
         it.all(
             it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
@@ -212,7 +212,7 @@ const uses_legacy_oauth = (config, state, license, enterpriseReady, consoleAcces
                 it.configIsTrue('Office365Settings', 'Secret'),
             ),
         ),
-    )(config, state, license, enterpriseReady, consoleAccess, cloud);        
+    )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
 
 const AdminDefinition = {
@@ -4023,7 +4023,7 @@ const AdminDefinition = {
             tag: 'deprecated',
             isHidden: it.any(
                 it.not(it.licensed),
-                it.not(uses_legacy_oauth),
+                it.not(usesLegacyOauth),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4078,7 +4078,7 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(it.licensedForFeature('GoogleOAuth')),
                             it.not(it.licensedForFeature('Office365OAuth')),
-                            it.not(uses_legacy_oauth),  
+                            it.not(usesLegacyOauth),
                         ),
                     },
                     {
@@ -4404,7 +4404,7 @@ const AdminDefinition = {
                         key: 'OpenIdConvert',
                         isHidden: it.any(
                             it.not(it.licensed),
-                            it.not(uses_legacy_oauth),
+                            it.not(usesLegacyOauth),
                         ),
                     },
                     {

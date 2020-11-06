@@ -174,10 +174,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
                 AuthEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
                 TokenEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 UserApiEndpoint: 'https://graph.microsoft.com/v1.0/me',
-                DirectoryId: "common",
+                DirectoryId: 'common',
             },
         });
-    
+
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -194,7 +194,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByTestId('authentication.oauth').should('be.not.visible');
 
         // OAuth should no longer be visible
-        cy.findByTestId('authentication.openid').click().wait(TIMEOUTS.ONE_SEC)
+        cy.findByTestId('authentication.openid').click().wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
         cy.findByTestId('openid_convert').should('be.not.visible');
@@ -223,5 +223,4 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.Office365Settings.UserApiEndpoint).to.equal('');
         });
     });
-
 });
