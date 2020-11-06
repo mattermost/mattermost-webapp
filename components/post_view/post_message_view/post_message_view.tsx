@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
+import {Post} from 'mattermost-redux/types/posts';
+
+import {Theme} from 'mattermost-redux/types/preferences';
 
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
@@ -12,56 +14,29 @@ import * as Utils from 'utils/utils';
 import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
+import {TextFormattingOptions} from 'utils/text_formatting';
 
-export default class PostMessageView extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    post: Post; /* The post to render the message for */
+    enableFormatting?: boolean; /* Set to enable Markdown formatting */
+    options?: TextFormattingOptions; /* Options specific to text formatting */
+    compactDisplay?: boolean; /* Set to render post body compactly */
+    isRHS?: boolean; /* Flags if the post_message_view is for the RHS (Reply). */
+    isRHSOpen?: boolean; /* Whether or not the RHS is visible */
+    isRHSExpanded?: boolean; /* Whether or not the RHS is expanded */
+    theme: Theme; /* Logged in user's theme */
+    pluginPostTypes?: any; /* Post type components from plugins */
+    currentRelativeTeamUrl: string;
+}
 
-        /*
-         * The post to render the message for
-         */
-        post: PropTypes.object.isRequired,
+type State = {
+    collapse: boolean;
+    hasOverflow: boolean;
+    checkOverflow: number;
+}
 
-        /*
-         * Set to enable Markdown formatting
-         */
-        enableFormatting: PropTypes.bool,
-
-        /*
-         * Options specific to text formatting
-         */
-        options: PropTypes.object,
-
-        /**
-         * Set to render post body compactly
-         */
-        compactDisplay: PropTypes.bool,
-
-        /**
-         * Flags if the post_message_view is for the RHS (Reply).
-         */
-        isRHS: PropTypes.bool,
-
-        /**
-         * Whether or not the RHS is visible
-         */
-        isRHSOpen: PropTypes.bool,
-
-        /**
-         * Whether or not the RHS is expanded
-         */
-        isRHSExpanded: PropTypes.bool,
-
-        /*
-         * Logged in user's theme
-         */
-        theme: PropTypes.object.isRequired,
-
-        /*
-         * Post type components from plugins
-         */
-        pluginPostTypes: PropTypes.object,
-        currentRelativeTeamUrl: PropTypes.string.isRequired,
-    };
+export default class PostMessageView extends React.PureComponent<Props, State> {
+    private imageProps: any;
 
     static defaultProps = {
         options: {},
@@ -69,7 +44,7 @@ export default class PostMessageView extends React.PureComponent {
         pluginPostTypes: {},
     };
 
-    constructor(props) {
+    constructor(props : Props) {
         super(props);
 
         this.state = {
@@ -83,7 +58,7 @@ export default class PostMessageView extends React.PureComponent {
         };
     }
 
-    handleHeightReceived = (height) => {
+    handleHeightReceived = (height: number) => {
         if (height > 0) {
             // Increment checkOverflow to indicate change in height
             // and recompute textContainer height at ShowMore component
@@ -123,7 +98,8 @@ export default class PostMessageView extends React.PureComponent {
         );
     }
 
-    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+        Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {
@@ -146,7 +122,7 @@ export default class PostMessageView extends React.PureComponent {
 
         const postType = post.props && post.props.type ? post.props.type : post.type;
 
-        if (pluginPostTypes.hasOwnProperty(postType)) {
+        if (pluginPostTypes && pluginPostTypes.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostTypes[postType].component;
             return (
                 <PluginComponent
@@ -174,7 +150,7 @@ export default class PostMessageView extends React.PureComponent {
             >
                 <div
                     aria-readonly='true'
-                    tabIndex='0'
+                    tabIndex={0}
                     id={id}
                     className='post-message__text'
                     onClick={this.handleFormattedTextClick}
@@ -186,6 +162,7 @@ export default class PostMessageView extends React.PureComponent {
                         options={options}
                         post={post}
                         channelId={post.channel_id}
+                        mentionKeys={[]}
                     />
                 </div>
                 {this.renderEditedIndicator()}

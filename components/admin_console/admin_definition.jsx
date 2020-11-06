@@ -733,6 +733,16 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.ManagedResourcePaths',
+                        label: t('admin.service.managedResourcePaths'),
+                        label_default: 'Managed Resource Paths:',
+                        help_text: t('admin.service.managedResourcePathsDescription'),
+                        help_text_default: 'A comma-separated list of paths on the Mattermost server that are managed by another service. See [here](!https://docs.mattermost.com/install/desktop-managed-resources.html) for more information.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
                         action: reloadConfig,
                         key: 'ReloadConfigButton',
