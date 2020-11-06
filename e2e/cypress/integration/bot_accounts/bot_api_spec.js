@@ -97,7 +97,7 @@ describe('Bot accounts ownership and API', () => {
         cy.visit(`/${newTeam.name}/channels/town-square`);
 
         // # Open the menu
-        cy.get('#lhsHeader').should('be.visible').within(() => {
+        cy.get('#lhsHeader', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
             cy.get('#sidebarHeaderDropdownButton').click();
             cy.get('.dropdown-menu').should('be.visible');
 
@@ -111,7 +111,7 @@ describe('Bot accounts ownership and API', () => {
         cy.visit(`/${newTeam.name}/channels/town-square`);
 
         // # Open the menu
-        cy.get('#lhsHeader').should('be.visible').within(() => {
+        cy.get('#lhsHeader', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
             cy.get('#sidebarHeaderDropdownButton').click();
             cy.get('.dropdown-menu').should('be.visible');
 
@@ -191,8 +191,8 @@ describe('Bot accounts ownership and API', () => {
                     cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
                     // * Validate posts were created
-                    cy.get(`#postMessageText_${post1.id}`).should('contain', msg1);
-                    cy.get(`#postMessageText_${post2.id}`).should('contain', msg2);
+                    cy.get(`#postMessageText_${post1.id}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
+                    cy.get(`#postMessageText_${post2.id}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg2);
 
                     // * Validate first post has an image
                     cy.get(`#post_${post1.id}`).find('.Avatar').should('be.visible');
@@ -221,10 +221,10 @@ describe('Bot accounts ownership and API', () => {
 
             cy.getLastPostId().then((postId) => {
                 // * Validate post was created
-                cy.get(`#postMessageText_${postId}`).should('contain', msg1);
+                cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
 
                 // * Assert that the last message posted contains highlighted mention
-                cy.get(`#postMessageText_${postId}`).find('.mention--highlight').should('be.visible');
+                cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).find('.mention--highlight').should('be.visible');
             });
         });
     });
@@ -291,7 +291,7 @@ describe('Bot accounts ownership and API', () => {
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
-                    cy.get(`#postMessageText_${postId}`).should('contain', msg1);
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
                 });
             });
         });
