@@ -1,104 +1,116 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {getStandardAnalytics} from 'actions/admin_actions.jsx';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {Team} from 'mattermost-redux/types/teams';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {getStandardAnalytics} from 'actions/admin_actions';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n.jsx';
+import * as Utils from 'utils/utils';
+import {t} from 'utils/i18n';
 import {getUserOptionsFromFilter, searchUserOptionsFromFilter} from 'utils/filter_users';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import ConfirmModal from 'components/confirm_modal';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
 import SystemUsersList from './list';
 
 const USER_ID_LENGTH = 26;
 const USERS_PER_PAGE = 50;
 
-export default class SystemUsers extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
-         * Array of team objects
-         */
-        teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+    /**
+     * Array of team objects
+     */
+    teams: Team[];
+
+    /**
+     * Title of the app or site.
+     */
+    siteName?: string;
+
+    /**
+     * Whether or not MFA is licensed and enabled.
+     */
+    mfaEnabled: boolean;
+
+    /**
+     * Whether or not user access tokens are enabled.
+     */
+    enableUserAccessTokens: boolean;
+
+    /**
+     * Whether or not the experimental authentication transfer is enabled.
+     */
+    experimentalEnableAuthenticationTransfer: boolean;
+    totalUsers: number;
+    searchTerm: string;
+    teamId: string;
+    filter: string;
+    users: Record<string, UserProfile>;
+    isDisabled?: boolean;
+
+    actions: {
 
         /**
-         * Title of the app or site.
+         * Function to get teams
          */
-        siteName: PropTypes.string,
+        getTeams: (startInde: number, endIndex: number) => void;
 
         /**
-         * Whether or not MFA is licensed and enabled.
+         * Function to get statistics for a team
          */
-        mfaEnabled: PropTypes.bool.isRequired,
+        getTeamStats: (teamId: string) => ActionFunc;
 
         /**
-         * Whether or not user access tokens are enabled.
+         * Function to get a user
          */
-        enableUserAccessTokens: PropTypes.bool.isRequired,
+        getUser: (id: string) => ActionFunc;
 
         /**
-         * Whether or not the experimental authentication transfer is enabled.
+         * Function to get a user access token
          */
-        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
-        totalUsers: PropTypes.number.isRequired,
-        searchTerm: PropTypes.string.isRequired,
-        teamId: PropTypes.string.isRequired,
-        filter: PropTypes.string.isRequired,
-        users: PropTypes.object.isRequired,
-        isDisabled: PropTypes.bool,
+        getUserAccessToken: (tokenId: string) => Promise<any> | ActionFunc;
+        loadProfilesAndTeamMembers: (page: number, maxItemsPerPage: number, teamId: string, options: Record<string, string | boolean>) => void;
+        loadProfilesWithoutTeam: (page: number, maxItemsPerPage: number, options: Record<string, string | boolean>) => void;
+        getProfiles: (page: number, maxItemsPerPage: number, options: Record<string, string | boolean>) => void;
+        setSystemUsersSearch: (searchTerm: string, teamId: string, filter: string) => void;
+        searchProfiles: (term: string, options?: any) => Promise<any> | ActionFunc;
 
-        actions: PropTypes.shape({
+        /**
+         * Function to revoke all sessions in the system
+         */
+        revokeSessionsForAllUsers: () => any;
 
-            /*
-             * Function to get teams
-             */
-            getTeams: PropTypes.func.isRequired,
+        /**
+         * Function to log errors
+         */
+        logError: (error: {type: string, message: string}) => void;
+    };
+};
 
-            /*
-             * Function to get statistics for a team
-             */
-            getTeamStats: PropTypes.func.isRequired,
+type State = {
+    loading: boolean,
+    searching: boolean,
+    showRevokeAllSessionsModal: boolean,
+    term?: string,
+};
 
-            /*
-             * Function to get a user
-             */
-            getUser: PropTypes.func.isRequired,
-
-            /*
-             * Function to get a user access token
-             */
-            getUserAccessToken: PropTypes.func.isRequired,
-            loadProfilesAndTeamMembers: PropTypes.func.isRequired,
-            loadProfilesWithoutTeam: PropTypes.func.isRequired,
-            getProfiles: PropTypes.func.isRequired,
-            setSystemUsersSearch: PropTypes.func.isRequired,
-            searchProfiles: PropTypes.func.isRequired,
-
-            /*
-             * Function to revoke all sessions in the system
-             */
-            revokeSessionsForAllUsers: PropTypes.func.isRequired,
-
-            /*
-            *  Function to log errors
-            */
-            logError: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class SystemUsers extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -117,7 +129,7 @@ export default class SystemUsers extends React.PureComponent {
         this.props.actions.setSystemUsersSearch('', '', '');
     }
 
-    loadDataForTeam = async (teamId, filter) => {
+    loadDataForTeam = async (teamId: string, filter: string | undefined) => {
         const {
             getProfiles,
             loadProfilesWithoutTeam,
@@ -149,19 +161,19 @@ export default class SystemUsers extends React.PureComponent {
         this.setState({loading: false});
     }
 
-    handleTeamChange = (e) => {
+    handleTeamChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const teamId = e.target.value;
         this.loadDataForTeam(teamId, this.props.filter);
         this.props.actions.setSystemUsersSearch(this.props.searchTerm, teamId, this.props.filter);
     }
 
-    handleFilterChange = (e) => {
+    handleFilterChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const filter = e.target.value;
         this.loadDataForTeam(this.props.teamId, filter);
         this.props.actions.setSystemUsersSearch(this.props.searchTerm, this.props.teamId, filter);
     }
 
-    handleTermChange = (term) => {
+    handleTermChange = (term: string) => {
         this.props.actions.setSystemUsersSearch(term, this.props.teamId, this.props.filter);
     }
     handleRevokeAllSessions = async () => {
@@ -179,7 +191,7 @@ export default class SystemUsers extends React.PureComponent {
         this.setState({showRevokeAllSessionsModal: true});
     }
 
-    nextPage = async (page) => {
+    nextPage = async (page: number) => {
         const {teamId, filter} = this.props;
 
         // Paging isn't supported while searching
@@ -223,9 +235,9 @@ export default class SystemUsers extends React.PureComponent {
         }
 
         this.setState({loading: false});
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, false, () => {});
 
-    getUserById = async (id) => {
+    getUserById = async (id: string) => {
         if (this.props.users[id]) {
             this.setState({loading: false});
             return;
@@ -235,7 +247,7 @@ export default class SystemUsers extends React.PureComponent {
         this.setState({loading: false});
     }
 
-    getUserByTokenOrId = async (id) => {
+    getUserByTokenOrId = async (id: string) => {
         if (this.props.enableUserAccessTokens) {
             const {data} = await this.props.actions.getUserAccessToken(id);
 
@@ -287,7 +299,7 @@ export default class SystemUsers extends React.PureComponent {
         );
     }
 
-    renderFilterRow = (doSearch) => {
+    renderFilterRow = (doSearch: ((event: React.FormEvent<HTMLInputElement>) => void) | undefined) => {
         const teams = this.props.teams.map((team) => (
             <option
                 key={team.id}
