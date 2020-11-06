@@ -107,6 +107,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                     <div className='OpenIdConvert_actionWrapper'>
                         <button
                             className='btn'
+                            data-testid='openid_convert'
                             onClick={this.upgradeConfig}
                         >
                             <FormattedMessage

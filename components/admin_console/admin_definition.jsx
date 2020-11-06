@@ -189,8 +189,8 @@ export const it = {
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
 
-export const uses_legacy_oauth = () => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-    it.any(
+const uses_legacy_oauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    return it.any(
         it.all(
             it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
             it.any(
@@ -212,7 +212,7 @@ export const uses_legacy_oauth = () => (config, state, license, enterpriseReady,
                 it.configIsTrue('Office365Settings', 'Secret'),
             ),
         ),
-    )
+    )(config, state, license, enterpriseReady, consoleAccess, cloud);        
 };
 
 const AdminDefinition = {
@@ -4068,7 +4068,7 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(it.licensedForFeature('GoogleOAuth')),
                             it.not(it.licensedForFeature('Office365OAuth')),
-                            it.not(uses_legacy_oauth),
+                            it.not(uses_legacy_oauth),  
                         ),
                     },
                     {

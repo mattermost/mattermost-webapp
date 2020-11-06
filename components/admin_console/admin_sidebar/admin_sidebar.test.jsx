@@ -269,18 +269,9 @@ describe('components/AdminSidebar', () => {
                     Enable: true,
                     EnableUploads: true,
                 },
-                GitLabSettings: {
-                    Scope: '',
-                },
                 GoogleSettings: {
                     Id: 'googleID',
                     Secret: 'googleSecret',
-                    Scope: '',
-                },
-                Office365Settings: {
-                    Scope: '',
-                },
-                OpenIdSettings: {
                     Scope: '',
                 },
             },

@@ -33,7 +33,7 @@ const verifyOAuthLogin = (id, text, color, href) => {
     });
 };
 
-describe('System console-OpenId Connect', () => {
+describe('MM-27688 - System console-OpenId Connect', () => {
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
@@ -143,4 +143,85 @@ describe('System console-OpenId Connect', () => {
         });
         verifyOAuthLogin('Office365Button', 'Office 365', '', 'http://localhost:8065/oauth/office365/login?extra=expired');
     });
+
+    it('MM-27688 - Test Migrate from OAuth', () => {
+        cy.apiAdminLogin();
+
+        cy.apiUpdateConfig({
+            GitLabSettings: {
+                Enable: false,
+                Secret: 'secret',
+                Id: 'app_id',
+                Scope: '',
+                AuthEndpoint: 'https://gitlab.com/oauth/authorize',
+                TokenEndpoint: 'https://gitlab.com/oauth/token',
+                UserApiEndpoint: 'https://gitlab.com/api/v4/user',
+            },
+            GoogleSettings: {
+                Enable: false,
+                Secret: 'secret',
+                Id: 'app_id',
+                Scope: 'profile email',
+                AuthEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
+                TokenEndpoint: 'https://www.googleapis.com/oauth2/v4/token',
+                UserApiEndpoint: 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
+            },
+            Office365Settings: {
+                Enable: false,
+                Secret: 'secret',
+                Id: 'app_id',
+                Scope: 'User.Read',
+                AuthEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                TokenEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                UserApiEndpoint: 'https://graph.microsoft.com/v1.0/me',
+                DirectoryId: "common",
+            },
+        });
+    
+        // # Go to admin console and set permissions as listed in the test
+        goToAdminConsole();
+
+        // OAuth button should be visible
+        cy.findByTestId('authentication.oauth').click();
+
+        // # Click the OpenId header dropdown
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        // OpenId Convert should be visible
+        cy.findByTestId('openid_convert').click().wait(TIMEOUTS.ONE_SEC);
+
+        // OAuth should no longer be visible
+        cy.findByTestId('authentication.oauth').should('be.not.visible');
+
+        // OAuth should no longer be visible
+        cy.findByTestId('authentication.openid').click().wait(TIMEOUTS.ONE_SEC)
+
+        cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
+        cy.findByTestId('openid_convert').should('be.not.visible');
+
+        // * Get config from API
+        cy.apiGetConfig().then(({config}) => {
+            expect(config.GitLabSettings.Secret).to.equal(FAKE_SETTING);
+            expect(config.GitLabSettings.Id).to.equal('app_id');
+            expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
+            expect(config.GitLabSettings.AuthEndpoint).to.equal('');
+            expect(config.GitLabSettings.TokenEndpoint).to.equal('');
+            expect(config.GitLabSettings.UserApiEndpoint).to.equal('');
+
+            expect(config.GoogleSettings.Secret).to.equal(FAKE_SETTING);
+            expect(config.GoogleSettings.Id).to.equal('app_id');
+            expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
+            expect(config.GoogleSettings.AuthEndpoint).to.equal('');
+            expect(config.GoogleSettings.TokenEndpoint).to.equal('');
+            expect(config.GoogleSettings.UserApiEndpoint).to.equal('');
+
+            expect(config.Office365Settings.Secret).to.equal(FAKE_SETTING);
+            expect(config.Office365Settings.Id).to.equal('app_id');
+            expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
+            expect(config.Office365Settings.AuthEndpoint).to.equal('');
+            expect(config.Office365Settings.TokenEndpoint).to.equal('');
+            expect(config.Office365Settings.UserApiEndpoint).to.equal('');
+        });
+    });
+
 });
