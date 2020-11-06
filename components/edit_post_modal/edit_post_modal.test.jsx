@@ -419,7 +419,7 @@ describe('components/EditPostModal', () => {
         wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
         instance = wrapper.instance();
         instance.handleEdit = jest.fn();
-        
+
         // Test with Command Key (Mac)
         instance.handleKeyDown({keyCode: 1, ctrlKey: false, metaKey: true, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
@@ -443,7 +443,7 @@ describe('components/EditPostModal', () => {
         wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
         instance = wrapper.instance();
         instance.handleEdit = jest.fn();
-        
+
         // Test with Command Key (Mac)
         instance.handleKeyDown({keyCode: 1, ctrlKey: false, metaKey: true, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
