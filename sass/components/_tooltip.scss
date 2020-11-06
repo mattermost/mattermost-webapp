@@ -9,11 +9,13 @@
         max-width: 100%;
         font-size: 12px;
         font-weight: 600;
-        line-height: 16px;
         padding: 4px 8px;
         word-break: break-word;
         text-align: center;
         font-family: 'Open Sans';
+        line-height: 18px;
+        box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
+
     }
 
     &.text-nowrap {

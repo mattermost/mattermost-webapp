@@ -19,6 +19,7 @@ import CheckboxPartialIcon from './checkbox_partial_icon';
 import CloseCircleIcon from './close_circle_icon';
 import CloseCircleSolidIcon from './close_circle_solid_icon';
 import CloseIcon from './close_icon';
+import DotsHorizontal from './dots_horizontal';
 import DownloadIcon from './download_icon';
 import DraftIcon from './draft_icon';
 import EmailIcon from './email_icon';
@@ -77,7 +78,7 @@ const icons = [
     AccordionToggleIcon, AlertIcon, ArchiveIcon, AtIcon, ArrowRightIcon,
     AttachmentIcon, BackIcon, BotIcon, CheckboxCheckedIcon,
     CheckboxPartialIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
-    DownloadIcon, DraftIcon, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
+    DotsHorizontal, DownloadIcon, DraftIcon, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
     FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
     FaRemoveIcon, FaSearchIcon, FaSelectIcon, FaSuccessIcon, FaWarningIcon,
     FlagIconFilled, FlagIcon, GfycatIcon, GifReactionsIcon,
@@ -90,7 +91,7 @@ const icons = [
     StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon,
 ];
 
-const stories = storiesOf('Icons', module).addDecorator(withKnobs);
+const stories = storiesOf('Widgets/Icons', module).addDecorator(withKnobs);
 
 stories.add('Icons', () => {
     return (
