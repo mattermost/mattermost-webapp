@@ -205,12 +205,16 @@ class AdminSidebar extends React.PureComponent {
                         }
                     }
                     const subDefinitionKey = `${key}.${subKey}`;
+                    let tag = '';
+                    if(this.props.config.FeatureFlags.OpenIdConnect === "on") {
+                        tag=item.tag;
+                    }
                     sidebarItems.push((
                         <AdminSidebarSection
                             key={subDefinitionKey}
                             definitionKey={subDefinitionKey}
                             name={item.url}
-                            tag={item.tag}
+                            tag={tag}
                             title={
                                 <FormattedMessage
                                     id={item.title}
