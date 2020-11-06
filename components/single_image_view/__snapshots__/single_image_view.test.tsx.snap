@@ -42,12 +42,18 @@ exports[`components/SingleImageView should match snapshot 1`] = `
           }
           fileInfo={
             Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
               "extension": "jpg",
               "has_preview_image": true,
               "height": 200,
               "id": "file_info_id",
+              "mime_type": "mime_type",
               "name": "name",
-              "post_id": "post_id",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
               "width": 350,
             }
           }
@@ -105,12 +111,18 @@ exports[`components/SingleImageView should match snapshot 2`] = `
           }
           fileInfo={
             Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
               "extension": "jpg",
               "has_preview_image": true,
               "height": 200,
               "id": "file_info_id",
+              "mime_type": "mime_type",
               "name": "name",
-              "post_id": "post_id",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
               "width": 350,
             }
           }
@@ -126,18 +138,51 @@ exports[`components/SingleImageView should match snapshot 2`] = `
       fileInfos={
         Array [
           Object {
+            "clientId": "client_id",
+            "create_at": 1,
+            "delete_at": 1,
             "extension": "jpg",
             "has_preview_image": true,
             "height": 200,
             "id": "file_info_id",
+            "mime_type": "mime_type",
             "name": "name",
-            "post_id": "post_id",
+            "size": 1,
+            "update_at": 1,
+            "user_id": "user_id",
             "width": 350,
           },
         ]
       }
       onModalDismissed={[Function]}
-      postId="original_post_id"
+      post={
+        Object {
+          "channel_id": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "edit_at": 0,
+          "hashtags": "",
+          "id": "original_post_id",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": "system_add_remove",
+          "update_at": 0,
+          "user_id": "user_id",
+        }
+      }
       show={false}
     />
   </div>
@@ -170,38 +215,46 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
     </div>
     <div
       className="image-container"
-      style={
-        Object {
-          "height": 350,
-          "maxWidth": "100%",
-        }
-      }
+      style={Object {}}
     >
       <div
         className="image-loaded  svg"
-        style={Object {}}
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
       >
         <SizeAwareImage
           className=""
           dimensions={
             Object {
-              "height": undefined,
-              "width": undefined,
+              "height": 200,
+              "width": 350,
             }
           }
           fileInfo={
             Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
               "extension": "svg",
+              "has_preview_image": true,
+              "height": 200,
               "id": "svg_file_info_id",
+              "mime_type": "mime_type",
               "name": "name_svg",
-              "post_id": "post_id",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
             }
           }
           handleSmallImageContainer={true}
           onClick={[Function]}
           onImageLoaded={[Function]}
           showLoader={true}
-          src="/api/v4/files/svg_file_info_id"
+          src="/api/v4/files/svg_file_info_id/preview"
         />
       </div>
     </div>
@@ -235,38 +288,46 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
     </div>
     <div
       className="image-container"
-      style={
-        Object {
-          "height": 350,
-          "maxWidth": "100%",
-        }
-      }
+      style={Object {}}
     >
       <div
         className="image-loaded image-fade-in svg"
-        style={Object {}}
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
       >
         <SizeAwareImage
           className=""
           dimensions={
             Object {
-              "height": undefined,
-              "width": undefined,
+              "height": 200,
+              "width": 350,
             }
           }
           fileInfo={
             Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
               "extension": "svg",
+              "has_preview_image": true,
+              "height": 200,
               "id": "svg_file_info_id",
+              "mime_type": "mime_type",
               "name": "name_svg",
-              "post_id": "post_id",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
             }
           }
           handleSmallImageContainer={true}
           onClick={[Function]}
           onImageLoaded={[Function]}
           showLoader={true}
-          src="/api/v4/files/svg_file_info_id"
+          src="/api/v4/files/svg_file_info_id/preview"
         />
       </div>
     </div>
@@ -274,15 +335,51 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
       fileInfos={
         Array [
           Object {
+            "clientId": "client_id",
+            "create_at": 1,
+            "delete_at": 1,
             "extension": "svg",
+            "has_preview_image": true,
+            "height": 200,
             "id": "svg_file_info_id",
+            "mime_type": "mime_type",
             "name": "name_svg",
-            "post_id": "post_id",
+            "size": 1,
+            "update_at": 1,
+            "user_id": "user_id",
+            "width": 350,
           },
         ]
       }
       onModalDismissed={[Function]}
-      postId="original_post_id"
+      post={
+        Object {
+          "channel_id": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "edit_at": 0,
+          "hashtags": "",
+          "id": "original_post_id",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": "system_add_remove",
+          "update_at": 0,
+          "user_id": "user_id",
+        }
+      }
       show={false}
     />
   </div>
@@ -331,12 +428,18 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
           }
           fileInfo={
             Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
               "extension": "jpg",
               "has_preview_image": true,
               "height": 200,
               "id": "file_info_id",
+              "mime_type": "mime_type",
               "name": "name",
-              "post_id": "post_id",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
               "width": 350,
             }
           }
@@ -352,18 +455,51 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
       fileInfos={
         Array [
           Object {
+            "clientId": "client_id",
+            "create_at": 1,
+            "delete_at": 1,
             "extension": "jpg",
             "has_preview_image": true,
             "height": 200,
             "id": "file_info_id",
+            "mime_type": "mime_type",
             "name": "name",
-            "post_id": "post_id",
+            "size": 1,
+            "update_at": 1,
+            "user_id": "user_id",
             "width": 350,
           },
         ]
       }
       onModalDismissed={[Function]}
-      postId="original_post_id"
+      post={
+        Object {
+          "channel_id": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "edit_at": 0,
+          "hashtags": "",
+          "id": "original_post_id",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": "system_add_remove",
+          "update_at": 0,
+          "user_id": "user_id",
+        }
+      }
       show={false}
     />
   </div>
