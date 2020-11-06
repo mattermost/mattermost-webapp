@@ -44,7 +44,7 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
-import ShortcutSequence from 'components/shortcuts/shortcut_sequence/shortcut_sequence.tsx';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
