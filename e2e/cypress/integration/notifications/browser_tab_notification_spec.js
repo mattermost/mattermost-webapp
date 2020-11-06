@@ -127,7 +127,7 @@ describe('Notifications', () => {
             // * Team sidebar: a mention badge in top right corner of the badge with number "1"
             cy.get('.badge').contains('2');
         });
-        
+
         // # Cleanup for further test
         cy.visit(`/${team2.name}/channels/new-channel`);
         cy.wait(TIMEOUTS.HALF_SEC);
