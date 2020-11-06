@@ -10,7 +10,6 @@
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import * as MESSAGES from '../../fixtures/messages';
 
 describe('Notifications', () => {
     let user1;
@@ -135,35 +134,16 @@ describe('Notifications', () => {
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
 
-        // # Remove mention notification (for initial channel).
-        cy.get('#publicChannelList').get('.unread-title').click();
-
         // # User B: Join team B
-        cy.apiLogout();
-        cy.apiLogin(user2);
-        cy.visit(testTeam2TownSquareUrl);
-
         // # User B: Post a direct message to user A
-        cy.get('#addDirectChannel').click();
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#selectItems').should('be.visible').type(`${user1.username}`);
-        cy.findByText('Loading').should('be.visible');
-        cy.findByText('Loading').should('not.exist');
-        cy.get('#multiSelectList').findByText(`@${user1.username}`).click();
-        cy.findByText('Go').click();
-        cy.postMessage(MESSAGES.SMALL);
+        cy.apiCreateDirectChannel([user1.id, user2.id]).then(({channel: ownDMChannel}) => {
+            cy.postMessageAs({sender: user2, message: `@${user1.username}`, channelId: ownDMChannel.id});
+        });
 
-        cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
-
-        // * User A: Open team A
-        cy.apiLogout();
-        cy.apiLogin(user1);
-        cy.visit(testTeam1TownSquareUrl);
-
-        // * Browser tab: (1) * Town Square - [team name] Mattermost
+        // * Browser tab shows: (1) * Town Square - [team name] Mattermost
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
-        // * Team sidebar: No unread / mention indicator in team sidebar on either team
+        // * Team sidebar shows: No unread / mention indicator in team sidebar on either team
         cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
         cy.get(`#${team2.name}TeamButton`).parent().within(() => {
             cy.get('.badge').should('not.be.visible');
