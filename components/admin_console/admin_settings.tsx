@@ -266,7 +266,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                         <Overlay
                             show={this.state.errorTooltip}
                             placement='top'
-                            target={this.errorMessageRef.current}
+                            target={this.errorMessageRef.current as HTMLElement}
                         >
                             <Tooltip id='error-tooltip' >
                                 {this.state.serverError}
