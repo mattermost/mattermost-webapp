@@ -40,7 +40,6 @@ interface Props {
     teamId?: string;
 }
 
-// eslint-disable-next-line react/require-optimization
 class TeamButton extends React.PureComponent<Props> {
     handleSwitch = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
@@ -54,7 +53,7 @@ class TeamButton extends React.PureComponent<Props> {
     }
 
     render() {
-        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;
+        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId, order} = this.props;
         const {formatMessage} = this.props.intl;
 
         let teamClass: string = this.props.active ? 'active' : '';
@@ -116,13 +115,13 @@ class TeamButton extends React.PureComponent<Props> {
 
         let toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'This team does not have a name');
         let orderIndicator: JSX.Element | undefined;
-        if (typeof this.props.order !== 'undefined' && this.props.order < 10) {
+        if (typeof order !== 'undefined' && order <= 10) {
             toolTip = (
                 <>
                     {toolTip}
                     <ShortcutSequence
                         shortcut={shortcuts.teamNavigation}
-                        values={{order: this.props.order}}
+                        values={{order: order === 10 ? 0 : order}}
                     />
                 </>
             );
@@ -130,7 +129,7 @@ class TeamButton extends React.PureComponent<Props> {
             if (this.props.showOrder) {
                 orderIndicator = (
                     <div className='order-indicator'>
-                        {this.props.order}
+                        {order === 10 ? 0 : order}
                     </div>
                 );
             }
