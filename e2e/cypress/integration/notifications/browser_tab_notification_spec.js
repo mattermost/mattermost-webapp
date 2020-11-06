@@ -127,6 +127,17 @@ describe('Notifications', () => {
             // * Team sidebar: a mention badge in top right corner of the badge with number "1"
             cy.get('.badge').contains('2');
         });
+        
+        // # Cleanup for further test
+        cy.visit(`/${team2.name}/channels/new-channel`);
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visit(`/${team2.name}/channels/off-topic`);
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visit(`/${team2.name}/messages/@${user1.username}`);
+        cy.wait(TIMEOUTS.HALF_SEC);
+
+        // * Browser tab should not displays (3)
+        cy.title().should('include', `${user1.username} - ${team2.display_name} ${siteName}`);
     });
 
     it('MM-T561 Browser tab and team sidebar - direct messages don\'t add indicator on team icon in team sidebar (but do in browser tab)', () => {
