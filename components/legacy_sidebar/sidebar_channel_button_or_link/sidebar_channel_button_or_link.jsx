@@ -38,7 +38,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -48,7 +48,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
 
     state = {
         showTooltip: false,
-    }
+    };
 
     componentDidMount() {
         this.enableToolTipIfNeeded();
@@ -67,22 +67,22 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         } else {
             this.setState({showTooltip: false});
         }
-    }
+    };
 
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected');
-    }
+    };
 
     handleClick = () => {
         this.trackChannelSelectedEvent();
         browserHistory.push(this.props.link);
-    }
+    };
 
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
         this.gmItemRef.current.removeAttribute('aria-describedby');
-    }
+    };
 
     render = () => {
         let badge = null;
@@ -201,7 +201,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
         return element;
-    }
+    };
 }
 
 const style = {

@@ -62,7 +62,7 @@ export class SearchBar extends Component {
         searchTextUpdate: PropTypes.func,
         defaultSearchText: PropTypes.string,
         handleSearchTextChange: PropTypes.func.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -96,30 +96,30 @@ export class SearchBar extends Component {
      */
     parseSearchText = (searchText) => {
         return searchText.trim().split(/ +/).join('-');
-    }
+    };
 
     removeExtraSpaces = (searchText) => {
         return searchText.trim().split(/ +/).join(' ');
-    }
+    };
 
     updateSearchInputValue = (searchText) => {
         this.searchInput.value = searchText;
         this.props.saveSearchBarText(searchText);
         this.props.handleSearchTextChange(searchText);
-    }
+    };
 
     handleSubmit = (event) => {
         event.preventDefault();
         this.triggerSearch(this.searchInput.value);
         this.searchInput.blur();
-    }
+    };
 
     triggerSearch = (searchText) => {
         const {onSearch} = this.props;
         this.props.searchTextUpdate(this.parseSearchText(searchText));
         onSearch();
         this.props.saveSearchScrollPosition(0);
-    }
+    };
 
     handleChange = (event) => {
         clearTimeout(this.searchTimeout);
@@ -138,15 +138,15 @@ export class SearchBar extends Component {
                 this.triggerSearch(searchText);
             }, 500);
         }
-    }
+    };
 
     focusInput = () => {
         this.setState({inputFocused: true});
-    }
+    };
 
     blurInput = () => {
         this.setState({inputFocused: false});
-    }
+    };
 
     /**
      * Checks if there're reactions for a current searchText
@@ -164,7 +164,7 @@ export class SearchBar extends Component {
         }) : [];
 
         return Boolean(filteredTags.length);
-    }
+    };
 
     clearSearchHandle = () => {
         const {action, onTrending, onCategories} = this.props;
@@ -174,7 +174,7 @@ export class SearchBar extends Component {
         } else {
             onTrending();
         }
-    }
+    };
 
     shouldComponentUpdate(nextProps, nextState) {
         return ((!nextProps.searchBarText && this.props.searchBarText) ||

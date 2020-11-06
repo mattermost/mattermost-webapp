@@ -76,11 +76,11 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     showMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: true});
         trackEvent('ui', 'ui_channels_more_direct_v2');
-    }
+    };
 
     hideMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: false});
-    }
+    };
 
     showCreateCategoryModal = () => {
         this.props.actions.openModal({
@@ -88,11 +88,11 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             dialogType: EditCategoryModal,
         });
         trackEvent('ui', 'ui_sidebar_menu_createCategory');
-    }
+    };
 
     handleCreateCategory = (categoryName: string) => {
         this.props.actions.createCategory(this.props.teamId, categoryName);
-    }
+    };
 
     showMoreChannelsModal = () => {
         this.props.actions.openModal({
@@ -101,7 +101,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             dialogProps: {morePublicChannelsModalType: 'public'},
         });
         trackEvent('ui', 'ui_channels_more_public_v2');
-    }
+    };
 
     showNewChannelModal = () => {
         this.props.actions.openModal({
@@ -109,7 +109,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             dialogType: NewChannelFlow,
         });
         trackEvent('ui', 'ui_channels_create_channel_v2');
-    }
+    };
 
     handleOpenMoreDirectChannelsModal = (e: Event) => {
         e.preventDefault();
@@ -118,15 +118,15 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         } else {
             this.showMoreDirectChannelsModal();
         }
-    }
+    };
 
     onDragStart = () => {
         this.setState({isDragging: true});
-    }
+    };
 
     onDragEnd = () => {
         this.setState({isDragging: false});
-    }
+    };
 
     renderModals = () => {
         let moreDirectChannelsModal;
@@ -144,7 +144,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 {moreDirectChannelsModal}
             </React.Fragment>
         );
-    }
+    };
 
     render() {
         if (!this.props.teamId) {

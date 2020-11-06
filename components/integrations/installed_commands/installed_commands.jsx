@@ -55,15 +55,15 @@ export default class InstalledCommands extends React.PureComponent {
             */
             deleteCommand: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     regenCommandToken = (command) => {
         this.props.actions.regenCommandToken(command.id);
-    }
+    };
 
     deleteCommand = (command) => {
         this.props.actions.deleteCommand(command.id);
-    }
+    };
 
     commandCompare(a, b) {
         let nameA = a.display_name;

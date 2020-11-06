@@ -22,7 +22,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     requestTrialLicense: () => Promise<{error?: string; data?: null}>;
     getLicenseConfig: () => void;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {

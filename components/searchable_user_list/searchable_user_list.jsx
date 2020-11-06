@@ -85,25 +85,25 @@ class SearchableUserList extends React.PureComponent {
 
         this.props.nextPage();
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
-    }
+    };
 
     previousPage = (e) => {
         e.preventDefault();
 
         this.props.previousPage();
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
-    }
+    };
 
     focusSearchBar = () => {
         if (this.props.focusOnMount) {
             this.refs.filter.focus();
         }
-    }
+    };
 
     handleInput = (e) => {
         this.props.onTermChange(e.target.value);
         this.props.search(e.target.value);
-    }
+    };
 
     renderCount = (users) => {
         if (!users) {
@@ -164,7 +164,7 @@ class SearchableUserList extends React.PureComponent {
         }
 
         return null;
-    }
+    };
 
     render() {
         let nextButton;

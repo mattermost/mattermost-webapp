@@ -14,12 +14,12 @@ import EditIncomingWebhook from './edit_incoming_webhook';
 
 type Props = {
     location: Location;
-}
+};
 
 type Actions = {
     updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
     getIncomingHook: (hookId: string) => Promise<ActionResult>;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);

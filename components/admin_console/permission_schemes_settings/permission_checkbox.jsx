@@ -16,7 +16,7 @@ export default class PermissionCheckbox extends React.PureComponent {
     static defaultProps = {
         value: '',
         id: '',
-    }
+    };
 
     render() {
         const {value, id} = this.props;

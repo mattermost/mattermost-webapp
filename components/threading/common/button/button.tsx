@@ -11,9 +11,9 @@ type Props = {
     append?: ReactNode,
     isActive?: boolean,
     hasDot?: boolean,
-}
+};
 
-type Attrs = Exclude<ButtonHTMLAttributes<HTMLButtonElement>, Props>
+type Attrs = Exclude<ButtonHTMLAttributes<HTMLButtonElement>, Props>;
 
 function Button({
     prepend,

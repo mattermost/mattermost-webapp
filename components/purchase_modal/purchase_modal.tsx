@@ -45,14 +45,14 @@ type Props = {
         getClientConfig: () => void;
         getCloudSubscription: () => void;
     };
-}
+};
 
 type State = {
     paymentInfoIsValid: boolean;
     productPrice: number;
     billingDetails: BillingDetails | null;
     processing: boolean;
-}
+};
 export default class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
 
@@ -91,11 +91,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     onPaymentInput = (billing: BillingDetails) => {
         this.setState({paymentInfoIsValid: areBillingDetailsValid(billing)});
         this.setState({billingDetails: billing});
-    }
+    };
 
     handleSubmitClick = async () => {
         this.setState({processing: true, paymentInfoIsValid: false});
-    }
+    };
 
     purchaseScreen = () => {
         return (
@@ -220,7 +220,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         return (

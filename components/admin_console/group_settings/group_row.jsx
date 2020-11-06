@@ -39,7 +39,7 @@ export default class GroupRow extends React.PureComponent {
             return;
         }
         this.props.onCheckToggle(this.props.primary_key);
-    }
+    };
 
     linkHandler = async (e) => {
         e.stopPropagation();
@@ -50,7 +50,7 @@ export default class GroupRow extends React.PureComponent {
         this.setState({loading: true});
         await this.props.actions.link(this.props.primary_key);
         this.setState({loading: false});
-    }
+    };
 
     unlinkHandler = async (e) => {
         e.stopPropagation();
@@ -61,7 +61,7 @@ export default class GroupRow extends React.PureComponent {
         this.setState({loading: true});
         await this.props.actions.unlink(this.props.primary_key);
         this.setState({loading: false});
-    }
+    };
 
     renderActions = () => {
         if (!this.props.mattermost_group_id) {
@@ -91,7 +91,7 @@ export default class GroupRow extends React.PureComponent {
                 />
             </Link>
         );
-    }
+    };
 
     renderLinked = () => {
         if (this.state.loading) {
@@ -164,7 +164,7 @@ export default class GroupRow extends React.PureComponent {
                 />
             </a>
         );
-    }
+    };
 
     render = () => {
         return (

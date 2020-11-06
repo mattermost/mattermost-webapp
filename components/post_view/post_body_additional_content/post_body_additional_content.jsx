@@ -42,16 +42,16 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         actions: PropTypes.shape({
             toggleEmbedVisibility: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     toggleEmbedVisibility = () => {
         this.props.actions.toggleEmbedVisibility(this.props.post.id);
-    }
+    };
 
     getEmbed = () => {
         const {metadata} = this.props.post;
         return getEmbedFromMetadata(metadata);
-    }
+    };
 
     isEmbedToggleable = (embed) => {
         const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
@@ -62,7 +62,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         return embed.type === 'image' || (embed.type === 'opengraph' && YoutubeVideo.isYoutubeLink(embed.url));
-    }
+    };
 
     renderEmbed = (embed) => {
         const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
@@ -131,7 +131,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         default:
             return null;
         }
-    }
+    };
 
     renderToggle = (prependToggle) => {
         return (
@@ -143,7 +143,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 onClick={this.toggleEmbedVisibility}
             />
         );
-    }
+    };
 
     render() {
         const embed = this.getEmbed();

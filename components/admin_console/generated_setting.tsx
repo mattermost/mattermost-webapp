@@ -20,7 +20,7 @@ type Props = {
     helpText: React.ReactNode;
     regenerateText: React.ReactNode;
     regenerateHelpText?: React.ReactNode;
-}
+};
 
 export default class GeneratedSetting extends React.PureComponent<Props> {
     public static get defaultProps() {
@@ -39,7 +39,7 @@ export default class GeneratedSetting extends React.PureComponent<Props> {
         e.preventDefault();
 
         this.props.onChange(this.props.id, crypto.randomBytes(256).toString('base64').substring(0, 32));
-    }
+    };
 
     public render() {
         let disabledText = null;

@@ -18,7 +18,7 @@ export default class GroupSettings extends React.PureComponent {
             PropTypes.func,
             PropTypes.bool,
         ]),
-    }
+    };
 
     render = () => {
         const siteURL = getSiteURL();

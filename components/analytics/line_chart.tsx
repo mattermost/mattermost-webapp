@@ -15,10 +15,10 @@ type Props = {
     height: number;
     data?: any;
     id: string;
-}
+};
 
 export default class LineChart extends React.PureComponent<Props> {
-    private canvasRef = React.createRef<HTMLCanvasElement>()
+    private canvasRef = React.createRef<HTMLCanvasElement>();
     public static propTypes = {
 
         /*
@@ -93,7 +93,7 @@ export default class LineChart extends React.PureComponent<Props> {
         if (update) {
             this.chart.update();
         }
-    }
+    };
 
     public render(): JSX.Element {
         let content;

@@ -16,4 +16,4 @@ export type Notice = {
         config: any,
         license: any,
         analytics?: Dictionary<number | AnalyticsRow[]>): boolean
-}
+};

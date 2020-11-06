@@ -28,7 +28,7 @@ export default class DatabaseSettings extends AdminSettings {
         config.ServiceSettings.MinimumHashtagLength = this.parseIntNonZero(this.state.minimumHashtagLength, 3, 2);
 
         return config;
-    }
+    };
 
     getStateFromConfig(config) {
         return {
@@ -303,5 +303,5 @@ export default class DatabaseSettings extends AdminSettings {
                 />
             </SettingsGroup>
         );
-    }
+    };
 }

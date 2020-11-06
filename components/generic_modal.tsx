@@ -26,7 +26,7 @@ type Props = {
 
 type State = {
     show: boolean;
-}
+};
 
 export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
@@ -46,7 +46,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     onHide = () => {
         this.setState({show: false}, this.props.onHide);
-    }
+    };
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
@@ -56,7 +56,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         if (this.props.handleCancel) {
             this.props.handleCancel();
         }
-    }
+    };
 
     handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
@@ -66,7 +66,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         if (this.props.handleConfirm) {
             this.props.handleConfirm();
         }
-    }
+    };
 
     render() {
         let confirmButton;

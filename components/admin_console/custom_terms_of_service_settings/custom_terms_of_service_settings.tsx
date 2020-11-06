@@ -41,7 +41,7 @@ type State = BaseState & {
     saving: boolean;
     serverError: JSX.Element | string | null;
     errorTooltip: boolean;
-}
+};
 
 export default class CustomTermsOfServiceSettings extends AdminSettings<Props, State> {
     constructor(props: Props) {
@@ -73,7 +73,7 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
             config.SupportSettings.CustomTermsOfServiceReAcceptancePeriod = this.parseIntNonZero(String(this.state.reAcceptancePeriod), Constants.DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD);
         }
         return config;
-    }
+    };
 
     componentDidMount() {
         this.getTermsOfService();
@@ -244,5 +244,5 @@ export default class CustomTermsOfServiceSettings extends AdminSettings<Props, S
                 />
             </SettingsGroup>
         );
-    }
+    };
 }

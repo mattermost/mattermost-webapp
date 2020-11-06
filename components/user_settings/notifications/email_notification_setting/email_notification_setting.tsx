@@ -113,7 +113,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
         });
 
         this.props.onChange(enableEmail);
-    }
+    };
 
     handleSubmit = async () => {
         const {newInterval} = this.state;
@@ -133,7 +133,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
 
             this.props.onSubmit();
         }
-    }
+    };
 
     handleUpdateSection = (section?: string) => {
         if (section) {
@@ -147,7 +147,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             });
             this.props.onCancel();
         }
-    }
+    };
 
     renderMinSettingView = () => {
         const {
@@ -217,7 +217,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 updateSection={this.handleUpdateSection}
             />
         );
-    }
+    };
 
     renderMaxSettingView = () => {
         if (!this.props.sendEmailNotifications) {
@@ -356,7 +356,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 updateSection={this.handleUpdateSection}
             />
         );
-    }
+    };
 
     render() {
         if (this.props.activeSection !== 'email') {

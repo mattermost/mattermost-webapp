@@ -17,7 +17,7 @@ import ResetPasswordModal from './reset_password_modal';
 
 type Actions = {
     updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionResult;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);

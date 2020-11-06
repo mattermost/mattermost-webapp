@@ -49,7 +49,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
         updateConfig: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
         consoleAccess: PropTypes.object,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -156,7 +156,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             });
             this.props.setNavigationBlocked(false);
         }
-    }
+    };
 
     getConfigFromState(config) {
         const schema = this.props.schema;
@@ -298,7 +298,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
         return setting.label;
-    }
+    };
 
     renderHelpText = (setting) => {
         if (!this.props.schema) {
@@ -334,7 +334,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 textValues={helpTextValues}
             />
         );
-    }
+    };
 
     renderLabel = (setting) => {
         if (!this.props.schema) {
@@ -345,7 +345,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             return setting.label;
         }
         return Utils.localizeMessage(setting.label, setting.label_default);
-    }
+    };
 
     isDisabled = (setting) => {
         const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
@@ -353,14 +353,14 @@ export default class SchemaAdminSettings extends React.PureComponent {
             return setting.isDisabled(this.props.config, this.state, this.props.license, enterpriseReady, this.props.consoleAccess);
         }
         return Boolean(setting.isDisabled);
-    }
+    };
 
     isHidden = (setting) => {
         if (typeof setting.isHidden === 'function') {
             return setting.isHidden(this.props.config, this.state, this.props.license);
         }
         return Boolean(setting.isHidden);
-    }
+    };
 
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
@@ -414,7 +414,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 }}
             />
         );
-    }
+    };
 
     buildTextSetting = (setting) => {
         let inputType = 'input';
@@ -444,7 +444,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 maxLength={setting.max_length}
             />
         );
-    }
+    };
 
     buildColorSetting = (setting) => {
         return (
@@ -459,7 +459,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleChange}
             />
         );
-    }
+    };
 
     buildBoolSetting = (setting) => {
         return (
@@ -474,7 +474,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleChange}
             />
         );
-    }
+    };
 
     buildPermissionSetting = (setting) => {
         return (
@@ -489,7 +489,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handlePermissionChange}
             />
         );
-    }
+    };
 
     buildDropdownSetting = (setting) => {
         const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
@@ -524,7 +524,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleChange}
             />
         );
-    }
+    };
 
     buildLanguageSetting = (setting) => {
         const locales = I18n.getAllLanguages();
@@ -568,7 +568,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleChange}
             />
         );
-    }
+    };
 
     buildRadioSetting = (setting) => {
         const options = setting.options || [];
@@ -587,7 +587,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleChange}
             />
         );
-    }
+    };
 
     buildBannerSetting = (setting) => {
         if (this.isDisabled(setting)) {
@@ -606,7 +606,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
     buildGeneratedSetting = (setting) => {
         return (
@@ -623,11 +623,11 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleGeneratedChange}
             />
         );
-    }
+    };
 
     handleGeneratedChange = (id, s) => {
         this.handleChange(id, s.replace('+', '-').replace('/', '_'));
-    }
+    };
 
     handleChange = (id, value, confirm = false, doSubmit = false, warning = false) => {
         const saveNeeded = this.state.saveNeeded === 'permissions' ? 'both' : 'config';
@@ -650,7 +650,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
         }
 
         this.props.setNavigationBlocked(true);
-    }
+    };
 
     handlePermissionChange = (id, value) => {
         let saveNeeded = 'permissions';
@@ -663,7 +663,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
         });
 
         this.props.setNavigationBlocked(true);
-    }
+    };
 
     buildUsernameSetting = (setting) => {
         return (
@@ -678,7 +678,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 onChange={this.handleChange}
             />
         );
-    }
+    };
 
     buildJobsTableSetting = (setting) => {
         return (
@@ -701,7 +701,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 }
             />
         );
-    }
+    };
 
     buildFileUploadSetting = (setting) => {
         const setData = (id, data) => {
@@ -779,7 +779,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 setByEnv={this.isSetByEnv(setting.key)}
             />
         );
-    }
+    };
 
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
@@ -817,21 +817,21 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
         return componentInstance;
-    }
+    };
 
     unRegisterSaveAction = (saveAction) => {
         const indexOfSaveAction = this.saveActions.indexOf(saveAction);
         this.saveActions.splice(indexOfSaveAction, 1);
-    }
+    };
 
     registerSaveAction = (saveAction) => {
         this.saveActions.push(saveAction);
-    }
+    };
 
     setSaveNeeded = () => {
         this.setState({saveNeeded: 'config'});
         this.props.setNavigationBlocked(true);
-    }
+    };
 
     renderSettings = () => {
         const schema = this.props.schema;
@@ -878,17 +878,17 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 {footer}
             </SettingsGroup>
         );
-    }
+    };
 
     closeTooltip = () => {
         this.setState({errorTooltip: false});
-    }
+    };
 
     openTooltip = (e) => {
         const elm = e.currentTarget.querySelector('.control-label');
         const isElipsis = elm.offsetWidth < elm.scrollWidth;
         this.setState({errorTooltip: isElipsis});
-    }
+    };
 
     doSubmit = async (getStateFromConfig) => {
         // clone config so that we aren't modifying data in the stores
@@ -989,7 +989,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
         return null;
-    }
+    };
 
     render = () => {
         const schema = this.props.schema;
@@ -1084,6 +1084,6 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 }
 /* eslint-disable react/no-string-refs */

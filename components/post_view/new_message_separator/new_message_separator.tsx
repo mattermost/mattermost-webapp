@@ -8,7 +8,7 @@ import NotificationSeparator from 'components/widgets/separator/notification-sep
 
 type Props = {
     separatorId: string;
-}
+};
 
 export default class NewMessageSeparator extends React.PureComponent<Props> {
     render(): JSX.Element {

@@ -43,7 +43,7 @@ type Actions = {
         };
     }>;
     clearUserAccessTokens: () => void;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     return {

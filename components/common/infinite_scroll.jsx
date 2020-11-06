@@ -88,11 +88,11 @@ export default class InfiniteScroll extends React.PureComponent {
             return SCROLL_BUFFER;
         }
         return Math.abs(buffer);
-    }
+    };
 
     getAmountOfPages = (total, freq) => {
         return Math.ceil(total / freq);
-    }
+    };
 
     handleScroll = () => {
         const {isFetching, isEndofData} = this.state;
@@ -129,7 +129,7 @@ export default class InfiniteScroll extends React.PureComponent {
                     }
                 });
         }
-    }
+    };
 
     debounceHandleScroll = debounce(this.handleScroll, DEBOUNCE_WAIT_TIME);
 

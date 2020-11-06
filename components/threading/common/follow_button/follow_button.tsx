@@ -10,7 +10,7 @@ type Props = {
     isFollowing: boolean;
     follow: MouseEventHandler<HTMLButtonElement>,
     unFollow: MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 function FollowButton({
     isFollowing,

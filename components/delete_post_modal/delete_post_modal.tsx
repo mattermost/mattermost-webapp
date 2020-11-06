@@ -27,11 +27,11 @@ type Props = {
     location: {
         pathname: string;
     };
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class DeletePostModal extends React.PureComponent<Props, State> {
     deletePostBtn: React.RefObject<HTMLButtonElement>;
@@ -77,11 +77,11 @@ export default class DeletePostModal extends React.PureComponent<Props, State> {
         if (result.data) {
             this.onHide();
         }
-    }
+    };
 
     handleEntered = () => {
         this.deletePostBtn?.current?.focus();
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
@@ -97,7 +97,7 @@ export default class DeletePostModal extends React.PureComponent<Props, State> {
                 element.focus();
             }
         }
-    }
+    };
 
     render() {
         let commentWarning: React.ReactNode = '';

@@ -9,7 +9,7 @@ import {Column} from './data_grid';
 
 export type Props = {
     columns: Column[];
-}
+};
 
 class DataGridHeader extends React.Component<Props> {
     renderHeaderElement(col: Column) {

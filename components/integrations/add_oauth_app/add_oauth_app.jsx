@@ -32,7 +32,7 @@ export default class AddOAuthApp extends React.PureComponent {
             */
             addOAuthApp: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -54,7 +54,7 @@ export default class AddOAuthApp extends React.PureComponent {
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     render() {
         return (

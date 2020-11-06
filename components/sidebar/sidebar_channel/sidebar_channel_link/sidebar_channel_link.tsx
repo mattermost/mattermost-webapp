@@ -95,7 +95,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else {
             this.setState({showTooltip: false});
         }
-    }
+    };
 
     getAriaLabel = () => {
         const {label, ariaLabelPrefix, unreadMentions} = this.props;
@@ -117,23 +117,23 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
 
         return ariaLabel.toLowerCase();
-    }
+    };
 
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
         if (this.gmItemRef.current) {
             this.gmItemRef.current.removeAttribute('aria-describedby');
         }
-    }
+    };
 
     trackChannelSelectedEvent = () => {
         mark('SidebarLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
-    }
+    };
 
     handleMenuToggle = (isMenuOpen: boolean) => {
         this.setState({isMenuOpen});
-    }
+    };
 
     /**
      * Show as unread if you have unread mentions

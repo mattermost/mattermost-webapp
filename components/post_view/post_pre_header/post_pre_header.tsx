@@ -19,7 +19,7 @@ export type Props = {
         showFlaggedPosts: () => void;
         showPinnedPosts: (channelId: string) => void;
     };
-}
+};
 
 export enum PostPinnedOrFlagged {
     Flagged,
@@ -92,7 +92,7 @@ class PostPreHeader extends React.PureComponent<Props> {
         } else {
             this.props.actions.showFlaggedPosts();
         }
-    }
+    };
 
     render() {
         const {isFlagged, isPinned, skipPinned, skipFlagged, channelId} = this.props;

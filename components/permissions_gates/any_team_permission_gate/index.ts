@@ -11,7 +11,7 @@ import AnyTeamPermissionGate from './any_team_permission_gate';
 
 type Props = {
     permissions: string[];
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const teams = getMyTeams(state);

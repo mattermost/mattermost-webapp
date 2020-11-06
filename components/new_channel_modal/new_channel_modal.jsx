@@ -86,7 +86,7 @@ export default class NewChannelModal extends React.PureComponent {
          * Permission to create private channel
          */
         canCreatePrivateChannel: PropTypes.bool.isRequired,
-    }
+    };
 
     static getDerivedStateFromProps(props) {
         if (props.show === false) {
@@ -118,7 +118,7 @@ export default class NewChannelModal extends React.PureComponent {
         } else if ((ctrlSend && enterPressed && e.ctrlKey) || (!ctrlSend && enterPressed && !e.shiftKey && !e.altKey)) {
             this.handleSubmit(e);
         }
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -130,7 +130,7 @@ export default class NewChannelModal extends React.PureComponent {
         }
 
         this.props.onSubmitChannel();
-    }
+    };
 
     handleChange = () => {
         const newData = {
@@ -139,22 +139,22 @@ export default class NewChannelModal extends React.PureComponent {
             purpose: this.channelPurposeInput.current.value,
         };
         this.props.onDataChanged(newData);
-    }
+    };
 
     handleOnURLChange = (e) => {
         e.preventDefault();
         if (this.props.onChangeURLPressed) {
             this.props.onChangeURLPressed();
         }
-    }
+    };
 
     handlePublicTypeSelect = () => {
         this.props.onTypeSwitched('O');
-    }
+    };
 
     handlePrivateTypeSelect = () => {
         this.props.onTypeSwitched('P');
-    }
+    };
 
     render() {
         const {canCreatePublicChannel, canCreatePrivateChannel} = this.props;

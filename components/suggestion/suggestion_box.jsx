@@ -151,7 +151,7 @@ export default class SuggestionBox extends React.PureComponent {
          * To show suggestions even when focus is lost
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
-    }
+    };
 
     static defaultProps = {
         listStyle: 'top',
@@ -166,7 +166,7 @@ export default class SuggestionBox extends React.PureComponent {
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
         forceSuggestionsWhenBlur: false,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -245,7 +245,7 @@ export default class SuggestionBox extends React.PureComponent {
         }
 
         this.addTextAtCaret(insertText, '');
-    }
+    };
 
     getTextbox = () => {
         if (!this.inputRef.current) {
@@ -259,7 +259,7 @@ export default class SuggestionBox extends React.PureComponent {
         }
 
         return input;
-    }
+    };
 
     recalculateSize = () => {
         // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
@@ -269,17 +269,17 @@ export default class SuggestionBox extends React.PureComponent {
         if (input.recalculateSize) {
             input.recalculateSize();
         }
-    }
+    };
 
     handleEmitClearSuggestions = (delay = 0) => {
         setTimeout(() => {
             this.clear();
         }, delay);
-    }
+    };
 
     preventSuggestionListClose = () => {
         this.preventSuggestionListCloseFlag = true;
-    }
+    };
 
     handleFocusOut = (e) => {
         if (this.preventSuggestionListCloseFlag) {
@@ -351,14 +351,14 @@ export default class SuggestionBox extends React.PureComponent {
         if (this.props.onChange) {
             this.props.onChange(e);
         }
-    }
+    };
 
     handleCompositionStart = () => {
         this.composing = true;
         if (this.props.onComposition) {
             this.props.onComposition();
         }
-    }
+    };
 
     handleCompositionUpdate = (e) => {
         if (!e.data) {
@@ -373,14 +373,14 @@ export default class SuggestionBox extends React.PureComponent {
         if (this.props.onComposition) {
             this.props.onComposition();
         }
-    }
+    };
 
     handleCompositionEnd = () => {
         this.composing = false;
         if (this.props.onComposition) {
             this.props.onComposition();
         }
-    }
+    };
 
     addTextAtCaret = (term, matchedPretext) => {
         const textbox = this.getTextbox();
@@ -428,7 +428,7 @@ export default class SuggestionBox extends React.PureComponent {
                 Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
             }
         });
-    }
+    };
 
     replaceText = (term) => {
         const textbox = this.getTextbox();
@@ -443,7 +443,7 @@ export default class SuggestionBox extends React.PureComponent {
             // don't call handleChange or we'll get into an event loop
             this.props.onChange(e);
         }
-    }
+    };
 
     handleCompleteWord = (term, matchedPretext, e) => {
         let fixedTerm = term;
@@ -495,15 +495,15 @@ export default class SuggestionBox extends React.PureComponent {
             }
         }
         return false;
-    }
+    };
 
     selectNext = () => {
         this.setSelectionByDelta(1);
-    }
+    };
 
     selectPrevious = () => {
         this.setSelectionByDelta(-1);
-    }
+    };
 
     setSelectionByDelta = (delta) => {
         let selectionIndex = this.state.terms.indexOf(this.state.selection);
@@ -526,13 +526,13 @@ export default class SuggestionBox extends React.PureComponent {
         this.setState({
             selection: this.state.terms[selectionIndex],
         });
-    }
+    };
 
     setSelection = (term) => {
         this.setState({
             selection: term,
         });
-    }
+    };
 
     clear = () => {
         if (!this.state.cleared) {
@@ -546,11 +546,11 @@ export default class SuggestionBox extends React.PureComponent {
             });
             this.handlePretextChanged('');
         }
-    }
+    };
 
     hasSuggestions = () => {
         return this.state.items.some((item) => !item.loading);
-    }
+    };
 
     handleKeyDown = (e) => {
         if ((this.props.openWhenEmpty || this.props.value) && this.hasSuggestions()) {
@@ -594,13 +594,13 @@ export default class SuggestionBox extends React.PureComponent {
         } else if (this.props.onKeyDown) {
             this.props.onKeyDown(e);
         }
-    }
+    };
 
     handleSelect = (e) => {
         if (this.props.onSelect) {
             this.props.onSelect(e);
         }
-    }
+    };
 
     handleReceivedSuggestions = (suggestions) => {
         const newComponents = [];
@@ -635,14 +635,14 @@ export default class SuggestionBox extends React.PureComponent {
         });
 
         return {selection, matchedPretext: suggestions.matchedPretext};
-    }
+    };
 
     handleReceivedSuggestionsAndComplete = (suggestions) => {
         const {selection, matchedPretext} = this.handleReceivedSuggestions(suggestions);
         if (selection) {
             this.handleCompleteWord(selection, matchedPretext);
         }
-    }
+    };
 
     nonDebouncedPretextChanged = (pretext, complete = false) => {
         this.pretext = pretext;
@@ -666,7 +666,7 @@ export default class SuggestionBox extends React.PureComponent {
         if (!handled) {
             this.clear();
         }
-    }
+    };
 
     debouncedPretextChanged = (pretext) => {
         clearTimeout(this.timeoutId);
@@ -676,11 +676,11 @@ export default class SuggestionBox extends React.PureComponent {
     handlePretextChanged = (pretext) => {
         this.pretext = pretext;
         this.debouncedPretextChanged(pretext);
-    }
+    };
 
     blur = () => {
         this.inputRef.current.blur();
-    }
+    };
 
     focus = () => {
         const input = this.inputRef.current.input;
@@ -693,7 +693,7 @@ export default class SuggestionBox extends React.PureComponent {
         input.focus();
 
         this.handleChange({target: this.inputRef.current});
-    }
+    };
 
     setContainerRef = (container) => {
         // Attach/detach event listeners that aren't supported by React

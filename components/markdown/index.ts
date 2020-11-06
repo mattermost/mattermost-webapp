@@ -22,7 +22,7 @@ import Markdown from './markdown';
 type Props = {
     channelNamesMap?: ChannelNamesMap;
     mentionKeys?: [];
-}
+};
 
 function makeGetChannelNamesMap() {
     return createSelector(

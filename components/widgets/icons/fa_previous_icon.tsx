@@ -9,7 +9,7 @@ import {t} from 'utils/i18n';
 
 type Props = {
     additionalClassName: string | null;
-}
+};
 
 export default class PreviousIcon extends React.PureComponent<Props> {
     public static defaultProps: Props = {

@@ -37,7 +37,7 @@ type Actions = {
     openModal: (modalData: any) => Promise<{data: boolean}>;
     goBack: () => void;
     goForward: () => void;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

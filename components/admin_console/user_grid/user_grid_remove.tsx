@@ -10,7 +10,7 @@ type Props = {
     user: UserProfile;
     removeUser: (user: UserProfile) => void;
     isDisabled?: boolean;
-}
+};
 
 export default class UserGridRemove extends React.PureComponent<Props> {
     private handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -19,7 +19,7 @@ export default class UserGridRemove extends React.PureComponent<Props> {
             return;
         }
         this.props.removeUser(this.props.user);
-    }
+    };
 
     public render = (): JSX.Element => {
         const {isDisabled} = this.props;
@@ -38,5 +38,5 @@ export default class UserGridRemove extends React.PureComponent<Props> {
                 </a>
             </div>
         );
-    }
+    };
 }

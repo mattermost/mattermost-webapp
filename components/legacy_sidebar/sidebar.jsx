@@ -157,7 +157,7 @@ class LegacySidebar extends React.PureComponent {
 
     static defaultProps = {
         currentChannel: {},
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -273,25 +273,25 @@ class LegacySidebar extends React.PureComponent {
         } else {
             this.showMoreDirectChannelsModal();
         }
-    }
+    };
 
     onScroll = () => {
         this.updateUnreadIndicators();
-    }
+    };
 
     handleScrollAnimationUpdate = (spring) => {
         const {scrollbar} = this.refs;
         const val = spring.getCurrentValue();
         scrollbar.scrollTop(val);
-    }
+    };
 
     scrollToFirstUnreadChannel = () => {
         this.scrollToChannel(this.firstUnreadChannel, true);
-    }
+    };
 
     scrollToLastUnreadChannel = () => {
         this.scrollToChannel(this.lastUnreadChannel, true);
-    }
+    };
 
     scrollToChannel = (channelId, scrollingToUnread = false) => {
         const element = $(ReactDOM.findDOMNode(this.refs[channelId]));
@@ -331,14 +331,14 @@ class LegacySidebar extends React.PureComponent {
 
             this.scrollToPosition(scrollEnd);
         }
-    }
+    };
 
     scrollToPosition = (scrollEnd) => {
         // Stop the current animation before scrolling
         this.scrollAnimation.setCurrentValue(this.refs.scrollbar.getScrollTop()).setAtRest();
 
         this.scrollAnimation.setEndValue(scrollEnd);
-    }
+    };
 
     updateUnreadIndicators = () => {
         let showTopUnread = false;
@@ -369,7 +369,7 @@ class LegacySidebar extends React.PureComponent {
                 showBottomUnread,
             });
         }
-    }
+    };
 
     navigateChannelShortcut = (e) => {
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
@@ -455,21 +455,21 @@ class LegacySidebar extends React.PureComponent {
             }
         }
         return false;
-    }
+    };
 
     showMorePublicDirectChannelsModal = () => {
         this.setState({showMorePublicChannelsModal: true});
         trackEvent('ui', 'ui_channels_more_public_direct');
-    }
+    };
 
     hideMorePublicDirectChannelsModal = () => {
         this.setState({showMorePublicChannelsModal: false});
-    }
+    };
 
     onHandleNewChannel = () => {
         this.hideMorePublicDirectChannelsModal();
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
-    }
+    };
 
     showMoreChannelsModal = (type) => {
         this.props.actions.openModal({
@@ -478,17 +478,17 @@ class LegacySidebar extends React.PureComponent {
             dialogProps: {morePublicChannelsModalType: type},
         });
         trackEvent('ui', 'ui_channels_more_public');
-    }
+    };
 
     showNewPublicChannelModal = () => {
         trackEvent('ui', 'ui_channels_create_channel_public_v1');
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
-    }
+    };
 
     showNewPrivateChannelModal = () => {
         trackEvent('ui', 'ui_channels_create_channel_private_v1');
         this.showNewChannelModal(Constants.PRIVATE_CHANNEL);
-    }
+    };
 
     showNewChannelModal = (type) => {
         this.props.actions.openModal({
@@ -496,16 +496,16 @@ class LegacySidebar extends React.PureComponent {
             dialogType: NewChannelFlow,
             dialogProps: {channelType: type},
         });
-    }
+    };
 
     showMoreDirectChannelsModal = () => {
         trackEvent('ui', 'ui_channels_more_direct');
         this.setState({showDirectChannelsModal: true});
-    }
+    };
 
     hideMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: false});
-    }
+    };
 
     openQuickSwitcher = (e) => {
         e.preventDefault();
@@ -516,7 +516,7 @@ class LegacySidebar extends React.PureComponent {
             modalId: ModalIdentifiers.QUICK_SWITCH,
             dialogType: QuickSwitchModal,
         });
-    }
+    };
 
     createSidebarChannel = (channelId) => {
         return (
@@ -529,7 +529,7 @@ class LegacySidebar extends React.PureComponent {
                 currentUserId={this.props.currentUser.id}
             />
         );
-    }
+    };
 
     renderOrderedChannels = () => {
         const {orderedChannelIds} = this.state;

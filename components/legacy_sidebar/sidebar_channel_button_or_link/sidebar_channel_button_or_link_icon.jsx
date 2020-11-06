@@ -39,13 +39,13 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         this.setState({
             svgErrorUrl: this.props.botIconUrl,
         });
-    }
+    };
 
     onSvgLoad = () => {
         this.setState({
             svgErrorUrl: null,
         });
-    }
+    };
 
     render() {
         let icon = null;

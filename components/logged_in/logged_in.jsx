@@ -33,7 +33,7 @@ export default class LoggedIn extends React.PureComponent {
             getChannelURLAction: PropTypes.func.isRequired,
         }).isRequired,
         showTermsOfService: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -171,7 +171,7 @@ export default class LoggedIn extends React.PureComponent {
             break;
         }
         }
-    }
+    };
 
     handleBackSpace = (e) => {
         const excludedElements = ['input', 'textarea'];
@@ -179,7 +179,7 @@ export default class LoggedIn extends React.PureComponent {
         if (e.which === BACKSPACE_CHAR && !(excludedElements.includes(e.target.tagName.toLowerCase()))) {
             e.preventDefault();
         }
-    }
+    };
 
     handleBeforeUnload = () => {
         // remove the event listener to prevent getting stuck in a loop
@@ -188,5 +188,5 @@ export default class LoggedIn extends React.PureComponent {
             viewChannel('', this.props.currentChannelId || '')(dispatch, getState);
         }
         WebSocketActions.close();
-    }
+    };
 }

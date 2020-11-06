@@ -103,7 +103,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(e);
-    }
+    };
 
     updateSuggestions(prevProps: Props) {
         if (this.props.channelId !== prevProps.channelId ||
@@ -156,35 +156,35 @@ export default class Textbox extends React.PureComponent<Props> {
                 this.props.handlePostError(null);
             }
         }
-    }
+    };
 
     handleKeyDown = (e: KeyboardEvent) => {
         this.props.onKeyDown?.(e);
-    }
+    };
 
     handleSelect = (e: React.SyntheticEvent) => {
         this.props.onSelect?.(e);
-    }
+    };
 
     handleMouseUp = (e: MouseEvent) => {
         this.props.onMouseUp?.(e);
-    }
+    };
 
     handleKeyUp = (e: KeyboardEvent) => {
         this.props.onKeyUp?.(e);
-    }
+    };
 
     handleBlur = (e: FocusEvent) => {
         this.props.onBlur?.(e);
-    }
+    };
 
     handleHeightChange = (height: number, maxHeight: number) => {
         this.props.onHeightChange?.(height, maxHeight);
-    }
+    };
 
     getInputBox = () => {
         return this.message.current?.getTextbox();
-    }
+    };
 
     focus = () => {
         const textbox = this.getInputBox();
@@ -195,7 +195,7 @@ export default class Textbox extends React.PureComponent<Props> {
             // reset character count warning
             this.checkMessageLength(textbox.value);
         }
-    }
+    };
 
     blur = () => {
         this.getInputBox()?.blur();
@@ -203,7 +203,7 @@ export default class Textbox extends React.PureComponent<Props> {
 
     recalculateSize = () => {
         this.message.current?.recalculateSize();
-    }
+    };
 
     render() {
         let preview = null;

@@ -42,7 +42,7 @@ export default class BrandImageSetting extends React.PureComponent {
         * Unregisters the function on unmount of the component suppose to be run when the save button is pressed
         */
         unRegisterSaveAction: PropTypes.func.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -99,12 +99,12 @@ export default class BrandImageSetting extends React.PureComponent {
                 deleteBrandImage: false,
             });
         }
-    }
+    };
 
     handleDeleteButtonPressed = () => {
         this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
         this.props.setSaveNeeded();
-    }
+    };
 
     handleSave = async () => {
         this.setState({
@@ -147,7 +147,7 @@ export default class BrandImageSetting extends React.PureComponent {
             );
         }
         return {error};
-    }
+    };
 
     render() {
         let letbtnDefaultClass = 'btn';

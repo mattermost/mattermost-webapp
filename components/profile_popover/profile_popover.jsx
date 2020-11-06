@@ -132,13 +132,13 @@ class ProfilePopover extends React.PureComponent {
         intl: intlShape.isRequired,
 
         ...Popover.propTypes,
-    }
+    };
 
     static defaultProps = {
         isRHS: false,
         hasMention: false,
         status: UserStatuses.OFFLINE,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -181,7 +181,7 @@ class ProfilePopover extends React.PureComponent {
             }
         });
         this.handleCloseModals();
-    }
+    };
 
     handleMentionKeyClick = (e) => {
         e.preventDefault();
@@ -194,7 +194,7 @@ class ProfilePopover extends React.PureComponent {
         }
         EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
         this.handleCloseModals();
-    }
+    };
 
     handleEditAccountSettings = (e) => {
         e.preventDefault();
@@ -207,13 +207,13 @@ class ProfilePopover extends React.PureComponent {
         }
         this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
         this.handleCloseModals();
-    }
+    };
 
     handleAddToChannel = (e) => {
         e.preventDefault();
 
         this.handleCloseModals();
-    }
+    };
 
     handleCloseModals = () => {
         const {modals} = this.props;

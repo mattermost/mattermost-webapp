@@ -16,7 +16,7 @@ type Props = {
     state: string;
     onChange: (newValue: string) => void;
     onBlur?: () => void;
-}
+};
 
 // StateSelector will display a state dropdown for US and Canada.
 // Will display a open text input for any other country.

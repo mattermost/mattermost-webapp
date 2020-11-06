@@ -102,7 +102,7 @@ export class MarketplaceModal extends React.PureComponent {
             fetchPlugins: PropTypes.func.isRequired,
             filterPlugins: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -136,27 +136,27 @@ export class MarketplaceModal extends React.PureComponent {
         const {error} = await this.props.actions.fetchPlugins();
 
         this.setState({loading: false, serverError: error});
-    }
+    };
 
     close = () => {
         trackEvent('plugins', 'ui_marketplace_closed');
         this.props.actions.closeModal();
-    }
+    };
 
     changeTab = (tabKey) => {
         this.setState({tabKey});
-    }
+    };
 
     onInput = () => {
         this.setState({filter: this.refs.filter.value});
 
         this.debouncedSearch();
-    }
+    };
 
     handleClearSearch = () => {
         this.refs.filter.value = '';
         this.setState({filter: this.refs.filter.value}, this.doSearch);
-    }
+    };
 
     doSearch = async () => {
         trackEvent('plugins', 'ui_marketplace_search', {filter: this.state.filter});
@@ -164,7 +164,7 @@ export class MarketplaceModal extends React.PureComponent {
         const {error} = await this.props.actions.filterPlugins(this.state.filter);
 
         this.setState({serverError: error});
-    }
+    };
 
     debouncedSearch = debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS);
 

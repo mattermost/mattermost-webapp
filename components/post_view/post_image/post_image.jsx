@@ -13,7 +13,7 @@ export default class PostImage extends React.PureComponent {
         imageMetadata: PropTypes.object.isRequired,
         link: PropTypes.string.isRequired,
         post: PropTypes.object.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -27,11 +27,11 @@ export default class PostImage extends React.PureComponent {
         e.preventDefault();
 
         this.setState({showModal: true});
-    }
+    };
 
     hideModal = () => {
         this.setState({showModal: false});
-    }
+    };
 
     render() {
         return (

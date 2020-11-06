@@ -54,7 +54,7 @@ export default class SizeAwareImage extends React.PureComponent {
          * Enables the logic of surrounding small images with a bigger container div for better click/tap targeting
          */
         handleSmallImageContainer: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -79,11 +79,11 @@ export default class SizeAwareImage extends React.PureComponent {
 
     dimensionsAvailable = (dimensions) => {
         return dimensions && dimensions.width && dimensions.height;
-    }
+    };
 
     isSmallImage = (width, height) => {
         return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
-    }
+    };
 
     handleLoad = (event) => {
         if (this.mounted) {
@@ -115,7 +115,7 @@ export default class SizeAwareImage extends React.PureComponent {
         if (e.key === 'Enter') {
             this.props.onClick(e);
         }
-    }
+    };
 
     renderImageLoaderIfNeeded = () => {
         if (!this.state.loaded && this.props.showLoader && !this.state.error) {
@@ -128,7 +128,7 @@ export default class SizeAwareImage extends React.PureComponent {
             );
         }
         return null;
-    }
+    };
 
     renderImageWithContainerIfNeeded = () => {
         const {
@@ -184,7 +184,7 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         return image;
-    }
+    };
 
     renderImageOrPlaceholder = () => {
         const {
@@ -222,7 +222,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 </div>
             </React.Fragment>
         );
-    }
+    };
 
     render() {
         return (

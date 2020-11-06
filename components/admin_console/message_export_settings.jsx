@@ -33,7 +33,7 @@ export default class MessageExportSettings extends AdminSettings {
             };
         }
         return config;
-    }
+    };
 
     getStateFromConfig(config) {
         const state = {
@@ -308,5 +308,5 @@ export default class MessageExportSettings extends AdminSettings {
                 />
             </SettingsGroup>
         );
-    }
+    };
 }

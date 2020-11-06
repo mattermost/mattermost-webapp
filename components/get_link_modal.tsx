@@ -13,11 +13,11 @@ type Props = {
     title: string;
     helpText?: string;
     link: string;
-}
+};
 
 type State = {
     copiedLink: boolean;
-}
+};
 
 export default class GetLinkModal extends React.PureComponent<Props, State> {
     private textAreaRef = React.createRef<HTMLTextAreaElement>();
@@ -35,7 +35,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
     public onHide = (): void => {
         this.setState({copiedLink: false});
         this.props.onHide();
-    }
+    };
 
     public copyLink = (): void => {
         const textarea = this.textAreaRef.current;
@@ -50,7 +50,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                 this.setState({copiedLink: false});
             }
         }
-    }
+    };
 
     public render(): JSX.Element {
         let helpText = null;

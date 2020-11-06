@@ -25,7 +25,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
     renameCategory: (categoryId: string, displayName: string) => void;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

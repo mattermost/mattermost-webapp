@@ -31,7 +31,7 @@ export default class AtMention extends React.PureComponent {
         hasMention: false,
         disableHighlight: false,
         disableGroupHighlight: false,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -48,11 +48,11 @@ export default class AtMention extends React.PureComponent {
         const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
 
         this.setState({target: e.target, show: !this.state.show, placement});
-    }
+    };
 
     hideOverlay = () => {
         this.setState({show: false});
-    }
+    };
 
     getUserFromMentionName() {
         const {usersByUsername, mentionName} = this.props;

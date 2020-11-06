@@ -16,7 +16,7 @@ type Props = {
     createAt: Date | number;
     toastPresent: boolean;
     isRhsPost: boolean;
-}
+};
 
 export default class FloatingTimestamp extends React.PureComponent<Props> {
     render() {

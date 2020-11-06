@@ -40,11 +40,11 @@ export default class UserProfile extends PureComponent {
         if (this.overlay) {
             this.overlay.hide();
         }
-    }
+    };
 
     setOverlaynRef = (ref) => {
         this.overlay = ref;
-    }
+    };
 
     render() {
         const {

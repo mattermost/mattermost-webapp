@@ -183,7 +183,7 @@ export default class ChannelInviteModal extends React.PureComponent {
             return null;
         }
         return option.username;
-    }
+    };
 
     renderOption = (option, isSelected, onAdd, onMouseMove) => {
         var rowSelected = '';

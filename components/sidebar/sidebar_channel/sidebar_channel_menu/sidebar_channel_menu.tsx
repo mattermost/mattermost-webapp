@@ -67,32 +67,32 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     markAsRead = () => {
         this.props.actions.markChannelAsRead(this.props.channel.id);
         trackEvent('ui', 'ui_sidebar_channel_menu_markAsRead');
-    }
+    };
 
     favoriteChannel = () => {
         this.props.actions.favoriteChannel(this.props.channel.id);
         trackEvent('ui', 'ui_sidebar_channel_menu_favorite');
-    }
+    };
 
     unfavoriteChannel = () => {
         this.props.actions.unfavoriteChannel(this.props.channel.id);
         trackEvent('ui', 'ui_sidebar_channel_menu_unfavorite');
-    }
+    };
 
     unmuteChannel = () => {
         this.props.actions.unmuteChannel(this.props.currentUserId, this.props.channel.id);
-    }
+    };
 
     muteChannel = () => {
         this.props.actions.muteChannel(this.props.currentUserId, this.props.channel.id);
-    }
+    };
 
     moveToCategory = (categoryId: string) => {
         return () => {
             this.props.actions.addChannelToCategory(categoryId, this.props.channel.id);
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         };
-    }
+    };
 
     moveToNewCategory = () => {
         this.props.actions.openModal({
@@ -103,11 +103,11 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             },
         });
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    }
+    };
 
     copyLink = () => {
         copyToClipboard(this.props.channelLink);
-    }
+    };
 
     handleLeaveChannel = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         e.preventDefault();
@@ -122,7 +122,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         this.props.closeHandler(() => {
             this.isLeaving = false;
         });
-    }
+    };
 
     addMembers = () => {
         const {channel, actions} = this.props;
@@ -133,7 +133,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             dialogProps: {channel},
         });
         trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
-    }
+    };
 
     renderDropdownItems = () => {
         const {intl, isUnread, isFavorite, isMuted, channel, categories} = this.props;
@@ -311,7 +311,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 {leaveChannel}
             </React.Fragment>
         );
-    }
+    };
 
     refCallback = (ref: SidebarMenuType) => {
         if (ref) {
@@ -320,7 +320,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 width: ref.state.width,
             });
         }
-    }
+    };
 
     onToggleMenu = (open: boolean) => {
         this.props.onToggleMenu(open);
@@ -328,7 +328,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         if (open) {
             trackEvent('ui', 'ui_sidebar_channel_menu_opened');
         }
-    }
+    };
 
     render() {
         const {

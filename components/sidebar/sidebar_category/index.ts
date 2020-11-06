@@ -17,7 +17,7 @@ import SidebarCategory from './sidebar_category';
 
 type OwnProps = {
     category: ChannelCategory;
-}
+};
 
 function makeMapStateToProps() {
     const getChannelsForCategory = makeGetChannelsForCategory();

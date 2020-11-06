@@ -16,7 +16,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         onChangeRoles: PropTypes.func.isRequired,
         onRemoveItem: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -29,15 +29,15 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         const collapsed = {...this.state.collapsed};
         collapsed[id] = !collapsed[id];
         this.setState({collapsed});
-    }
+    };
 
     onRemoveItem = (id, type) => {
         this.props.onRemoveItem(id, type);
-    }
+    };
 
     onChangeRoles = async (id, type, roleToBe) => {
         this.props.onChangeRoles(id, type, roleToBe);
-    }
+    };
 
     teamsAndChannelsToEntries = (teams, channels) => {
         const entries = [];
@@ -88,7 +88,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         });
 
         return entries;
-    }
+    };
 
     render = () => {
         const entries = this.teamsAndChannelsToEntries(this.props.teams, this.props.channels);

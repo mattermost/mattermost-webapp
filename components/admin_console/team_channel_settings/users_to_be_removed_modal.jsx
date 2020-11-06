@@ -38,7 +38,7 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
         users: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         onHide: PropTypes.func,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -51,13 +51,13 @@ export default class UsersToBeRemovedModal extends React.PureComponent {
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         if (this.props.onHide) {
             this.props.onHide();
         }
-    }
+    };
 
     render() {
         const {users, total, scope, scopeId} = this.props;

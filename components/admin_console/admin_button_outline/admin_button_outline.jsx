@@ -11,7 +11,7 @@ export default class AdminButtonOutline extends React.PureComponent {
         onClick: PropTypes.func.isRequired,
         children: PropTypes.string.isRequired,
         disabled: PropTypes.bool,
-    }
+    };
     render() {
         return (
             <button

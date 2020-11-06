@@ -30,23 +30,23 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         this.props.updateSection(section);
 
         this.props.cancel();
-    }
+    };
 
     handleMaxUpdateSection = (section) => {
         this.props.updateSection(section);
-    }
+    };
 
     handleOnChange = (e) => {
         const key = e.currentTarget.getAttribute('data-key');
         const value = e.currentTarget.getAttribute('data-value');
         this.props.setParentState(key, value);
-    }
+    };
 
     setDesktopNotificationSound = (selectedOption) => {
         this.props.setParentState('desktopNotificationSound', selectedOption.value);
         this.setState({selectedOption});
         Utils.tryNotificationSound(selectedOption.value);
-    }
+    };
 
     blurDropdown() {
         if (!this.state.blurDropdown) {
@@ -258,7 +258,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 updateSection={this.handleMaxUpdateSection}
             />
         );
-    }
+    };
 
     buildMinimizedSetting = () => {
         let formattedMessageProps;
@@ -313,7 +313,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                 updateSection={this.handleMinUpdateSection}
             />
         );
-    }
+    };
 
     componentDidUpdate() {
         this.blurDropdown();

@@ -281,7 +281,7 @@ export default class PostInfo extends React.PureComponent {
                 });
             }
         }
-    }
+    };
 
     componentDidUpdate(prevProps) {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;

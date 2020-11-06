@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export default class RootPortal extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
-    }
+    };
 
     constructor(props) {
         super(props);

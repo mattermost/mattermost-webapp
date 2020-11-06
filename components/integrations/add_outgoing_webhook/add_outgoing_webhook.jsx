@@ -37,7 +37,7 @@ export default class AddOutgoingWebhook extends React.PureComponent {
          * Whether to allow configuration of the default post icon.
          */
         enablePostIconOverride: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -59,7 +59,7 @@ export default class AddOutgoingWebhook extends React.PureComponent {
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     render() {
         return (

@@ -21,7 +21,7 @@ export default class InvitationModalConfirmStep extends React.PureComponent {
         invitesType: PropTypes.oneOf([InviteTypes.INVITE_MEMBER, InviteTypes.INVITE_GUEST]).isRequired,
         invitesSent: PropTypes.array.isRequired,
         invitesNotSent: PropTypes.array.isRequired,
-    }
+    };
 
     getInvitesCountsMessage = (invitesSentCount, invitesNotSentCount) => {
         if (invitesSentCount > 0 && invitesNotSentCount > 0) {
@@ -58,7 +58,7 @@ export default class InvitationModalConfirmStep extends React.PureComponent {
                 defaultMessage='No invitation sent'
             />
         );
-    }
+    };
 
     render() {
         const {teamName, invitesType, invitesSent, invitesNotSent, onDone, onInviteMore} = this.props;

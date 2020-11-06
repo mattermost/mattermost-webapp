@@ -28,11 +28,11 @@ export default class MessageAttachmentList extends React.PureComponent {
          * Images object used for creating placeholders to prevent scroll popup
          */
         imagesMetadata: PropTypes.object,
-    }
+    };
 
     static defaultProps = {
         imagesMetadata: {},
-    }
+    };
 
     render() {
         const content = [];

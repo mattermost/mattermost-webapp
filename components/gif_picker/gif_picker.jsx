@@ -29,7 +29,7 @@ export default class GifPicker extends React.PureComponent {
         onGifClick: PropTypes.func.isRequired,
         defaultSearchText: PropTypes.string,
         handleSearchTextChange: PropTypes.func.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -44,23 +44,23 @@ export default class GifPicker extends React.PureComponent {
         this.setState({
             action: 'trending',
         });
-    }
+    };
 
     handleCategories = () => {
         this.setState({
             action: 'reactions',
         });
-    }
+    };
 
     handleSearch = () => {
         this.setState({
             action: 'search',
         });
-    }
+    };
 
     handleItemClick = (gif) => {
         this.props.onGifClick(gif.max5mbGif);
-    }
+    };
 
     render() {
         const {action} = this.state;

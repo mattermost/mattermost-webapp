@@ -49,7 +49,7 @@ export default class MessageAttachment extends React.PureComponent {
         }).isRequired,
 
         currentRelativeTeamUrl: PropTypes.string.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -78,14 +78,14 @@ export default class MessageAttachment extends React.PureComponent {
         if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.thumb_url])) {
             this.handleHeightReceived(height);
         }
-    }
+    };
 
     handleHeightReceivedForImageUrl = ({height}) => {
         const {attachment} = this.props;
         if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.image_url])) {
             this.handleHeightReceived(height);
         }
-    }
+    };
 
     handleHeightReceived = (height) => {
         if (!this.mounted) {
@@ -181,7 +181,7 @@ export default class MessageAttachment extends React.PureComponent {
             const mailtoPayload = JSON.parse(extUrlOption.value);
             window.location.href = 'mailto:' + mailtoPayload.mail_recipient + '?cc=' + mailtoPayload.mail_cc + '&subject=' + encodeURIComponent(mailtoPayload.mail_subject) + '&body=' + encodeURIComponent(mailtoPayload.mail_body);
         }
-    }
+    };
 
     getActionOption = (actionOptions, optionName) => {
         var opt = null;
@@ -189,7 +189,7 @@ export default class MessageAttachment extends React.PureComponent {
             opt = actionOptions.find((option) => option.text === optionName);
         }
         return opt;
-    }
+    };
 
     getFieldsTable = () => {
         const fields = this.props.attachment.fields;

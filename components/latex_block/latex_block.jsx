@@ -9,7 +9,7 @@ export default class LatexBlock extends React.PureComponent {
     static propTypes = {
         content: PropTypes.string.isRequired,
         enableLatex: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);

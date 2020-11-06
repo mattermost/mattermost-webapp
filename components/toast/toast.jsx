@@ -23,7 +23,7 @@ export default class Toast extends React.PureComponent {
         showActions: PropTypes.bool, //used for showing jump actions
         width: PropTypes.number,
         extraClasses: PropTypes.string,
-    }
+    };
 
     componentDidMount() {
         this.mounted = true;
@@ -37,7 +37,7 @@ export default class Toast extends React.PureComponent {
         if (typeof this.props.onDismiss == 'function') {
             this.props.onDismiss();
         }
-    }
+    };
 
     render() {
         let toastClass = 'toast';

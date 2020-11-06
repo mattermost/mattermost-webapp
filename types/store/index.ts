@@ -14,7 +14,7 @@ export type DraggingState = {
     state?: string;
     type?: string;
     id?: string;
-}
+};
 
 export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;

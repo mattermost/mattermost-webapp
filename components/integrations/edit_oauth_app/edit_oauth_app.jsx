@@ -49,7 +49,7 @@ export default class EditOAuthApp extends React.PureComponent {
         * Whether or not OAuth applications are enabled.
         */
         enableOAuthServiceProvider: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -85,15 +85,15 @@ export default class EditOAuthApp extends React.PureComponent {
         } else {
             await this.submitOAuthApp();
         }
-    }
+    };
 
     handleConfirmModal = () => {
         this.setState({showConfirmModal: true});
-    }
+    };
 
     confirmModalDismissed = () => {
         this.setState({showConfirmModal: false});
-    }
+    };
 
     submitOAuthApp = async () => {
         this.setState({serverError: ''});
@@ -110,7 +110,7 @@ export default class EditOAuthApp extends React.PureComponent {
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     renderExtra = () => {
         const confirmButton = (
@@ -144,7 +144,7 @@ export default class EditOAuthApp extends React.PureComponent {
                 onCancel={this.confirmModalDismissed}
             />
         );
-    }
+    };
 
     render() {
         if (!this.props.oauthApp) {

@@ -68,7 +68,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
                 onCancel: this.onCloseModal,
             },
         });
-    }
+    };
 
     showNextSteps = () => {
         if (this.props.showNextSteps) {
@@ -78,11 +78,11 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         }
 
         this.props.actions.setShowNextStepsView(true);
-    }
+    };
 
     onCloseModal = () => {
         this.props.actions.closeModal(ModalIdentifiers.REMOVE_NEXT_STEPS_MODAL);
-    }
+    };
 
     onConfirmModal = () => {
         this.props.actions.savePreferences(this.props.currentUserId, [{
@@ -99,7 +99,7 @@ export default class SidebarNextSteps extends React.PureComponent<Props, State> 
         this.props.actions.setShowNextStepsView(false);
 
         this.onCloseModal();
-    }
+    };
 
     render() {
         if (this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.HIDE && pref.value === 'true')) {

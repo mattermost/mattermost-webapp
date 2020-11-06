@@ -73,15 +73,15 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
         }
 
         this.setState({fullName: event.target.value, fullNameError});
-    }
+    };
 
     isFinishDisabled = () => {
         return Boolean(!this.state.fullName || this.state.fullNameError || this.state.profilePictureError);
-    }
+    };
 
     onSkip = () => {
         this.props.onSkip(this.props.id);
-    }
+    };
 
     onFinish = () => {
         const splitName = this.state.fullName.split(' ');
@@ -100,11 +100,11 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_save_profile');
 
         this.props.onFinish(this.props.id);
-    }
+    };
 
     onOpenPictureDialog = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_add_profile_photo');
-    }
+    };
 
     onSelectPicture = (profilePicture: File) => {
         if (!AcceptedProfileImageTypes.includes(profilePicture.type) || profilePicture.size > this.props.maxFileSize) {
@@ -115,13 +115,13 @@ export default class CompleteProfileStep extends React.PureComponent<Props, Stat
         }
 
         this.setState({profilePicture, profilePictureError: false, removeProfilePicture: false});
-    }
+    };
 
     onRemovePicture = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_remove_photo');
 
         this.setState({profilePicture: undefined, profilePictureError: false, removeProfilePicture: true});
-    }
+    };
 
     render() {
         const {currentUser} = this.props;

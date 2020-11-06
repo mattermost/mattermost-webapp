@@ -48,7 +48,7 @@ export default class TextDismissableBar extends React.PureComponent {
         if (this.props.onDismissal) {
             this.props.onDismissal();
         }
-    }
+    };
 
     render() {
         if (this.state.dismissed) {

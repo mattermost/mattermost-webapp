@@ -77,11 +77,11 @@ export default class PostBody extends React.PureComponent {
          * Set not to allow edits on post
          */
         isReadOnly: PropTypes.bool,
-    }
+    };
 
     static defaultProps = {
         isReadOnly: false,
-    }
+    };
 
     constructor(props) {
         super(props);

@@ -8,7 +8,7 @@ import './menu_header.scss';
 type Props = {
     divider?: React.ReactNode;
     children?: React.ReactNode;
-}
+};
 
 export default class MenuHeader extends React.PureComponent<Props> {
     public render() {

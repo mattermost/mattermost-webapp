@@ -10,7 +10,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 export default class DeleteEmoji extends DeleteModalTrigger {
     static propTypes = {
         onDelete: PropTypes.func.isRequired,
-    }
+    };
 
     get triggerTitle() {
         return (

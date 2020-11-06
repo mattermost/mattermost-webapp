@@ -70,7 +70,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
 
     static defaultProps = {
         scheme: null,
-    }
+    };
 
     componentDidMount() {
         this.props.actions.loadRolesIfNeeded(['team_admin', 'team_user', 'channel_admin', 'channel_user', 'team_guest', 'channel_guest']);
@@ -117,7 +117,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
             return true;
         }
         return false;
-    }
+    };
 
     goToSelectedRow = () => {
         const selected = document.querySelector('.permission-row.selected,.permission-group-row.selected');
@@ -135,7 +135,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
             return true;
         }
         return false;
-    }
+    };
 
     selectRow = (permission) => {
         this.setState({selectedPermission: permission});
@@ -147,7 +147,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
         setTimeout(() => {
             this.setState({selectedPermission: null});
         }, 3000);
-    }
+    };
 
     getStateRoles = () => {
         if (this.state.roles !== null) {
@@ -198,7 +198,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
                 permissions: teamGuest.permissions.concat(channelGuest.permissions),
             },
         };
-    }
+    };
 
     deriveRolesFromGuests = (teamGuest, channelGuest, role) => {
         return {
@@ -211,7 +211,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
                 permissions: role.permissions.filter((p) => PermissionsScope[p] === 'channel_scope'),
             },
         };
-    }
+    };
 
     restoreGuestPermissions = (teamGuest, channelGuest, roles) => {
         for (const permission of teamGuest.permissions) {
@@ -225,7 +225,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
             }
         }
         return roles;
-    }
+    };
 
     deriveRolesFromAllUsers = (baseTeam, baseChannel, role) => {
         return {
@@ -238,7 +238,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
                 permissions: role.permissions.filter((p) => PermissionsScope[p] === 'channel_scope'),
             },
         };
-    }
+    };
 
     restoreExcludedPermissions = (baseTeam, baseChannel, roles) => {
         for (const permission of baseTeam.permissions) {
@@ -252,17 +252,17 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
             }
         }
         return roles;
-    }
+    };
 
     handleNameChange = (e) => {
         this.setState({schemeName: e.target.value, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     handleDescriptionChange = (e) => {
         this.setState({schemeDescription: e.target.value, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     handleSubmit = async () => {
         const roles = this.getStateRoles();
@@ -389,13 +389,13 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
         this.setState({serverError, saving: false, saveNeeded});
         this.props.actions.setNavigationBlocked(saveNeeded);
         this.props.history.push('/admin_console/user_management/permissions');
-    }
+    };
 
     toggleRole = (roleId) => {
         const newOpenRoles = {...this.state.openRoles};
         newOpenRoles[roleId] = !newOpenRoles[roleId];
         this.setState({openRoles: newOpenRoles});
-    }
+    };
 
     togglePermission = (roleId, permissions) => {
         const roles = {...this.getStateRoles()};
@@ -430,17 +430,17 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
 
         this.setState({roles, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     openAddTeam = () => {
         this.setState({addTeamOpen: true});
-    }
+    };
 
     removeTeam = (teamId) => {
         const teams = (this.state.teams || this.props.teams).filter((team) => team.id !== teamId);
         this.setState({teams, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     addTeams = (teams) => {
         const currentTeams = this.state.teams || this.props.teams || [];
@@ -449,15 +449,15 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent {
             saveNeeded: true,
         });
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     closeAddTeam = () => {
         this.setState({addTeamOpen: false});
-    }
+    };
 
     haveGuestAccountsPermissions = () => {
         return this.props.license.GuestAccountsPermissions === 'true';
-    }
+    };
 
     render = () => {
         if (!this.isLoaded(this.props)) {

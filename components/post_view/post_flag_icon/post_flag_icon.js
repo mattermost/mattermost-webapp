@@ -72,15 +72,15 @@ export default class PostFlagIcon extends React.PureComponent {
         } else {
             actions.flagPost(postId);
         }
-    }
+    };
 
     handleA11yActivateEvent = () => {
         this.setState({a11yActive: true});
-    }
+    };
 
     handleA11yDeactivateEvent = () => {
         this.setState({a11yActive: false});
-    }
+    };
 
     render() {
         const isFlagged = this.props.isFlagged;

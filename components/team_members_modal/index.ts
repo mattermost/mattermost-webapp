@@ -18,7 +18,7 @@ type Actions = {
     openModal: (modalData: {modalId: string; dialogType: React.Component }) => Promise<{
         data: boolean;
     }>;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.TEAM_MEMBERS;

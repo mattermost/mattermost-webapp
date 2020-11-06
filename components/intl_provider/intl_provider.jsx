@@ -42,7 +42,7 @@ export default class IntlProvider extends React.PureComponent {
         Client4.setAcceptLanguage(locale);
 
         this.loadTranslationsIfNecessary(locale);
-    }
+    };
 
     loadTranslationsIfNecessary = (locale) => {
         if (this.props.translations) {
@@ -56,7 +56,7 @@ export default class IntlProvider extends React.PureComponent {
         }
 
         this.props.actions.loadTranslations(locale, localeInfo.url);
-    }
+    };
 
     render() {
         if (!this.props.translations) {

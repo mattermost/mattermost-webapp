@@ -44,7 +44,7 @@ type State = {
     showTransitionScreen: boolean;
     animating: boolean;
     show: boolean;
-}
+};
 
 export default class NextStepsView extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -72,7 +72,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
     checkStepsSkipped = () => {
         return this.props.preferences.some((pref) => pref.name === RecommendedNextSteps.SKIP && pref.value === 'true');
-    }
+    };
 
     getStartingStep = () => {
         for (let i = 0; i < this.props.steps.length; i++) {
@@ -81,7 +81,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             }
         }
         return this.props.steps[0].id;
-    }
+    };
 
     getIncompleteStep = () => {
         for (let i = 0; i < this.props.steps.length; i++) {
@@ -90,23 +90,23 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             }
         }
         return null;
-    }
+    };
 
     onClickHeader = (setExpanded: (expandedKey: string) => void, id: string) => {
         const stepIndex = this.getStepNumberFromId(id);
         trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), `click_onboarding_step${stepIndex}`);
         setExpanded(id);
-    }
+    };
 
     getStepNumberFromId = (id: string) => {
         return this.props.steps.findIndex((step) => step.id === id) + 1;
-    }
+    };
 
     onSkip = (setExpanded: (expandedKey: string) => void) => {
         return (id: string) => {
             this.nextStep(setExpanded, id);
         };
-    }
+    };
 
     onSkipAll = async () => {
         this.showFinalScreen();
@@ -116,7 +116,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             name: RecommendedNextSteps.SKIP,
             value: 'true',
         }]);
-    }
+    };
 
     onFinish = (setExpanded: (expandedKey: string) => void) => {
         return async (id: string) => {
@@ -132,22 +132,22 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
 
             this.nextStep(setExpanded, id);
         };
-    }
+    };
 
     showFinalScreenNoAnimation = () => {
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true, animating: false});
-    }
+    };
 
     showFinalScreen = () => {
         trackEvent(getAnalyticsCategory(this.props.isFirstAdmin), 'click_skip_getting_started', {channel_sidebar: false});
         pageVisited(getAnalyticsCategory(this.props.isFirstAdmin), 'pageview_tips_next_steps');
         this.setState({showFinalScreen: true, animating: true});
-    }
+    };
 
     transitionToFinalScreen = () => {
         this.setState({showTransitionScreen: true, animating: true});
-    }
+    };
 
     setTimerToFinalScreen = () => {
         if (this.state.showTransitionScreen) {
@@ -156,11 +156,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 this.setState({showFinalScreen: true});
             }, TRANSITION_SCREEN_TIMEOUT);
         }
-    }
+    };
 
     stopAnimating = () => {
         this.setState({animating: false});
-    }
+    };
 
     nextStep = (setExpanded: (expandedKey: string) => void, id: string) => {
         const currentIndex = this.props.steps.findIndex((step) => step.id === id);
@@ -181,11 +181,11 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
         } else {
             setExpanded(this.props.steps[currentIndex + 1].id);
         }
-    }
+    };
 
     isStepComplete = (id: string) => {
         return this.props.preferences.some((pref) => pref.name === id && pref.value === 'true');
-    }
+    };
 
     renderStep = (step: StepType, index: number) => {
         const {id, title} = step;
@@ -228,7 +228,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </Card.Body>
             </Card>
         );
-    }
+    };
 
     renderTransitionScreen = () => {
         return (
@@ -258,7 +258,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
-    }
+    };
 
     renderMainBody = () => {
         const renderedSteps = this.props.steps.map(this.renderStep);
@@ -318,7 +318,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         return (

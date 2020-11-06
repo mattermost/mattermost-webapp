@@ -98,7 +98,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         } else if (fileInfo.extension === FileTypes.SVG && this.props.enableSVGs) {
             loadImage(getFileUrl(fileInfo.id), this.handleImageLoaded);
         }
-    }
+    };
 
     handleImageLoaded = () => {
         if (this.mounted) {
@@ -106,7 +106,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 loaded: true,
             });
         }
-    }
+    };
 
     onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
@@ -118,7 +118,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         if (this.props.handleImageClick) {
             this.props.handleImageClick(this.props.index);
         }
-    }
+    };
 
     render() {
         const {

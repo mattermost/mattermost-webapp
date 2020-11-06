@@ -10,7 +10,7 @@ type Props = {
     show: boolean;
     onConfirm: (checked: boolean) => void;
     onCancel: (checked: boolean) => void;
-}
+};
 
 export default class DiscardChangesModal extends React.PureComponent<Props> {
     public render(): JSX.Element {

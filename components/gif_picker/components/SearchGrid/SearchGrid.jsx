@@ -56,7 +56,7 @@ export class SearchGrid extends PureComponent {
         scrollPosition: PropTypes.number,
         saveSearchScrollPosition: PropTypes.func,
         theme: PropTypes.object.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -110,7 +110,7 @@ export class SearchGrid extends PureComponent {
         } else {
             this.numberOfColumns = NUMBER_OF_COLUMNS_LANDSCAPE;
         }
-    }
+    };
 
     itemClickHandler = (gfyItem) => {
         const {keyword, handleItemClick} = this.props;
@@ -118,19 +118,19 @@ export class SearchGrid extends PureComponent {
 
         trackEvent('gfycat', 'shares', {gfyid: gfyItem.gfyId, keyword});
         handleItemClick(gfyItem);
-    }
+    };
 
     minHeightColumnIndex = () => {
         return this.columnsHeights.indexOf(Math.min(...this.columnsHeights));
-    }
+    };
 
     maxHeightColumnIndex = () => {
         return this.columnsHeights.indexOf(Math.max(...this.columnsHeights));
-    }
+    };
 
     maxColumnHeight = () => {
         return Math.max(...this.columnsHeights);
-    }
+    };
 
     resizeHandler = () => {
         if (this.state.containerWidth !== this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH) {
@@ -141,11 +141,11 @@ export class SearchGrid extends PureComponent {
             });
             this.columnsHeights = Array(this.numberOfColumns).fill(0);
         }
-    }
+    };
 
     scrollHandler = () => {
         this.scrollPosition = window.scrollY;
-    }
+    };
 
     render() {
         const style = getStyle(this.props.theme);

@@ -17,7 +17,7 @@ export interface Match {
     url: string;
 }
 
-export type MatchAndHistory = Pick<Props, 'match' | 'history'>
+export type MatchAndHistory = Pick<Props, 'match' | 'history'>;
 
 interface Props {
     match: Match;
@@ -62,7 +62,7 @@ export default class ChannelIdentifierRouter extends React.PureComponent<Props> 
                 browserHistory.replace(channelUrl);
             }, Constants.PERMALINK_FADEOUT);
         }
-    }
+    };
 
     render() {
         return <ChannelView/>;

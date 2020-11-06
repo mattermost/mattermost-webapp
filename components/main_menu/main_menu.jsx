@@ -90,7 +90,7 @@ class MainMenu extends React.PureComponent {
     toggleShortcutsModal = (e) => {
         e.preventDefault();
         GlobalActions.toggleShortcutsModal();
-    }
+    };
 
     async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -107,17 +107,17 @@ class MainMenu extends React.PureComponent {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
         }
-    }
+    };
 
     handleEmitUserLoggedOutEvent = () => {
         GlobalActions.emitUserLoggedOutEvent();
-    }
+    };
 
     getFlagged = (e) => {
         e.preventDefault();
         this.props.actions.showFlaggedPosts();
         this.props.actions.closeRhsMenu();
-    }
+    };
 
     searchMentions = (e) => {
         e.preventDefault();
@@ -128,7 +128,7 @@ class MainMenu extends React.PureComponent {
             this.props.actions.closeRhsMenu();
             this.props.actions.showMentions();
         }
-    }
+    };
 
     shouldShowUpgradeModal = () => {
         if (this.props.subscription?.is_paid_tier === 'true') { // eslint-disable-line camelcase
@@ -136,7 +136,7 @@ class MainMenu extends React.PureComponent {
         }
 
         return this.props.isCloud && (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
-    }
+    };
 
     render() {
         const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;

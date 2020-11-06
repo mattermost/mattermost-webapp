@@ -19,7 +19,7 @@ type Props = {
     disabled?: boolean;
     buttonTextId?: string;
     buttonTextDefault?: string;
-}
+};
 
 const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
     let button;

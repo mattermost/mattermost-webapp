@@ -16,7 +16,7 @@ import CommentedOn from './commented_on';
 
 type Props = {
     post: Post;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     let displayName = '';

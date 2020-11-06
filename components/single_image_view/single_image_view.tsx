@@ -26,7 +26,7 @@ type Props = {
     actions: {
         toggleEmbedVisibility: (postId: string) => void;
     };
-}
+};
 
 type State = {
     loaded: boolean;
@@ -35,7 +35,7 @@ type State = {
         width: number;
         height: number;
     },
-}
+};
 
 export default class SingleImageView extends React.PureComponent<Props, State> {
     private mounted: boolean;
@@ -80,20 +80,20 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         if (this.mounted) {
             this.setState({loaded: true});
         }
-    }
+    };
 
     handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         this.setState({showPreviewModal: true});
-    }
+    };
 
     showPreviewModal = () => {
         this.setState({showPreviewModal: false});
-    }
+    };
 
     toggleEmbedVisibility = () => {
         this.props.actions.toggleEmbedVisibility(this.props.post.id);
-    }
+    };
 
     render() {
         const {fileInfo, compactDisplay} = this.props;

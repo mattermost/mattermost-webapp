@@ -20,7 +20,7 @@ import MemberListGroup, {Props as MemberListGroupProps} from './member_list_grou
 
 type Props = {
     groupID: string;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {groupID} = ownProps;

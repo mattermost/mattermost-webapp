@@ -54,7 +54,7 @@ type Actions = {
         data: boolean;
     }>;
     closeModal: (modalId: string) => void;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

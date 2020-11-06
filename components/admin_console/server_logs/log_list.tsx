@@ -57,13 +57,13 @@ export default class Logs extends React.PureComponent<Props, State> {
         setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
 
         this.props.nextPage();
-    }
+    };
 
     previousPage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         this.props.previousPage();
-    }
+    };
 
     render() {
         let content = null;

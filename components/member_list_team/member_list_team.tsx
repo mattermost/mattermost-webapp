@@ -40,11 +40,11 @@ type Props = {
         }>;
         setModalSearchTerm: (term: string) => ActionResult;
     };
-}
+};
 
 type State = {
     loading: boolean;
-}
+};
 
 export default class MemberListTeam extends React.PureComponent<Props, State> {
     private searchTimeoutId: number;
@@ -119,7 +119,7 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
 
     loadComplete = () => {
         this.setState({loading: false});
-    }
+    };
 
     nextPage = async (page: number) => {
         this.setState({loading: true});
@@ -133,11 +133,11 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
             ),
         ]);
         this.loadComplete();
-    }
+    };
 
     search = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
-    }
+    };
 
     render() {
         let teamMembersDropdown = null;

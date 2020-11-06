@@ -27,7 +27,7 @@ export default class AnnouncementBarController extends React.PureComponent {
         actions: PropTypes.shape({
             dismissError: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     render() {
         let adminConfiguredAnnouncementBar = null;

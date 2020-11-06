@@ -147,11 +147,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
     getDisplayedChannelIds = () => {
         return this.props.displayedChannels.map((channel) => channel.id);
-    }
+    };
 
     getChannelRef = (channelId: string) => {
         return this.channelRefs.get(channelId);
-    }
+    };
 
     setChannelRef = (channelId: string, ref: HTMLLIElement) => {
         if (ref) {
@@ -159,7 +159,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         } else {
             this.channelRefs.delete(channelId);
         }
-    }
+    };
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
         if (!this.props.currentChannelId) {
@@ -169,20 +169,20 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return channelIds.find((channelId) => {
             return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
-    }
+    };
 
     handleScrollAnimationUpdate = (spring: Spring) => {
         const val = spring.getCurrentValue();
         this.scrollbar.current!.scrollTop(val);
-    }
+    };
 
     scrollToFirstUnreadChannel = () => {
         this.scrollToChannel(this.getFirstUnreadChannel(), true);
-    }
+    };
 
     scrollToLastUnreadChannel = () => {
         this.scrollToChannel(this.getLastUnreadChannel(), true);
-    }
+    };
 
     scrollToChannel = (channelId: string | null | undefined, scrollingToUnread = false) => {
         if (!channelId) {
@@ -221,14 +221,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             this.scrollToPosition(scrollEnd);
         }
-    }
+    };
 
     scrollToPosition = (scrollEnd: number) => {
         // Stop the current animation before scrolling
         this.scrollAnimation.setCurrentValue(this.scrollbar.current!.getScrollTop()).setAtRest();
 
         this.scrollAnimation.setEndValue(scrollEnd);
-    }
+    };
 
     updateUnreadIndicators = () => {
         if (this.props.draggingState.state) {
@@ -268,15 +268,15 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                 showBottomUnread,
             });
         }
-    }
+    };
 
     getFirstUnreadChannel = () => {
         return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds());
-    }
+    };
 
     getLastUnreadChannel = () => {
         return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds().reverse());
-    }
+    };
 
     navigateChannelShortcut = (e: KeyboardEvent) => {
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
@@ -344,11 +344,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                 isNewCategory={this.props.newCategoryIds.includes(category.id)}
             />
         );
-    }
+    };
 
     onScroll = () => {
         this.updateUnreadIndicators();
-    }
+    };
 
     onTransitionEnd = debounce(() => {
         this.updateUnreadIndicators();
@@ -375,11 +375,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         }
 
         this.props.actions.setDraggingState(draggingState);
-    }
+    };
 
     onBeforeDragStart = () => {
         this.props.actions.setDraggingState({state: DraggingStates.BEFORE});
-    }
+    };
 
     onDragStart = (initial: DragStart) => {
         this.props.onDragStart(initial);
@@ -389,7 +389,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         // Re-enable scroll box resizing
         const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
         droppable[0].style.height = '';
-    }
+    };
 
     onDragEnd = (result: DropResult) => {
         this.props.onDragEnd(result);
@@ -405,7 +405,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         }
 
         this.props.actions.stopDragging();
-    }
+    };
 
     render() {
         const {categories} = this.props;

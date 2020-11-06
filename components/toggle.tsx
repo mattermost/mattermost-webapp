@@ -10,7 +10,7 @@ type Props = {
     onText?: React.ReactNode;
     offText?: React.ReactNode;
     id?: string;
-}
+};
 
 const Toggle: React.FC<Props> = (props: Props) => {
     const {onToggle, toggled, disabled, onText, offText, id} = props;

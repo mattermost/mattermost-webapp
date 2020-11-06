@@ -36,7 +36,7 @@ export default class ShouldVerifyEmail extends React.PureComponent {
         } else if (error) {
             this.setState({resendStatus: 'failure'});
         }
-    }
+    };
 
     render() {
         let resendConfirm = '';

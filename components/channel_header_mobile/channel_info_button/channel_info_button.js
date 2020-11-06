@@ -47,13 +47,13 @@ export default class NavbarInfoButton extends React.PureComponent {
         };
 
         actions.openModal(modalData);
-    }
+    };
 
     hide = () => {
         if (this.headerOverlayRef.current) {
             this.headerOverlayRef.current.hide();
         }
-    }
+    };
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 

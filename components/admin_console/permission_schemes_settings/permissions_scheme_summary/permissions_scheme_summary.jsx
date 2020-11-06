@@ -88,17 +88,17 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
                 onCancel={this.handleDeleteCanceled}
             />
         );
-    }
+    };
 
     stopPropagation = (e) => {
         e.stopPropagation();
-    }
+    };
 
     handleDeleteCanceled = () => {
         this.setState({
             showConfirmModal: false,
         });
-    }
+    };
 
     handleDeleteConfirmed = async () => {
         this.setState({deleting: true, serverError: null});
@@ -108,7 +108,7 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
         } else {
             this.setState({deleting: false, showConfirmModal: false});
         }
-    }
+    };
 
     delete = (e) => {
         e.stopPropagation();
@@ -116,11 +116,11 @@ export default class PermissionsSchemeSummary extends React.PureComponent {
             return;
         }
         this.setState({showConfirmModal: true, serverError: null});
-    }
+    };
 
     goToEdit = () => {
         this.props.history.push('/admin_console/user_management/permissions/team_override_scheme/' + this.props.scheme.id);
-    }
+    };
 
     render = () => {
         const {scheme, isDisabled} = this.props;

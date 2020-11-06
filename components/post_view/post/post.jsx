@@ -101,7 +101,7 @@ class Post extends React.PureComponent {
          * Set to mark the post as flagged
          */
         isFlagged: PropTypes.bool.isRequired,
-    }
+    };
 
     static defaultProps = {
         post: {},
@@ -166,14 +166,14 @@ class Post extends React.PureComponent {
             return;
         }
         this.props.actions.selectPost(post);
-    }
+    };
 
     handleCardClick = (post) => {
         if (!post) {
             return;
         }
         this.props.actions.selectPostCard(post);
-    }
+    };
 
     handlePostClick = (e) => {
         const post = this.props.post;
@@ -188,7 +188,7 @@ class Post extends React.PureComponent {
         if (e.altKey) {
             this.props.actions.markPostAsUnread(post);
         }
-    }
+    };
 
     handleDropdownOpened = (opened) => {
         if (this.props.togglePostMenu) {
@@ -198,7 +198,7 @@ class Post extends React.PureComponent {
         this.setState({
             dropdownOpened: opened,
         });
-    }
+    };
 
     hasSameRoot = (props) => {
         const post = props.post;
@@ -212,7 +212,7 @@ class Post extends React.PureComponent {
         }
 
         return false;
-    }
+    };
 
     getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot) => {
         let className = 'post';
@@ -288,39 +288,39 @@ class Post extends React.PureComponent {
         }
 
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
-    }
+    };
 
     setHover = () => {
         this.setState({hover: true});
-    }
+    };
 
     unsetHover = () => {
         this.setState({hover: false});
-    }
+    };
 
     handleAlt = (e) => {
         if (this.state.alt !== e.altKey) {
             this.setState({alt: e.altKey});
         }
-    }
+    };
 
     handleA11yActivateEvent = () => {
         this.setState({
             a11yActive: true,
             ariaHidden: false,
         });
-    }
+    };
 
     handleA11yDeactivateEvent = () => {
         this.setState({
             a11yActive: false,
             ariaHidden: true,
         });
-    }
+    };
 
     handlePostFocus = () => {
         this.setState({currentAriaLabel: this.props.createAriaLabel(this.props.intl)});
-    }
+    };
 
     render() {
         const {post} = this.props;

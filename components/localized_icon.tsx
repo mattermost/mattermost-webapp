@@ -10,7 +10,7 @@ type Props = Omit<HTMLAttributes<HTMLSpanElement | HTMLElement>, 'title' | 'comp
     title: MessageDescriptor & {
         values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>;
     },
-}
+};
 
 const LocalizedIcon = React.forwardRef((props: Props, ref?: React.Ref<HTMLSpanElement | HTMLElement>) => {
     const {

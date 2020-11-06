@@ -29,7 +29,7 @@ type OwnProps = {
 
     // Stripe doesn't give type exports
     [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any
-}
+};
 
 type Props = {
     elements: StripeElements | null | undefined;
@@ -40,7 +40,7 @@ type State = {
     error: string;
     empty: boolean;
     complete: boolean;
-}
+};
 
 const REQUIRED_FIELD_TEXT = 'This field is required';
 const VALID_CARD_TEXT = 'Please enter a valid credit card';
@@ -69,7 +69,7 @@ class CardInput extends React.PureComponent<Props, State> {
         if (onFocus) {
             onFocus();
         }
-    }
+    };
 
     private onBlur = () => {
         const {onBlur} = this.props;
@@ -80,11 +80,11 @@ class CardInput extends React.PureComponent<Props, State> {
         if (onBlur) {
             onBlur();
         }
-    }
+    };
 
     private onChange = (event: StripeCardElementChangeEvent) => {
         this.setState({error: '', empty: event.empty, complete: event.complete});
-    }
+    };
 
     private validateInput = () => {
         const {required} = this.props;
@@ -99,7 +99,7 @@ class CardInput extends React.PureComponent<Props, State> {
         }
 
         this.setState({error});
-    }
+    };
 
     private renderError(error: string) {
         if (!error) {

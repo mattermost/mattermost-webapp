@@ -42,7 +42,7 @@ type Props = {
      * Optional class like for icon
      */
     iconClass?: string;
-}
+};
 
 export default class FilenameOverlay extends React.PureComponent<Props> {
     render() {

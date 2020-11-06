@@ -26,7 +26,7 @@ export type StepComponentProps = {
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;
-}
+};
 export type StepType = {
     id: string;
     title: string;

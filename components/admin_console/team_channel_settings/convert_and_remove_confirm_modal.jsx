@@ -41,7 +41,7 @@ export default class ConvertAndRemoveConfirmModal extends React.PureComponent {
          * Number of users to be removed
          */
         removeAmount: PropTypes.number.isRequired,
-    }
+    };
 
     render() {
         const {show, onConfirm, onCancel, displayName, toPublic, removeAmount} = this.props;

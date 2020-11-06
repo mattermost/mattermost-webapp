@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 type Props = {
     show: boolean;
     onHide: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
 export default class PostDeletedModal extends React.Component<Props> {
     public shouldComponentUpdate(nextProps: Props): boolean {

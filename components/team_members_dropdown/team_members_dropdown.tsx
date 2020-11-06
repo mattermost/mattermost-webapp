@@ -46,7 +46,7 @@ type State = {
     showDemoteModal: boolean;
     user: UserProfile|null;
     role: string|null;
-}
+};
 
 export default class TeamMembersDropdown extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -77,14 +77,14 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
                 }
             }
         }
-    }
+    };
 
     private handleRemoveFromTeam = async () => {
         const {error} = await this.props.actions.removeUserFromTeamAndGetStats(this.props.teamMember.team_id, this.props.user.id);
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     private handleMakeAdmin = async () => {
         const me = this.props.currentUser;
@@ -99,7 +99,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
                 this.props.actions.getTeamMember(this.props.teamMember.team_id, this.props.user.id);
             }
         }
-    }
+    };
 
     private handleDemote = (user: UserProfile, role: string): void => {
         this.setState({
@@ -108,7 +108,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
             user,
             role,
         });
-    }
+    };
 
     private handleDemoteCancel = (): void => {
         this.setState({
@@ -117,7 +117,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
             user: null,
             role: null,
         });
-    }
+    };
 
     private handleDemoteSubmit = async () => {
         const {error} = await this.props.actions.updateTeamMemberSchemeRoles(this.props.teamMember.team_id, this.props.user.id, true, false);
@@ -127,7 +127,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
             this.props.actions.getUser(this.props.user.id);
             browserHistory.push(this.props.teamUrl);
         }
-    }
+    };
 
     render() {
         let serverError = null;

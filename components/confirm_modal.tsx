@@ -75,7 +75,7 @@ type Props = {
 
 type State = {
     checked: boolean;
-}
+};
 
 export default class ConfirmModal extends React.Component<Props, State> {
     static defaultProps = {
@@ -84,7 +84,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
         confirmButtonClass: 'btn btn-primary',
         confirmButtonText: '',
         modalClass: '',
-    }
+    };
 
     constructor(props: Props) {
         super(props);
@@ -128,19 +128,19 @@ export default class ConfirmModal extends React.Component<Props, State> {
                 this.handleConfirm();
             }
         }
-    }
+    };
 
     handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({checked: e.target.checked});
-    }
+    };
 
     handleConfirm = () => {
         this.props.onConfirm(this.state.checked);
-    }
+    };
 
     handleCancel = () => {
         this.props.onCancel(this.state.checked);
-    }
+    };
 
     render() {
         let checkbox;

@@ -69,7 +69,7 @@ export default class CodePreview extends React.PureComponent {
             error: this.handleReceivedError,
             success: this.handleReceivedCode,
         });
-    }
+    };
 
     handleReceivedCode = (data) => {
         let code = data;
@@ -81,11 +81,11 @@ export default class CodePreview extends React.PureComponent {
             loading: false,
             success: true,
         });
-    }
+    };
 
     handleReceivedError = () => {
         this.setState({loading: false, success: false});
-    }
+    };
 
     static supports(fileInfo) {
         return Boolean(SyntaxHighlighting.getLanguageFromFileExtension(fileInfo.extension));

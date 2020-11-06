@@ -75,7 +75,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             }
             Promise.all(promises).then(() => this.setState({loadingMore: false, page: this.state.page + 1}));
         });
-    }
+    };
 
     // |RunJobs && !EnableCluster|(*App).IsPhase2MigrationCompleted|View                                                   |
     // |-------------------------|---------------------------------|-------------------------------------------------------|
@@ -114,7 +114,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             'Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}.',
             docLink,
         );
-    }
+    };
 
     teamOverrideUnavalableView = (id, defaultMsg, documentationLink) => {
         return (
@@ -186,7 +186,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
             );
         }
         return false;
-    }
+    };
 
     render = () => {
         if (this.state.loading) {

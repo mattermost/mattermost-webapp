@@ -30,7 +30,7 @@ export default class SystemAnalytics extends React.PureComponent {
     static propTypes = {
         isLicensed: PropTypes.bool.isRequired,
         stats: PropTypes.object,
-    }
+    };
 
     componentDidMount() {
         AdminActions.getStandardAnalytics();

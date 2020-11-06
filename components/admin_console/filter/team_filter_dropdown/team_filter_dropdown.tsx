@@ -41,7 +41,7 @@ type State = {
     searchResults: Team[];
     searchTerm: string;
     searchTotal: number;
-}
+};
 
 const getSelectedTeams = createSelector(
     (selectedTeamIds: string[]) => selectedTeamIds,
@@ -98,11 +98,11 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
 
     componentWillUnmount = () => {
         document.removeEventListener('mousedown', this.handleClickOutside);
-    }
+    };
 
     hidePopover = () => {
         this.setState({show: false});
-    }
+    };
 
     togglePopover = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (this.state.show) {
@@ -123,18 +123,18 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                 this.listRef.current.scrollTop = 0;
             }
         });
-    }
+    };
 
     handleClickOutside = (event: MouseEvent) => {
         if (this.ref?.current?.contains(event.target as Node)) {
             return;
         }
         this.hidePopover();
-    }
+    };
 
     setScrollPosition = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
         this.scrollPosition = (event.target as HTMLDivElement).scrollTop;
-    }
+    };
 
     hasMore = (): boolean => {
         if (this.state.loading) {
@@ -143,7 +143,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
             return this.state.searchTotal > this.state.searchResults.length;
         }
         return this.props.total > (this.state.page + 1) * TEAMS_PER_PAGE;
-    }
+    };
 
     loadMore = async () => {
         const {searchTerm, loading} = this.state;
@@ -163,7 +163,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         }
 
         this.setState({page, loading: false});
-    }
+    };
 
     searchTeams = async (term: string, page: number) => {
         let searchResults = [];
@@ -178,7 +178,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         }
         this.searchRetryInterval *= 2;
         this.searchRetryId = window.setTimeout(this.searchTeams.bind(null, term, page), this.searchRetryInterval);
-    }
+    };
 
     searchTeamsDebounced = debounce((page, term) => this.searchTeams(term, page), INITIAL_SEARCH_RETRY_TIMEOUT, false, () => {});
 
@@ -201,12 +201,12 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         }
 
         this.searchTeamsDebounced(0, searchTerm);
-    }
+    };
 
     resetTeams = () => {
         this.setState({savedSelectedTeams: [], show: false, searchResults: [], searchTotal: 0, page: 0, searchTerm: ''});
         this.props.updateValues({team_ids: {name: 'Teams', value: []}}, 'teams');
-    }
+    };
 
     toggleTeam = (checked: boolean, teamId: string) => {
         const prevSelectedTeamIds = this.props.option.values.team_ids.value as string[];
@@ -218,7 +218,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         }
 
         this.props.updateValues({team_ids: {name: 'Teams', value: selectedTeamIds}}, 'teams');
-    }
+    };
 
     generateButtonText = () => {
         const selectedTeamIds = this.props.option.values.team_ids.value as string[];
@@ -250,7 +250,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         });
 
         return {buttonText, buttonMore};
-    }
+    };
 
     render() {
         const selectedTeamIds = this.props.option.values.team_ids.value as string[];

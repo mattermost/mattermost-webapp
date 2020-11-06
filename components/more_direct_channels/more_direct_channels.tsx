@@ -73,7 +73,7 @@ type Props = {
         searchGroupChannels: (term: string) => Promise<any>;
         setModalSearchTerm: (term: any) => GenericAction;
     };
-}
+};
 
 type State = {
     values: OptionType[];
@@ -81,7 +81,7 @@ type State = {
     search: boolean;
     saving: boolean;
     loadingUsers: boolean;
-}
+};
 
 export default class MoreDirectChannels extends React.PureComponent<Props, State> {
     searchTimeoutId: any;
@@ -122,7 +122,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         this.getUserProfiles();
         this.props.actions.getTotalUsersStats();
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
-    }
+    };
 
     updateFromProps(prevProps: Props) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
@@ -175,7 +175,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         if (missingStatusByIds.length > 0) {
             this.props.actions.getStatusesByIds(missingStatusByIds);
         }
-    }
+    };
 
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
@@ -184,13 +184,13 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         if (this.props.bodyOnly) {
             this.handleExit();
         }
-    }
+    };
 
     setUsersLoadingState = (loadingState: boolean) => {
         this.setState({
             loadingUsers: loadingState,
         });
-    }
+    };
 
     handleExit = () => {
         if (this.exitToChannel) {
@@ -204,7 +204,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         if (this.props.onHide) {
             this.props.onHide();
         }
-    }
+    };
 
     handleSubmit = (values = this.state.values) => {
         const {actions} = this.props;
@@ -276,35 +276,35 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 this.setUsersLoadingState(false);
             });
         }
-    }
+    };
 
     handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
             this.getUserProfiles(page);
         }
-    }
+    };
 
     resetPaging = () => {
         if (this.multiselect.current) {
             this.multiselect.current.resetPaging();
         }
-    }
+    };
 
     search = (term: string) => {
         this.props.actions.setModalSearchTerm(term);
-    }
+    };
 
     handleDelete = (values: OptionType[]) => {
         this.setState({values});
-    }
+    };
 
     renderAriaLabel = (option: OptionType) => {
         if (!option) {
             return '';
         }
         return (option as UserProfile).username;
-    }
+    };
 
     renderOption = (option: OptionType, isSelected: boolean, onAdd: (value: OptionType) => void, onMouseMove: (value: OptionType) => void) => {
         // Special case typing for Group Channels
@@ -391,7 +391,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 </div>
             </div>
         );
-    }
+    };
 
     renderValue(props: {data: OptionType}) {
         return (props.data as UserProfileValue).username;
@@ -399,7 +399,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
 
     handleSubmitImmediatelyOn = (value: OptionType) => {
         return value.id === this.props.currentUserId || Boolean(value.delete_at);
-    }
+    };
 
     render() {
         let note;

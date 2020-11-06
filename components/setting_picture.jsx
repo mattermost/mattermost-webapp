@@ -84,13 +84,13 @@ export default class SettingPicture extends Component {
     handleCancel = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection(e);
-    }
+    };
 
     handleFileSelected = () => {
         if (this.confirmButton.current) {
             this.confirmButton.current.focus();
         }
-    }
+    };
 
     handleSave = (e) => {
         e.preventDefault();
@@ -104,29 +104,29 @@ export default class SettingPicture extends Component {
         } else {
             this.props.onSubmit();
         }
-    }
+    };
 
     handleRemoveSrc = (e) => {
         e.preventDefault();
         this.setState({removeSrc: true});
         this.focusFirstElement();
-    }
+    };
 
     handleSetDefaultSrc = (e) => {
         e.preventDefault();
         this.setState({setDefaultSrc: true});
         this.focusFirstElement();
-    }
+    };
 
     handleFileChange = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.onFileChange(e);
-    }
+    };
 
     handleInputFile = () => {
         this.selectInput.current.value = '';
         this.selectInput.current.click();
-    }
+    };
 
     setPicture = (file) => {
         if (file) {
@@ -144,7 +144,7 @@ export default class SettingPicture extends Component {
             };
             reader.readAsArrayBuffer(file);
         }
-    }
+    };
 
     renderImg = () => {
         const imageContext = this.props.imageContext;
@@ -242,7 +242,7 @@ export default class SettingPicture extends Component {
             );
         }
         return null;
-    }
+    };
 
     render() {
         const img = this.renderImg();

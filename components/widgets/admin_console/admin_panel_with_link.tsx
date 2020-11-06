@@ -20,7 +20,7 @@ type Props = {
     disabled?: boolean;
     linkTextId: string;
     linkTextDefault: string;
-}
+};
 
 const AdminPanelWithLink = (props: Props) => {
     const button = (

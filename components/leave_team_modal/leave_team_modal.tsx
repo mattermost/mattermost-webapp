@@ -19,7 +19,7 @@ type Props = {
         toggleSideBarRightMenu: () => void;
     };
 
-}
+};
 
 export default class LeaveTeamModal extends React.PureComponent<Props> {
     componentDidMount() {

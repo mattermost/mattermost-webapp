@@ -27,7 +27,7 @@ type Props = {
 
 type State = {
     categoryName: string;
-}
+};
 
 export default class EditCategoryModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -40,15 +40,15 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
 
     handleClear = () => {
         this.setState({categoryName: ''});
-    }
+    };
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({categoryName: e.target.value});
-    }
+    };
 
     handleCancel = () => {
         this.handleClear();
-    }
+    };
 
     handleConfirm = () => {
         if (this.props.categoryId) {
@@ -57,12 +57,12 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
             this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName, this.props.channelIdsToAdd);
             trackEvent('ui', 'ui_sidebar_created_category');
         }
-    }
+    };
 
     isConfirmDisabled = () => {
         return !this.state.categoryName ||
             (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName);
-    }
+    };
 
     getText = () => {
         let modalHeaderText;
@@ -108,7 +108,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
             editButtonText,
             helpText,
         };
-    }
+    };
 
     render() {
         const {

@@ -204,17 +204,17 @@ class FileUpload extends PureComponent {
             }
             this.setState({requests});
         }
-    }
+    };
 
     fileUploadFail = (err, clientId, channelId, currentRootId) => {
         this.props.onUploadError(err, clientId, channelId, currentRootId);
-    }
+    };
 
     pluginUploadFiles = (files) => {
         // clear any existing errors
         this.props.onUploadError(null);
         this.uploadFiles(files);
-    }
+    };
 
     checkPluginHooksAndUploadFiles = (files) => {
         // clear any existing errors
@@ -237,7 +237,7 @@ class FileUpload extends PureComponent {
         if (sortedFiles) {
             this.uploadFiles(sortedFiles);
         }
-    }
+    };
 
     uploadFiles = (sortedFiles) => {
         const {currentChannelId, rootId} = this.props;
@@ -329,7 +329,7 @@ class FileUpload extends PureComponent {
         if (errors.length > 0) {
             this.props.onUploadError(errors.join(', '));
         }
-    }
+    };
 
     handleChange = (e) => {
         if (e.target.files.length > 0) {
@@ -339,7 +339,7 @@ class FileUpload extends PureComponent {
         }
 
         this.props.onFileUploadChange();
-    }
+    };
 
     handleDrop = (e) => {
         if (!this.props.canUploadFiles) {
@@ -387,7 +387,7 @@ class FileUpload extends PureComponent {
         }
 
         this.props.onFileUploadChange();
-    }
+    };
 
     registerDragEvents = (containerSelector, overlaySelector) => {
         const self = this;
@@ -435,7 +435,7 @@ class FileUpload extends PureComponent {
         }
 
         this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
-    }
+    };
 
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
 
@@ -509,7 +509,7 @@ class FileUpload extends PureComponent {
                 this.props.onFileUploadChange();
             }
         }
-    }
+    };
 
     keyUpload = (e) => {
         if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
@@ -526,7 +526,7 @@ class FileUpload extends PureComponent {
                 this.fileInput.current.click();
             }
         }
-    }
+    };
 
     cancelUpload = (clientId) => {
         const requests = Object.assign({}, this.state.requests);
@@ -538,7 +538,7 @@ class FileUpload extends PureComponent {
             Reflect.deleteProperty(requests, clientId);
             this.setState({requests});
         }
-    }
+    };
 
     handleMaxUploadReached = (e) => {
         if (e) {
@@ -549,11 +549,11 @@ class FileUpload extends PureComponent {
         const {formatMessage} = this.props.intl;
 
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
-    }
+    };
 
     toggleMenu = (open) => {
         this.setState({menuOpen: open});
-    }
+    };
 
     handleLocalFileUploaded = (e) => {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
@@ -565,13 +565,13 @@ class FileUpload extends PureComponent {
             this.handleMaxUploadReached(e);
         }
         this.setState({menuOpen: false});
-    }
+    };
 
     simulateInputClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         this.fileInput.current.click();
-    }
+    };
 
     render() {
         const {formatMessage} = this.props.intl;

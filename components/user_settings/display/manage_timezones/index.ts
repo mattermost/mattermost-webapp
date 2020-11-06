@@ -10,7 +10,7 @@ import ManageTimezones from './manage_timezones';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

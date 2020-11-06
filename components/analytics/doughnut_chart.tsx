@@ -13,7 +13,7 @@ type Props = {
     width: number;
     height: number;
     data?: ChartData;
-}
+};
 
 export default class DoughnutChart extends React.PureComponent<Props> {
     private canvasRef = React.createRef<HTMLCanvasElement>();
@@ -46,7 +46,7 @@ export default class DoughnutChart extends React.PureComponent<Props> {
         if (update && this.chart) {
             this.chart.update();
         }
-    }
+    };
 
     public render(): JSX.Element {
         let content;

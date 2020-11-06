@@ -19,7 +19,7 @@ import Timestamp, {Props as TimestampProps, supportsHourCycle} from './timestamp
 
 type Props = {
     userTimezone?: UserTimezone;
-}
+};
 
 function mapStateToProps(state: GlobalState, {userTimezone}: Props) {
     const currentUserId = getCurrentUserId(state);

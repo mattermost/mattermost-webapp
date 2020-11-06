@@ -46,7 +46,7 @@ export default class ConfirmIntegration extends React.PureComponent {
         if (e.key === 'Enter') {
             browserHistory.push('/' + this.props.team.name + '/integrations/' + this.state.type);
         }
-    }
+    };
 
     render() {
         let headerText = null;

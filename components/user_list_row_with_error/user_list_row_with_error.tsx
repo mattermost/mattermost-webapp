@@ -43,10 +43,10 @@ type Props = {
     userCount?: number;
     totalUsers?: number;
     isDisabled?: boolean;
-}
+};
 type State = {
     error?: ServerError;
-}
+};
 
 export default class UserListRowWithError extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -58,7 +58,7 @@ export default class UserListRowWithError extends React.PureComponent<Props, Sta
         this.setState({
             error: errorObj,
         });
-    }
+    };
 
     render(): JSX.Element {
         let buttons = null;

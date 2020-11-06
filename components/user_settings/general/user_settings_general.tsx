@@ -129,7 +129,7 @@ export type Props = {
     ldapPositionAttributeSet?: boolean;
     samlPositionAttributeSet?: boolean;
     ldapPictureAttributeSet?: boolean;
-}
+};
 
 type State = {
     username: string;
@@ -149,7 +149,7 @@ type State = {
     clientError?: string | null;
     serverError?: string | {server_error_id: string; message: string};
     emailError?: string;
-}
+};
 
 export class UserSettingsGeneralTab extends React.Component<Props, State> {
     public submitActive = false;
@@ -169,7 +169,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 this.setState({resendStatus: 'failure'});
             }
         });
-    }
+    };
 
     createEmailResendLink = (email: string) => {
         return (
@@ -196,7 +196,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 </LoadingWrapper>
             </span>
         );
-    }
+    };
 
     submitUsername = () => {
         const user = Object.assign({}, this.props.user);
@@ -222,7 +222,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         trackEvent('settings', 'user_settings_update', {field: 'username'});
 
         this.submitUser(user, false);
-    }
+    };
 
     submitNickname = () => {
         const user = Object.assign({}, this.props.user);
@@ -238,7 +238,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         trackEvent('settings', 'user_settings_update', {field: 'nickname'});
 
         this.submitUser(user, false);
-    }
+    };
 
     submitName = () => {
         const user = Object.assign({}, this.props.user);
@@ -256,7 +256,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         trackEvent('settings', 'user_settings_update', {field: 'fullname'});
 
         this.submitUser(user, false);
-    }
+    };
 
     submitEmail = () => {
         const user = Object.assign({}, this.props.user);
@@ -290,7 +290,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         user.password = currentPassword;
         trackEvent('settings', 'user_settings_update', {field: 'email'});
         this.submitUser(user, true);
-    }
+    };
 
     submitUser = (user: UserProfile, emailUpdated: boolean) => {
         const {formatMessage} = this.props.intl;
@@ -322,7 +322,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
                 }
             });
-    }
+    };
 
     setDefaultProfilePicture = async () => {
         try {
@@ -338,7 +338,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             }
             this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
         }
-    }
+    };
 
     submitPicture = () => {
         if (!this.state.pictureFile) {
@@ -375,7 +375,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     this.setState(state);
                 }
             });
-    }
+    };
 
     submitPosition = () => {
         const user = Object.assign({}, this.props.user);
@@ -391,39 +391,39 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         trackEvent('settings', 'user_settings_update', {field: 'position'});
 
         this.submitUser(user, false);
-    }
+    };
 
     updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({username: e.target.value});
-    }
+    };
 
     updateFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({firstName: e.target.value});
-    }
+    };
 
     updateLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({lastName: e.target.value});
-    }
+    };
 
     updateNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({nickname: e.target.value});
-    }
+    };
 
     updatePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({position: e.target.value});
-    }
+    };
 
     updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({email: e.target.value});
-    }
+    };
 
     updateConfirmEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({confirmEmail: e.target.value});
-    }
+    };
 
     updateCurrentPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({currentPassword: e.target.value});
-    }
+    };
 
     updatePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -434,13 +434,13 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         } else {
             this.setState({pictureFile: null});
         }
-    }
+    };
 
     updateSection = (section: string) => {
         this.setState(Object.assign({}, this.setupInitialState(this.props), {clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
         this.props.updateSection(section);
-    }
+    };
 
     setupInitialState(props: Props) {
         const user = props.user;

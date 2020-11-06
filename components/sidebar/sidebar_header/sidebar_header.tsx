@@ -10,7 +10,7 @@ import SidebarHeaderDropdown from 'components/legacy_sidebar/header/dropdown';
 
 type State = {
     isMobile: boolean;
-}
+};
 
 export default class SidebarHeader extends React.PureComponent<any, State> {
     constructor(props: any) {
@@ -31,7 +31,7 @@ export default class SidebarHeader extends React.PureComponent<any, State> {
     handleResize = () => {
         const isMobile = Utils.isMobile();
         this.setState({isMobile});
-    }
+    };
 
     render() {
         const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');

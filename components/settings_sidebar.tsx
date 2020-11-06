@@ -11,20 +11,20 @@ export type Tab = {
     iconTitle: string;
     name: string;
     uiName: string;
-}
+};
 
 export type Props = {
     activeTab?: string;
     tabs: Tab[];
     updateTab: (name: string) => void;
-}
+};
 
 export default class SettingsSidebar extends React.PureComponent<Props> {
     public handleClick = (tab: Tab, e: React.MouseEvent) => {
         e.preventDefault();
         this.props.updateTab(tab.name);
         $(e.target).closest('.settings-modal').addClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
-    }
+    };
 
     public componentDidMount() {
         if (UserAgent.isFirefox()) {

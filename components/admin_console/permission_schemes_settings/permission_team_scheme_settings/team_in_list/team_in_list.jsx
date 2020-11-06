@@ -14,7 +14,7 @@ export default class TeamInList extends React.PureComponent {
         team: PropTypes.object.isRequired,
         onRemoveTeam: PropTypes.func,
         isDisabled: PropTypes.bool,
-    }
+    };
 
     handleRemoveTeam = () => {
         const {team, isDisabled, onRemoveTeam} = this.props;
@@ -22,7 +22,7 @@ export default class TeamInList extends React.PureComponent {
             return;
         }
         onRemoveTeam(team.id);
-    }
+    };
 
     render() {
         const {team, isDisabled} = this.props;

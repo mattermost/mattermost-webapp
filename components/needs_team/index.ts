@@ -31,7 +31,7 @@ type OwnProps = {
     match: {
         url: string;
     };
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);

@@ -34,7 +34,7 @@ export default class LicenseSettings extends React.PureComponent {
             upgradeToE0Status: PropTypes.func.isRequired,
             requestTrialLicense: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -85,14 +85,14 @@ export default class LicenseSettings extends React.PureComponent {
             this.interval = setInterval(this.reloadPercentage, 2000);
         }
         this.setState({upgradingPercentage: percentage || 0, upgradeError: error});
-    }
+    };
 
     handleChange = () => {
         const element = this.refs.fileInput;
         if (element && element.files.length > 0) {
             this.setState({fileSelected: true, fileName: element.files[0].name});
         }
-    }
+    };
 
     handleSubmit = async (e) => {
         e.preventDefault();
@@ -114,7 +114,7 @@ export default class LicenseSettings extends React.PureComponent {
 
         await this.props.actions.getLicenseConfig();
         this.setState({fileSelected: false, fileName: null, serverError: null, uploading: false});
-    }
+    };
 
     handleRemove = async (e) => {
         e.preventDefault();
@@ -129,7 +129,7 @@ export default class LicenseSettings extends React.PureComponent {
 
         await this.props.actions.getLicenseConfig();
         this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
-    }
+    };
 
     handleUpgrade = async (e) => {
         e.preventDefault();
@@ -144,7 +144,7 @@ export default class LicenseSettings extends React.PureComponent {
             trackEvent('api', 'upgrade_to_e0_failed', {error: error.message});
             this.setState({upgradeError: error.message, upgradingPercetage: 0});
         }
-    }
+    };
 
     requestLicense = async (e) => {
         e.preventDefault();
@@ -159,7 +159,7 @@ export default class LicenseSettings extends React.PureComponent {
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
-    }
+    };
 
     checkRestarted = () => {
         this.props.actions.ping().then(() => {
@@ -167,7 +167,7 @@ export default class LicenseSettings extends React.PureComponent {
         }).catch(() => {
             setTimeout(this.checkRestarted, 1000);
         });
-    }
+    };
 
     handleRestart = async (e) => {
         e.preventDefault();
@@ -178,7 +178,7 @@ export default class LicenseSettings extends React.PureComponent {
             this.setState({restarting: false, restartError: err});
         }
         setTimeout(this.checkRestarted, 1000);
-    }
+    };
 
     render() {
         let gettingTrialError = '';
@@ -488,7 +488,7 @@ export default class LicenseSettings extends React.PureComponent {
                 </div>
             </>
         );
-    }
+    };
 
     renderE0Content = () => {
         let serverError = '';
@@ -578,7 +578,7 @@ export default class LicenseSettings extends React.PureComponent {
                 </div>
             </>
         );
-    }
+    };
 
     renderEELicenseText = () => {
         return (
@@ -601,6 +601,6 @@ export default class LicenseSettings extends React.PureComponent {
                 </div>
             </>
         );
-    }
+    };
 }
 /* eslint-enable react/no-string-refs */

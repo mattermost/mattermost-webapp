@@ -15,11 +15,11 @@ type Props = {
     doMakeUserTeamAdmin: (teamId: string) => void;
     doMakeUserTeamMember: (teamId: string) => void;
     isDisabled?: boolean;
-}
+};
 
 type State = {
     serverError: string | null;
-}
+};
 
 export default class TeamListDropdown extends React.PureComponent<Props, State> {
     public constructor(props: Props) {

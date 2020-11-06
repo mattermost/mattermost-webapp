@@ -81,7 +81,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         }
 
         this.props.onToggleMenu(false);
-    }
+    };
 
     // Set the z-index on the sidebar scrollbar while a menu is open so that it doesn't float on top of menus
     disableScrollbar = () => {
@@ -89,7 +89,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         if (scrollbars && scrollbars[0]) {
             scrollbars[0].style.zIndex = this.props.isMenuOpen ? '3' : 'unset';
         }
-    }
+    };
 
     refCallback = (ref: Menu) => {
         if (ref) {
@@ -113,7 +113,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                 }
             });
         }
-    }
+    };
 
     setMenuPosition = () => {
         if (this.menuButtonRef.current && this.menuRef) {
@@ -121,7 +121,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
             const openUpOffset = this.state.openUp ? -this.menuButtonRef.current.getBoundingClientRect().height : 0;
             menuRef.style.top = `${window.scrollY + this.menuButtonRef.current.getBoundingClientRect().top + this.menuButtonRef.current.clientHeight + openUpOffset}px`;
         }
-    }
+    };
 
     render() {
         const {

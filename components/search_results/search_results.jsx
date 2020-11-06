@@ -155,11 +155,11 @@ class SearchResults extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         });
-    }
+    };
 
     scrollToTop = () => {
         this.scrollbars.current.scrollToTop();
-    }
+    };
 
     handleScroll = () => {
         if (!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isSearchingTerm && !this.props.isSearchGettingMore) {
@@ -170,7 +170,7 @@ class SearchResults extends React.Component {
                 this.loadMorePosts();
             }
         }
-    }
+    };
 
     loadMorePosts = debounce(() => {
         this.props.actions.getMorePostsForSearch();

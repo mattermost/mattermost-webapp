@@ -41,7 +41,7 @@ type Props = {
     creatorName: string;
     teammate: UserProfileRedux;
     teammateName?: string;
-}
+};
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
     render() {

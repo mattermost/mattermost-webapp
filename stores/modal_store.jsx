@@ -17,11 +17,11 @@ class ModalStoreClass extends EventEmitter {
 
     addModalListener = (action, callback) => {
         this.on(action, callback);
-    }
+    };
 
     removeModalListener = (action, callback) => {
         this.removeListener(action, callback);
-    }
+    };
 
     handleEventPayload = (payload) => {
         // toggle event handlers should accept a boolean show/hide value and can accept a map of arguments
@@ -40,7 +40,7 @@ class ModalStoreClass extends EventEmitter {
             this.emit(type, value, args);
             break;
         }
-    }
+    };
 }
 
 const ModalStore = new ModalStoreClass();

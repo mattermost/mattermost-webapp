@@ -49,7 +49,7 @@ export default class ReactionList extends React.PureComponent {
              */
             addReaction: PropTypes.func.isRequired,
         }),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -62,21 +62,21 @@ export default class ReactionList extends React.PureComponent {
 
     getTarget = () => {
         return this.addReactionButtonRef.current;
-    }
+    };
 
     handleEmojiClick = (emoji) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
-    }
+    };
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
-    }
+    };
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
-    }
+    };
 
     render() {
         const reactionsByName = new Map();

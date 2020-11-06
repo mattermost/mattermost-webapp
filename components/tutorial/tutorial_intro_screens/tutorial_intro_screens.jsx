@@ -61,7 +61,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
         }];
 
         this.props.actions.savePreferences(currentUserId, preferences);
-    }
+    };
 
     skipTutorial = (e) => {
         e.preventDefault();
@@ -87,7 +87,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
         }];
 
         this.props.actions.savePreferences(currentUserId, preferences);
-    }
+    };
     createScreen = () => {
         switch (this.state.currentScreen) {
         case 0:
@@ -98,7 +98,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
             return this.createScreenThree();
         }
         return null;
-    }
+    };
 
     createScreenOne() {
         const circles = this.createCircles();
@@ -286,7 +286,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
     handleCircleClick = (e, screen) => {
         e.preventDefault();
         this.setState({currentScreen: screen});
-    }
+    };
 
     createCircles = () => {
         const circles = [];
@@ -313,7 +313,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
                 {circles}
             </div>
         );
-    }
+    };
 
     render() {
         const screen = this.createScreen();

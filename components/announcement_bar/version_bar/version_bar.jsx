@@ -36,7 +36,7 @@ export default class VersionBar extends React.PureComponent {
 
     reloadPage = () => {
         window.location.reload();
-    }
+    };
 
     render() {
         const {serverVersionOnAppLoad} = this.state;

@@ -10,12 +10,12 @@ type Props = {
     spinning: boolean;
     spinningText: ReactNode;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
+};
 
 export default class SpinnerButton extends PureComponent<Props & React.ButtonHTMLAttributes<HTMLButtonElement>> {
     public static defaultProps: Partial<Props> = {
         spinning: false,
-    }
+    };
 
     public render(): JSX.Element {
         const {spinning, spinningText, children, ...props} = this.props; // eslint-disable-line no-use-before-define

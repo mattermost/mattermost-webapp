@@ -56,7 +56,7 @@ type Props = {
      * Function to call when modal is dismissed
      */
     onModalDismissed: () => void;
-}
+};
 
 type State = {
     currentURL?: string;
@@ -73,7 +73,7 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
         submitButtonText: 'Save',
         currentURL: '',
         serverError: null,
-    }
+    };
 
     constructor(props: Props) {
         super(props);
@@ -98,7 +98,7 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
     onURLChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const url = e.target.value.trim();
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
-    }
+    };
 
     onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -111,12 +111,12 @@ export default class ChangeURLModal extends React.PureComponent<Props, State> {
         }
         this.setState({urlErrors: '', userEdit: false});
         this.props.onModalSubmit(url);
-    }
+    };
 
     onCancel = () => {
         this.setState({urlErrors: '', userEdit: false});
         this.props.onModalDismissed();
-    }
+    };
 
     render() {
         let urlClass = 'input-group input-group--limit';

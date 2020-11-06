@@ -13,7 +13,7 @@ export default class SearchDateSuggestion extends Suggestion {
     handleDayClick = (day) => {
         const dayString = day.toISOString().split('T')[0];
         this.props.onClick(dayString, this.props.matchedPretext);
-    }
+    };
 
     render() {
         let modifiers;

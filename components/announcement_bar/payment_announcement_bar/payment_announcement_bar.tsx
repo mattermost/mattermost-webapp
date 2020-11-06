@@ -37,7 +37,7 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
 
     isMostRecentPaymentFailed = () => {
         return this.props.subscription?.last_invoice?.status === 'failed';
-    }
+    };
 
     shouldShowBanner = () => {
         const {userIsAdmin, isCloud, subscription} = this.props;
@@ -64,11 +64,11 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
         }
 
         return true;
-    }
+    };
 
     updatePaymentInfo = () => {
         browserHistory.push('/admin_console/billing/payment_info');
-    }
+    };
 
     render() {
         if (isEmpty(this.props.customer) || isEmpty(this.props.subscription)) {

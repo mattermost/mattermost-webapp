@@ -72,7 +72,7 @@ export default class ChannelInfoModal extends React.PureComponent {
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 

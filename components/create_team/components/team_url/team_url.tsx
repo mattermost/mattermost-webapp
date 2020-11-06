@@ -22,7 +22,7 @@ type State = {
     isLoading: boolean;
     nameError: string | JSX.Element;
     teamURL: string
-}
+};
 
 type Props = {
 
@@ -54,7 +54,7 @@ type Props = {
     history: {
         push(path: string): void;
     };
-}
+};
 
 export default class TeamUrl extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -77,7 +77,7 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         const newState = this.props.state;
         newState.wizard = 'display_name';
         this.props.updateParent(newState);
-    }
+    };
 
     public submitNext = async (e: React.MouseEvent<Button, MouseEvent>) => {
         e.preventDefault();
@@ -164,16 +164,16 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
             this.setState({nameError: error.message});
             this.setState({isLoading: false});
         }
-    }
+    };
 
     public handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.currentTarget.select();
-    }
+    };
 
     public handleTeamURLInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({teamURL: e.target.value});
-    }
+    };
 
     render() {
         let nameError = null;

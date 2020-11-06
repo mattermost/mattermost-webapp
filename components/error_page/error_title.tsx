@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 type Props = {
     type?: string | null;
     title: string;
-}
+};
 
 const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
     let errorTitle = null;

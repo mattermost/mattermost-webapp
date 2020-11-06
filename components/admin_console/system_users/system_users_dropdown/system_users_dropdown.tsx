@@ -52,7 +52,7 @@ export type Props = {
     doManageRoles: (user: UserProfile) => void;
     doManageTokens: (user: UserProfile) => void;
     onError: (error: ServerError | {id: string}) => void;
-}
+};
 
 type State = {
     showDeactivateMemberModal: boolean;
@@ -61,7 +61,7 @@ type State = {
     showDemoteToGuestModal: boolean;
     user: UserProfile | null;
     role: string | null;
-}
+};
 
 export default class SystemUsersDropdown extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -81,40 +81,40 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         e.preventDefault();
         this.props.actions.updateUserActive(this.props.user.id, true).
             then(this.onUpdateActiveResult);
-    }
+    };
 
     handleManageTeams = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         this.props.doManageTeams(this.props.user);
-    }
+    };
 
     handleManageRoles = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         this.props.doManageRoles(this.props.user);
-    }
+    };
 
     handleManageTokens = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         this.props.doManageTokens(this.props.user);
-    }
+    };
 
     handleResetPassword = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.props.doPasswordReset(this.props.user);
-    }
+    };
 
     handleResetEmail = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.props.doEmailReset(this.props.user);
-    }
+    };
 
     handleResetMfa = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         adminResetMfa(this.props.user.id, null, this.props.onError);
-    }
+    };
 
     handleShowDeactivateMemberModal = async (e: {preventDefault: () => void}) => {
         e.preventDefault();
@@ -125,23 +125,23 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             );
         }
         this.setState({showDeactivateMemberModal: true});
-    }
+    };
 
     handleDeactivateMember = () => {
         this.props.actions.updateUserActive(this.props.user.id, false).
             then(this.onUpdateActiveResult);
         this.setState({showDeactivateMemberModal: false});
-    }
+    };
 
     onUpdateActiveResult = ({error}: {error: ServerError}) => {
         if (error) {
             this.props.onError({id: error.server_error_id, ...error});
         }
-    }
+    };
 
     handleDeactivateCancel = () => {
         this.setState({showDeactivateMemberModal: false});
-    }
+    };
 
     renderDeactivateMemberModal = () => {
         const user = this.props.user;
@@ -231,7 +231,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 onCancel={this.handleDeactivateCancel}
             />
         );
-    }
+    };
 
     shouldDisableBotsWhenOwnerIsDeactivated() {
         return this.props.config &&
@@ -242,7 +242,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
     handleShowRevokeSessionsModal = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.setState({showRevokeSessionsModal: true});
-    }
+    };
 
     handleRevokeSessions = async () => {
         const me = this.props.currentUser;
@@ -255,15 +255,15 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         }
 
         this.setState({showRevokeSessionsModal: false});
-    }
+    };
 
     handleRevokeSessionsCancel = () => {
         this.setState({showRevokeSessionsModal: false});
-    }
+    };
 
     handlePromoteToUser = () => {
         this.setState({showPromoteToUserModal: true});
-    }
+    };
 
     handlePromoteToUserConfirm = async () => {
         const {error} = await this.props.actions.promoteGuestToUser(this.props.user.id);
@@ -272,15 +272,15 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         }
 
         this.setState({showPromoteToUserModal: false});
-    }
+    };
 
     handlePromoteToUserCancel = () => {
         this.setState({showPromoteToUserModal: false});
-    }
+    };
 
     handleDemoteToGuest = () => {
         this.setState({showDemoteToGuestModal: true});
-    }
+    };
 
     handleDemoteToGuestConfirm = async () => {
         const {error} = await this.props.actions.demoteUserToGuest(this.props.user.id);
@@ -288,11 +288,11 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             this.props.onError(error);
         }
         this.setState({showDemoteToGuestModal: false});
-    }
+    };
 
     handleDemoteToGuestCancel = () => {
         this.setState({showDemoteToGuestModal: false});
-    }
+    };
 
     renderPromoteToUserModal = () => {
         const title = (
@@ -333,7 +333,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 onCancel={this.handlePromoteToUserCancel}
             />
         );
-    }
+    };
 
     renderDemoteToGuestModal = () => {
         const title = (
@@ -374,7 +374,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 onCancel={this.handleDemoteToGuestCancel}
             />
         );
-    }
+    };
 
     renderRevokeSessionsModal = () => {
         const title = (
@@ -415,7 +415,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 onCancel={this.handleRevokeSessionsCancel}
             />
         );
-    }
+    };
 
     renderAccessToken = () => {
         const userAccessTokensEnabled = this.props.enableUserAccessTokens;
@@ -452,7 +452,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 />
             </div>
         );
-    }
+    };
 
     render() {
         const {currentUser, user, isLicensed, config} = this.props;

@@ -151,7 +151,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                 copyTheme,
             });
         }
-    }
+    };
 
     setCopyTheme(theme) {
         const copyTheme = Object.assign({}, theme);
@@ -189,38 +189,38 @@ export default class CustomThemeChooser extends React.PureComponent {
 
         theme.type = 'custom';
         this.props.updateTheme(theme);
-    }
+    };
 
     onChangeHandle = (e) => {
         e.stopPropagation();
-    }
+    };
 
     selectTheme = () => {
         const textarea = this.refs.textarea;
         textarea.focus();
         textarea.setSelectionRange(0, this.state.copyTheme.length);
-    }
+    };
 
     toggleSidebarStyles = (e) => {
         e.preventDefault();
 
         this.refs.sidebarStylesHeader.classList.toggle('open');
         this.toggleSection(this.refs.sidebarStyles);
-    }
+    };
 
     toggleCenterChannelStyles = (e) => {
         e.preventDefault();
 
         this.refs.centerChannelStylesHeader.classList.toggle('open');
         this.toggleSection(this.refs.centerChannelStyles);
-    }
+    };
 
     toggleLinkAndButtonStyles = (e) => {
         e.preventDefault();
 
         this.refs.linkAndButtonStylesHeader.classList.toggle('open');
         this.toggleSection(this.refs.linkAndButtonStyles);
-    }
+    };
 
     toggleSection(node) {
         node.classList.toggle('open');
@@ -243,13 +243,13 @@ export default class CustomThemeChooser extends React.PureComponent {
         };
 
         this.props.updateTheme(theme);
-    }
+    };
 
     copyTheme = () => {
         this.selectTheme();
         document.execCommand('copy');
         this.showCopySuccess();
-    }
+    };
 
     showCopySuccess = () => {
         const copySuccess = document.querySelector('.copy-theme-success');
@@ -258,7 +258,7 @@ export default class CustomThemeChooser extends React.PureComponent {
         setTimeout(() => {
             copySuccess.style.display = 'none';
         }, COPY_SUCCESS_INTERVAL);
-    }
+    };
 
     render() {
         const theme = this.props.theme;

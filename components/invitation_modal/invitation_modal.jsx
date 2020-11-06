@@ -41,7 +41,7 @@ export default class InvitationModal extends React.PureComponent {
             searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     modal = React.createRef();
 
@@ -92,7 +92,7 @@ export default class InvitationModal extends React.PureComponent {
         } else {
             this.close();
         }
-    }
+    };
 
     goToInitialStep = () => {
         if (this.state.hasChanges) {
@@ -103,7 +103,7 @@ export default class InvitationModal extends React.PureComponent {
         if (this.modal && this.modal.current) {
             this.modal.current.enforceFocus();
         }
-    }
+    };
 
     goToMembers = () => {
         if (this.props.isCloud) {
@@ -113,7 +113,7 @@ export default class InvitationModal extends React.PureComponent {
         if (this.modal && this.modal.current) {
             this.modal.current.enforceFocus();
         }
-    }
+    };
 
     goToGuests = () => {
         if (this.props.isCloud) {
@@ -123,7 +123,7 @@ export default class InvitationModal extends React.PureComponent {
         if (this.modal && this.modal.current) {
             this.modal.current.enforceFocus();
         }
-    }
+    };
 
     goToPrevStep = () => {
         if (this.state.prevStep === STEPS_INVITE_GUESTS) {
@@ -134,7 +134,7 @@ export default class InvitationModal extends React.PureComponent {
         if (this.modal && this.modal.current) {
             this.modal.current.enforceFocus();
         }
-    }
+    };
 
     getBackFunction = () => {
         if (this.state.step === STEPS_INVITE_CONFIRM && this.state.invitesNotSent.length > 0) {
@@ -144,11 +144,11 @@ export default class InvitationModal extends React.PureComponent {
             return this.goToInitialStep;
         }
         return null;
-    }
+    };
 
     onEdit = (hasChanges) => {
         this.setState({hasChanges});
-    }
+    };
 
     close = () => {
         if (this.state.hasChanges) {
@@ -156,24 +156,24 @@ export default class InvitationModal extends React.PureComponent {
         } else {
             this.props.actions.closeModal();
         }
-    }
+    };
 
     confirmBack = () => {
         this.setState({step: STEPS_INITIAL, hasChanges: false, confirmBack: false});
-    }
+    };
 
     cancelBack= () => {
         this.setState({confirmBack: false});
-    }
+    };
 
     confirmClose = () => {
         this.props.actions.closeModal();
         this.setState({confirmModal: false});
-    }
+    };
 
     cancelClose = () => {
         this.setState({confirmModal: false});
-    }
+    };
 
     onMembersSubmit = async (users, emails, extraText) => {
         const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
@@ -195,7 +195,7 @@ export default class InvitationModal extends React.PureComponent {
         }
 
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
-    }
+    };
 
     onGuestsSubmit = async (users, emails, channels, message, extraUserText, extraChannelText) => {
         const invites = await this.props.actions.sendGuestsInvites(
@@ -228,7 +228,7 @@ export default class InvitationModal extends React.PureComponent {
             });
         }
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
-    }
+    };
 
     render() {
         return (

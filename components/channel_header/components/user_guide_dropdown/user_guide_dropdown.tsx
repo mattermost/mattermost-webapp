@@ -37,17 +37,17 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     toggleShortcutsModal = (e: MouseEvent) => {
         e.preventDefault();
         GlobalActions.toggleShortcutsModal();
-    }
+    };
 
     buttonToggleState = (menuActive: boolean) => {
         this.setState({
             buttonActive: menuActive,
         });
-    }
+    };
 
     askTheCommunityClick = () => {
         trackEvent('ui', 'help_ask_the_community');
-    }
+    };
 
     renderDropdownItems = (): React.ReactNode => {
         const {intl} = this.props;
@@ -79,7 +79,7 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                 />
             </Menu.Group>
         );
-    }
+    };
 
     render() {
         const {intl} = this.props;

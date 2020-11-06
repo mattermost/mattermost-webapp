@@ -47,11 +47,11 @@ export default class RhsCard extends React.Component {
         previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
         enablePostUsernameOverride: PropTypes.bool,
         teamUrl: PropTypes.string,
-    }
+    };
 
     static defaultProps = {
         pluginPostCardTypes: {},
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -82,13 +82,13 @@ export default class RhsCard extends React.Component {
         }
 
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
-    }
+    };
 
     handleScrollStop = () => {
         this.setState({
             isScrolling: false,
         });
-    }
+    };
 
     handleClick = () => {
         if (Utils.isMobile()) {

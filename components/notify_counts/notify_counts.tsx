@@ -6,7 +6,7 @@ import React from 'react';
 type Props = {
     mentionCount: number;
     messageCount: number;
-}
+};
 
 export default class NotifyCounts extends React.PureComponent<Props> {
     render() {

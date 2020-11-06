@@ -76,7 +76,7 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                 this.props.actions.closeRhsMenu();
             }
         }
-    }
+    };
 
     render() {
         const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl} = this.props;

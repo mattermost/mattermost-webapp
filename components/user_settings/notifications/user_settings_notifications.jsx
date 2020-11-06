@@ -128,13 +128,13 @@ export default class NotificationsTab extends React.PureComponent {
         actions: PropTypes.shape({
             updateMe: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     static defaultProps = {
         user: null,
         activeSection: '',
         activeTab: '',
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -192,14 +192,14 @@ export default class NotificationsTab extends React.PureComponent {
                     this.setState({serverError: err.message, isSaving: false});
                 }
             });
-    }
+    };
 
     handleCancel = (e) => {
         if (e) {
             e.preventDefault();
         }
         this.setState(getNotificationsStateFromProps(this.props));
-    }
+    };
 
     handleUpdateSection = (section) => {
         if (section) {
@@ -215,7 +215,7 @@ export default class NotificationsTab extends React.PureComponent {
         const data = {};
         data[key] = value;
         this.setState(data);
-    }
+    };
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
         this.setState({notifyCommentsLevel});
@@ -231,19 +231,19 @@ export default class NotificationsTab extends React.PureComponent {
 
     handleEmailRadio = (enableEmail) => {
         this.setState({enableEmail});
-    }
+    };
 
     updateUsernameKey = (val) => {
         this.setState({usernameKey: val});
-    }
+    };
 
     updateFirstNameKey = (val) => {
         this.setState({firstNameKey: val});
-    }
+    };
 
     updateChannelKey = (val) => {
         this.setState({channelKey: val});
-    }
+    };
 
     updateCustomMentionKeys = () => {
         const checked = this.customCheckRef.current.checked;
@@ -256,12 +256,12 @@ export default class NotificationsTab extends React.PureComponent {
         } else {
             this.setState({customKeys: '', customKeysChecked: false});
         }
-    }
+    };
 
     onCustomChange = () => {
         this.customCheckRef.current.checked = true;
         this.updateCustomMentionKeys();
-    }
+    };
 
     createPushNotificationSection = () => {
         if (this.props.activeSection === 'push') {
@@ -520,7 +520,7 @@ export default class NotificationsTab extends React.PureComponent {
                 updateSection={this.handleUpdateSection}
             />
         );
-    }
+    };
 
     render() {
         const serverError = this.state.serverError;

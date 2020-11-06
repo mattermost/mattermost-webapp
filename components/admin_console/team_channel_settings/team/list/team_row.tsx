@@ -13,12 +13,12 @@ import TeamIcon from 'components/widgets/team_icon/team_icon';
 type Props = {
     team: Team,
     onRowClick(id: string): void
-}
+};
 export default class TeamRow extends React.PureComponent<Props> {
     handleRowClick = () => {
         const {team, onRowClick} = this.props;
         onRowClick(team.id);
-    }
+    };
 
     renderManagementMethodText = () => {
         const {team} = this.props;
@@ -43,7 +43,7 @@ export default class TeamRow extends React.PureComponent<Props> {
                 defaultMessage='Invite Only'
             />
         );
-    }
+    };
 
     render = () => {
         const {team} = this.props;

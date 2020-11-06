@@ -12,7 +12,7 @@ type Props = {
     message: React.ReactNode;
     className?: string;
     onDismiss?: () => void;
-}
+};
 
 const AlertBanner: React.FC<Props> = (props: Props) => {
     const {mode, title, message, className, onDismiss} = props;

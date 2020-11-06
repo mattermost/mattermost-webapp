@@ -25,7 +25,7 @@ export class ChannelsSettings extends React.PureComponent {
 
     onPageChangedCallback = ({startCount, endCount, total}) => {
         this.setState({startCount, endCount, total});
-    }
+    };
 
     render = () => {
         return (

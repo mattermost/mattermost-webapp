@@ -21,7 +21,7 @@ type Props = {
 
 type State = {
     show: boolean;
-}
+};
 
 export default class DeleteCategoryModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -34,7 +34,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props, Stat
 
     handleConfirm = () => {
         this.props.actions.deleteCategory(this.props.category.id);
-    }
+    };
 
     render() {
         return (

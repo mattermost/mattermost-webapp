@@ -26,12 +26,12 @@ type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
     switchTeam: (url: string) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
     updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
-}
+};
 
 type State = {
     showOrder: boolean;
     teamsOrder: Array<Team>;
-}
+};
 
 interface Props {
     myTeams: Team[];
@@ -100,7 +100,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
             return true;
         }
         return false;
-    }
+    };
 
     switchToTeamByNumber = (e: KeyboardEvent, currentTeamId: string, teams: Array<Team>) => {
         const digits = [
@@ -130,7 +130,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
             }
         }
         return false;
-    }
+    };
 
     handleKeyDown = (e: KeyboardEvent) => {
         if ((e.ctrlKey || e.metaKey) && e.altKey) {
@@ -147,13 +147,13 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
 
             this.setState({showOrder: true});
         }
-    }
+    };
 
     handleKeyUp = (e: KeyboardEvent) => {
         if (!((e.ctrlKey || e.metaKey) && e.altKey)) {
             this.setState({showOrder: false});
         }
-    }
+    };
 
     componentDidMount() {
         this.props.actions.getTeams(0, 200);
@@ -200,7 +200,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
         );
         updateTeamsOrderForUser(newTeamsOrder.map((o: Team) => o.id));
         this.setState({teamsOrder: newTeamsOrder});
-    }
+    };
 
     render() {
         const root: Element | null = document.querySelector('#root');

@@ -36,7 +36,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
     toggleShortcutsModal = (e) => {
         e.preventDefault();
         GlobalActions.toggleShortcutsModal();
-    }
+    };
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -50,11 +50,11 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
         }
-    }
+    };
 
     handleEmitUserLoggedOutEvent = () => {
         GlobalActions.emitUserLoggedOutEvent();
-    }
+    };
 
     render() {
         const currentUser = this.props.currentUser;

@@ -17,13 +17,13 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         channelType: PropTypes.string.isRequired,
         teammateId: PropTypes.string,
         badge: PropTypes.bool,
-    }
+    };
 
     handleClose = (e) => {
         e.stopPropagation();
         e.preventDefault();
         this.props.handleClose();
-    }
+    };
 
     render() {
         let closeButton = null;

@@ -82,7 +82,7 @@ export default class CloseMessage extends React.PureComponent {
         savePreferences(currentUser.id, [{user_id: currentUser.id, category, name, value: 'false'}]);
 
         browserHistory.push(`/${currentTeam.name}/channels/${redirectChannel}`);
-    }
+    };
 
     render() {
         const {id, channel} = this.props;

@@ -50,7 +50,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
         default:
             break;
         }
-    }
+    };
 
     handleJumpClick = () => {
         if (isMobile()) {
@@ -60,7 +60,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
         this.props.actions.setRhsExpanded(false);
         const teamUrl = this.props.relativeTeamUrl;
         browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
-    }
+    };
 
     render() {
         let back;

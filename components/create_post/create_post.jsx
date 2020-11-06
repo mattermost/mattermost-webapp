@@ -285,11 +285,11 @@ class CreatePost extends React.PureComponent {
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
         useGroupMentions: PropTypes.bool.isRequired,
-    }
+    };
 
     static defaultProps = {
         latestReplyablePostId: '',
-    }
+    };
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {currentChannel: props.currentChannel};
@@ -386,7 +386,7 @@ class CreatePost extends React.PureComponent {
 
     setShowPreview = (newPreviewValue) => {
         this.props.actions.setShowPreview(newPreviewValue);
-    }
+    };
 
     setOrientationListeners = () => {
         if ((window.screen.orientation) && ('onchange' in window.screen.orientation)) {
@@ -424,19 +424,19 @@ class CreatePost extends React.PureComponent {
         }
 
         this.lastOrientation = orientation;
-    }
+    };
 
     handlePostError = (postError) => {
         this.setState({postError});
-    }
+    };
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
-    }
+    };
 
     hideEmojiPicker = () => {
         this.handleEmojiClose();
-    }
+    };
 
     doSubmit = async (e) => {
         const channelId = this.props.currentChannel.id;
@@ -541,20 +541,20 @@ class CreatePost extends React.PureComponent {
         const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
 
         this.focusTextbox(forceFocus);
-    }
+    };
 
     handleNotifyAllConfirmation = (e) => {
         this.hideNotifyAllModal();
         this.doSubmit(e);
-    }
+    };
 
     hideNotifyAllModal = () => {
         this.setState({showConfirmModal: false});
-    }
+    };
 
     showNotifyAllModal = () => {
         this.setState({showConfirmModal: true});
-    }
+    };
 
     getStatusFromSlashCommand = () => {
         const {message} = this.state;
@@ -672,7 +672,7 @@ class CreatePost extends React.PureComponent {
         }
 
         await this.doSubmit(e);
-    }
+    };
 
     sendMessage = async (originalPost) => {
         const {
@@ -725,7 +725,7 @@ class CreatePost extends React.PureComponent {
         });
 
         return {data: true};
-    }
+    };
 
     sendReaction(isReaction) {
         const channelId = this.props.currentChannel.id;
@@ -752,7 +752,7 @@ class CreatePost extends React.PureComponent {
         if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
             this.textboxRef.current.focus();
         }
-    }
+    };
 
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
@@ -783,12 +783,12 @@ class CreatePost extends React.PureComponent {
         }
 
         this.emitTypingEvent();
-    }
+    };
 
     emitTypingEvent = () => {
         const channelId = this.props.currentChannel.id;
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
-    }
+    };
 
     handleChange = (e) => {
         const message = e.target.value;
@@ -813,7 +813,7 @@ class CreatePost extends React.PureComponent {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
         });
         this.draftsForChannel[channelId] = draft;
-    }
+    };
 
     pasteHandler = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
@@ -840,11 +840,11 @@ class CreatePost extends React.PureComponent {
         message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
         const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
         this.setMessageAndCaretPostion(message, newCaretPosition);
-    }
+    };
 
     handleFileUploadChange = () => {
         this.focusTextbox();
-    }
+    };
 
     handleUploadStart = (clientIds, channelId) => {
         const uploadsInProgress = [
@@ -863,12 +863,12 @@ class CreatePost extends React.PureComponent {
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
         this.focusTextbox();
-    }
+    };
 
     handleUploadProgress = ({clientId, name, percent, type}) => {
         const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, type}};
         this.setState({uploadsProgressPercent});
-    }
+    };
 
     handleFileUploadComplete = (fileInfos, clientIds, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
@@ -890,7 +890,7 @@ class CreatePost extends React.PureComponent {
 
         this.draftsForChannel[channelId] = draft;
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-    }
+    };
 
     handleUploadError = (err, clientId, channelId) => {
         const draft = {...this.draftsForChannel[channelId]};
@@ -915,7 +915,7 @@ class CreatePost extends React.PureComponent {
         }
 
         this.setState({serverError});
-    }
+    };
 
     removePreview = (id) => {
         let modifiedDraft = {};
@@ -955,7 +955,7 @@ class CreatePost extends React.PureComponent {
         this.draftsForChannel[channelId] = modifiedDraft;
 
         this.handleFileUploadChange();
-    }
+    };
 
     focusTextboxIfNecessary = (e) => {
         // Focus should go to the RHS when it is expanded
@@ -973,7 +973,7 @@ class CreatePost extends React.PureComponent {
         if (shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
         }
-    }
+    };
 
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -991,12 +991,12 @@ class CreatePost extends React.PureComponent {
         }
 
         this.focusTextboxIfNecessary(e);
-    }
+    };
 
     getFileCount = () => {
         const draft = this.props.draft;
         return draft.fileInfos.length + draft.uploadsInProgress.length;
-    }
+    };
 
     getFileUploadTarget = () => {
         if (this.textboxRef.current) {
@@ -1004,11 +1004,11 @@ class CreatePost extends React.PureComponent {
         }
 
         return null;
-    }
+    };
 
     getCreatePostControls = () => {
         return this.createPostControlsRef.current;
-    }
+    };
 
     fillMessageFromHistory() {
         const lastMessage = this.props.messageInHistoryItem;
@@ -1024,11 +1024,11 @@ class CreatePost extends React.PureComponent {
         this.setState({
             caretPosition,
         });
-    }
+    };
 
     handleSelect = (e) => {
         Utils.adjustSelection(this.textboxRef.current.getInputBox(), e);
-    }
+    };
 
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -1056,7 +1056,7 @@ class CreatePost extends React.PureComponent {
         } else if (ctrlKeyCombo && markdownHotkey) {
             this.applyHotkeyMarkdown(e);
         }
-    }
+    };
 
     editLastPost = (e) => {
         e.preventDefault();
@@ -1076,7 +1076,7 @@ class CreatePost extends React.PureComponent {
             this.textboxRef.current.blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
-    }
+    };
 
     replyToLastPost = (e) => {
         e.preventDefault();
@@ -1088,17 +1088,17 @@ class CreatePost extends React.PureComponent {
         if (latestReplyablePostId) {
             this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
         }
-    }
+    };
 
     loadPrevMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
-    }
+    };
 
     loadNextMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
-    }
+    };
 
     applyHotkeyMarkdown = (e) => {
         const res = Utils.applyHotkeyMarkdown(e);
@@ -1109,7 +1109,7 @@ class CreatePost extends React.PureComponent {
             const textbox = this.textboxRef.current.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
-    }
+    };
 
     reactToLastMessage = (e) => {
         e.preventDefault();
@@ -1125,27 +1125,27 @@ class CreatePost extends React.PureComponent {
         if (!rhsExpanded && noModalsAreOpen && noPopupsDropdownsAreOpen) {
             emitShortcutReactToLastPostFrom(Locations.CENTER);
         }
-    }
+    };
 
     handleBlur = () => {
         this.lastBlurAt = Date.now();
-    }
+    };
 
     showPostDeletedModal = () => {
         this.setState({
             showPostDeletedModal: true,
         });
-    }
+    };
 
     hidePostDeletedModal = () => {
         this.setState({
             showPostDeletedModal: false,
         });
-    }
+    };
 
     handleEmojiClose = () => {
         this.setState({showEmojiPicker: false});
-    }
+    };
 
     setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
         const textbox = this.textboxRef.current.getInputBox();
@@ -1156,7 +1156,7 @@ class CreatePost extends React.PureComponent {
         }, () => {
             Utils.setCaretPosition(textbox, newCaretPosition);
         });
-    }
+    };
 
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
@@ -1180,7 +1180,7 @@ class CreatePost extends React.PureComponent {
         }
 
         this.handleEmojiClose();
-    }
+    };
 
     handleGifClick = (gif) => {
         if (this.state.message === '') {
@@ -1190,7 +1190,7 @@ class CreatePost extends React.PureComponent {
             this.setState({message: newMessage});
         }
         this.handleEmojiClose();
-    }
+    };
 
     createTutorialTip() {
         const screens = [];
@@ -1243,7 +1243,7 @@ class CreatePost extends React.PureComponent {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
             }
         });
-    }
+    };
 
     render() {
         const {

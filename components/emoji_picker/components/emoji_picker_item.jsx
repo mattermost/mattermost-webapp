@@ -45,7 +45,7 @@ class EmojiPickerItem extends React.Component {
         {
             emojiName: this.props.emoji.aliases[0].replace(/_/g, ' '),
         });
-    }
+    };
 
     componentDidUpdate(prevProps) {
         if (!prevProps.isSelected && this.props.isSelected) {

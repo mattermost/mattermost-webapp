@@ -19,7 +19,7 @@ import PostListRow from './post_list_row';
 type Props = {
     post: Post,
     channel: Channel
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);

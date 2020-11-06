@@ -50,11 +50,11 @@ type Props = {
         editRole: (role: Role) => void;
         updateConfig?: (config: AdminConfig) => ActionFunc;
     };
-}
+};
 
 type State = {
     filter: string;
-}
+};
 
 // not every page in the system console will need the license and config, but the vast majority will
 type ExtraProps = {
@@ -66,14 +66,14 @@ type ExtraProps = {
     roles?: Dictionary<Role>;
     editRole?: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
-}
+};
 
 type Item = {
     isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState) => boolean;
     isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState) => boolean;
     schema: Record<string, any>;
     url: string;
-}
+};
 
 export default class AdminConsole extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
@@ -93,7 +93,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
 
     private onFilterChange = (filter: string) => {
         this.setState({filter});
-    }
+    };
 
     private mainRolesLoaded(roles: Dictionary<Role>) {
         return (
@@ -185,7 +185,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 {<Redirect to={`${this.props.match.url}/${defaultUrl}`}/>}
             </Switch>
         );
-    }
+    };
 
     public render(): JSX.Element | null {
         const {

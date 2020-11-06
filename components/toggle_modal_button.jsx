@@ -18,11 +18,11 @@ export default class ModalToggleButton extends React.PureComponent {
             e.preventDefault();
         }
         this.setState({show: true});
-    }
+    };
 
     hide = () => {
         this.setState({show: false});
-    }
+    };
 
     render() {
         const {children, dialogType, dialogProps, onClick, isDisabled, id, ...props} = this.props;

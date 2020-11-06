@@ -25,13 +25,13 @@ export default class Confirm extends React.PureComponent {
     submit = (e) => {
         e.preventDefault();
         redirectUserToDefaultTeam();
-    }
+    };
 
     onKeyPress = (e) => {
         if (isKeyPressed(e, KeyCodes.ENTER)) {
             this.submit(e);
         }
-    }
+    };
 
     render() {
         return (

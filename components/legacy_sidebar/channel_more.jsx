@@ -22,10 +22,10 @@ class ChannelMore extends React.PureComponent {
 
     moreChannelsPublic = () => {
         this.props.moreChannels('public');
-    }
+    };
     moreChannelsPrivate = () => {
         this.props.moreChannels('private');
-    }
+    };
 
     render() {
         const {

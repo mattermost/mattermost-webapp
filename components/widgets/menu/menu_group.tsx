@@ -8,13 +8,13 @@ import './menu_group.scss';
 type Props = {
     divider?: React.ReactNode;
     children?: React.ReactNode;
-}
+};
 
 export default class MenuGroup extends React.PureComponent<Props> {
     handleDividerClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-    }
+    };
 
     public render() {
         const {children} = this.props;

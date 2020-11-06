@@ -28,7 +28,7 @@ export type Props = {
     // to make the event optional
     onModalDismissed: (e?: React.MouseEvent<HTMLButtonElement>) => void;
     actions: { updateUserRoles: (userId: string, roles: string) => Promise<ActionResult>};
-}
+};
 
 type State = {
     user?: UserProfile;
@@ -37,7 +37,7 @@ type State = {
     hasPostAllPublicRole: boolean;
     hasUserAccessTokenRole: boolean;
     isSystemAdmin: boolean;
-}
+};
 
 function getStateFromProps(props: Props): State {
     const roles = props.user && props.user.roles ? props.user.roles : '';
@@ -69,7 +69,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
         this.setState({
             error,
         });
-    }
+    };
 
     handleSystemAdminChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.name === 'systemadmin') {
@@ -115,7 +115,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
         } else if (!UserUtils.hasPostAllPublicRole(roles) && UserUtils.hasPostAllPublicRole(oldRoles)) {
             trackEvent('actions', 'remove_roles', {role: General.SYSTEM_POST_ALL_PUBLIC_ROLE});
         }
-    }
+    };
 
     handleSave = async () => {
         this.setState({error: null});
@@ -146,7 +146,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                 />,
             );
         }
-    }
+    };
 
     renderContents = () => {
         const {user} = this.props;
@@ -321,7 +321,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         return (

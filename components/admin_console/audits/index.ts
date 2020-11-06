@@ -16,7 +16,7 @@ import Audits from './audits';
 
 type Actions = {
     getAudits: () => Promise<{data: Audit[]}>;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);

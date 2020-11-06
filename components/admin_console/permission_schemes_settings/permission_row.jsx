@@ -26,7 +26,7 @@ export default class PermissionRow extends React.PureComponent {
             return;
         }
         this.props.onChange(this.props.id);
-    }
+    };
 
     render = () => {
         const {id, uniqId, inherited, value, readOnly, selected, additionalValues} = this.props;

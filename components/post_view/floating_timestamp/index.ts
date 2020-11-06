@@ -13,7 +13,7 @@ import FloatingTimestamp from './floating_timestamp';
 
 type OwnProps = {
     postId: string;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let postId = ownProps.postId;

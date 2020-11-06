@@ -303,33 +303,33 @@ export default class MarketplaceItem extends React.PureComponent {
         } else {
             this.props.trackEvent('plugins', eventName);
         }
-    }
+    };
 
     onInstall = () => {
         this.trackEvent('ui_marketplace_download');
         this.props.actions.installPlugin(this.props.id, this.props.version);
-    }
+    };
 
     showUpdateConfirmationModal = () => {
         this.setState({showUpdateConfirmationModal: true});
-    }
+    };
 
     hideUpdateConfirmationModal = () => {
         this.setState({showUpdateConfirmationModal: false});
-    }
+    };
 
     onUpdate = () => {
         this.trackEvent('ui_marketplace_download_update');
 
         this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id, this.props.version);
-    }
+    };
 
     onConfigure = () => {
         this.trackEvent('ui_marketplace_configure', false);
 
         this.props.actions.closeMarketplaceModal();
-    }
+    };
 
     getItemButton() {
         let actionButton = (

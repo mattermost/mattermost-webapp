@@ -16,7 +16,7 @@ type Props = {
     match: {
         url: string;
     };
-}
+};
 
 export default class HelpController extends React.PureComponent<Props> {
     public componentDidUpdate(): void {

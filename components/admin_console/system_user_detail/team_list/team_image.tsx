@@ -7,7 +7,7 @@ type Props = {
     small: boolean;
     teamIconUrl: string;
     displayName: string;
-}
+};
 
 export default class TeamButton extends React.PureComponent<Props> {
     public render(): JSX.Element {

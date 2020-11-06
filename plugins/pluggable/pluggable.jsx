@@ -31,7 +31,7 @@ export default class Pluggable extends React.PureComponent {
          * Id of the specific component to be plugged.
          */
         pluggableId: PropTypes.string,
-    }
+    };
 
     render() {
         const pluggableName = this.props.pluggableName;

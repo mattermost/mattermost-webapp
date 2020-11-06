@@ -48,7 +48,7 @@ export default class LoginMfa extends React.PureComponent {
                 token,
             });
         }
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -63,7 +63,7 @@ export default class LoginMfa extends React.PureComponent {
             this.props.password,
             this.state.token,
         );
-    }
+    };
 
     render() {
         let serverError;

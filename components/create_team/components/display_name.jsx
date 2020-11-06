@@ -24,7 +24,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
          * Function that updates parent component with state props
          */
         updateParent: PropTypes.func,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -69,16 +69,16 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         newState.team.display_name = displayName;
         newState.team.name = cleanUpUrlable(displayName);
         this.props.updateParent(newState);
-    }
+    };
 
     handleFocus = (e) => {
         e.preventDefault();
         e.currentTarget.select();
-    }
+    };
 
     handleDisplayNameChange = (e) => {
         this.setState({teamDisplayName: e.target.value});
-    }
+    };
 
     render() {
         var nameError = null;

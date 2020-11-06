@@ -20,11 +20,11 @@ class CustomMenu extends React.PureComponent {
         children: PropTypes.node,
         onClose: PropTypes.func.isRequired,
         rootCloseEvent: PropTypes.oneOf(['click', 'mousedown']),
-    }
+    };
 
     handleRootClose = () => {
         this.props.onClose();
-    }
+    };
 
     render() {
         const {
@@ -55,11 +55,11 @@ class CustomToggle extends React.PureComponent {
         children: PropTypes.element,
         dropdownOpen: PropTypes.bool,
         onClick: PropTypes.func,
-    }
+    };
 
     handleClick = (e) => {
         this.props.onClick(e);
-    }
+    };
 
     render() {
         const {children} = this.props;
@@ -97,7 +97,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -108,16 +108,16 @@ export default class ChannelHeaderPlug extends React.PureComponent {
 
     toggleDropdown = (dropdownOpen) => {
         this.setState({dropdownOpen});
-    }
+    };
 
     onClose = () => {
         this.toggleDropdown(false);
-    }
+    };
 
     fireActionAndClose = (action) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
-    }
+    };
 
     createButton = (plug) => {
         return (
@@ -131,7 +131,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
             />
         );
-    }
+    };
 
     createDropdown = (plugs) => {
         const items = plugs.map((plug) => {
@@ -202,7 +202,7 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 </Dropdown>
             </div>
         );
-    }
+    };
 
     render() {
         const components = this.props.components || [];

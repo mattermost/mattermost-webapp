@@ -23,7 +23,7 @@ export class SearchItem extends PureComponent {
         itemWidth: PropTypes.number,
         itemClickHandler: PropTypes.func,
         hasImageProxy: PropTypes.string,
-    }
+    };
 
     render() {
         const {

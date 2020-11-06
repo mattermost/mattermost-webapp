@@ -18,7 +18,7 @@ type Preference = {
     category: string;
     name: string;
     value: string;
-}
+};
 
 type Props = {
     currentUserId: string;
@@ -31,19 +31,19 @@ type Props = {
         closeRhsMenu: () => void;
         savePreferences: (currentUserId: string, preferences: Array<Preference>) => void;
     };
-}
+};
 
 type State = {
     currentScreen: number;
     show: boolean;
-}
+};
 
 export default class TutorialTip extends React.PureComponent<Props, State> {
     public targetRef: React.RefObject<HTMLImageElement>;
 
     public static defaultProps: Partial<Props> = {
         overlayClass: '',
-    }
+    };
 
     public constructor(props: Props) {
         super(props);
@@ -58,11 +58,11 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
 
     private show = (): void => {
         this.setState({show: true});
-    }
+    };
 
     private hide = (): void => {
         this.setState({show: false});
-    }
+    };
 
     public handleNext = (): void => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
@@ -100,7 +100,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         this.hide();
 
         savePreferences(currentUserId, preferences);
-    }
+    };
 
     public skipTutorial = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
@@ -123,16 +123,16 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
         }];
 
         actions.savePreferences(currentUserId, preferences);
-    }
+    };
 
     private handleCircleClick = (e: React.MouseEvent<HTMLAnchorElement>, screen: number): void => {
         e.preventDefault();
         this.setState({currentScreen: screen});
-    }
+    };
 
     private getTarget = (): HTMLImageElement | null => {
         return this.targetRef.current;
-    }
+    };
 
     public render(): JSX.Element {
         const buttonText = this.state.currentScreen === this.props.screens.length - 1 ?

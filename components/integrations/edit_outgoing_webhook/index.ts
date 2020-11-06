@@ -16,12 +16,12 @@ type OwnProps = {
     location: {
         search: string | string[][] | Record<string, string> | URLSearchParams | undefined;
     };
-}
+};
 
 type Actions = {
     updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
     getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);

@@ -36,7 +36,7 @@ export default class GeneralTab extends React.PureComponent {
             setTeamIcon: PropTypes.func.isRequired,
         }).isRequired,
         canInviteTeamMembers: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -46,7 +46,7 @@ export default class GeneralTab extends React.PureComponent {
     updateSection = (section) => {
         this.setState(this.setupInitialState(this.props));
         this.props.updateSection(section);
-    }
+    };
 
     setupInitialState(props) {
         const team = props.team;
@@ -104,7 +104,7 @@ export default class GeneralTab extends React.PureComponent {
 
     handleOpenInviteRadio = (openInvite) => {
         this.setState({allow_open_invite: openInvite});
-    }
+    };
 
     handleAllowedDomainsSubmit = async () => {
         var state = {serverError: '', clientError: ''};
@@ -120,7 +120,7 @@ export default class GeneralTab extends React.PureComponent {
         } else {
             this.updateSection('');
         }
-    }
+    };
 
     handleOpenInviteSubmit = async () => {
         var state = {serverError: '', clientError: ''};
@@ -136,7 +136,7 @@ export default class GeneralTab extends React.PureComponent {
         } else {
             this.updateSection('');
         }
-    }
+    };
 
     handleNameSubmit = async () => {
         var state = {serverError: '', clientError: ''};
@@ -181,7 +181,7 @@ export default class GeneralTab extends React.PureComponent {
         } else {
             this.updateSection('');
         }
-    }
+    };
 
     handleInviteIdSubmit = async () => {
         const state = {serverError: '', clientError: ''};
@@ -195,11 +195,11 @@ export default class GeneralTab extends React.PureComponent {
         } else {
             this.updateSection('');
         }
-    }
+    };
 
     handleClose = () => {
         this.updateSection('');
-    }
+    };
 
     handleDescriptionSubmit = async () => {
         var state = {serverError: '', clientError: ''};
@@ -230,7 +230,7 @@ export default class GeneralTab extends React.PureComponent {
         } else {
             this.updateSection('');
         }
-    }
+    };
 
     handleTeamIconSubmit = async () => {
         if (!this.state.teamIconFile) {
@@ -261,7 +261,7 @@ export default class GeneralTab extends React.PureComponent {
             });
             this.updateSection('');
         }
-    }
+    };
 
     handleTeamIconRemove = async () => {
         this.setState({
@@ -284,7 +284,7 @@ export default class GeneralTab extends React.PureComponent {
             });
             this.updateSection('');
         }
-    }
+    };
 
     componentDidMount() {
         $('#team_settings').on('hidden.bs.modal', this.handleClose);
@@ -303,15 +303,15 @@ export default class GeneralTab extends React.PureComponent {
         }
 
         this.updateSection(section);
-    }
+    };
 
     updateName = (e) => {
         this.setState({name: e.target.value});
-    }
+    };
 
     updateDescription = (e) => {
         this.setState({description: e.target.value});
-    }
+    };
 
     updateTeamIcon = (e) => {
         if (e && e.target && e.target.files && e.target.files[0]) {
@@ -338,11 +338,11 @@ export default class GeneralTab extends React.PureComponent {
                 clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occurred while selecting the image.'),
             });
         }
-    }
+    };
 
     updateAllowedDomains = (e) => {
         this.setState({allowed_domains: e.target.value});
-    }
+    };
 
     render() {
         const team = this.props.team;

@@ -63,17 +63,17 @@ export default class PermalinkView extends React.PureComponent {
         if (this.mounted) {
             this.setState({valid: true});
         }
-    }
+    };
 
     isStateValid = () => {
         return this.state.valid && this.props.channelId && this.props.teamName;
-    }
+    };
 
     onShortcutKeyDown = (e) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L) && this.permalink.current) {
             this.permalink.current.focus();
         }
-    }
+    };
 
     render() {
         if (!this.isStateValid()) {

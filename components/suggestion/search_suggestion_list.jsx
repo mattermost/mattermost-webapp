@@ -50,7 +50,7 @@ export default class SearchSuggestionList extends SuggestionList {
 
     getContent = () => {
         return $(ReactDOM.findDOMNode(this.popoverRef.current)).find('.popover-content'); // eslint-disable-line jquery/no-find
-    }
+    };
 
     renderChannelDivider(type) {
         let text;

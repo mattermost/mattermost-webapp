@@ -5,7 +5,7 @@ import React from 'react';
 
 import Setting from './setting';
 
-type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
+type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password';
 
 export type WidgetTextSettingProps = {
     id: string;
@@ -22,10 +22,10 @@ export type WidgetTextSettingProps = {
     disabled?: boolean;
     type: InputTypes;
     autoFocus?: boolean;
-}
+};
 
 // Since handle change is read from input and textarea element
-type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
 export default class TextSetting extends React.PureComponent<WidgetTextSettingProps> {
     public static validTypes: string[] = ['input', 'textarea', 'number', 'email', 'tel', 'url', 'password'];
@@ -44,7 +44,7 @@ export default class TextSetting extends React.PureComponent<WidgetTextSettingPr
         } else {
             this.props.onChange(this.props.id, e.target.value);
         }
-    }
+    };
 
     public render(): JSX.Element {
         const {resizable} = this.props;

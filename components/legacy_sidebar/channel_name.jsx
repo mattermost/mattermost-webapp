@@ -37,7 +37,7 @@ export default class ChannelName extends React.PureComponent {
         default:
             return t('sidebar.types.alpha');
         }
-    }
+    };
 
     render() {
         const {sectionType, channelName, browsePublicDirectChannels} = this.props;

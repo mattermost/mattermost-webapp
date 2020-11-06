@@ -16,7 +16,7 @@ import MfaSection from './mfa_section';
 
 type Actions = {
     deactivateMfa: () => Promise<{error?: {message: string}}>;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);

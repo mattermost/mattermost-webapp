@@ -12,11 +12,11 @@ type TableItem = {
     name: string;
     tip: string;
     value: React.ReactNode;
-}
+};
 type Props = {
     title: React.ReactNode;
     data: TableItem[];
-}
+};
 
 export default class TableChart extends React.PureComponent<Props> {
     public render() {

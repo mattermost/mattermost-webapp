@@ -27,7 +27,7 @@ export class Search extends PureComponent {
         searchText: PropTypes.string,
         searchIfNeededInitial: PropTypes.func,
         searchGfycat: PropTypes.func,
-    }
+    };
 
     componentDidMount() {
         const {searchText} = this.props;
@@ -44,7 +44,7 @@ export class Search extends PureComponent {
     loadMore = () => {
         const {searchText} = this.props;
         this.props.searchGfycat({searchText});
-    }
+    };
 
     render() {
         const {handleItemClick, searchText, onCategories} = this.props;

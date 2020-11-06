@@ -25,24 +25,24 @@ type Props = {
         link: (key: string) => Promise<any>;
         unlink: (key: string) => Promise<any>;
     };
-}
+};
 
 type FilterOption = {
     is_configured?: boolean;
     is_linked?: boolean;
-}
+};
 
 type FilterConfig = {
     filter: string;
     option: FilterOption;
-}
+};
 
 type FilterSearchMap = {
     filterIsConfigured: FilterConfig;
     filterIsUnconfigured: FilterConfig;
     filterIsLinked: FilterConfig;
     filterIsUnlinked: FilterConfig;
-}
+};
 
 type State = {
     checked?: any;
@@ -54,7 +54,7 @@ type State = {
     filterIsUnconfigured?: boolean;
     filterIsLinked?: boolean;
     filterIsUnlinked?: boolean;
-}
+};
 
 type FilterUpdates = [string, boolean];
 
@@ -87,7 +87,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
 
     public closeFilters = () => {
         this.setState({showFilters: false});
-    }
+    };
 
     public componentDidMount() {
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE).then(() => {
@@ -219,7 +219,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
-    }
+    };
 
     public renderRows(): JSX.Element | JSX.Element[] {
         if (this.state.loading) {
@@ -436,7 +436,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         this.props.actions.getLdapGroups(this.state.page, LDAP_GROUPS_PAGE_SIZE, {q: ''}).then(() => {
             this.setState({loading: false});
         });
-    }
+    };
 
     public render(): JSX.Element {
         const startCount = (this.state.page * LDAP_GROUPS_PAGE_SIZE) + 1;

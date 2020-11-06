@@ -9,7 +9,7 @@ import Badge from './badge';
 type Props = {
     className?: string;
     show?: boolean;
-}
+};
 
 const BotBadge: React.FC<Props> = (props: Props) => (
     <Badge

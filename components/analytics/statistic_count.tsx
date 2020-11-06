@@ -9,7 +9,7 @@ type Props = {
     icon: string;
     count?: number;
     id?: string;
-}
+};
 
 export default class StatisticCount extends React.PureComponent<Props> {
     public render(): JSX.Element {

@@ -19,7 +19,7 @@ type Props = {
     actions: {
         leaveChannel: (channelId: any) => any;
     };
-}
+};
 
 export default class LeavePrivateChannelModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {

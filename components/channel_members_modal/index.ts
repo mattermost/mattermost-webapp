@@ -23,7 +23,7 @@ type Actions = {
         dialogProps: {[key: string]: any};
         dialogType: (props: {[key: string]: any}) => React.ReactElement | null;
     }) => Promise<{data: boolean}>;
-}
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({openModal}, dispatch),

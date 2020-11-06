@@ -9,14 +9,14 @@ type Props = {
     loading: boolean;
     text: React.ReactNode;
     children: React.ReactNode;
-}
+};
 
 export default class LoadingWrapper extends React.PureComponent<Props> {
     public static defaultProps: Props = {
         loading: true,
         text: null,
         children: null,
-    }
+    };
 
     public render() {
         const {text, loading, children} = this.props;

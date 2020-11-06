@@ -9,7 +9,7 @@ type Props = {
     loading?: string;
     progress?: number;
     containerClass?: string;
-}
+};
 
 const LoadingImagePreview: React.FC<Props> = ({loading, progress, containerClass}: Props) => {
     let progressView: JSX.Element = (

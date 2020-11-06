@@ -66,7 +66,7 @@ export default class Authorize extends React.PureComponent {
                 }
             },
         );
-    }
+    };
 
     handleDeny = () => {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
@@ -76,7 +76,7 @@ export default class Authorize extends React.PureComponent {
         }
 
         browserHistory.replace('/error');
-    }
+    };
 
     render() {
         const app = this.state.app;

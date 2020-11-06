@@ -57,7 +57,7 @@ type Props = {
         }>;
         clearUserAccessTokens: () => void;
     };
-}
+};
 
 type State = {
     active?: boolean;
@@ -72,7 +72,7 @@ type State = {
     confirmButton?: React.ReactNode;
     confirmComplete?: (() => void)|null;
     confirmHideCancel?: boolean;
-}
+};
 
 export default class UserAccessTokenSection extends React.PureComponent<Props, State> {
     private newtokendescriptionRef: React.RefObject<HTMLInputElement>;
@@ -115,11 +115,11 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
 
     startCreatingToken = () => {
         this.setState({tokenCreationState: TOKEN_CREATING});
-    }
+    };
 
     stopCreatingToken = () => {
         this.setState({tokenCreationState: TOKEN_NOT_CREATING, saving: false});
-    }
+    };
 
     handleCreateToken = async () => {
         this.handleCancelConfirm();
@@ -142,7 +142,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         } else if (error) {
             this.setState({serverError: error.message, saving: false});
         }
-    }
+    };
 
     confirmCopyToken = (confirmAction: () => void) => {
         this.setState({
@@ -197,7 +197,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             },
             confirmHideCancel: true,
         });
-    }
+    };
 
     handleCancelConfirm = () => {
         this.setState({
@@ -208,7 +208,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             confirmComplete: null,
             confirmHideCancel: false,
         });
-    }
+    };
 
     confirmCreateToken = () => {
         if (!UserUtils.isSystemAdmin(this.props.user!.roles)) {
@@ -243,13 +243,13 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                 trackEvent('settings', 'system_admin_create_user_access_token');
             },
         });
-    }
+    };
 
     saveTokenKeyPress = (e: React.KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.confirmCreateToken();
         }
-    }
+    };
 
     confirmRevokeToken = (tokenId: string) => {
         const token = this.props.userAccessTokens[tokenId];
@@ -284,7 +284,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                 trackEvent('settings', 'revoke_user_access_token');
             },
         });
-    }
+    };
 
     revokeToken = async (tokenId: string) => {
         const {error} = await this.props.actions.revokeUserAccessToken(tokenId);
@@ -292,7 +292,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             this.setState({serverError: error.message});
         }
         this.handleCancelConfirm();
-    }
+    };
 
     activateToken = async (tokenId: string) => {
         const {error} = await this.props.actions.enableUserAccessToken(tokenId);
@@ -301,7 +301,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         } else {
             trackEvent('settings', 'activate_user_access_token');
         }
-    }
+    };
 
     deactivateToken = async (tokenId: string) => {
         const {error} = await this.props.actions.disableUserAccessToken(tokenId);
@@ -310,7 +310,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         } else {
             trackEvent('settings', 'deactivate_user_access_token');
         }
-    }
+    };
 
     render() {
         let tokenListClass = '';

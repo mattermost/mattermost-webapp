@@ -17,7 +17,7 @@ export default class ViewPinnedPosts extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     handleClick = (e) => {
         e.preventDefault();
@@ -36,7 +36,7 @@ export default class ViewPinnedPosts extends React.PureComponent {
         } else {
             showPinnedPosts(channel.id);
         }
-    }
+    };
 
     render() {
         return (

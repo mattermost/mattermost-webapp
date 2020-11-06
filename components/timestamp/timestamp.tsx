@@ -28,7 +28,7 @@ export const supportsHourCycle = Boolean(((new Intl.DateTimeFormat('en-US', {hou
 
 export type DateTimeOptions = FormatDateOptions & {
     hourCycle?: string;
-}
+};
 
 function is12HourTime(hourCycle: DateTimeOptions['hourCycle'], hour12?: DateTimeOptions['hour12']) {
     return hour12 ?? !(hourCycle === 'h23' || hourCycle === 'h24');
@@ -39,7 +39,7 @@ export type RelativeOptions = FormatRelativeTimeOptions & {
     relNearest?: number;
     truncateEndpoints?: boolean;
     updateIntervalInSeconds?: number;
-}
+};
 
 function isRelative(format: ResolvedFormats['relative']): format is RelativeOptions {
     return Boolean((format as RelativeOptions)?.unit);
@@ -48,7 +48,7 @@ function isRelative(format: ResolvedFormats['relative']): format is RelativeOpti
 export type SimpleRelativeOptions = {
     message: ReactNode;
     updateIntervalInSeconds?: number;
-}
+};
 
 function isSimpleRelative(format: ResolvedFormats['relative']): format is SimpleRelativeOptions {
     return (format as SimpleRelativeOptions)?.message != null;
@@ -65,12 +65,12 @@ type UnitDescriptor = [Unit, number?, boolean?];
 type Breakpoint = RequireOnlyOne<{
     within: UnitDescriptor;
     equals: UnitDescriptor;
-}>
+}>;
 
 type DisplayAs = {
     display: UnitDescriptor | ReactNode;
     updateIntervalInSeconds?: number;
-}
+};
 
 export type RangeDescriptor = Breakpoint & DisplayAs;
 
@@ -82,13 +82,13 @@ export type ResolvedFormats = {
     relative: RelativeOptions | SimpleRelativeOptions | false;
     date: DateTimeOptions | false;
     time: DateTimeOptions | false;
-}
+};
 
 type FormattedParts = {
     relative?: ReactNode;
     date?: ReactNode;
     time?: ReactNode;
-}
+};
 
 type FormatOptions = DateTimeOptions & Partial<RelativeOptions>;
 
@@ -107,11 +107,11 @@ export type Props = FormatOptions & {
     useSemanticOutput?: boolean;
 
     intl: IntlShape;
-}
+};
 
 type State = {
     now: Date;
-}
+};
 
 /**
  * A feature-rich, react-intl oriented wrapper around Intl.DateTimeFormat and Intl.RelativeTimeFormat.
@@ -161,7 +161,7 @@ class Timestamp extends PureComponent<Props, State> {
         second: 'numeric',
         hourCycle: 'h12',
         timeZoneName: 'short',
-    }
+    };
     nextUpdate: ReturnType<typeof setTimeout> | null = null;
 
     formatParts(value: Date, {relative: relFormat, date: dateFormat, time: timeFormat}: ResolvedFormats): FormattedParts {

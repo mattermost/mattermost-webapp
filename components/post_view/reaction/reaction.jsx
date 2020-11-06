@@ -83,7 +83,7 @@ export default class Reaction extends React.Component {
             removeReaction: PropTypes.func.isRequired,
         }),
         sortedUsers: PropTypes.object.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -153,7 +153,7 @@ export default class Reaction extends React.Component {
                 reactedClass: 'Reaction--reacting',
             };
         });
-    }
+    };
 
     handleAnimationEnded = () => {
         const {reactedNumber, unreactedNumber} = this.state;
@@ -175,12 +175,12 @@ export default class Reaction extends React.Component {
         } else {
             actions.removeReaction(post.id, emojiName);
         }
-    }
+    };
 
     loadMissingProfiles = async () => {
         const ids = this.props.reactions.map((reaction) => reaction.user_id);
         this.props.actions.getMissingProfilesByIds(ids);
-    }
+    };
 
     render() {
         if (!this.props.emojiImageUrl) {

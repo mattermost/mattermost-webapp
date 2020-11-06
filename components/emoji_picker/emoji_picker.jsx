@@ -292,7 +292,7 @@ export default class EmojiPicker extends React.PureComponent {
             },
             renderAllCategories: true,
         }));
-    }
+    };
 
     loadMoreCustomEmojis = async () => {
         if (!this.props.customEmojisEnabled || this.loadingMoreEmojis) {
@@ -316,7 +316,7 @@ export default class EmojiPicker extends React.PureComponent {
         await this.props.actions.incrementEmojiPickerPage();
 
         this.loadingMoreEmojis = false;
-    }
+    };
 
     componentDidUpdate(prevProps) {
         if (this.props.visible && !prevProps.visible) {
@@ -350,7 +350,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.updateEmojisToShow(this.state.categories[categoryName].offset);
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
         this.searchInput.focus();
-    }
+    };
 
     handleFilterChange = (e) => {
         e.preventDefault();
@@ -365,17 +365,17 @@ export default class EmojiPicker extends React.PureComponent {
         this.setState(() => ({
             cursor: [-1, -1],
         }));
-    }
+    };
 
     handleItemOver = (categoryIndex, emojiIndex) => {
         this.setState({
             cursor: [categoryIndex, emojiIndex],
         });
-    }
+    };
 
     handleItemClick = (emoji) => {
         this.props.onEmojiClick(emoji);
-    }
+    };
 
     handleCategoryKeyDown = (e) => {
         switch (e.key) {
@@ -400,7 +400,7 @@ export default class EmojiPicker extends React.PureComponent {
             this.searchInput.focus();
             break;
         }
-    }
+    };
 
     handleKeyDown = (e) => {
         switch (e.key) {
@@ -472,13 +472,13 @@ export default class EmojiPicker extends React.PureComponent {
             }
             break;
         }
-    }
+    };
 
     handleScroll = () => {
         if (this.emojiPickerContainer) {
             this.updateEmojisToShow(this.emojiPickerContainer.scrollTop);
         }
-    }
+    };
 
     selectNextEmoji(offset = 1) {
         const {cursor} = this.state;
@@ -783,7 +783,7 @@ export default class EmojiPicker extends React.PureComponent {
                 },
             }));
         }
-    }
+    };
 
     render() {
         return (

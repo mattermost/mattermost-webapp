@@ -86,15 +86,15 @@ type State = {
 export default class SidebarChannel extends React.PureComponent<Props, State> {
     static defaultProps = {
         isDraggable: true,
-    }
+    };
 
     isUnread = () => {
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
-    }
+    };
 
     isCollapsed = (props: Props) => {
         return props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel);
-    }
+    };
 
     componentDidUpdate(prevProps: Props) {
         if (this.isCollapsed(this.props) !== this.isCollapsed(prevProps) && (this.props.draggingState.state !== DraggingStates.CAPTURE && this.props.draggingState.state !== DraggingStates.BEFORE)) {
@@ -110,18 +110,18 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         if (channelElement) {
             channelElement.classList.remove('animating');
         }
-    }
+    };
 
     getRef = () => {
         return this.props.getChannelRef(this.props.channel.id);
-    }
+    };
 
     setRef = (refMethod?: (element: HTMLLIElement) => any) => {
         return (ref: HTMLLIElement) => {
             this.props.setChannelRef(this.props.channel.id, ref);
             refMethod?.(ref);
         };
-    }
+    };
 
     render() {
         const {

@@ -161,7 +161,7 @@ class SearchResultsItem extends React.PureComponent {
         }
 
         this.props.actions.selectPostCard(post);
-    }
+    };
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -201,7 +201,7 @@ class SearchResultsItem extends React.PureComponent {
 
     handleSearchItemFocus = () => {
         this.setState({currentAriaLabel: `${this.getChannelName()}, ${this.props.createAriaLabel(this.props.intl)}`});
-    }
+    };
 
     getChannelName = () => {
         const {channelType} = this.props;
@@ -217,7 +217,7 @@ class SearchResultsItem extends React.PureComponent {
         }
 
         return channelName;
-    }
+    };
 
     render() {
         const {post, channelIsArchived} = this.props;

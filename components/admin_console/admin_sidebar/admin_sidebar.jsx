@@ -61,11 +61,11 @@ class AdminSidebar extends React.PureComponent {
              */
             getPlugins: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     static defaultProps = {
         plugins: {},
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -134,7 +134,7 @@ class AdminSidebar extends React.PureComponent {
                 }
             }
         }
-    }
+    };
 
     updateTitle = () => {
         let currentSiteName = '';
@@ -143,7 +143,7 @@ class AdminSidebar extends React.PureComponent {
         }
 
         document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + currentSiteName;
-    }
+    };
 
     visibleSections = () => {
         const {config, license, buildEnterpriseReady, consoleAccess, adminDefinition, cloud} = this.props;
@@ -170,7 +170,7 @@ class AdminSidebar extends React.PureComponent {
             }
         }
         return result;
-    }
+    };
 
     renderRootMenu = (definition) => {
         const {config, license, buildEnterpriseReady, consoleAccess, cloud} = this.props;
@@ -255,11 +255,11 @@ class AdminSidebar extends React.PureComponent {
             return null;
         });
         return sidebarSections;
-    }
+    };
 
     isPluginPresentInSections = (plugin) => {
         return this.state.sections && this.state.sections.indexOf(`plugin_${plugin.id}`) !== -1;
-    }
+    };
 
     renderPluginsMenu = () => {
         if (this.props.config.PluginSettings.Enable) {
@@ -284,12 +284,12 @@ class AdminSidebar extends React.PureComponent {
         }
 
         return [];
-    }
+    };
 
     handleClearFilter = () => {
         this.setState({sections: null, filter: ''});
         this.props.onFilterChange('');
-    }
+    };
 
     render() {
         return (

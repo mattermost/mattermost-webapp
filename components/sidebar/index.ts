@@ -61,7 +61,7 @@ type Actions = {
     openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
         data: boolean;
     }>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {

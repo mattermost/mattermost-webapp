@@ -15,7 +15,7 @@ type WindowObject = {
         port: string;
     };
     basename?: string;
-}
+};
 
 export function cleanUpUrlable(input: string): string {
     let cleaned: string = latinise(input);

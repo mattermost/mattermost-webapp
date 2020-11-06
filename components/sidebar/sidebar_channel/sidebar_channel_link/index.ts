@@ -16,7 +16,7 @@ import SidebarChannelLink from './sidebar_channel_link';
 
 type OwnProps = {
     channel: Channel;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const member = getMyChannelMemberships(state)[ownProps.channel.id];

@@ -11,7 +11,7 @@ import * as UserAgent from 'utils/user_agent';
 type StaticProps = {
     children?: React.ReactNode;
     displayName: string;
-}
+};
 
 export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps, ref?: React.Ref<HTMLDivElement>) => {
     return (
@@ -41,7 +41,7 @@ type Props = StaticProps & {
     isDragging?: boolean;
     isDraggingOver?: boolean;
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
-}
+};
 
 export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React.Ref<HTMLButtonElement>) => {
     return (

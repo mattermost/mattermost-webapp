@@ -39,7 +39,7 @@ export default class SignupEmail extends React.PureComponent {
             setGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -86,7 +86,7 @@ export default class SignupEmail extends React.PureComponent {
         if (siteName) {
             document.title = siteName;
         }
-    }
+    };
 
     getTokenData = (token, data) => {
         const parsedData = JSON.parse(data);
@@ -97,7 +97,7 @@ export default class SignupEmail extends React.PureComponent {
             email: parsedData.email,
             teamName: parsedData.name,
         };
-    }
+    };
 
     getInviteInfo = async (inviteId) => {
         const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
@@ -120,7 +120,7 @@ export default class SignupEmail extends React.PureComponent {
                 ),
             });
         }
-    }
+    };
 
     handleSignupSuccess = (user, data) => {
         trackEvent('signup', 'signup_user_02_complete');
@@ -157,7 +157,7 @@ export default class SignupEmail extends React.PureComponent {
                 GlobalActions.redirectUserToDefaultTeam();
             }
         });
-    }
+    };
 
     isUserValid = () => {
         const providedEmail = this.emailRef.current.value.trim();
@@ -232,7 +232,7 @@ export default class SignupEmail extends React.PureComponent {
         }
 
         return true;
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -273,7 +273,7 @@ export default class SignupEmail extends React.PureComponent {
                 this.handleSignupSuccess(user, result.data);
             });
         }
-    }
+    };
 
     renderEmailSignup = () => {
         let emailError = null;
@@ -433,7 +433,7 @@ export default class SignupEmail extends React.PureComponent {
                 </div>
             </form>
         );
-    }
+    };
 
     render() {
         const {

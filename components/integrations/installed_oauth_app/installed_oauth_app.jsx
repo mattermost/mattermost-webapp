@@ -53,7 +53,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
         * Set to filter OAuthApp
         */
         filter: PropTypes.string,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -68,12 +68,12 @@ export default class InstalledOAuthApp extends React.PureComponent {
             e.preventDefault();
         }
         this.setState({clientSecret: this.props.oauthApp.client_secret});
-    }
+    };
 
     handleHideClientSecret = (e) => {
         e.preventDefault();
         this.setState({clientSecret: FAKE_SECRET});
-    }
+    };
 
     handleRegenerate = (e) => {
         e.preventDefault();
@@ -87,11 +87,11 @@ export default class InstalledOAuthApp extends React.PureComponent {
                 }
             },
         );
-    }
+    };
 
     handleDelete = () => {
         this.props.onDelete(this.props.oauthApp);
-    }
+    };
 
     render() {
         const {oauthApp, creatorName} = this.props;

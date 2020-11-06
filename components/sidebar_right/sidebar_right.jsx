@@ -67,7 +67,7 @@ export default class SidebarRight extends React.PureComponent {
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
         };
-    }
+    };
 
     handleShortcut = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
@@ -78,7 +78,7 @@ export default class SidebarRight extends React.PureComponent {
                 this.props.actions.openAtPrevious(this.previous);
             }
         }
-    }
+    };
 
     componentDidMount() {
         window.addEventListener('resize', this.determineTransition);
@@ -128,13 +128,13 @@ export default class SidebarRight extends React.PureComponent {
                 this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
             }
         }
-    }
+    };
 
     onFinishTransition = (e) => {
         if (e.propertyName === 'transform') {
             this.setState({isOpened: this.props.isOpen});
         }
-    }
+    };
 
     onShrink = () => {
         this.props.actions.setRhsExpanded(false);
@@ -143,11 +143,11 @@ export default class SidebarRight extends React.PureComponent {
     handleUpdateSearchTerms = (term) => {
         this.props.actions.updateSearchTerms(term);
         this.focusSearchBar();
-    }
+    };
 
     getSearchBarFocus = (focusSearchBar) => {
         this.focusSearchBar = focusSearchBar;
-    }
+    };
 
     render() {
         const {

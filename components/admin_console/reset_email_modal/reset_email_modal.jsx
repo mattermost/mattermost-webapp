@@ -66,12 +66,12 @@ export default class ResetEmailModal extends React.PureComponent {
                 this.setState({error: serverError});
             },
         );
-    }
+    };
 
     doCancel = () => {
         this.setState({error: null});
         this.props.onModalDismissed();
-    }
+    };
 
     render() {
         if (!this.props.user) {

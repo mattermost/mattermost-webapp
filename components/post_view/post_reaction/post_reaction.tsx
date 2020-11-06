@@ -34,12 +34,12 @@ type Props = {
     actions: {
         addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
     };
-}
+};
 
 type State = {
     location: LocationTypes;
     showEmojiPicker: boolean;
-}
+};
 
 export default class PostReaction extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {

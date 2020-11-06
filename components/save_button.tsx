@@ -15,7 +15,7 @@ type Props = {
     defaultMessage?: React.ReactNode;
     btnClass?: string;
     extraClasses?: string;
-}
+};
 
 export default class SaveButton extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
@@ -34,7 +34,7 @@ export default class SaveButton extends React.PureComponent<Props> {
                 defaultMessage='Saving'
             />
         ),
-    }
+    };
 
     public render() {
         const {

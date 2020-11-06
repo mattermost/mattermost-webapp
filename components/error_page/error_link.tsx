@@ -8,7 +8,7 @@ type Props = {
     url: string;
     messageId: string;
     defaultMessage: string;
-}
+};
 
 const ErrorLink: React.FC<Props> = ({url, messageId, defaultMessage}: Props) => {
     return (

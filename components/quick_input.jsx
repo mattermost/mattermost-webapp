@@ -72,7 +72,7 @@ export default class QuickInput extends React.PureComponent {
         }
 
         this.input.value = this.props.value;
-    }
+    };
 
     get value() {
         return this.input.value;
@@ -96,7 +96,7 @@ export default class QuickInput extends React.PureComponent {
 
     setInput = (input) => {
         this.input = input;
-    }
+    };
 
     onClear = (e) => {
         e.preventDefault();
@@ -105,7 +105,7 @@ export default class QuickInput extends React.PureComponent {
             this.props.onClear();
         }
         this.focus();
-    }
+    };
 
     render() {
         let clearableTooltipText = this.props.clearableTooltipText;

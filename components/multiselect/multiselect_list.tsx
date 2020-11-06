@@ -30,11 +30,11 @@ export type Props<T extends Value> = {
     options: T[];
     page: number;
     perPage: number;
-}
+};
 
 type State = {
     selected: number;
-}
+};
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList<T extends Value> extends React.PureComponent<Props<T>, State> {
@@ -44,9 +44,9 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
         onAction: () => null,
     };
 
-    private toSelect = -1
-    private listRef = React.createRef<HTMLDivElement>()
-    private selectedItemRef = React.createRef<HTMLDivElement>()
+    private toSelect = -1;
+    private listRef = React.createRef<HTMLDivElement>();
+    private selectedItemRef = React.createRef<HTMLDivElement>();
 
     public constructor(props: Props<T>) {
         super(props);
@@ -92,7 +92,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
     // externally by the MultiSelect component.
     public setSelected = (selected: number) => {
         this.setState({selected});
-    }
+    };
 
     private handleArrowPress = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey) {
@@ -127,7 +127,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
         e.preventDefault();
         this.setState({selected});
         this.props.onSelect(options[selected]);
-    }
+    };
 
     private defaultOptionRenderer = (option: T, isSelected: boolean, onAdd: Props<T>['onAdd'], onMouseMove: (value: T) => void) => {
         let rowSelected = '';
@@ -146,7 +146,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                 {option.label}
             </div>
         );
-    }
+    };
 
     private onMouseMove = (option: T) => {
         const i = this.props.options.indexOf(option);
@@ -155,7 +155,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                 this.setSelected(i);
             }
         }
-    }
+    };
 
     public render() {
         const options = this.props.options;

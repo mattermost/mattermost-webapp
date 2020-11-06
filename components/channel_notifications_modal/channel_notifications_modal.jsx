@@ -104,12 +104,12 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.setState({
             show: false,
         });
-    }
+    };
 
     handleExit = () => {
         this.updateSection(NotificationSections.NONE);
         this.props.onHide();
-    }
+    };
 
     updateSection = (section = NotificationSections.NONE) => {
         this.setState({activeSection: section});
@@ -118,7 +118,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
             const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
             this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
         }
-    }
+    };
 
     handleUpdateChannelNotifyProps = async (props) => {
         const {
@@ -133,7 +133,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         } else {
             this.updateSection(NotificationSections.NONE);
         }
-    }
+    };
 
     handleSubmitDesktopNotifyLevel = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
@@ -146,11 +146,11 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         const props = {desktop: desktopNotifyLevel};
         this.handleUpdateChannelNotifyProps(props);
-    }
+    };
 
     handleUpdateDesktopNotifyLevel = (desktopNotifyLevel) => {
         this.setState({desktopNotifyLevel});
-    }
+    };
 
     handleSubmitMarkUnreadLevel = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
@@ -163,11 +163,11 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         const props = {mark_unread: markUnreadNotifyLevel};
         this.handleUpdateChannelNotifyProps(props);
-    }
+    };
 
     handleUpdateMarkUnreadLevel = (markUnreadNotifyLevel) => {
         this.setState({markUnreadNotifyLevel});
-    }
+    };
 
     handleSubmitPushNotificationLevel = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
@@ -180,15 +180,15 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         const props = {push: pushNotifyLevel};
         this.handleUpdateChannelNotifyProps(props);
-    }
+    };
 
     handleUpdatePushNotificationLevel = (pushNotifyLevel) => {
         this.setState({pushNotifyLevel});
-    }
+    };
 
     handleUpdateIgnoreChannelMentions = (ignoreChannelMentions) => {
         this.setState({ignoreChannelMentions});
-    }
+    };
 
     handleSubmitIgnoreChannelMentions = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
@@ -201,7 +201,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         const props = {ignore_channel_mentions: ignoreChannelMentions};
         this.handleUpdateChannelNotifyProps(props);
-    }
+    };
 
     render() {
         const {

@@ -29,7 +29,7 @@ export default class RemoveFileSetting extends Setting {
         this.props.onSubmit(this.props.id, () => {
             $(this.refs.remove_button).button('reset');
         });
-    }
+    };
 
     render() {
         return (

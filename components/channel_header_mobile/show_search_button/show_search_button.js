@@ -13,11 +13,11 @@ export default class ShowSearchButton extends React.PureComponent {
         actions: PropTypes.shape({
             openRHSSearch: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     handleClick = () => {
         this.props.actions.openRHSSearch();
-    }
+    };
 
     render() {
         return (

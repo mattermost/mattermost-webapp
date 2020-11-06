@@ -21,11 +21,11 @@ const tooltipContainerStyles: CSSProperties = {
 type Props = {
     href: string;
     attributes: {[attribute: string]: string};
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class LinkTooltip extends React.PureComponent<Props, State> {
     private tooltipContainerRef: RefObject<any>;

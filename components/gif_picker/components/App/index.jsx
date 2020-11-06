@@ -25,7 +25,7 @@ export class App extends PureComponent {
         authenticateSdk: PropTypes.func,
         defaultSearchText: PropTypes.string,
         handleSearchTextChange: PropTypes.func.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);

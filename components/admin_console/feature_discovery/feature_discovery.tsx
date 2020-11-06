@@ -32,12 +32,12 @@ type Props = {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
     };
-}
+};
 
 type State = {
     gettingTrial: boolean;
     gettingTrialError: string | null;
-}
+};
 
 export default class FeatureDiscovery extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -66,7 +66,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
-    }
+    };
 
     render() {
         const {

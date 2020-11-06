@@ -21,11 +21,11 @@ type Props = {
         keys: string[];
         onFilter: (options: FilterOptions) => void;
     };
-}
+};
 
 type State = {
     term: string;
-}
+};
 
 class DataGridSearch extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
@@ -40,7 +40,7 @@ class DataGridSearch extends React.PureComponent<Props, State> {
         const term = e.target.value;
         this.setState({term});
         this.props.onSearch(term);
-    }
+    };
 
     resetSearch = () => {
         this.props.onSearch('');

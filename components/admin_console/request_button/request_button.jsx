@@ -128,7 +128,7 @@ export default class RequestButton extends React.PureComponent {
          * An element to display adjacent to the request button.
          */
         alternativeActionElement: PropTypes.element,
-    }
+    };
 
     static defaultProps = {
         id: null,
@@ -144,7 +144,7 @@ export default class RequestButton extends React.PureComponent {
             id: t('admin.requestButton.requestFailure'),
             defaultMessage: 'Test Failure: {error}',
         },
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -192,7 +192,7 @@ export default class RequestButton extends React.PureComponent {
         } else {
             doRequest();
         }
-    }
+    };
 
     render() {
         let message = null;

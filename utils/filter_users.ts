@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {UserSearchOptions, UserListOptions, UserFilters} from 'utils/constants';
 
-export type FilterOptions = Record<string, string | boolean>
+export type FilterOptions = Record<string, string | boolean>;
 const NEVER = 0;
 
 // userSelectorOptionsFromFilter will convert a string UI filter to an options object

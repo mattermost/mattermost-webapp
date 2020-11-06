@@ -13,11 +13,11 @@ type Props = {
     group: Group;
     onHide: () => void;
     onLoad?: () => void;
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class GroupMembersModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -36,11 +36,11 @@ export default class GroupMembersModal extends React.PureComponent<Props, State>
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         this.props.onHide();
-    }
+    };
 
     render() {
         const {group} = this.props;

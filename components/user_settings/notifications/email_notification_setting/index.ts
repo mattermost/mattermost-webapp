@@ -20,7 +20,7 @@ import EmailNotificationSetting from './email_notification_setting';
 type Actions = {
     savePreferences: (currentUserId: string, emailIntervalPreference: Array<PreferenceType>) =>
     Promise<{data: boolean}>;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);

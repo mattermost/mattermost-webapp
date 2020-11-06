@@ -8,13 +8,13 @@ type Props = {
     position: 'absolute' | 'fixed' | 'relative' | 'static' | 'inherit';
     style?: CSSProperties;
     message?: ReactNode;
-}
+};
 
 export default class LoadingScreen extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         position: 'relative',
         style: {},
-    }
+    };
 
     public constructor(props: Props) {
         super(props);

@@ -18,7 +18,7 @@ type Props = {
     disabled?: boolean;
     setByEnv: boolean;
     showConfirm: boolean;
-}
+};
 
 export default class CustomEnableDisableGuestAccountsSetting extends React.PureComponent<Props> {
     public handleChange = (id: string, value: boolean, submit = false) => {

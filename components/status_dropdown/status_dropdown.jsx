@@ -29,44 +29,44 @@ export default class StatusDropdown extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     static defaultProps = {
         userId: '',
         profilePicture: '',
         status: UserStatuses.OFFLINE,
-    }
+    };
 
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
-    }
+    };
 
     setStatus = (status) => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
         });
-    }
+    };
 
     setOnline = (event) => {
         event.preventDefault();
         this.setStatus(UserStatuses.ONLINE);
-    }
+    };
 
     setOffline = (event) => {
         event.preventDefault();
         this.setStatus(UserStatuses.OFFLINE);
-    }
+    };
 
     setAway = (event) => {
         event.preventDefault();
         this.setStatus(UserStatuses.AWAY);
-    }
+    };
 
     setDnd = (event) => {
         event.preventDefault();
         this.setStatus(UserStatuses.DND);
-    }
+    };
 
     showStatusChangeConfirmation = (status) => {
         const resetStatusModalData = {
@@ -88,7 +88,7 @@ export default class StatusDropdown extends React.PureComponent {
                 url={this.props.profilePicture}
             />
         );
-    }
+    };
 
     renderDropdownIcon = () => {
         return (
@@ -104,7 +104,7 @@ export default class StatusDropdown extends React.PureComponent {
                 }
             </FormattedMessage>
         );
-    }
+    };
 
     render() {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';

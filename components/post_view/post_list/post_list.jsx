@@ -121,7 +121,7 @@ export default class PostList extends React.PureComponent {
             updateNewMessagesAtInChannel: PropTypes.func.isRequired,
 
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -188,7 +188,7 @@ export default class PostList extends React.PureComponent {
                 loadingNewerPosts: false,
             });
         }
-    }
+    };
 
     callLoadPosts = async (channelId, postId, type) => {
         const {error} = await this.props.actions.loadPosts({
@@ -221,22 +221,22 @@ export default class PostList extends React.PureComponent {
         }
 
         return {error};
-    }
+    };
 
     markChannelAsReadAndViewed = (channelId) => {
         // Posts are marked as read from here to not cause a race when loading posts
         // marking channel as read and viewed after calling for posts in channel
         this.props.actions.markChannelAsViewed(channelId);
         this.props.actions.markChannelAsRead(channelId);
-    }
+    };
 
     getOldestVisiblePostId = () => {
         return getOldestPostId(this.props.postListIds);
-    }
+    };
 
     getLatestVisiblePostId = () => {
         return getLatestPostId(this.props.postListIds);
-    }
+    };
 
     canLoadMorePosts = async (type = PostRequestTypes.BEFORE_ID) => {
         if (!this.props.postListIds) {
@@ -266,7 +266,7 @@ export default class PostList extends React.PureComponent {
         }
 
         this.extraPagesLoaded += 1;
-    }
+    };
 
     getPostsBefore = async () => {
         if (this.state.loadingOlderPosts) {
@@ -275,7 +275,7 @@ export default class PostList extends React.PureComponent {
         const oldestPostId = this.getOldestVisiblePostId();
         this.setState({loadingOlderPosts: true});
         await this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
-    }
+    };
 
     getPostsAfter = async () => {
         if (this.state.loadingNewerPosts) {
@@ -284,7 +284,7 @@ export default class PostList extends React.PureComponent {
         const latestPostId = this.getLatestVisiblePostId();
         this.setState({loadingNewerPosts: true});
         await this.callLoadPosts(this.props.channelId, latestPostId, PostRequestTypes.AFTER_ID);
-    }
+    };
 
     render() {
         if (!this.props.postListIds) {

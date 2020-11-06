@@ -16,7 +16,7 @@ type UploadInfo = {
     name: string;
     percent?: number;
     type?: string;
-}
+};
 export type FilePreviewInfo = FileInfo & UploadInfo;
 
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
     fileInfos: FilePreviewInfo[];
     uploadsInProgress?: string[];
     uploadsProgressPercent?: {[clientID: string]: FilePreviewInfo};
-}
+};
 
 export default class FilePreview extends React.PureComponent<Props> {
     static defaultProps = {
@@ -36,7 +36,7 @@ export default class FilePreview extends React.PureComponent<Props> {
 
     handleRemove = (id: string) => {
         this.props.onRemove(id);
-    }
+    };
 
     render() {
         const previews: ReactNode[] = [];

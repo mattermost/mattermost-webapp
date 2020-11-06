@@ -162,7 +162,7 @@ class RhsComment extends React.PureComponent {
                 });
             }
         }
-    }
+    };
 
     removePost = () => {
         this.props.removePost(this.props.post);
@@ -237,7 +237,7 @@ class RhsComment extends React.PureComponent {
         if (this.state.alt !== e.altKey) {
             this.setState({alt: e.altKey});
         }
-    }
+    };
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -251,19 +251,19 @@ class RhsComment extends React.PureComponent {
 
     setHover = () => {
         this.setState({hover: true});
-    }
+    };
 
     unsetHover = () => {
         this.setState({hover: false});
-    }
+    };
 
     handleA11yActivateEvent = () => {
         this.setState({a11yActive: true});
-    }
+    };
 
     handleA11yDeactivateEvent = () => {
         this.setState({a11yActive: false});
-    }
+    };
 
     handlePostClick = (e) => {
         if (this.props.channelIsArchived) {
@@ -273,12 +273,12 @@ class RhsComment extends React.PureComponent {
         if (e.altKey) {
             this.props.actions.markPostAsUnread(this.props.post);
         }
-    }
+    };
 
     handlePostFocus = () => {
         const {post, author, reactions, isFlagged, intl, emojiMap} = this.props;
         this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap)});
-    }
+    };
 
     render() {
         const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;

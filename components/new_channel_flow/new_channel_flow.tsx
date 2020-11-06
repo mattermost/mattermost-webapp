@@ -67,13 +67,13 @@ type State = {
     channelPurpose: string;
     channelHeader: string;
     nameModified: boolean;
-}
+};
 
 type NewChannelData = {
     displayName: string;
     purpose: string;
     header: string;
-}
+};
 
 export default class NewChannelFlow extends React.PureComponent<Props, State> {
     public static defaultProps = {
@@ -138,7 +138,7 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
 
     onModalDismissed = () => {
         this.props.actions.closeModal(ModalIdentifiers.NEW_CHANNEL_FLOW);
-    }
+    };
 
     onCreateChannelError = (err: ServerError) => {
         if (err.server_error_id === 'model.channel.is_valid.2_or_more.app_error') {

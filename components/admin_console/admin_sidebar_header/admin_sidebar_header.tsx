@@ -15,7 +15,7 @@ import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown'
 
 type Props = {
     currentUser: UserProfile;
-}
+};
 
 export default class SidebarHeader extends React.PureComponent<Props> {
     public render() {

@@ -791,11 +791,11 @@ export default class A11yController {
             this.lKeyIsPressed = true;
             break;
         }
-    }
+    };
 
     handleKeyUp = () => {
         this.resetInterractionStates();
-    }
+    };
 
     handleMouseClick = (event) => {
         // hitting enter on a <button> triggers a click event
@@ -806,15 +806,15 @@ export default class A11yController {
             return;
         }
         this.cancelNavigation();
-    }
+    };
 
     handleMouseDown = () => {
         this.mouseIsPressed = true;
-    }
+    };
 
     handleMouseUp = () => {
         this.mouseIsPressed = false;
-    }
+    };
 
     handleFocus = (event) => {
         if (this.lastInputEventIsKeyboard && this.windowIsFocused) {
@@ -825,13 +825,13 @@ export default class A11yController {
         if (!this.windowIsFocused) {
             this.windowIsFocused = true;
         }
-    }
+    };
 
     handleWindowBlur = (event) => {
         if (event.target === window) {
             this.windowIsFocused = false;
         }
-    }
+    };
 
     handleActiveRegionUpdate = () => {
         if (this.navigationInProgress) {
@@ -840,7 +840,7 @@ export default class A11yController {
                 this.udpateCurrentFocus(true);
             }
         }
-    }
+    };
 
     handleActiveSectionUpdate = () => {
         if (this.navigationInProgress) {
@@ -849,7 +849,7 @@ export default class A11yController {
                 this.udpateCurrentFocus(true);
             }
         }
-    }
+    };
 
     handleActiveElementUpdate = () => {
         if (this.navigationInProgress) {
@@ -858,5 +858,5 @@ export default class A11yController {
                 this.udpateCurrentFocus(true);
             }
         }
-    }
+    };
 }

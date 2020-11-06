@@ -229,7 +229,7 @@ class CreateComment extends React.PureComponent {
         getChannelMemberCountsByGroup: PropTypes.func.isRequired,
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
-    }
+    };
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {
@@ -328,7 +328,7 @@ class CreateComment extends React.PureComponent {
 
     setShowPreview = (newPreviewValue) => {
         this.props.setShowPreview(newPreviewValue);
-    }
+    };
 
     focusTextboxIfNecessary = (e) => {
         // Should only focus if RHS is expanded
@@ -346,7 +346,7 @@ class CreateComment extends React.PureComponent {
         if (shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
         }
-    }
+    };
 
     setCaretPosition = (newCaretPosition) => {
         const textbox = this.refs.textbox.getInputBox();
@@ -356,7 +356,7 @@ class CreateComment extends React.PureComponent {
         }, () => {
             Utils.setCaretPosition(textbox, newCaretPosition);
         });
-    }
+    };
 
     pasteHandler = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'reply_textbox') {
@@ -390,28 +390,28 @@ class CreateComment extends React.PureComponent {
 
         this.props.onUpdateCommentDraft(updatedDraft);
         this.setState({draft: updatedDraft});
-    }
+    };
 
     handleNotifyAllConfirmation = (e) => {
         this.hideNotifyAllModal();
         this.doSubmit(e);
-    }
+    };
 
     hideNotifyAllModal = () => {
         this.setState({showConfirmModal: false});
-    }
+    };
 
     showNotifyAllModal = () => {
         this.setState({showConfirmModal: true});
-    }
+    };
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
-    }
+    };
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
-    }
+    };
 
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
@@ -449,7 +449,7 @@ class CreateComment extends React.PureComponent {
             showEmojiPicker: false,
             draft: modifiedDraft,
         });
-    }
+    };
 
     handleGifClick = (gif) => {
         const {draft} = this.state;
@@ -478,11 +478,11 @@ class CreateComment extends React.PureComponent {
         });
 
         this.focusTextbox();
-    }
+    };
 
     handlePostError = (postError) => {
         this.setState({postError});
-    }
+    };
 
     handleSubmit = async (e) => {
         e.preventDefault();
@@ -569,7 +569,7 @@ class CreateComment extends React.PureComponent {
         }
 
         await this.doSubmit(e);
-    }
+    };
 
     doSubmit = async (e) => {
         if (e) {
@@ -629,7 +629,7 @@ class CreateComment extends React.PureComponent {
         }
 
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
-    }
+    };
 
     commentMsgKeyPress = (e) => {
         const {
@@ -662,7 +662,7 @@ class CreateComment extends React.PureComponent {
         }
 
         this.emitTypingEvent();
-    }
+    };
 
     reactToLastMessage = (e) => {
         e.preventDefault();
@@ -672,19 +672,19 @@ class CreateComment extends React.PureComponent {
         // Here we are not handling conditions such as check for modals,  popups etc as shortcut is only trigger on
         // textbox input focus. Since all of them will already be closed as soon as they loose focus.
         emitShortcutReactToLastPostFrom(Locations.RHS_ROOT);
-    }
+    };
 
     emitTypingEvent = () => {
         const {channelId, rootId} = this.props;
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
-    }
+    };
 
     scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
             $el.parent().scrollTop($el[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
-    }
+    };
 
     handleChange = (e) => {
         const message = e.target.value;
@@ -701,18 +701,18 @@ class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
-    }
+    };
 
     handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
         });
-    }
+    };
 
     handleSelect = (e) => {
         Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
-    }
+    };
 
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -770,7 +770,7 @@ class CreateComment extends React.PureComponent {
         if (lastMessageReactionKeyCombo) {
             this.reactToLastMessage(e);
         }
-    }
+    };
 
     applyHotkeyMarkdown = (e) => {
         const res = Utils.applyHotkeyMarkdown(e);
@@ -790,11 +790,11 @@ class CreateComment extends React.PureComponent {
             const textbox = this.refs.textbox.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
-    }
+    };
 
     handleFileUploadChange = () => {
         this.focusTextbox();
-    }
+    };
 
     handleUploadStart = (clientIds) => {
         const {draft} = this.state;
@@ -811,12 +811,12 @@ class CreateComment extends React.PureComponent {
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
         this.focusTextbox();
-    }
+    };
 
     handleUploadProgress = ({clientId, name, percent, type}) => {
         const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [clientId]: {percent, name, type}};
         this.setState({uploadsProgressPercent});
-    }
+    };
 
     handleFileUploadComplete = (fileInfos, clientIds, channelId, rootId) => {
         const draft = this.draftsForPost[rootId];
@@ -842,7 +842,7 @@ class CreateComment extends React.PureComponent {
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
-    }
+    };
 
     handleUploadError = (err, clientId = -1, currentChannelId, rootId = -1) => {
         if (clientId !== -1) {
@@ -875,7 +875,7 @@ class CreateComment extends React.PureComponent {
                 this.scrollToBottom();
             }
         });
-    }
+    };
 
     removePreview = (id) => {
         const {draft} = this.state;
@@ -912,7 +912,7 @@ class CreateComment extends React.PureComponent {
         this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.handleFileUploadChange();
-    }
+    };
 
     getFileCount = () => {
         const {
@@ -922,21 +922,21 @@ class CreateComment extends React.PureComponent {
             },
         } = this.state;
         return fileInfos.length + uploadsInProgress.length;
-    }
+    };
 
     getFileUploadTarget = () => {
         return this.refs.textbox;
-    }
+    };
 
     getCreateCommentControls = () => {
         return this.refs.createCommentControls;
-    }
+    };
 
     focusTextbox = (keepFocus = false) => {
         if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.focus();
         }
-    }
+    };
 
     shouldEnableAddButton = () => {
         if (this.props.enableAddButton) {
@@ -944,13 +944,13 @@ class CreateComment extends React.PureComponent {
         }
 
         return isErrorInvalidSlashCommand(this.state.serverError);
-    }
+    };
 
     showPostDeletedModal = () => {
         this.setState({
             showPostDeletedModal: true,
         });
-    }
+    };
 
     hidePostDeletedModal = () => {
         this.setState({
@@ -958,11 +958,11 @@ class CreateComment extends React.PureComponent {
         });
 
         this.props.resetCreatePostRequest();
-    }
+    };
 
     handleBlur = () => {
         this.lastBlurAt = Date.now();
-    }
+    };
 
     handleHeightChange = (height, maxHeight) => {
         this.setState({renderScrollbar: height > maxHeight});
@@ -971,7 +971,7 @@ class CreateComment extends React.PureComponent {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
             }
         });
-    }
+    };
 
     render() {
         const {draft} = this.state;

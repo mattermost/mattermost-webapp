@@ -64,7 +64,7 @@ export default class CommandsContainer extends React.PureComponent {
         * Whether or not commands are enabled.
         */
         enableCommands: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);

@@ -230,7 +230,7 @@ class ChannelHeader extends React.PureComponent {
                 this.toggleQuickSwitchModal();
             }
         }
-    }
+    };
 
     toggleQuickSwitchModal = () => {
         const {isQuickSwitcherOpen} = this.props;
@@ -242,12 +242,12 @@ class ChannelHeader extends React.PureComponent {
                 dialogType: QuickSwitchModal,
             });
         }
-    }
+    };
 
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
         this.toggleFavoriteRef.current.removeAttribute('aria-describedby');
-    }
+    };
 
     showEditChannelHeaderModal = () => {
         if (this.headerOverlayRef.current) {
@@ -262,7 +262,7 @@ class ChannelHeader extends React.PureComponent {
         };
 
         actions.openModal(modalData);
-    }
+    };
 
     showChannelHeaderPopover = (headerText) => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
@@ -273,13 +273,13 @@ class ChannelHeader extends React.PureComponent {
         }
 
         this.setState({topOffset: (announcementBarSize * this.props.announcementBarCount)});
-    }
+    };
 
     setPopoverOverlayWidth = () => {
         const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
         const ellipsisWidthAdjustment = 10;
         this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
-    }
+    };
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 

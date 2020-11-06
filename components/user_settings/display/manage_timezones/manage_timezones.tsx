@@ -16,7 +16,7 @@ import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
-}
+};
 
 type Props ={
     user: UserProfile;
@@ -26,7 +26,7 @@ type Props ={
     manualTimezone: string;
     timezones: string[];
     actions: Actions;
-}
+};
 
 type State ={
     useAutomaticTimezone: boolean;
@@ -35,7 +35,7 @@ type State ={
     manualTimezoneInput: string;
     isSaving: boolean;
     serverError?: string;
-}
+};
 
 export default class ManageTimezones extends React.PureComponent<Props, State> {
     constructor(props: Props) {

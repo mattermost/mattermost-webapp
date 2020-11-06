@@ -9,12 +9,12 @@ import {t} from 'utils/i18n';
 
 type Props = {
     text: React.ReactNode;
-}
+};
 
 export default class LoadingSpinner extends React.PureComponent<Props> {
     public static defaultProps: Props = {
         text: null,
-    }
+    };
 
     public render() {
         return (

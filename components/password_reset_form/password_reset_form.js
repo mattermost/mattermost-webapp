@@ -59,7 +59,7 @@ export default class PasswordResetForm extends React.PureComponent {
         } else if (error) {
             this.setState({error: error.message});
         }
-    }
+    };
 
     render() {
         let error = null;

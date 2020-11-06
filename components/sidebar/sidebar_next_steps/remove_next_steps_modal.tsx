@@ -15,7 +15,7 @@ type Props = {
     screenTitle: string;
     onConfirm: () => void;
     onCancel: () => void;
-}
+};
 
 export default function RemoveNextStepsModal(props: Props) {
     const {onConfirm, onCancel, screenTitle} = props;

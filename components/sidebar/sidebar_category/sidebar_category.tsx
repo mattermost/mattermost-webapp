@@ -45,7 +45,7 @@ type Props = {
 
 type State = {
     isMenuOpen: boolean;
-}
+};
 
 export default class SidebarCategory extends React.PureComponent<Props, State> {
     categoryTitleRef: React.RefObject<HTMLButtonElement>;
@@ -87,19 +87,19 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         if (this.categoryTitleRef.current) {
             this.categoryTitleRef.current.addEventListener('keydown', this.handleA11yKeyDown);
         }
-    }
+    };
 
     handleA11yDeactivateEvent = () => {
         if (this.categoryTitleRef.current) {
             this.categoryTitleRef.current.removeEventListener('keydown', this.handleA11yKeyDown);
         }
-    }
+    };
 
     handleA11yKeyDown = (e: KeyboardEvent) => {
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.handleCollapse();
         }
-    }
+    };
 
     renderChannel = (channel: Channel, index: number) => {
         const {isCollapsed, setChannelRef, getChannelRef, category, draggingState} = this.props;
@@ -117,7 +117,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
             />
         );
-    }
+    };
 
     handleCollapse = () => {
         const {category, isCollapsed} = this.props;
@@ -129,7 +129,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         }
 
         this.props.actions.setCategoryCollapsed(category.id, !isCollapsed);
-    }
+    };
 
     handleSortDirectMessages = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const {category} = this.props;
@@ -138,22 +138,22 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const newSorting = category.sorting === CategorySorting.Recency ? CategorySorting.Alphabetical : CategorySorting.Recency;
         this.props.actions.setCategorySorting(category.id, newSorting);
         trackEvent('ui', `ui_sidebar_sort_dm_${newSorting}`);
-    }
+    };
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
             this.newDropBoxRef.current.classList.remove('animating');
         }
-    }
+    };
 
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
         trackEvent('ui', 'ui_sidebar_create_direct_message');
-    }
+    };
 
     handleMenuToggle = (open: boolean) => {
         this.setState({isMenuOpen: open});
-    }
+    };
 
     isDropDisabled = () => {
         const {draggingState, category} = this.props;
@@ -165,7 +165,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         }
 
         return false;
-    }
+    };
 
     renderNewDropBox = (isDraggingOver: boolean) => {
         const {isCollapsed, draggingState, category, isNewCategory, channels} = this.props;
@@ -214,7 +214,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </div>
             </React.Fragment>
         );
-    }
+    };
 
     render() {
         const {

@@ -36,7 +36,7 @@ export default class RemoveConfirmModal extends React.PureComponent {
          */
         amount: PropTypes.number.isRequired,
 
-    }
+    };
 
     render() {
         const {amount, inChannel} = this.props;

@@ -103,13 +103,13 @@ export default class ListModal extends React.PureComponent {
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         if (this.props.onHide) {
             this.props.onHide();
         }
-    }
+    };
 
     renderRows() {
         if (this.state.loading) {
@@ -130,18 +130,18 @@ export default class ListModal extends React.PureComponent {
     onNext = () => {
         const nextPage = this.state.page + 1;
         this.onPageChange(nextPage);
-    }
+    };
 
     onPrev = () => {
         const prevPage = this.state.page - 1;
         this.onPageChange(prevPage);
-    }
+    };
 
     onPageChange = async (page) => {
         this.setState({loading: true});
         const result = await this.props.loadItems(page, this.state.searchTerm);
         this.setState({page, items: result.items, loading: false});
-    }
+    };
 
     onSearchInput = async (event) => {
         const {target} = event;
@@ -150,7 +150,7 @@ export default class ListModal extends React.PureComponent {
         const result = await this.props.loadItems(0, searchTerm);
         const {items, totalCount} = result;
         this.setState({loading: false, items, totalCount});
-    }
+    };
 
     paginationRange() {
         let startCount = (this.state.page * this.numPerPage) + 1;

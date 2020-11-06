@@ -93,7 +93,7 @@ export default class AddBot extends React.PureComponent {
             */
             updateUserRoles: PropTypes.func.isRequired,
         }),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -124,37 +124,37 @@ export default class AddBot extends React.PureComponent {
         this.setState({
             username: e.target.value,
         });
-    }
+    };
 
     updateDisplayName = (e) => {
         this.setState({
             displayName: e.target.value,
         });
-    }
+    };
 
     updateDescription = (e) => {
         this.setState({
             description: e.target.value,
         });
-    }
+    };
 
     updateRole = (e) => {
         this.setState({
             role: e.target.value,
         });
-    }
+    };
 
     updatePostAll = (e) => {
         this.setState({
             postAll: e.target.checked,
         });
-    }
+    };
 
     updatePostChannels = (e) => {
         this.setState({
             postChannels: e.target.checked,
         });
-    }
+    };
 
     updatePicture = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -177,11 +177,11 @@ export default class AddBot extends React.PureComponent {
         } else {
             this.setState({pictureFile: null, image: null});
         }
-    }
+    };
 
     setDefault = () => {
         this.setState({pictureFile: 'default', image: BotDefaultIcon});
-    }
+    };
 
     updateRoles = async (data) => {
         let roles = General.SYSTEM_USER_ROLE;
@@ -200,7 +200,7 @@ export default class AddBot extends React.PureComponent {
         }
 
         return null;
-    }
+    };
 
     handleSubmit = async (e) => {
         e.preventDefault();
@@ -339,7 +339,7 @@ export default class AddBot extends React.PureComponent {
                 error: error.message,
             });
         }
-    }
+    };
 
     render() {
         let subtitle = (

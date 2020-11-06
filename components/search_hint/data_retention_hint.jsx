@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 export default class DataRetentionHint extends PureComponent {
     static propTypes = {
         dataRetentionMessageRetentionDays: PropTypes.string,
-    }
+    };
 
     render() {
         return (

@@ -40,7 +40,7 @@ import MoreDirectChannels from './more_direct_channels';
 
 type OwnProps = {
     isExistingChannel: boolean;
-}
+};
 
 const makeMapStateToProps = () => {
     const searchProfilesStartingWithTerm = makeSearchProfilesStartingWithTerm();
@@ -125,7 +125,7 @@ type Actions = {
     searchProfiles: (term: string, options?: any) => Promise<any>;
     searchGroupChannels: (term: string) => Promise<any>;
     setModalSearchTerm: (term: any) => GenericAction;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

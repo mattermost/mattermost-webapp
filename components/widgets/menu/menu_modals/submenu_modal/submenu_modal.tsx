@@ -15,11 +15,11 @@ import './submenu_modal.scss';
 type Props = {
     elements?: (React.ComponentProps<typeof SubMenuItem>)[];
     onHide: () => void;
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class SubMenuModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
@@ -31,7 +31,7 @@ export default class SubMenuModal extends React.PureComponent<Props, State> {
 
     public onHide = () => { //public because it is used on tests
         this.setState({show: false});
-    }
+    };
 
     public render() {
         let SubMenuItems;

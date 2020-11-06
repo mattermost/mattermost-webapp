@@ -25,7 +25,7 @@ export default class TextboxLinks extends React.PureComponent<Props> {
     togglePreview = (e: MouseEvent) => {
         e.preventDefault();
         this.props.updatePreview?.(!this.props.showPreview);
-    }
+    };
 
     render() {
         const {isMarkdownPreviewEnabled} = this.props;

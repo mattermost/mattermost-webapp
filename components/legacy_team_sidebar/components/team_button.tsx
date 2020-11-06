@@ -44,11 +44,11 @@ class TeamButton extends React.PureComponent<Props> {
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         this.props.switchTeam(this.props.url);
-    }
+    };
 
     handleDisabled = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
-    }
+    };
 
     render() {
         const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;

@@ -6,7 +6,7 @@ import React from 'react';
 type Props = {
     className: string;
     status: string;
-}
+};
 
 export default class StatusIconNew extends React.PureComponent<Props> {
     static defaultProps: Props = {

@@ -22,11 +22,11 @@ type Props = {
     id?: string;
     isDisabled?: boolean;
     stopPropagationOnToggle?: boolean;
-}
+};
 
 type State = {
     open: boolean;
-}
+};
 
 export default class MenuWrapper extends React.PureComponent<Props, State> {
     private node: React.RefObject<HTMLDivElement>;
@@ -65,7 +65,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         if (e.key === Constants.KeyCodes.TAB[0]) {
             this.closeOnBlur(e);
         }
-    }
+    };
 
     private closeOnBlur = (e: Event) => {
         if (this.node && this.node.current && e.target && this.node.current.contains(e.target as Node)) {
@@ -73,7 +73,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         }
 
         this.close();
-    }
+    };
 
     public close = () => {
         if (this.state.open) {
@@ -82,7 +82,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
                 this.props.onToggle(false);
             }
         }
-    }
+    };
 
     toggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         /**
@@ -101,7 +101,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
                 this.props.onToggle(newState);
             }
         });
-    }
+    };
 
     public render() {
         const {children} = this.props;

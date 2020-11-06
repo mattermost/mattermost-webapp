@@ -14,7 +14,7 @@ export default class PostView extends React.PureComponent {
         channelLoading: PropTypes.bool,
         channelId: PropTypes.string,
         focusedPostId: PropTypes.string,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -52,7 +52,7 @@ export default class PostView extends React.PureComponent {
                 });
             });
         });
-    }
+    };
 
     render() {
         if (this.props.channelLoading || this.state.loaderForChangeOfPostsChunk) {

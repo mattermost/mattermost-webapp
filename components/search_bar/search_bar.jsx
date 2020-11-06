@@ -118,11 +118,11 @@ export default class SearchBar extends React.PureComponent {
         }
 
         return visibleSearchHintOptions;
-    }
+    };
 
     handleClose = () => {
         this.props.actions.closeRightHandSide();
-    }
+    };
 
     handleKeyDown = (e) => {
         const {highlightedSearchHintIndex, visibleSearchHintOptions} = this.state;
@@ -153,12 +153,12 @@ export default class SearchBar extends React.PureComponent {
         if (Utils.isKeyPressed(e, KeyCodes.ENTER) && this.props.isMentionSearch) {
             this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
-    }
+    };
 
     handleChange = (e) => {
         var term = e.target.value;
         this.props.actions.updateSearchTerms(term);
-    }
+    };
 
     handleUserBlur = () => {
         // add time out so that the pinned and member buttons are clickable
@@ -172,7 +172,7 @@ export default class SearchBar extends React.PureComponent {
         }, 0);
 
         this.setState({highlightedSearchHintIndex: -1});
-    }
+    };
 
     onClear = () => {
         if (this.props.isMentionSearch) {
@@ -180,11 +180,11 @@ export default class SearchBar extends React.PureComponent {
             this.props.actions.updateRhsState(RHSStates.SEARCH);
         }
         this.props.actions.updateSearchTerms('');
-    }
+    };
 
     handleUserFocus = () => {
         this.setState({focused: true});
-    }
+    };
 
     handleSearch = async (terms) => {
         if (terms.length) {
@@ -194,13 +194,13 @@ export default class SearchBar extends React.PureComponent {
                 this.handleSearchOnSuccess();
             }
         }
-    }
+    };
 
     handleSearchOnSuccess = () => {
         if (Utils.isMobile() && this.search) {
             this.search.value = '';
         }
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -213,7 +213,7 @@ export default class SearchBar extends React.PureComponent {
         this.handleSearch(terms);
 
         this.search.blur();
-    }
+    };
 
     searchMentions = (e) => {
         e.preventDefault();
@@ -223,7 +223,7 @@ export default class SearchBar extends React.PureComponent {
         } else {
             this.props.actions.showMentions();
         }
-    }
+    };
 
     getFlagged = (e) => {
         e.preventDefault();
@@ -232,7 +232,7 @@ export default class SearchBar extends React.PureComponent {
         } else {
             this.props.actions.showFlaggedPosts();
         }
-    }
+    };
 
     handleUpdateSearchTerm = (term) => {
         const pretextArray = this.props.searchTerms.split(' ');
@@ -241,7 +241,7 @@ export default class SearchBar extends React.PureComponent {
         this.props.actions.updateSearchTerms(pretextArray.join(' '));
         this.focus();
         this.setState({highlightedSearchHintIndex: -1, indexChangedViaKeyPress: false});
-    }
+    };
 
     focus = () => {
         // This is to allow redux to process the search term change
@@ -257,15 +257,15 @@ export default class SearchBar extends React.PureComponent {
         } else {
             this.search.selectionStart = this.search.length;
         }
-    }
+    };
 
     keepInputFocused = () => {
         this.setState({keepInputFocused: true});
-    }
+    };
 
     setHoverHintIndex = (highlightedSearchHintIndex) => {
         this.setState({highlightedSearchHintIndex, indexChangedViaKeyPress: false});
-    }
+    };
 
     renderHintPopover = () => {
         if (Utils.isMobile()) {
@@ -305,14 +305,14 @@ export default class SearchBar extends React.PureComponent {
         }
 
         return <></>;
-    }
+    };
 
     getSearch = (node) => {
         this.search = node;
         if (this.props.getFocus) {
             this.props.getFocus(this.focus);
         }
-    }
+    };
 
     render() {
         let mentionBtn;

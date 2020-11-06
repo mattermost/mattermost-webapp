@@ -19,7 +19,7 @@ export type BaseProps = {
     setNavigationBlocked?: (blocked: boolean) => void;
     isDisabled?: boolean;
     updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
-}
+};
 
 export type BaseState = {
     saveNeeded: boolean;
@@ -27,7 +27,7 @@ export type BaseState = {
     serverError: string|null;
     serverErrorId?: string;
     errorTooltip: boolean;
-}
+};
 
 type StateKeys = keyof BaseState;
 
@@ -36,7 +36,7 @@ type StateKeys = keyof BaseState;
 type ClientErrorPlaceholder = {
     message: string;
     server_error_id: string;
-}
+};
 
 export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
     public constructor(props: Props) {
@@ -68,7 +68,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
 
     private closeTooltip = () => {
         this.setState({errorTooltip: false});
-    }
+    };
 
     private openTooltip = (e: React.MouseEvent) => {
         const elm: HTMLElement|null = e.currentTarget.querySelector('.control-label');
@@ -76,7 +76,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
             const isElipsis = elm.offsetWidth < elm.scrollWidth;
             this.setState({errorTooltip: isElipsis});
         }
-    }
+    };
 
     protected handleChange = (id: string, value: boolean) => {
         this.setState((prevState) => ({
@@ -94,7 +94,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         e.preventDefault();
 
         this.doSubmit();
-    }
+    };
 
     protected doSubmit = async (callback?: () => void) => {
         this.setState({

@@ -206,7 +206,7 @@ class CombinedSystemMessage extends React.PureComponent {
         if (allUsernames.length > 0) {
             this.props.actions.getMissingProfilesByUsernames(allUsernames);
         }
-    }
+    };
 
     getAllUsernames = () => {
         const {
@@ -231,7 +231,7 @@ class CombinedSystemMessage extends React.PureComponent {
         }
 
         return usernames;
-    }
+    };
 
     getUsernamesByIds = (userIds = []) => {
         const {currentUserId, currentUsername} = this.props;
@@ -257,7 +257,7 @@ class CombinedSystemMessage extends React.PureComponent {
         }
 
         return usernames;
-    }
+    };
 
     renderFormattedMessage(postType, userIds, actorId) {
         const {formatMessage} = this.props.intl;

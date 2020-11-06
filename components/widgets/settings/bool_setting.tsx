@@ -15,7 +15,7 @@ type Props = {
     inputClassName: string;
     onChange(name: string, value: any): void; // value is any since onChange is a common func for inputs and checkboxes
     autoFocus?: boolean;
-}
+};
 
 export default class BoolSetting extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
@@ -25,7 +25,7 @@ export default class BoolSetting extends React.PureComponent<Props> {
 
     private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.props.onChange(this.props.id, e.target.checked);
-    }
+    };
 
     public render(): JSX.Element {
         return (

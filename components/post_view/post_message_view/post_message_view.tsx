@@ -27,13 +27,13 @@ type Props = {
     theme: Theme; /* Logged in user's theme */
     pluginPostTypes?: any; /* Post type components from plugins */
     currentRelativeTeamUrl: string;
-}
+};
 
 type State = {
     collapse: boolean;
     hasOverflow: boolean;
     checkOverflow: number;
-}
+};
 
 export default class PostMessageView extends React.PureComponent<Props, State> {
     private imageProps: any;

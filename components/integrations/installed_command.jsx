@@ -58,17 +58,17 @@ export default class InstalledCommand extends React.PureComponent {
         * Set to show edit link
         */
         canChange: PropTypes.bool.isRequired,
-    }
+    };
 
     handleRegenToken = (e) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.command);
-    }
+    };
 
     handleDelete = () => {
         this.props.onDelete(this.props.command);
-    }
+    };
 
     render() {
         const command = this.props.command;

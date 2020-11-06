@@ -31,7 +31,7 @@ type Actions = {
         data: boolean;
     }>;
     closeModal: (modalId: string) => void;
-}
+};
 
 export type Props = {
     channels: Channel[];
@@ -44,7 +44,7 @@ export type Props = {
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
     actions: Actions;
-}
+};
 
 type State = {
     show: boolean;
@@ -54,7 +54,7 @@ type State = {
     serverError: React.ReactNode | string;
     searching: boolean;
     searchTerm: string;
-}
+};
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
     public searchTimeoutId: number;
@@ -88,7 +88,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         if (this.props.bodyOnly) {
             this.handleExit();
         }
-    }
+    };
 
     handleNewChannel = () => {
         this.handleExit();
@@ -96,11 +96,11 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
             dialogType: NewChannelFlow,
         });
-    }
+    };
 
     handleExit = () => {
         this.props.actions.closeModal(ModalIdentifiers.MORE_CHANNELS);
-    }
+    };
 
     onChange = (force: boolean) => {
         if (this.state.search && !force) {
@@ -111,11 +111,11 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             searchedChannels: [],
             serverError: null,
         });
-    }
+    };
 
     nextPage = (page: number) => {
         this.props.actions.getChannels(this.props.teamId, page + 1, CHANNELS_PER_PAGE);
-    }
+    };
 
     handleJoin = async (channel: Channel, done: () => void) => {
         const {actions, currentUserId, teamId, teamName} = this.props;
@@ -131,7 +131,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         if (done) {
             done();
         }
-    }
+    };
 
     search = (term: string) => {
         clearTimeout(this.searchTimeoutId);
@@ -165,17 +165,17 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         );
 
         this.searchTimeoutId = searchTimeoutId;
-    }
+    };
 
     setSearchResults = (channels: Channel[]) => {
         this.setState({searchedChannels: this.state.shouldShowArchivedChannels ? channels.filter((c) => c.delete_at !== 0) : channels.filter((c) => c.delete_at === 0), searching: false});
-    }
+    };
 
     toggleArchivedChannels = (shouldShowArchivedChannels: boolean) => {
         // search again when switching channels to update search results
         this.search(this.state.searchTerm);
         this.setState({shouldShowArchivedChannels});
-    }
+    };
 
     render() {
         const {

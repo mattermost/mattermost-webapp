@@ -29,7 +29,7 @@ export default class MarkdownImage extends React.PureComponent {
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
         postType: PropTypes.string,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -46,20 +46,20 @@ export default class MarkdownImage extends React.PureComponent {
             e.preventDefault();
             this.setState({showModal: true});
         }
-    }
+    };
 
     hideModal = () => {
         this.setState({showModal: false});
-    }
+    };
 
     handleLoadFail = () => {
         this.setState({loadFailed: true});
-    }
+    };
 
     isHeaderChangeMessage = () => {
         return this.props.postType &&
             this.props.postType === Constants.PostTypes.HEADER_CHANGE;
-    }
+    };
 
     componentDidUpdate(prevProps) {
         this.onUpdated(prevProps.src);
@@ -69,7 +69,7 @@ export default class MarkdownImage extends React.PureComponent {
         if (this.props.src && this.props.src !== prevSrc) {
             this.setState({loadFailed: false});
         }
-    }
+    };
 
     handleImageLoaded = ({height, width}) => {
         this.setState({
@@ -79,7 +79,7 @@ export default class MarkdownImage extends React.PureComponent {
                 this.props.onImageLoaded({height, width});
             }
         });
-    }
+    };
 
     render() {
         const {imageMetadata, src, alt, imageIsLink} = this.props;

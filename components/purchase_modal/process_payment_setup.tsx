@@ -26,13 +26,13 @@ type Props = {
     addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     onBack: () => void;
     onClose: () => void;
-}
+};
 
 type State = {
     progress: number;
     error: boolean;
     state: ProcessState;
-}
+};
 
 enum ProcessState {
     PROCESSING = 0,
@@ -78,7 +78,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
         progress += 1;
         this.setState({progress: progress > MAX_FAKE_PROGRESS ? MAX_FAKE_PROGRESS : progress});
-    }
+    };
 
     private savePaymentMethod = async () => {
         const start = new Date();
@@ -100,12 +100,12 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
         }
 
         this.completePayment();
-    }
+    };
 
     private completePayment = () => {
         clearInterval(this.intervalId);
         this.setState({state: ProcessState.SUCCESS, progress: 100});
-    }
+    };
 
     private handleGoBack = () => {
         clearInterval(this.intervalId);
@@ -115,7 +115,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             state: ProcessState.PROCESSING,
         });
         this.props.onBack();
-    }
+    };
 
     public render() {
         const {state, progress, error} = this.state;

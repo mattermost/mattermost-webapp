@@ -23,7 +23,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         *  URL of pdf file to output and compare to update props url
         */
         fileUrl: PropTypes.string.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -64,13 +64,13 @@ export default class AudioVideoPreview extends React.PureComponent {
         this.setState({
             canPlay: canPlayType === 'probably' || canPlayType === 'maybe',
         });
-    }
+    };
 
     handleLoadError = () => {
         this.setState({
             canPlay: false,
         });
-    }
+    };
 
     stop = () => {
         if (this.videoRef.current) {
@@ -78,7 +78,7 @@ export default class AudioVideoPreview extends React.PureComponent {
             video.pause();
             video.currentTime = 0;
         }
-    }
+    };
 
     render() {
         if (!this.state.canPlay) {

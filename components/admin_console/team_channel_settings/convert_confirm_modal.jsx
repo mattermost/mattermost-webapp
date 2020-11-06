@@ -36,7 +36,7 @@ export default class ConvertConfirmModal extends React.PureComponent {
          * Channel privacy setting
          */
         toPublic: PropTypes.bool.isRequired,
-    }
+    };
 
     render() {
         const {displayName, toPublic} = this.props;

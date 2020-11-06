@@ -31,12 +31,12 @@ export default class SettingsUpload extends React.PureComponent {
             serverError: '',
             filename,
         });
-    }
+    };
 
     openFileSelect = () => {
         this.uploadinput.current.value = '';
         this.uploadinput.current.click();
-    }
+    };
 
     doSubmit = (e) => {
         e.preventDefault();
@@ -48,7 +48,7 @@ export default class SettingsUpload extends React.PureComponent {
         } else {
             this.setState({clientError: true});
         }
-    }
+    };
 
     render() {
         let clientError = null;

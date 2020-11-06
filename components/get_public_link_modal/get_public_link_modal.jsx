@@ -24,11 +24,11 @@ export default class GetPublicLinkModal extends React.PureComponent {
              */
             getFilePublicLink: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     static defaultProps = {
         link: '',
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -57,13 +57,13 @@ export default class GetPublicLinkModal extends React.PureComponent {
             show: value,
             fileId: args.fileId,
         });
-    }
+    };
 
     onHide = () => {
         this.setState({
             show: false,
         });
-    }
+    };
 
     render() {
         return (

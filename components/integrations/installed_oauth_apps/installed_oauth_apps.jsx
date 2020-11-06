@@ -72,7 +72,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
         if (app && app.id) {
             this.props.actions.deleteOAuthApp(app.id);
         }
-    }
+    };
 
     oauthAppCompare(a, b) {
         let nameA = a.name;

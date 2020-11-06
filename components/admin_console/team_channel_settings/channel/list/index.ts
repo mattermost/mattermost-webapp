@@ -34,7 +34,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     searchAllChannels: (term: string, opts: ChannelSearchOpts) => Promise<{ data: any }>;
     getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => ActionFunc | ActionResult | Promise<ChannelWithTeamData[]>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {

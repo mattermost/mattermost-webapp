@@ -71,7 +71,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         * Whether or not outgoing webhooks are enabled.
         */
         enableOutgoingWebhooks: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -95,11 +95,11 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
 
     regenOutgoingWebhookToken = (outgoingWebhook) => {
         this.props.actions.regenOutgoingHookToken(outgoingWebhook.id);
-    }
+    };
 
     removeOutgoingHook = (outgoingWebhook) => {
         this.props.actions.removeOutgoingHook(outgoingWebhook.id);
-    }
+    };
 
     outgoingWebhookCompare = (a, b) => {
         let displayNameA = a.display_name;
@@ -122,7 +122,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             }
         }
         return displayNameA.localeCompare(displayNameB);
-    }
+    };
 
     outgoingWebhooks = (filter) => this.props.outgoingWebhooks.
         sort(this.outgoingWebhookCompare).

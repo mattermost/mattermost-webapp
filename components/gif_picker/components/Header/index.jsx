@@ -55,7 +55,7 @@ export class Header extends PureComponent {
         theme: PropTypes.object.isRequired,
         defaultSearchText: PropTypes.string,
         handleSearchTextChange: PropTypes.func.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);

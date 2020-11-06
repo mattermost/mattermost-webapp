@@ -49,7 +49,7 @@ export default class ComplianceReports extends React.PureComponent {
              */
             createComplianceReport: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ export default class ComplianceReports extends React.PureComponent {
         this.props.actions.getComplianceReports().then(
             () => this.setState({loadingReports: false}),
         );
-    }
+    };
 
     runReport = (e) => {
         e.preventDefault();
@@ -108,7 +108,7 @@ export default class ComplianceReports extends React.PureComponent {
                 this.props.actions.getComplianceReports();
             },
         );
-    }
+    };
 
     getDateTime(millis) {
         const date = new Date(millis);

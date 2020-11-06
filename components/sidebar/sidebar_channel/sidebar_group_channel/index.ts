@@ -17,7 +17,7 @@ import SidebarGroupChannel from './sidebar_group_channel';
 
 type OwnProps = {
     channel: Channel;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUser = getCurrentUser(state);
@@ -49,7 +49,7 @@ type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{
         data: boolean;
     }>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

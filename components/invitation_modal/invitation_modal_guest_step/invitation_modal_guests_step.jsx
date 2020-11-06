@@ -41,7 +41,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
             getStandardAnalytics: PropTypes.func.isRequired,
             getCloudSubscription: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -59,27 +59,27 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
     onUsersEmailsChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
         this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || this.state.channelsInputValue);
-    }
+    };
 
     onChannelsChange = (channels) => {
         this.setState({channels});
         this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || this.state.channelsInputValue);
-    }
+    };
 
     onMessageChange = (e) => {
         this.setState({customMessage: e.target.value});
         this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '' || this.state.usersInputValue || this.state.channelsInputValue);
-    }
+    };
 
     onUsersInputChange = (usersInputValue) => {
         this.setState({usersInputValue});
         this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || usersInputValue || this.state.channelsInputValue);
-    }
+    };
 
     onChannelsInputChange = (channelsInputValue) => {
         this.setState({channelsInputValue});
         this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || channelsInputValue);
-    }
+    };
 
     debouncedSearchProfiles = debounce((term, callback) => {
         this.props.searchProfiles(term).then(({data}) => {
@@ -104,7 +104,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
         } catch (error) {
             callback([]);
         }
-    }
+    };
 
     debouncedSearchChannels = debounce((term) => this.props.searchChannels(this.props.currentTeamId, term), 150);
 
@@ -117,7 +117,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
         return this.props.myInvitableChannels.filter((channel) => {
             return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
-    }
+    };
 
     openCustomMessage = () => {
         this.setState({customMessageOpen: true});
@@ -126,11 +126,11 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
                 this.textareaRef.current.focus();
             }
         });
-    }
+    };
 
     closeCustomMessage = () => {
         this.setState({customMessageOpen: false});
-    }
+    };
 
     sendInvites = () => {
         const users = [];
@@ -143,7 +143,7 @@ export default class InvitationModalGuestsStep extends React.PureComponent {
             }
         }
         this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '', this.state.usersInputValue, this.state.channelsInputValue);
-    }
+    };
 
     shouldShowPickerError = () => {
         const {

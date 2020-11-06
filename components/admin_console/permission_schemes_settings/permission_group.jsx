@@ -62,21 +62,21 @@ export default class PermissionGroup extends React.PureComponent {
     toggleExpanded = (e) => {
         e.stopPropagation();
         this.setState({expanded: !this.state.expanded});
-    }
+    };
 
     toggleSelectRow = (id) => {
         if (this.props.readOnly) {
             return;
         }
         this.props.onChange([id]);
-    }
+    };
 
     toggleSelectSubGroup = (ids) => {
         if (this.props.readOnly) {
             return;
         }
         this.props.onChange(ids);
-    }
+    };
 
     toggleSelectGroup = () => {
         const {readOnly, permissions, role, onChange} = this.props;
@@ -121,7 +121,7 @@ export default class PermissionGroup extends React.PureComponent {
             this.setState({prevPermissions: role.permissions, expanded: false});
             onChange(permissionsToToggle);
         }
-    }
+    };
 
     isInScope = (permission) => {
         if (this.props.scope === 'channel_scope' && PermissionsScope[permission] !== 'channel_scope') {
@@ -131,7 +131,7 @@ export default class PermissionGroup extends React.PureComponent {
             return false;
         }
         return true;
-    }
+    };
 
     renderPermission = (permission, additionalValues) => {
         if (!this.isInScope(permission)) {
@@ -153,7 +153,7 @@ export default class PermissionGroup extends React.PureComponent {
                 additionalValues={additionalValues}
             />
         );
-    }
+    };
 
     renderGroup = (g) => {
         return (
@@ -174,11 +174,11 @@ export default class PermissionGroup extends React.PureComponent {
                 root={false}
             />
         );
-    }
+    };
 
     fromParent = (id) => {
         return this.props.parentRole && this.props.parentRole.permissions.indexOf(id) !== -1;
-    }
+    };
 
     getStatus = (permissions) => {
         let anyChecked = false;
@@ -210,11 +210,11 @@ export default class PermissionGroup extends React.PureComponent {
             return 'checked';
         }
         return '';
-    }
+    };
 
     hasPermissionsOnScope = () => {
         return getRecursivePermissions(this.props.permissions).some((permission) => this.isInScope(permission));
-    }
+    };
 
     allPermissionsFromParent = (permissions) => {
         for (const permission of permissions) {
@@ -229,7 +229,7 @@ export default class PermissionGroup extends React.PureComponent {
             }
         }
         return true;
-    }
+    };
 
     render = () => {
         const {id, uniqId, permissions, readOnly, combined, root, selected, additionalValues} = this.props;

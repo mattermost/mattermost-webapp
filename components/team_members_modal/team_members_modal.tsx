@@ -25,11 +25,11 @@ type Props = {
             data: boolean;
         }>;
     };
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class TeamMembersModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -48,11 +48,11 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         this.props.onHide();
-    }
+    };
 
     handleInvitePeople = () => {
         const {actions} = this.props;
@@ -63,7 +63,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
         });
 
         this.handleExit();
-    }
+    };
 
     render() {
         let teamDisplayName = '';

@@ -14,14 +14,14 @@ type Props = {
     value: string;
     onChange?: (id: string, color: string) => void;
     disabled?: boolean;
-}
+};
 
 export default class ColorSetting extends React.PureComponent<Props> {
     private handleChange = (color: string) => {
         if (this.props.onChange) {
             this.props.onChange(this.props.id, color);
         }
-    }
+    };
 
     public render() {
         return (

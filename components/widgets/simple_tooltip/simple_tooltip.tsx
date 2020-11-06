@@ -13,7 +13,7 @@ type Props = {
     className?: string;
     arrowOffsetTop?: number | string;
     style?: CSSProperties
-}
+};
 
 const SimpleTooltip = ({
     id,

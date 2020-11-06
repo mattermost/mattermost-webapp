@@ -40,16 +40,16 @@ class TeamImportTab extends React.PureComponent {
 
     onImportFailure = () => {
         this.setState({status: 'fail'});
-    }
+    };
 
     onImportSuccess = (data) => {
         this.setState({status: 'done', link: 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(atob(data.results))});
-    }
+    };
 
     doImportSlack = (file) => {
         this.setState({status: 'in-progress', link: ''});
         utils.importSlack(this.props.team.id, file, this.onImportSuccess, this.onImportFailure);
-    }
+    };
 
     render() {
         const uploadDocsLink = (

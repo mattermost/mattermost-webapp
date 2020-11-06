@@ -14,13 +14,13 @@ import TeamSettings from 'components/team_settings';
 
 type Props = {
     onHide: () => void
-}
+};
 
 export type State = {
     activeTab: string,
     activeSection: string,
     show: boolean,
-}
+};
 
 export default class TeamSettingsModal extends React.PureComponent<Props, State> {
     modalBodyRef: React.RefObject<Modal>;
@@ -42,11 +42,11 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
             activeTab: tab,
             activeSection: '',
         });
-    }
+    };
 
     updateSection = (section:string) => {
         this.setState({activeSection: section});
-    }
+    };
 
     collapseModal = () => {
         const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as HTMLDivElement;
@@ -56,11 +56,11 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
             activeTab: '',
             activeSection: '',
         });
-    }
+    };
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     // called after the dialog is fully hidden and faded out
     handleHidden = () => {
@@ -69,7 +69,7 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
             activeSection: '',
         });
         this.props.onHide();
-    }
+    };
 
     render() {
         const tabs = [];

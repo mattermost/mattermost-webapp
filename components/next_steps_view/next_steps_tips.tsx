@@ -99,7 +99,7 @@ type Props = {
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;
-}
+};
 
 export default function NextStepsTips(props: Props) {
     const dispatch = useDispatch();

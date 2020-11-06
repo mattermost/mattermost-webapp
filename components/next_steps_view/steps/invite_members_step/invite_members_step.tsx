@@ -42,7 +42,7 @@ type SelectionType = {
     label: string;
     value: string;
     error: boolean;
-}
+};
 
 const styles = {
     control: () => {
@@ -116,7 +116,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         } else {
             this.setState({emailInput: value});
         }
-    }
+    };
 
     onChange = (value: SelectionType[], action: ActionMeta<SelectionType[]>) => {
         if (action.action !== 'remove-value' && action.action !== 'pop-value') {
@@ -132,7 +132,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         }
 
         this.setState({emails: value});
-    }
+    };
 
     onBlur = () => {
         if (this.state.emailInput) {
@@ -140,7 +140,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             const newEmails = [...this.state.emails, ...emails];
             this.setState({emails: newEmails, emailInput: '', emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined});
         }
-    }
+    };
 
     sendEmailInvites = async () => {
         if (this.state.emails.some((email) => email.error)) {
@@ -164,15 +164,15 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         this.setState({emailError: undefined, emailsSent: data.length}, () => {
             setTimeout(() => this.setState({emailsSent: undefined}), 4000);
         });
-    }
+    };
 
     onSkip = () => {
         this.props.onSkip(this.props.id);
-    }
+    };
 
     onFinish = () => {
         this.props.onFinish(this.props.id);
-    }
+    };
 
     copyLink = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_copy_invite_link');
@@ -204,11 +204,11 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         this.timeout = setTimeout(() => {
             this.setState({copiedLink: false});
         }, 4000);
-    }
+    };
 
     getInviteURL = () => {
         return `${getSiteURL()}/signup_user_complete/?id=${this.props.team.invite_id}`;
-    }
+    };
 
     render() {
         return (

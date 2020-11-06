@@ -27,7 +27,7 @@ export default class AddCommand extends React.PureComponent {
             */
             addCommand: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -49,7 +49,7 @@ export default class AddCommand extends React.PureComponent {
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     render() {
         return (

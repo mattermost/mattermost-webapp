@@ -22,7 +22,7 @@ import SidebarDirectChannel from './sidebar_direct_channel';
 type OwnProps = {
     channel: Channel;
     currentTeamName: string;
-}
+};
 
 /**
  * Gets the LHS bot icon url for a given botUser.
@@ -61,7 +61,7 @@ type Actions = {
         data: boolean;
     }>;
     leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

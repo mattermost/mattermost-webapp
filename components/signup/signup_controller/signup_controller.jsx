@@ -41,7 +41,7 @@ export default class SignupController extends React.PureComponent {
             getTeamInviteInfo: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -111,7 +111,7 @@ export default class SignupController extends React.PureComponent {
         } else if (error) {
             this.handleInvalidInvite(error);
         }
-    }
+    };
 
     getInviteInfo = async (inviteId) => {
         const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
@@ -123,7 +123,7 @@ export default class SignupController extends React.PureComponent {
         } else if (error) {
             this.handleInvalidInvite(error);
         }
-    }
+    };
 
     handleInvalidInvite = (err) => {
         let serverError;
@@ -145,7 +145,7 @@ export default class SignupController extends React.PureComponent {
             loading: false,
             serverError,
         });
-    }
+    };
 
     renderSignupControls = () => {
         let signupControls = [];
@@ -316,7 +316,7 @@ export default class SignupController extends React.PureComponent {
         }
 
         return signupControls;
-    }
+    };
 
     render() {
         if (this.state.loading) {

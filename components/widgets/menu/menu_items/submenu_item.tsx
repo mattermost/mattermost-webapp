@@ -44,11 +44,11 @@ type Props = {
     show?: boolean;
     direction?: 'left' | 'right';
     openUp?: boolean;
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class SubMenuItem extends React.PureComponent<Props, State> {
     private node: React.RefObject<HTMLLIElement>;
@@ -69,11 +69,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
 
     show = () => {
         this.setState({show: true});
-    }
+    };
 
     hide = () => {
         this.setState({show: false});
-    }
+    };
 
     private onClick = (event: React.SyntheticEvent<HTMLElement>) => {
         event.preventDefault();
@@ -112,7 +112,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         ) {
             action(postId);
         }
-    }
+    };
 
     handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (Utils.isKeyPressed(event, Constants.KeyCodes.ENTER)) {
@@ -138,7 +138,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 this.hide();
             }
         }
-    }
+    };
 
     public render() {
         const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;

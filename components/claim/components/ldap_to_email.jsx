@@ -76,7 +76,7 @@ export default class LDAPToEmail extends React.PureComponent {
         this.setState(state);
 
         this.submit(this.props.email, password, '', ldapPassword);
-    }
+    };
 
     submit = (loginId, password, token, ldapPassword) => {
         this.props.switchLdapToEmail(ldapPassword || this.state.ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
@@ -94,7 +94,7 @@ export default class LDAPToEmail extends React.PureComponent {
                 }
             }
         });
-    }
+    };
 
     render() {
         let serverError = null;

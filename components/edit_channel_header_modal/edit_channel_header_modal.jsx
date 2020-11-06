@@ -70,7 +70,7 @@ class EditChannelHeaderModal extends React.PureComponent {
             setShowPreview: PropTypes.func.isRequired,
 
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -86,17 +86,17 @@ class EditChannelHeaderModal extends React.PureComponent {
         if (isKeyPressed(e, KeyCodes.ESCAPE)) {
             this.hideModal();
         }
-    }
+    };
 
     setShowPreview = (newState) => {
         this.props.actions.setShowPreview(newState);
-    }
+    };
 
     handleChange = (e) => {
         this.setState({
             header: e.target.value,
         });
-    }
+    };
 
     handleSave = async () => {
         const {header} = this.state;
@@ -114,27 +114,27 @@ class EditChannelHeaderModal extends React.PureComponent {
         } else {
             this.hideModal();
         }
-    }
+    };
 
     hideModal = () => {
         this.props.actions.closeModal(ModalIdentifiers.EDIT_CHANNEL_HEADER);
-    }
+    };
 
     focusTextbox = () => {
         if (this.editChannelHeaderTextboxRef.current) {
             this.editChannelHeaderTextboxRef.current.focus();
         }
-    }
+    };
 
     blurTextbox = () => {
         if (this.editChannelHeaderTextboxRef.current) {
             this.editChannelHeaderTextboxRef.current.blur();
         }
-    }
+    };
 
     handleEntering = () => {
         this.focusTextbox();
-    }
+    };
 
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
@@ -145,7 +145,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         } else if (ctrlSend && isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
-    }
+    };
 
     handleKeyPress = (e) => {
         const {ctrlSend} = this.props;
@@ -156,7 +156,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                 this.handleSave(e);
             }
         }
-    }
+    };
 
     renderError = () => {
         const {serverError} = this.state;
@@ -179,7 +179,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                 </label>
             </div>
         );
-    }
+    };
 
     render() {
         let headerTitle = null;

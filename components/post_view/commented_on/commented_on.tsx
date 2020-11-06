@@ -20,7 +20,7 @@ type Props = {
     parentPostUser?: UserProfileType;
     onCommentClick?: React.EventHandler<React.MouseEvent>;
     post: Post;
-}
+};
 
 export default class CommentedOn extends PureComponent<Props> {
     makeUsername = () => {
@@ -30,7 +30,7 @@ export default class CommentedOn extends PureComponent<Props> {
             username = postProps.override_username;
         }
         return username;
-    }
+    };
 
     makeCommentedOnMessage = () => {
         const {post} = this.props;
@@ -48,7 +48,7 @@ export default class CommentedOn extends PureComponent<Props> {
         }
 
         return message;
-    }
+    };
 
     render() {
         const username = this.makeUsername();

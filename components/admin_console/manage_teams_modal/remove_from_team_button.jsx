@@ -14,7 +14,7 @@ export default class RemoveFromTeamButton extends React.PureComponent {
     handleClick = (e) => {
         e.preventDefault();
         this.props.handleRemoveUserFromTeam(this.props.teamId);
-    }
+    };
 
     render() {
         return (

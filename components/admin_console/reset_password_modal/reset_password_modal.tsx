@@ -21,7 +21,7 @@ interface PasswordConfig {
 type State = {
     serverErrorNewPass: JSX.Element|null;
     serverErrorCurrentPass: JSX.Element|string|null;
-}
+};
 
 type Props = {
     user?: UserProfile;
@@ -33,7 +33,7 @@ type Props = {
     actions: {
         updateUserPassword: (userId: string, currentPassword: string, password: string) => ActionResult;
     };
-}
+};
 
 export default class ResetPasswordModal extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
@@ -93,7 +93,7 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
             return;
         }
         this.props.onModalSubmit(this.props.user);
-    }
+    };
 
     private doCancel = (): void => {
         this.setState({
@@ -101,7 +101,7 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
             serverErrorCurrentPass: null,
         });
         this.props.onModalDismissed();
-    }
+    };
 
     public render(): JSX.Element {
         const user = this.props.user;

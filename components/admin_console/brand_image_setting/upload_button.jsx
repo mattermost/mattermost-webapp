@@ -32,7 +32,7 @@ export default class UploadButton extends React.PureComponent {
          * Funtion to call on button click
          */
         onClick: PropTypes.func,
-    }
+    };
 
     render() {
         const {

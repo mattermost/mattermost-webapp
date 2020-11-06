@@ -33,7 +33,7 @@ export default class ChannelsInput extends React.PureComponent {
         loadingMessageDefault: PropTypes.string,
         noOptionsMessageId: PropTypes.string,
         noOptionsMessageDefault: PropTypes.string,
-    }
+    };
 
     static defaultProps = {
         loadingMessageId: t('widgets.channels_input.loading'),
@@ -50,7 +50,7 @@ export default class ChannelsInput extends React.PureComponent {
         };
     }
 
-    getOptionValue = (channel) => channel.id
+    getOptionValue = (channel) => channel.id;
 
     handleInputChange = (inputValue, action) => {
         if (action.action === 'input-blur' && inputValue !== '') {
@@ -65,7 +65,7 @@ export default class ChannelsInput extends React.PureComponent {
         if (action.action !== 'input-blur' && action.action !== 'menu-close') {
             this.props.onInputChange(inputValue);
         }
-    }
+    };
 
     optionsLoader = (input, callback) => {
         const customCallback = (options) => {
@@ -76,7 +76,7 @@ export default class ChannelsInput extends React.PureComponent {
         if (result && result.then) {
             result.then(customCallback);
         }
-    }
+    };
 
     loadingMessage = () => {
         const text = (
@@ -87,7 +87,7 @@ export default class ChannelsInput extends React.PureComponent {
         );
 
         return (<LoadingSpinner text={text}/>);
-    }
+    };
 
     NoOptionsMessage = (props) => {
         const inputValue = props.selectProps.inputValue;
@@ -123,13 +123,13 @@ export default class ChannelsInput extends React.PureComponent {
                 <span className='channel-name'>{channel.name}</span>
             </React.Fragment>
         );
-    }
+    };
 
     onChange = (value) => {
         if (this.props.onChange) {
             this.props.onChange(value);
         }
-    }
+    };
 
     MultiValueRemove = ({children, innerProps}) => (
         <div {...innerProps}>
@@ -145,7 +145,7 @@ export default class ChannelsInput extends React.PureComponent {
 
     onFocus = () => {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
-    }
+    };
 
     render() {
         return (

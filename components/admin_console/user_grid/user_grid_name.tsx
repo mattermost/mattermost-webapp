@@ -10,7 +10,7 @@ import ProfilePicture from 'components/profile_picture';
 
 type Props = {
     user: UserProfile;
-}
+};
 
 export default class UserGridName extends React.Component<Props> {
     public render = (): JSX.Element => {
@@ -34,5 +34,5 @@ export default class UserGridName extends React.Component<Props> {
                 </div>
             </div>
         );
-    }
+    };
 }

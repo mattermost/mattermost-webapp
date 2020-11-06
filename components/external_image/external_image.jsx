@@ -23,12 +23,12 @@ export default class ExternalImage extends React.PureComponent {
         }
 
         return this.props.imageMetadata.format === 'svg';
-    }
+    };
 
     shouldRenderImage = () => {
         // Return true unless the image is an SVG and we have SVG rendering disabled
         return this.props.enableSVGs || !this.isSVGImage();
-    }
+    };
 
     render() {
         let src = getImageSrc(this.props.src, this.props.hasImageProxy);

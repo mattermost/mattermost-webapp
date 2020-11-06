@@ -18,12 +18,12 @@ type Props = {
     isRHSOpen: boolean;
     text?: string;
     compactDisplay: boolean;
-}
+};
 
 type State = {
     isCollapsed: boolean;
     isOverflow: boolean;
-}
+};
 
 export default class ShowMore extends React.PureComponent<Props, State> {
     private maxHeight: number;

@@ -33,13 +33,13 @@ export class PermissionDescription extends React.PureComponent {
 
     closeTooltip = () => {
         this.setState({open: false});
-    }
+    };
 
     openTooltip = (e) => {
         const elm = e.currentTarget.querySelector('span');
         const isElipsis = elm.offsetWidth < elm.scrollWidth;
         this.setState({open: isElipsis});
-    }
+    };
 
     parentPermissionClicked = (e) => {
         const isInheritLink = e.target.parentElement.parentElement.className === 'inherit-link-wrapper';
@@ -49,7 +49,7 @@ export class PermissionDescription extends React.PureComponent {
             this.props.selectRow(this.props.id);
             e.stopPropagation();
         }
-    }
+    };
 
     render() {
         const {inherited, id, rowType} = this.props;

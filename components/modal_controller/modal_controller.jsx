@@ -22,7 +22,7 @@ export default class ModalController extends React.PureComponent {
              */
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     render() {
         const {modals, ...props} = this.props;

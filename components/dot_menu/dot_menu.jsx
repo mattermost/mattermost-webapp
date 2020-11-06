@@ -91,7 +91,7 @@ export default class DotMenu extends React.PureComponent {
 
         canEdit: PropTypes.bool.isRequired,
         canDelete: PropTypes.bool.isRequired,
-    }
+    };
 
     static defaultProps = {
         post: {},
@@ -101,7 +101,7 @@ export default class DotMenu extends React.PureComponent {
         pluginMenuItems: [],
         location: Locations.CENTER,
         enableEmojiPicker: false,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -149,7 +149,7 @@ export default class DotMenu extends React.PureComponent {
 
     handleEditDisable = () => {
         this.setState({canEdit: false});
-    }
+    };
 
     handleFlagMenuItemActivated = () => {
         if (this.props.isFlagged) {
@@ -157,7 +157,7 @@ export default class DotMenu extends React.PureComponent {
         } else {
             this.props.actions.flagPost(this.props.post.id);
         }
-    }
+    };
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
     handleAddReactionMenuItemActivated = (e) => {
@@ -167,11 +167,11 @@ export default class DotMenu extends React.PureComponent {
         if (this.props.handleAddReactionClick) {
             this.props.handleAddReactionClick();
         }
-    }
+    };
 
     copyLink = () => {
         Utils.copyToClipboard(`${this.props.currentTeamUrl}/pl/${this.props.post.id}`);
-    }
+    };
 
     handlePinMenuItemActivated = () => {
         if (this.props.post.is_pinned) {
@@ -179,12 +179,12 @@ export default class DotMenu extends React.PureComponent {
         } else {
             this.props.actions.pinPost(this.props.post.id);
         }
-    }
+    };
 
     handleUnreadMenuItemActivated = (e) => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post);
-    }
+    };
 
     handleDeleteMenuItemActivated = (e) => {
         e.preventDefault();
@@ -200,7 +200,7 @@ export default class DotMenu extends React.PureComponent {
         };
 
         this.props.actions.openModal(deletePostModalData);
-    }
+    };
 
     handleEditMenuItemActivated = () => {
         this.props.actions.setEditingPost(
@@ -210,7 +210,7 @@ export default class DotMenu extends React.PureComponent {
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
         );
-    }
+    };
 
     tooltip = (
         <Tooltip
@@ -222,7 +222,7 @@ export default class DotMenu extends React.PureComponent {
                 defaultMessage='More actions'
             />
         </Tooltip>
-    )
+    );
 
     refCallback = (menuRef) => {
         if (menuRef) {
@@ -240,7 +240,7 @@ export default class DotMenu extends React.PureComponent {
                 width: rect.width,
             });
         }
-    }
+    };
 
     renderDivider = (suffix) => {
         return (
@@ -250,7 +250,7 @@ export default class DotMenu extends React.PureComponent {
                 role='menuitem'
             />
         );
-    }
+    };
 
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);

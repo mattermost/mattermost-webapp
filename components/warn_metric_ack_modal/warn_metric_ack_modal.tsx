@@ -36,14 +36,14 @@ type Props = {
         getStandardAnalytics: () => any;
         sendWarnMetricAck: (arg0: string, arg1: boolean) => ActionFunc & Partial<{error?: string}>;
     };
-}
+};
 
 type State = {
     serverError: string | null;
     gettingTrial: boolean;
     gettingTrialError: string | null;
     saving: boolean;
-}
+};
 
 const containerStyles: CSSProperties = {
     display: 'flex',
@@ -87,7 +87,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         } else {
             this.onHide();
         }
-    }
+    };
 
     onHide = () => {
         this.setState({serverError: null, saving: false});
@@ -97,7 +97,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         if (this.props.closeParentComponent) {
             this.props.closeParentComponent();
         }
-    }
+    };
 
     renderContactUsError = () => {
         const {serverError} = this.state;
@@ -156,7 +156,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
                 </label>
             </div>
         );
-    }
+    };
 
     render() {
         let headerTitle;
@@ -284,7 +284,7 @@ type ErrorLinkProps = {
     onClickHandler: (e: React.MouseEvent<HTMLAnchorElement>) => Promise<void>;
     url: string;
     forceAck: boolean;
-}
+};
 
 const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url, forceAck}: ErrorLinkProps) => {
     return (

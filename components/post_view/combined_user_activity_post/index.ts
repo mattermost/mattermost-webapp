@@ -11,7 +11,7 @@ import Post from 'components/post_view/post';
 
 type Props = {
     combinedId: string;
-}
+};
 
 export function makeMapStateToProps() {
     const generateCombinedPost = makeGenerateCombinedPost();

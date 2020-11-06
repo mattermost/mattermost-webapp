@@ -32,7 +32,7 @@ export default class MFAController extends React.PureComponent {
     handleOnClick = (e) => {
         e.preventDefault();
         emitUserLoggedOutEvent('/login');
-    }
+    };
 
     render() {
         let backButton;

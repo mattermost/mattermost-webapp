@@ -83,18 +83,18 @@ export default class GuestPermissionsTree extends React.PureComponent {
 
     openPostTimeLimitModal = () => {
         this.setState({editTimeLimitModalIsVisible: true});
-    }
+    };
 
     closePostTimeLimitModal = () => {
         this.setState({editTimeLimitModalIsVisible: false});
-    }
+    };
 
     toggleGroup = (ids) => {
         if (this.props.readOnly) {
             return;
         }
         this.props.onToggle(this.props.role.name, ids);
-    }
+    };
 
     render = () => {
         return (

@@ -21,11 +21,11 @@ export default class BackstageList extends React.PureComponent {
         helpText: PropTypes.node,
         loading: PropTypes.bool.isRequired,
         searchPlaceholder: PropTypes.string,
-    }
+    };
 
     static defaultProps = {
         searchPlaceholder: Utils.localizeMessage('backstage_list.search', 'Search'),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -39,7 +39,7 @@ export default class BackstageList extends React.PureComponent {
         this.setState({
             filter: e.target.value,
         });
-    }
+    };
 
     render() {
         const filter = this.state.filter.toLowerCase();

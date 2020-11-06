@@ -111,7 +111,7 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of save button
          */
         saveButtonText: PropTypes.string,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -142,7 +142,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.disableEnterSubmit !== true && isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
             this.handleSubmit(e);
         }
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -152,12 +152,12 @@ export default class SettingItemMax extends React.PureComponent {
         } else {
             this.props.submit();
         }
-    }
+    };
 
     handleUpdateSection = (e) => {
         this.props.updateSection(this.props.section);
         e.preventDefault();
-    }
+    };
 
     render() {
         let clientError = null;

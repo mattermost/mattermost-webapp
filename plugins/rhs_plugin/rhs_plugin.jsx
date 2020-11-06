@@ -16,7 +16,7 @@ export default class RhsPlugin extends React.PureComponent {
             PropTypes.string,
             PropTypes.object,
         ]),
-    }
+    };
 
     render() {
         return (

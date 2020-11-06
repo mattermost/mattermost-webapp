@@ -34,7 +34,7 @@ type Props = {
      * Content protected by the permissions gate
      */
     children: React.ReactNode;
-}
+};
 
 export default class ChannelPermissionGate extends React.PureComponent<Props> {
     render() {

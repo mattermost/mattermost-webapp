@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 type Props = {
     typingUsers: string[];
-}
+};
 
 export default class MsgTyping extends React.PureComponent<Props> {
     private getTypingText = () => {
@@ -42,7 +42,7 @@ export default class MsgTyping extends React.PureComponent<Props> {
                 }}
             />
         );
-    }
+    };
 
     public render() {
         return (

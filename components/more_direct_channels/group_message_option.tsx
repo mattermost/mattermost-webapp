@@ -13,7 +13,7 @@ type Props = {
     isSelected: boolean;
     onAdd: (users: UserProfile[]) => void;
     selectedItemRef: React.RefObject<HTMLDivElement>;
-}
+};
 
 export default class GroupMessageOption extends React.PureComponent<Props> {
     static propTypes = {
@@ -34,7 +34,7 @@ export default class GroupMessageOption extends React.PureComponent<Props> {
 
     addValue = () => {
         this.props.onAdd(this.props.channel.profiles);
-    }
+    };
 
     render() {
         return (

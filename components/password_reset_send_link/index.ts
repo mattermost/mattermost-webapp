@@ -11,7 +11,7 @@ import PasswordResetSendLink from './password_reset_send_link';
 
 type Actions = {
     sendPasswordResetEmail: (emal: string) => Promise<{data: any; error: ServerError}>;
-}
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({

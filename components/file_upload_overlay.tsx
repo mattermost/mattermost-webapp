@@ -9,7 +9,7 @@ import overlayLogoImage from 'images/logoWhite.png';
 
 type Props = {
     overlayType: string;
-}
+};
 
 const FileUploadOverlay: React.FC<Props> = (props: Props) => {
     let overlayClass = 'file-overlay hidden';

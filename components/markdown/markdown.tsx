@@ -105,7 +105,7 @@ type Props = {
      */
     postType?: PostType;
     emojiMap: EmojiMap;
-}
+};
 
 export default class Markdown extends React.PureComponent<Props> {
     static defaultProps: Partial<Props> = {
@@ -114,7 +114,7 @@ export default class Markdown extends React.PureComponent<Props> {
         proxyImages: true,
         imagesMetadata: {},
         postId: '', // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
-    }
+    };
 
     render() {
         if (!this.props.enableFormatting) {

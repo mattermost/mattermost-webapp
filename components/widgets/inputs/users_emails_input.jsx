@@ -45,7 +45,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
         emailInvitationsEnabled: PropTypes.bool,
-    }
+    };
 
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
@@ -83,7 +83,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                 {nickname}
             </>
         );
-    }
+    };
 
     loadingMessage = () => {
         const text = (
@@ -94,11 +94,11 @@ export default class UsersEmailsInput extends React.PureComponent {
         );
 
         return (<LoadingSpinner text={text}/>);
-    }
+    };
 
     getOptionValue = (user) => {
         return user.id || user.value;
-    }
+    };
 
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
@@ -152,7 +152,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                 {guestBadge}
             </React.Fragment>
         );
-    }
+    };
 
     onChange = (value) => {
         if (this.props.onChange) {
@@ -163,7 +163,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                 return v.value;
             }));
         }
-    }
+    };
 
     getCreateLabel = (value) => (
         <React.Fragment>
@@ -244,7 +244,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         if (action.action !== 'input-blur' && action.action !== 'menu-close') {
             this.props.onInputChange(inputValue);
         }
-    }
+    };
 
     optionsLoader = (input, callback) => {
         const customCallback = (options) => {
@@ -255,19 +255,19 @@ export default class UsersEmailsInput extends React.PureComponent {
         if (result && result.then) {
             result.then(customCallback);
         }
-    }
+    };
 
     showAddEmail = (input, values, options) => {
         return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
-    }
+    };
 
     onFocus = () => {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
-    }
+    };
 
     onBlur = () => {
         this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'input-blur'});
-    }
+    };
 
     render() {
         const values = this.props.value.map((v) => {

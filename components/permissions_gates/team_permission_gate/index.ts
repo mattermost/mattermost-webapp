@@ -12,7 +12,7 @@ import TeamPermissionGate from './team_permission_gate';
 type Props = {
     teamId: string;
     permissions: Array<string>;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     if (!ownProps.teamId) {

@@ -32,7 +32,7 @@ import {ActionTypes} from 'utils/constants';
 type NewPostMessageProps = {
     mentions: string[];
     team_id: string;
-}
+};
 
 export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {

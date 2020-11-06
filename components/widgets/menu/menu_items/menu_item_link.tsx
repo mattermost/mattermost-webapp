@@ -9,7 +9,7 @@ import menuItem from './menu_item';
 type Props = {
     to: string;
     text: React.ReactNode;
-}
+};
 
 export const MenuItemLinkImpl: React.FC<Props> = ({to, text}: Props) => <Link to={to}><span className='MenuItem__primary-text'>{text}</span></Link>;
 

@@ -69,7 +69,7 @@ class LastUsers extends React.PureComponent {
         e.preventDefault();
 
         this.setState({expand: true});
-    }
+    };
 
     renderMessage = (formattedMessage) => {
         return (
@@ -78,7 +78,7 @@ class LastUsers extends React.PureComponent {
                 options={this.props.formatOptions}
             />
         );
-    }
+    };
 
     render() {
         const {formatMessage} = this.props.intl;

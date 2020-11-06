@@ -13,7 +13,7 @@ export default class YoutubeVideo extends React.PureComponent {
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         metadata: PropTypes.object,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -32,11 +32,11 @@ export default class YoutubeVideo extends React.PureComponent {
 
     play = () => {
         this.setState({playing: true});
-    }
+    };
 
     stop = () => {
         this.setState({playing: false});
-    }
+    };
 
     render() {
         const {metadata, link} = this.props;

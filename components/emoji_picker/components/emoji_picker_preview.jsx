@@ -11,7 +11,7 @@ import imgTrans from 'images/img_trans.gif';
 export default class EmojiPickerPreview extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object,
-    }
+    };
 
     render() {
         const emoji = this.props.emoji;

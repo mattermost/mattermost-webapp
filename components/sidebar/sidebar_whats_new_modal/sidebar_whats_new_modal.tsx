@@ -21,7 +21,7 @@ type Props = {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         closeModal: (modalId: string) => void;
     };
-}
+};
 
 export default function SidebarWhatsNewModal(props: Props) {
     const onHide = () => {

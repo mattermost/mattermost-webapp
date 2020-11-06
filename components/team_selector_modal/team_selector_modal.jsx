@@ -32,7 +32,7 @@ export default class TeamSelectorModal extends React.PureComponent {
             setModalSearchTerm: PropTypes.func.isRequired,
             searchTeams: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -80,13 +80,13 @@ export default class TeamSelectorModal extends React.PureComponent {
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
-    }
+    };
 
     handleSubmit = (e) => {
         if (e) {
@@ -99,7 +99,7 @@ export default class TeamSelectorModal extends React.PureComponent {
 
         this.props.onTeamsSelected(this.state.values);
         this.handleHide();
-    }
+    };
 
     addValue = (value, confirmed = false) => {
         if (this.props.modalID === ModalIdentifiers.ADD_TEAMS_TO_SCHEME && value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
@@ -113,13 +113,13 @@ export default class TeamSelectorModal extends React.PureComponent {
         }
 
         this.setState({values, confirmAddModal: false, confirmAddTeam: null});
-    }
+    };
 
     setTeamsLoadingState = (loadingState) => {
         this.setState({
             loadingTeams: loadingState,
         });
-    }
+    };
 
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
@@ -128,18 +128,18 @@ export default class TeamSelectorModal extends React.PureComponent {
                 this.setTeamsLoadingState(false);
             });
         }
-    }
+    };
 
     handleDelete = (values) => {
         this.setState({values});
-    }
+    };
 
     search = (term, multiselectComponent) => {
         if (multiselectComponent.state.page !== 0) {
             multiselectComponent.setState({page: 0});
         }
         this.props.actions.setModalSearchTerm(term);
-    }
+    };
 
     renderOption = (option, isSelected, onAdd, onMouseMove) => {
         var rowSelected = '';
@@ -175,7 +175,7 @@ export default class TeamSelectorModal extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
     renderValue(props) {
         return props.data.display_name;

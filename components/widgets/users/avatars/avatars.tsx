@@ -20,7 +20,7 @@ export type Props = Pick<UserProps, StylingKeys> & {
     users: Omit<UserProps, StylingKeys>[];
     totalUsers?: number;
     breakAt?: number;
-}
+};
 
 const OTHERS_DISPLAY_LIMIT = 99;
 

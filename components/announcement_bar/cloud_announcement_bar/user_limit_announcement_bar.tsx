@@ -68,7 +68,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
 
     handleButtonClick = () => {
         // Do nothing for now
-    }
+    };
 
     handleClose = async () => {
         trackEvent(
@@ -81,7 +81,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
             name: CloudBanners.HIDE,
             value: 'true',
         }]);
-    }
+    };
 
     shouldShowBanner = () => {
         const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
@@ -108,7 +108,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         }
 
         return true;
-    }
+    };
 
     isDismissable = () => {
         const {userLimit, analytics} = this.props;
@@ -119,7 +119,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
             dismissable = false;
         }
         return dismissable;
-    }
+    };
 
     showModal = () => {
         if (this.isDismissable()) {
@@ -137,7 +137,7 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
         });
-    }
+    };
 
     render() {
         const {userLimit, analytics, preferences} = this.props;

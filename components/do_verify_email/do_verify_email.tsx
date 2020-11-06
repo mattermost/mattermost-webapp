@@ -30,12 +30,12 @@ type Props = {
     };
     isLoggedIn: boolean;
 
-}
+};
 
 type State = {
     verifyStatus: string;
     serverError: JSX.Element | null;
-}
+};
 
 export default class DoVerifyEmail extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
@@ -120,7 +120,7 @@ export default class DoVerifyEmail extends React.PureComponent<Props, State> {
         } else if ('error' in verify) {
             this.handleError(VerifyEmailErrors.FAILED_EMAIL_VERIFICATION);
         }
-    }
+    };
 
     render() {
         if (this.state.verifyStatus !== 'failure') {

@@ -20,7 +20,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         return (
             <TeamButton team={team}/>
         );
-    }
+    };
 
     render() {
         const {teams} = this.props;

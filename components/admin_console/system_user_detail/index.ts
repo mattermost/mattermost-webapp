@@ -39,7 +39,7 @@ type Actions = {
     updateUserActive: (userId: string, active: boolean) => Promise<{error: ServerError}>;
     setNavigationBlocked: (blocked: boolean) => void;
     addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     const apiActions = bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({

@@ -47,17 +47,17 @@ export default class Logs extends React.PureComponent<Props, State> {
 
     nextPage = () => {
         this.setState({page: this.state.page + 1});
-    }
+    };
 
     previousPage = () => {
         this.setState({page: this.state.page - 1});
-    }
+    };
 
     reload = async () => {
         this.setState({loadingLogs: true});
         await this.props.actions.getLogs(this.state.page, this.state.perPage);
         this.setState({loadingLogs: false});
-    }
+    };
 
     render() {
         let content = null;

@@ -21,7 +21,7 @@ type Actions = {
         data: ProductNotices;
     }>;
     updateNoticesAsViewed: (noticeIds: string[]) => Promise<Record<string, unknown>>;
-}
+};
 
 function mapStateToProps(state: GlobalState) {
     const config: Partial<ClientConfig> = getConfig(state);

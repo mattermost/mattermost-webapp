@@ -28,7 +28,7 @@ export default class ConvertChannelModal extends React.PureComponent {
             */
             convertChannelToPrivate: PropTypes.func.isRequired,
         }),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,11 +45,11 @@ export default class ConvertChannelModal extends React.PureComponent {
         actions.convertChannelToPrivate(channelId);
         trackEvent('actions', 'convert_to_private_channel', {channel_id: channelId});
         this.onHide();
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     render() {
         const {

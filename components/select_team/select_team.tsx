@@ -39,7 +39,7 @@ type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => any,
     loadRolesIfNeeded: (roles: Iterable<string>) => any,
     addUserToTeam: (teamId: string, userId?: string) => any;
-}
+};
 
 type Props = {
     currentUserId: string,
@@ -65,7 +65,7 @@ type State = {
     endofTeamsData: boolean,
     currentPage: number,
     currentListableTeams: Array<Team>,
-}
+};
 
 export default class SelectTeam extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -112,7 +112,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
             ),
             );
         }
-    }
+    };
 
     handleTeamClick = async (team: Team) => {
         const {siteURL, currentUserRoles} = this.props;

@@ -59,7 +59,7 @@ type Props = {
         getPostThread: (rootId: string, root?: boolean) => void;
     };
     directTeammate: UserProfile;
-}
+};
 
 type State = {
     selected?: Record<string, any>;
@@ -72,7 +72,7 @@ type State = {
     isBusy?: boolean;
     postsContainerHeight: number;
     userScrolledToBottom: boolean;
-}
+};
 
 export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
@@ -196,7 +196,7 @@ export default class RhsThread extends React.Component<Props, State> {
             this.scrollToBottom();
         }
         this.resizeRhsPostList();
-    }
+    };
 
     private handleCardClick = (post: Post) => {
         if (!post) {
@@ -204,7 +204,7 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         this.props.actions.selectPostCard(post);
-    }
+    };
 
     private handleCardClickPost = (post: Post) => {
         if (!post) {
@@ -212,11 +212,11 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         this.props.actions.selectPostCard(post);
-    }
+    };
 
     private onBusy = (isBusy: boolean) => {
         this.setState({isBusy});
-    }
+    };
 
     private filterPosts = (posts: Post[], selected: Post | FakePost, openTime: number): Post[] => {
         const postsArray: Post[] = [];
@@ -233,13 +233,13 @@ export default class RhsThread extends React.Component<Props, State> {
         });
 
         return postsArray;
-    }
+    };
 
     public scrollToBottom = (): void => {
         if ($('.post-right__scroll')[0]) {
             $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight); // eslint-disable-line jquery/no-parent
         }
-    }
+    };
 
     private updateFloatingTimestamp = (): void => {
         // skip this in non-mobile view since that's when the timestamp is visible
@@ -267,7 +267,7 @@ export default class RhsThread extends React.Component<Props, State> {
                 });
             }
         }
-    }
+    };
 
     private handleScroll = (event: React.UIEvent<any>): void => {
         this.updateFloatingTimestamp();
@@ -289,13 +289,13 @@ export default class RhsThread extends React.Component<Props, State> {
         }
 
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
-    }
+    };
 
     private handleScrollStop = (): void => {
         this.setState({
             isScrolling: false,
         });
-    }
+    };
 
     public render(): JSX.Element {
         if (this.props.posts == null || this.props.selected == null || !this.props.channel) {

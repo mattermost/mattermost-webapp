@@ -17,7 +17,7 @@ type Props = {
     doMakeUserTeamAdmin: (teamId: string) => Promise<void>;
     doMakeUserTeamMember: (teamId: string) => Promise<void>;
     readOnly?: boolean;
-}
+};
 
 export default class TeamRow extends React.PureComponent<Props> {
     private renderTeamType = (team: {[x: string]: string}) => {
@@ -43,7 +43,7 @@ export default class TeamRow extends React.PureComponent<Props> {
                 defaultMessage={'Invite only'}
             />
         );
-    }
+    };
     private renderTeamRole = (team: {[x: string]: string}) => {
         if (team.scheme_guest) {
             return (
@@ -70,7 +70,7 @@ export default class TeamRow extends React.PureComponent<Props> {
             );
         }
         return null;
-    }
+    };
     public render = (): JSX.Element => {
         const {team} = this.props;
         const teamIconUrl = Utils.imageURLForTeam(team);

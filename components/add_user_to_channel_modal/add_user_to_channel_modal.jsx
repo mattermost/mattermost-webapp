@@ -53,7 +53,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
              */
             autocompleteChannelsForSearch: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -97,7 +97,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
 
     enableChannelProvider = () => {
         this.suggestionProviders[0].disableDispatches = false;
-    }
+    };
 
     focusTextbox = () => {
         if (this.channelSearchBox == null) {
@@ -109,27 +109,27 @@ export default class AddUserToChannelModal extends React.PureComponent {
             textbox.focus();
             placeCaretAtEnd(textbox);
         }
-    }
+    };
 
     onInputChange = (e) => {
         this.setState({text: e.target.value, selectedChannelId: null});
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
         this.props.onHide();
-    }
+    };
 
     setSearchBoxRef = (input) => {
         this.channelSearchBox = input;
         this.focusTextbox();
-    }
+    };
 
     handleSubmitError = (error) => {
         if (error) {
             this.setState({submitError: error.message, saving: false});
         }
-    }
+    };
 
     didSelectChannel = (selection) => {
         const channel = selection.channel;
@@ -145,7 +145,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
         this.props.actions.getChannelMember(channel.id, userId).then(() => {
             this.setState({checkingForMembership: false});
         });
-    }
+    };
 
     handleSubmit = (e) => {
         if (e && e.preventDefault) {
@@ -172,7 +172,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
                 this.onHide();
             }
         });
-    }
+    };
 
     isUserMemberOfChannel = (channelId) => {
         const user = this.props.user;
@@ -187,7 +187,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
         }
 
         return Boolean(memberships[channelId][user.id]);
-    }
+    };
 
     render() {
         const user = this.props.user;

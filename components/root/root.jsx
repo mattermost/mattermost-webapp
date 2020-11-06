@@ -92,7 +92,7 @@ export default class Root extends React.PureComponent {
             loadMeAndConfig: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -211,7 +211,7 @@ export default class Root extends React.PureComponent {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
-    }
+    };
 
     componentDidUpdate(prevProps) {
         if (this.props.location.pathname === '/') {
@@ -262,7 +262,7 @@ export default class Root extends React.PureComponent {
             }
             document.addEventListener('visibilitychange', onVisibilityChange, false);
         }
-    }
+    };
 
     render() {
         if (!this.state.configLoaded) {

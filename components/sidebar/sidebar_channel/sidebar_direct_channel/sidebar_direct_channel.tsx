@@ -58,19 +58,19 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
         if (this.props.active) {
             browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
-    }
+    };
 
     onSvgLoadError = () => {
         this.setState({
             svgErrorUrl: this.props.botIconUrl,
         });
-    }
+    };
 
     onSvgLoad = () => {
         this.setState({
             svgErrorUrl: null,
         });
-    }
+    };
 
     getIcon = () => {
         const {channel, teammate} = this.props;
@@ -118,7 +118,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
                 className={className}
             />
         );
-    }
+    };
 
     render() {
         const {channel, teammate, currentTeamName} = this.props;

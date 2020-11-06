@@ -24,12 +24,12 @@ export type Props = {
      * Content protected by the permissions gate
      */
     children: React.ReactNode;
-}
+};
 
 export default class AnyTeamPermissionGate extends React.PureComponent<Props> {
     static defaultProps = {
         invert: false,
-    }
+    };
 
     render() {
         if (this.props.hasPermission !== this.props.invert) {

@@ -44,7 +44,7 @@ type Option = {
         moreId?: string;
         moreMessage?: string;
     };
-}
+};
 
 type SectionProps ={
     section: string;
@@ -63,7 +63,7 @@ type SectionProps ={
         message: string;
     };
     disabled?: boolean;
-}
+};
 
 type Props = {
     user: UserProfile;
@@ -95,7 +95,7 @@ type Props = {
         getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
-}
+};
 
 type State = {
     [key: string]: any;
@@ -108,7 +108,7 @@ type State = {
     linkPreviewDisplay: string;
     handleSubmit?: () => void;
     serverError?: string;
-}
+};
 
 export default class UserSettingsDisplay extends React.PureComponent<Props, State> {
     public prevSections: {
@@ -211,15 +211,15 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         await this.props.actions.savePreferences(userId, preferences);
 
         this.updateSection('');
-    }
+    };
 
     handleClockRadio = (militaryTime: string) => {
         this.setState({militaryTime});
-    }
+    };
 
     handleTeammateNameDisplayRadio = (teammateNameDisplay: string) => {
         this.setState({teammateNameDisplay});
-    }
+    };
 
     handleChannelDisplayModeRadio(channelDisplayMode: string) {
         this.setState({channelDisplayMode});
@@ -244,7 +244,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
     updateSection = (section: string) => {
         this.updateState();
         this.props.updateSection(section);
-    }
+    };
 
     updateState = () => {
         const newState = getDisplayStateFromProps(this.props);
@@ -253,7 +253,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
 
         this.setState({isSaving: false});
-    }
+    };
 
     createSection(props: SectionProps) {
         const {

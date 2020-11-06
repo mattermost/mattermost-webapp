@@ -39,7 +39,7 @@ class EditChannelPurposeModal extends React.PureComponent {
              */
             patchChannel: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -64,19 +64,19 @@ class EditChannelPurposeModal extends React.PureComponent {
         } else {
             this.setState({serverError: err.message});
         }
-    }
+    };
 
     unsetError = () => {
         this.setState({serverError: ''});
-    }
+    };
 
     handleEntering = () => {
         Utils.placeCaretAtEnd(this.purpose);
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
@@ -92,7 +92,7 @@ class EditChannelPurposeModal extends React.PureComponent {
             e.preventDefault();
             this.handleSave(e);
         }
-    }
+    };
 
     handleSave = async () => {
         const {channel, actions: {patchChannel}} = this.props;
@@ -111,12 +111,12 @@ class EditChannelPurposeModal extends React.PureComponent {
         } else if (error) {
             this.setError(error);
         }
-    }
+    };
 
     handleChange = (e) => {
         e.preventDefault();
         this.setState({purpose: e.target.value});
-    }
+    };
 
     getPurpose = (node) => {
         this.purpose = node;

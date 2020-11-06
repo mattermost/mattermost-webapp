@@ -34,7 +34,7 @@ export default class CopyUrlContextMenu extends React.PureComponent {
         }
 
         this.props.actions.copyToClipboard(link);
-    }
+    };
 
     render() {
         const contextMenu = (

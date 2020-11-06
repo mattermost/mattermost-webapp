@@ -27,7 +27,7 @@ type OwnProps = {
     channel: Channel;
     channelLink: string;
     isUnread: boolean;
-}
+};
 
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();

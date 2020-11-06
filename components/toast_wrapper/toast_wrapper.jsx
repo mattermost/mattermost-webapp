@@ -75,7 +75,7 @@ class ToastWrapper extends React.PureComponent {
         }
         const newMessages = postListIds.slice(0, mark);
         return newMessages.filter((id) => !isIdNotPost(id)).length;
-    }
+    };
 
     static getDerivedStateFromProps(props, prevState) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = prevState;
@@ -197,7 +197,7 @@ class ToastWrapper extends React.PureComponent {
                 showUnreadToast: false,
             });
         }
-    }
+    };
 
     hideArchiveToast = () => {
         if (this.state.showMessageHistoryToast) {
@@ -205,7 +205,7 @@ class ToastWrapper extends React.PureComponent {
                 showMessageHistoryToast: false,
             });
         }
-    }
+    };
 
     hideNewMessagesToast = (updateLastViewedBottomAt = true) => {
         if (this.state.showNewMessagesToast) {
@@ -216,7 +216,7 @@ class ToastWrapper extends React.PureComponent {
                 this.props.updateLastViewedBottomAt();
             }
         }
-    }
+    };
 
     newMessagesToastText = (count, since) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
@@ -245,7 +245,7 @@ class ToastWrapper extends React.PureComponent {
                 values={{count}}
             />
         );
-    }
+    };
 
     archiveToastText = () => {
         return (
@@ -254,7 +254,7 @@ class ToastWrapper extends React.PureComponent {
                 defaultMessage='Viewing message history'
             />
         );
-    }
+    };
 
     changeUrlToRemountChannelView = () => {
         const {match} = this.props;
@@ -262,7 +262,7 @@ class ToastWrapper extends React.PureComponent {
         // Inorder of mount the channel view we are redirecting to /team url to load the channel again
         // Todo: Can be changed to dispatch if we put focussedPostId in redux state.
         browserHistory.replace(`/${match.params.team}`);
-    }
+    };
 
     scrollToNewMessage = () => {
         const {focusedPostId, atLatestPost, scrollToNewMessage, updateLastViewedBottomAt} = this.props;
@@ -278,7 +278,7 @@ class ToastWrapper extends React.PureComponent {
         scrollToNewMessage();
         updateLastViewedBottomAt();
         this.hideNewMessagesToast();
-    }
+    };
 
     scrollToLatestMessages = () => {
         const {focusedPostId, atLatestPost, scrollToLatestMessages} = this.props;
@@ -293,7 +293,7 @@ class ToastWrapper extends React.PureComponent {
 
         scrollToLatestMessages();
         this.hideUnreadToast();
-    }
+    };
 
     render() {
         const {atLatestPost, atBottom, width, lastViewedAt} = this.props;

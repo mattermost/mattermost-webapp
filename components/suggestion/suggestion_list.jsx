@@ -97,7 +97,7 @@ export default class SuggestionList extends React.PureComponent {
 
     getContent = () => {
         return $(this.contentRef.current);
-    }
+    };
 
     scrollToItem = (term) => {
         const content = this.getContent();
@@ -130,7 +130,7 @@ export default class SuggestionList extends React.PureComponent {
                 content.scrollTop((itemBottom - visibleContentHeight) + contentTopPadding + contentBottomPadding);
             }
         }
-    }
+    };
 
     renderDivider(type) {
         return (

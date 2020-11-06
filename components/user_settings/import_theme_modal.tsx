@@ -18,7 +18,7 @@ type State = {
     inputError: any;
     show: boolean;
     callback: ((args: Theme) => void) | null;
-}
+};
 
 class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State> {
     public constructor(props: WrappedComponentProps) {
@@ -45,7 +45,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             show,
             callback: args.callback,
         });
-    }
+    };
 
     private handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -97,7 +97,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             show: false,
             callback: null,
         });
-    }
+    };
 
     private isInputValid(text: string) {
         if (text.length === 0) {
@@ -149,11 +149,11 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
                 ),
             });
         }
-    }
+    };
 
     handleOnHide = () => {
         this.setState({show: false});
-    }
+    };
 
     render() {
         return (

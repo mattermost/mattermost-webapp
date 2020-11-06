@@ -12,7 +12,7 @@ import './dropdown_input.scss';
 type ValueType = {
     label: string;
     value: string;
-}
+};
 
 type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     value?: T;

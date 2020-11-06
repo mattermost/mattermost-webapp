@@ -67,13 +67,13 @@ export default class ManageTeamsModal extends React.PureComponent {
         this.setState({
             teams: filterAndSortTeamsByDisplayName(data, this.props.locale),
         });
-    }
+    };
 
     handleError = (error) => {
         this.setState({
             error,
         });
-    }
+    };
 
     getTeamMembers = async (userId = this.props.user.id) => {
         const {data} = await this.props.actions.getTeamMembersForUser(userId);
@@ -82,14 +82,14 @@ export default class ManageTeamsModal extends React.PureComponent {
                 teamMembers: data,
             });
         }
-    }
+    };
 
     handleMemberRemove = (teamId) => {
         this.setState({
             teams: this.state.teams.filter((team) => team.id !== teamId),
             teamMembers: this.state.teamMembers.filter((teamMember) => teamMember.team_id !== teamId),
         });
-    }
+    };
 
     handleRemoveUserFromTeam = async (teamId) => {
         const {actions, user} = this.props;
@@ -100,7 +100,7 @@ export default class ManageTeamsModal extends React.PureComponent {
         } else if (error) {
             this.handleError(error.message);
         }
-    }
+    };
 
     handleMemberChange = () => {
         this.getTeamMembers(this.props.user.id);
@@ -206,7 +206,7 @@ export default class ManageTeamsModal extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         return (

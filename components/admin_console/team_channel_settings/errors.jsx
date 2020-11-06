@@ -59,7 +59,7 @@ export class UsersWillBeRemovedError extends React.PureComponent {
         total: PropTypes.number.isRequired,
         scope: PropTypes.string.isRequired,
         scopeId: PropTypes.string.isRequired,
-    }
+    };
 
     render() {
         const {total, users, scope, scopeId} = this.props;

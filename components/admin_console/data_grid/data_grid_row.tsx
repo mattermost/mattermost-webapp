@@ -10,7 +10,7 @@ import './data_grid.scss';
 type Props = {
     columns: Column[];
     row: Row;
-}
+};
 
 class DataGridRow extends React.Component<Props> {
     renderCell(row: Row, column: Column) {

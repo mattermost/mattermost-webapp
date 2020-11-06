@@ -66,7 +66,7 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 </Menu.Group>
             </React.Fragment>
         );
-    }
+    };
 
     render() {
         const {intl, canCreateChannel, canJoinPublicChannel} = this.props;

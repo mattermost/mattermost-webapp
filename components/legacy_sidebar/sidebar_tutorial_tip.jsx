@@ -15,7 +15,7 @@ export default class SidebarTutorialTip extends React.PureComponent {
         townSquareDisplayName: PropTypes.string,
         offTopicDisplayName: PropTypes.string,
         openLhs: PropTypes.func,
-    }
+    };
 
     componentDidMount() {
         if (this.props.townSquareDisplayName || this.props.offTopicDisplayName) {
@@ -123,6 +123,6 @@ export default class SidebarTutorialTip extends React.PureComponent {
                 telemetryTag='tutorial_tip_2_channels'
             />
         );
-    }
+    };
 }
 

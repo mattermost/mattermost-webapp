@@ -26,7 +26,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         onChangeRoles: PropTypes.func.isRequired,
         schemeAdmin: PropTypes.bool,
         isDisabled: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -38,15 +38,15 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     removeItem = () => {
         this.props.onRemoveItem(this.props.id, this.props.type);
         this.setState({showConfirmationModal: false});
-    }
+    };
 
     changeRoles = () => {
         this.props.onChangeRoles(this.props.id, this.props.type, !this.props.schemeAdmin);
-    }
+    };
 
     toggleCollapse = () => {
         this.props.onToggleCollapse(this.props.id);
-    }
+    };
 
     displayAssignedRolesDropdown = () => {
         const {schemeAdmin, name, isDisabled} = this.props;
@@ -105,7 +105,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         }
 
         return dropDown;
-    }
+    };
 
     render = () => {
         let extraClasses = '';

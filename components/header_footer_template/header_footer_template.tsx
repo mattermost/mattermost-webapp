@@ -9,7 +9,7 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 
 type Props = {
     config: Partial<ClientConfig> | undefined;
-}
+};
 
 export default class NotLoggedIn extends React.PureComponent<Props> {
     static propTypes = {

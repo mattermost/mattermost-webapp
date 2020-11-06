@@ -10,11 +10,11 @@ type Props = {
     onHide: () => void;
     channelName?: string;
     remover?: string;
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class RemovedFromChannelModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -25,7 +25,7 @@ export default class RemovedFromChannelModal extends React.PureComponent<Props, 
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     render() {
         let channelName: JSX.Element | string;

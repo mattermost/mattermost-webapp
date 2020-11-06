@@ -18,7 +18,7 @@ type Props = {
     options: SearchTerm[];
     highlightedIndex?: number;
     onOptionHover?: (index: number) => void;
-}
+};
 
 const SearchHint = (props: Props) => {
     const handleOnOptionHover = (optionIndex: number) => {

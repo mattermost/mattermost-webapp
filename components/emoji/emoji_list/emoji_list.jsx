@@ -45,7 +45,7 @@ export default class EmojiList extends React.PureComponent {
              */
             searchCustomEmojis: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -85,7 +85,7 @@ export default class EmojiList extends React.PureComponent {
 
             this.props.scrollToTop();
         });
-    }
+    };
 
     previousPage = (e) => {
         if (e) {
@@ -94,7 +94,7 @@ export default class EmojiList extends React.PureComponent {
 
         this.setState({page: this.state.page - 1, nextLoading: false});
         this.props.scrollToTop();
-    }
+    };
 
     onSearchChange = (e) => {
         if (!e || !e.target) {
@@ -121,7 +121,7 @@ export default class EmojiList extends React.PureComponent {
                 this.setState({searchEmojis: [], loading: false});
             }
         }, EMOJI_SEARCH_DELAY_MILLISECONDS);
-    }
+    };
 
     deleteFromSearch = (emojiId) => {
         if (!this.state.searchEmojis) {
@@ -137,7 +137,7 @@ export default class EmojiList extends React.PureComponent {
         const newSearchEmojis = [...this.state.searchEmojis];
         newSearchEmojis.splice(index, 1);
         this.setState({searchEmojis: newSearchEmojis});
-    }
+    };
 
     render() {
         const searchEmojis = this.state.searchEmojis;

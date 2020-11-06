@@ -162,14 +162,14 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.enableChannelProvider();
         this.setState({mode});
         this.focusTextbox();
-    }
+    };
 
     handleSuggestionsReceived = (suggestions) => {
         const loadingPropPresent = suggestions.items.some((item) => item.loading);
         this.setState({shouldShowLoadingSpinner: loadingPropPresent,
             pretext: suggestions.matchedPretext,
             hasSuggestions: suggestions.items.length > 0});
-    }
+    };
 
     render() {
         let providers = this.channelProviders;

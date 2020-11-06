@@ -26,7 +26,7 @@ export class Trending extends PureComponent {
         searchCategory: PropTypes.func,
         searchIfNeededInitial: PropTypes.func,
         saveSearchScrollPosition: PropTypes.func,
-    }
+    };
 
     componentDidMount() {
         this.props.searchIfNeededInitial('trending');
@@ -38,7 +38,7 @@ export class Trending extends PureComponent {
 
     loadMore = () => {
         this.props.searchCategory({tagName: 'trending'});
-    }
+    };
 
     render() {
         const {handleItemClick, onCategories} = this.props;

@@ -20,7 +20,7 @@ export default class Setup extends React.PureComponent {
             activateMfa: PropTypes.func.isRequired,
             generateMfaSecret: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -79,7 +79,7 @@ export default class Setup extends React.PureComponent {
 
             this.props.history.push('/mfa/confirm');
         });
-    }
+    };
 
     render() {
         let formClass = 'form-group';

@@ -15,7 +15,7 @@ import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;
-}
+};
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();

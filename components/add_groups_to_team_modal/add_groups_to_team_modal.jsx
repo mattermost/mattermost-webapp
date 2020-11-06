@@ -38,7 +38,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
             linkGroupSyncable: PropTypes.func.isRequired,
             getAllGroupsAssociatedToTeam: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -89,13 +89,13 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         if (this.props.onHide) {
             this.props.onHide();
         }
-    }
+    };
 
     handleResponse = (err) => {
         let addError = null;
@@ -107,7 +107,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
             saving: false,
             addError,
         });
-    }
+    };
 
     handleSubmit = async (e) => {
         if (e) {
@@ -135,7 +135,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
                 this.handleHide();
             }
         });
-    }
+    };
 
     addValue = (value) => {
         const values = Object.assign([], this.state.values);
@@ -145,13 +145,13 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
         }
 
         this.setState({values});
-    }
+    };
 
     setGroupsLoadingState = (loadingState) => {
         this.setState({
             loadingGroups: loadingState,
         });
-    }
+    };
 
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
@@ -160,15 +160,15 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
                 this.setGroupsLoadingState(false);
             });
         }
-    }
+    };
 
     handleDelete = (values) => {
         this.setState({values});
-    }
+    };
 
     search = (term) => {
         this.props.actions.setModalSearchTerm(term);
-    }
+    };
 
     renderOption = (option, isSelected, onAdd, onMouseMove) => {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
@@ -210,7 +210,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
     renderValue(props) {
         return props.data.display_name;

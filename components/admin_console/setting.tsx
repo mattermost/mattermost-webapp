@@ -11,7 +11,7 @@ type Props = {
     children: React.ReactNode;
     helpText?: React.ReactNode;
     setByEnv?: boolean;
-}
+};
 
 export default class Settings extends PureComponent<Props> {
     public render() {

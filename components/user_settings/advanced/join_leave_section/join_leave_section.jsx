@@ -22,7 +22,7 @@ export default class JoinLeaveSection extends React.PureComponent {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -36,7 +36,7 @@ export default class JoinLeaveSection extends React.PureComponent {
         const value = e.currentTarget.value;
 
         this.setState({joinLeaveState: value});
-    }
+    };
 
     handleUpdateSection = (section) => {
         if (!section) {
@@ -44,7 +44,7 @@ export default class JoinLeaveSection extends React.PureComponent {
         }
 
         this.props.onUpdateSection(section);
-    }
+    };
 
     handleSubmit = () => {
         const {actions, currentUserId, onUpdateSection} = this.props;
@@ -52,7 +52,7 @@ export default class JoinLeaveSection extends React.PureComponent {
         actions.savePreferences(currentUserId, [joinLeavePreference]);
 
         onUpdateSection();
-    }
+    };
 
     render() {
         const {joinLeaveState} = this.state;

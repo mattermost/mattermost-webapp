@@ -16,12 +16,12 @@ type Props = {
      * onClick handler when user clicks back button
      */
     onClick?: React.EventHandler<React.MouseEvent>;
-}
+};
 
 export default class BackButton extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         url: '/',
-    }
+    };
 
     public render(): JSX.Element {
         return (

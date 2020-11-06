@@ -11,7 +11,7 @@ import SystemPermissionGate from './system_permission_gate';
 
 type Props = {
     permissions: Array<string>;
-}
+};
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     for (const permission of ownProps.permissions) {
         if (haveISystemPermission(state, {permission})) {

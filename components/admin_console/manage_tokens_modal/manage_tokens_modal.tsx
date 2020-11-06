@@ -48,7 +48,7 @@ export type Props = {
 
 type State = {
     error: string | null;
-}
+};
 
 export default class ManageTokensModal extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
@@ -70,7 +70,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
         this.setState({
             error,
         });
-    }
+    };
 
     private renderContents = (): JSX.Element => {
         const {user, userAccessTokens} = this.props;
@@ -164,7 +164,7 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                 </div>
             </div>
         );
-    }
+    };
 
     public render = (): JSX.Element => {
         return (
@@ -192,5 +192,5 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                 </Modal.Body>
             </Modal>
         );
-    }
+    };
 }

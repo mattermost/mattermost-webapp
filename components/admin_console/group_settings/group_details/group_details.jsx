@@ -129,19 +129,19 @@ export default class GroupDetails extends React.PureComponent {
 
     openAddChannel = () => {
         this.setState({addChannelOpen: true});
-    }
+    };
 
     closeAddChannel = () => {
         this.setState({addChannelOpen: false});
-    }
+    };
 
     openAddTeam = () => {
         this.setState({addTeamOpen: true});
-    }
+    };
 
     closeAddTeam = () => {
         this.setState({addTeamOpen: false});
-    }
+    };
 
     addTeams = (teams) => {
         const {groupID} = this.props;
@@ -159,7 +159,7 @@ export default class GroupDetails extends React.PureComponent {
             teamsToAdd,
         });
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     addChannels = (channels) => {
         const {groupID} = this.props;
@@ -179,7 +179,7 @@ export default class GroupDetails extends React.PureComponent {
             channelsToAdd,
         });
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     onRemoveTeamOrChannel = (id, type) => {
         const {groupTeams, groupChannels, itemsToRemove, channelsToAdd, teamsToAdd} = this.state;
@@ -209,7 +209,7 @@ export default class GroupDetails extends React.PureComponent {
         }
         this.setState(newState);
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     syncableTypeFromEntryType = (entryType) => {
         switch (entryType) {
@@ -222,7 +222,7 @@ export default class GroupDetails extends React.PureComponent {
         default:
             return null;
         }
-    }
+    };
 
     onChangeRoles = (id, type, schemeAdmin) => {
         const {rolesToChange, groupTeams, groupChannels} = this.state;
@@ -248,7 +248,7 @@ export default class GroupDetails extends React.PureComponent {
 
         this.setState({saveNeeded: true, rolesToChange, [stateKey]: updatedItems});
         this.props.actions.setNavigationBlocked(true);
-    }
+    };
 
     onMentionToggle = (allowReference) => {
         const {group} = this.props;
@@ -267,7 +267,7 @@ export default class GroupDetails extends React.PureComponent {
             hasAllowReferenceChanged: allowReference !== originalAllowReference},
         );
         this.props.actions.setNavigationBlocked(saveNeeded);
-    }
+    };
 
     onMentionChange = (e) => {
         const {group} = this.props;
@@ -281,7 +281,7 @@ export default class GroupDetails extends React.PureComponent {
             hasGroupMentionNameChanged: groupMentionName !== originalGroupMentionName,
         });
         this.props.actions.setNavigationBlocked(saveNeeded);
-    }
+    };
 
     handleSubmit = async () => {
         this.setState({saving: true});
@@ -301,7 +301,7 @@ export default class GroupDetails extends React.PureComponent {
         this.setState({saveNeeded: !allSuccuessful, saving: false});
 
         this.props.actions.setNavigationBlocked(!allSuccuessful);
-    }
+    };
 
     roleChangeKey = (groupTeamOrChannel) => {
         let fieldKey;
@@ -390,7 +390,7 @@ export default class GroupDetails extends React.PureComponent {
         }
         this.setState({rolesToChange: {}});
         return true;
-    }
+    };
 
     handleAddedTeamsAndChannels = async () => {
         const {teamsToAdd, channelsToAdd, rolesToChange} = this.state;
@@ -419,7 +419,7 @@ export default class GroupDetails extends React.PureComponent {
         }
         this.setState({teamsToAdd: [], channelsToAdd: []});
         return true;
-    }
+    };
 
     handleRemovedTeamsAndChannels = async () => {
         const {itemsToRemove, rolesToChange} = this.state;
@@ -438,7 +438,7 @@ export default class GroupDetails extends React.PureComponent {
         }
         this.setState({itemsToRemove: []});
         return true;
-    }
+    };
 
     render = () => {
         const {group, members, memberCount, isDisabled} = this.props;

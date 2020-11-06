@@ -34,7 +34,7 @@ export default class MorePublicDirectChannels extends React.PureComponent {
 
     handleSelect = (key) => {
         this.setState({key});
-    }
+    };
 
     render() {
         return (

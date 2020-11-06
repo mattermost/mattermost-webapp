@@ -39,7 +39,7 @@ export default class DialogElement extends React.PureComponent {
             autocompleteChannels: PropTypes.func.isRequired,
             autocompleteUsers: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ export default class DialogElement extends React.PureComponent {
             onChange(name, selected.value);
             this.setState({value: selected.text});
         }
-    }
+    };
 
     render() {
         const {

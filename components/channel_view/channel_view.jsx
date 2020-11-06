@@ -53,7 +53,7 @@ export default class ChannelView extends React.PureComponent {
                 data-a11y-order-reversed={true}
             />,
         );
-    }
+    };
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {};
@@ -96,11 +96,11 @@ export default class ChannelView extends React.PureComponent {
 
     getChannelView = () => {
         return this.channelViewRef.current;
-    }
+    };
 
     onClickCloseChannel = () => {
         this.props.actions.goToLastViewedChannel();
-    }
+    };
 
     async componentDidMount() {
         await this.props.actions.getProfiles();

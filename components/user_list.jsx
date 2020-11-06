@@ -22,7 +22,7 @@ export default class UserList extends React.PureComponent {
 
         // the type of user list row to render
         rowComponentType: PropTypes.node,
-    }
+    };
 
     static defaultProps = {
         users: [],
@@ -30,13 +30,13 @@ export default class UserList extends React.PureComponent {
         actions: [],
         actionProps: {},
         rowComponentType: UserListRow,
-    }
+    };
 
     scrollToTop = () => {
         if (this.refs.container) {
             this.refs.container.scrollTop = 0;
         }
-    }
+    };
 
     render() {
         const users = this.props.users;

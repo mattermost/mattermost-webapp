@@ -38,7 +38,7 @@ type Actions = {
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {

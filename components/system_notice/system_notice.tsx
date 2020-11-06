@@ -35,7 +35,7 @@ type Props = {
         dismissNotice(type: string): void,
         getStandardAnalytics(teamId?: string): void,
     }
-}
+};
 export default class SystemNotice extends React.PureComponent<Props> {
     componentDidMount() {
         if (this.props.isSystemAdmin) {
@@ -72,7 +72,7 @@ export default class SystemNotice extends React.PureComponent<Props> {
             return notice;
         }
         return null;
-    }
+    };
 
     hide = (remind = false) => {
         const notice = this.getCurrentNotice();
@@ -90,15 +90,15 @@ export default class SystemNotice extends React.PureComponent<Props> {
         }
 
         this.props.actions.dismissNotice(notice.name);
-    }
+    };
 
     hideAndRemind = () => {
         this.hide(true);
-    }
+    };
 
     hideAndForget = () => {
         this.hide(false);
-    }
+    };
 
     render() {
         const notice = this.getCurrentNotice();

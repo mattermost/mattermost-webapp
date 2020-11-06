@@ -9,7 +9,7 @@ type Props = {
     url: string;
     text: React.ReactNode;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-}
+};
 export const MenuItemExternalLinkImpl: React.FC<Props> = ({url, text, onClick}: Props) => (
     <a
         target='_blank'

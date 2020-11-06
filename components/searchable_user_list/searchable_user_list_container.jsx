@@ -31,17 +31,17 @@ export default class SearchableUserListContainer extends React.PureComponent {
 
     handleTermChange = (term) => {
         this.setState({term});
-    }
+    };
 
     nextPage = () => {
         this.setState({page: this.state.page + 1});
 
         this.props.nextPage(this.state.page + 1);
-    }
+    };
 
     previousPage = () => {
         this.setState({page: this.state.page - 1});
-    }
+    };
 
     search = (term) => {
         this.props.search(term);
@@ -49,7 +49,7 @@ export default class SearchableUserListContainer extends React.PureComponent {
         if (term !== '') {
             this.setState({page: 0});
         }
-    }
+    };
 
     render() {
         return (

@@ -103,7 +103,7 @@ class JobTable extends React.PureComponent {
         }
 
         return '--';
-    }
+    };
 
     getStatus = (job) => {
         const formatMessage = this.props.intl.formatMessage;
@@ -196,7 +196,7 @@ class JobTable extends React.PureComponent {
         return (
             <span title={formatMessage({id: 'admin.jobTable.jobId', defaultMessage: 'Job ID: '}) + job.id}>{job.status}</span>
         );
-    }
+    };
 
     getExtraInfoText = (job) => {
         if (job.data && job.data.error && job.data.error.length > 0) {
@@ -208,7 +208,7 @@ class JobTable extends React.PureComponent {
         }
 
         return <span/>;
-    }
+    };
 
     getRunLength = (job) => {
         let millis = job.last_activity_at - job.start_at;
@@ -263,7 +263,7 @@ class JobTable extends React.PureComponent {
                 {minutes + Utils.localizeMessage('admin.jobTable.runLengthMinutes', ' minutes')}
             </span>
         );
-    }
+    };
 
     getFinishAt = (status, millis) => {
         if (millis === 0 || status === JobStatuses.PENDING || status === JobStatuses.IN_PROGRESS || status === JobStatuses.CANCEL_REQUESTED) {
@@ -290,7 +290,7 @@ class JobTable extends React.PureComponent {
                 />
             </span>
         );
-    }
+    };
 
     reload = () => {
         this.setState({loading: true});
@@ -339,7 +339,7 @@ class JobTable extends React.PureComponent {
         }
 
         return cancelButton;
-    }
+    };
 
     render() {
         const showFilesColumn = this.props.jobType === JobTypes.MESSAGE_EXPORT && this.props.downloadExportResults;

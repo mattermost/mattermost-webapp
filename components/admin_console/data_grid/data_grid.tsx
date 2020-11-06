@@ -24,14 +24,14 @@ export type Column = {
     width?: number;
     textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
     overflow?: string;
-}
+};
 
 export type Row = {
     cells: {
         [key: string]: JSX.Element | string;
     };
     onClick?: () => void;
-}
+};
 
 type Props = {
     rows: Row[];
@@ -116,7 +116,7 @@ class DataGrid extends React.PureComponent<Props, State> {
         });
 
         this.setState({visibleColumns});
-    }
+    };
 
     private renderRows(): JSX.Element {
         const {rows, rowsContainerStyles} = this.props;
@@ -198,17 +198,17 @@ class DataGrid extends React.PureComponent<Props, State> {
         if (!this.props.loading) {
             this.props.nextPage();
         }
-    }
+    };
 
     private previousPage = () => {
         if (!this.props.loading) {
             this.props.previousPage();
         }
-    }
+    };
 
     private search = (term: string) => {
         this.props.search(term);
-    }
+    };
 
     private renderFooter = (): JSX.Element | null => {
         const {startCount, endCount, total} = this.props;
@@ -263,7 +263,7 @@ class DataGrid extends React.PureComponent<Props, State> {
         }
 
         return footer;
-    }
+    };
 
     public render() {
         return (

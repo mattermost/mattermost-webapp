@@ -188,15 +188,15 @@ export default class PermissionsTree extends React.PureComponent {
         if (config.ExperimentalSharedChannels === 'true') {
             sharedChannelsGroup.permissions.push(Permissions.MANAGE_SHARED_CHANNELS);
         }
-    }
+    };
 
     openPostTimeLimitModal = () => {
         this.setState({editTimeLimitModalIsVisible: true});
-    }
+    };
 
     closePostTimeLimitModal = () => {
         this.setState({editTimeLimitModalIsVisible: false});
-    }
+    };
 
     componentDidUpdate(prevProps) {
         if (this.props.config !== prevProps.config || this.props.license !== prevProps.license) {
@@ -209,7 +209,7 @@ export default class PermissionsTree extends React.PureComponent {
             return;
         }
         this.props.onToggle(this.props.role.name, ids);
-    }
+    };
 
     render = () => {
         return (

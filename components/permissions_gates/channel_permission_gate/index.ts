@@ -12,7 +12,7 @@ type Props = {
     channelId?: string;
     teamId?: string;
     permissions: string[];
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     if (!ownProps.channelId || ownProps.teamId === null || typeof ownProps.teamId === 'undefined') {

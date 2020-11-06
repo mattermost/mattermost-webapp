@@ -303,7 +303,7 @@ class ShortcutsModal extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         isMac: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -326,11 +326,11 @@ class ShortcutsModal extends React.PureComponent {
         this.setState({
             show: !this.state.show,
         });
-    }
+    };
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     getShortcuts() {
         const {isMac} = this.props;

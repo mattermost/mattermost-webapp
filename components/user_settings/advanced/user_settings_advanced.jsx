@@ -38,7 +38,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessionsForUser: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -85,13 +85,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             previewFeaturesEnabled,
             showDeactivateAccountModal,
         };
-    }
+    };
 
     updateSetting = (setting, value) => {
         const settings = this.state.settings;
         settings[setting] = value;
         this.setState(settings);
-    }
+    };
 
     toggleFeature = (feature, checked) => {
         const settings = this.state.settings;
@@ -105,7 +105,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         });
 
         this.setState({settings, enabledFeatures});
-    }
+    };
 
     saveEnabledFeatures = () => {
         const features = [];
@@ -116,7 +116,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         });
 
         this.handleSubmit(features);
-    }
+    };
 
     handleSubmit = async (settings) => {
         const preferences = [];
@@ -137,7 +137,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         await actions.savePreferences(userId, preferences);
 
         this.handleUpdateSection('');
-    }
+    };
 
     handleDeactivateAccountSubmit = async () => {
         const userId = this.props.currentUser.id;
@@ -157,19 +157,19 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         } else if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     handleShowDeactivateAccountModal = () => {
         this.setState({
             showDeactivateAccountModal: true,
         });
-    }
+    };
 
     handleHideDeactivateAccountModal = () => {
         this.setState({
             showDeactivateAccountModal: false,
         });
-    }
+    };
 
     handleUpdateSection = (section) => {
         if (!section) {
@@ -177,7 +177,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         }
         this.setState({isSaving: false});
         this.props.updateSection(section);
-    }
+    };
 
     // This function changes ctrl to cmd when OS is mac
     getCtrlSendText = () => {
@@ -211,7 +211,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             ctrlSendTitle: title.default,
             ctrlSendDesc: description.default,
         };
-    }
+    };
 
     renderOnOffLabel(enabled) {
         if (enabled === 'false') {
@@ -337,7 +337,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 updateSection={this.handleUpdateSection}
             />
         );
-    }
+    };
 
     renderFeatureLabel(feature) {
         switch (feature) {

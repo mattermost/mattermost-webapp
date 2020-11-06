@@ -13,7 +13,7 @@ type Props = {
     id?: string;
     buttonClass?: string;
     isDangerous?: boolean;
-}
+};
 export const MenuItemActionImpl = ({
     onClick,
     ariaLabel,

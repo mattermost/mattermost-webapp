@@ -35,17 +35,17 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             modalId: ModalIdentifiers.QUICK_SWITCH,
             dialogType: QuickSwitchModal,
         });
-    }
+    };
 
     goBack = () => {
         trackEvent('ui', 'ui_history_back');
         this.props.actions.goBack();
-    }
+    };
 
     goForward = () => {
         trackEvent('ui', 'ui_history_forward');
         this.props.actions.goForward();
-    }
+    };
 
     render() {
         let channelSwitchTextShortcutDefault = 'Ctrl+K';

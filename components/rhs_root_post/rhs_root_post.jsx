@@ -117,7 +117,7 @@ class RhsRootPost extends React.PureComponent {
                 }
             }
         }
-    }
+    };
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleAlt);
@@ -197,7 +197,7 @@ class RhsRootPost extends React.PureComponent {
         if (this.state.alt !== e.altKey) {
             this.setState({alt: e.altKey});
         }
-    }
+    };
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -213,12 +213,12 @@ class RhsRootPost extends React.PureComponent {
         if (e.altKey) {
             this.props.actions.markPostAsUnread(this.props.post);
         }
-    }
+    };
 
     handlePostFocus = () => {
         const {post, author, reactions, isFlagged, emojiMap} = this.props;
         this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl, emojiMap)});
-    }
+    };
 
     getDotMenuRef = () => {
         return this.refs.dotMenu;

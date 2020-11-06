@@ -28,7 +28,7 @@ type Props = {
     wrapperClass?: string;
     overwriteIcon?: string;
     overwriteName?: string;
-}
+};
 
 export default class ProfilePicture extends React.PureComponent<Props> {
     public static defaultProps = {
@@ -45,7 +45,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
         if (this.overlay.current) {
             this.overlay.current.hide();
         }
-    }
+    };
 
     public render() {
         // profileSrc will, if possible, be the original user profile picture even if the icon

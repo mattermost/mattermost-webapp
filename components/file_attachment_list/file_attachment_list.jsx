@@ -35,7 +35,7 @@ export default class FileAttachmentList extends React.PureComponent {
         enableSVGs: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
         locale: PropTypes.string.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,11 +45,11 @@ export default class FileAttachmentList extends React.PureComponent {
 
     handleImageClick = (indexClicked) => {
         this.setState({showPreviewModal: true, startImgIndex: indexClicked});
-    }
+    };
 
     hidePreviewModal = () => {
         this.setState({showPreviewModal: false});
-    }
+    };
 
     render() {
         const {

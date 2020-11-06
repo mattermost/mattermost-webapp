@@ -10,7 +10,7 @@ type Props = {
     children: ReactNode;
 };
 
-type Attrs = HTMLAttributes<HTMLElement>
+type Attrs = HTMLAttributes<HTMLElement>;
 
 const Badge = ({
     show = true,

@@ -60,7 +60,7 @@ export class Categories extends PureComponent {
         tagsList: PropTypes.array,
         hasImageProxy: PropTypes.string,
         theme: PropTypes.object.isRequired,
-    }
+    };
 
     componentDidMount() {
         window.scrollTo(0, 0);
@@ -77,7 +77,7 @@ export class Categories extends PureComponent {
         if (gfycats.length) {
             trackEvent('gfycat', 'views', {context: 'category_list', count: gfycats.length});
         }
-    }
+    };
 
     componentWillUnmount() {
         this.props.saveSearchScrollPosition(0);
@@ -93,11 +93,11 @@ export class Categories extends PureComponent {
             }
             return '';
         }) : [];
-    }
+    };
 
     loadMore = () => {
         this.props.requestCategoriesList();
-    }
+    };
 
     render() {
         const style = getStyle(this.props.theme);

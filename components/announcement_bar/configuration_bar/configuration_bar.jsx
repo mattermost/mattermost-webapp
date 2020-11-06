@@ -44,23 +44,23 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
     dismissExpiringLicense = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
-    }
+    };
 
     dismissNumberOfActiveUsersWarnMetric = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS);
-    }
+    };
 
     dismissNumberOfPostsWarnMetric = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS);
-    }
+    };
 
     dismissNumberOfActiveUsersWarnMetricAck = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK);
-    }
+    };
 
     dismissNumberOfPostsWarnMetricAck = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK);
-    }
+    };
 
     getNoticeForWarnMetric = (warnMetricStatus) => {
         if (!warnMetricStatus ||
@@ -151,7 +151,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             ShowModal: showModal,
             CanCloseBar: canCloseBar,
         };
-    }
+    };
 
     render() {
         // System administrators

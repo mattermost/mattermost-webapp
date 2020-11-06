@@ -99,32 +99,32 @@ export default class Bot extends React.PureComponent {
 
     enableBot = () => {
         this.props.actions.enableBot(this.props.bot.user_id);
-    }
+    };
 
     disableBot = () => {
         this.props.actions.disableBot(this.props.bot.user_id);
-    }
+    };
 
     enableUserAccessToken = (id) => {
         this.props.actions.enableUserAccessToken(id);
-    }
+    };
 
     disableUserAccessToken = (id) => {
         this.props.actions.disableUserAccessToken(id);
-    }
+    };
 
     confirmRevokeToken = (id) => {
         this.setState({confirmingId: id});
-    }
+    };
 
     revokeTokenConfirmed = () => {
         this.props.actions.revokeUserAccessToken(this.state.confirmingId);
         this.closeConfirm();
-    }
+    };
 
     closeConfirm = () => {
         this.setState({confirmingId: ''});
-    }
+    };
 
     openCreateToken = () => {
         this.setState({
@@ -133,7 +133,7 @@ export default class Bot extends React.PureComponent {
                 description: '',
             },
         });
-    }
+    };
 
     closeCreateToken = () => {
         this.setState({
@@ -142,13 +142,13 @@ export default class Bot extends React.PureComponent {
                 description: '',
             },
         });
-    }
+    };
 
     handleUpdateDescription = (e) => {
         this.setState({
             token: Object.assign({}, this.state.token, {description: e.target.value}),
         });
-    }
+    };
 
     handleCreateToken = async (e) => {
         e.preventDefault();
@@ -169,7 +169,7 @@ export default class Bot extends React.PureComponent {
         } else if (error) {
             this.setState({error: error.message});
         }
-    }
+    };
 
     render() {
         const username = this.props.bot.username || '';

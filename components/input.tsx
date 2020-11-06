@@ -18,7 +18,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 type State = {
     focused: boolean;
     error: string;
-}
+};
 
 const REQUIRED_FIELD_TEXT = 'This field is required';
 
@@ -40,7 +40,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (onFocus) {
             onFocus(event);
         }
-    }
+    };
 
     private onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
         const {onBlur} = this.props;
@@ -51,7 +51,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (onBlur) {
             onBlur(event);
         }
-    }
+    };
 
     private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {onChange} = this.props;
@@ -61,7 +61,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (onChange) {
             onChange(event);
         }
-    }
+    };
 
     private validateInput = () => {
         const {value, required} = this.props;
@@ -69,7 +69,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (required && (value == null || value === '')) {
             this.setState({error: REQUIRED_FIELD_TEXT});
         }
-    }
+    };
 
     private renderError(error: string) {
         if (!error) {

@@ -34,11 +34,11 @@ type Props = {
             dialogType: (props: any) => React.ReactElement | null;
         }) => Promise<{data: boolean}>;
     };
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class ChannelMembersModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -51,11 +51,11 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     handleExit = () => {
         this.props.onHide();
-    }
+    };
 
     onAddNewMembersButton = () => {
         const {channel, actions} = this.props;
@@ -67,7 +67,7 @@ export default class ChannelMembersModal extends React.PureComponent<Props, Stat
         });
 
         this.handleExit();
-    }
+    };
 
     render() {
         const channelIsArchived = this.props.channel.delete_at !== 0;

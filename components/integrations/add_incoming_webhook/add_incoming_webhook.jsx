@@ -37,7 +37,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
             */
             createIncomingHook: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -59,7 +59,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     render() {
         return (

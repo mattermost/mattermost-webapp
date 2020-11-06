@@ -54,7 +54,7 @@ class EditPostModal extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             setShowPreview: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -94,25 +94,25 @@ class EditPostModal extends React.PureComponent {
 
     setShowPreview = (newPreviewValue) => {
         this.props.actions.setShowPreview(newPreviewValue);
-    }
+    };
 
     getContainer = () => {
         return this.editModalBody.current;
-    }
+    };
 
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
         if (!this.state.showEmojiPicker && this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
         if (this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji && (emoji.name || (emoji.aliases && emoji.aliases[0]));
@@ -149,7 +149,7 @@ class EditPostModal extends React.PureComponent {
         if (this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
     handleGifClick = (gif) => {
         if (this.state.editText === '') {
@@ -160,17 +160,17 @@ class EditPostModal extends React.PureComponent {
         }
         this.setState({showEmojiPicker: false});
         this.editbox.focus();
-    }
+    };
 
     getTarget = () => {
         return this.refs.editPostEmoji;
-    }
+    };
 
     handlePostError = (postError) => {
         if (this.state.postError !== postError) {
             this.setState({postError});
         }
-    }
+    };
 
     handleEdit = async () => {
         if (this.isSaveDisabled()) {
@@ -224,14 +224,14 @@ class EditPostModal extends React.PureComponent {
         }
 
         this.handleHide();
-    }
+    };
 
     handleChange = (e) => {
         const message = e.target.value;
         this.setState({
             editText: message,
         });
-    }
+    };
 
     handlePaste = (e) => {
         if (!e.clipboardData || !e.clipboardData.items || !this.props.canEditPost || e.target.id !== 'edit_textbox') {
@@ -264,7 +264,7 @@ class EditPostModal extends React.PureComponent {
         }, () => {
             Utils.setCaretPosition(this.editbox.getInputBox(), newCaretPosition);
         });
-    }
+    };
 
     handleEditKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
@@ -282,18 +282,18 @@ class EditPostModal extends React.PureComponent {
             this.editbox.blur();
             this.handleEdit();
         }
-    }
+    };
 
     handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
         });
-    }
+    };
 
     handleSelect = (e) => {
         Utils.adjustSelection(this.editbox.getInputBox(), e);
-    }
+    };
 
     handleKeyDown = (e) => {
         const ctrlKeyCombo = (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey;
@@ -310,7 +310,7 @@ class EditPostModal extends React.PureComponent {
         } else if (ctrlKeyCombo && markdownHotkey) {
             this.applyHotkeyMarkdown(e);
         }
-    }
+    };
 
     applyHotkeyMarkdown = (e) => {
         const res = Utils.applyHotkeyMarkdown(e);
@@ -321,12 +321,12 @@ class EditPostModal extends React.PureComponent {
             const textbox = this.editbox.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
-    }
+    };
 
     handleHide = (doRefocus = true) => {
         this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
         this.props.actions.hideEditPostModal();
-    }
+    };
 
     handleCheckForChangesHide = () => {
         if (this.state.editText !== this.props.editingPost.post.message) {
@@ -334,14 +334,14 @@ class EditPostModal extends React.PureComponent {
         }
 
         this.handleHide();
-    }
+    };
 
     handleEntered = () => {
         if (this.editbox) {
             this.editbox.focus();
             this.editbox.recalculateSize();
         }
-    }
+    };
 
     handleHeightChange = (height, maxHeight) => {
         if (this.editbox) {
@@ -350,11 +350,11 @@ class EditPostModal extends React.PureComponent {
                 scrollbarWidth: Utils.scrollbarWidth(this.editbox.getInputBox()),
             });
         }
-    }
+    };
 
     handleExit = () => {
         this.props.actions.setShowPreview(false);
-    }
+    };
 
     handleExited = () => {
         const refocusId = this.refocusId;
@@ -370,7 +370,7 @@ class EditPostModal extends React.PureComponent {
         this.refocusId = null;
         this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
         this.props.actions.setShowPreview(false);
-    }
+    };
 
     setEditboxRef = (ref) => {
         this.editbox = ref;
@@ -378,7 +378,7 @@ class EditPostModal extends React.PureComponent {
         if (this.editbox) {
             this.editbox.focus();
         }
-    }
+    };
 
     isSaveDisabled = () => {
         const post = this.props.editingPost.post;
@@ -392,7 +392,7 @@ class EditPostModal extends React.PureComponent {
         }
 
         return !this.props.canDeletePost;
-    }
+    };
 
     render() {
         const {formatMessage} = this.props.intl;

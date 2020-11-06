@@ -69,17 +69,17 @@ export default class BackstageController extends React.PureComponent {
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         canManageIntegrations: PropTypes.bool.isRequired,
-    }
+    };
 
     scrollToTop = () => {
         if (this.listRef) {
             this.listRef.scrollTop = 0;
         }
-    }
+    };
 
     setListRef = (ref) => {
         this.listRef = ref;
-    }
+    };
 
     render() {
         if (this.props.team == null || this.props.user == null) {

@@ -33,7 +33,7 @@ export default class ActivityLog extends React.PureComponent {
          * Function to revoke session
          */
         submitRevoke: PropTypes.func.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,11 +45,11 @@ export default class ActivityLog extends React.PureComponent {
 
     handleMoreInfo = () => {
         this.setState({moreInfo: true});
-    }
+    };
 
     submitRevoke = (e) => {
         this.props.submitRevoke(this.props.currentSession.id, e);
-    }
+    };
 
     isMobileSession = (session) => {
         return session.device_id && (session.device_id.includes('apple') || session.device_id.includes('android'));

@@ -88,17 +88,17 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         *  Data used for filtering of webhooks based in filter prop
         */
         channel: PropTypes.object,
-    }
+    };
 
     handleRegenToken = (e) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.outgoingWebhook);
-    }
+    };
 
     handleDelete = () => {
         this.props.onDelete(this.props.outgoingWebhook);
-    }
+    };
 
     makeDisplayName(outgoingWebhook, channel) {
         if (outgoingWebhook.display_name) {

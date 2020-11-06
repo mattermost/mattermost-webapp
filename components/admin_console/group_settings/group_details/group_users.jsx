@@ -39,7 +39,7 @@ export default class GroupUsers extends React.PureComponent {
     previousPage = () => {
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page});
-    }
+    };
 
     nextPage = async () => {
         const {total, members, groupID, getMembers} = this.props;
@@ -57,7 +57,7 @@ export default class GroupUsers extends React.PureComponent {
         this.setState({page, loading: true});
         await getMembers(groupID, page, GROUP_MEMBERS_PAGE_SIZE);
         this.setState({loading: false});
-    }
+    };
 
     renderRows = () => {
         if (this.props.members.length === 0) {
@@ -84,7 +84,7 @@ export default class GroupUsers extends React.PureComponent {
                 />
             );
         });
-    }
+    };
 
     renderPagination = () => {
         if (this.props.members.length === 0) {
@@ -131,7 +131,7 @@ export default class GroupUsers extends React.PureComponent {
                 </button>
             </div>
         );
-    }
+    };
 
     render = () => {
         return (

@@ -40,7 +40,7 @@ export default class ManageTeamsDropdown extends React.PureComponent {
 
     removeFromTeam = () => {
         this.props.handleRemoveUserFromTeam(this.props.teamMember.team_id);
-    }
+    };
 
     render() {
         const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;

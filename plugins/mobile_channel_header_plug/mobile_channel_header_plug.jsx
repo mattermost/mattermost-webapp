@@ -24,7 +24,7 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired,
-    }
+    };
 
     createButton = (plug) => {
         const onClick = () => this.fireAction(plug);
@@ -59,7 +59,7 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
                 </button>
             </li>
         );
-    }
+    };
 
     createList(plugs) {
         return plugs.map(this.createButton);

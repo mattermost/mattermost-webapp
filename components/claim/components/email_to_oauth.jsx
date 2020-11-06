@@ -44,7 +44,7 @@ export default class EmailToOAuth extends React.PureComponent {
         this.setState(state);
 
         this.submit(this.props.email, password, '');
-    }
+    };
 
     submit = (loginId, password, token) => {
         emailToOAuth(
@@ -65,7 +65,7 @@ export default class EmailToOAuth extends React.PureComponent {
                 }
             },
         );
-    }
+    };
 
     render() {
         var error = null;

@@ -47,7 +47,7 @@ export default class ActivityLogModal extends React.PureComponent {
              */
             revokeSession: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -67,15 +67,15 @@ export default class ActivityLogModal extends React.PureComponent {
         this.props.actions.revokeSession(this.props.currentUserId, altId).then(() => {
             this.props.actions.getSessions(this.props.currentUserId);
         });
-    }
+    };
 
     onShow = () => {
         this.props.actions.getSessions(this.props.currentUserId);
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     componentDidMount() {
         this.onShow();

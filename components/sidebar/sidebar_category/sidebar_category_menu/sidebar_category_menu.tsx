@@ -29,7 +29,7 @@ type Props = {
 
 type State = {
     showDeleteCategoryModal: boolean;
-}
+};
 
 class SidebarCategoryMenu extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -48,7 +48,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                 category: this.props.category,
             },
         });
-    }
+    };
 
     renameCategory = () => {
         this.props.actions.openModal({
@@ -59,7 +59,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                 initialCategoryName: this.props.category.display_name,
             },
         });
-    }
+    };
 
     createCategory = () => {
         this.props.actions.openModal({
@@ -67,7 +67,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             dialogType: EditCategoryModal,
         });
         trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
-    }
+    };
 
     onToggleMenu = (open: boolean) => {
         this.props.onToggleMenu(open);
@@ -75,7 +75,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         if (open) {
             trackEvent('ui', 'ui_sidebar_category_menu_opened');
         }
-    }
+    };
 
     renderDropdownItems = () => {
         const {intl, category} = this.props;
@@ -119,7 +119,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                 </Menu.Group>
             </React.Fragment>
         );
-    }
+    };
 
     render() {
         const {intl, category} = this.props;

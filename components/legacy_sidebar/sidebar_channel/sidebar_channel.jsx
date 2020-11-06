@@ -159,19 +159,19 @@ class SidebarChannel extends React.PureComponent {
             leaveDirectChannel: PropTypes.func.isRequired,
             openLhs: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     isLeaving = false;
 
     handleLeavePublicChannel = () => {
         this.props.actions.leaveChannel(this.props.channelId);
         trackEvent('ui', 'ui_public_channel_x_button_clicked');
-    }
+    };
 
     handleLeavePrivateChannel = () => {
         GlobalActions.showLeavePrivateChannelModal({id: this.props.channelId, display_name: this.props.channelDisplayName});
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
-    }
+    };
 
     handleLeaveDirectChannel = () => {
         if (!this.isLeaving) {
@@ -201,7 +201,7 @@ class SidebarChannel extends React.PureComponent {
         if (this.props.active) {
             browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
-    }
+    };
 
     showChannelAsUnread = () => {
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
@@ -320,7 +320,7 @@ class SidebarChannel extends React.PureComponent {
                 {tutorialTip}
             </li>
         );
-    }
+    };
 }
 
 const wrappedComponent = injectIntl(SidebarChannel, {forwardRef: true});

@@ -43,7 +43,7 @@ export default class RhsCardHeader extends React.PureComponent {
         default:
             break;
         }
-    }
+    };
 
     render() {
         let back;

@@ -27,7 +27,7 @@ export default class SidebarHeader extends React.PureComponent {
     handleResize = () => {
         const isMobile = Utils.isMobile();
         this.setState({isMobile});
-    }
+    };
 
     render() {
         const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');

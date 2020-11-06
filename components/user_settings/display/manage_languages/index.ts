@@ -10,7 +10,7 @@ import ManageLanguages from './manage_languages';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

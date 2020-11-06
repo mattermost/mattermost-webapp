@@ -23,13 +23,13 @@ export default class EmojiPage extends React.PureComponent {
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     static defaultProps = {
         teamName: '',
         teamDisplayName: '',
         siteName: '',
-    }
+    };
 
     componentDidMount() {
         this.updateTitle();
@@ -38,7 +38,7 @@ export default class EmojiPage extends React.PureComponent {
 
     updateTitle = () => {
         document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + this.props.teamDisplayName + ' ' + this.props.siteName;
-    }
+    };
 
     componentDidUpdate(prevProps) {
         if (this.props.siteName !== prevProps.siteName) {

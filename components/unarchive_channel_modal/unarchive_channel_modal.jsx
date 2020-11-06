@@ -30,7 +30,7 @@ export default class UnarchiveChannelModal extends React.PureComponent {
 
             unarchiveChannel: PropTypes.func.isRequired,
         }),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -44,11 +44,11 @@ export default class UnarchiveChannelModal extends React.PureComponent {
         }
         this.props.actions.unarchiveChannel(this.props.channel.id);
         this.onHide();
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     render() {
         return (

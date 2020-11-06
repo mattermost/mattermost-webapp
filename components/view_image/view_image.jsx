@@ -85,7 +85,7 @@ export default class ViewImageModal extends React.PureComponent {
             id = 0;
         }
         this.showImage(id);
-    }
+    };
 
     handlePrev = (e) => {
         if (e) {
@@ -96,7 +96,7 @@ export default class ViewImageModal extends React.PureComponent {
             id = this.props.fileInfos.length - 1;
         }
         this.showImage(id);
-    }
+    };
 
     handleKeyPress = (e) => {
         if (Utils.isKeyPressed(e, KeyCodes.RIGHT)) {
@@ -104,13 +104,13 @@ export default class ViewImageModal extends React.PureComponent {
         } else if (Utils.isKeyPressed(e, KeyCodes.LEFT)) {
             this.handlePrev();
         }
-    }
+    };
 
     onModalShown = (nextProps) => {
         document.addEventListener('keyup', this.handleKeyPress);
 
         this.showImage(nextProps.startIndex);
-    }
+    };
 
     onModalHidden = () => {
         document.removeEventListener('keyup', this.handleKeyPress);
@@ -118,7 +118,7 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.videoRef.current) {
             this.videoRef.current.stop();
         }
-    }
+    };
 
     componentDidUpdate(prevProps) {
         if (this.props.show === true && prevProps.show === false) {
@@ -152,7 +152,7 @@ export default class ViewImageModal extends React.PureComponent {
         if (!this.state.loaded[id]) {
             this.loadImage(id);
         }
-    }
+    };
 
     loadImage = (index) => {
         const fileInfo = this.props.fileInfos[index];
@@ -176,7 +176,7 @@ export default class ViewImageModal extends React.PureComponent {
             // there's nothing to load for non-image files
             this.handleImageLoaded(index);
         }
-    }
+    };
 
     handleImageLoaded = (index) => {
         this.setState((prevState) => {
@@ -187,7 +187,7 @@ export default class ViewImageModal extends React.PureComponent {
                 },
             };
         });
-    }
+    };
 
     handleImageProgress = (index, completedPercentage) => {
         this.setState((prevState) => {
@@ -198,21 +198,21 @@ export default class ViewImageModal extends React.PureComponent {
                 },
             };
         });
-    }
+    };
 
     handleGetPublicLink = () => {
         this.handleModalClose();
 
         GlobalActions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
-    }
+    };
 
     onMouseEnterImage = () => {
         this.setState({showCloseBtn: true});
-    }
+    };
 
     onMouseLeaveImage = () => {
         this.setState({showCloseBtn: false});
-    }
+    };
 
     handleZoomIn = () => {
         let newScale = this.state.scale;
@@ -228,12 +228,12 @@ export default class ViewImageModal extends React.PureComponent {
 
     handleZoomReset = () => {
         this.setState({scale: ZoomSettings.DEFAULT_SCALE});
-    }
+    };
 
     handleModalClose = () => {
         this.props.onModalDismissed();
         this.setState({scale: ZoomSettings.DEFAULT_SCALE});
-    }
+    };
 
     render() {
         if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {

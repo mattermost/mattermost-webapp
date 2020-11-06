@@ -23,7 +23,7 @@ export default class DataRetentionSettings extends AdminSettings {
         config.DataRetentionSettings.DeletionJobStartTime = this.state.deletionJobStartTime;
 
         return config;
-    }
+    };
 
     getStateFromConfig(config) {
         return {
@@ -147,7 +147,7 @@ export default class DataRetentionSettings extends AdminSettings {
                 onCancel={this.handleSaveCanceled}
             />
         );
-    }
+    };
 
     renderTitle() {
         return (
@@ -318,5 +318,5 @@ export default class DataRetentionSettings extends AdminSettings {
                 />
             </SettingsGroup>
         );
-    }
+    };
 }

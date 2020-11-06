@@ -16,7 +16,7 @@ export default class ActionButton extends React.PureComponent {
         theme: PropTypes.object.isRequired,
         actionExecuting: PropTypes.bool,
         actionExecutingMessage: PropTypes.string,
-    }
+    };
 
     getStatusColors(theme) {
         return {

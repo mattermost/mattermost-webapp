@@ -66,7 +66,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         * Whether or not incoming webhooks are enabled.
         */
         enableIncomingWebhooks: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -90,7 +90,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
 
     deleteIncomingWebhook = (incomingWebhook) => {
         this.props.actions.removeIncomingHook(incomingWebhook.id);
-    }
+    };
 
     incomingWebhookCompare = (a, b) => {
         let displayNameA = a.display_name;
@@ -106,7 +106,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         const displayNameB = b.display_name;
 
         return displayNameA.localeCompare(displayNameB);
-    }
+    };
 
     incomingWebhooks = (filter) => this.props.incomingWebhooks.
         sort(this.incomingWebhookCompare).

@@ -33,7 +33,7 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
         }
 
         this.props.actions.setUnreadFilterEnabled(!unreadFilterEnabled);
-    }
+    };
 
     render() {
         const {unreadFilterEnabled, hasMultipleTeams} = this.props;

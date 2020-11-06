@@ -19,7 +19,7 @@ type Actions = {
         data: boolean;
         error?: undefined;
     }>;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

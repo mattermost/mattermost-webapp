@@ -21,7 +21,7 @@ type Props = {
     teamId: string;
     term: string;
     filter: string;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const users = getNonBotUsers(state, ownProps.loading, ownProps.teamId, ownProps.term, ownProps.filter);

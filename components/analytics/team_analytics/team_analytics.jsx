@@ -55,7 +55,7 @@ export default class TeamAnalytics extends React.PureComponent {
              */
             getProfilesInTeam: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -93,7 +93,7 @@ export default class TeamAnalytics extends React.PureComponent {
             recentlyActiveUsers,
             newUsers,
         });
-    }
+    };
 
     handleTeamChange = (e) => {
         const teamId = e.target.value;
@@ -110,7 +110,7 @@ export default class TeamAnalytics extends React.PureComponent {
         });
 
         BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
-    }
+    };
 
     render() {
         if (this.props.teams.length === 0 || !this.state.team || !this.props.stats[this.state.team.id]) {

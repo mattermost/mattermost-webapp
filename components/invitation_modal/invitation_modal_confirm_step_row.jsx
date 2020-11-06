@@ -19,7 +19,7 @@ import './invitation_modal_confirm_step_row.scss';
 export default class InvitationModalConfirmStepRow extends React.PureComponent {
     static propTypes = {
         invitation: PropTypes.object.isRequired,
-    }
+    };
 
     render() {
         const {invitation} = this.props;

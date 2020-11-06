@@ -74,14 +74,14 @@ type Props = {
     teamsList: Team[];
     theme: any;
     plugins?: any;
-}
+};
 
 type State = {
     team: Team | null;
     finishedFetchingChannels: boolean;
     prevTeam: string;
     teamsList: Team[];
-}
+};
 
 export default class NeedsTeam extends React.PureComponent<Props, State> {
     public blurTime: number;
@@ -185,7 +185,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.props.currentUser) {
             this.props.actions.viewChannel('');
         }
-    }
+    };
 
     handleFocus = () => {
         if (this.props.currentChannelId) {
@@ -196,7 +196,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
             this.props.actions.loadProfilesForDirect();
         }
-    }
+    };
 
     joinTeam = async (props: Props) => {
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
@@ -211,7 +211,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         } else {
             props.history.push('/error?type=team_not_found');
         }
-    }
+    };
 
     initTeam = (team: Team) => {
         if (team.id !== this.props.previousTeamId) {
@@ -254,7 +254,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
 
         return team;
-    }
+    };
 
     updateCurrentTeam = (props: Props) => {
         // First check to make sure you're in the current team
@@ -265,7 +265,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             return team;
         }
         return null;
-    }
+    };
 
     onShortcutKeyDown = (e: KeyboardEvent) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
@@ -284,7 +284,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 }
             }
         }
-    }
+    };
 
     render() {
         if (this.state.team === null) {

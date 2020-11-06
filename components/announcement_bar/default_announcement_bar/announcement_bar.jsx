@@ -36,7 +36,7 @@ export default class AnnouncementBar extends React.PureComponent {
             incrementAnnouncementBarCount: PropTypes.func.isRequired,
             decrementAnnouncementBarCount: PropTypes.func.isRequired,
         }).isRequired,
-    }
+    };
 
     static defaultProps = {
         showCloseButton: false,
@@ -47,7 +47,7 @@ export default class AnnouncementBar extends React.PureComponent {
         onButtonClick: null,
         showLinkAsButton: false,
         isTallBanner: false,
-    }
+    };
 
     componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
@@ -73,7 +73,7 @@ export default class AnnouncementBar extends React.PureComponent {
         if (this.props.handleClose) {
             this.props.handleClose();
         }
-    }
+    };
 
     render() {
         if (!this.props.message) {

@@ -19,7 +19,7 @@ type Props = {
     setByEnv: boolean;
     disabledText?: React.ReactNode;
     helpText: React.ReactNode;
-}
+};
 
 export default class BooleanSetting extends React.PureComponent<Props> {
     public static defaultProps = {
@@ -40,7 +40,7 @@ export default class BooleanSetting extends React.PureComponent<Props> {
 
     private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(this.props.id, e.target.value === 'true');
-    }
+    };
 
     public render() {
         let helpText;

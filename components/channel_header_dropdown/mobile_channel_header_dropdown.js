@@ -24,7 +24,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         teammateIsBot: PropTypes.bool,
         teammateStatus: PropTypes.string,
         displayName: PropTypes.string.isRequired,
-    }
+    };
 
     getChannelTitle = () => {
         const {user, channel, teammateId, displayName} = this.props;
@@ -42,7 +42,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
             return displayName;
         }
         return channel.display_name;
-    }
+    };
 
     render() {
         const {teammateIsBot, teammateStatus} = this.props;

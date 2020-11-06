@@ -15,14 +15,14 @@ import ErrorMessage from './error_message';
 
 type Location = {
     search: string;
-}
+};
 
 type Props = {
     location: Location;
     asymmetricSigningPublicKey?: string;
     siteName?: string;
     isGuest?: boolean;
-}
+};
 
 export default class ErrorPage extends React.PureComponent<Props> {
     public componentDidMount() {

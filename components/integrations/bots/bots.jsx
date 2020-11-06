@@ -79,7 +79,7 @@ export default class Bots extends React.PureComponent {
         *  Only used for routing since backstage is team based.
         */
         team: PropTypes.object.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -180,7 +180,7 @@ export default class Bots extends React.PureComponent {
         );
 
         return [sections, enabledBots.length > 0 || disabledBots.length > 0];
-    }
+    };
 
     render() {
         return (

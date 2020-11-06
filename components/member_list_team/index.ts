@@ -24,7 +24,7 @@ import MemberListTeam from './member_list_team';
 
 type Props = {
     teamId: string;
-}
+};
 
 type Actions = {
     getTeamMembers: (teamId: string, page?: number, perPage?: number, options?: GetTeamMembersOpts) => Promise<{data: TeamMembership}>;
@@ -40,7 +40,7 @@ type Actions = {
         data: boolean;
     }>;
     setModalSearchTerm: (term: string) => ActionResult;
-}
+};
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_ROLES});

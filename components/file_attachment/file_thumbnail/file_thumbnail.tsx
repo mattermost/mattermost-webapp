@@ -16,7 +16,7 @@ import {
 type Props = {
     enableSVGs: boolean;
     fileInfo: FileInfo;
-}
+};
 
 export default class FileThumbnail extends React.PureComponent<Props> {
     render() {

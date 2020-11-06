@@ -17,21 +17,21 @@ export default class InvitationModalInitialStep extends React.PureComponent {
         goToMembers: PropTypes.func.isRequired,
         goToGuests: PropTypes.func.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
-    }
+    };
 
     onMembersKeyDown = (e) => {
         const code = e.which;
         if ((code === 13) || (code === 32)) {
             this.props.goToMembers();
         }
-    }
+    };
 
     onGuestsKeyDown = (e) => {
         const code = e.which;
         if ((code === 13) || (code === 32)) {
             this.props.goToGuests();
         }
-    }
+    };
 
     render() {
         const teamName = this.props.teamName;

@@ -16,7 +16,7 @@ import SidebarChannelIcon from './sidebar_channel_icon';
 
 type OwnProps = {
     channel: Channel;
-}
+};
 
 function hasDraft(draft: any, currentChannelId: string, channelId: string) {
     return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channelId;

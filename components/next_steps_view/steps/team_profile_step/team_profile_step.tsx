@@ -72,15 +72,15 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
         }
 
         this.setState({teamName: event.target.value, teamNameError});
-    }
+    };
 
     isFinishDisabled = () => {
         return Boolean(!this.state.teamName || this.state.teamNameError || this.state.profilePictureError);
-    }
+    };
 
     onSkip = () => {
         this.props.onSkip(this.props.id);
-    }
+    };
 
     onFinish = () => {
         const team = Object.assign({}, this.props.team, {display_name: this.state.teamName});
@@ -96,11 +96,11 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_save_team');
 
         this.props.onFinish(this.props.id);
-    }
+    };
 
     onOpenPictureDialog = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_add_team_image');
-    }
+    };
 
     onSelectPicture = (profilePicture: File) => {
         if (!AcceptedProfileImageTypes.includes(profilePicture.type) || profilePicture.size > this.props.maxFileSize) {
@@ -111,13 +111,13 @@ export default class TeamProfileStep extends React.PureComponent<Props, State> {
         }
 
         this.setState({profilePicture, profilePictureError: false, removeProfilePicture: false});
-    }
+    };
 
     onRemovePicture = () => {
         trackEvent(getAnalyticsCategory(this.props.isAdmin), 'click_remove_photo');
 
         this.setState({profilePicture: undefined, profilePictureError: false, removeProfilePicture: true});
-    }
+    };
 
     render() {
         const {team} = this.props;

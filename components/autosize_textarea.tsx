@@ -13,7 +13,7 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     onInput?: (e: FormEvent<HTMLTextAreaElement>) => void;
     placeholder?: string;
-}
+};
 
 export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
@@ -84,7 +84,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                 this.props.onHeightChange?.(height, parseInt(style.maxHeight || '0', 10));
             });
         }
-    }
+    };
 
     getDOMNode = () => {
         return (this.refs.textarea as HTMLTextAreaElement);

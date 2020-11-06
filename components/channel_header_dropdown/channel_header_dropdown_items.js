@@ -48,7 +48,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         penultimateViewedChannelName: PropTypes.string.isRequired,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensedForLDAPGroups: PropTypes.bool,
-    }
+    };
 
     render() {
         const {

@@ -12,7 +12,7 @@ import './invitation_modal_confirm_step_table.scss';
 export default class InvitationModalConfirmStepTable extends React.PureComponent {
     static propTypes = {
         invites: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }
+    };
     render() {
         return (
             <div className='InvitationModalConfirmStepTable'>

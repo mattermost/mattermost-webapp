@@ -60,7 +60,7 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
         }
 
         return true;
-    }
+    };
 
     handleOptionChange = (e) => {
         const {value} = e.target;
@@ -69,12 +69,12 @@ export default class EditPostTimeLimitModal extends React.PureComponent {
         } else {
             this.setState({postEditTimeLimit: ''});
         }
-    }
+    };
 
     handleSecondsChange = (e) => {
         const {value} = e.target;
         this.setState({postEditTimeLimit: value});
-    }
+    };
 
     render = () => {
         return (

@@ -33,11 +33,11 @@ export default class UserAutocompleteSetting extends React.PureComponent {
 
     handleChange = (e) => {
         this.props.onChange(this.props.id, e.target.value);
-    }
+    };
 
     handleUserSelected = (user) => {
         this.props.onChange(this.props.id, user.username);
-    }
+    };
 
     render() {
         return (
