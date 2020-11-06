@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
+
+import './profile_picture.scss';
 
 interface MMOverlayTrigger extends BaseOverlayTrigger {
     hide: () => void;
@@ -18,7 +20,7 @@ type Props = {
     isEmoji?: boolean;
     isRHS?: boolean;
     profileSrc?: string;
-    size: string;
+    size?: ComponentProps<typeof Avatar>['size'];
     src: string;
     status?: string;
     userId?: string;
