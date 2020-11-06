@@ -3692,7 +3692,7 @@
   "sidebar_whats_new_modal.whatsNewText": "Create custom categories in your sidebar. Drag and drop to organize channels and categories.",
   "sidebar.browseChannelDirectChannel": "Browse channels and direct messages",
   "sidebar.createChannel": "Create a public channel",
-  "sidebar.createDirectMessage": "Write a direct message",
+  "sidebar.createDirectMessage": "Write a Direct message",
   "sidebar.createGroup": "Create a private channel",
   "sidebar.createPublicPrivateChannel": "Create a public or private channel",
   "sidebar.directchannel.you": "{displayname} (you)",

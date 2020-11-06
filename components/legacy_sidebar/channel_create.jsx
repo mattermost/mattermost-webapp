@@ -103,7 +103,7 @@ export default class ChannelCreate extends React.PureComponent {
             >
                 <FormattedMessage
                     id='sidebar.createDirectMessage'
-                    defaultMessage='Write a direct message'
+                    defaultMessage='Write a Direct message'
                 />
                 <ShortcutSequence
                     shortcut={shortcuts.navDMMenu}
