@@ -111,7 +111,7 @@ export function performSearch(terms, isMentionSearch) {
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
         const extensionsFilters = getFilesSearchExtFilter(getState());
 
-        const termsWithExtensionsFilteres = terms + extensionsFilters.map((ext) => `ext:${ext}`).join(' ');
+        const termsWithExtensionsFilteres = terms + ' ' + extensionsFilters.map((ext) => `ext:${ext}`).join(' ');
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());

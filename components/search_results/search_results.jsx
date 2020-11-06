@@ -359,7 +359,7 @@ class SearchResults extends React.Component {
                     <SearchResultsItem
                         key={item.id}
                         compactDisplay={this.props.compactDisplay}
-                        post={this.state.searchType === MESSAGES_SEARCH_TYPE ? item: undefined}
+                        post={this.state.searchType === MESSAGES_SEARCH_TYPE ? item : undefined}
                         fileInfo={this.state.searchType === FILES_SEARCH_TYPE ? item : undefined}
                         matches={this.props.matches[item.id]}
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}

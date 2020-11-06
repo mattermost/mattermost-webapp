@@ -107,6 +107,9 @@
         .icon-close {
             cursor: pointer;
         }
+        &:hover {
+            background: rgba(v(button-bg-rgb), 0.16);
+        }
     }
 
     .search-bar__container & {
@@ -350,6 +353,9 @@
         margin: 18px 8px 16px 0;
         .icon {
             font-size: 14px;
+        }
+        &:hover {
+            background: rgba(v(button-bg-rgb), 0.04);
         }
     }
 }
