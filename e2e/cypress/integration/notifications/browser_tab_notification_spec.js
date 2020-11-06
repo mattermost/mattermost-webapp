@@ -48,7 +48,6 @@ describe('Notifications', () => {
             cy.get('#publicChannelList').get('.unread-title').click();
             cy.apiLogout();
         });
-
     });
 
     it('MM-T556 Browser tab and team sidebar notification - no unreads/mentions', () => {
@@ -86,7 +85,7 @@ describe('Notifications', () => {
         cy.apiGetChannelByName(team2.name, 'off-topic').then(({channel}) => {
             cy.postMessageAs({sender: user2, message: `@${user1.username}`, channelId: channel.id});
         });
-    
+
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Browser tab should displays (1) * channel - [team name] Mattermost
