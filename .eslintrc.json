@@ -61,7 +61,9 @@
     "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}],
     "react/style-prop-object": [2, {
       "allow": ["Timestamp"]
-    }]
+    }],
+    "semi": 0,
+    "@typescript-eslint/semi": 2
   },
   "overrides": [
     {
