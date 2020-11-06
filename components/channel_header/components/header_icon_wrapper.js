@@ -30,7 +30,7 @@ export default function HeaderIconWrapper({
             message: 'Saved posts',
         },
         pinnedPosts: {
-            class: '',
+            class: 'pinned-posts',
             id: 'pinnedPostTooltip',
             messageID: t('channel_header.pinnedPosts'),
             message: 'Pinned posts',

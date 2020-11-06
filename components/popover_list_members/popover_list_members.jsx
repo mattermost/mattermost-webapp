@@ -182,7 +182,7 @@ export default class PopoverListMembers extends React.PureComponent {
                     <button
                         id='member_popover'
                         aria-label={ariaLabel}
-                        className={'member-popover__trigger channel-header__icon channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
+                        className={'member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
                         ref='member_popover_target'
                         onClick={this.handleGetProfilesInChannel}
                     >

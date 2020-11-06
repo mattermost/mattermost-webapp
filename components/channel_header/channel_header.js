@@ -434,6 +434,28 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
+        let pinnedIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
+        if (rhsState === RHSStates.PIN) {
+            pinnedIconClass += ' channel-header__icon--active';
+        }
+        const pinnedIcon = (this.props.pinnedPostsCount ?
+            (<React.Fragment>
+                <PinIcon
+                    className='icon icon--standard'
+                    aria-hidden='true'
+                />
+                <span
+                    id='channelPinnedPostCountText'
+                    className='icon__text'
+                >
+                    {this.props.pinnedPostsCount}
+                </span>
+            </React.Fragment>) : (
+                <PinIcon
+                    className='icon icon--standard'
+                    aria-hidden='true'
+                />));
+
         let headerTextContainer;
         const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
@@ -464,6 +486,15 @@ class ChannelHeader extends React.PureComponent {
                     id='channelHeaderDescription'
                     className='channel-header__description'
                 >
+                    {popoverListMembers}
+                    <HeaderIconWrapper
+                        iconComponent={pinnedIcon}
+                        ariaLabel={true}
+                        buttonClass={pinnedIconClass}
+                        buttonId={'channelHeaderPinButton'}
+                        onClick={this.showPinnedPosts}
+                        tooltipKey={'pinnedPosts'}
+                    />
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {hasGuestsText}
@@ -554,6 +585,15 @@ class ChannelHeader extends React.PureComponent {
                     id='channelHeaderDescription'
                     className='channel-header__description light'
                 >
+                    {popoverListMembers}
+                    <HeaderIconWrapper
+                        iconComponent={pinnedIcon}
+                        ariaLabel={true}
+                        buttonClass={pinnedIconClass}
+                        buttonId={'channelHeaderPinButton'}
+                        onClick={this.showPinnedPosts}
+                        tooltipKey={'pinnedPosts'}
+                    />
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {hasGuestsText}
@@ -634,10 +674,6 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-        let pinnedIconClass = 'channel-header__icon channel-header__icon--wide';
-        if (rhsState === RHSStates.PIN) {
-            pinnedIconClass += ' channel-header__icon--active';
-        }
 
         let mentionsIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.MENTION) {
@@ -648,24 +684,6 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.FLAG) {
             flaggedIconClass += ' channel-header__icon--active';
         }
-        const pinnedIcon = (this.props.pinnedPostsCount ?
-            (<React.Fragment>
-                <PinIcon
-                    className='icon icon--standard'
-                    aria-hidden='true'
-                />
-                <span
-                    id='channelPinnedPostCountText'
-                    className='icon__text'
-                >
-                    {this.props.pinnedPostsCount}
-                </span>
-            </React.Fragment>) : (
-                <PinIcon
-                    className='icon icon--standard'
-                    aria-hidden='true'
-                />));
-
         let title = (
             <React.Fragment>
                 {toggleFavorite}
@@ -750,20 +768,9 @@ class ChannelHeader extends React.PureComponent {
                             {headerTextContainer}
                         </div>
                     </div>
-                    <div className='flex-child'>
-                        {popoverListMembers}
-                    </div>
                     <ChannelHeaderPlug
                         channel={channel}
                         channelMember={channelMember}
-                    />
-                    <HeaderIconWrapper
-                        iconComponent={pinnedIcon}
-                        ariaLabel={true}
-                        buttonClass={pinnedIconClass}
-                        buttonId={'channelHeaderPinButton'}
-                        onClick={this.showPinnedPosts}
-                        tooltipKey={'pinnedPosts'}
                     />
 
                     {this.state.showSearchBar ? (
