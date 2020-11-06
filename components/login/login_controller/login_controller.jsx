@@ -681,7 +681,7 @@ class LoginController extends React.PureComponent {
         if (gitlabSigninEnabled) {
             loginControls.push(
                 <a
-                    id='GitlabButton'
+                    id='GitLabButton'
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
                     href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}

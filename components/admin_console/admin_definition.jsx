@@ -189,6 +189,32 @@ export const it = {
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
 
+export const uses_legacy_oauth = () => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    it.any(
+        it.all(
+            it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
+            it.any(
+                it.configIsTrue('GitLabSettings', 'Id'),
+                it.configIsTrue('GitLabSettings', 'Secret'),
+            ),
+        ),
+        it.all(
+            it.not(it.configContains('GoogleSettings', 'Scope', 'openid')),
+            it.any(
+                it.configIsTrue('GoogleSettings', 'Id'),
+                it.configIsTrue('GoogleSettings', 'Secret'),
+            ),
+        ),
+        it.all(
+            it.not(it.configContains('Office365Settings', 'Scope', 'openid')),
+            it.any(
+                it.configIsTrue('Office365Settings', 'Id'),
+                it.configIsTrue('Office365Settings', 'Secret'),
+            ),
+        ),
+    )
+};
+
 const AdminDefinition = {
     about: {
         icon: 'fa-info-circle',
@@ -3987,31 +4013,7 @@ const AdminDefinition = {
             tag: 'deprecated',
             isHidden: it.any(
                 it.not(it.licensed),
-                it.not(
-                    it.any(
-                        it.all(
-                            it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
-                            it.any(
-                                it.configIsTrue('GitLabSettings', 'Id'),
-                                it.configIsTrue('GitLabSettings', 'Secret'),
-                            ),
-                        ),
-                        it.all(
-                            it.not(it.configContains('GoogleSettings', 'Scope', 'openid')),
-                            it.any(
-                                it.configIsTrue('GoogleSettings', 'Id'),
-                                it.configIsTrue('GoogleSettings', 'Secret'),
-                            ),
-                        ),
-                        it.all(
-                            it.not(it.configContains('Office365Settings', 'Scope', 'openid')),
-                            it.any(
-                                it.configIsTrue('Office365Settings', 'Id'),
-                                it.configIsTrue('Office365Settings', 'Secret'),
-                            ),
-                        ),
-                    ),
-                ),
+                it.not(uses_legacy_oauth),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4066,32 +4068,7 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(it.licensedForFeature('GoogleOAuth')),
                             it.not(it.licensedForFeature('Office365OAuth')),
-
-                            it.not(
-                                it.any(
-                                    it.all(
-                                        it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
-                                        it.any(
-                                            it.configIsTrue('GitLabSettings', 'Id'),
-                                            it.configIsTrue('GitLabSettings', 'Secret'),
-                                        ),
-                                    ),
-                                    it.all(
-                                        it.not(it.configContains('GoogleSettings', 'Scope', 'openid')),
-                                        it.any(
-                                            it.configIsTrue('GoogleSettings', 'Id'),
-                                            it.configIsTrue('GoogleSettings', 'Secret'),
-                                        ),
-                                    ),
-                                    it.all(
-                                        it.not(it.configContains('Office365Settings', 'Scope', 'openid')),
-                                        it.any(
-                                            it.configIsTrue('Office365Settings', 'Id'),
-                                            it.configIsTrue('Office365Settings', 'Secret'),
-                                        ),
-                                    ),
-                                ),
-                            ),
+                            it.not(uses_legacy_oauth),
                         ),
                     },
                     {
@@ -4417,31 +4394,7 @@ const AdminDefinition = {
                         key: 'OpenIdConvert',
                         isHidden: it.any(
                             it.not(it.licensed),
-                            it.not(
-                                it.any(
-                                    it.all(
-                                        it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
-                                        it.any(
-                                            it.configIsTrue('GitLabSettings', 'Id'),
-                                            it.configIsTrue('GitLabSettings', 'Secret'),
-                                        ),
-                                    ),
-                                    it.all(
-                                        it.not(it.configContains('GoogleSettings', 'Scope', 'openid')),
-                                        it.any(
-                                            it.configIsTrue('GoogleSettings', 'Id'),
-                                            it.configIsTrue('GoogleSettings', 'Secret'),
-                                        ),
-                                    ),
-                                    it.all(
-                                        it.not(it.configContains('Office365Settings', 'Scope', 'openid')),
-                                        it.any(
-                                            it.configIsTrue('Office365Settings', 'Id'),
-                                            it.configIsTrue('Office365Settings', 'Secret'),
-                                        ),
-                                    ),
-                                ),
-                            ),
+                            it.not(uses_legacy_oauth),
                         ),
                     },
                     {

@@ -116,7 +116,7 @@ describe('System console-OpenId Connect', () => {
             expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GitlabButton', 'GitLab', '', 'http://localhost:8065/oauth/gitlab/login?extra=expired');
+        verifyOAuthLogin('GitLabButton', 'GitLab', '', 'http://localhost:8065/oauth/gitlab/login?extra=expired');
     });
 
     it('MM- - Set to Exchange OpenId', () => {
