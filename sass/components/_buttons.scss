@@ -75,6 +75,7 @@ button {
         padding: 7px 12px;
         border: none;
         background: transparent;
+        color: rgba(var(--center-channel-color-rgb), 0.7);
     }
 
     &.btn-inactive {
