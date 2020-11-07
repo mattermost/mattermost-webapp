@@ -146,7 +146,7 @@ export default class SearchableChannelList extends React.PureComponent {
         let nextButton;
         let previousButton;
 
-        if (true) {
+        if (this.props.loading && channels.length === 0) {
             listContent = <LoadingScreen/>;
         } else if (channels.length === 0) {
             listContent = (
