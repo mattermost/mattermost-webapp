@@ -6,8 +6,7 @@ import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';
 
-import {isCategoryCollapsedFromStorage} from 'selectors/views/channel_sidebar';
-import {getPrefix} from 'utils/storage_utils';
+import {isCategoryCollapsed} from 'selectors/views/channel_sidebar';
 
 import * as Actions from './channel_sidebar';
 
@@ -29,11 +28,11 @@ describe('setCategoryCollapsed', () => {
 
         store.dispatch(Actions.setCategoryCollapsed(category1, true));
 
-        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState().storage.storage, category1)).toBe(true);
+        expect(isCategoryCollapsed(store.getState(), category1)).toBe(true);
 
         store.dispatch(Actions.setCategoryCollapsed(category1, false));
 
-        expect(isCategoryCollapsedFromStorage(getPrefix(store.getState()), store.getState().storage.storage, category1)).toBe(false);
+        expect(isCategoryCollapsed(store.getState(), category1)).toBe(false);
     });
 });
 

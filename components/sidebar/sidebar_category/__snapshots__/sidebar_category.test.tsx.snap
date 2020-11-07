@@ -24,21 +24,14 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
 <div
   className=""
 >
-  <div
-    className="SidebarChannelGroupHeader"
+  <SidebarCategoryHeader
+    displayName="custom_category_1"
+    isCollapsed={false}
+    isCollapsible={true}
+    isDragging={false}
+    isDraggingOver={false}
+    onClick={[Function]}
   >
-    <button
-      aria-label="custom_category_1"
-      className="SidebarChannelGroupHeader_groupButton"
-      onClick={[Function]}
-    >
-      <i
-        className="icon icon-chevron-down"
-      />
-      <div>
-        custom_category_1
-      </div>
-    </button>
     <Connect(injectIntl(SidebarCategoryMenu))
       category={
         Object {
@@ -56,7 +49,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
       isMenuOpen={false}
       onToggleMenu={[Function]}
     />
-  </div>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -104,21 +97,14 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
 <div
   className=""
 >
-  <div
-    className="SidebarChannelGroupHeader"
+  <SidebarCategoryHeader
+    displayName="custom_category_1"
+    isCollapsed={true}
+    isCollapsible={true}
+    isDragging={false}
+    isDraggingOver={false}
+    onClick={[Function]}
   >
-    <button
-      aria-label="custom_category_1"
-      className="SidebarChannelGroupHeader_groupButton"
-      onClick={[Function]}
-    >
-      <i
-        className="icon icon-chevron-down icon-rotate-minus-90"
-      />
-      <div>
-        custom_category_1
-      </div>
-    </button>
     <Connect(injectIntl(SidebarCategoryMenu))
       category={
         Object {
@@ -136,7 +122,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
       isMenuOpen={false}
       onToggleMenu={[Function]}
     />
-  </div>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -184,29 +170,22 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
 <div
   className=""
 >
-  <div
-    className="SidebarChannelGroupHeader"
+  <SidebarCategoryHeader
+    displayName="custom_category_1"
+    isCollapsed={false}
+    isCollapsible={true}
+    isDragging={false}
+    isDraggingOver={false}
+    onClick={[Function]}
   >
-    <button
-      aria-label="custom_category_1"
-      className="SidebarChannelGroupHeader_groupButton"
-      onClick={[Function]}
+    <div
+      className="SidebarCategory_newLabel"
     >
-      <i
-        className="icon icon-chevron-down"
+      <FormattedMessage
+        defaultMessage="new"
+        id="sidebar_left.sidebar_category.newLabel"
       />
-      <div>
-        custom_category_1
-      </div>
-      <div
-        className="SidebarCategory_newLabel"
-      >
-        <FormattedMessage
-          defaultMessage="new"
-          id="sidebar_left.sidebar_category.newLabel"
-        />
-      </div>
-    </button>
+    </div>
     <Connect(injectIntl(SidebarCategoryMenu))
       category={
         Object {
@@ -222,7 +201,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       isMenuOpen={false}
       onToggleMenu={[Function]}
     />
-  </div>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -260,7 +239,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
 
 exports[`components/sidebar/sidebar_category should match snapshot when sorting is set to by recency 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section"
+  className="SidebarChannelGroup a11y__section dmCategory"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -282,84 +261,77 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
 <div
   className=""
 >
-  <div
-    className="SidebarChannelGroupHeader"
+  <SidebarCategoryHeader
+    displayName="custom_category_1"
+    isCollapsed={false}
+    isCollapsible={true}
+    isDragging={false}
+    isDraggingOver={false}
+    onClick={[Function]}
   >
-    <button
-      aria-label="custom_category_1"
-      className="SidebarChannelGroupHeader_groupButton"
-      onClick={[Function]}
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="new-group-tooltip"
+          placement="right"
+        >
+          Sorted by most recent
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon icon-chevron-down"
-      />
-      <div>
-        custom_category_1
-      </div>
-    </button>
-    <button
-      aria-label="Sorted by most recent"
-      className="SidebarChannelGroupHeader_sortButton"
-      onClick={[Function]}
-    >
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={500}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="new-group-tooltip"
-            placement="right"
-          >
-            Sorted by most recent
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+      <button
+        aria-label="Sorted by most recent"
+        className="SidebarChannelGroupHeader_sortButton"
+        onClick={[Function]}
       >
         <i
           className="icon-clock-outline"
         />
-      </OverlayTrigger>
-    </button>
-    <button
-      aria-label="Create new direct message"
-      className="SidebarChannelGroupHeader_addButton"
-      onClick={[Function]}
+      </button>
+    </OverlayTrigger>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="new-group-tooltip"
+          placement="right"
+        >
+          Create new direct message
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={500}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="new-group-tooltip"
-            placement="right"
-          >
-            Create new direct message
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+      <button
+        aria-label="Create new direct message"
+        className="SidebarChannelGroupHeader_addButton"
+        onClick={[Function]}
       >
         <i
           className="icon-plus"
         />
-      </OverlayTrigger>
-    </button>
-  </div>
+      </button>
+    </OverlayTrigger>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
@@ -385,7 +357,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
 
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section"
+  className="SidebarChannelGroup a11y__section dmCategory"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -407,84 +379,77 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
 <div
   className=""
 >
-  <div
-    className="SidebarChannelGroupHeader"
+  <SidebarCategoryHeader
+    displayName="custom_category_1"
+    isCollapsed={false}
+    isCollapsible={false}
+    isDragging={false}
+    isDraggingOver={false}
+    onClick={[Function]}
   >
-    <button
-      aria-label="custom_category_1"
-      className="SidebarChannelGroupHeader_groupButton"
-      onClick={[Function]}
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="new-group-tooltip"
+          placement="right"
+        >
+          Sorted by most recent
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon icon-chevron-down hide-arrow"
-      />
-      <div>
-        custom_category_1
-      </div>
-    </button>
-    <button
-      aria-label="Sorted by most recent"
-      className="SidebarChannelGroupHeader_sortButton"
-      onClick={[Function]}
-    >
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={500}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="new-group-tooltip"
-            placement="right"
-          >
-            Sorted by most recent
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+      <button
+        aria-label="Sorted by most recent"
+        className="SidebarChannelGroupHeader_sortButton"
+        onClick={[Function]}
       >
         <i
           className="icon-clock-outline"
         />
-      </OverlayTrigger>
-    </button>
-    <button
-      aria-label="Create new direct message"
-      className="SidebarChannelGroupHeader_addButton"
-      onClick={[Function]}
+      </button>
+    </OverlayTrigger>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="new-group-tooltip"
+          placement="right"
+        >
+          Create new direct message
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={500}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="new-group-tooltip"
-            placement="right"
-          >
-            Create new direct message
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+      <button
+        aria-label="Create new direct message"
+        className="SidebarChannelGroupHeader_addButton"
+        onClick={[Function]}
       >
         <i
           className="icon-plus"
         />
-      </OverlayTrigger>
-    </button>
-  </div>
+      </button>
+    </OverlayTrigger>
+  </SidebarCategoryHeader>
   <div
     className="SidebarChannelGroup_content"
   >
