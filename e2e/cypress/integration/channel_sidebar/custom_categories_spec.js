@@ -38,10 +38,10 @@ describe('Channel sidebar', () => {
     it('MM-T3161_2 should create a new category from category menu', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
-        // # Create a category from category menu
+        // # Create new category from category menu
         cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
-            cy.get('.icon-folder-plus-outline').parents('button').click();
+            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+            cy.findByText('Create New Category').click();
         });
 
         const newCategoryName = `category-${getRandomId()}`;
@@ -60,7 +60,7 @@ describe('Channel sidebar', () => {
             const id = element[0].getAttribute('data-rbd-draggable-id');
             cy.get('#sidebarItem_off-topic').parent('li').within(() => {
                 // # Open dropdown next to channel name
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
+                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
 
                 // # Open sub menu
                 cy.get(`#moveTo-${id}`).parent('.SubMenuItem').trigger('mouseover');
@@ -77,47 +77,39 @@ describe('Channel sidebar', () => {
 
     it('MM-T3163 Rename a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
-        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').then((element) => {
-            // # Get id of the category
-            const id = element[0].getAttribute('data-rbd-draggable-id');
-            cy.findByLabelText(categoryName).parents('.SidebarChannelGroup').within(() => {
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
 
-                // # Click on rename menu item
-                cy.get(`#rename-${id}`).click();
-            });
-
-            const renameCategory = `category-${getRandomId()}`;
-
-            // # Rename category
-            cy.get('#editCategoryModal input').clear().type(renameCategory).type('{enter}');
-
-            // * Check if the previous category exist
-            cy.findByLabelText(categoryName).should('not.exist');
-
-            // * Check if the renamed category exists
-            cy.findByLabelText(renameCategory).should('be.visible');
+        // # Rename category from category menu
+        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
+            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+            cy.findByText('Rename Category').click();
         });
+
+        const renameCategory = `category-${getRandomId()}`;
+
+        // # Rename category
+        cy.get('#editCategoryModal input').clear().type(renameCategory).type('{enter}');
+
+        // * Check if the previous category exist
+        cy.findByLabelText(categoryName).should('not.exist');
+
+        // * Check if the renamed category exists
+        cy.findByLabelText(renameCategory).should('be.visible');
     });
 
     it('MM-T3165 Delete a category', () => {
         const categoryName = createCategoryFromSidebarMenu();
-        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').then((element) => {
-            // # Get id of the category
-            const id = element[0].getAttribute('data-rbd-draggable-id');
-            cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').click();
 
-                // # Click on delete menu item
-                cy.get(`#delete-${id}`).click();
-            });
-
-            // # Click on delete button
-            cy.get('.GenericModal__button.delete').click();
-
-            // * Check if the deleted category exists
-            cy.findByLabelText(categoryName).should('not.exist');
+        // # Delete category from category menu
+        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
+            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+            cy.findByText('Delete Category').click();
         });
+
+        // # Click on delete button
+        cy.get('.GenericModal__button.delete').click();
+
+        // * Check if the deleted category exists
+        cy.findByLabelText(categoryName).should('not.exist');
     });
 });
 

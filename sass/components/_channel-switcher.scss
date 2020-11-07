@@ -31,7 +31,7 @@
             padding: 0;
 
             .close {
-                color: v(center-channel-color-56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
                 width: 4rem;
                 height: 4rem;
                 font-size: 32px;
@@ -44,8 +44,8 @@
                 border-radius: 4px;
 
                 &:hover {
-                    background-color: v(center-channel-color-08);
-                    color: v(center-channel-color-72);
+                    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
                 }
 
                 &:active {
@@ -92,7 +92,7 @@
 
         .suggestion-list {
             padding-top: 0.6rem;
-            border-top: 1px solid v(center-channel-color-08);
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
             margin-top: 2.3rem;
         }
 

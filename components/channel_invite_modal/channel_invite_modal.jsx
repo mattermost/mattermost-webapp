@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
@@ -249,7 +249,7 @@ export default class ChannelInviteModal extends React.PureComponent {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
             return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user) && !this.props.excludeUsers[user.id];
         });
 

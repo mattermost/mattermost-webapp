@@ -96,7 +96,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         this.doSubmit();
     }
 
-    private doSubmit = async (callback?: () => void) => {
+    protected doSubmit = async (callback?: () => void) => {
         this.setState({
             saving: true,
             serverError: null,
@@ -185,7 +185,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         return n;
     };
 
-    private parseIntNonZero = (str: string, defaultValue?: number, minimumValue = 1) => {
+    protected parseIntNonZero = (str: string, defaultValue?: number, minimumValue = 1) => {
         const n = parseInt(str, 10);
 
         if (isNaN(n) || n < minimumValue) {

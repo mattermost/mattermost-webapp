@@ -47,12 +47,13 @@ import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import BleveSettings from './bleve_settings.jsx';
+import FeatureFlags from './feature_flags.tsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
-import BillingSubscriptions from './billing/billing_subscriptions';
+import BillingSubscriptions from './billing/billing_subscriptions.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
@@ -79,7 +80,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 // name_default), the section in the config file (id), and a list of options to
 // configure (settings).
 //
-// All text fiels contains a transation key, and the <field>_default string are the
+// All text fields contains a translation key, and the <field>_default string are the
 // default text when the translation is still not avaiable (the english version
 // of the text).
 //
@@ -147,20 +148,20 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => {
-        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func;
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func;
     },
-    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func) {
                 return false;
             }
         }
         return true;
     },
-    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess) : func) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud) : func) {
                 return true;
             }
         }
@@ -175,6 +176,12 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    isPaidTier: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        if (!cloud?.subscription) {
+            return false;
+        }
+        return cloud.subscription.is_paid_tier === 'true';
+    },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
 };
@@ -264,6 +271,7 @@ const AdminDefinition = {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
+            isHidden: it.not(it.isPaidTier),
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -693,6 +701,16 @@ const AdminDefinition = {
                         label_default: 'Enable Insecure Outgoing Connections: ',
                         help_text: t('admin.service.insecureTlsDesc'),
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.ManagedResourcePaths',
+                        label: t('admin.service.managedResourcePaths'),
+                        label_default: 'Managed Resource Paths:',
+                        help_text: t('admin.service.managedResourcePathsDescription'),
+                        help_text_default: 'A comma-separated list of paths on the Mattermost server that are managed by another service. See [here](!https://docs.mattermost.com/install/desktop-managed-resources.html) for more information.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -3368,6 +3386,19 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.IgnoreGuestsLdapSync',
+                        label: t('admin.saml.ignoreGuestsLdapSyncTitle'),
+                        label_default: 'Ignore Guest Users when  Synchronizing with AD/LDAP',
+                        help_text: t('admin.saml.ignoreGuestsLdapSyncDesc'),
+                        help_text_default: 'When true, Mattermost will ignore Guest Users who are identified by the Guest Attribute, when synchronizing with AD/LDAP for user deactivation and removal and Guest deactivation will need to be managed manually via System Console > Users.',
+                        isDisabled: it.any(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'SamlSettings.EnableSyncWithLdapIncludeAuth',
                         label: t('admin.saml.enableSyncWithLdapIncludeAuthTitle'),
                         label_default: 'Override SAML bind data with AD/LDAP information:',
@@ -4754,7 +4785,7 @@ const AdminDefinition = {
                 name_default: 'Experimental Features',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonColor.title'),
                         label_default: 'AD/LDAP Login Button Color:',
@@ -4765,7 +4796,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonBorderColor.title'),
                         label_default: 'AD/LDAP Login Button Border Color:',
@@ -4776,7 +4807,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonTextColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonTextColor.title'),
                         label_default: 'AD/LDAP Login Button Text Color:',
@@ -4844,7 +4875,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonColor',
                         label: t('admin.experimental.emailSettingsLoginButtonColor.title'),
                         label_default: 'Email Login Button Color:',
@@ -4854,7 +4885,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.emailSettingsLoginButtonBorderColor.title'),
                         label_default: 'Email Login Button Border Color:',
@@ -4864,7 +4895,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonTextColor',
                         label: t('admin.experimental.emailSettingsLoginButtonTextColor.title'),
                         label_default: 'Email Login Button Text Color:',
@@ -5111,7 +5142,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonColor',
                         label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
                         label_default: 'SAML Login Button Color:',
@@ -5122,7 +5153,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.samlSettingsLoginButtonBorderColor.title'),
                         label_default: 'SAML Login Button Border Color:',
@@ -5133,7 +5164,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonTextColor',
                         label: t('admin.experimental.samlSettingsLoginButtonTextColor.title'),
                         label_default: 'SAML Login Button Text Color:',
@@ -5291,6 +5322,20 @@ const AdminDefinition = {
                         isHidden: it.not(it.licensedForFeature('Cloud')),
                     },
                 ],
+            },
+        },
+        feature_flags: {
+            url: 'experimental/feature_flags',
+            title: t('admin.feature_flags.title'),
+            title_default: 'Feature Flags',
+            isHidden: it.configIsTrue('ExperimentalSettings'),
+            isDisabled: true,
+            searchableStrings: [
+                'admin.feature_flags.title',
+            ],
+            schema: {
+                id: 'Feature Flags',
+                component: FeatureFlags,
             },
         },
         bleve: {

@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -30,13 +29,15 @@ export default class ResetEmailModal extends React.PureComponent {
         this.state = {
             error: null,
         };
+
+        this.emailRef = React.createRef();
     }
 
     doSubmit = (e) => {
         e.preventDefault();
 
-        if (this.refs.email) {
-            const email = this.refs.email.value;
+        if (this.emailRef.current) {
+            const email = this.emailRef.current.value;
             if (!isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
@@ -50,7 +51,7 @@ export default class ResetEmailModal extends React.PureComponent {
         }
 
         const user = Object.assign({}, this.props.user);
-        const email = this.refs.email.value.trim().toLowerCase();
+        const email = this.emailRef.current.value.trim().toLowerCase();
         user.email = email;
 
         this.setState({error: null});
@@ -131,7 +132,7 @@ export default class ResetEmailModal extends React.PureComponent {
                                     </span>
                                     <input
                                         type='email'
-                                        ref='email'
+                                        ref={this.emailRef}
                                         className='form-control'
                                         maxLength='128'
                                         autoFocus={true}
@@ -169,4 +170,3 @@ export default class ResetEmailModal extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

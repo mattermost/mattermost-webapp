@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/badges/Badge should match the snapshot on show 1`] = `
+<div
+  className="Badge"
+>
+  <div
+    className="Badge__box test"
+  >
+    Test text
+  </div>
+</div>
+`;
+
+exports[`components/widgets/badges/Badge should transform into a button if onClick provided 1`] = `
+<div
+  className="Badge"
+>
+  <button
+    className="Badge__box undefined"
+    onClick={
+      [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
+  >
+    Test text
+  </button>
+</div>
+`;

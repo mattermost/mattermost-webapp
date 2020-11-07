@@ -57,10 +57,11 @@ export default class ReactionList extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
         };
+        this.addReactionButtonRef = React.createRef();
     }
 
     getTarget = () => {
-        return this.refs.addReactionButton;
+        return this.addReactionButtonRef.current;
     }
 
     handleEmojiClick = (emoji) => {
@@ -159,7 +160,7 @@ export default class ReactionList extends React.PureComponent {
                                 <span
                                     id={`addReaction-${this.props.post.id}`}
                                     className='Reaction__add'
-                                    ref='addReactionButton'
+                                    ref={this.addReactionButtonRef}
                                 >
                                     <AddReactionIcon/>
                                 </span>

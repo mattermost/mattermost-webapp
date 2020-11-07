@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -141,6 +140,10 @@ export default class NotificationsTab extends React.PureComponent {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
+        this.customCheckRef = React.createRef();
+        this.customMentionsRef = React.createRef();
+        this.drawerRef = React.createRef();
+        this.wrapperRef = React.createRef();
     }
 
     handleSubmit = () => {
@@ -243,10 +246,10 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     updateCustomMentionKeys = () => {
-        const checked = this.refs.customcheck.checked;
+        const checked = this.customCheckRef.current.checked;
 
         if (checked) {
-            const text = this.refs.custommentions.value;
+            const text = this.customMentionsRef.current.value;
 
             // remove all spaces and split string into individual keys
             this.setState({customKeys: text.replace(/ /g, ''), customKeysChecked: true});
@@ -256,7 +259,7 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     onCustomChange = () => {
-        this.refs.customcheck.checked = true;
+        this.customCheckRef.current.checked = true;
         this.updateCustomMentionKeys();
     }
 
@@ -569,7 +572,7 @@ export default class NotificationsTab extends React.PureComponent {
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.sensitiveUsername'
-                                defaultMessage='Your non-case sensitive username "{username}"'
+                                defaultMessage='Your non case-sensitive username "{username}"'
                                 values={{
                                     username: user.username,
                                 }}
@@ -607,7 +610,7 @@ export default class NotificationsTab extends React.PureComponent {
                         <label>
                             <input
                                 id='notificationTriggerCustom'
-                                ref='customcheck'
+                                ref={this.customCheckRef}
                                 type='checkbox'
                                 checked={this.state.customKeysChecked}
                                 onChange={this.updateCustomMentionKeys}
@@ -621,7 +624,7 @@ export default class NotificationsTab extends React.PureComponent {
                     <input
                         id='notificationTriggerCustomText'
                         autoFocus={this.state.customKeysChecked}
-                        ref='custommentions'
+                        ref={this.customMentionsRef}
                         className='form-control mentions-input'
                         type='text'
                         defaultValue={this.state.customKeys}
@@ -887,7 +890,7 @@ export default class NotificationsTab extends React.PureComponent {
                     </button>
                     <h4
                         className='modal-title'
-                        ref='title'
+                        ref={this.drawerRef}
                     >
                         <div className='modal-back'>
                             <FormattedMessage
@@ -910,7 +913,7 @@ export default class NotificationsTab extends React.PureComponent {
                     </h4>
                 </div>
                 <div
-                    ref='wrapper'
+                    ref={this.wrapperRef}
                     className='user-settings'
                 >
                     <h3

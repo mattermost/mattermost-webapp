@@ -14,7 +14,7 @@ export default class Renderer extends marked.Renderer {
     private emojiMap: EmojiMap;
     public constructor(
         options: MarkedOptions,
-        formattingOptions = {},
+        formattingOptions: TextFormatting.TextFormattingOptions,
         emojiMap = new EmojiMap(new Map()),
     ) {
         super(options);
@@ -207,29 +207,38 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
-        const pluginURL = `${this.formattingOptions.siteURL}/plugins`;
-        const fileURL = `${this.formattingOptions.siteURL}/files`;
+        const isInternalLink = outHref.startsWith(this.formattingOptions.siteURL || '') || outHref.startsWith('/');
 
-        // Any link that begins with siteURL should be opened inside the app, except when rooted
-        // at /plugins, which is logically "outside the app" despite being hosted by a plugin,
-        // or /files, which should be launched "outside the app".
-        let internalLink = outHref.startsWith(this.formattingOptions.siteURL || '') && !outHref.startsWith(pluginURL) && !outHref.startsWith(fileURL);
+        let openInNewTab;
+        if (isInternalLink) {
+            const path = outHref.startsWith('/') ? outHref : outHref.substring(this.formattingOptions.siteURL?.length || 0);
 
-        // special case for team invite links, channel links, and permalinks that are inside the app
-        const pattern = new RegExp(
-            '^(' +
-            TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
-            ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages|plugins))\\/',
-        );
-        internalLink = internalLink || pattern.test(outHref);
+            // Paths managed by plugins and public file links aren't handled by the web app
+            const unhandledPaths = [
+                'plugins',
+                'files',
+            ];
 
-        if (internalLink && this.formattingOptions.siteURL) {
+            // Paths managed by another service shouldn't be handled by the web app either
+            if (this.formattingOptions.managedResourcePaths) {
+                for (const managedPath of this.formattingOptions.managedResourcePaths) {
+                    unhandledPaths.push(TextFormatting.escapeRegex(managedPath));
+                }
+            }
+
+            openInNewTab = unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
+        } else {
+            // All links outside of Mattermost should be opened in a new tab
+            openInNewTab = true;
+        }
+
+        if (openInNewTab || !this.formattingOptions.siteURL) {
+            output += ' target="_blank"';
+        } else {
             output += ` data-link="${outHref.replace(
                 this.formattingOptions.siteURL,
                 '',
             )}"`;
-        } else {
-            output += ' target="_blank"';
         }
 
         if (title) {
