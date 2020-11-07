@@ -10,7 +10,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall, AppCallTypes} from 'mattermost-redux/types/apps';
+import AppsBindings from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -146,14 +147,13 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
         this.props.actions.doAppCall({
             url: binding.call.url,
+            type: AppCallTypes.SUBMIT,
             context: {
                 app_id: binding.app_id,
                 team_id: this.props.channel.team_id,
+                location_id: AppsBindings.APPS_BINDINGS_CHANNEL_HEADER_ICON,
                 channel_id: this.props.channel.id,
             },
-            from: [
-                binding,
-            ],
         });
     }
 
@@ -210,9 +210,6 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },
-                            from: [
-                                binding,
-                            ],
                         }))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
