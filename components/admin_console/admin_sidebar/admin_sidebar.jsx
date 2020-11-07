@@ -206,8 +206,8 @@ class AdminSidebar extends React.PureComponent {
                     }
                     const subDefinitionKey = `${key}.${subKey}`;
                     let tag = '';
-                    if(this.props.config.FeatureFlags.OpenIdConnect === "on") {
-                        tag=item.tag;
+                    if (this.props.config.FeatureFlags.OpenIdConnect === 'on') {
+                        tag = item.tag;
                     }
                     sidebarItems.push((
                         <AdminSidebarSection

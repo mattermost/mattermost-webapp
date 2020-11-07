@@ -4026,7 +4026,7 @@ const AdminDefinition = {
                 it.all(
                     it.configContains('FeatureFlags', 'OpenIdConnect', 'on'),
                     it.not(usesLegacyOauth),
-                ),  
+                ),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4337,7 +4337,7 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('OpenId')),
                 it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
-            ),  
+            ),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
