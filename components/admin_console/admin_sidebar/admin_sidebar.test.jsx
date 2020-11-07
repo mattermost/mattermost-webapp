@@ -31,6 +31,9 @@ describe('components/AdminSidebar', () => {
                 Enable: true,
                 EnableUploads: true,
             },
+            FeatureFlags: {
+                OpenIdConnect: 'on',
+            },
         },
         adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
@@ -272,7 +275,10 @@ describe('components/AdminSidebar', () => {
                 GoogleSettings: {
                     Id: 'googleID',
                     Secret: 'googleSecret',
-                    Scope: '',
+                    Scope: 'scope',
+                },
+                FeatureFlags: {
+                    OpenIdConnect: 'on',
                 },
             },
             adminDefinition: AdminDefinition,
@@ -429,6 +435,9 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                FeatureFlags: {
+                    OpenIdConnect: 'on',
                 },
             },
             adminDefinition: AdminDefinition,
