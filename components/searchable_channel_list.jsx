@@ -146,8 +146,8 @@ export default class SearchableChannelList extends React.PureComponent {
         let nextButton;
         let previousButton;
 
-        if (this.props.loading && channels.length === 0) {
-            listContent = <LoadingScreen style={{marginTop: '50%'}}/>;
+        if (true) {
+            listContent = <LoadingScreen/>;
         } else if (channels.length === 0) {
             listContent = (
                 <div className='no-channel-message'>

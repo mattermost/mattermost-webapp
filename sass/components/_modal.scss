@@ -542,6 +542,11 @@
 }
 
 .more-modal {
+    .loading-screen{
+        padding: 1.9em 1em;
+        font-size: 1.25em;
+        height: auto;
+    }
     .Select-input {
         >input {
             padding: 8px 0;
@@ -874,19 +879,10 @@
     >div {
         flex: 1 1 auto;
     }
-
-    .loading-screen{
-        height: 70%;
-        @media (max-height: 440px){
-            position: fixed !important;
-        }
-    }
-
     .multi-select__wrapper {
         display: flex;
         flex-direction: column;
         flex-grow: 500;
-        height: 1px;
     }
 
     .more-modal__list {
