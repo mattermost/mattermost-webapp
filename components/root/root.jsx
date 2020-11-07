@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
-
 import {rudderAnalytics, Client4} from 'mattermost-redux/client';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -108,30 +106,7 @@ export default class Root extends React.PureComponent {
         setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
-        $(window).bind('storage', (e) => { // eslint-disable-line jquery/no-bind
-            // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
-            const isNewLocalStorageEvent = (event) => event.originalEvent.storageArea === localStorage && event.originalEvent.newValue;
-
-            if (e.originalEvent.key === StoragePrefixes.LOGOUT && isNewLocalStorageEvent(e)) {
-                console.log('detected logout from a different tab'); //eslint-disable-line no-console
-                GlobalActions.emitUserLoggedOutEvent('/', false, false);
-            }
-            if (e.originalEvent.key === StoragePrefixes.LOGIN && isNewLocalStorageEvent(e)) {
-                const isLoggedIn = getCurrentUser(store.getState());
-
-                // make sure this is not the same tab which sent login signal
-                // because another tabs will also send login signal after reloading
-                if (isLoggedIn) {
-                    return;
-                }
-
-                // detected login from a different tab
-                function onVisibilityChange() {
-                    location.reload();
-                }
-                document.addEventListener('visibilitychange', onVisibilityChange, false);
-            }
-        });
+        window.addEventListener('storage', this.handleLogoutLoginSignal);
 
         // Prevent drag and drop files from navigating away from the app
         document.addEventListener('drop', (e) => {
@@ -261,7 +236,32 @@ export default class Root extends React.PureComponent {
 
     componentWillUnmount() {
         this.mounted = false;
-        $(window).unbind('storage');
+        window.removeEventListener('storage', this.handleLogoutLoginSignal);
+    }
+
+    handleLogoutLoginSignal = (e) => {
+        // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
+        const isNewLocalStorageEvent = (event) => event.storageArea === localStorage && event.newValue;
+
+        if (e.key === StoragePrefixes.LOGOUT && isNewLocalStorageEvent(e)) {
+            console.log('detected logout from a different tab'); //eslint-disable-line no-console
+            GlobalActions.emitUserLoggedOutEvent('/', false, false);
+        }
+        if (e.key === StoragePrefixes.LOGIN && isNewLocalStorageEvent(e)) {
+            const isLoggedIn = getCurrentUser(store.getState());
+
+            // make sure this is not the same tab which sent login signal
+            // because another tabs will also send login signal after reloading
+            if (isLoggedIn) {
+                return;
+            }
+
+            // detected login from a different tab
+            function onVisibilityChange() {
+                location.reload();
+            }
+            document.addEventListener('visibilitychange', onVisibilityChange, false);
+        }
     }
 
     render() {
