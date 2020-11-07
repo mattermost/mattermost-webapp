@@ -6,6 +6,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
+import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 export class TestHelper {
@@ -215,5 +216,24 @@ export class TestHelper {
             user_id: 'user_id',
         };
         return Object.assign({}, defaultPost, override);
+    }
+
+    public static getFileInfoMock(override: Partial<FileInfo>): FileInfo {
+        const defaultFileInfo: FileInfo = {
+            id: 'file_info_id',
+            user_id: 'user_id',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 1,
+            name: 'name',
+            extension: 'jpg',
+            size: 1,
+            mime_type: 'mime_type',
+            has_preview_image: true,
+            width: 350,
+            height: 200,
+            clientId: 'client_id',
+        };
+        return Object.assign({}, defaultFileInfo, override);
     }
 }
