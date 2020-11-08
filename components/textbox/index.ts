@@ -12,7 +12,7 @@ import {makeGetProfilesForThread} from 'mattermost-redux/selectors/entities/post
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
 
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -33,9 +33,7 @@ type Props = {
 
 const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
-    const getProfilesNotInChannel = makeGetProfilesNotInChannel();
     const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
-    const addLastViewAtToNotInChannelProfiles = makeAddLastViewAtToProfiles();
     const getProfilesForThread = makeGetProfilesForThread();
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
@@ -47,15 +45,12 @@ const makeMapStateToProps = () => {
         });
         const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
         const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, {active: true});
-        const profilesNotInChannel = getProfilesNotInChannel(state, ownProps.channelId, {active: true});
         const profilesWithLastViewAtInChannel = addLastViewAtToProfiles(state, profilesInChannel);
-        const profilesWithLastViewAtNotInChannel = addLastViewAtToNotInChannelProfiles(state, profilesNotInChannel);
 
         return {
             currentUserId: getCurrentUserId(state),
             currentTeamId: teamId,
             profilesInChannel: profilesWithLastViewAtInChannel,
-            profilesNotInChannel: profilesWithLastViewAtNotInChannel,
             autocompleteGroups,
             priorityProfiles: getProfilesForThread(state, ownProps),
         };

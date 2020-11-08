@@ -27,10 +27,9 @@ export default class AtMentionProvider extends Provider {
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
     // just be something akin to a connected component with access to the store itself.
-    setProps({currentUserId, profilesInChannel, profilesNotInChannel, autocompleteUsersInChannel, useChannelMentions, autocompleteGroups, searchAssociatedGroupsForReference, priorityProfiles}) {
+    setProps({currentUserId, profilesInChannel, autocompleteUsersInChannel, useChannelMentions, autocompleteGroups, searchAssociatedGroupsForReference, priorityProfiles}) {
         this.currentUserId = currentUserId;
         this.profilesInChannel = profilesInChannel;
-        this.profilesNotInChannel = profilesNotInChannel;
         this.autocompleteUsersInChannel = autocompleteUsersInChannel;
         this.useChannelMentions = useChannelMentions;
         this.autocompleteGroups = autocompleteGroups;
