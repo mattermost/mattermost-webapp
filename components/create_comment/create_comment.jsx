@@ -59,6 +59,11 @@ class CreateComment extends React.PureComponent {
         rootId: PropTypes.string.isRequired,
 
         /**
+         * The create at date of the parent post
+         */
+        rootCreateAt: PropTypes.string,
+
+        /**
          * True if the root message was deleted
          */
         rootDeleted: PropTypes.bool.isRequired,

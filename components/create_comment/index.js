@@ -135,7 +135,7 @@ function makeMapDispatchToProps() {
         }
 
         if (rootId !== ownProps.rootId || channelId !== ownProps.channelId || latestPostId !== ownProps.latestPostId) {
-            onSubmit = makeOnSubmit(ownProps.channelId, ownProps.rootId, ownProps.latestPostId);
+            onSubmit = makeOnSubmit(ownProps.channelId, ownProps.rootId, ownProps.latestPostId, ownProps.rootCreateAt);
         }
 
         rootId = ownProps.rootId;

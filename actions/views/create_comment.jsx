@@ -64,7 +64,7 @@ export function makeOnMoveHistoryIndex(rootId, direction) {
     };
 }
 
-export function submitPost(channelId, rootId, draft) {
+export function submitPost(channelId, rootId, draft, rootCreateAt) {
     return async (dispatch, getState) => {
         const state = getState();
 
@@ -78,6 +78,7 @@ export function submitPost(channelId, rootId, draft) {
             channel_id: channelId,
             root_id: rootId,
             parent_id: rootId,
+            root_create_at: rootCreateAt,
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
@@ -145,7 +146,7 @@ export function submitCommand(channelId, rootId, draft) {
     };
 }
 
-export function makeOnSubmit(channelId, rootId, latestPostId) {
+export function makeOnSubmit(channelId, rootId, latestPostId, rootCreateAt) {
     return (options = {}) => async (dispatch, getState) => {
         const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
         const {message} = draft;
@@ -164,7 +165,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
         } else if (message.indexOf('/') === 0 && !options.ignoreSlash) {
             await dispatch(submitCommand(channelId, rootId, draft));
         } else {
-            dispatch(submitPost(channelId, rootId, draft));
+            dispatch(submitPost(channelId, rootId, draft, rootCreateAt));
         }
     };
 }

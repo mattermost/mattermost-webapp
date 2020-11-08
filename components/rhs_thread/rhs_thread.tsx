@@ -383,6 +383,7 @@ export default class RhsThread extends React.Component<Props, State> {
                         <CreateComment
                             channelId={selected.channel_id}
                             rootId={selected.id}
+                            rootCreateAt={createAt}
                             rootDeleted={(selected as Post).state === Posts.POST_DELETED}
                             latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
                         />

@@ -14,6 +14,7 @@ export type FakePost = {
     message: string;
     channel_id: $ID<Channel>;
     user_id: $ID<UserProfile>;
+    create_at: number;
 };
 
 export type PostDraft = {
