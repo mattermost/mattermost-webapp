@@ -1,7 +1,6 @@
 stages:
-#  - test #TODO uncomment test jobs
-
-  # These need to have separate steps, artifacts would overwrite each other otherwise
+  - test
+  # These need to have separate stages, otherwise artifacts would overwrite each other
   - te-build
   - te-s3
   - ee-build-live # rudder-live, stripe-live
@@ -13,28 +12,28 @@ include:
   - project: mattermost/ci/mattermost-webapp
     ref: master
     file: private.yml
-#  - local: .gitlab-ci/check.gitlab-ci.yml
+  - local: .gitlab-ci/check.gitlab-ci.yml
 
-#prepare:
-#  stage: .pre
-#  image: mattermost/mattermost-build-webapp:20200829_node-10.22
-#  cache:
-#    key:
-#      files:
-#        - package.json
-#      prefix: ${CI_COMMIT_REF_SLUG}
-#    paths:
-#      - .npm/
-#      - node_modules/
-#  script:
-#    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
-#
-#lint:
-#  extends: .check
-#  script:
-#    - npm run check
-#
-#test:
+prepare:
+  stage: .pre
+  image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key:
+      files:
+        - package.json
+      prefix: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/
+  script:
+    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
+
+lint:
+  extends: .check
+  script:
+    - npm run check
+
+#test: #todo
 #  extends: .check
 #  script:
 #    - npm run test-ci
@@ -45,12 +44,12 @@ include:
 #      junit: build/
 #    expire_in: 7 days
 #
-#type-check:
+#type-check: #todo
 #  extends: .check
 #  script:
 #    - npm run check-types
 #
-#i18n-check:
+#i18n-check: #todo
 #  extends: .check
 #  script:
 #    - cp i18n/en.json /tmp/en.json
