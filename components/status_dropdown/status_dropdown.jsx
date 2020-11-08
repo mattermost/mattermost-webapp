@@ -37,35 +37,74 @@ export default class StatusDropdown extends React.PureComponent {
         status: UserStatuses.OFFLINE,
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            openUp: false,
+            width: 0,
+        };
+    }
+
+    dndTimes = ['30 mins', '1 hour', '2 hours', 'Today', 'Tomorrow', 'Custom']
+
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
 
-    setStatus = (status) => {
+    setStatus = (status, dnd_end_time) => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
+            dnd_end_time,
         });
     }
 
     setOnline = (event) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.ONLINE);
+        this.setStatus(UserStatuses.ONLINE, '');
     }
 
     setOffline = (event) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.OFFLINE);
+        this.setStatus(UserStatuses.OFFLINE, '');
     }
 
     setAway = (event) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.AWAY);
+        this.setStatus(UserStatuses.AWAY, '');
     }
 
-    setDnd = (event) => {
+    setDnd = (event, index) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.DND);
+
+        var currentTime = new Date().getTime();
+        var endTime = new Date().getTime();
+        switch (index) {
+        case 0:
+            endTime = new Date(currentTime + (30 * 60000));
+            break;
+        case 1:
+            endTime = new Date(currentTime + (2 * 30 * 60000));
+            break;
+        case 2:
+            // add 2 hours in current time
+            endTime = new Date(currentTime + (4 * 30 * 60000));
+            break;
+        case 3:
+            // set hours of date to point to last moment of the day
+            endTime.setHours(23, 59, 59, 999);
+            break;
+        case 4:
+            // set hours of date to point to last moment of the day
+            // and add 24 hours to it to point to last moment of tomorrow
+            currentTime.setHours(23, 59, 59, 999);
+            endTime = new Date(currentTime + (48 * 30 * 60000));
+            break;
+        }
+
+        var dnd_end_time = endTime.toISOString();
+        this.setStatus(UserStatuses.DND, dnd_end_time);
     }
 
     showStatusChangeConfirmation = (status) => {
@@ -106,6 +145,15 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
+    refCallback = (ref) => {
+        if (ref) {
+            this.setState({
+                openUp: ref.state.openUp,
+                width: ref.state.width,
+            });
+        }
+    }
+
     render() {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
@@ -116,11 +164,21 @@ export default class StatusDropdown extends React.PureComponent {
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
+        const dndSubMenuItems = this.dndTimes.map((tm, index) => {
+            return {
+                id: `dndTime-${tm}`,
+                direction: 'right',
+                text: tm,
+                action: () => setDnd(tm, index),
+            };
+        });
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
                 className={'status-dropdown-menu'}
+                refCallback={this.refCallback}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
@@ -171,12 +229,15 @@ export default class StatusDropdown extends React.PureComponent {
                             icon={<StatusAwayIcon className={'away--icon'}/>}
                             id={'status-menu-away'}
                         />
-                        <Menu.ItemAction
-                            onClick={setDnd}
+                        <Menu.ItemSubMenu
+                            subMenu={dndSubMenuItems}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                             extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
                             icon={<StatusDndIcon className={'dnd--icon'}/>}
+                            direction={'right'}
+                            openUp={this.state.openUp}
+                            xOffset={this.state.width}
                             id={'status-menu-dnd'}
                         />
                         <Menu.ItemAction
