@@ -1,7 +1,13 @@
 stages:
 #  - test #TODO uncomment test jobs
-  - build
-  - publish
+
+  # These need to have separate steps, artifacts would overwrite each other otherwise
+  - te-build
+  - te-s3
+  - ee-build-live # rudder-live, stripe-live
+  - ee-s3-live
+  - ee-build-onprem-rc # rudder-rc
+  - ee-s3-onprem-rc
 
 include:
   - project: mattermost/ci/mattermost-webapp
