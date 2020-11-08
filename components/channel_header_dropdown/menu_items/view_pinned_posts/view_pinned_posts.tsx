@@ -18,11 +18,6 @@ type Props = {
 }
 
 export default class ViewPinnedPosts extends React.PureComponent<Props> {
-    public constructor(props: Props) {
-        super(props);
-    }
-
-
     private handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
 
