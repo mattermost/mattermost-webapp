@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import DeleteEmoji from 'components/emoji/delete_emoji_modal.jsx';
+import DeleteEmoji from 'components/emoji/delete_emoji_modal';
 
 describe('components/emoji/components/DeleteEmoji', () => {
-    const instance = new DeleteEmoji();
+    const instance = new DeleteEmoji({onDelete: jest.fn()});
     test('title should match the of delete emoji title', () => {
         const wrapper = mountWithIntl(instance.triggerTitle);
         expect(wrapper.html()).toBe('<span>Delete</span>');
