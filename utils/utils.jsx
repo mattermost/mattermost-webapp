@@ -1015,13 +1015,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
+
     const link = document.querySelector('link.code_theme');
     if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
-        var xmlHTTP = new XMLHttpRequest();
+
+        const xmlHTTP = new XMLHttpRequest();
+
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            link.attributes.href = cssPath;
+            link.href = cssPath;
+
             if (UserAgent.isFirefox()) {
                 link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
@@ -1030,6 +1034,7 @@ export function updateCodeTheme(userTheme) {
                 changeCss('code.hljs', 'visibility: visible');
             }
         };
+
         xmlHTTP.send();
     }
 }
