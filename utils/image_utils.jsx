@@ -6,8 +6,8 @@ export function loadImage(src, onLoad) {
     const image = new Image();
 
     // Use a regular function instead of a named function so that "this" gets bound to the image
-    image.onload = function () {
-        // eslint-disable-line func-names
+    image.onload = function imageOnLoad() {
+
         onLoad(this);
     };
     image.src = src;

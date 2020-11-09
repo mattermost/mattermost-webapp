@@ -111,12 +111,13 @@ export default class WebSocketClient {
                 }
             } else if (this.eventCallback) {
                 if (msg.seq !== this.eventSequence && this.missedEventCallback) {
+                    //eslint-disable-next-line no-console
                     console.log(
                         'missed websocket event, act_seq=' +
                             msg.seq +
                             ' exp_seq=' +
                             this.eventSequence
-                    ); //eslint-disable-line no-console
+                    );
                     this.missedEventCallback();
                 }
                 this.eventSequence = msg.seq + 1;

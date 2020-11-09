@@ -106,9 +106,10 @@ describe('OverlayTrigger', () => {
         );
 
         // Dive into the react-bootstrap internals to find our overlay
+        // eslint-disable-next-line no-underscore-dangle
         const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find(
             'span'
-        ); // eslint-disable-line no-underscore-dangle
+        );
 
         // Confirm that we've found the right span
         expect(overlay.exists()).toBe(true);
@@ -141,9 +142,10 @@ describe('OverlayTrigger', () => {
         );
 
         // Dive into the react-bootstrap internals to find our overlay
+        // eslint-disable-next-line no-underscore-dangle
         const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find(
             'span'
-        ); // eslint-disable-line no-underscore-dangle
+        );
 
         // Confirm that we've found the right span
         expect(overlay.exists()).toBe(true);

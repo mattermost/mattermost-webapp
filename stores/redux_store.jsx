@@ -14,8 +14,8 @@ export function bindActionToRedux(action, ...args) {
     };
 }
 
+//eslint-disable-next-line no-process-env
 if (process.env.NODE_ENV !== 'production') {
-    //eslint-disable-line no-process-env
     window.store = store;
 }
 

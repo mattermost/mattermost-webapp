@@ -334,8 +334,8 @@ export function areObjectsEqual(x, y) {
         }
     }
 
+    // eslint-disable-next-line guard-for-in
     for (p in x) {
-        //eslint-disable-line guard-for-in
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
             return false;
         } else if (typeof y[p] !== typeof x[p]) {
@@ -1625,6 +1625,7 @@ export function scrollbarWidth(el) {
 }
 
 export function isValidUsername(name) {
+    /* eslint-disable no-negated-condition */
     let error;
     if (!name) {
         error = {
@@ -1642,7 +1643,6 @@ export function isValidUsername(name) {
             id: ValidationErrors.INVALID_CHARACTERS,
         };
     } else if (!/[a-z]/.test(name.charAt(0))) {
-        //eslint-disable-line no-negated-condition
         error = {
             id: ValidationErrors.INVALID_FIRST_CHARACTER,
         };
@@ -1656,6 +1656,7 @@ export function isValidUsername(name) {
             }
         }
     }
+    /* eslint-enable no-negated-condition */
 
     return error;
 }
