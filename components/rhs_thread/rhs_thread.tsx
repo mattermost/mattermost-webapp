@@ -294,13 +294,8 @@ export default class RhsThread extends React.Component<Props, State> {
     }
 
     private handlePostCommentResize = (): void => {
-        const postCreateContainerHeight = 190;
-        const createContainerHeight = this.postCreateContainerRef.current?.getBoundingClientRect().height;
-
-        if (createContainerHeight !== postCreateContainerHeight) {
-            this.resizeRhsPostList();
-            this.scrollToBottom();
-        }
+        this.resizeRhsPostList();
+        this.scrollToBottom();
     }
 
     public render(): JSX.Element {
