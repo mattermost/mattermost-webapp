@@ -124,7 +124,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
     handleCreateToken = async () => {
         this.handleCancelConfirm();
 
-        const description = this.newtokendescriptionRef ? this.newtokendescriptionRef.current!.value : '';
+        const description = (this.newtokendescriptionRef && this.newtokendescriptionRef.current) ? this.newtokendescriptionRef.current.value : '';
 
         if (description === '') {
             this.setState({tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')});
