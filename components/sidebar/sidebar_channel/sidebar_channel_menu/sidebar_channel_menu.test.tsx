@@ -42,6 +42,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             display_name: 'custom_category_1',
             sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
+            muted: false,
         }],
         currentUserId: 'user_id',
         currentCategory: {
