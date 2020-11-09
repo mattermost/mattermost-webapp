@@ -105,7 +105,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Badge
+          "new": <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -113,7 +113,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               defaultMessage="New"
               id="admin.user_grid.new"
             />
-          </Badge>,
+          </Memo(Badge)>,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -275,7 +275,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Badge
+          "new": <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -283,7 +283,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               defaultMessage="New"
               id="admin.user_grid.new"
             />
-          </Badge>,
+          </Memo(Badge)>,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -514,7 +514,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Badge
+          "new": <Memo(Badge)
             className="NewUserBadge"
             show={true}
           >
@@ -522,7 +522,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               defaultMessage="New"
               id="admin.user_grid.new"
             />
-          </Badge>,
+          </Memo(Badge)>,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -679,7 +679,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Badge
+          "new": <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -687,7 +687,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               defaultMessage="New"
               id="admin.user_grid.new"
             />
-          </Badge>,
+          </Memo(Badge)>,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -849,7 +849,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Badge
+          "new": <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -857,7 +857,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               defaultMessage="New"
               id="admin.user_grid.new"
             />
-          </Badge>,
+          </Memo(Badge)>,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -1088,7 +1088,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Badge
+          "new": <Memo(Badge)
             className="NewUserBadge"
             show={false}
           >
@@ -1096,7 +1096,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               defaultMessage="New"
               id="admin.user_grid.new"
             />
-          </Badge>,
+          </Memo(Badge)>,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
