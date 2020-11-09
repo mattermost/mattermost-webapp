@@ -105,7 +105,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleSubmit = (e: Event | any[] | undefined) => {
+    handleSubmit = (e: Event | undefined) => {
         if (e) {
             (e as Event).preventDefault();
         }
@@ -118,13 +118,13 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         this.handleHide();
     }
 
-    addValue = (value: any, confirmed = false) => {
+    addValue = (value: Team, confirmed = false) => {
         if (this.props.modalID === ModalIdentifiers.ADD_TEAMS_TO_SCHEME && value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
             this.setState({confirmAddModal: true, confirmAddTeam: value});
             return;
         }
         const values = Object.assign([], this.state.values);
-        const teamIds = values.map((v: any) => v.id);
+        const teamIds = values.map((v: Team) => v.id);
         if (value && value.id && teamIds.indexOf(value.id) === -1) {
             values.push(value);
         }
@@ -147,7 +147,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleDelete = (values: Array<any>) => {
+    handleDelete = (values: Array<Team>) => {
         this.setState({values});
     }
 
@@ -158,7 +158,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption = (option: any, isSelected: boolean, onAdd: (value: any) => void, onMouseMove: (value: any) => void) => {
+    renderOption = (option: Team, isSelected: boolean, onAdd: (value: Team) => void, onMouseMove: (value: Team) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -194,11 +194,11 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         );
     }
 
-    renderValue(props: { data: any; }) {
+    renderValue(props: { data: Team; }) {
         return props.data.display_name;
     }
 
-    renderConfirmModal(show: boolean, team: any) {
+    renderConfirmModal(show: boolean, team: Team) {
         const title = (
             <FormattedMessage
                 id='add_teams_to_scheme.confirmation.title'
