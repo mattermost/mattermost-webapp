@@ -18,11 +18,11 @@
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+        padding: 2px 4px;
+        @include border-radius(4px);
 
         &:hover {
-            .header-dropdown__icon {
-                opacity: 1;
-            }
+            background: rgba(v(center-channel-color-rgb), 0.08);
         }
 
         .heading span {
@@ -34,15 +34,24 @@
 
     .channel-header__favorites {
         float: left;
-        height: 20px;
-        margin: 0 5px 0 0;
-        padding-top: 2px;
+        height: 24px;
+        margin-left: 4px;
+        padding: 4px;
         position: relative;
         z-index: 1;
+        @include border-radius(4px);
+        color: v(center-channel-color);
+
+        &:hover {
+            background: rgba(v(center-channel-color-rgb), 0.08);
+        }
 
         &.inactive {
-            color: inherit;
+            .icon {
+                color: v(center-channel-color);
+            }
         }
+
 
         &.active {
             i {
@@ -89,7 +98,7 @@
         }
 
         .markdown__paragraph-inline {
-            margin: 0 0 8px;
+            margin: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -206,7 +215,7 @@
 }
 
 .channel-header__info {
-    margin-top: 13px;
+    margin-top: 10px;
     white-space: nowrap;
 
     .dropdown-toggle {
@@ -217,9 +226,7 @@
     }
 
     .header-dropdown__icon {
-        opacity: .6;
         flex: 0 0 auto;
-        color: $dark-gray;
     }
 
     .channel-header__title {
@@ -259,11 +266,11 @@
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
-        margin: 2px 0 0;
+        margin: 0;
         height: 27px;
         width: 100%;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
 
         span[data-emoticon] {
             .emoticon {

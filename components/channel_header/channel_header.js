@@ -674,7 +674,6 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
-
         let mentionsIconClass = 'channel-header__icon';
         if (rhsState === RHSStates.MENTION) {
             mentionsIconClass += ' channel-header__icon--active';
@@ -686,7 +685,6 @@ class ChannelHeader extends React.PureComponent {
         }
         let title = (
             <React.Fragment>
-                {toggleFavorite}
                 <MenuWrapper>
                     <div
                         id='channelHeaderDropdownButton'
@@ -716,6 +714,7 @@ class ChannelHeader extends React.PureComponent {
                     </div>
                     <ChannelHeaderDropdown/>
                 </MenuWrapper>
+                {toggleFavorite}
             </React.Fragment>
         );
         if (isDirect && dmUser.is_bot) {
@@ -724,7 +723,6 @@ class ChannelHeader extends React.PureComponent {
                     id='channelHeaderDropdownButton'
                     className='channel-header__top'
                 >
-                    {toggleFavorite}
                     <strong
                         role='heading'
                         aria-level='2'
@@ -737,6 +735,7 @@ class ChannelHeader extends React.PureComponent {
                         </span>
                     </strong>
                     <BotBadge className='badge-popoverlist'/>
+                    {toggleFavorite}
                 </div>
             );
         }
