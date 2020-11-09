@@ -33,10 +33,16 @@ describe('Notifications', () => {
                 cy.apiAddUserToTeam(team2.id, user1.id);
                 cy.apiAddUserToTeam(team2.id, user2.id);
             });
-        });
 
-        cy.apiGetConfig().then(({config}) => {
-            siteName = config.TeamSettings.SiteName;
+            cy.apiGetConfig().then(({config}) => {
+                siteName = config.TeamSettings.SiteName;
+            });
+
+            // # Remove mention notification (for initial channel).
+            cy.apiLogin(user1);
+            cy.visit(testTeam1TownSquareUrl);
+            cy.get('#publicChannelList').get('.unread-title').click();
+            cy.apiLogout();
         });
     });
 
