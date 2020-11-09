@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import SystemUserDetail from 'components/admin_console/system_user_detail/system_user_detail';
+
 import {Constants} from 'utils/constants';
-import SystemUserDetail from 'components/admin_console/system_user_detail/system_user_detail.jsx';
 
 jest.mock('actions/admin_actions.jsx');
 
@@ -24,7 +25,7 @@ describe('components/admin_console/system_user_detail', () => {
             setNavigationBlocked: jest.fn(),
             addUserToTeam: jest.fn(),
         },
-    };
+    } as any;
 
     test('should match default snapshot', () => {
         const props = defaultProps;
