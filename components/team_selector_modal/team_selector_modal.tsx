@@ -51,7 +51,7 @@ type State = {
 export default class TeamSelectorModal extends React.PureComponent<Props, State> {
     private searchTimeoutId?: number;
     private selectedItemRef?: React.RefObject<HTMLDivElement> | undefined;
-    private currentSchemeId: any;
+    private currentSchemeId?: string;
 
     constructor(props: Props) {
         super(props);
@@ -107,7 +107,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleSubmit = (e: Event | any[] | undefined) => {
+    handleSubmit = (e: Event | TeamValue[] | undefined) => {
         if (e) {
             (e as Event).preventDefault();
         }
