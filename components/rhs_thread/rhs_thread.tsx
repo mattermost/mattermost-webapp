@@ -299,6 +299,7 @@ export default class RhsThread extends React.Component<Props, State> {
 
         if (createContainerHeight !== postCreateContainerHeight) {
             this.resizeRhsPostList();
+            this.scrollToBottom();
         }
     }
 
