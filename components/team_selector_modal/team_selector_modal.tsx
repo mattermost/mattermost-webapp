@@ -12,7 +12,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import MultiSelect from 'components/multiselect/multiselect';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import ConfirmModal from 'components/confirm_modal';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
@@ -20,6 +20,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {imageURLForTeam} from 'utils/utils';
 
 const TEAMS_PER_PAGE = 50;
+
+type TeamValue = (Team & Value);
 
 export type Props = {
     currentSchemeId?: string;
@@ -38,7 +40,7 @@ export type Props = {
 };
 
 type State = {
-    values: Array<Team>;
+    values: Array<TeamValue>;
     show: boolean;
     search: boolean;
     loadingTeams: boolean;
@@ -105,7 +107,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleSubmit = (e: Event | undefined) => {
+    handleSubmit = (e: Event | any[] | undefined) => {
         if (e) {
             (e as Event).preventDefault();
         }
@@ -118,7 +120,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         this.handleHide();
     }
 
-    addValue = (value: Team, confirmed = false) => {
+    addValue = (value: TeamValue, confirmed = false) => {
         if (this.props.modalID === ModalIdentifiers.ADD_TEAMS_TO_SCHEME && value.scheme_id !== null && value.scheme_id !== '' && !confirmed) {
             this.setState({confirmAddModal: true, confirmAddTeam: value});
             return;
@@ -147,7 +149,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleDelete = (values: Array<Team>) => {
+    handleDelete = (values: Array<TeamValue>) => {
         this.setState({values});
     }
 
@@ -158,7 +160,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption = (option: Team, isSelected: boolean, onAdd: (value: Team) => void, onMouseMove: (value: Team) => void) => {
+    renderOption = (option: TeamValue, isSelected: boolean, onAdd: (value: TeamValue) => void, onMouseMove: (value: TeamValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -194,11 +196,11 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         );
     }
 
-    renderValue(props: { data: Team; }) {
+    renderValue(props: { data: TeamValue; }) {
         return props.data.display_name;
     }
 
-    renderConfirmModal(show: boolean, team: Team) {
+    renderConfirmModal(show: boolean, team: TeamValue) {
         const title = (
             <FormattedMessage
                 id='add_teams_to_scheme.confirmation.title'
@@ -244,7 +246,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
-            teams = teams.filter((team) => this.props?.alreadySelected?.indexOf(team.id) === -1);
+            teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
             teams.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();
@@ -257,6 +259,10 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
                 return -1;
             });
         }
+
+        const teamsValues = teams.map((team) => {
+            return {label: team.name, value: team.id, ...team};
+        });
 
         return (
             <Modal
@@ -280,9 +286,9 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
                 </Modal.Header>
                 <Modal.Body>
                     {confirmModal}
-                    <MultiSelect
+                    <MultiSelect<TeamValue>
                         key='addTeamsToSchemeKey'
-                        options={teams}
+                        options={teamsValues}
                         optionRenderer={this.renderOption}
                         selectedItemRef={this.selectedItemRef}
                         values={this.state.values}

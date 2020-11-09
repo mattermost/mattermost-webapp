@@ -106,10 +106,12 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
             "group_constrained": false,
             "id": "id3",
             "invite_id": "",
+            "label": "DN",
             "name": "DN",
             "scheme_id": "test",
             "type": "O",
             "update_at": 0,
+            "value": "id3",
           },
           Object {
             "allow_open_invite": false,
@@ -123,10 +125,12 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
             "group_constrained": false,
             "id": "id4",
             "invite_id": "",
+            "label": "DN",
             "name": "DN",
             "scheme_id": "",
             "type": "O",
             "update_at": 0,
+            "value": "id4",
           },
         ]
       }
