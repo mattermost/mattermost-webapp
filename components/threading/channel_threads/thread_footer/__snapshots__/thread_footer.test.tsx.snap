@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/threading/channel_threads/thread_footer should report total number of replies 1`] = `
+<div
+  className="ThreadFooter"
+>
+  <div
+    className="indicator"
+  />
+  <Memo(Avatars)
+    size="sm"
+    users={
+      Array [
+        Object {
+          "name": "Johnny Depp",
+          "url": "test-url-1",
+          "username": "johnny.depp",
+        },
+        Object {
+          "name": "Bilbo Baggins",
+          "url": "test-url-2",
+          "username": "bilbo.baggins",
+        },
+        Object {
+          "name": "Anthony Michael Hall",
+          "url": "test-url-3",
+          "username": "michael.hall",
+        },
+        Object {
+          "name": "Kathy Baker",
+          "url": "test-url-4",
+          "username": "kathy.baker",
+        },
+        Object {
+          "name": "Vincent Price",
+          "url": "test-url-5",
+          "username": "vincent.price",
+        },
+        Object {
+          "name": "Alan Arkin",
+          "url": "test-url-6",
+          "username": "alan.arkin",
+        },
+      ]
+    }
+  />
+  <Memo(Button)
+    onClick={[MockFunction]}
+    prepend={
+      <span
+        className="icon"
+      >
+        <i
+          className="icon-reply-outline"
+        />
+      </span>
+    }
+  >
+    <FormattedMessage
+      defaultMessage="{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}"
+      id="threading.numReplies"
+      values={
+        Object {
+          "totalReplies": 9,
+        }
+      }
+    />
+  </Memo(Button)>
+  <Memo(FollowButton)
+    follow={[MockFunction]}
+    isFollowing={true}
+    unFollow={[MockFunction]}
+  />
+  <Connect(injectIntl(Timestamp))
+    units={
+      Array [
+        "now",
+        "minute",
+        "hour",
+        "day",
+        "week",
+      ]
+    }
+    useTime={false}
+    value={2020-09-29T02:30:15.701Z}
+  >
+    <Component />
+  </Connect(injectIntl(Timestamp))>
+</div>
+`;
+
+exports[`components/threading/channel_threads/thread_footer should show unread indicator 1`] = `
+<div
+  className="ThreadFooter"
+>
+  <Memo(SimpleTooltip)
+    content={
+      <FormattedMessage
+        defaultMessage="{newReplies, plural, =0 {no unread messages} =1 {one unread message} other {# unread messages}}"
+        id="threading.numNewMessages"
+        values={
+          Object {
+            "newReplies": 2,
+          }
+        }
+      />
+    }
+    id="threadFooterIndicator"
+  >
+    <div
+      className="indicator"
+      tabIndex={0}
+    >
+      <div
+        className="dot-unreads"
+      />
+    </div>
+  </Memo(SimpleTooltip)>
+  <Memo(Avatars)
+    size="sm"
+    users={
+      Array [
+        Object {
+          "name": "Johnny Depp",
+          "url": "test-url-1",
+          "username": "johnny.depp",
+        },
+        Object {
+          "name": "Bilbo Baggins",
+          "url": "test-url-2",
+          "username": "bilbo.baggins",
+        },
+        Object {
+          "name": "Anthony Michael Hall",
+          "url": "test-url-3",
+          "username": "michael.hall",
+        },
+        Object {
+          "name": "Kathy Baker",
+          "url": "test-url-4",
+          "username": "kathy.baker",
+        },
+        Object {
+          "name": "Vincent Price",
+          "url": "test-url-5",
+          "username": "vincent.price",
+        },
+        Object {
+          "name": "Alan Arkin",
+          "url": "test-url-6",
+          "username": "alan.arkin",
+        },
+      ]
+    }
+  />
+  <Memo(Button)
+    onClick={[MockFunction]}
+    prepend={
+      <span
+        className="icon"
+      >
+        <i
+          className="icon-reply-outline"
+        />
+      </span>
+    }
+  >
+    <FormattedMessage
+      defaultMessage="{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}"
+      id="threading.numReplies"
+      values={
+        Object {
+          "totalReplies": 9,
+        }
+      }
+    />
+  </Memo(Button)>
+  <Memo(FollowButton)
+    follow={[MockFunction]}
+    isFollowing={true}
+    unFollow={[MockFunction]}
+  />
+  <Connect(injectIntl(Timestamp))
+    units={
+      Array [
+        "now",
+        "minute",
+        "hour",
+        "day",
+        "week",
+      ]
+    }
+    useTime={false}
+    value={2020-09-29T02:30:15.701Z}
+  >
+    <Component />
+  </Connect(injectIntl(Timestamp))>
+</div>
+`;

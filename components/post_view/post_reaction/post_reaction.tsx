@@ -27,7 +27,7 @@ type Props = {
     channelId?: string;
     postId: string;
     teamId: string;
-    getDotMenuRef: React.ReactInstance;
+    getDotMenuRef: () => HTMLDivElement;
     location: LocationTypes;
     showEmojiPicker: boolean;
     toggleEmojiPicker: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
