@@ -8,23 +8,16 @@ import UserList from './user_list.jsx';
 
 describe('components/UserList', () => {
     test('should match default snapshot', () => {
-        const wrapper = shallow(
-            <UserList/>,
-        );
+        const wrapper = shallow(<UserList />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match default snapshot when there are users', () => {
         const props = {
-            users: [
-                {id: 'id1'},
-                {id: 'id2'},
-            ],
+            users: [{id: 'id1'}, {id: 'id2'}],
             actionUserProps: {},
         };
-        const wrapper = shallow(
-            <UserList {...props}/>,
-        );
+        const wrapper = shallow(<UserList {...props} />);
         expect(wrapper).toMatchSnapshot();
     });
 });

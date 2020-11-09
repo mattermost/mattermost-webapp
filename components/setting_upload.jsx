@@ -31,12 +31,12 @@ export default class SettingsUpload extends React.PureComponent {
             serverError: '',
             filename,
         });
-    }
+    };
 
     openFileSelect = () => {
         this.uploadinput.current.value = '';
         this.uploadinput.current.click();
-    }
+    };
 
     doSubmit = (e) => {
         e.preventDefault();
@@ -48,7 +48,7 @@ export default class SettingsUpload extends React.PureComponent {
         } else {
             this.setState({clientError: true});
         }
-    }
+    };
 
     render() {
         let clientError = null;
@@ -64,16 +64,12 @@ export default class SettingsUpload extends React.PureComponent {
         }
         let serverError = null;
         if (this.state.serverError) {
-            serverError = (
-                <div className='file-status'>{this.state.serverError}</div>
-            );
+            serverError = <div className='file-status'>{this.state.serverError}</div>;
         }
         let fileNameText = null;
         let submitButtonClass = 'btn btn-sm btn-primary disabled';
         if (this.state.filename) {
-            fileNameText = (
-                <div className='file-status file-name'>{this.state.filename}</div>
-            );
+            fileNameText = <div className='file-status file-name'>{this.state.filename}</div>;
             submitButtonClass = 'btn btn-sm btn-primary';
         }
 
@@ -101,10 +97,7 @@ export default class SettingsUpload extends React.PureComponent {
                                     defaultMessage='Select file'
                                 />
                             </button>
-                            <a
-                                className={submitButtonClass}
-                                onClick={this.doSubmit}
-                            >
+                            <a className={submitButtonClass} onClick={this.doSubmit}>
                                 <FormattedMessage
                                     id='setting_upload.import'
                                     defaultMessage='Import'

@@ -40,16 +40,21 @@ class TeamImportTab extends React.PureComponent {
 
     onImportFailure = () => {
         this.setState({status: 'fail'});
-    }
+    };
 
     onImportSuccess = (data) => {
-        this.setState({status: 'done', link: 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(atob(data.results))});
-    }
+        this.setState({
+            status: 'done',
+            link:
+                'data:application/octet-stream;charset=utf-8,' +
+                encodeURIComponent(atob(data.results)),
+        });
+    };
 
     doImportSlack = (file) => {
         this.setState({status: 'in-progress', link: ''});
         utils.importSlack(this.props.team.id, file, this.onImportSuccess, this.onImportFailure);
-    }
+    };
 
     render() {
         const uploadDocsLink = (
@@ -141,7 +146,7 @@ class TeamImportTab extends React.PureComponent {
 
         const uploadSection = (
             <SettingUpload
-                title={<FormattedMessage {...holders.importSlack}/>}
+                title={<FormattedMessage {...holders.importSlack} />}
                 submit={this.doImportSlack}
                 helpText={uploadHelpText}
                 fileTypesAccepted='.zip'
@@ -150,56 +155,55 @@ class TeamImportTab extends React.PureComponent {
 
         let messageSection;
         switch (this.state.status) {
-        case 'ready':
-            messageSection = '';
-            break;
-        case 'in-progress':
-            messageSection = (
-                <p className='confirm-import alert alert-warning'>
-                    <LoadingSpinner text={utils.localizeMessage('team_import_tab.importing', 'Importing...')}/>
-                </p>
-            );
-            break;
-        case 'done':
-            messageSection = (
-                <p className='confirm-import alert alert-success'>
-                    <SuccessIcon/>
-                    <FormattedMessage
-                        id='team_import_tab.successful'
-                        defaultMessage=' Import successful: '
-                    />
-                    <a
-                        href={this.state.link}
-                        download='MattermostImportSummary.txt'
-                    >
-                        <FormattedMessage
-                            id='team_import_tab.summary'
-                            defaultMessage='View Summary'
+            case 'ready':
+                messageSection = '';
+                break;
+            case 'in-progress':
+                messageSection = (
+                    <p className='confirm-import alert alert-warning'>
+                        <LoadingSpinner
+                            text={utils.localizeMessage(
+                                'team_import_tab.importing',
+                                'Importing...'
+                            )}
                         />
-                    </a>
-                </p>
-            );
-            break;
-        case 'fail':
-            messageSection = (
-                <p className='confirm-import alert alert-warning'>
-                    <WarningIcon/>
-                    <FormattedMessage
-                        id='team_import_tab.failure'
-                        defaultMessage=' Import failure: '
-                    />
-                    <a
-                        href={this.state.link}
-                        download='MattermostImportSummary.txt'
-                    >
+                    </p>
+                );
+                break;
+            case 'done':
+                messageSection = (
+                    <p className='confirm-import alert alert-success'>
+                        <SuccessIcon />
                         <FormattedMessage
-                            id='team_import_tab.summary'
-                            defaultMessage='View Summary'
+                            id='team_import_tab.successful'
+                            defaultMessage=' Import successful: '
                         />
-                    </a>
-                </p>
-            );
-            break;
+                        <a href={this.state.link} download='MattermostImportSummary.txt'>
+                            <FormattedMessage
+                                id='team_import_tab.summary'
+                                defaultMessage='View Summary'
+                            />
+                        </a>
+                    </p>
+                );
+                break;
+            case 'fail':
+                messageSection = (
+                    <p className='confirm-import alert alert-warning'>
+                        <WarningIcon />
+                        <FormattedMessage
+                            id='team_import_tab.failure'
+                            defaultMessage=' Import failure: '
+                        />
+                        <a href={this.state.link} download='MattermostImportSummary.txt'>
+                            <FormattedMessage
+                                id='team_import_tab.summary'
+                                defaultMessage='View Summary'
+                            />
+                        </a>
+                    </p>
+                );
+                break;
         }
 
         return (
@@ -214,34 +218,22 @@ class TeamImportTab extends React.PureComponent {
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title' ref='title'>
                         <div className='modal-back'>
                             <span onClick={this.props.collapseModal}>
-                                <BackIcon/>
+                                <BackIcon />
                             </span>
                         </div>
-                        <FormattedMessage
-                            id='team_import_tab.import'
-                            defaultMessage='Import'
-                        />
+                        <FormattedMessage id='team_import_tab.import' defaultMessage='Import' />
                     </h4>
                 </div>
-                <div
-                    ref='wrapper'
-                    className='user-settings'
-                >
+                <div ref='wrapper' className='user-settings'>
                     <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='team_import_tab.import'
-                            defaultMessage='Import'
-                        />
+                        <FormattedMessage id='team_import_tab.import' defaultMessage='Import' />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className='divider-dark first' />
                     {uploadSection}
-                    <div className='divider-dark'/>
+                    <div className='divider-dark' />
                     {messageSection}
                 </div>
             </div>

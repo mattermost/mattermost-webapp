@@ -7,10 +7,15 @@ import {shallow} from 'enzyme';
 import ListModal from './list_modal';
 
 describe('components/ListModal', () => {
-    const mockItems = [{id: '123', foo: 'bar31'}, {id: '234', foo: 'bar2'}];
+    const mockItems = [
+        {id: '123', foo: 'bar31'},
+        {id: '234', foo: 'bar2'},
+    ];
     const mockItemsPage2 = [{id: '123', foo: 'bar3'}];
     const mockSearchTerm = 'ar3';
-    const mockItemsSearch = mockItems.concat(mockItemsPage2).filter((item) => item.foo.includes(mockSearchTerm));
+    const mockItemsSearch = mockItems
+        .concat(mockItemsPage2)
+        .filter((item) => item.foo.includes(mockSearchTerm));
     const totalCount = mockItems.length + mockItemsPage2.length;
 
     const baseProps = {
@@ -25,10 +30,7 @@ describe('components/ListModal', () => {
         },
         renderRow: (item) => {
             return (
-                <div
-                    className='item'
-                    key={item.id}
-                >
+                <div className='item' key={item.id}>
                     {item.foo}
                 </div>
             );
@@ -38,9 +40,7 @@ describe('components/ListModal', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(
-            <ListModal {...baseProps}/>,
-        );
+        const wrapper = shallow(<ListModal {...baseProps} />);
         expect(wrapper).toMatchSnapshot();
         setTimeout(() => {
             expect(wrapper.state('items')).toEqual(mockItems);
@@ -53,9 +53,7 @@ describe('components/ListModal', () => {
         const numPerPage = totalCount - 1;
         const props = {...baseProps};
         props.numPerPage = numPerPage;
-        const wrapper = shallow(
-            <ListModal {...props}/>,
-        );
+        const wrapper = shallow(<ListModal {...props} />);
         setTimeout(() => {
             expect(wrapper.state('numPerPage')).toEqual(numPerPage);
         }, 0);
@@ -64,27 +62,21 @@ describe('components/ListModal', () => {
     it('should match snapshot with title bar button', () => {
         const props = {...baseProps};
         props.titleBarButtonText = 'Add Foo';
-        props.titleBarButtonTextOnClick = () => { };
-        const wrapper = shallow(
-            <ListModal {...baseProps}/>,
-        );
+        props.titleBarButtonTextOnClick = () => {};
+        const wrapper = shallow(<ListModal {...baseProps} />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should have called onHide when handleExit is called', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
-        const wrapper = shallow(
-            <ListModal {...props}/>,
-        );
+        const wrapper = shallow(<ListModal {...props} />);
         wrapper.instance().handleExit();
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 
     test('paging loads new items', () => {
-        const wrapper = shallow(
-            <ListModal {...baseProps}/>,
-        );
+        const wrapper = shallow(<ListModal {...baseProps} />);
         wrapper.instance().onNext();
         setTimeout(() => {
             expect(wrapper.state('page')).toEqual(1);
@@ -98,9 +90,7 @@ describe('components/ListModal', () => {
     });
 
     test('search input', () => {
-        const wrapper = shallow(
-            <ListModal {...baseProps}/>,
-        );
+        const wrapper = shallow(<ListModal {...baseProps} />);
         wrapper.instance().onSearchInput({target: {value: mockSearchTerm}});
         setTimeout(() => {
             expect(wrapper.state('searchTerm')).toEqual(mockSearchTerm);

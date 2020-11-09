@@ -7,14 +7,8 @@ import {
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
 import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
-import {
-    getMissingProfilesByIds,
-    getStatusesByIds,
-    getUser,
-} from 'mattermost-redux/actions/users';
-import {
-    getChannelStats,
-} from 'mattermost-redux/actions/channels';
+import {getMissingProfilesByIds, getStatusesByIds, getUser} from 'mattermost-redux/actions/users';
+import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
 import {handleNewPost} from 'actions/post_actions';
@@ -141,10 +135,12 @@ const mockState = {
                 post5: {id: 'post5', channel_id: 'otherChannel', create_at: '12345'},
             },
             postsInChannel: {
-                otherChannel: [{
-                    order: ['post5', 'post2', 'post1'],
-                    recent: true,
-                }],
+                otherChannel: [
+                    {
+                        order: ['post5', 'post2', 'post1'],
+                        recent: true,
+                    },
+                ],
             },
         },
     },
@@ -186,7 +182,8 @@ describe('handleEvent', () => {
 
 describe('handlePostEditEvent', () => {
     test('post edited', async () => {
-        const post = '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
+        const post =
+            '{"id":"test","create_at":123,"update_at":123,"user_id":"user","channel_id":"12345","root_id":"","message":"asd","pending_post_id":"2345","metadata":{}}';
         const expectedAction = {type: 'RECEIVED_POST', data: JSON.parse(post)};
         const msg = {
             data: {
@@ -205,7 +202,12 @@ describe('handlePostEditEvent', () => {
 describe('handlePostUnreadEvent', () => {
     test('post marked as unred', async () => {
         const msgData = {last_viewed_at: 123, msg_count: 40, mention_count: 1};
-        const expectedData = {lastViewedAt: 123, msgCount: 40, mentionCount: 1, channelId: 'channel1'};
+        const expectedData = {
+            lastViewedAt: 123,
+            msgCount: 40,
+            mentionCount: 1,
+            channelId: 'channel1',
+        };
         const expectedAction = {type: 'POST_UNREAD_SUCCESS', data: expectedData};
         const msg = {
             data: msgData,
@@ -292,7 +294,7 @@ describe('handleUserRemovedEvent', () => {
         expect(closeRightHandSide).toHaveBeenCalled();
     });
 
-    test('shouldn\'t remove the team user if the user have view members permissions', async () => {
+    test("shouldn't remove the team user if the user have view members permissions", async () => {
         const expectedAction = {
             meta: {batch: true},
             payload: [
@@ -314,7 +316,7 @@ describe('handleUserRemovedEvent', () => {
         expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
     });
 
-    test('should remove the team user if the user doesn\'t have view members permissions', async () => {
+    test("should remove the team user if the user doesn't have view members permissions", async () => {
         const expectedAction = {
             meta: {batch: true},
             payload: [
@@ -446,7 +448,11 @@ describe('handleNewPostEvent', () => {
         };
 
         testStore.dispatch(handleNewPostEvent(msg));
-        expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith([post], expect.anything(), expect.anything());
+        expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(
+            [post],
+            expect.anything(),
+            expect.anything()
+        );
         expect(handleNewPost).toHaveBeenCalledWith(post, msg);
     });
 
@@ -472,7 +478,12 @@ describe('handleNewPostEvent', () => {
     test('should not set other user to online if post was from autoresponder', () => {
         const testStore = configureStore(initialState);
 
-        const post = {id: 'post1', channel_id: 'channel1', user_id: 'user2', type: Constants.AUTO_RESPONDER};
+        const post = {
+            id: 'post1',
+            channel_id: 'channel1',
+            user_id: 'user2',
+            type: Constants.AUTO_RESPONDER,
+        };
         const msg = {
             data: {
                 post: JSON.stringify(post),
@@ -569,7 +580,11 @@ describe('handleNewPostEvents', () => {
             },
         ]);
         expect(getThreadsForPosts).toHaveBeenCalledWith(posts);
-        expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
+        expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(
+            posts,
+            expect.anything(),
+            expect.anything()
+        );
     });
 });
 
@@ -612,7 +627,9 @@ describe('handleUserTypingEvent', () => {
 
         testStore.dispatch(handleUserTypingEvent(msg));
 
-        expect(testStore.getActions().find((action) => action.type === WebsocketEvents.TYPING)).toMatchObject({
+        expect(
+            testStore.getActions().find((action) => action.type === WebsocketEvents.TYPING)
+        ).toMatchObject({
             type: WebsocketEvents.TYPING,
             data: {
                 id: channelId + rootId,
@@ -801,9 +818,11 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             document.createElement = jest.fn();
             document.getElementsByTagName = jest.fn();
-            document.getElementsByTagName.mockReturnValue([{
-                appendChild: jest.fn(),
-            }]);
+            document.getElementsByTagName.mockReturnValue([
+                {
+                    appendChild: jest.fn(),
+                },
+            ]);
         });
 
         test('when a plugin is enabled', () => {
@@ -955,9 +974,11 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             document.createElement = jest.fn();
             document.getElementsByTagName = jest.fn();
-            document.getElementsByTagName.mockReturnValue([{
-                appendChild: jest.fn(),
-            }]);
+            document.getElementsByTagName.mockReturnValue([
+                {
+                    appendChild: jest.fn(),
+                },
+            ]);
         });
 
         test('when a plugin is disabled', () => {

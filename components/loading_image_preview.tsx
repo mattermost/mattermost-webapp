@@ -9,24 +9,18 @@ type Props = {
     loading?: string;
     progress?: number;
     containerClass?: string;
-}
+};
 
 const LoadingImagePreview: React.FC<Props> = ({loading, progress, containerClass}: Props) => {
-    let progressView: JSX.Element = (
-        <span className='loader-percent'/>
-    );
+    let progressView: JSX.Element = <span className='loader-percent' />;
 
     if (progress) {
-        progressView = (
-            <span className='loader-percent'>
-                {`${loading} ${progress}%`}
-            </span>
-        );
+        progressView = <span className='loader-percent'>{`${loading} ${progress}%`}</span>;
     }
 
     return (
         <div className={containerClass}>
-            <LoadingSpinner/>
+            <LoadingSpinner />
             {progressView}
         </div>
     );

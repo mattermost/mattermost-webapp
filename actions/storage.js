@@ -106,7 +106,8 @@ export function storageRehydrate(incoming, persistor) {
                     return;
                 }
             } catch (err) {
-                if (process.env.NODE_ENV !== 'production') { // eslint-disable-line no-process-env
+                if (process.env.NODE_ENV !== 'production') {
+                    // eslint-disable-line no-process-env
                     console.warn('Error rehydrating data for key "storage"', err); // eslint-disable-line no-console
                 }
             }

@@ -30,11 +30,7 @@ describe('runMessageWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    MessageWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                        {hook: hook3},
-                    ],
+                    MessageWillBePosted: [{hook: hook1}, {hook: hook2}, {hook: hook3}],
                 },
             },
         });
@@ -56,11 +52,7 @@ describe('runMessageWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    MessageWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                        {hook: hook3},
-                    ],
+                    MessageWillBePosted: [{hook: hook1}, {hook: hook2}, {hook: hook3}],
                 },
             },
         });
@@ -82,11 +74,7 @@ describe('runMessageWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    MessageWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                        {hook: hook3},
-                    ],
+                    MessageWillBePosted: [{hook: hook1}, {hook: hook2}, {hook: hook3}],
                 },
             },
         });
@@ -118,9 +106,7 @@ describe('runMessageWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    MessageWillBePosted: [
-                        {hook},
-                    ],
+                    MessageWillBePosted: [{hook}],
                 },
             },
         });
@@ -139,10 +125,7 @@ describe('runMessageWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    MessageWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                    ],
+                    MessageWillBePosted: [{hook: hook1}, {hook: hook2}],
                 },
             },
         });
@@ -180,11 +163,7 @@ describe('runSlashCommandWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    SlashCommandWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                        {hook: hook3},
-                    ],
+                    SlashCommandWillBePosted: [{hook: hook1}, {hook: hook2}, {hook: hook3}],
                 },
             },
         });
@@ -207,11 +186,7 @@ describe('runSlashCommandWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    SlashCommandWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                        {hook: hook3},
-                    ],
+                    SlashCommandWillBePosted: [{hook: hook1}, {hook: hook2}, {hook: hook3}],
                 },
             },
         });
@@ -234,11 +209,7 @@ describe('runSlashCommandWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    SlashCommandWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                        {hook: hook3},
-                    ],
+                    SlashCommandWillBePosted: [{hook: hook1}, {hook: hook2}, {hook: hook3}],
                 },
             },
         });
@@ -271,9 +242,7 @@ describe('runSlashCommandWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    SlashCommandWillBePosted: [
-                        {hook},
-                    ],
+                    SlashCommandWillBePosted: [{hook}],
                 },
             },
         });
@@ -293,10 +262,7 @@ describe('runSlashCommandWillBePostedHooks', () => {
         const store = mockStore({
             plugins: {
                 components: {
-                    SlashCommandWillBePosted: [
-                        {hook: hook1},
-                        {hook: hook2},
-                    ],
+                    SlashCommandWillBePosted: [{hook: hook1}, {hook: hook2}],
                 },
             },
         });

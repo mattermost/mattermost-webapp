@@ -15,26 +15,16 @@ type Props = {
     defaultMessage?: React.ReactNode;
     btnClass?: string;
     extraClasses?: string;
-}
+};
 
 export default class SaveButton extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         btnClass: 'btn-primary',
-        defaultMessage: (
-            <FormattedMessage
-                id='save_button.save'
-                defaultMessage='Save'
-            />
-        ),
+        defaultMessage: <FormattedMessage id='save_button.save' defaultMessage='Save' />,
         disabled: false,
         extraClasses: '',
-        savingMessage: (
-            <FormattedMessage
-                id='save_button.saving'
-                defaultMessage='Saving'
-            />
-        ),
-    }
+        savingMessage: <FormattedMessage id='save_button.saving' defaultMessage='Saving' />,
+    };
 
     public render() {
         const {
@@ -65,10 +55,7 @@ export default class SaveButton extends React.PureComponent<Props> {
                 disabled={disabled}
                 {...props}
             >
-                <LoadingWrapper
-                    loading={saving}
-                    text={savingMessage}
-                >
+                <LoadingWrapper loading={saving} text={savingMessage}>
                     <span>{defaultMessage}</span>
                 </LoadingWrapper>
             </button>

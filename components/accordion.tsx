@@ -25,13 +25,11 @@ export default class Accordion extends React.PureComponent<Props, State> {
 
     setExpanded = (expandedKey: string) => {
         this.setState({expandedKey});
-    }
+    };
 
     render() {
         return (
-            <div
-                className={'Accordion'}
-            >
+            <div className={'Accordion'}>
                 {this.props.children(this.setExpanded, this.state.expandedKey)}
             </div>
         );

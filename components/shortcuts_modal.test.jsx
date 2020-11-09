@@ -8,17 +8,13 @@ import ShortcutsModal from 'components/shortcuts_modal.jsx';
 
 describe('components/ShortcutsModal', () => {
     test('should match snapshot modal for Mac', () => {
-        const wrapper = mountWithIntl(
-            <ShortcutsModal isMac={true}/>,
-        );
+        const wrapper = mountWithIntl(<ShortcutsModal isMac={true} />);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot modal for non-Mac like Windows/Linux', () => {
-        const wrapper = mountWithIntl(
-            <ShortcutsModal isMac={false}/>,
-        );
+        const wrapper = mountWithIntl(<ShortcutsModal isMac={false} />);
 
         expect(wrapper).toMatchSnapshot();
     });

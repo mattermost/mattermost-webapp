@@ -12,7 +12,7 @@ import './multi_input.scss';
 type ValueType = {
     label: string;
     value: string;
-}
+};
 
 type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     value: T[];
@@ -30,7 +30,7 @@ const baseStyles = {
 const MultiValueContainer = (props: any) => {
     return (
         <div className={classNames('MultiInput__multiValueContainer', {error: props.data.error})}>
-            <components.MultiValueContainer {...props}/>
+            <components.MultiValueContainer {...props} />
         </div>
     );
 };
@@ -39,7 +39,7 @@ const MultiValueRemove = (props: any) => {
     return (
         <div className='MultiInput__multiValueRemove'>
             <components.MultiValueRemove {...props}>
-                <i className='icon icon-close-circle'/>
+                <i className='icon icon-close-circle' />
             </components.MultiValueRemove>
         </div>
     );
@@ -48,13 +48,24 @@ const MultiValueRemove = (props: any) => {
 const Placeholder = (props: any) => {
     return (
         <div className='MultiInput__placeholder'>
-            <components.Placeholder {...props}/>
+            <components.Placeholder {...props} />
         </div>
     );
 };
 
 const MultiInput = <T extends ValueType>(props: Props<T>) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, ...otherProps} = props;
+    const {
+        value,
+        placeholder,
+        className,
+        addon,
+        name,
+        textPrefix,
+        legend,
+        onChange,
+        styles,
+        ...otherProps
+    } = props;
 
     const [focused, setFocused] = useState(false);
 
@@ -88,13 +99,9 @@ const MultiInput = <T extends ValueType>(props: Props<T>) => {
                 })}
             >
                 <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
-                    {showLegend ? (legend || placeholder) : null}
+                    {showLegend ? legend || placeholder : null}
                 </legend>
-                <div
-                    className='Input_wrapper'
-                    onFocus={onInputFocus}
-                    onBlur={onInputBlur}
-                >
+                <div className='Input_wrapper' onFocus={onInputFocus} onBlur={onInputBlur}>
                     {textPrefix && <span>{textPrefix}</span>}
                     <ReactSelect
                         id={`MultiInput_${name}`}

@@ -14,9 +14,7 @@ describe('components/picture_selector', () => {
     };
 
     test('should match snapshot, no picture selected', () => {
-        const wrapper = shallow(
-            <PictureSelector {...baseProps}/>,
-        );
+        const wrapper = shallow(<PictureSelector {...baseProps} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -28,9 +26,7 @@ describe('components/picture_selector', () => {
             defaultSrc: 'http:///url.com/default-picture.jpg',
         };
 
-        const wrapper = shallow(
-            <PictureSelector {...props}/>,
-        );
+        const wrapper = shallow(<PictureSelector {...props} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -41,9 +37,7 @@ describe('components/picture_selector', () => {
             defaultSrc: 'http:///url.com/default-picture.jpg',
         };
 
-        const wrapper = shallow(
-            <PictureSelector {...props}/>,
-        );
+        const wrapper = shallow(<PictureSelector {...props} />);
 
         expect(wrapper).toMatchSnapshot();
     });

@@ -13,9 +13,7 @@ import {
 
 import {showRHSPlugin, hideRHSPlugin, toggleRHSPlugin} from 'actions/views/rhs';
 
-import {
-    registerPluginTranslationsSource,
-} from 'actions/views/root';
+import {registerPluginTranslationsSource} from 'actions/views/root';
 
 import {
     registerAdminConsolePlugin,
@@ -339,7 +337,10 @@ export default class PluginRegistry {
             };
         }
         const id = generateId();
-        return {id, rootRegisterMenuItem: registerMenuItem(this.id, id, null, text, action, filter)};
+        return {
+            id,
+            rootRegisterMenuItem: registerMenuItem(this.id, id, null, text, action, filter),
+        };
     }
 
     // Register a component at the bottom of the post dropdown menu.
@@ -618,7 +619,12 @@ export default class PluginRegistry {
             },
         });
 
-        return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id), toggleRHSPlugin: toggleRHSPlugin(id)};
+        return {
+            id,
+            showRHSPlugin: showRHSPlugin(id),
+            hideRHSPlugin: hideRHSPlugin(id),
+            toggleRHSPlugin: toggleRHSPlugin(id),
+        };
     }
 
     // Register a Needs Team component by providing a route past /:team/:pluginId/ to be displayed at.

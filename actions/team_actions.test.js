@@ -110,7 +110,10 @@ describe('Actions.Team', () => {
 
     test('addUsersToTeam', () => {
         testStore.dispatch(Actions.addUsersToTeam('teamId', ['123', '1234']));
-        expect(TeamActions.addUsersToTeamGracefully).toHaveBeenCalledWith('teamId', ['123', '1234']);
+        expect(TeamActions.addUsersToTeamGracefully).toHaveBeenCalledWith('teamId', [
+            '123',
+            '1234',
+        ]);
     });
 
     test('removeUserFromTeamAndGetStats', async () => {

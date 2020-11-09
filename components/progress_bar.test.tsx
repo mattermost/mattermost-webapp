@@ -12,9 +12,7 @@ describe('components/progress_bar', () => {
             current: 0,
             total: 10,
         };
-        const wrapper = mount(
-            <ProgressBar {...props}/>,
-        );
+        const wrapper = mount(<ProgressBar {...props} />);
 
         expect(wrapper.find('.ProgressBar__progress').prop('style')).toHaveProperty('flexGrow', 0);
     });
@@ -24,11 +22,12 @@ describe('components/progress_bar', () => {
             current: 5,
             total: 10,
         };
-        const wrapper = mount(
-            <ProgressBar {...props}/>,
-        );
+        const wrapper = mount(<ProgressBar {...props} />);
 
-        expect(wrapper.find('.ProgressBar__progress').prop('style')).toHaveProperty('flexGrow', 0.5);
+        expect(wrapper.find('.ProgressBar__progress').prop('style')).toHaveProperty(
+            'flexGrow',
+            0.5
+        );
     });
 
     test('should show full progress', () => {
@@ -36,9 +35,7 @@ describe('components/progress_bar', () => {
             current: 7,
             total: 7,
         };
-        const wrapper = mount(
-            <ProgressBar {...props}/>,
-        );
+        const wrapper = mount(<ProgressBar {...props} />);
 
         expect(wrapper.find('.ProgressBar__progress').prop('style')).toHaveProperty('flexGrow', 1);
     });
@@ -49,10 +46,11 @@ describe('components/progress_bar', () => {
             total: 7,
             basePercentage: 10,
         };
-        const wrapper = mount(
-            <ProgressBar {...props}/>,
-        );
+        const wrapper = mount(<ProgressBar {...props} />);
 
-        expect(wrapper.find('.ProgressBar__progress').prop('style')).toHaveProperty('flexBasis', '10%');
+        expect(wrapper.find('.ProgressBar__progress').prop('style')).toHaveProperty(
+            'flexBasis',
+            '10%'
+        );
     });
 });

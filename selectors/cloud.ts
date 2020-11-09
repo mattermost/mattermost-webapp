@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -10,7 +9,7 @@ import {GlobalState} from 'types/store';
 export enum InquiryType {
     Technical = 'technical',
     Sales = 'sales',
-    Billing = 'billing'
+    Billing = 'billing',
 }
 
 export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType): string {
@@ -19,5 +18,7 @@ export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType):
     const user = getCurrentUser(state);
     const fullName = `${user.first_name} ${user.last_name}`;
 
-    return `${cwsUrl}/cloud/contact-us?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(fullName)}&inquiry=${inquiry}`;
+    return `${cwsUrl}/cloud/contact-us?email=${encodeURIComponent(
+        user.email
+    )}&name=${encodeURIComponent(fullName)}&inquiry=${inquiry}`;
 }

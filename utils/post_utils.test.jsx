@@ -289,23 +289,48 @@ describe('PostUtils.shouldFocusMainTextbox', () => {
 
 describe('PostUtils.postMessageOnKeyPress', () => {
     // null/empty cases
-    const emptyCases = [{
-        name: 'null/empty: Test for null event',
-        input: {event: null, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'null/empty: Test for empty message',
-        input: {event: {}, message: '', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'null/empty: Test for shiftKey event',
-        input: {event: {shiftKey: true}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'null/empty: Test for altKey event',
-        input: {event: {altKey: true}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }];
+    const emptyCases = [
+        {
+            name: 'null/empty: Test for null event',
+            input: {
+                event: null,
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name: 'null/empty: Test for empty message',
+            input: {
+                event: {},
+                message: '',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name: 'null/empty: Test for shiftKey event',
+            input: {
+                event: {shiftKey: true},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name: 'null/empty: Test for altKey event',
+            input: {
+                event: {altKey: true},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+    ];
 
     for (const testCase of emptyCases) {
         it(testCase.name, () => {
@@ -316,7 +341,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 0,
                 0,
-                testCase.input.message.length,
+                testCase.input.message.length
             );
 
             expect(output).toEqual(testCase.expected);
@@ -324,19 +349,38 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     }
 
     // no override case
-    const noOverrideCases = [{
-        name: 'no override: Test no override setting',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'no override: empty message',
-        input: {event: {keyCode: 13}, message: '', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'no override: empty message on ctrl + enter',
-        input: {event: {keyCode: 13}, message: '', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }];
+    const noOverrideCases = [
+        {
+            name: 'no override: Test no override setting',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name: 'no override: empty message',
+            input: {
+                event: {keyCode: 13},
+                message: '',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name: 'no override: empty message on ctrl + enter',
+            input: {
+                event: {keyCode: 13},
+                message: '',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+    ];
 
     for (const testCase of noOverrideCases) {
         it(testCase.name, () => {
@@ -347,7 +391,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 0,
                 0,
-                testCase.input.message.length,
+                testCase.input.message.length
             );
 
             expect(output).toEqual(testCase.expected);
@@ -355,71 +399,196 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     }
 
     // on sending of message on Ctrl + Enter
-    const sendMessageOnCtrlEnterCases = [{
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```\nfunc(){}', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```\nfunc(){}\n', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening and closing backticks',
-        input: {event: {keyCode: 13}, message: '```\nfunc(){}\n```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: 'message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with metaKey',
-        input: {event: {keyCode: 13, metaKey: true}, message: 'message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks, with language set',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```\n', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```\nfunction(){}', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true, message: '```\nfunction(){}\n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks, with line break on last line',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```\nfunction(){}\n', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true, message: '```\nfunction(){}\n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks, with multiple line breaks on last lines',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```\nfunction(){}\n\n\n', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true, message: '```\nfunction(){}\n\n\n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening and closing backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```\nfunction(){}\n```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening and closing backticks, with language set',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\nfunction(){}\n```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with inline opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }];
+    const sendMessageOnCtrlEnterCases = [
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```\nfunc(){}',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```\nfunc(){}\n',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, no ctrlKey|metaKey, with opening and closing backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```\nfunc(){}\n```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: 'message',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with metaKey',
+            input: {
+                event: {keyCode: 13, metaKey: true},
+                message: 'message',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks, with language set',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```\n',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```\nfunction(){}',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {
+                allowSending: true,
+                message: '```\nfunction(){}\n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks, with line break on last line',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```\nfunction(){}\n',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {
+                allowSending: true,
+                message: '```\nfunction(){}\n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening backticks, with multiple line breaks on last lines',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```\nfunction(){}\n\n\n',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {
+                allowSending: true,
+                message: '```\nfunction(){}\n\n\n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening and closing backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```\nfunction(){}\n```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with opening and closing backticks, with language set',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\nfunction(){}\n```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendMessageOnCtrlEnter: Test for overriding sending of message on CTRL+ENTER, with ctrlKey, with inline opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '``` message',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+    ];
 
     for (const testCase of sendMessageOnCtrlEnterCases) {
         it(testCase.name, () => {
@@ -430,7 +599,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 0,
                 0,
-                testCase.input.message.length,
+                testCase.input.message.length
             );
 
             expect(output).toEqual(testCase.expected);
@@ -438,91 +607,261 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     }
 
     // on sending and/or closing of code block on Ctrl + Enter
-    const sendCodeBlockOnCtrlEnterCases = [{
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, without opening backticks',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```javascript', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```javascript\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
-        input: {event: {keyCode: 13}, message: '```javascript\n    function(){}', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, without opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with metaKey, without opening backticks',
-        input: {event: {keyCode: 13, metaKey: true}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with line break',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with multiple line breaks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '\n\n\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with language set',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening and closing backticks, with language set',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\n    function(){}\n```', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening and closing backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```\n    function(){}\n```', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with last line of empty spaces',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\n    function(){}\n    ', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true, message: '```javascript\n    function(){}\n    \n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with empty line break on last line',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\n    function(){}\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true, message: '```javascript\n    function(){}\n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with multiple empty line breaks on last lines',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\n    function(){}\n\n\n', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true, message: '```javascript\n    function(){}\n\n\n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with multiple empty line breaks and spaces on last lines',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\n    function(){}\n    \n\n    ', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true, message: '```javascript\n    function(){}\n    \n\n    \n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, without line break on last line',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '```javascript\n    function(){}', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true},
-        expected: {allowSending: true, message: '```javascript\n    function(){}\n```', withClosedCodeBlock: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with inline opening backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
-        expected: {allowSending: true},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with cursor between backticks',
-        input: {event: {keyCode: 13, ctrlKey: false}, message: '``` message ```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: true, cursorPosition: 5},
-        expected: {allowSending: false},
-    }, {
-        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with cursor between backticks',
-        input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message ```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: true, cursorPosition: 5},
-        expected: {allowSending: true},
-    }];
+    const sendCodeBlockOnCtrlEnterCases = [
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, without opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```javascript',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```javascript\n',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with opening backticks',
+            input: {
+                event: {keyCode: 13},
+                message: '```javascript\n    function(){}',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, without opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with metaKey, without opening backticks',
+            input: {
+                event: {keyCode: 13, metaKey: true},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with line break',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '\n',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with multiple line breaks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '\n\n\n',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with language set',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening and closing backticks, with language set',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\n    function(){}\n```',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening and closing backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```\n    function(){}\n```',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with last line of empty spaces',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\n    function(){}\n    ',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {
+                allowSending: true,
+                message: '```javascript\n    function(){}\n    \n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with empty line break on last line',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\n    function(){}\n',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {
+                allowSending: true,
+                message: '```javascript\n    function(){}\n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with multiple empty line breaks on last lines',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\n    function(){}\n\n\n',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {
+                allowSending: true,
+                message: '```javascript\n    function(){}\n\n\n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, with multiple empty line breaks and spaces on last lines',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\n    function(){}\n    \n\n    ',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {
+                allowSending: true,
+                message: '```javascript\n    function(){}\n    \n\n    \n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with opening backticks, without line break on last line',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '```javascript\n    function(){}',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+            },
+            expected: {
+                allowSending: true,
+                message: '```javascript\n    function(){}\n```',
+                withClosedCodeBlock: true,
+            },
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with inline opening backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '``` message',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: false,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with cursor between backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: false},
+                message: '``` message ```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: true,
+                cursorPosition: 5,
+            },
+            expected: {allowSending: false},
+        },
+        {
+            name:
+                'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with cursor between backticks',
+            input: {
+                event: {keyCode: 13, ctrlKey: true},
+                message: '``` message ```',
+                sendMessageOnCtrlEnter: true,
+                sendCodeBlockOnCtrlEnter: true,
+                cursorPosition: 5,
+            },
+            expected: {allowSending: true},
+        },
+    ];
 
     for (const testCase of sendCodeBlockOnCtrlEnterCases) {
         it(testCase.name, () => {
@@ -533,7 +872,9 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 0,
                 0,
-                testCase.input.cursorPosition ? testCase.input.cursorPosition : testCase.input.message.length,
+                testCase.input.cursorPosition
+                    ? testCase.input.cursorPosition
+                    : testCase.input.message.length
             );
 
             expect(output).toEqual(testCase.expected);
@@ -541,35 +882,92 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     }
 
     // on sending within channel threshold
-    const channelThresholdCases = [{
-        name: 'now unspecified, last channel switch unspecified',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 0, lastChannelSwitch: 0},
-        expected: {allowSending: true},
-    }, {
-        name: 'now specified, last channel switch unspecified',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 0},
-        expected: {allowSending: true},
-    }, {
-        name: 'now specified, last channel switch unspecified',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 0, lastChannelSwitch: 1541658920334},
-        expected: {allowSending: true},
-    }, {
-        name: 'last channel switch within threshold',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 250},
-        expected: {allowSending: false, ignoreKeyPress: true},
-    }, {
-        name: 'last channel switch at threshold',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 500},
-        expected: {allowSending: false, ignoreKeyPress: true},
-    }, {
-        name: 'last channel switch outside threshold',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 501},
-        expected: {allowSending: true},
-    }, {
-        name: 'last channel switch well outside threshold',
-        input: {event: {keyCode: 13}, message: 'message', sendMessageOnCtrlEnter: false, sendCodeBlockOnCtrlEnter: true, now: 1541658920334, lastChannelSwitch: 1541658920334 - 1500},
-        expected: {allowSending: true},
-    }];
+    const channelThresholdCases = [
+        {
+            name: 'now unspecified, last channel switch unspecified',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 0,
+                lastChannelSwitch: 0,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name: 'now specified, last channel switch unspecified',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 1541658920334,
+                lastChannelSwitch: 0,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name: 'now specified, last channel switch unspecified',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 0,
+                lastChannelSwitch: 1541658920334,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name: 'last channel switch within threshold',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 1541658920334,
+                lastChannelSwitch: 1541658920334 - 250,
+            },
+            expected: {allowSending: false, ignoreKeyPress: true},
+        },
+        {
+            name: 'last channel switch at threshold',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 1541658920334,
+                lastChannelSwitch: 1541658920334 - 500,
+            },
+            expected: {allowSending: false, ignoreKeyPress: true},
+        },
+        {
+            name: 'last channel switch outside threshold',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 1541658920334,
+                lastChannelSwitch: 1541658920334 - 501,
+            },
+            expected: {allowSending: true},
+        },
+        {
+            name: 'last channel switch well outside threshold',
+            input: {
+                event: {keyCode: 13},
+                message: 'message',
+                sendMessageOnCtrlEnter: false,
+                sendCodeBlockOnCtrlEnter: true,
+                now: 1541658920334,
+                lastChannelSwitch: 1541658920334 - 1500,
+            },
+            expected: {allowSending: true},
+        },
+    ];
 
     for (const testCase of channelThresholdCases) {
         it(testCase.name, () => {
@@ -580,7 +978,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 testCase.input.now,
                 testCase.input.lastChannelSwitch,
-                testCase.input.message.length,
+                testCase.input.message.length
             );
 
             expect(output).toEqual(testCase.expected);
@@ -590,17 +988,29 @@ describe('PostUtils.postMessageOnKeyPress', () => {
 
 describe('PostUtils.getOldestPostId', () => {
     test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER]);
+        const postId = PostUtils.getOldestPostId([
+            'postId1',
+            'postId2',
+            PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER,
+        ]);
         assert.equal(postId, 'postId2');
     });
 
     test('Should not return OLDER_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.OLDER_MESSAGES_LOADER]);
+        const postId = PostUtils.getOldestPostId([
+            'postId1',
+            'postId2',
+            PostListRowListIds.OLDER_MESSAGES_LOADER,
+        ]);
         assert.equal(postId, 'postId2');
     });
 
     test('Should not return CHANNEL_INTRO_MESSAGE', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.CHANNEL_INTRO_MESSAGE]);
+        const postId = PostUtils.getOldestPostId([
+            'postId1',
+            'postId2',
+            PostListRowListIds.CHANNEL_INTRO_MESSAGE,
+        ]);
         assert.equal(postId, 'postId2');
     });
 
@@ -610,41 +1020,66 @@ describe('PostUtils.getOldestPostId', () => {
     });
 
     test('Should not return START_OF_NEW_MESSAGES', () => {
-        const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES]);
+        const postId = PostUtils.getOldestPostId([
+            'postId1',
+            'postId2',
+            PostListRowListIds.START_OF_NEW_MESSAGES,
+        ]);
         assert.equal(postId, 'postId2');
     });
 });
 
 describe('PostUtils.getPreviousPostId', () => {
     test('Should skip dateline', () => {
-        const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'date-1558290600000', 'postId3'], 1);
+        const postId = PostUtils.getPreviousPostId(
+            ['postId1', 'postId2', 'date-1558290600000', 'postId3'],
+            1
+        );
         assert.equal(postId, 'postId3');
     });
 
     test('Should skip START_OF_NEW_MESSAGES', () => {
-        const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES, 'postId3'], 1);
+        const postId = PostUtils.getPreviousPostId(
+            ['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES, 'postId3'],
+            1
+        );
         assert.equal(postId, 'postId3');
     });
 
     test('Should return first postId from combined system messages', () => {
-        const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'user-activity-post1_post2_post3', 'postId3'], 1);
+        const postId = PostUtils.getPreviousPostId(
+            ['postId1', 'postId2', 'user-activity-post1_post2_post3', 'postId3'],
+            1
+        );
         assert.equal(postId, 'post1');
     });
 });
 
 describe('PostUtils.getLatestPostId', () => {
     test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER, 'postId1', 'postId2']);
+        const postId = PostUtils.getLatestPostId([
+            PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER,
+            'postId1',
+            'postId2',
+        ]);
         assert.equal(postId, 'postId1');
     });
 
     test('Should not return OLDER_MESSAGES_LOADER', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.OLDER_MESSAGES_LOADER, 'postId1', 'postId2']);
+        const postId = PostUtils.getLatestPostId([
+            PostListRowListIds.OLDER_MESSAGES_LOADER,
+            'postId1',
+            'postId2',
+        ]);
         assert.equal(postId, 'postId1');
     });
 
     test('Should not return CHANNEL_INTRO_MESSAGE', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.CHANNEL_INTRO_MESSAGE, 'postId1', 'postId2']);
+        const postId = PostUtils.getLatestPostId([
+            PostListRowListIds.CHANNEL_INTRO_MESSAGE,
+            'postId1',
+            'postId2',
+        ]);
         assert.equal(postId, 'postId1');
     });
 
@@ -654,12 +1089,20 @@ describe('PostUtils.getLatestPostId', () => {
     });
 
     test('Should not return START_OF_NEW_MESSAGES', () => {
-        const postId = PostUtils.getLatestPostId([PostListRowListIds.START_OF_NEW_MESSAGES, 'postId1', 'postId2']);
+        const postId = PostUtils.getLatestPostId([
+            PostListRowListIds.START_OF_NEW_MESSAGES,
+            'postId1',
+            'postId2',
+        ]);
         assert.equal(postId, 'postId1');
     });
 
     test('Should return first postId from combined system messages', () => {
-        const postId = PostUtils.getLatestPostId(['user-activity-post1_post2_post3', 'postId1', 'postId2']);
+        const postId = PostUtils.getLatestPostId([
+            'user-activity-post1_post2_post3',
+            'postId1',
+            'postId2',
+        ]);
         assert.equal(postId, 'post1');
     });
 });
@@ -672,12 +1115,9 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const testPost = {
             message: 'test_message',
             root_id: null,
-            create_at: (new Date().getTime() / 1000) || 0,
+            create_at: new Date().getTime() / 1000 || 0,
             props: {
-                attachments: [
-                    {i: 'am attachment 1'},
-                    {and: 'i am attachment 2'},
-                ],
+                attachments: [{i: 'am attachment 1'}, {and: 'i am attachment 2'}],
             },
             file_ids: ['test_file_id_1'],
         };
@@ -688,7 +1128,14 @@ describe('PostUtils.createAriaLabelForPost', () => {
         };
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(
+            testPost,
+            author,
+            isFlagged,
+            reactions,
+            intl,
+            emojiMap
+        );
         assert.ok(ariaLabel.indexOf(author));
         assert.ok(ariaLabel.indexOf(testPost.message));
         assert.ok(ariaLabel.indexOf('3 attachments'));
@@ -701,13 +1148,20 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const testPost = {
             message: 'test_message',
             root_id: 'test_id',
-            create_at: (new Date().getTime() / 1000) || 0,
+            create_at: new Date().getTime() / 1000 || 0,
         };
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(
+            testPost,
+            author,
+            isFlagged,
+            reactions,
+            intl,
+            emojiMap
+        );
         assert.ok(ariaLabel.indexOf('reply'));
     });
     test('Should translate emoji into {emoji-name} emoji', () => {
@@ -715,13 +1169,20 @@ describe('PostUtils.createAriaLabelForPost', () => {
 
         const testPost = {
             message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',
-            create_at: (new Date().getTime() / 1000) || 0,
+            create_at: new Date().getTime() / 1000 || 0,
         };
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(
+            testPost,
+            author,
+            isFlagged,
+            reactions,
+            intl,
+            emojiMap
+        );
         assert.ok(ariaLabel.indexOf('smile emoji'));
         assert.ok(ariaLabel.indexOf('+1 emoji'));
         assert.ok(ariaLabel.indexOf('non-potable water emoji'));
@@ -734,13 +1195,15 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const testPost = {
             id: 32,
             message: undefined,
-            create_at: (new Date().getTime() / 1000) || 0,
+            create_at: new Date().getTime() / 1000 || 0,
         };
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
 
-        assert.doesNotThrow(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap));
+        assert.doesNotThrow(() =>
+            PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap)
+        );
     });
 });
 
@@ -751,7 +1214,10 @@ describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
 
     const message = 'Test Message';
     it('should return an object with two strings when given context and message', () => {
-        const stringPieces = PostUtils.splitMessageBasedOnCaretPosition(state.caretPosition, message);
+        const stringPieces = PostUtils.splitMessageBasedOnCaretPosition(
+            state.caretPosition,
+            message
+        );
         assert.equal('Te', stringPieces.firstPiece);
         assert.equal('st Message', stringPieces.lastPiece);
     });

@@ -10,16 +10,9 @@ type Props = {
     containerStyle?: CSSProperties;
 };
 
-const StoryItem = ({
-    label,
-    containerStyle,
-    children,
-}: PropsWithChildren<Props>) => {
+const StoryItem = ({label, containerStyle, children}: PropsWithChildren<Props>) => {
     return (
-        <div
-            className='StoryBox'
-            style={{...containerStyle}}
-        >
+        <div className='StoryBox' style={{...containerStyle}}>
             {label && <span className='StoryBox___label'>{label}</span>}
             {children}
         </div>

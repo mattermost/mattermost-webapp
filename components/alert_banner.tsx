@@ -12,7 +12,7 @@ type Props = {
     message: React.ReactNode;
     className?: string;
     onDismiss?: () => void;
-}
+};
 
 const AlertBanner: React.FC<Props> = (props: Props) => {
     const {mode, title, message, className, onDismiss} = props;
@@ -20,29 +20,18 @@ const AlertBanner: React.FC<Props> = (props: Props) => {
     return (
         <div className={classNames('AlertBanner', mode, className)}>
             <div className='AlertBanner__icon'>
-                {mode === 'info' &&
-                    <i className='icon-alert-circle-outline'/>
-                }
-                {mode !== 'info' &&
-                    <i className='icon-alert-outline'/>
-                }
+                {mode === 'info' && <i className='icon-alert-circle-outline' />}
+                {mode !== 'info' && <i className='icon-alert-outline' />}
             </div>
             <div className='AlertBanner__body'>
-                <div className='AlertBanner__title'>
-                    {title}
-                </div>
-                <div className='AlertBanner__message'>
-                    {message}
-                </div>
+                <div className='AlertBanner__title'>{title}</div>
+                <div className='AlertBanner__message'>{message}</div>
             </div>
-            {onDismiss &&
-                <button
-                    className='AlertBanner__closeButton'
-                    onClick={onDismiss}
-                >
-                    <i className='icon-close'/>
+            {onDismiss && (
+                <button className='AlertBanner__closeButton' onClick={onDismiss}>
+                    <i className='icon-close' />
                 </button>
-            }
+            )}
         </div>
     );
 };

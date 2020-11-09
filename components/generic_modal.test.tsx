@@ -14,9 +14,7 @@ describe('components/GenericModal', () => {
     };
 
     test('should match snapshot for base case', () => {
-        const wrapper = shallow(
-            <GenericModal {...requiredProps}/>,
-        );
+        const wrapper = shallow(<GenericModal {...requiredProps} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -28,9 +26,7 @@ describe('components/GenericModal', () => {
             handleCancel: jest.fn(),
         };
 
-        const wrapper = shallow(
-            <GenericModal {...props}/>,
-        );
+        const wrapper = shallow(<GenericModal {...props} />);
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.GenericModal__button.confirm')).toHaveLength(1);
@@ -44,9 +40,7 @@ describe('components/GenericModal', () => {
             isConfirmDisabled: true,
         };
 
-        const wrapper = shallow(
-            <GenericModal {...props}/>,
-        );
+        const wrapper = shallow(<GenericModal {...props} />);
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.GenericModal__button.confirm.disabled')).toHaveLength(1);
@@ -58,9 +52,7 @@ describe('components/GenericModal', () => {
             handleConfirm: jest.fn(),
         };
 
-        const wrapper = mountWithIntl(
-            <GenericModal {...props}/>,
-        );
+        const wrapper = mountWithIntl(<GenericModal {...props} />);
 
         wrapper.find('.GenericModal__button.confirm').simulate('click');
 
@@ -74,9 +66,7 @@ describe('components/GenericModal', () => {
             handleCancel: jest.fn(),
         };
 
-        const wrapper = mountWithIntl(
-            <GenericModal {...props}/>,
-        );
+        const wrapper = mountWithIntl(<GenericModal {...props} />);
 
         wrapper.find('.GenericModal__button.cancel').simulate('click');
 

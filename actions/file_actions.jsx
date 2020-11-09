@@ -14,17 +14,18 @@ export function uploadFile(file, name, channelId, rootId, clientId) {
     return (dispatch) => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
 
-        return request.
-            post(Client4.getFilesRoute()).
-            set(Client4.getOptions({method: 'post'}).headers).
-
-            // The order here is important:
-            // keeping the channel_id/client_ids fields before the files contents
-            // allows the server to stream the uploads instead of loading them in memory.
-            field('channel_id', channelId).
-            field('client_ids', clientId).
-            attach('files', file, name).
-            accept('application/json');
+        return (
+            request
+                .post(Client4.getFilesRoute())
+                .set(Client4.getOptions({method: 'post'}).headers)
+                // The order here is important:
+                // keeping the channel_id/client_ids fields before the files contents
+                // allows the server to stream the uploads instead of loading them in memory.
+                .field('channel_id', channelId)
+                .field('client_ids', clientId)
+                .attach('files', file, name)
+                .accept('application/json')
+        );
     };
 }
 
@@ -35,9 +36,23 @@ export function handleFileUploadEnd(file, name, channelId, rootId, clientId, {er
             if (res && res.body && res.body.id) {
                 e = res.body;
             } else if (err.status === 0 || !err.status) {
-                e = {message: Utils.localizeMessage('file_upload.generic_error', 'There was a problem uploading your files.')};
+                e = {
+                    message: Utils.localizeMessage(
+                        'file_upload.generic_error',
+                        'There was a problem uploading your files.'
+                    ),
+                };
             } else {
-                e = {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + err.status + ')'};
+                e = {
+                    message:
+                        Utils.localizeMessage(
+                            'channel_loader.unknown_error',
+                            'We received an unexpected status code from the server.'
+                        ) +
+                        ' (' +
+                        err.status +
+                        ')',
+                };
             }
 
             forceLogoutIfNecessary(err, dispatch, getState);
@@ -60,17 +75,19 @@ export function handleFileUploadEnd(file, name, channelId, rootId, clientId, {er
             };
         });
 
-        dispatch(batchActions([
-            {
-                type: FileTypes.RECEIVED_UPLOAD_FILES,
-                data,
-                channelId,
-                rootId,
-            },
-            {
-                type: FileTypes.UPLOAD_FILES_SUCCESS,
-            },
-        ]));
+        dispatch(
+            batchActions([
+                {
+                    type: FileTypes.RECEIVED_UPLOAD_FILES,
+                    data,
+                    channelId,
+                    rootId,
+                },
+                {
+                    type: FileTypes.UPLOAD_FILES_SUCCESS,
+                },
+            ])
+        );
 
         return {data: res.body};
     };

@@ -9,34 +9,32 @@ type Props = Omit<HTMLAttributes<HTMLSpanElement | HTMLElement>, 'title' | 'comp
     component?: 'i' | 'span';
     title: MessageDescriptor & {
         values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>;
-    },
-}
+    };
+};
 
-const LocalizedIcon = React.forwardRef((props: Props, ref?: React.Ref<HTMLSpanElement | HTMLElement>) => {
-    const {
-        component: Component = 'i',
-        title: {
-            id,
-            defaultMessage,
-            values,
-        },
-        ...otherProps
-    } = props;
+const LocalizedIcon = React.forwardRef(
+    (props: Props, ref?: React.Ref<HTMLSpanElement | HTMLElement>) => {
+        const {
+            component: Component = 'i',
+            title: {id, defaultMessage, values},
+            ...otherProps
+        } = props;
 
-    if (Component !== 'i' && Component !== 'span') {
-        return null;
+        if (Component !== 'i' && Component !== 'span') {
+            return null;
+        }
+
+        const {formatMessage} = useIntl();
+
+        return (
+            <Component
+                {...otherProps}
+                ref={ref}
+                title={formatMessage({id, defaultMessage}, values)}
+            />
+        );
     }
-
-    const {formatMessage} = useIntl();
-
-    return (
-        <Component
-            {...otherProps}
-            ref={ref}
-            title={formatMessage({id, defaultMessage}, values)}
-        />
-    );
-});
+);
 LocalizedIcon.displayName = 'LocalizedIcon';
 
 export default LocalizedIcon;

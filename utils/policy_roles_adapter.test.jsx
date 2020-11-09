@@ -34,16 +34,11 @@ describe('PolicyRolesAdapter', () => {
             },
             channel_admin: {
                 name: 'channel_admin',
-                permissions: [
-                    Permissions.MANAGE_CHANNEL_ROLES,
-                ],
+                permissions: [Permissions.MANAGE_CHANNEL_ROLES],
             },
             team_admin: {
                 name: 'team_admin',
-                permissions: [
-                    Permissions.DELETE_POST,
-                    Permissions.DELETE_OTHERS_POSTS,
-                ],
+                permissions: [Permissions.DELETE_POST, Permissions.DELETE_OTHERS_POSTS],
             },
             system_admin: {
                 name: 'system_admin',
@@ -58,9 +53,7 @@ describe('PolicyRolesAdapter', () => {
             },
             system_user: {
                 name: 'system_user',
-                permissions: [
-                    Permissions.CREATE_TEAM,
-                ],
+                permissions: [Permissions.CREATE_TEAM],
             },
         };
         const teamPolicies = {
@@ -115,34 +108,61 @@ describe('PolicyRolesAdapter', () => {
                 roles.system_user.permissions = [];
                 const updatedRoles = rolesFromMapping({enableTeamCreation: 'true'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
-                expect(updatedRoles.system_user.permissions).toEqual(expect.arrayContaining([Permissions.CREATE_TEAM]));
+                expect(updatedRoles.system_user.permissions).toEqual(
+                    expect.arrayContaining([Permissions.CREATE_TEAM])
+                );
             });
 
             test('false', () => {
                 roles.system_user.permissions = [Permissions.CREATE_TEAM];
                 const updatedRoles = rolesFromMapping({enableTeamCreation: 'false'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
-                expect(updatedRoles.system_user.permissions).not.toEqual(expect.arrayContaining([Permissions.CREATE_TEAM]));
+                expect(updatedRoles.system_user.permissions).not.toEqual(
+                    expect.arrayContaining([Permissions.CREATE_TEAM])
+                );
             });
         });
 
         describe('enableOnlyAdminIntegrations', () => {
             test('true', () => {
                 roles.system_user.permissions = [Permissions.MANAGE_OAUTH];
-                roles.team_user.permissions = [Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS];
+                roles.team_user.permissions = [
+                    Permissions.MANAGE_INCOMING_WEBHOOKS,
+                    Permissions.MANAGE_OUTGOING_WEBHOOKS,
+                    Permissions.MANAGE_SLASH_COMMANDS,
+                ];
                 const updatedRoles = rolesFromMapping({enableOnlyAdminIntegrations: 'true'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.system_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_OAUTH]));
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS]));
+                expect(updatedRoles.system_user.permissions).not.toEqual(
+                    expect.arrayContaining([Permissions.MANAGE_OAUTH])
+                );
+                expect(updatedRoles.team_user.permissions).not.toEqual(
+                    expect.arrayContaining([
+                        Permissions.MANAGE_INCOMING_WEBHOOKS,
+                        Permissions.MANAGE_OUTGOING_WEBHOOKS,
+                        Permissions.MANAGE_SLASH_COMMANDS,
+                    ])
+                );
             });
 
             test('false', () => {
                 roles.system_user.permissions = [];
                 roles.team_user.permissions = [];
-                const updatedRoles = rolesFromMapping({enableOnlyAdminIntegrations: 'false'}, roles);
+                const updatedRoles = rolesFromMapping(
+                    {enableOnlyAdminIntegrations: 'false'},
+                    roles
+                );
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.system_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_OAUTH]));
-                expect(updatedRoles.team_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS]));
+                expect(updatedRoles.system_user.permissions).toEqual(
+                    expect.arrayContaining([Permissions.MANAGE_OAUTH])
+                );
+                expect(updatedRoles.team_user.permissions).toEqual(
+                    expect.arrayContaining([
+                        Permissions.MANAGE_INCOMING_WEBHOOKS,
+                        Permissions.MANAGE_OUTGOING_WEBHOOKS,
+                        Permissions.MANAGE_SLASH_COMMANDS,
+                    ])
+                );
             });
         });
 

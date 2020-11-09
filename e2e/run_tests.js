@@ -101,29 +101,28 @@ async function runTests() {
                 batchName: APPLITOOLS_BATCH_NAME,
             },
             reporter: 'cypress-multi-reporters',
-            reporterOptions:
-                {
-                    reporterEnabled: 'mocha-junit-reporters, mochawesome',
-                    mochaJunitReportersReporterOptions: {
-                        mochaFile: 'results/junit/test_results[hash].xml',
-                        toConsole: false,
-                    },
-                    mochawesomeReporterOptions: {
-                        reportDir: MOCHAWESOME_REPORT_DIR,
-                        reportFilename: `json/${testFile}`,
-                        quiet: true,
-                        overwrite: false,
-                        html: false,
-                        json: true,
-                        testMeta: {
-                            platform,
-                            browser,
-                            headless,
-                            branch: BRANCH,
-                            buildId: BUILD_ID,
-                        },
+            reporterOptions: {
+                reporterEnabled: 'mocha-junit-reporters, mochawesome',
+                mochaJunitReportersReporterOptions: {
+                    mochaFile: 'results/junit/test_results[hash].xml',
+                    toConsole: false,
+                },
+                mochawesomeReporterOptions: {
+                    reportDir: MOCHAWESOME_REPORT_DIR,
+                    reportFilename: `json/${testFile}`,
+                    quiet: true,
+                    overwrite: false,
+                    html: false,
+                    json: true,
+                    testMeta: {
+                        platform,
+                        browser,
+                        headless,
+                        branch: BRANCH,
+                        buildId: BUILD_ID,
                     },
                 },
+            },
         });
 
         // Write test environment details once only
@@ -160,7 +159,13 @@ function printMessage(testFiles, index) {
     const testGroup = withGroup ? `Group: ${groupMessage} ${excludeGroupMessage}` : '';
 
     // Log which files were being tested
-    console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && withGroup ? '| ' : ''}${testGroup}`));
+    console.log(
+        chalk.magenta.bold(
+            `${invert ? 'All Except --> ' : ''}${testStage}${
+                stage && withGroup ? '| ' : ''
+            }${testGroup}`
+        )
+    );
     console.log(chalk.magenta(`(Testing ${index + 1} of ${testFiles.length})  - `, testFile));
 }
 

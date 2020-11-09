@@ -12,12 +12,7 @@ describe('components/ChannelInfoModal', () => {
     test('should match snapshot when modal is showing', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper = shallow(
-            <PostDeletedModal
-                show={true}
-                onHide={emptyFunction}
-            />,
-        );
+        const wrapper = shallow(<PostDeletedModal show={true} onHide={emptyFunction} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -25,12 +20,7 @@ describe('components/ChannelInfoModal', () => {
     test('should match snapshot when modal is not showing', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper = shallow(
-            <PostDeletedModal
-                show={false}
-                onHide={emptyFunction}
-            />,
-        );
+        const wrapper = shallow(<PostDeletedModal show={false} onHide={emptyFunction} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -40,12 +30,7 @@ describe('components/ChannelInfoModal', () => {
             done();
         }
 
-        const wrapper = mountWithIntl(
-            <PostDeletedModal
-                show={true}
-                onHide={onHide}
-            />,
-        );
+        const wrapper = mountWithIntl(<PostDeletedModal show={true} onHide={onHide} />);
 
         wrapper.find(Modal).first().props().onHide();
     });
@@ -53,12 +38,7 @@ describe('components/ChannelInfoModal', () => {
     test('shouldComponentUpdate returns the correct results', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper = shallow(
-            <PostDeletedModal
-                show={false}
-                onHide={emptyFunction}
-            />,
-        );
+        const wrapper = shallow(<PostDeletedModal show={false} onHide={emptyFunction} />);
         const shouldUpdate = wrapper.instance().shouldComponentUpdate!({show: true}, {}, null);
         expect(shouldUpdate).toBe(true);
     });

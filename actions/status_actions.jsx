@@ -19,7 +19,10 @@ export function loadStatusesForChannelAndSidebar() {
         const postsInChannel = getPostsInCurrentChannel(state);
 
         if (postsInChannel) {
-            const posts = postsInChannel.slice(0, state.views.channel.postVisibility[channelId] || 0);
+            const posts = postsInChannel.slice(
+                0,
+                state.views.channel.postVisibility[channelId] || 0
+            );
             for (const post of posts) {
                 if (post.user_id) {
                     statusesToLoad[post.user_id] = true;
@@ -91,12 +94,9 @@ let intervalId = '';
 export function startPeriodicStatusUpdates() {
     clearInterval(intervalId);
 
-    intervalId = setInterval(
-        () => {
-            store.dispatch(loadStatusesForChannelAndSidebar());
-        },
-        Constants.STATUS_INTERVAL,
-    );
+    intervalId = setInterval(() => {
+        store.dispatch(loadStatusesForChannelAndSidebar());
+    }, Constants.STATUS_INTERVAL);
 }
 
 export function stopPeriodicStatusUpdates() {

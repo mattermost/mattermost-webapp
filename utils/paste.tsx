@@ -15,7 +15,7 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolea
 
     const html = clipboardData.getData('text/html');
 
-    if (!(/<table/i).test(html)) {
+    if (!/<table/i.test(html)) {
         return false;
     }
 
@@ -38,14 +38,16 @@ export function getPlainText(clipboardData: DataTransfer): string | boolean {
 }
 
 export function isGitHubCodeBlock(tableClassName: string): boolean {
-    const result = (/\b(js|blob|diff)-./).test(tableClassName);
+    const result = /\b(js|blob|diff)-./.test(tableClassName);
     return result;
 }
 
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
-    const text = column.textContent == null ?
-        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    const text =
+        column.textContent == null
+            ? noBreakSpace
+            : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
     return text;
 }
 
@@ -53,7 +55,11 @@ function tableHeaders(row: HTMLTableRowElement): string[] {
     return Array.from(row.querySelectorAll('td, th')).map(columnText);
 }
 
-export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string, caretPosition?: number): string {
+export function formatMarkdownTableMessage(
+    table: HTMLTableElement,
+    message?: string,
+    caretPosition?: number
+): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
     const headerRow = rows.shift();
@@ -61,9 +67,11 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     const spacers = headers.map(() => '---');
     const header = `|${headers.join(' | ')}|\n|${spacers.join(' | ')}|\n`;
 
-    const body = rows.map((row) => {
-        return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
-    }).join('\n');
+    const body = rows
+        .map((row) => {
+            return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
+        })
+        .join('\n');
 
     const formattedTable = `${header}${body}\n`;
     if (!message) {
@@ -72,17 +80,26 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     if (typeof caretPosition === 'undefined') {
         return `${message}\n\n${formattedTable}`;
     }
-    const newMessage = [message.slice(0, caretPosition), formattedTable, message.slice(caretPosition)];
+    const newMessage = [
+        message.slice(0, caretPosition),
+        formattedTable,
+        message.slice(caretPosition),
+    ];
     return newMessage.join('\n');
 }
 
-export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {
+export function formatGithubCodePaste(
+    caretPosition: number,
+    message: string,
+    clipboardData: DataTransfer
+): {formattedMessage: string; formattedCodeBlock: string} {
     const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
 
     // Add new lines if content exists before or after the cursor.
     const requireStartLF = firstPiece === '' ? '' : '\n';
     const requireEndLF = lastPiece === '' ? '' : '\n';
-    const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
+    const formattedCodeBlock =
+        requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
     const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
 
     return {formattedMessage, formattedCodeBlock};

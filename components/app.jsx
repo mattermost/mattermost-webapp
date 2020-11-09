@@ -19,12 +19,10 @@ class App extends React.PureComponent {
         return (
             <Provider store={store}>
                 <Router history={browserHistory}>
-                    <Route
-                        path='/'
-                        component={Root}
-                    />
+                    <Route path='/' component={Root} />
                 </Router>
-            </Provider>);
+            </Provider>
+        );
     }
 }
 

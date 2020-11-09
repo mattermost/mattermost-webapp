@@ -36,11 +36,11 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     }
 
     const processingInstructions = [
-
         // Workaround to fix MM-14931
         {
             replaceChildren: false,
-            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'input' && node.attribs.type === 'checkbox',
+            shouldProcessNode: (node) =>
+                node.type === 'tag' && node.name === 'input' && node.attribs.type === 'checkbox',
             processNode: (node) => {
                 const attribs = node.attribs || {};
                 node.attribs.checked = Boolean(attribs.checked);
@@ -54,13 +54,11 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         const hrefAttrib = 'href';
         processingInstructions.push({
             replaceChildren: true,
-            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'a' && node.attribs[hrefAttrib],
+            shouldProcessNode: (node) =>
+                node.type === 'tag' && node.name === 'a' && node.attribs[hrefAttrib],
             processNode: (node, children) => {
                 return (
-                    <LinkTooltip
-                        href={node.attribs[hrefAttrib]}
-                        attributes={node.attribs}
-                    >
+                    <LinkTooltip href={node.attribs[hrefAttrib]} attributes={node.attribs}>
                         {children}
                     </LinkTooltip>
                 );
@@ -69,7 +67,8 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     }
     if (!('mentions' in options) || options.mentions) {
         const mentionHighlight = 'mentionHighlight' in options ? options.mentionHighlight : true;
-        const disableGroupHighlight = 'disableGroupHighlight' in options ? options.disableGroupHighlight === true : false;
+        const disableGroupHighlight =
+            'disableGroupHighlight' in options ? options.disableGroupHighlight === true : false;
         const mentionAttrib = 'data-mention';
         processingInstructions.push({
             replaceChildren: true,
@@ -100,7 +99,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             processNode: (node) => {
                 const emojiName = node.attribs[emojiAttrib];
 
-                return <PostEmoji name={emojiName}/>;
+                return <PostEmoji name={emojiName} />;
             },
         });
     }
@@ -109,16 +108,10 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         processingInstructions.push({
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
             processNode: (node) => {
-                const {
-                    class: className,
-                    ...attribs
-                } = node.attribs;
+                const {class: className, ...attribs} = node.attribs;
 
                 const imageIsLink = (parentNode) => {
-                    if (parentNode &&
-                        parentNode.type === 'tag' &&
-                        parentNode.name === 'a'
-                    ) {
+                    if (parentNode && parentNode.type === 'tag' && parentNode.name === 'a') {
                         return true;
                     }
                     return false;
@@ -127,7 +120,9 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return (
                     <MarkdownImage
                         className={className}
-                        imageMetadata={options.imagesMetadata && options.imagesMetadata[attribs.src]}
+                        imageMetadata={
+                            options.imagesMetadata && options.imagesMetadata[attribs.src]
+                        }
                         {...attribs}
                         {...options.imageProps}
                         postId={options.postId}
@@ -143,9 +138,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         processingInstructions.push({
             shouldProcessNode: (node) => node.attribs && node.attribs['data-latex'],
             processNode: (node) => {
-                return (
-                    <LatexBlock content={node.attribs['data-latex']}/>
-                );
+                return <LatexBlock content={node.attribs['data-latex']} />;
             },
         });
     }

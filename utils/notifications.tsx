@@ -24,18 +24,12 @@ export interface ShowNotificationParams {
 }
 
 export async function showNotification(
-    {
-        title,
-        body,
-        requireInteraction,
-        silent,
-        onClick,
-    }: ShowNotificationParams = {
+    {title, body, requireInteraction, silent, onClick}: ShowNotificationParams = {
         title: '',
         body: '',
         requireInteraction: false,
         silent: false,
-    },
+    }
 ) {
     let icon = icon50;
     if (UserAgent.isEdge()) {

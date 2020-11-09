@@ -22,15 +22,39 @@ const MAPPING = {
 
     enableOnlyAdminIntegrations: {
         true: [
-            {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: false},
-            {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: false},
-            {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: false},
+            {
+                roleName: 'team_user',
+                permission: Permissions.MANAGE_INCOMING_WEBHOOKS,
+                shouldHave: false,
+            },
+            {
+                roleName: 'team_user',
+                permission: Permissions.MANAGE_OUTGOING_WEBHOOKS,
+                shouldHave: false,
+            },
+            {
+                roleName: 'team_user',
+                permission: Permissions.MANAGE_SLASH_COMMANDS,
+                shouldHave: false,
+            },
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false},
         ],
         false: [
-            {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: true},
-            {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: true},
-            {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: true},
+            {
+                roleName: 'team_user',
+                permission: Permissions.MANAGE_INCOMING_WEBHOOKS,
+                shouldHave: true,
+            },
+            {
+                roleName: 'team_user',
+                permission: Permissions.MANAGE_OUTGOING_WEBHOOKS,
+                shouldHave: true,
+            },
+            {
+                roleName: 'team_user',
+                permission: Permissions.MANAGE_SLASH_COMMANDS,
+                shouldHave: true,
+            },
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: true},
         ],
     },
@@ -134,7 +158,10 @@ function* mappingPartIterator(mappingPart, roles) {
 
             const hasUnmetCondition = roleRules.some((item) => {
                 const role = roles[item.roleName];
-                return (item.shouldHave && !role.permissions.includes(item.permission)) || (!item.shouldHave && role.permissions.includes(item.permission));
+                return (
+                    (item.shouldHave && !role.permissions.includes(item.permission)) ||
+                    (!item.shouldHave && role.permissions.includes(item.permission))
+                );
             });
 
             yield {value, allConditionsAreMet: !hasUnmetCondition};

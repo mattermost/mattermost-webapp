@@ -29,7 +29,7 @@ export default class MarkdownImage extends React.PureComponent {
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
         postType: PropTypes.string,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -46,20 +46,19 @@ export default class MarkdownImage extends React.PureComponent {
             e.preventDefault();
             this.setState({showModal: true});
         }
-    }
+    };
 
     hideModal = () => {
         this.setState({showModal: false});
-    }
+    };
 
     handleLoadFail = () => {
         this.setState({loadFailed: true});
-    }
+    };
 
     isHeaderChangeMessage = () => {
-        return this.props.postType &&
-            this.props.postType === Constants.PostTypes.HEADER_CHANGE;
-    }
+        return this.props.postType && this.props.postType === Constants.PostTypes.HEADER_CHANGE;
+    };
 
     componentDidUpdate(prevProps) {
         this.onUpdated(prevProps.src);
@@ -69,17 +68,21 @@ export default class MarkdownImage extends React.PureComponent {
         if (this.props.src && this.props.src !== prevSrc) {
             this.setState({loadFailed: false});
         }
-    }
+    };
 
     handleImageLoaded = ({height, width}) => {
-        this.setState({
-            loaded: true,
-        }, () => { // Call onImageLoaded prop only after state has already been set
-            if (this.props.onImageLoaded) {
-                this.props.onImageLoaded({height, width});
+        this.setState(
+            {
+                loaded: true,
+            },
+            () => {
+                // Call onImageLoaded prop only after state has already been set
+                if (this.props.onImageLoaded) {
+                    this.props.onImageLoaded({height, width});
+                }
             }
-        });
-    }
+        );
+    };
 
     render() {
         const {imageMetadata, src, alt, imageIsLink} = this.props;
@@ -91,19 +94,12 @@ export default class MarkdownImage extends React.PureComponent {
 
             return (
                 <div style={{display: 'inline-block'}}>
-                    <img
-                        className={className}
-                        alt={alt}
-                        src={brokenImageIcon}
-                    />
+                    <img className={className} alt={alt} src={brokenImageIcon} />
                 </div>
             );
         }
         return (
-            <ExternalImage
-                src={src}
-                imageMetadata={imageMetadata}
-            >
+            <ExternalImage src={src} imageMetadata={imageMetadata}>
                 {(safeSrc) => {
                     if (!safeSrc) {
                         return (
@@ -127,16 +123,18 @@ export default class MarkdownImage extends React.PureComponent {
 
                     let className = '';
                     if (this.state.loaded) {
-                        className = imageIsLink || !extension ?
-                            `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
-                            `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
+                        className =
+                            imageIsLink || !extension
+                                ? `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border`
+                                : `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
                         if (this.isHeaderChangeMessage()) {
                             className += ' markdown-inline-img--scaled-down';
                         }
                     } else {
-                        const loadingClass = this.isHeaderChangeMessage() ?
-                            'markdown-inline-img--scaled-down-loading' : 'markdown-inline-img--loading';
+                        const loadingClass = this.isHeaderChangeMessage()
+                            ? 'markdown-inline-img--scaled-down-loading'
+                            : 'markdown-inline-img--loading';
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
@@ -156,20 +154,22 @@ export default class MarkdownImage extends React.PureComponent {
                                 onImageLoadFail={this.handleLoadFail}
                                 onImageLoaded={this.handleImageLoaded}
                             />
-                            {!imageIsLink && extension &&
-                            <ViewImageModal
-                                show={this.state.showModal}
-                                onModalDismissed={this.hideModal}
-                                postId={this.props.postId}
-                                startIndex={0}
-                                fileInfos={[{
-                                    has_preview_image: false,
-                                    link: safeSrc,
-                                    extension: imageMetadata.format || extension,
-                                    name: alt,
-                                }]}
-                            />
-                            }
+                            {!imageIsLink && extension && (
+                                <ViewImageModal
+                                    show={this.state.showModal}
+                                    onModalDismissed={this.hideModal}
+                                    postId={this.props.postId}
+                                    startIndex={0}
+                                    fileInfos={[
+                                        {
+                                            has_preview_image: false,
+                                            link: safeSrc,
+                                            extension: imageMetadata.format || extension,
+                                            name: alt,
+                                        },
+                                    ]}
+                                />
+                            )}
                         </>
                     );
                 }}

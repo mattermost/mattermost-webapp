@@ -11,9 +11,10 @@ describe('components/FormattedMarkdownMessage', () => {
     test('should render message', () => {
         const props = {
             id: 'test.foo',
-            defaultMessage: '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
+            defaultMessage:
+                '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
         };
-        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
+        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props} />));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -22,7 +23,7 @@ describe('components/FormattedMarkdownMessage', () => {
             id: 'xxx',
             defaultMessage: 'testing default message',
         };
-        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
+        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props} />));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -35,7 +36,7 @@ describe('components/FormattedMarkdownMessage', () => {
                 script: (...content) => `<script>${content}</script>`,
             },
         };
-        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
+        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props} />));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -47,7 +48,7 @@ describe('components/FormattedMarkdownMessage', () => {
                 petName: 'sweetie',
             },
         };
-        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
+        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props} />));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -60,23 +61,21 @@ describe('components/FormattedMarkdownMessage', () => {
             },
             disableLinks: true,
         };
-        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
+        const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props} />));
         expect(wrapper).toMatchSnapshot();
     });
 });
 
 export function wrapProvider(el) {
     const enTranslationData = {
-        'test.foo': '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
+        'test.foo':
+            '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
         'test.bar': '<b>hello</b> <script>var malicious = true;</script> world!',
         'test.vals': '*Hi* {petName}!',
     };
     return (
-        <IntlProvider
-            locale={'en'}
-            messages={enTranslationData}
-        >
+        <IntlProvider locale={'en'} messages={enTranslationData}>
             {el}
-        </IntlProvider>)
-    ;
+        </IntlProvider>
+    );
 }

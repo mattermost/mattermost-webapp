@@ -27,9 +27,7 @@ addDecorator((storyFn) => (
     <Provider store={store}>
         <IntlProvider>
             <Router history={browserHistory}>
-                <div style={{background: 'white'}}>
-                    {storyFn()}
-                </div>
+                <div style={{background: 'white'}}>{storyFn()}</div>
             </Router>
         </IntlProvider>
     </Provider>

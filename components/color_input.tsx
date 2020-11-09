@@ -10,13 +10,13 @@ type Props = {
     onChange: (color: string) => void;
     value: string;
     isDisabled?: boolean;
-}
+};
 
 type State = {
     focused: boolean;
     isOpened: boolean;
     value: string;
-}
+};
 
 export default class ColorInput extends React.PureComponent<Props, State> {
     private colorPicker: React.RefObject<HTMLDivElement>;
@@ -95,7 +95,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
         if (event.target) {
             event.target.setSelectionRange(1, event.target.value.length);
         }
-    }
+    };
 
     private onBlur = () => {
         const value = this.state.value;
@@ -145,9 +145,8 @@ export default class ColorInput extends React.PureComponent<Props, State> {
                     onKeyDown={this.onKeyDown}
                     maxLength={7}
                     disabled={this.props.isDisabled}
-
                 />
-                {!this.props.isDisabled &&
+                {!this.props.isDisabled && (
                     <span
                         id={`${id}-squareColorIcon`}
                         className='input-group-addon color-pad'
@@ -161,7 +160,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
                             }}
                         />
                     </span>
-                }
+                )}
                 {isOpened && (
                     <div
                         ref={this.colorPicker}

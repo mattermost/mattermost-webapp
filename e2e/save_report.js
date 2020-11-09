@@ -65,13 +65,10 @@ const saveReport = async () => {
     writeJsonToFile(jsonReport, 'all.json', MOCHAWESOME_REPORT_DIR);
 
     // Generate the html report file
-    await generator.create(
-        jsonReport,
-        {
-            reportDir: MOCHAWESOME_REPORT_DIR,
-            reportTitle: `Build:${BUILD_ID} Branch: ${BRANCH} Tag: ${BUILD_TAG}`,
-        },
-    );
+    await generator.create(jsonReport, {
+        reportDir: MOCHAWESOME_REPORT_DIR,
+        reportTitle: `Build:${BUILD_ID} Branch: ${BRANCH} Tag: ${BUILD_TAG}`,
+    });
 
     // Generate short summary, write to file and then send report via webhook
     const summary = generateShortSummary(jsonReport);
@@ -86,14 +83,22 @@ const saveReport = async () => {
     // Send test report to "QA: UI Test Automation" channel via webhook
     if (TYPE && TYPE !== 'NONE' && WEBHOOK_URL) {
         const environment = readJsonFromFile(`${RESULTS_DIR}/environment.json`);
-        const data = generateTestReport(summary, result && result.success, result && result.reportLink, environment);
+        const data = generateTestReport(
+            summary,
+            result && result.success,
+            result && result.reportLink,
+            environment
+        );
         await sendReport('summary report to Community channel', WEBHOOK_URL, data);
     }
 
     // Send diagnostic report via webhook
     // Send on "RELEASE" type only
     if (TYPE === 'RELEASE' && DIAGNOSTIC_WEBHOOK_URL && DIAGNOSTIC_USER_ID && DIAGNOSTIC_TEAM_ID) {
-        const data = generateDiagnosticReport(summary, {userId: DIAGNOSTIC_USER_ID, teamId: DIAGNOSTIC_TEAM_ID});
+        const data = generateDiagnosticReport(summary, {
+            userId: DIAGNOSTIC_USER_ID,
+            teamId: DIAGNOSTIC_TEAM_ID,
+        });
         await sendReport('test info for diagnostic analysis', DIAGNOSTIC_WEBHOOK_URL, data);
     }
 

@@ -3,11 +3,7 @@
 
 import assert from 'assert';
 
-import {
-    trimFilename,
-    canUploadFiles,
-    getFileTypeFromMime,
-} from 'utils/file_utils.jsx';
+import {trimFilename, canUploadFiles, getFileTypeFromMime} from 'utils/file_utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 
 describe('FileUtils.trimFilename', () => {
@@ -15,13 +11,13 @@ describe('FileUtils.trimFilename', () => {
         assert.equal(
             trimFilename('abcdefghijklmnopqrstuvwxyz'),
             'abcdefghijklmnopqrstuvwxyz',
-            'should return same filename',
+            'should return same filename'
         );
 
         assert.equal(
             trimFilename('abcdefghijklmnopqrstuvwxyz0123456789'),
             'abcdefghijklmnopqrstuvwxyz012345678...',
-            'should return trimmed filename',
+            'should return trimmed filename'
         );
     });
 });

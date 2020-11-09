@@ -30,7 +30,11 @@ export default function deferComponentRender(WrappedComponent, PreRenderComponen
         }
 
         render() {
-            return this.state.shouldRender ? <WrappedComponent {...this.props}/> : PreRenderComponent;
+            return this.state.shouldRender ? (
+                <WrappedComponent {...this.props} />
+            ) : (
+                PreRenderComponent
+            );
         }
     }
 

@@ -58,7 +58,12 @@ export const getSelectedPost = createSelector(
     getRealSelectedPost,
     getSelectedChannelId,
     getCurrentUserId,
-    (selectedPostId: $ID<Post>, selectedPost: Post, selectedPostChannelId: $ID<Channel>, currentUserId): Post|FakePost => {
+    (
+        selectedPostId: $ID<Post>,
+        selectedPost: Post,
+        selectedPostChannelId: $ID<Channel>,
+        currentUserId
+    ): Post | FakePost => {
         if (selectedPost) {
             return selectedPost;
         }
@@ -68,11 +73,14 @@ export const getSelectedPost = createSelector(
             id: selectedPostId,
             exists: false,
             type: PostTypes.FAKE_PARENT_DELETED as PostType,
-            message: localizeMessage('rhs_thread.rootPostDeletedMessage.body', 'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.'),
+            message: localizeMessage(
+                'rhs_thread.rootPostDeletedMessage.body',
+                'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.'
+            ),
             channel_id: selectedPostChannelId,
             user_id: currentUserId,
         };
-    },
+    }
 );
 
 export function getRhsState(state: GlobalState): RhsState {

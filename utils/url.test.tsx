@@ -7,7 +7,9 @@ import {getSiteURLFromWindowObject, getRelativeChannelURL, validateChannelUrl} f
 
 describe('Utils.URL', () => {
     test('getRelativeChannelURL', () => {
-        expect(getRelativeChannelURL('teamName', 'channelName')).toEqual('/teamName/channels/channelName');
+        expect(getRelativeChannelURL('teamName', 'channelName')).toEqual(
+            '/teamName/channels/channelName'
+        );
     });
 
     describe('getSiteURL', () => {
@@ -20,7 +22,12 @@ describe('Utils.URL', () => {
             },
             {
                 description: 'origin, trailing slash',
-                location: {origin: 'http://example.com:8065/', protocol: '', hostname: '', port: ''},
+                location: {
+                    origin: 'http://example.com:8065/',
+                    protocol: '',
+                    hostname: '',
+                    port: '',
+                },
                 basename: '',
                 expectedSiteURL: 'http://example.com:8065',
             },
@@ -44,14 +51,16 @@ describe('Utils.URL', () => {
             },
         ];
 
-        testCases.forEach((testCase) => it(testCase.description, () => {
-            const obj = {
-                location: testCase.location,
-                basename: testCase.basename,
-            };
+        testCases.forEach((testCase) =>
+            it(testCase.description, () => {
+                const obj = {
+                    location: testCase.location,
+                    basename: testCase.basename,
+                };
 
-            expect(getSiteURLFromWindowObject(obj)).toEqual(testCase.expectedSiteURL);
-        }));
+                expect(getSiteURLFromWindowObject(obj)).toEqual(testCase.expectedSiteURL);
+            })
+        );
     });
 
     describe('validateChannelUrl', () => {
@@ -108,12 +117,13 @@ describe('Utils.URL', () => {
             },
         ];
 
-        testCases.forEach((testCase) => it(testCase.description, () => {
-            const returnedErrors = validateChannelUrl(testCase.url).map((component) => component.key);
-            assert.deepEqual(
-                returnedErrors.sort(),
-                testCase.expectedErrors.sort(),
-            );
-        }));
+        testCases.forEach((testCase) =>
+            it(testCase.description, () => {
+                const returnedErrors = validateChannelUrl(testCase.url).map(
+                    (component) => component.key
+                );
+                assert.deepEqual(returnedErrors.sort(), testCase.expectedErrors.sort());
+            })
+        );
     });
 });

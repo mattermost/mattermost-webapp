@@ -103,13 +103,15 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     searchChannels: () => {
         return {
             type: 'MOCK_SEARCH_CHANNELS',
-            data: [{
-                id: 'channel-id',
-                name: 'channel-name',
-                display_name: 'Channel',
-                delete_at: 0,
-                type: 'O',
-            }],
+            data: [
+                {
+                    id: 'channel-id',
+                    name: 'channel-name',
+                    display_name: 'Channel',
+                    delete_at: 0,
+                    type: 'O',
+                },
+            ],
         };
     },
     addChannelMember: (...args) => ({type: 'MOCK_ADD_CHANNEL_MEMBER', args}),
@@ -127,10 +129,12 @@ describe('Actions.Channel', () => {
     test('loadChannelsForCurrentUser', async () => {
         const testStore = await mockStore(initialState);
 
-        const expectedActions = [{
-            type: 'MOCK_FETCH_CHANNELS_AND_MEMBERS',
-            args: ['team-id'],
-        }];
+        const expectedActions = [
+            {
+                type: 'MOCK_FETCH_CHANNELS_AND_MEMBERS',
+                args: ['team-id'],
+            },
+        ];
 
         await testStore.dispatch(Actions.loadChannelsForCurrentUser());
         expect(testStore.getActions()).toEqual(expectedActions);
@@ -140,16 +144,20 @@ describe('Actions.Channel', () => {
     test('searchMoreChannels', async () => {
         const testStore = await mockStore(initialState);
 
-        const expectedActions = [{
-            type: 'MOCK_SEARCH_CHANNELS',
-            data: [{
-                id: 'channel-id',
-                name: 'channel-name',
-                display_name: 'Channel',
-                delete_at: 0,
-                type: 'O',
-            }],
-        }];
+        const expectedActions = [
+            {
+                type: 'MOCK_SEARCH_CHANNELS',
+                data: [
+                    {
+                        id: 'channel-id',
+                        name: 'channel-name',
+                        display_name: 'Channel',
+                        delete_at: 0,
+                        type: 'O',
+                    },
+                ],
+            },
+        ];
 
         await testStore.dispatch(Actions.searchMoreChannels());
         expect(testStore.getActions()).toEqual(expectedActions);
@@ -158,10 +166,12 @@ describe('Actions.Channel', () => {
     test('addUsersToChannel', async () => {
         const testStore = await mockStore(initialState);
 
-        const expectedActions = [{
-            type: 'MOCK_ADD_CHANNEL_MEMBER',
-            args: ['testid', 'testuserid'],
-        }];
+        const expectedActions = [
+            {
+                type: 'MOCK_ADD_CHANNEL_MEMBER',
+                args: ['testid', 'testuserid'],
+            },
+        ];
 
         const fakeData = {
             channel: 'testid',
@@ -175,10 +185,12 @@ describe('Actions.Channel', () => {
     test('openDirectChannelToUserId Not Existing', async () => {
         const testStore = await mockStore(initialState);
 
-        const expectedActions = [{
-            type: 'MOCK_CREATE_DIRECT_CHANNEL',
-            args: ['current_user_id', 'testid'],
-        }];
+        const expectedActions = [
+            {
+                type: 'MOCK_CREATE_DIRECT_CHANNEL',
+                args: ['current_user_id', 'testid'],
+            },
+        ];
 
         const fakeData = {
             userId: 'testid',
@@ -278,10 +290,12 @@ describe('Actions.Channel', () => {
     test('openGroupChannelToUserIds', async () => {
         const testStore = await mockStore(initialState);
 
-        const expectedActions = [{
-            type: 'MOCK_CREATE_GROUP_CHANNEL',
-            args: [['testuserid1', 'testuserid2']],
-        }];
+        const expectedActions = [
+            {
+                type: 'MOCK_CREATE_GROUP_CHANNEL',
+                args: [['testuserid1', 'testuserid2']],
+            },
+        ];
 
         const fakeData = {
             userIds: ['testuserid1', 'testuserid2'],

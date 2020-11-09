@@ -11,14 +11,11 @@ const style: CSSProperties = {
 
 type Props = {
     children?: ReactNode;
-}
+};
 
 const StoryGrid = ({children}: Props) => {
     return (
-        <div
-            className='StoryGrid'
-            style={style}
-        >
+        <div className='StoryGrid' style={style}>
             {children}
         </div>
     );

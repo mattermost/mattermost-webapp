@@ -158,12 +158,9 @@ describe('wrapEmojis', () => {
         const input = '🌮';
 
         expect(wrapEmojis(input)).toEqual(
-            <span
-                key='0'
-                className='emoji'
-            >
+            <span key='0' className='emoji'>
                 {'🌮'}
-            </span>,
+            </span>
         );
     });
 
@@ -172,10 +169,7 @@ describe('wrapEmojis', () => {
 
         expect(wrapEmojis(input)).toEqual([
             'this is ',
-            <span
-                key='8'
-                className='emoji'
-            >
+            <span key='8' className='emoji'>
                 {'🌮'}
             </span>,
             ' a test 1234',
@@ -187,17 +181,11 @@ describe('wrapEmojis', () => {
 
         expect(wrapEmojis(input)).toEqual([
             'this is ',
-            <span
-                key='8'
-                className='emoji'
-            >
+            <span key='8' className='emoji'>
                 {'🌮'}
             </span>,
             ' a taco ',
-            <span
-                key='18'
-                className='emoji'
-            >
+            <span key='18' className='emoji'>
                 {'🎉'}
             </span>,
             ' 1234',
@@ -208,28 +196,16 @@ describe('wrapEmojis', () => {
         const input = '🌮🎉🇫🇮🍒';
 
         expect(wrapEmojis(input)).toEqual([
-            <span
-                key='0'
-                className='emoji'
-            >
+            <span key='0' className='emoji'>
                 {'🌮'}
             </span>,
-            <span
-                key='2'
-                className='emoji'
-            >
+            <span key='2' className='emoji'>
                 {'🎉'}
             </span>,
-            <span
-                key='4'
-                className='emoji'
-            >
+            <span key='4' className='emoji'>
                 {'🇫🇮'}
             </span>,
-            <span
-                key='8'
-                className='emoji'
-            >
+            <span key='8' className='emoji'>
                 {'🍒'}
             </span>,
         ]);
@@ -240,10 +216,7 @@ describe('wrapEmojis', () => {
 
         expect(wrapEmojis(input)).toEqual([
             'this is ',
-            <span
-                key='8'
-                className='emoji'
-            >
+            <span key='8' className='emoji'>
                 {'🤟'}
             </span>,
             ' a test',
@@ -255,29 +228,17 @@ describe('wrapEmojis', () => {
 
         expect(wrapEmojis(input)).toEqual([
             'this is ',
-            <span
-                key='8'
-                className='emoji'
-            >
+            <span key='8' className='emoji'>
                 {'👍🏿'}
             </span>,
-            <span
-                key='12'
-                className='emoji'
-            >
+            <span key='12' className='emoji'>
                 {'👍🏻'}
             </span>,
             ' a test ',
-            <span
-                key='24'
-                className='emoji'
-            >
+            <span key='24' className='emoji'>
                 {'✊🏻'}
             </span>,
-            <span
-                key='27'
-                className='emoji'
-            >
+            <span key='27' className='emoji'>
                 {'✊🏿'}
             </span>,
         ]);

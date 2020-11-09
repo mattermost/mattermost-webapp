@@ -18,7 +18,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 type State = {
     focused: boolean;
     error: string;
-}
+};
 
 const REQUIRED_FIELD_TEXT = 'This field is required';
 
@@ -40,7 +40,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (onFocus) {
             onFocus(event);
         }
-    }
+    };
 
     private onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
         const {onBlur} = this.props;
@@ -51,7 +51,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (onBlur) {
             onBlur(event);
         }
-    }
+    };
 
     private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {onChange} = this.props;
@@ -61,7 +61,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (onChange) {
             onChange(event);
         }
-    }
+    };
 
     private validateInput = () => {
         const {value, required} = this.props;
@@ -69,7 +69,7 @@ export default class Input extends React.PureComponent<Props, State> {
         if (required && (value == null || value === '')) {
             this.setState({error: REQUIRED_FIELD_TEXT});
         }
-    }
+    };
 
     private renderError(error: string) {
         if (!error) {
@@ -78,7 +78,7 @@ export default class Input extends React.PureComponent<Props, State> {
 
         return (
             <div className='Input___error'>
-                <i className='icon icon-alert-outline'/>
+                <i className='icon icon-alert-outline' />
                 <span>{error}</span>
             </div>
         );
@@ -89,15 +89,21 @@ export default class Input extends React.PureComponent<Props, State> {
             return null;
         }
 
-        return (
-            <div className='Input___info'>
-                {this.props.info}
-            </div>
-        );
+        return <div className='Input___info'>{this.props.info}</div>;
     }
 
     public render() {
-        const {value, placeholder, className, error: propError, hasError, addon, name, textPrefix, ...otherProps} = this.props;
+        const {
+            value,
+            placeholder,
+            className,
+            error: propError,
+            hasError,
+            addon,
+            name,
+            textPrefix,
+            ...otherProps
+        } = this.props;
         const {focused, error: stateError} = this.state;
 
         const showLegend = Boolean(focused || value);
@@ -111,14 +117,18 @@ export default class Input extends React.PureComponent<Props, State> {
                         Input_fieldset___legend: showLegend,
                     })}
                 >
-                    <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
+                    <legend
+                        className={classNames('Input_legend', {Input_legend___focus: showLegend})}
+                    >
                         {showLegend ? placeholder : null}
                     </legend>
                     <div className='Input_wrapper'>
                         {textPrefix && <span>{textPrefix}</span>}
                         <input
                             id={`input_${name}`}
-                            className={classNames('Input form-control', className, {Input__focus: showLegend})}
+                            className={classNames('Input form-control', className, {
+                                Input__focus: showLegend,
+                            })}
                             value={value}
                             placeholder={focused ? '' : placeholder}
                             name={name}

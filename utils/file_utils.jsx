@@ -32,7 +32,8 @@ export function canDownloadFiles(config) {
 export function trimFilename(filename) {
     let trimmedFilename = filename;
     if (filename.length > Constants.MAX_FILENAME_LENGTH) {
-        trimmedFilename = filename.substring(0, Math.min(Constants.MAX_FILENAME_LENGTH, filename.length)) + '...';
+        trimmedFilename =
+            filename.substring(0, Math.min(Constants.MAX_FILENAME_LENGTH, filename.length)) + '...';
     }
 
     return trimmedFilename;
@@ -54,11 +55,26 @@ export function getFileTypeFromMime(mimetype) {
     if (mimeTypeSuffix) {
         if (mimeTypeSuffix === 'pdf') {
             return 'pdf';
-        } else if (mimeTypeSuffix.includes('vnd.ms-excel') || mimeTypeSuffix.includes('spreadsheetml') || mimeTypeSuffix.includes('vnd.sun.xml.calc') || mimeTypeSuffix.includes('opendocument.spreadsheet')) {
+        } else if (
+            mimeTypeSuffix.includes('vnd.ms-excel') ||
+            mimeTypeSuffix.includes('spreadsheetml') ||
+            mimeTypeSuffix.includes('vnd.sun.xml.calc') ||
+            mimeTypeSuffix.includes('opendocument.spreadsheet')
+        ) {
             return 'spreadsheet';
-        } else if (mimeTypeSuffix.includes('vnd.ms-powerpoint') || mimeTypeSuffix.includes('presentationml') || mimeTypeSuffix.includes('vnd.sun.xml.impress') || mimeTypeSuffix.includes('opendocument.presentation')) {
+        } else if (
+            mimeTypeSuffix.includes('vnd.ms-powerpoint') ||
+            mimeTypeSuffix.includes('presentationml') ||
+            mimeTypeSuffix.includes('vnd.sun.xml.impress') ||
+            mimeTypeSuffix.includes('opendocument.presentation')
+        ) {
             return 'presentation';
-        } else if ((mimeTypeSuffix === 'msword') || mimeTypeSuffix.includes('vnd.ms-word') || mimeTypeSuffix.includes('officedocument.wordprocessingml') || mimeTypeSuffix.includes('application/x-mswrite')) {
+        } else if (
+            mimeTypeSuffix === 'msword' ||
+            mimeTypeSuffix.includes('vnd.ms-word') ||
+            mimeTypeSuffix.includes('officedocument.wordprocessingml') ||
+            mimeTypeSuffix.includes('application/x-mswrite')
+        ) {
             return 'word';
         }
     }
@@ -70,7 +86,7 @@ export function getFileTypeFromMime(mimetype) {
 export function getExifOrientation(data) {
     var view = new DataView(data);
 
-    if (view.getUint16(0, false) !== 0xFFD8) {
+    if (view.getUint16(0, false) !== 0xffd8) {
         return -2;
     }
 
@@ -81,22 +97,22 @@ export function getExifOrientation(data) {
         var marker = view.getUint16(offset, false);
         offset += 2;
 
-        if (marker === 0xFFE1) {
-            if (view.getUint32(offset += 2, false) !== 0x45786966) {
+        if (marker === 0xffe1) {
+            if (view.getUint32((offset += 2), false) !== 0x45786966) {
                 return -1;
             }
 
-            var little = view.getUint16(offset += 6, false) === 0x4949;
+            var little = view.getUint16((offset += 6), false) === 0x4949;
             offset += view.getUint32(offset + 4, little);
             var tags = view.getUint16(offset, little);
             offset += 2;
 
             for (var i = 0; i < tags; i++) {
-                if (view.getUint16(offset + (i * 12), little) === 0x0112) {
-                    return view.getUint16(offset + (i * 12) + 8, little);
+                if (view.getUint16(offset + i * 12, little) === 0x0112) {
+                    return view.getUint16(offset + i * 12 + 8, little);
                 }
             }
-        } else if ((marker & 0xFF00) === 0xFF00) {
+        } else if ((marker & 0xff00) === 0xff00) {
             offset += view.getUint16(offset, false);
         } else {
             break;
@@ -106,9 +122,6 @@ export function getExifOrientation(data) {
 }
 
 export function getOrientationStyles(orientation) {
-    const {
-        transform,
-        'transform-origin': transformOrigin,
-    } = exif2css(orientation);
+    const {transform, 'transform-origin': transformOrigin} = exif2css(orientation);
     return {transform, transformOrigin};
 }

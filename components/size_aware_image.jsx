@@ -13,7 +13,6 @@ const MIN_IMAGE_SIZE = 48;
 // ensuring that the page is laid out correctly.
 export default class SizeAwareImage extends React.PureComponent {
     static propTypes = {
-
         /*
          * The source URL of the image
          */
@@ -54,7 +53,7 @@ export default class SizeAwareImage extends React.PureComponent {
          * Enables the logic of surrounding small images with a bigger container div for better click/tap targeting
          */
         handleSmallImageContainer: PropTypes.bool,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -62,8 +61,9 @@ export default class SizeAwareImage extends React.PureComponent {
 
         this.state = {
             loaded: false,
-            isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
-                dimensions.width, dimensions.height) : false,
+            isSmallImage: this.dimensionsAvailable(dimensions)
+                ? this.isSmallImage(dimensions.width, dimensions.height)
+                : false,
         };
 
         this.heightTimeout = 0;
@@ -79,26 +79,33 @@ export default class SizeAwareImage extends React.PureComponent {
 
     dimensionsAvailable = (dimensions) => {
         return dimensions && dimensions.width && dimensions.height;
-    }
+    };
 
     isSmallImage = (width, height) => {
         return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
-    }
+    };
 
     handleLoad = (event) => {
         if (this.mounted) {
             const image = event.target;
             const isSmallImage = this.isSmallImage(image.naturalWidth, image.naturalHeight);
-            this.setState({
-                loaded: true,
-                error: false,
-                isSmallImage,
-                imageWidth: image.naturalWidth,
-            }, () => { // Call onImageLoaded prop only after state has already been set
-                if (this.props.onImageLoaded && image.naturalHeight) {
-                    this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
+            this.setState(
+                {
+                    loaded: true,
+                    error: false,
+                    isSmallImage,
+                    imageWidth: image.naturalWidth,
+                },
+                () => {
+                    // Call onImageLoaded prop only after state has already been set
+                    if (this.props.onImageLoaded && image.naturalHeight) {
+                        this.props.onImageLoaded({
+                            height: image.naturalHeight,
+                            width: image.naturalWidth,
+                        });
+                    }
                 }
-            });
+            );
         }
     };
 
@@ -115,27 +122,28 @@ export default class SizeAwareImage extends React.PureComponent {
         if (e.key === 'Enter') {
             this.props.onClick(e);
         }
-    }
+    };
 
     renderImageLoaderIfNeeded = () => {
         if (!this.state.loaded && this.props.showLoader && !this.state.error) {
             return (
-                <div style={{position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)', left: '50%'}}>
-                    <LoadingImagePreview
-                        containerClass={'file__image-loading'}
-                    />
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        left: '50%',
+                    }}
+                >
+                    <LoadingImagePreview containerClass={'file__image-loading'} />
                 </div>
             );
         }
         return null;
-    }
+    };
 
     renderImageWithContainerIfNeeded = () => {
-        const {
-            fileInfo,
-            src,
-            ...props
-        } = this.props;
+        const {fileInfo, src, ...props} = this.props;
 
         Reflect.deleteProperty(props, 'showLoader');
         Reflect.deleteProperty(props, 'onImageLoaded');
@@ -156,8 +164,10 @@ export default class SizeAwareImage extends React.PureComponent {
                 onKeyDown={this.onEnterKeyDown}
                 className={
                     this.props.className +
-                    (this.props.handleSmallImageContainer &&
-                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                    (this.props.handleSmallImageContainer && this.state.isSmallImage
+                        ? ' small-image--inside-container'
+                        : '')
+                }
                 src={src}
                 onError={this.handleError}
                 onLoad={this.handleLoad}
@@ -174,9 +184,13 @@ export default class SizeAwareImage extends React.PureComponent {
                 <div
                     onClick={this.props.onClick}
                     className={className}
-                    style={this.state.imageWidth > MIN_IMAGE_SIZE ? {
-                        width: this.state.imageWidth + 2, // 2px to account for the border
-                    } : {}}
+                    style={
+                        this.state.imageWidth > MIN_IMAGE_SIZE
+                            ? {
+                                  width: this.state.imageWidth + 2, // 2px to account for the border
+                              }
+                            : {}
+                    }
                 >
                     {image}
                 </div>
@@ -184,12 +198,10 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         return image;
-    }
+    };
 
     renderImageOrPlaceholder = () => {
-        const {
-            dimensions,
-        } = this.props;
+        const {dimensions} = this.props;
 
         let placeHolder;
 
@@ -203,7 +215,11 @@ export default class SizeAwareImage extends React.PureComponent {
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                        style={{maxHeight: dimensions.height, maxWidth: dimensions.width, verticalAlign: 'middle'}}
+                        style={{
+                            maxHeight: dimensions.height,
+                            maxWidth: dimensions.width,
+                            verticalAlign: 'middle',
+                        }}
                     />
                 </div>
             );
@@ -222,11 +238,9 @@ export default class SizeAwareImage extends React.PureComponent {
                 </div>
             </React.Fragment>
         );
-    }
+    };
 
     render() {
-        return (
-            this.renderImageOrPlaceholder()
-        );
+        return this.renderImageOrPlaceholder();
     }
 }

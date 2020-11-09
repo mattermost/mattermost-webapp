@@ -47,7 +47,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         }
 
         this.setState({input: e.target.value});
-    }
+    };
 
     handleSelected = (selected) => {
         this.setState({input: ''});
@@ -61,11 +61,11 @@ export default class AutocompleteSelector extends React.PureComponent {
                 this.suggestionRef.blur();
             }
         });
-    }
+    };
 
     setSuggestionRef = (ref) => {
         this.suggestionRef = ref;
-    }
+    };
 
     onFocus = () => {
         this.setState({focused: true});
@@ -73,7 +73,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         if (this.props.toggleFocus) {
             this.props.toggleFocus(true);
         }
-    }
+    };
 
     onBlur = () => {
         this.setState({focused: false});
@@ -81,7 +81,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         if (this.props.toggleFocus) {
             this.props.toggleFocus(false);
         }
-    }
+    };
 
     render() {
         const {
@@ -107,29 +107,16 @@ export default class AutocompleteSelector extends React.PureComponent {
 
         let labelContent;
         if (label) {
-            labelContent = (
-                <label
-                    className={'control-label ' + labelClassName}
-                >
-                    {label}
-                </label>
-            );
+            labelContent = <label className={'control-label ' + labelClassName}>{label}</label>;
         }
 
         let helpTextContent;
         if (helpText) {
-            helpTextContent = (
-                <div className='help-text'>
-                    {helpText}
-                </div>
-            );
+            helpTextContent = <div className='help-text'>{helpText}</div>;
         }
 
         return (
-            <div
-                data-testid='autoCompleteSelector'
-                className='form-group'
-            >
+            <div data-testid='autoCompleteSelector' className='form-group'>
                 {labelContent}
                 <div className={inputClassName}>
                     <SuggestionBox

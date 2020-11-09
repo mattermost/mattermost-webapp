@@ -11,4 +11,3 @@ export function getPrefix(state) {
 
     return 'unknown_';
 }
-

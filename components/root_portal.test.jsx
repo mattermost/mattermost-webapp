@@ -20,7 +20,7 @@ describe('components/RootPortal', () => {
             <RootPortal>
                 <div>{'Testing Portal'}</div>
             </RootPortal>,
-            {container: document.body.appendChild(rootPortalDiv)},
+            {container: document.body.appendChild(rootPortalDiv)}
         );
 
         expect(getByText('Testing Portal')).toBeVisible();

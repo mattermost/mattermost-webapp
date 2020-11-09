@@ -8,7 +8,11 @@ import store from 'stores/redux_store.jsx';
 import Constants, {ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
-import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
+import {
+    makeBoldHotkeyEvent,
+    makeItalicHotkeyEvent,
+    makeSelectionEvent,
+} from 'tests/helpers/markdown_hotkey_helpers.js';
 import * as ua from 'tests/helpers/user_agent_mocks';
 
 describe('Utils.getDisplayNameByUser', () => {
@@ -19,15 +23,60 @@ describe('Utils.getDisplayNameByUser', () => {
         });
     });
 
-    const userA = {username: 'a_user', nickname: 'a_nickname', first_name: 'a_first_name', last_name: ''};
-    const userB = {username: 'b_user', nickname: 'b_nickname', first_name: '', last_name: 'b_last_name'};
-    const userC = {username: 'c_user', nickname: '', first_name: 'c_first_name', last_name: 'c_last_name'};
-    const userD = {username: 'd_user', nickname: 'd_nickname', first_name: 'd_first_name', last_name: 'd_last_name'};
-    const userE = {username: 'e_user', nickname: '', first_name: 'e_first_name', last_name: 'e_last_name'};
-    const userF = {username: 'f_user', nickname: 'f_nickname', first_name: 'f_first_name', last_name: 'f_last_name'};
-    const userG = {username: 'g_user', nickname: '', first_name: 'g_first_name', last_name: 'g_last_name'};
-    const userH = {username: 'h_user', nickname: 'h_nickname', first_name: '', last_name: 'h_last_name'};
-    const userI = {username: 'i_user', nickname: 'i_nickname', first_name: 'i_first_name', last_name: ''};
+    const userA = {
+        username: 'a_user',
+        nickname: 'a_nickname',
+        first_name: 'a_first_name',
+        last_name: '',
+    };
+    const userB = {
+        username: 'b_user',
+        nickname: 'b_nickname',
+        first_name: '',
+        last_name: 'b_last_name',
+    };
+    const userC = {
+        username: 'c_user',
+        nickname: '',
+        first_name: 'c_first_name',
+        last_name: 'c_last_name',
+    };
+    const userD = {
+        username: 'd_user',
+        nickname: 'd_nickname',
+        first_name: 'd_first_name',
+        last_name: 'd_last_name',
+    };
+    const userE = {
+        username: 'e_user',
+        nickname: '',
+        first_name: 'e_first_name',
+        last_name: 'e_last_name',
+    };
+    const userF = {
+        username: 'f_user',
+        nickname: 'f_nickname',
+        first_name: 'f_first_name',
+        last_name: 'f_last_name',
+    };
+    const userG = {
+        username: 'g_user',
+        nickname: '',
+        first_name: 'g_first_name',
+        last_name: 'g_last_name',
+    };
+    const userH = {
+        username: 'h_user',
+        nickname: 'h_nickname',
+        first_name: '',
+        last_name: 'h_last_name',
+    };
+    const userI = {
+        username: 'i_user',
+        nickname: 'i_nickname',
+        first_name: 'i_first_name',
+        last_name: '',
+    };
     const userJ = {username: 'j_user', nickname: '', first_name: 'j_first_name', last_name: ''};
 
     test('Show display name of user with TeammateNameDisplay set to username', () => {
@@ -100,19 +149,100 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
         });
     });
 
-    const userA = {id: 'a', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
-    const userB = {id: 'b', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
-    const userC = {id: 'c', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
-    const userD = {id: 'd', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
-    const userE = {id: 'e', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
-    const userF = {id: 'f', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
-    const userG = {id: 'g', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
-    const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
-    const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
-    const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
-    const userK = {id: 'k', username: 'k_bot', nickname: 'ak_nickname', first_name: 'a_first_name', last_name: 'aABot_last_name', is_bot: true};
-    const userL = {id: 'l', username: 'l_bot', nickname: 'al_nickname', first_name: 'b_first_name', last_name: 'aBBot_last_name', is_bot: true};
-    const userM = {id: 'm', username: 'm_bot', nickname: 'am_nickname', first_name: 'c_first_name', last_name: 'aCBot_last_name', is_bot: true};
+    const userA = {
+        id: 'a',
+        username: 'a_user',
+        nickname: 'ja_nickname',
+        first_name: 'a_first_name',
+        last_name: 'ja_last_name',
+    };
+    const userB = {
+        id: 'b',
+        username: 'b_user',
+        nickname: 'ib_nickname',
+        first_name: 'a_first_name',
+        last_name: 'ib_last_name',
+    };
+    const userC = {
+        id: 'c',
+        username: 'c_user',
+        nickname: 'hc_nickname',
+        first_name: 'a_first_name',
+        last_name: 'hc_last_name',
+    };
+    const userD = {
+        id: 'd',
+        username: 'd_user',
+        nickname: 'gd_nickname',
+        first_name: 'a_first_name',
+        last_name: 'gd_last_name',
+    };
+    const userE = {
+        id: 'e',
+        username: 'e_user',
+        nickname: 'fe_nickname',
+        first_name: 'b_first_name',
+        last_name: 'fe_last_name',
+    };
+    const userF = {
+        id: 'f',
+        username: 'f_user',
+        nickname: 'ef_nickname',
+        first_name: 'b_first_name',
+        last_name: 'ef_last_name',
+    };
+    const userG = {
+        id: 'g',
+        username: 'g_user',
+        nickname: 'dg_nickname',
+        first_name: 'b_first_name',
+        last_name: 'dg_last_name',
+    };
+    const userH = {
+        id: 'h',
+        username: 'h_user',
+        nickname: 'ch_nickname',
+        first_name: 'c_first_name',
+        last_name: 'ch_last_name',
+    };
+    const userI = {
+        id: 'i',
+        username: 'i_user',
+        nickname: 'bi_nickname',
+        first_name: 'c_first_name',
+        last_name: 'bi_last_name',
+    };
+    const userJ = {
+        id: 'j',
+        username: 'j_user',
+        nickname: 'aj_nickname',
+        first_name: 'c_first_name',
+        last_name: 'aj_last_name',
+    };
+    const userK = {
+        id: 'k',
+        username: 'k_bot',
+        nickname: 'ak_nickname',
+        first_name: 'a_first_name',
+        last_name: 'aABot_last_name',
+        is_bot: true,
+    };
+    const userL = {
+        id: 'l',
+        username: 'l_bot',
+        nickname: 'al_nickname',
+        first_name: 'b_first_name',
+        last_name: 'aBBot_last_name',
+        is_bot: true,
+    };
+    const userM = {
+        id: 'm',
+        username: 'm_bot',
+        nickname: 'am_nickname',
+        first_name: 'c_first_name',
+        last_name: 'aCBot_last_name',
+        is_bot: true,
+    };
     const statusesByUserId = {
         a: 'dnd',
         b: 'away',
@@ -151,7 +281,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userE, userF, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'username');
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(
+                data.users,
+                statusesByUserId,
+                'username'
+            );
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -180,7 +314,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userJ, userF, userE, userD, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'nickname_full_name');
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(
+                data.users,
+                statusesByUserId,
+                'nickname_full_name'
+            );
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -209,7 +347,11 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userF, userE, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'full_name');
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(
+                data.users,
+                statusesByUserId,
+                'full_name'
+            );
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -374,19 +516,24 @@ describe('Utils.isValidUsername', () => {
         {
             testUserName: 'sonic.the.hedgehog',
             expectedError: undefined,
-        }, {
+        },
+        {
             testUserName: null,
             expectedError: ValidationErrors.USERNAME_REQUIRED,
-        }, {
+        },
+        {
             testUserName: 'sanic.the.speedy.errored.hedgehog@10_10-10',
             expectedError: ValidationErrors.INVALID_LENGTH,
-        }, {
+        },
+        {
             testUserName: 'sanic⭑',
             expectedError: ValidationErrors.INVALID_CHARACTERS,
-        }, {
+        },
+        {
             testUserName: '.sanic',
             expectedError: ValidationErrors.INVALID_FIRST_CHARACTER,
-        }, {
+        },
+        {
             testUserName: 'valet',
             expectedError: ValidationErrors.RESERVED_NAME,
         },
@@ -482,22 +629,38 @@ describe('Utils.isKeyPressed', () => {
     test('KeyCode is used for unidentified keys', () => {
         for (const data of [
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
+                event: new KeyboardEvent('keydown', {
+                    key: 'Unidentified',
+                    keyCode: 2220,
+                    code: 'Unidentified',
+                }),
                 key: ['', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
+                event: new KeyboardEvent('keydown', {
+                    key: 'Unidentified',
+                    keyCode: 2220,
+                    code: 'Unidentified',
+                }),
                 key: ['not-used-field', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
+                event: new KeyboardEvent('keydown', {
+                    key: 'Unidentified',
+                    keyCode: 2220,
+                    code: 'Unidentified',
+                }),
                 key: [null, 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220, code: 'Unidentified'}),
+                event: new KeyboardEvent('keydown', {
+                    key: 'Unidentified',
+                    keyCode: 2220,
+                    code: 'Unidentified',
+                }),
                 key: [null, 2221],
                 valid: false,
             },
@@ -596,11 +759,15 @@ describe('Utils.localizeMessage', () => {
         });
 
         test('with translations', () => {
-            expect(Utils.localizeMessage('test.hello_world', 'Hello, World!')).toEqual('Bonjour tout le monde!');
+            expect(Utils.localizeMessage('test.hello_world', 'Hello, World!')).toEqual(
+                'Bonjour tout le monde!'
+            );
         });
 
         test('with missing string in translations', () => {
-            expect(Utils.localizeMessage('test.hello_world2', 'Hello, World 2!')).toEqual('Hello, World 2!');
+            expect(Utils.localizeMessage('test.hello_world2', 'Hello, World 2!')).toEqual(
+                'Hello, World 2!'
+            );
         });
 
         test('with missing string in translations and no default', () => {
@@ -621,7 +788,9 @@ describe('Utils.localizeMessage', () => {
         });
 
         test('without translations', () => {
-            expect(Utils.localizeMessage('test.hello_world', 'Hello, World!')).toEqual('Hello, World!');
+            expect(Utils.localizeMessage('test.hello_world', 'Hello, World!')).toEqual(
+                'Hello, World!'
+            );
         });
 
         test('without translations and no default', () => {
@@ -770,20 +939,26 @@ describe('Utils.getSortedUsers', () => {
     test('should sort users by who reacted first', () => {
         const baseDate = Date.now();
         const currentUserId = 'user_id_1';
-        const profiles = [{id: 'user_id_1', username: 'username_1'}, {id: 'user_id_2', username: 'username_2'}, {id: 'user_id_3', username: 'username_3'}];
+        const profiles = [
+            {id: 'user_id_1', username: 'username_1'},
+            {id: 'user_id_2', username: 'username_2'},
+            {id: 'user_id_3', username: 'username_3'},
+        ];
         const reactions = [
             {user_id: 'user_id_2', create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
             {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
             {user_id: 'user_id_3', create_at: baseDate + 8000}, // Last to react, will be sorted last
         ];
 
-        const {currentUserReacted, users} = Utils.getSortedUsers(reactions, currentUserId, profiles, 'username');
+        const {currentUserReacted, users} = Utils.getSortedUsers(
+            reactions,
+            currentUserId,
+            profiles,
+            'username'
+        );
 
         expect(currentUserReacted).toEqual(true);
-        assert.deepEqual(
-            users,
-            ['You', 'username_2', 'username_3'],
-        );
+        assert.deepEqual(users, ['You', 'username_2', 'username_3']);
     });
 });
 
@@ -838,10 +1013,14 @@ describe('Utils.isUnhandledLineBreakKeyCombo', () => {
 
 describe('Utils.insertLineBreakFromKeyEvent', () => {
     test('insertLineBreakFromKeyEvent returns with line break appending (no selection range)', () => {
-        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent())).toBe(lineBreakHelpers.OUTPUT_APPEND);
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getAppendEvent())).toBe(
+            lineBreakHelpers.OUTPUT_APPEND
+        );
     });
     test('insertLineBreakFromKeyEvent returns with line break replacing (with selection range)', () => {
-        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(lineBreakHelpers.OUTPUT_REPLACE);
+        expect(Utils.insertLineBreakFromKeyEvent(lineBreakHelpers.getReplaceEvent())).toBe(
+            lineBreakHelpers.OUTPUT_REPLACE
+        );
     });
 });
 
@@ -850,96 +1029,88 @@ describe('Utils.applyHotkeyMarkdown', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi **Fafda** & Sambharo',
-                selectionStart: 9,
-                selectionEnd: 14,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi **Fafda** & Sambharo',
+            selectionStart: 9,
+            selectionEnd: 14,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for undo bold', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi Fafda & Sambharo',
-                selectionStart: 7,
-                selectionEnd: 12,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi Fafda & Sambharo',
+            selectionStart: 7,
+            selectionEnd: 12,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for italic hotkey', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 12);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi *Fafda* & Sambharo',
-                selectionStart: 8,
-                selectionEnd: 13,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi *Fafda* & Sambharo',
+            selectionStart: 8,
+            selectionEnd: 13,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for undo italic', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi Fafda & Sambharo',
-                selectionStart: 7,
-                selectionEnd: 12,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi Fafda & Sambharo',
+            selectionStart: 7,
+            selectionEnd: 12,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for bold hotkey and empty', () => {
         // Nothing is selected with ctrl + B hotkey and caret is just before "Fafda"
         const e = makeBoldHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi ****Fafda & Sambharo',
-                selectionStart: 9,
-                selectionEnd: 9,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi ****Fafda & Sambharo',
+            selectionStart: 9,
+            selectionEnd: 9,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for italic hotkey and empty', () => {
         // Nothing is selected with ctrl + I hotkey and caret is just before "Fafda"
         const e = makeItalicHotkeyEvent('Jalebi Fafda & Sambharo', 7, 7);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi **Fafda & Sambharo',
-                selectionStart: 8,
-                selectionEnd: 8,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi **Fafda & Sambharo',
+            selectionStart: 8,
+            selectionEnd: 8,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for italic with bold', () => {
         // "Fafda" is selected with ctrl + I hotkey
         const e = makeItalicHotkeyEvent('Jalebi **Fafda** & Sambharo', 9, 14);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi ***Fafda*** & Sambharo',
-                selectionStart: 10,
-                selectionEnd: 15,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi ***Fafda*** & Sambharo',
+            selectionStart: 10,
+            selectionEnd: 15,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for bold with italic', () => {
         // "Fafda" is selected with ctrl + B hotkey
         const e = makeBoldHotkeyEvent('Jalebi *Fafda* & Sambharo', 8, 13);
 
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi ***Fafda*** & Sambharo',
-                selectionStart: 10,
-                selectionEnd: 15,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi ***Fafda*** & Sambharo',
+            selectionStart: 10,
+            selectionEnd: 15,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for bold with italic+bold', () => {
@@ -947,12 +1118,11 @@ describe('Utils.applyHotkeyMarkdown', () => {
         const e = makeBoldHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
 
         // Should undo bold
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi *Fafda* & Sambharo',
-                selectionStart: 8,
-                selectionEnd: 13,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi *Fafda* & Sambharo',
+            selectionStart: 8,
+            selectionEnd: 13,
+        });
     });
 
     test('applyHotkeyMarkdown returns correct markdown for italic with italic+bold', () => {
@@ -960,12 +1130,11 @@ describe('Utils.applyHotkeyMarkdown', () => {
         const e = makeItalicHotkeyEvent('Jalebi ***Fafda*** & Sambharo', 10, 15);
 
         // Should undo italic
-        expect(Utils.applyHotkeyMarkdown(e)).
-            toEqual({
-                message: 'Jalebi **Fafda** & Sambharo',
-                selectionStart: 9,
-                selectionEnd: 14,
-            });
+        expect(Utils.applyHotkeyMarkdown(e)).toEqual({
+            message: 'Jalebi **Fafda** & Sambharo',
+            selectionStart: 9,
+            selectionEnd: 14,
+        });
     });
 });
 

@@ -12,7 +12,7 @@ import './dropdown_input.scss';
 type ValueType = {
     label: string;
     value: string;
-}
+};
 
 type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     value?: T;
@@ -43,7 +43,7 @@ const IndicatorsContainer = (props: any) => {
     return (
         <div className='DropdownInput__indicatorsContainer'>
             <components.IndicatorsContainer {...props}>
-                <i className='icon icon-chevron-down'/>
+                <i className='icon icon-chevron-down' />
             </components.IndicatorsContainer>
         </div>
     );
@@ -52,7 +52,7 @@ const IndicatorsContainer = (props: any) => {
 const Control = (props: any) => {
     return (
         <div className='DropdownInput__controlContainer'>
-            <components.Control {...props}/>
+            <components.Control {...props} />
         </div>
     );
 };
@@ -65,7 +65,7 @@ const Option = (props: any) => {
                 focused: props.isFocused,
             })}
         >
-            <components.Option {...props}/>
+            <components.Option {...props} />
         </div>
     );
 };
@@ -77,14 +77,27 @@ const renderError = (error?: string) => {
 
     return (
         <div className='Input___error'>
-            <i className='icon icon-alert-outline'/>
+            <i className='icon icon-alert-outline' />
             <span>{error}</span>
         </div>
     );
 };
 
 const DropdownInput = <T extends ValueType>(props: Props<T>) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, options, error, ...otherProps} = props;
+    const {
+        value,
+        placeholder,
+        className,
+        addon,
+        name,
+        textPrefix,
+        legend,
+        onChange,
+        styles,
+        options,
+        error,
+        ...otherProps
+    } = props;
 
     const [focused, setFocused] = useState(false);
 
@@ -119,13 +132,9 @@ const DropdownInput = <T extends ValueType>(props: Props<T>) => {
                 })}
             >
                 <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
-                    {showLegend ? (legend || placeholder) : null}
+                    {showLegend ? legend || placeholder : null}
                 </legend>
-                <div
-                    className='Input_wrapper'
-                    onFocus={onInputFocus}
-                    onBlur={onInputBlur}
-                >
+                <div className='Input_wrapper' onFocus={onInputFocus} onBlur={onInputBlur}>
                     {textPrefix && <span>{textPrefix}</span>}
                     <ReactSelect
                         id={`DropdownInput_${name}`}

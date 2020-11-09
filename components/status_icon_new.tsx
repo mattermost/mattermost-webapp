@@ -6,7 +6,7 @@ import React from 'react';
 type Props = {
     className: string;
     status: string;
-}
+};
 
 export default class StatusIconNew extends React.PureComponent<Props> {
     static defaultProps: Props = {
@@ -30,6 +30,6 @@ export default class StatusIconNew extends React.PureComponent<Props> {
             iconName = 'icon-minus-circle';
         }
 
-        return <i className={`${iconName} ${className}`}/>;
+        return <i className={`${iconName} ${className}`} />;
     }
 }

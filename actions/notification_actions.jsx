@@ -4,10 +4,19 @@
 import semver from 'semver';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
-import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getCurrentChannel,
+    getMyChannelMember,
+    makeGetChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCurrentUserId,
+    getCurrentUser,
+    getStatusForUserId,
+    getUser,
+} from 'mattermost-redux/selectors/entities/users';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
@@ -26,7 +35,7 @@ export function sendDesktopNotification(post, msgProps) {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
 
-        if ((currentUserId === post.user_id && post.props.from_webhook !== 'true')) {
+        if (currentUserId === post.user_id && post.props.from_webhook !== 'true') {
             return;
         }
 
@@ -53,18 +62,31 @@ export function sendDesktopNotification(post, msgProps) {
         const userStatus = getStatusForUserId(state, user.id);
         const member = getMyChannelMember(state, post.channel_id);
 
-        if (!member || isChannelMuted(member) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
+        if (
+            !member ||
+            isChannelMuted(member) ||
+            userStatus === UserStatuses.DND ||
+            userStatus === UserStatuses.OUT_OF_OFFICE
+        ) {
             return;
         }
 
-        let notifyLevel = member && member.notify_props ? member.notify_props.desktop : NotificationLevels.DEFAULT;
+        let notifyLevel =
+            member && member.notify_props
+                ? member.notify_props.desktop
+                : NotificationLevels.DEFAULT;
         if (notifyLevel === NotificationLevels.DEFAULT) {
-            notifyLevel = user && user.notify_props ? user.notify_props.desktop : NotificationLevels.ALL;
+            notifyLevel =
+                user && user.notify_props ? user.notify_props.desktop : NotificationLevels.ALL;
         }
 
         if (notifyLevel === NotificationLevels.NONE) {
             return;
-        } else if (notifyLevel === NotificationLevels.MENTION && mentions.indexOf(user.id) === -1 && msgProps.channel_type !== Constants.DM_CHANNEL) {
+        } else if (
+            notifyLevel === NotificationLevels.MENTION &&
+            mentions.indexOf(user.id) === -1 &&
+            msgProps.channel_type !== Constants.DM_CHANNEL
+        ) {
             return;
         }
 
@@ -102,20 +124,22 @@ export function sendDesktopNotification(post, msgProps) {
         let notifyText = post.message;
 
         const msgPropsPost = JSON.parse(msgProps.post);
-        const attachments = msgPropsPost && msgPropsPost.props && msgPropsPost.props.attachments ? msgPropsPost.props.attachments : [];
+        const attachments =
+            msgPropsPost && msgPropsPost.props && msgPropsPost.props.attachments
+                ? msgPropsPost.props.attachments
+                : [];
         let image = false;
         attachments.forEach((attachment) => {
             if (notifyText.length === 0) {
-                notifyText = attachment.fallback ||
-                    attachment.pretext ||
-                    attachment.text;
+                notifyText = attachment.fallback || attachment.pretext || attachment.text;
             }
             image |= attachment.image_url.length > 0;
         });
 
         let strippedMarkdownNotifyText = stripMarkdown(notifyText);
         if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
-            strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
+            strippedMarkdownNotifyText =
+                strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
         }
 
         let body = `@${username}`;
@@ -140,8 +164,13 @@ export function sendDesktopNotification(post, msgProps) {
         // the window itself is not active
         const activeChannel = getCurrentChannel(state);
         const channelId = channel ? channel.id : null;
-        const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
-        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
+        const notify =
+            (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
+        const soundName =
+            user.notify_props !== undefined &&
+            user.notify_props.desktop_notification_sound !== undefined
+                ? user.notify_props.desktop_notification_sound
+                : 'None';
 
         if (notify) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName));
@@ -175,7 +204,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
                 type: 'dispatch-notification',
                 message: msg,
             },
-            window.location.origin,
+            window.location.origin
         );
     } else {
         showNotification({

@@ -21,17 +21,13 @@ describe('components/GetLinkModal', () => {
         const helpText = 'help text';
         const props = {...requiredProps, helpText};
 
-        const wrapper = shallow(
-            <GetLinkModal {...props}/>,
-        );
+        const wrapper = shallow(<GetLinkModal {...props} />);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when helpText is not set', () => {
-        const wrapper = shallow(
-            <GetLinkModal {...requiredProps}/>,
-        );
+        const wrapper = shallow(<GetLinkModal {...requiredProps} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -40,9 +36,7 @@ describe('components/GetLinkModal', () => {
         const newOnHide = jest.fn();
         const props = {...requiredProps, onHide: newOnHide};
 
-        const wrapper = shallow(
-            <GetLinkModal {...props}/>,
-        );
+        const wrapper = shallow(<GetLinkModal {...props} />);
 
         wrapper.find(Modal).first().props().onHide();
         expect(newOnHide).toHaveBeenCalledTimes(1);
@@ -60,9 +54,7 @@ describe('components/GetLinkModal', () => {
     });
 
     test('should have handle copyLink', () => {
-        const wrapper = mountWithIntl(
-            <GetLinkModal {...requiredProps}/>,
-        );
+        const wrapper = mountWithIntl(<GetLinkModal {...requiredProps} />);
         wrapper.find('#linkModalTextArea').simulate('click');
         expect(wrapper.state('copiedLink')).toBe(true);
     });

@@ -10,7 +10,9 @@ describe('Channel Utils', () => {
             const allChannelIds = ['1', '2', '3', '4', '5'];
             const unreadChannelIds = [];
 
-            expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)).toEqual(-1);
+            expect(
+                Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)
+            ).toEqual(-1);
         });
 
         test('only current channel is unread', () => {
@@ -18,7 +20,9 @@ describe('Channel Utils', () => {
             const allChannelIds = ['1', '2', '3', '4', '5'];
             const unreadChannelIds = ['3'];
 
-            expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)).toEqual(-1);
+            expect(
+                Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)
+            ).toEqual(-1);
         });
 
         test('going forward to unread channels', () => {
@@ -26,7 +30,9 @@ describe('Channel Utils', () => {
             const allChannelIds = ['1', '2', '3', '4', '5'];
             const unreadChannelIds = ['1', '4', '5'];
 
-            expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)).toEqual(3);
+            expect(
+                Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)
+            ).toEqual(3);
         });
 
         test('going forward to unread channels with wrapping', () => {
@@ -34,7 +40,9 @@ describe('Channel Utils', () => {
             const allChannelIds = ['1', '2', '3', '4', '5'];
             const unreadChannelIds = ['1', '2'];
 
-            expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)).toEqual(0);
+            expect(
+                Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)
+            ).toEqual(0);
         });
 
         test('going backwards to unread channels', () => {
@@ -42,7 +50,9 @@ describe('Channel Utils', () => {
             const allChannelIds = ['1', '2', '3', '4', '5'];
             const unreadChannelIds = ['1', '4', '5'];
 
-            expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, -1)).toEqual(0);
+            expect(
+                Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, -1)
+            ).toEqual(0);
         });
 
         test('going backwards to unread channels with wrapping', () => {
@@ -50,7 +60,9 @@ describe('Channel Utils', () => {
             const allChannelIds = ['1', '2', '3', '4', '5'];
             const unreadChannelIds = ['3', '4', '5'];
 
-            expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, -1)).toEqual(4);
+            expect(
+                Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, -1)
+            ).toEqual(4);
         });
     });
 });

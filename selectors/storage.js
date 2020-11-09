@@ -26,11 +26,13 @@ export const makeGetGlobalItem = (name, defaultValue) => {
 };
 
 export const getItemFromStorage = (storage, name, defaultValue) => {
-    if (storage &&
+    if (
+        storage &&
         typeof storage[name] !== 'undefined' &&
         storage[name] !== null &&
         typeof storage[name].value !== 'undefined' &&
-        storage[name].value !== null) {
+        storage[name].value !== null
+    ) {
         return storage[name].value;
     }
 

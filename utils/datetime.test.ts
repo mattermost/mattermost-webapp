@@ -1,11 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {
-    getDiff,
-    isToday,
-    isYesterday,
-} from './datetime';
+import {getDiff, isToday, isYesterday} from './datetime';
 
 describe('isToday and isYesterday', () => {
     test('tomorrow at 12am', () => {

@@ -3,7 +3,10 @@
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
-import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getMyChannelMember as getMyChannelMemberSelector,
+} from 'mattermost-redux/selectors/entities/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -15,12 +18,7 @@ import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import {isEmbedVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
-import {
-    ActionTypes,
-    Constants,
-    RHSStates,
-    StoragePrefixes,
-} from 'utils/constants';
+import {ActionTypes, Constants, RHSStates, StoragePrefixes} from 'utils/constants';
 import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
 
@@ -35,7 +33,9 @@ export function handleNewPost(post, msg) {
         }
 
         const myChannelMember = getMyChannelMemberSelector(state, post.channel_id);
-        const myChannelMemberDoesntExist = !myChannelMember || (Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object');
+        const myChannelMemberDoesntExist =
+            !myChannelMember ||
+            (Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object');
 
         if (myChannelMemberDoesntExist) {
             await dispatch(getMyChannelMember(post.channel_id));
@@ -199,7 +199,13 @@ export function unpinPost(postId) {
     };
 }
 
-export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
+export function setEditingPost(
+    postId = '',
+    commentCount = 0,
+    refocusId = '',
+    title = '',
+    isRHS = false
+) {
     return async (dispatch, getState) => {
         const state = getState();
         const post = PostSelectors.getPost(state, postId);
@@ -214,7 +220,15 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
         const channel = getChannel(state, post.channel_id);
         const teamId = channel.team_id || '';
 
-        const canEditNow = canEditPost(state, config, license, teamId, post.channel_id, userId, post);
+        const canEditNow = canEditPost(
+            state,
+            config,
+            license,
+            teamId,
+            post.channel_id,
+            userId,
+            post
+        );
 
         // Only show the modal if we can edit the post now, but allow it to be hidden at any time
 
@@ -279,7 +293,12 @@ export function toggleEmbedVisibility(postId) {
         const currentUserId = getCurrentUserId(state);
         const visible = isEmbedVisible(state, postId);
 
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !visible));
+        dispatch(
+            StorageActions.setGlobalItem(
+                StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId,
+                !visible
+            )
+        );
     };
 }
 

@@ -6,7 +6,8 @@ import configureStore from 'redux-mock-store';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions.jsx';
 
 jest.mock('actions/team_actions', () => ({
-    addUsersToTeam: () => ({ // since we are using addUsersToTeamGracefully, this call will always succeed
+    addUsersToTeam: () => ({
+        // since we are using addUsersToTeamGracefully, this call will always succeed
         type: 'MOCK_RECEIVED_ME',
     }),
 }));
@@ -14,10 +15,10 @@ jest.mock('actions/team_actions', () => ({
 jest.mock('mattermost-redux/actions/channels', () => ({
     joinChannel: (userId, team, channel) => {
         if (channel === 'correct') {
-            return ({type: 'MOCK_RECEIVED_ME'});
+            return {type: 'MOCK_RECEIVED_ME'};
         }
         if (channel === 'correct2') {
-            return ({type: 'MOCK_RECEIVED_ME'});
+            return {type: 'MOCK_RECEIVED_ME'};
         }
         throw new Error('ERROR');
     },
@@ -28,16 +29,46 @@ jest.mock('mattermost-redux/actions/teams', () => ({
     sendEmailInvitesToTeamGracefully: (team, emails) => {
         // Poor attempt to mock rate limiting.
         if (emails.length > 21) {
-            return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'Invite emails rate limit exceeded.'}}))});
+            return {
+                type: 'MOCK_RECEIVED_ME',
+                data: emails.map((email) => ({
+                    email,
+                    error: {message: 'Invite emails rate limit exceeded.'},
+                })),
+            };
         }
-        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: team === 'correct' ? undefined : {message: 'Unable to add the user to the team.'}}))});
+        return {
+            type: 'MOCK_RECEIVED_ME',
+            data: emails.map((email) => ({
+                email,
+                error:
+                    team === 'correct'
+                        ? undefined
+                        : {message: 'Unable to add the user to the team.'},
+            })),
+        };
     },
     sendEmailGuestInvitesToChannelsGracefully: (team, channels, emails) => {
         // Poor attempt to mock rate limiting.
         if (emails.length > 21) {
-            return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: {message: 'Invite emails rate limit exceeded.'}}))});
+            return {
+                type: 'MOCK_RECEIVED_ME',
+                data: emails.map((email) => ({
+                    email,
+                    error: {message: 'Invite emails rate limit exceeded.'},
+                })),
+            };
         }
-        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: team === 'correct' ? undefined : {message: 'Unable to add the guest to the channels.'}}))});
+        return {
+            type: 'MOCK_RECEIVED_ME',
+            data: emails.map((email) => ({
+                email,
+                error:
+                    team === 'correct'
+                        ? undefined
+                        : {message: 'Unable to add the guest to the channels.'},
+            })),
+        };
     },
 }));
 
@@ -99,7 +130,11 @@ describe('actions/invite_actions', () => {
 
     describe('sendMembersInvites', () => {
         it('should generate and empty list if nothing is passed', async () => {
-            const response = await sendMembersInvites('correct', [], [])(store.dispatch, store.getState);
+            const response = await sendMembersInvites(
+                'correct',
+                [],
+                []
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [],
                 notSent: [],
@@ -107,8 +142,16 @@ describe('actions/invite_actions', () => {
         });
 
         it('should generate list of success for emails', async () => {
-            const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
-            const response = await sendMembersInvites('correct', [], emails)(store.dispatch, store.getState);
+            const emails = [
+                'email-one@email-one.com',
+                'email-two@email-two.com',
+                'email-three@email-three.com',
+            ];
+            const response = await sendMembersInvites(
+                'correct',
+                [],
+                emails
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 notSent: [],
                 sent: [
@@ -129,8 +172,16 @@ describe('actions/invite_actions', () => {
         });
 
         it('should generate list of failures for emails on invite fails', async () => {
-            const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
-            const response = await sendMembersInvites('error', [], emails)(store.dispatch, store.getState);
+            const emails = [
+                'email-one@email-one.com',
+                'email-two@email-two.com',
+                'email-three@email-three.com',
+            ];
+            const response = await sendMembersInvites(
+                'error',
+                [],
+                emails
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [],
                 notSent: [
@@ -157,7 +208,11 @@ describe('actions/invite_actions', () => {
                 {id: 'other-user', roles: 'system_user'},
                 {id: 'other-guest', roles: 'system_guest'},
             ];
-            const response = await sendMembersInvites('correct', users, [])(store.dispatch, store.getState);
+            const response = await sendMembersInvites(
+                'correct',
+                users,
+                []
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [
                     {
@@ -201,9 +256,18 @@ describe('actions/invite_actions', () => {
                 {id: 'other-user', roles: 'system_user'},
                 {id: 'other-guest', roles: 'system_guest'},
             ];
-            const response = await sendMembersInvites('error', users, [])(store.dispatch, store.getState);
+            const response = await sendMembersInvites(
+                'error',
+                users,
+                []
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
-                sent: [{user: {id: 'other-user', roles: 'system_user'}, reason: 'This member has been added to the team.'}],
+                sent: [
+                    {
+                        user: {id: 'other-user', roles: 'system_user'},
+                        reason: 'This member has been added to the team.',
+                    },
+                ],
                 notSent: [
                     {
                         reason: 'This person is already a team member.',
@@ -240,7 +304,11 @@ describe('actions/invite_actions', () => {
                     reason: 'Invite emails rate limit exceeded.',
                 });
             }
-            const response = await sendMembersInvites('correct', [], emails)(store.dispatch, store.getState);
+            const response = await sendMembersInvites(
+                'correct',
+                [],
+                emails
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 notSent: expectedNotSent,
                 sent: [],
@@ -250,7 +318,13 @@ describe('actions/invite_actions', () => {
 
     describe('sendGuestsInvites', () => {
         it('should generate and empty list if nothing is passed', async () => {
-            const response = await sendGuestsInvites('correct', [], [], [], '')(store.dispatch, store.getState);
+            const response = await sendGuestsInvites(
+                'correct',
+                [],
+                [],
+                [],
+                ''
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [],
                 notSent: [],
@@ -259,8 +333,18 @@ describe('actions/invite_actions', () => {
 
         it('should generate list of success for emails', async () => {
             const channels = ['correct'];
-            const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
-            const response = await sendGuestsInvites('correct', channels, [], emails, 'message')(store.dispatch, store.getState);
+            const emails = [
+                'email-one@email-one.com',
+                'email-two@email-two.com',
+                'email-three@email-three.com',
+            ];
+            const response = await sendGuestsInvites(
+                'correct',
+                channels,
+                [],
+                emails,
+                'message'
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 notSent: [],
                 sent: [
@@ -282,8 +366,18 @@ describe('actions/invite_actions', () => {
 
         it('should generate list of failures for emails on invite fails', async () => {
             const channels = ['correct'];
-            const emails = ['email-one@email-one.com', 'email-two@email-two.com', 'email-three@email-three.com'];
-            const response = await sendGuestsInvites('error', channels, [], emails, 'message')(store.dispatch, store.getState);
+            const emails = [
+                'email-one@email-one.com',
+                'email-two@email-two.com',
+                'email-three@email-three.com',
+            ];
+            const response = await sendGuestsInvites(
+                'error',
+                channels,
+                [],
+                emails,
+                'message'
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [],
                 notSent: [
@@ -311,13 +405,20 @@ describe('actions/invite_actions', () => {
                 {id: 'other-user', roles: 'system_user'},
                 {id: 'other-guest', roles: 'system_guest'},
             ];
-            const response = await sendGuestsInvites('correct', channels, users, [], 'message')(store.dispatch, store.getState);
+            const response = await sendGuestsInvites(
+                'correct',
+                channels,
+                users,
+                [],
+                'message'
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [
                     {
                         reason: {
                             id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                            message:
+                                'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
                             values: {count: channels.length},
                         },
                         user: {
@@ -328,7 +429,8 @@ describe('actions/invite_actions', () => {
                     {
                         reason: {
                             id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                            message:
+                                'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
                             values: {count: channels.length},
                         },
                         user: {
@@ -361,7 +463,13 @@ describe('actions/invite_actions', () => {
                 {id: 'guest2', roles: 'system_guest'},
                 {id: 'guest3', roles: 'system_guest'},
             ];
-            const response = await sendGuestsInvites('correct', ['correct', 'correct2'], users, [], 'message')(store.dispatch, store.getState);
+            const response = await sendGuestsInvites(
+                'correct',
+                ['correct', 'correct2'],
+                users,
+                [],
+                'message'
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [],
                 notSent: [
@@ -390,7 +498,13 @@ describe('actions/invite_actions', () => {
                 {id: 'other-user', roles: 'system_user'},
                 {id: 'other-guest', roles: 'system_guest'},
             ];
-            const response = await sendGuestsInvites('error', ['correct'], users, [], 'message')(store.dispatch, store.getState);
+            const response = await sendGuestsInvites(
+                'error',
+                ['correct'],
+                users,
+                [],
+                'message'
+            )(store.dispatch, store.getState);
 
             expect(response).toEqual({
                 sent: [
@@ -401,7 +515,8 @@ describe('actions/invite_actions', () => {
                         },
                         reason: {
                             id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                            message:
+                                'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
                             values: {
                                 count: 1,
                             },
@@ -414,7 +529,8 @@ describe('actions/invite_actions', () => {
                         },
                         reason: {
                             id: 'invite.guests.new-member',
-                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                            message:
+                                'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
                             values: {
                                 count: 1,
                             },
@@ -447,7 +563,13 @@ describe('actions/invite_actions', () => {
                 {id: 'other-user', roles: 'system_user'},
                 {id: 'other-guest', roles: 'system_guest'},
             ];
-            const response = await sendGuestsInvites('correct', ['error'], users, [], 'message')(store.dispatch, store.getState);
+            const response = await sendGuestsInvites(
+                'correct',
+                ['error'],
+                users,
+                [],
+                'message'
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 sent: [],
                 notSent: [
@@ -494,7 +616,13 @@ describe('actions/invite_actions', () => {
                 });
             }
 
-            const response = await sendGuestsInvites('correct', ['correct'], [], emails, 'message')(store.dispatch, store.getState);
+            const response = await sendGuestsInvites(
+                'correct',
+                ['correct'],
+                [],
+                emails,
+                'message'
+            )(store.dispatch, store.getState);
             expect(response).toEqual({
                 notSent: expectedNotSent,
                 sent: [],

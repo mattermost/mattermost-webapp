@@ -16,9 +16,7 @@ describe('components/QuickInput', () => {
             ['when value empty', {value: '', clearable: true, onClear: () => {}}],
         ].forEach(([description, props]) => {
             it(description, () => {
-                const wrapper = mount(
-                    <QuickInput {...props}/>,
-                );
+                const wrapper = mount(<QuickInput {...props} />);
 
                 expect(wrapper.find('.input-clear').exists()).toBe(false);
             });
@@ -27,13 +25,7 @@ describe('components/QuickInput', () => {
 
     describe('should render clear button', () => {
         test('with default tooltip text', () => {
-            const wrapper = mount(
-                <QuickInput
-                    value='mock'
-                    clearable={true}
-                    onClear={() => {}}
-                />,
-            );
+            const wrapper = mount(<QuickInput value='mock' clearable={true} onClear={() => {}} />);
 
             expect(wrapper.find('.input-clear')).toMatchSnapshot();
         });
@@ -45,7 +37,7 @@ describe('components/QuickInput', () => {
                     clearable={true}
                     clearableTooltipText='Custom'
                     onClear={() => {}}
-                />,
+                />
             );
 
             expect(wrapper.find('.input-clear')).toMatchSnapshot();
@@ -56,11 +48,9 @@ describe('components/QuickInput', () => {
                 <QuickInput
                     value='mock'
                     clearable={true}
-                    clearableTooltipText={
-                        <span>{'Custom'}</span>
-                    }
+                    clearableTooltipText={<span>{'Custom'}</span>}
                     onClear={() => {}}
-                />,
+                />
             );
 
             expect(wrapper.find('.input-clear')).toMatchSnapshot();
@@ -72,7 +62,7 @@ describe('components/QuickInput', () => {
         class MockComp extends React.PureComponent {
             focus = focusFn;
             render() {
-                return <div/>;
+                return <div />;
             }
         }
         const wrapper = mount(
@@ -81,7 +71,7 @@ describe('components/QuickInput', () => {
                 clearable={true}
                 onClear={() => {}}
                 inputComponent={MockComp}
-            />,
+            />
         );
 
         wrapper.setProps({onClear: () => wrapper.setProps({value: ''})});

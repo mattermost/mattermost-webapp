@@ -170,7 +170,10 @@ describe('stores/LocalStorageStore', () => {
 
             LocalStorageStore.removePenultimateChannelName(userId1, teamId1);
             assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
-            assert.equal(LocalStorageStore.getItem(getPenultimateChannelNameKey(userId1, teamId1)), undefined);
+            assert.equal(
+                LocalStorageStore.getItem(getPenultimateChannelNameKey(userId1, teamId1)),
+                undefined
+            );
         });
     });
 });

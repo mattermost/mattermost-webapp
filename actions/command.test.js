@@ -132,11 +132,15 @@ describe('executeCommand', () => {
         test('should send message when command typed in reply threads', async () => {
             GlobalActions.sendEphemeralPost = jest.fn();
 
-            const result = await store.dispatch(executeCommand('/leave', {channel_id: 'channel_id', parent_id: 'parent_id'}));
+            const result = await store.dispatch(
+                executeCommand('/leave', {channel_id: 'channel_id', parent_id: 'parent_id'})
+            );
 
-            expect(GlobalActions.sendEphemeralPost).
-                toHaveBeenCalledWith('/leave is not supported in reply threads. Use it in the center channel instead.',
-                    'channel_id', 'parent_id');
+            expect(GlobalActions.sendEphemeralPost).toHaveBeenCalledWith(
+                '/leave is not supported in reply threads. Use it in the center channel instead.',
+                'channel_id',
+                'parent_id'
+            );
 
             expect(result).toEqual({data: true});
         });
@@ -147,7 +151,9 @@ describe('executeCommand', () => {
 
             const result = await store.dispatch(executeCommand('/leave', {}));
 
-            expect(GlobalActions.showLeavePrivateChannelModal).toHaveBeenCalledWith({type: Constants.PRIVATE_CHANNEL});
+            expect(GlobalActions.showLeavePrivateChannelModal).toHaveBeenCalledWith({
+                type: Constants.PRIVATE_CHANNEL,
+            });
 
             expect(result).toEqual({data: true});
         });
@@ -159,7 +165,14 @@ describe('executeCommand', () => {
             Channels.getCurrentChannel = jest.fn(() => ({type: Constants.DM_CHANNEL}));
 
             const result = await store.dispatch(executeCommand('/leave', {}));
-            expect(store.getActions()[0].data).toEqual([{category: 'direct_channel_show', name: 'userId', user_id: 'user123', value: 'false'}]);
+            expect(store.getActions()[0].data).toEqual([
+                {
+                    category: 'direct_channel_show',
+                    name: 'userId',
+                    user_id: 'user123',
+                    value: 'false',
+                },
+            ]);
 
             expect(result).toEqual({data: true});
         });
@@ -168,10 +181,20 @@ describe('executeCommand', () => {
             Utils.getUserIdFromChannelName = jest.fn(() => 'userId');
             Channels.getRedirectChannelNameForTeam = jest.fn(() => 'channel1');
             Teams.getCurrentRelativeTeamUrl = jest.fn(() => '/team1');
-            Channels.getCurrentChannel = jest.fn(() => ({type: Constants.GM_CHANNEL, id: 'channelId'}));
+            Channels.getCurrentChannel = jest.fn(() => ({
+                type: Constants.GM_CHANNEL,
+                id: 'channelId',
+            }));
 
             const result = await store.dispatch(executeCommand('/leave', {}));
-            expect(store.getActions()[0].data).toEqual([{category: 'group_channel_show', name: 'channelId', user_id: 'user123', value: 'false'}]);
+            expect(store.getActions()[0].data).toEqual([
+                {
+                    category: 'group_channel_show',
+                    name: 'channelId',
+                    user_id: 'user123',
+                    value: 'false',
+                },
+            ]);
 
             expect(result).toEqual({data: true});
         });

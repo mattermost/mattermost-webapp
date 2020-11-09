@@ -10,7 +10,7 @@ type Props = {
     onText?: React.ReactNode;
     offText?: React.ReactNode;
     id?: string;
-}
+};
 
 const Toggle: React.FC<Props> = (props: Props) => {
     const {onToggle, toggled, disabled, onText, offText, id} = props;
@@ -23,17 +23,21 @@ const Toggle: React.FC<Props> = (props: Props) => {
             aria-pressed={toggled ? 'true' : 'false'}
             disabled={disabled}
         >
-            <div className='handle'/>
+            <div className='handle' />
             {text(toggled, onText, offText)}
         </button>
     );
 };
 
-function text(toggled?: boolean, onText?: React.ReactNode, offText?: React.ReactNode): React.ReactNode | null {
+function text(
+    toggled?: boolean,
+    onText?: React.ReactNode,
+    offText?: React.ReactNode
+): React.ReactNode | null {
     if ((toggled && !onText) || (!toggled && !offText)) {
         return null;
     }
-    return (<div className={`bg-text ${toggled ? 'on' : 'off'}`}>{toggled ? onText : offText}</div>);
+    return <div className={`bg-text ${toggled ? 'on' : 'off'}`}>{toggled ? onText : offText}</div>;
 }
 
 export default Toggle;

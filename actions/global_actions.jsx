@@ -12,9 +12,22 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentTeamId,
+    getMyTeams,
+    getTeam,
+    getMyTeamMember,
+    getTeamMemberships,
+} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getCurrentChannelStats,
+    getCurrentChannelId,
+    getMyChannelMember,
+    getRedirectChannelNameForTeam,
+    getChannelsNameMapInTeam,
+    getAllDirectChannels,
+} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -48,7 +61,10 @@ export function emitChannelClickEvent(channel) {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
         const otherUserId = Utils.getUserIdFromChannelName(chan);
-        const {data: receivedChannel} = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
+        const {data: receivedChannel} = await createDirectChannel(currentUserId, otherUserId)(
+            dispatch,
+            getState
+        );
         if (receivedChannel) {
             success(receivedChannel);
         } else {
@@ -82,15 +98,20 @@ export function emitChannelClickEvent(channel) {
             loadProfilesForSidebar();
         }
 
-        dispatch(batchActions([{
-            type: ChannelTypes.SELECT_CHANNEL,
-            data: chan.id,
-        }, {
-            type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
-            data: chan.id,
-            channel: chan,
-            member: member || {},
-        }]));
+        dispatch(
+            batchActions([
+                {
+                    type: ChannelTypes.SELECT_CHANNEL,
+                    data: chan.id,
+                },
+                {
+                    type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
+                    data: chan.id,
+                    channel: chan,
+                    member: member || {},
+                },
+            ])
+        );
     }
 
     if (channel.fake) {
@@ -101,7 +122,7 @@ export function emitChannelClickEvent(channel) {
             },
             () => {
                 browserHistory.push('/' + this.state.currentTeam.name);
-            },
+            }
         );
     } else {
         switchToChannel(channel);
@@ -195,7 +216,14 @@ export function sendEphemeralPost(message, channelId, parentId) {
     dispatch(handleNewPost(post));
 }
 
-export function sendAddToChannelEphemeralPost(user, addedUsername, addedUserId, channelId, postRootId = '', timestamp) {
+export function sendAddToChannelEphemeralPost(
+    user,
+    addedUsername,
+    addedUserId,
+    channelId,
+    postRootId = '',
+    timestamp
+) {
     const post = {
         id: Utils.generateId(),
         user_id: user.id,
@@ -225,8 +253,11 @@ export function emitLocalUserTypingEvent(channelId, parentPostId) {
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;
 
-        if (((t - lastTimeTypingSent) > config.TimeBetweenUserTypingUpdatesMilliseconds) &&
-            (membersInChannel < config.MaxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {
+        if (
+            t - lastTimeTypingSent > config.TimeBetweenUserTypingUpdatesMilliseconds &&
+            membersInChannel < config.MaxNotificationsPerChannel &&
+            config.EnableUserTypingMessages === 'true'
+        ) {
             WebSocketClient.userTyping(channelId, parentPostId);
             lastTimeTypingSent = t;
         }
@@ -237,28 +268,34 @@ export function emitLocalUserTypingEvent(channelId, parentPostId) {
     return dispatch(userTyping);
 }
 
-export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
+export function emitUserLoggedOutEvent(
+    redirectTo = '/',
+    shouldSignalLogout = true,
+    userAction = true
+) {
     // If the logout was intentional, discard knowledge about having previously been logged in.
     // This bit is otherwise used to detect session expirations on the login page.
     if (userAction) {
         LocalStorageStore.setWasLoggedIn(false);
     }
 
-    dispatch(logout()).then(() => {
-        if (shouldSignalLogout) {
-            BrowserStore.signalLogout();
-        }
+    dispatch(logout())
+        .then(() => {
+            if (shouldSignalLogout) {
+                BrowserStore.signalLogout();
+            }
 
-        BrowserStore.clear();
-        stopPeriodicStatusUpdates();
-        WebsocketActions.close();
+            BrowserStore.clear();
+            stopPeriodicStatusUpdates();
+            WebsocketActions.close();
 
-        clearUserCookie();
+            clearUserCookie();
 
-        browserHistory.push(redirectTo);
-    }).catch(() => {
-        browserHistory.push(redirectTo);
-    });
+            browserHistory.push(redirectTo);
+        })
+        .catch(() => {
+            browserHistory.push(redirectTo);
+        });
 }
 
 export function toggleSideBarRightMenuAction() {

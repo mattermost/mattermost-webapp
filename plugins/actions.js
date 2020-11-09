@@ -18,7 +18,9 @@ const hideRHSPlugin = (manifestId) => {
         const state = getState();
         const rhsPlugins = state.plugins.components.RightHandSidebarComponent || [];
         const pluggableId = getPluggableId(state);
-        const pluginComponent = rhsPlugins.find((element) => element.id === pluggableId && element.pluginId === manifestId);
+        const pluginComponent = rhsPlugins.find(
+            (element) => element.id === pluggableId && element.pluginId === manifestId
+        );
 
         // Hide RHS if its showing this plugin
         if (pluginComponent) {

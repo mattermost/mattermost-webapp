@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 type Props = {
     show: boolean;
     onHide: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
 export default class PostDeletedModal extends React.Component<Props> {
     public shouldComponentUpdate(nextProps: Props): boolean {
@@ -26,10 +26,7 @@ export default class PostDeletedModal extends React.Component<Props> {
                 data-testid='postDeletedModal'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='postDeletedModalLabel'
-                    >
+                    <Modal.Title componentClass='h1' id='postDeletedModalLabel'>
                         <FormattedMessage
                             id='post_delete.notPosted'
                             defaultMessage='Comment could not be posted'
@@ -52,10 +49,7 @@ export default class PostDeletedModal extends React.Component<Props> {
                         onClick={this.props.onHide}
                         data-testid='postDeletedModalOkButton'
                     >
-                        <FormattedMessage
-                            id='post_delete.okay'
-                            defaultMessage='Okay'
-                        />
+                        <FormattedMessage id='post_delete.okay' defaultMessage='Okay' />
                     </button>
                 </Modal.Footer>
             </Modal>

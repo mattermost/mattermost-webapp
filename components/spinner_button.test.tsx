@@ -8,34 +8,21 @@ import SpinnerButton from 'components/spinner_button';
 
 describe('components/SpinnerButton', () => {
     test('should match snapshot with required props', () => {
-        const wrapper = shallow(
-            <SpinnerButton
-                spinning={false}
-                spinningText='Test'
-            />,
-        );
+        const wrapper = shallow(<SpinnerButton spinning={false} spinningText='Test' />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with spinning', () => {
-        const wrapper = shallow(
-            <SpinnerButton
-                spinning={true}
-                spinningText='Test'
-            />,
-        );
+        const wrapper = shallow(<SpinnerButton spinning={true} spinningText='Test' />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with children', () => {
         const wrapper = shallow(
-            <SpinnerButton
-                spinning={false}
-                spinningText='Test'
-            >
-                <span id='child1'/>
-                <span id='child2'/>
-            </SpinnerButton>,
+            <SpinnerButton spinning={false} spinningText='Test'>
+                <span id='child1' />
+                <span id='child2' />
+            </SpinnerButton>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -44,11 +31,7 @@ describe('components/SpinnerButton', () => {
         const onClick = jest.fn();
 
         const wrapper = mount(
-            <SpinnerButton
-                spinning={false}
-                onClick={onClick}
-                spinningText='Test'
-            />,
+            <SpinnerButton spinning={false} onClick={onClick} spinningText='Test' />
         );
 
         wrapper.find('button').simulate('click');
@@ -57,11 +40,7 @@ describe('components/SpinnerButton', () => {
 
     test('should add properties to underlying button', () => {
         const wrapper = mount(
-            <SpinnerButton
-                id='my-button-id'
-                className='btn btn-success'
-                spinningText='Test'
-            />,
+            <SpinnerButton id='my-button-id' className='btn btn-success' spinningText='Test' />
         );
 
         const button = wrapper.find('button');

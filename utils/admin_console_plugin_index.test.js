@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {samplePlugin1, samplePlugin2, samplePlugin3} from '../tests/helpers/admin_console_plugin_index_sample_pluings';
+import {
+    samplePlugin1,
+    samplePlugin2,
+    samplePlugin3,
+} from '../tests/helpers/admin_console_plugin_index_sample_pluings';
 
 import {getPluginEntries} from './admin_console_plugin_index';
 
@@ -28,7 +32,10 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
     });
 
     it('should return map with the text extracted from plugins', () => {
-        const entries = getPluginEntries({[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2});
+        const entries = getPluginEntries({
+            [samplePlugin1.id]: samplePlugin1,
+            [samplePlugin2.id]: samplePlugin2,
+        });
         expect(entries).toMatchSnapshot();
         expect(entries).toHaveProperty('plugin_mattermost-autolink');
         expect(entries).toHaveProperty('plugin_Some-random-plugin');
@@ -52,13 +59,19 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
         const entries = getPluginEntries({[samplePlugin3.id]: samplePlugin3});
         expect(entries).toHaveProperty('plugin_plugin-with-markdown');
         expect(entries['plugin_plugin-with-markdown']).toContain('admin.plugin.enable_plugin');
-        expect(entries['plugin_plugin-with-markdown']).toContain('PluginSettings.PluginStates.plugin-with-markdown.Enable');
+        expect(entries['plugin_plugin-with-markdown']).toContain(
+            'PluginSettings.PluginStates.plugin-with-markdown.Enable'
+        );
     });
 
     it('should index the enable plugin setting even if other settings are not present', () => {
-        const entries = getPluginEntries({'plugin-without-settings': {id: 'plugin-without-setting'}});
+        const entries = getPluginEntries({
+            'plugin-without-settings': {id: 'plugin-without-setting'},
+        });
         expect(entries).toHaveProperty('plugin_plugin-without-settings');
         expect(entries['plugin_plugin-without-settings']).toContain('admin.plugin.enable_plugin');
-        expect(entries['plugin_plugin-without-settings']).toContain('PluginSettings.PluginStates.plugin-without-setting.Enable');
+        expect(entries['plugin_plugin-without-settings']).toContain(
+            'PluginSettings.PluginStates.plugin-without-setting.Enable'
+        );
     });
 });

@@ -1,7 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants';
+import Constants, {
+    EventTypes,
+    A11yClassNames,
+    A11yAttributeNames,
+    A11yCustomEventTypes,
+} from 'utils/constants';
 import {isKeyPressed, cmdOrCtrlPressed, isMac} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -157,12 +162,14 @@ export default class A11yController {
      * Returnes whether an a11y-specific key is currently pressed
      */
     get a11yKeyIsPressed() {
-        return this.f6KeyIsPressed ||
-               this.upArrowKeyIsPressed ||
-               this.downArrowKeyIsPressed ||
-               this.tabKeyIsPressed ||
-               this.tildeKeyIsPressed ||
-               this.lKeyIsPressed;
+        return (
+            this.f6KeyIsPressed ||
+            this.upArrowKeyIsPressed ||
+            this.downArrowKeyIsPressed ||
+            this.tabKeyIsPressed ||
+            this.tildeKeyIsPressed ||
+            this.lKeyIsPressed
+        );
     }
 
     /**
@@ -187,7 +194,10 @@ export default class A11yController {
      * utilize the a11y_controller to stop other keyboard events for accessibility reasons in favour of its own
      */
     get disableNavigation() {
-        return this.activeRegion && this.activeRegion.getAttribute(A11yAttributeNames.DISABLE_NAVIGATION) === 'true';
+        return (
+            this.activeRegion &&
+            this.activeRegion.getAttribute(A11yAttributeNames.DISABLE_NAVIGATION) === 'true'
+        );
     }
 
     // public methods
@@ -197,12 +207,7 @@ export default class A11yController {
      */
     nextRegion() {
         const regions = this.regions;
-        if (
-            !regions ||
-            !regions.length ||
-            this.modalIsOpen ||
-            this.popupIsOpen
-        ) {
+        if (!regions || !regions.length || this.modalIsOpen || this.popupIsOpen) {
             return;
         }
         if (!this.disableNavigation) {
@@ -227,12 +232,7 @@ export default class A11yController {
      */
     previousRegion() {
         const regions = this.regions;
-        if (
-            !regions ||
-            !regions.length ||
-            this.modalIsOpen ||
-            this.popupIsOpen
-        ) {
+        if (!regions || !regions.length || this.modalIsOpen || this.popupIsOpen) {
             return;
         }
         if (!this.disableNavigation) {
@@ -379,7 +379,10 @@ export default class A11yController {
 
         // setup new active region
         this.activeRegion = element;
-        this.activeRegion.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
+        this.activeRegion.addEventListener(
+            A11yCustomEventTypes.UPDATE,
+            this.handleActiveRegionUpdate
+        );
         this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
 
         // apply visual updates to active region
@@ -389,7 +392,12 @@ export default class A11yController {
         this.sectionHTMLCollection = this.getAllSectionsForRegion(this.activeRegion);
 
         // should the visual focus start on a child section
-        if (canFocusChild && this.getFocusChildAttribute(this.activeRegion) && this.sections && this.sections.length) {
+        if (
+            canFocusChild &&
+            this.getFocusChildAttribute(this.activeRegion) &&
+            this.sections &&
+            this.sections.length
+        ) {
             this.setActiveSection(this.sections[0]);
         }
     }
@@ -409,7 +417,10 @@ export default class A11yController {
 
         // setup new active section
         this.activeSection = element;
-        this.activeSection.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
+        this.activeSection.addEventListener(
+            A11yCustomEventTypes.UPDATE,
+            this.handleActiveSectionUpdate
+        );
         this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
 
         // apply visual updates to active section
@@ -431,7 +442,10 @@ export default class A11yController {
 
         // setup new active element
         this.activeElement = element;
-        this.activeElement.addEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
+        this.activeElement.addEventListener(
+            A11yCustomEventTypes.UPDATE,
+            this.handleActiveElementUpdate
+        );
         if (this.activeElement !== this.activeRegion && this.activeElement !== this.activeSection) {
             this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.ACTIVATE));
         }
@@ -515,7 +529,10 @@ export default class A11yController {
         if (this.activeRegion) {
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
             this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
-            this.activeRegion.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
+            this.activeRegion.removeEventListener(
+                A11yCustomEventTypes.UPDATE,
+                this.handleActiveRegionUpdate
+            );
             this.activeRegion = null;
         }
         this.clearActiveSection();
@@ -528,7 +545,10 @@ export default class A11yController {
         if (this.activeSection) {
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
             this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
-            this.activeSection.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
+            this.activeSection.removeEventListener(
+                A11yCustomEventTypes.UPDATE,
+                this.handleActiveSectionUpdate
+            );
             this.activeSection = null;
         }
         this.clearActiveElement();
@@ -539,11 +559,17 @@ export default class A11yController {
      */
     clearActiveElement() {
         if (this.activeElement) {
-            if (this.activeElement !== this.activeRegion && this.activeElement !== this.activeSection) {
+            if (
+                this.activeElement !== this.activeRegion &&
+                this.activeElement !== this.activeSection
+            ) {
                 this.activeElement.classList.remove(A11yClassNames.ACTIVE);
                 this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             }
-            this.activeElement.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
+            this.activeElement.removeEventListener(
+                A11yCustomEventTypes.UPDATE,
+                this.handleActiveElementUpdate
+            );
             this.activeElement = null;
         }
     }
@@ -605,8 +631,14 @@ export default class A11yController {
             return [];
         }
         return Array.from(elements).sort((elementA, elementB) => {
-            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
-            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+            const elementAOrder = parseInt(
+                elementA.getAttribute(A11yAttributeNames.SORT_ORDER),
+                10
+            );
+            const elementBOrder = parseInt(
+                elementB.getAttribute(A11yAttributeNames.SORT_ORDER),
+                10
+            );
 
             if (isNaN(elementAOrder) && isNaN(elementBOrder)) {
                 return 0;
@@ -686,11 +718,7 @@ export default class A11yController {
      * @param {arry of HTMLElements} invalidElements - a list of invalid DOM elements to check against
      */
     isElementValid(element, invalidElements = []) {
-        if (
-            element &&
-            element.classList &&
-            !invalidElements.includes(element)
-        ) {
+        if (element && element.classList && !invalidElements.includes(element)) {
             return true;
         }
         return false;
@@ -705,97 +733,97 @@ export default class A11yController {
             shiftIsPressed: event.shiftKey,
         };
         switch (true) {
-        case isKeyPressed(event, Constants.KeyCodes.TAB):
-            this.lastInputEventIsKeyboard = true;
-            if ((!isMac() && modifierKeys.altIsPressed) || cmdOrCtrlPressed(event)) {
-                return;
-            }
-            this.tabKeyIsPressed = true;
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.TILDE):
-            this.lastInputEventIsKeyboard = true;
-            if (!this.regions || !this.regions.length) {
-                return;
-            }
+            case isKeyPressed(event, Constants.KeyCodes.TAB):
+                this.lastInputEventIsKeyboard = true;
+                if ((!isMac() && modifierKeys.altIsPressed) || cmdOrCtrlPressed(event)) {
+                    return;
+                }
+                this.tabKeyIsPressed = true;
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.TILDE):
+                this.lastInputEventIsKeyboard = true;
+                if (!this.regions || !this.regions.length) {
+                    return;
+                }
 
-            // Check to make sure both aren't pressed because some older webkit browsers set CTRL and ALT when AltGr is pressed
-            if (modifierKeys.ctrlIsPressed && !modifierKeys.altIsPressed) {
-                this.tildeKeyIsPressed = true;
+                // Check to make sure both aren't pressed because some older webkit browsers set CTRL and ALT when AltGr is pressed
+                if (modifierKeys.ctrlIsPressed && !modifierKeys.altIsPressed) {
+                    this.tildeKeyIsPressed = true;
+                    event.preventDefault();
+                    if (modifierKeys.shiftIsPressed) {
+                        this.previousRegion();
+                    } else {
+                        this.nextRegion();
+                    }
+                }
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.F6):
+                this.lastInputEventIsKeyboard = true;
+                if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
+                    return;
+                }
+                this.f6KeyIsPressed = true;
                 event.preventDefault();
                 if (modifierKeys.shiftIsPressed) {
                     this.previousRegion();
                 } else {
                     this.nextRegion();
                 }
-            }
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.F6):
-            this.lastInputEventIsKeyboard = true;
-            if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
-                return;
-            }
-            this.f6KeyIsPressed = true;
-            event.preventDefault();
-            if (modifierKeys.shiftIsPressed) {
-                this.previousRegion();
-            } else {
-                this.nextRegion();
-            }
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.UP):
-            this.lastInputEventIsKeyboard = true;
-            if (!this.navigationInProgress || !this.sections || !this.sections.length) {
-                return;
-            }
-            this.upArrowKeyIsPressed = true;
-            event.preventDefault();
-            if (this.shouldReverseSections) {
-                this.nextSection();
-            } else {
-                this.previousSection();
-            }
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.DOWN):
-            this.lastInputEventIsKeyboard = true;
-            if (!this.navigationInProgress || !this.sections || !this.sections.length) {
-                return;
-            }
-            this.downArrowKeyIsPressed = true;
-            event.preventDefault();
-            if (this.shouldReverseSections) {
-                this.previousSection();
-            } else {
-                this.nextSection();
-            }
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
-            if (!this.navigationInProgress) {
-                return;
-            }
-            event.preventDefault();
-            this.cancelNavigation();
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.ENTER):
-            this.enterKeyIsPressed = true;
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.SPACE):
-            if (event.target.nodeName === 'BUTTON') {
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.UP):
+                this.lastInputEventIsKeyboard = true;
+                if (!this.navigationInProgress || !this.sections || !this.sections.length) {
+                    return;
+                }
+                this.upArrowKeyIsPressed = true;
                 event.preventDefault();
-                event.stopPropagation();
-                event.target.click();
-            }
-            break;
-        case isKeyPressed(event, Constants.KeyCodes.L):
-            // For the Ctrl+Shift+L keyboard shortcut
-            this.lastInputEventIsKeyboard = true;
-            this.lKeyIsPressed = true;
-            break;
+                if (this.shouldReverseSections) {
+                    this.nextSection();
+                } else {
+                    this.previousSection();
+                }
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.DOWN):
+                this.lastInputEventIsKeyboard = true;
+                if (!this.navigationInProgress || !this.sections || !this.sections.length) {
+                    return;
+                }
+                this.downArrowKeyIsPressed = true;
+                event.preventDefault();
+                if (this.shouldReverseSections) {
+                    this.previousSection();
+                } else {
+                    this.nextSection();
+                }
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
+                if (!this.navigationInProgress) {
+                    return;
+                }
+                event.preventDefault();
+                this.cancelNavigation();
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.ENTER):
+                this.enterKeyIsPressed = true;
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.SPACE):
+                if (event.target.nodeName === 'BUTTON') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.target.click();
+                }
+                break;
+            case isKeyPressed(event, Constants.KeyCodes.L):
+                // For the Ctrl+Shift+L keyboard shortcut
+                this.lastInputEventIsKeyboard = true;
+                this.lKeyIsPressed = true;
+                break;
         }
-    }
+    };
 
     handleKeyUp = () => {
         this.resetInterractionStates();
-    }
+    };
 
     handleMouseClick = (event) => {
         // hitting enter on a <button> triggers a click event
@@ -806,15 +834,15 @@ export default class A11yController {
             return;
         }
         this.cancelNavigation();
-    }
+    };
 
     handleMouseDown = () => {
         this.mouseIsPressed = true;
-    }
+    };
 
     handleMouseUp = () => {
         this.mouseIsPressed = false;
-    }
+    };
 
     handleFocus = (event) => {
         if (this.lastInputEventIsKeyboard && this.windowIsFocused) {
@@ -825,13 +853,13 @@ export default class A11yController {
         if (!this.windowIsFocused) {
             this.windowIsFocused = true;
         }
-    }
+    };
 
     handleWindowBlur = (event) => {
         if (event.target === window) {
             this.windowIsFocused = false;
         }
-    }
+    };
 
     handleActiveRegionUpdate = () => {
         if (this.navigationInProgress) {
@@ -840,7 +868,7 @@ export default class A11yController {
                 this.udpateCurrentFocus(true);
             }
         }
-    }
+    };
 
     handleActiveSectionUpdate = () => {
         if (this.navigationInProgress) {
@@ -849,7 +877,7 @@ export default class A11yController {
                 this.udpateCurrentFocus(true);
             }
         }
-    }
+    };
 
     handleActiveElementUpdate = () => {
         if (this.navigationInProgress) {
@@ -858,5 +886,5 @@ export default class A11yController {
                 this.udpateCurrentFocus(true);
             }
         }
-    }
+    };
 }

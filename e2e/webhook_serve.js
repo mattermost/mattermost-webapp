@@ -16,7 +16,7 @@ server.use(express.urlencoded({extended: true}));
 
 process.title = process.argv[2];
 
-server.get('/', (req, res) => res.send('I\'m alive!\n'));
+server.get('/', (req, res) => res.send("I'm alive!\n"));
 server.post('/message_menus', postMessageMenus);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
@@ -137,11 +137,13 @@ function postSendMessageToChannel(req, res) {
         response_type: 'in_channel',
         text: 'Extra response 2',
         channel_id: channelId,
-        extra_responses: [{
-            response_type: 'in_channel',
-            text: 'Hello World',
-            channel_id: channelId,
-        }],
+        extra_responses: [
+            {
+                response_type: 'in_channel',
+                text: 'Hello World',
+                channel_id: channelId,
+            },
+        ],
     };
 
     if (req.query.type) {
@@ -166,7 +168,9 @@ function sendSysadminResponse(message, channelId) {
 const responseTypes = ['in_channel', 'comment'];
 
 function getWebhookResponse(body, {responseType, username, iconUrl}) {
-    const payload = Object.entries(body).map(([key, value]) => `- ${key}: "${value}"`).join('\n');
+    const payload = Object.entries(body)
+        .map(([key, value]) => `- ${key}: "${value}"`)
+        .join('\n');
 
     return `
 \`\`\`

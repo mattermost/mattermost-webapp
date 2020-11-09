@@ -13,17 +13,16 @@ import FileInfoPreview from 'components/file_info_preview';
 
 export default class AudioVideoPreview extends React.PureComponent {
     static propTypes = {
-
         /**
-        * Compare file types
-        */
+         * Compare file types
+         */
         fileInfo: PropTypes.object.isRequired,
 
         /**
-        *  URL of pdf file to output and compare to update props url
-        */
+         *  URL of pdf file to output and compare to update props url
+         */
         fileUrl: PropTypes.string.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -64,13 +63,13 @@ export default class AudioVideoPreview extends React.PureComponent {
         this.setState({
             canPlay: canPlayType === 'probably' || canPlayType === 'maybe',
         });
-    }
+    };
 
     handleLoadError = () => {
         this.setState({
             canPlay: false,
         });
-    }
+    };
 
     stop = () => {
         if (this.videoRef.current) {
@@ -78,16 +77,11 @@ export default class AudioVideoPreview extends React.PureComponent {
             video.pause();
             video.currentTime = 0;
         }
-    }
+    };
 
     render() {
         if (!this.state.canPlay) {
-            return (
-                <FileInfoPreview
-                    fileInfo={this.props.fileInfo}
-                    fileUrl={this.props.fileUrl}
-                />
-            );
+            return <FileInfoPreview fileInfo={this.props.fileInfo} fileUrl={this.props.fileUrl} />;
         }
 
         let width = Constants.WEB_VIDEO_WIDTH;
@@ -107,10 +101,7 @@ export default class AudioVideoPreview extends React.PureComponent {
                 width={width}
                 height={height}
             >
-                <source
-                    ref={this.sourceRef}
-                    src={this.props.fileUrl}
-                />
+                <source ref={this.sourceRef} src={this.props.fileUrl} />
             </video>
         );
     }

@@ -19,7 +19,10 @@ import {
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {
+    makeFilterAutoclosedDMs,
+    makeFilterManuallyClosedDMs,
+} from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
@@ -35,9 +38,17 @@ const getState = store.getState;
 export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
 export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
-export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '', options = {}) {
+export function loadProfilesAndStatusesInChannel(
+    channelId,
+    page = 0,
+    perPage = General.PROFILE_CHUNK_SIZE,
+    sort = '',
+    options = {}
+) {
     return async (doDispatch) => {
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelId, page, perPage, sort, options));
+        const {data} = await doDispatch(
+            UserActions.getProfilesInChannel(channelId, page, perPage, sort, options)
+        );
         if (data) {
             doDispatch(loadStatusesForProfilesList(data));
         }
@@ -48,7 +59,9 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
 export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options = {}) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
+        const {data} = await doDispatch(
+            UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options)
+        );
         if (data) {
             await Promise.all([
                 doDispatch(loadTeamMembersForProfilesList(data, newTeamId, true)),
@@ -60,10 +73,18 @@ export function loadProfilesAndReloadTeamMembers(page, perPage, teamId, options 
     };
 }
 
-export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, sort = '', options = {}) {
+export function loadProfilesAndReloadChannelMembers(
+    page,
+    perPage,
+    channelId,
+    sort = '',
+    options = {}
+) {
     return async (doDispatch, doGetState) => {
         const newChannelId = channelId || getCurrentChannelId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(newChannelId, page, perPage, sort, options));
+        const {data} = await doDispatch(
+            UserActions.getProfilesInChannel(newChannelId, page, perPage, sort, options)
+        );
         if (data) {
             await Promise.all([
                 doDispatch(loadChannelMembersForProfilesList(data, newChannelId, true)),
@@ -78,7 +99,9 @@ export function loadProfilesAndReloadChannelMembers(page, perPage, channelId, so
 export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
+        const {data} = await doDispatch(
+            UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options)
+        );
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
@@ -118,14 +141,24 @@ export function searchProfilesAndChannelMembers(term, options = {}) {
     };
 }
 
-export function loadProfilesAndTeamMembersAndChannelMembers(page, perPage, teamId, channelId, options) {
+export function loadProfilesAndTeamMembersAndChannelMembers(
+    page,
+    perPage,
+    teamId,
+    channelId,
+    options
+) {
     return async (doDispatch, doGetState) => {
         const state = doGetState();
         const teamIdParam = teamId || getCurrentTeamId(state);
         const channelIdParam = channelId || getCurrentChannelId(state);
-        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelIdParam, page, perPage, '', options));
+        const {data} = await doDispatch(
+            UserActions.getProfilesInChannel(channelIdParam, page, perPage, '', options)
+        );
         if (data) {
-            const {data: listData} = await doDispatch(loadTeamMembersForProfilesList(data, teamIdParam));
+            const {data: listData} = await doDispatch(
+                loadTeamMembersForProfilesList(data, teamIdParam)
+            );
             if (listData) {
                 doDispatch(loadChannelMembersForProfilesList(data, channelIdParam));
                 doDispatch(loadStatusesForProfilesList(data));
@@ -224,8 +257,18 @@ export function loadNewDMIfNeeded(channelId) {
             if (pref === false) {
                 const now = Utils.getTimestamp();
                 savePreferences(currentUserId, [
-                    {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-                    {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
+                    {
+                        user_id: currentUserId,
+                        category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
+                        name: userId,
+                        value: 'true',
+                    },
+                    {
+                        user_id: currentUserId,
+                        category: Preferences.CATEGORY_CHANNEL_OPEN_TIME,
+                        name: channelId,
+                        value: now.toString(),
+                    },
                 ])(doDispatch, doGetState);
                 loadProfilesForDM();
             }
@@ -251,7 +294,16 @@ export function loadNewGMIfNeeded(channelId) {
         function checkPreference() {
             const pref = getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
             if (pref === false) {
-                dispatch(savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
+                dispatch(
+                    savePreferences(currentUserId, [
+                        {
+                            user_id: currentUserId,
+                            category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW,
+                            name: channelId,
+                            value: 'true',
+                        },
+                    ])
+                );
                 loadProfilesForGM();
             }
         }
@@ -270,7 +322,7 @@ export function loadProfilesForGroupChannels(groupChannels) {
         const userIdsInChannels = Selectors.getUserIdsInChannels(state);
 
         const groupChannelsToFetch = groupChannels.reduce((acc, {id}) => {
-            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
+            const userIdsInGroupChannel = userIdsInChannels[id] || new Set();
 
             if (userIdsInGroupChannel.size === 0) {
                 acc.push(id);
@@ -292,7 +344,11 @@ export async function loadProfilesForSidebar() {
 }
 
 export function filterGMsDMs(state, channels) {
-    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
+    const filteredClosedChannels = filterAutoclosedDMs(
+        state,
+        channels,
+        CategoryTypes.DIRECT_MESSAGES
+    );
     return filterManuallyClosedDMs(state, filteredClosedChannels);
 }
 
@@ -320,7 +376,10 @@ export async function loadProfilesForGM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
-            if (!member || (member.mention_count === 0 && member.msg_count >= channel.total_msg_count)) {
+            if (
+                !member ||
+                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count)
+            ) {
                 continue;
             }
 
@@ -332,7 +391,11 @@ export async function loadProfilesForGM() {
             });
         }
 
-        const getProfilesAction = UserActions.getProfilesInChannel(channel.id, 0, Constants.MAX_USERS_IN_GM);
+        const getProfilesAction = UserActions.getProfilesInChannel(
+            channel.id,
+            0,
+            Constants.MAX_USERS_IN_GM
+        );
         queue.add(() => dispatch(getProfilesAction));
     }
 
@@ -406,16 +469,27 @@ export function autocompleteUsers(username) {
 export function autoResetStatus() {
     return async (doDispatch, doGetState) => {
         const {currentUserId} = getState().entities.users;
-        const {data: userStatus} = await UserActions.getStatus(currentUserId)(doDispatch, doGetState);
+        const {data: userStatus} = await UserActions.getStatus(currentUserId)(
+            doDispatch,
+            doGetState
+        );
 
         if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual) {
             return userStatus;
         }
 
-        const autoReset = getBool(getState(), PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, false);
+        const autoReset = getBool(
+            getState(),
+            PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS,
+            currentUserId,
+            false
+        );
 
         if (autoReset) {
-            UserActions.setStatus({user_id: currentUserId, status: 'online'})(doDispatch, doGetState);
+            UserActions.setStatus({user_id: currentUserId, status: 'online'})(
+                doDispatch,
+                doGetState
+            );
             return userStatus;
         }
 

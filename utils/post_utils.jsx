@@ -27,11 +27,11 @@ import * as Emoticons from './emoticons';
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
 export function isSystemMessage(post) {
-    return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
+    return Boolean(post.type && post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0);
 }
 
 export function fromAutoResponder(post) {
-    return Boolean(post.type && (post.type === Constants.AUTO_RESPONDER));
+    return Boolean(post.type && post.type === Constants.AUTO_RESPONDER);
 }
 
 export function isFromWebhook(post) {
@@ -77,13 +77,29 @@ export function canDeletePost(state, post, channel) {
     }
 
     if (isPostOwner(state, post)) {
-        return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
+        return haveIChannelPermission(state, {
+            channel: post.channel_id,
+            team: channel && channel.team_id,
+            permission: Permissions.DELETE_POST,
+        });
     }
-    return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(state, {
+        channel: post.channel_id,
+        team: channel && channel.team_id,
+        permission: Permissions.DELETE_OTHERS_POSTS,
+    });
 }
 
 export function canEditPost(state, post, license, config, channel, userId) {
-    return canEditPostRedux(state, config, license, channel && channel.team_id, channel && channel.id, userId, post);
+    return canEditPostRedux(
+        state,
+        config,
+        license,
+        channel && channel.team_id,
+        channel && channel.id,
+        userId,
+        post
+    );
 }
 
 export function shouldShowDotMenu(state, post, channel) {
@@ -135,7 +151,13 @@ export const groupsMentionedInText = (text, groups) => {
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
     const mentions = allAtMentions(mentionableText);
-    return (mentions.length > 0 && mentions.map((mention) => groups && groups.get(mention)).filter((trueVal) => trueVal)) || [];
+    return (
+        (mentions.length > 0 &&
+            mentions
+                .map((mention) => groups && groups.get(mention))
+                .filter((trueVal) => trueVal)) ||
+        []
+    );
 };
 
 export function shouldFocusMainTextbox(e, activeElement) {
@@ -200,7 +222,15 @@ function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter
     return {allowSending: false};
 }
 
-export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0, caretPosition = 0) {
+export function postMessageOnKeyPress(
+    event,
+    message,
+    sendMessageOnCtrlEnter,
+    sendCodeBlockOnCtrlEnter,
+    now = 0,
+    lastChannelSwitchAt = 0,
+    caretPosition = 0
+) {
     if (!event) {
         return {allowSending: false};
     }
@@ -216,14 +246,15 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
     }
 
     // Don't send if we just switched channels within a threshold.
-    if (lastChannelSwitchAt > 0 && now > 0 && now - lastChannelSwitchAt <= CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS) {
+    if (
+        lastChannelSwitchAt > 0 &&
+        now > 0 &&
+        now - lastChannelSwitchAt <= CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS
+    ) {
         return {allowSending: false, ignoreKeyPress: true};
     }
 
-    if (
-        message.trim() === '' ||
-        !(sendMessageOnCtrlEnter || sendCodeBlockOnCtrlEnter)
-    ) {
+    if (message.trim() === '' || !(sendMessageOnCtrlEnter || sendCodeBlockOnCtrlEnter)) {
         return {allowSending: true};
     }
 
@@ -338,8 +369,9 @@ export function makeCreateAriaLabelForPost() {
         (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
         getEmojiMap,
         (post, author, reactions, isFlagged, emojiMap) => {
-            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
-        },
+            return (intl) =>
+                createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
+        }
     );
 }
 
@@ -363,27 +395,31 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
 
     let ariaLabel;
     if (post.root_id) {
-        ariaLabel = formatMessage({
-            id: 'post.ariaLabel.replyMessage',
-            defaultMessage: 'At {time} {date}, {authorName} replied, {message}',
-        },
-        {
-            authorName: author,
-            time: formatTime(post.create_at),
-            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message,
-        });
+        ariaLabel = formatMessage(
+            {
+                id: 'post.ariaLabel.replyMessage',
+                defaultMessage: 'At {time} {date}, {authorName} replied, {message}',
+            },
+            {
+                authorName: author,
+                time: formatTime(post.create_at),
+                date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+                message,
+            }
+        );
     } else {
-        ariaLabel = formatMessage({
-            id: 'post.ariaLabel.message',
-            defaultMessage: 'At {time} {date}, {authorName} wrote, {message}',
-        },
-        {
-            authorName: author,
-            time: formatTime(post.create_at),
-            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message,
-        });
+        ariaLabel = formatMessage(
+            {
+                id: 'post.ariaLabel.message',
+                defaultMessage: 'At {time} {date}, {authorName} wrote, {message}',
+            },
+            {
+                authorName: author,
+                time: formatTime(post.create_at),
+                date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
+                message,
+            }
+        );
     }
 
     let attachmentCount = 0;
@@ -396,13 +432,15 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
 
     if (attachmentCount) {
         if (attachmentCount > 1) {
-            ariaLabel += formatMessage({
-                id: 'post.ariaLabel.attachmentMultiple',
-                defaultMessage: ', {attachmentCount} attachments',
-            },
-            {
-                attachmentCount,
-            });
+            ariaLabel += formatMessage(
+                {
+                    id: 'post.ariaLabel.attachmentMultiple',
+                    defaultMessage: ', {attachmentCount} attachments',
+                },
+                {
+                    attachmentCount,
+                }
+            );
         } else {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.attachment',
@@ -422,13 +460,15 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
         }
 
         if (emojiNames.length > 1) {
-            ariaLabel += formatMessage({
-                id: 'post.ariaLabel.reactionMultiple',
-                defaultMessage: ', {reactionCount} reactions',
-            },
-            {
-                reactionCount: emojiNames.length,
-            });
+            ariaLabel += formatMessage(
+                {
+                    id: 'post.ariaLabel.reactionMultiple',
+                    defaultMessage: ', {reactionCount} reactions',
+                },
+                {
+                    reactionCount: emojiNames.length,
+                }
+            );
         } else {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.reaction',
@@ -468,7 +508,7 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
 
 export function getNewMessageIndex(postListIds) {
     return postListIds.findIndex(
-        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
+        (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
     );
 }
 
@@ -482,7 +522,9 @@ export function makeGetReplyCount() {
             }
 
             // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
-        },
+            return postIds
+                .map((id) => allPosts[id])
+                .filter((post) => post && !isPostEphemeral(post)).length;
+        }
     );
 }

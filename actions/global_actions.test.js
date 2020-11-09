@@ -9,7 +9,11 @@ import {close as closeLhs} from 'actions/views/lhs';
 import LocalStorageStore from 'stores/local_storage_store';
 import {getState} from 'stores/redux_store';
 
-import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions.jsx';
+import {
+    redirectUserToDefaultTeam,
+    toggleSideBarRightMenuAction,
+    getTeamRedirectChannelIfIsAccesible,
+} from 'actions/global_actions.jsx';
 
 jest.mock('actions/views/rhs', () => ({
     closeMenu: jest.fn(),
@@ -84,8 +88,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},
@@ -160,8 +174,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},
@@ -235,8 +259,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},
@@ -244,8 +278,7 @@ describe('actions/global_actions', () => {
                         },
                     },
                     channels: {
-                        myMembers: {
-                        },
+                        myMembers: {},
                         channels: {
                             'channel-in-team-1': {
                                 id: 'channel-in-team-1',
@@ -303,8 +336,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},
@@ -326,7 +369,7 @@ describe('actions/global_actions', () => {
             expect(browserHistory.push).not.toHaveBeenCalled();
         });
 
-        it('should redirect to direct message if that\'s the most recently used', async () => {
+        it("should redirect to direct message if that's the most recently used", async () => {
             const userId = 'user1';
             const teamId = 'team1';
             const user2 = 'user2';
@@ -346,8 +389,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},
@@ -422,7 +475,7 @@ describe('actions/global_actions', () => {
             expect(result.id).toBe(directChannelId);
         });
 
-        it('should redirect to group message if that\'s the most recently used', async () => {
+        it("should redirect to group message if that's the most recently used", async () => {
             const userId = 'user1';
             const teamId = 'team1';
             const user2 = 'user2';
@@ -443,8 +496,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},
@@ -536,8 +599,18 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
+                            team1: {
+                                id: 'team1',
+                                display_name: 'Team 1',
+                                name: 'team1',
+                                delete_at: 0,
+                            },
+                            team2: {
+                                id: 'team2',
+                                display_name: 'Team 2',
+                                name: 'team2',
+                                delete_at: 0,
+                            },
                         },
                         myMembers: {
                             team1: {id: 'team1'},

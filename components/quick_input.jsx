@@ -15,7 +15,6 @@ import AutosizeTextarea from './autosize_textarea';
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
 export default class QuickInput extends React.PureComponent {
     static propTypes = {
-
         /**
          * Whether to delay updating the value of the textbox from props. Should only be used
          * on textboxes that to properly compose CJK characters as the user types.
@@ -72,7 +71,7 @@ export default class QuickInput extends React.PureComponent {
         }
 
         this.input.value = this.props.value;
-    }
+    };
 
     get value() {
         return this.input.value;
@@ -96,7 +95,7 @@ export default class QuickInput extends React.PureComponent {
 
     setInput = (input) => {
         this.input = input;
-    }
+    };
 
     onClear = (e) => {
         e.preventDefault();
@@ -105,24 +104,15 @@ export default class QuickInput extends React.PureComponent {
             this.props.onClear();
         }
         this.focus();
-    }
+    };
 
     render() {
         let clearableTooltipText = this.props.clearableTooltipText;
         if (!clearableTooltipText) {
-            clearableTooltipText = (
-                <FormattedMessage
-                    id={'input.clear'}
-                    defaultMessage='Clear'
-                />
-            );
+            clearableTooltipText = <FormattedMessage id={'input.clear'} defaultMessage='Clear' />;
         }
 
-        const clearableTooltip = (
-            <Tooltip id={'InputClearTooltip'}>
-                {clearableTooltipText}
-            </Tooltip>
-        );
+        const clearableTooltip = <Tooltip id={'InputClearTooltip'}>{clearableTooltipText}</Tooltip>;
 
         const {value, inputComponent, clearable, ...props} = this.props;
 
@@ -135,36 +125,29 @@ export default class QuickInput extends React.PureComponent {
             Reflect.deleteProperty(props, 'onHeightChange');
         }
 
-        const inputElement = React.createElement(
-            inputComponent || 'input',
-            {
-                ...props,
-                ref: this.setInput,
-                defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
-            },
-        );
+        const inputElement = React.createElement(inputComponent || 'input', {
+            ...props,
+            ref: this.setInput,
+            defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
+        });
 
-        return (<div>
-            {inputElement}
-            {clearable && value && this.props.onClear &&
-                <div
-                    className='input-clear visible'
-                    onMouseDown={this.onClear}
-                >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='bottom'
-                        overlay={clearableTooltip}
-                    >
-                        <span
-                            className='input-clear-x'
-                            aria-hidden='true'
+        return (
+            <div>
+                {inputElement}
+                {clearable && value && this.props.onClear && (
+                    <div className='input-clear visible' onMouseDown={this.onClear}>
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='bottom'
+                            overlay={clearableTooltip}
                         >
-                            <i className='icon icon-close-circle'/>
-                        </span>
-                    </OverlayTrigger>
-                </div>
-            }
-        </div>);
+                            <span className='input-clear-x' aria-hidden='true'>
+                                <i className='icon icon-close-circle' />
+                            </span>
+                        </OverlayTrigger>
+                    </div>
+                )}
+            </div>
+        );
     }
 }

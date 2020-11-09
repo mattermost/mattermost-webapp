@@ -30,14 +30,9 @@ const usersSetTransform = [
     'profilesNotInTeam',
 ];
 
-const teamSetTransform = [
-    'membersInTeam',
-];
+const teamSetTransform = ['membersInTeam'];
 
-const setTransforms = [
-    ...usersSetTransform,
-    ...teamSetTransform,
-];
+const setTransforms = [...usersSetTransform, ...teamSetTransform];
 
 // This is a hack to get the whitelist to work with our storage keys
 // We will implement it properly when we eventually upgrade redux-persist
@@ -90,7 +85,7 @@ export default function configureStore(initialState) {
             }
 
             return outboundState;
-        },
+        }
     );
 
     const offlineOptions = {
@@ -99,79 +94,101 @@ export default function configureStore(initialState) {
             const storage = localforage;
             const KEY_PREFIX = 'reduxPersist:';
 
-            localforage.ready().then(() => {
-                const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
+            localforage
+                .ready()
+                .then(() => {
+                    const persistor = persistStore(
+                        store,
+                        {storage, keyPrefix: KEY_PREFIX, ...options},
+                        () => {
+                            store.dispatch({
+                                type: General.STORE_REHYDRATION_COMPLETE,
+                                complete: true,
+                            });
+                        }
+                    );
+
+                    localforage.configObservables({
+                        crossTabNotification: true,
+                    });
+
+                    const observable = localforage.newObservable({
+                        crossTabNotification: true,
+                        changeDetection: true,
+                    });
+
+                    const restoredState = {};
+                    localforage
+                        .iterate((value, key) => {
+                            if (key && key.indexOf(KEY_PREFIX + 'storage:') === 0) {
+                                const keyspace = key.substr((KEY_PREFIX + 'storage:').length);
+                                restoredState[keyspace] = value;
+                            }
+                        })
+                        .then(() => {
+                            storageRehydrate(restoredState, persistor)(
+                                store.dispatch,
+                                store.getState
+                            );
+                        });
+
+                    observable.subscribe({
+                        next: (args) => {
+                            if (
+                                args.key &&
+                                args.key.indexOf(KEY_PREFIX + 'storage:') === 0 &&
+                                args.oldValue === null
+                            ) {
+                                const keyspace = args.key.substr((KEY_PREFIX + 'storage:').length);
+
+                                var statePartial = {};
+                                statePartial[keyspace] = args.newValue;
+                                storageRehydrate(statePartial, persistor)(
+                                    store.dispatch,
+                                    store.getState
+                                );
+                            }
+                        },
+                    });
+
+                    let purging = false;
+
+                    // check to see if the logout request was successful
+                    store.subscribe(() => {
+                        const state = store.getState();
+                        const basePath = getBasePath(state);
+
+                        if (
+                            state.requests.users.logout.status === RequestStatus.SUCCESS &&
+                            !purging
+                        ) {
+                            purging = true;
+
+                            persistor.purge().then(() => {
+                                clearUserCookie();
+
+                                // Preserve any query string parameters on logout, including parameters
+                                // used by the application such as extra and redirect_to.
+                                window.location.href = `${basePath}${window.location.search}`;
+
+                                store.dispatch({
+                                    type: General.OFFLINE_STORE_RESET,
+                                    data: Object.assign({}, reduxInitialState, initialState),
+                                });
+
+                                setTimeout(() => {
+                                    purging = false;
+                                }, 500);
+                            });
+                        }
+                    });
+                })
+                .catch((error) => {
                     store.dispatch({
-                        type: General.STORE_REHYDRATION_COMPLETE,
-                        complete: true,
+                        type: ActionTypes.STORE_REHYDRATION_FAILED,
+                        error,
                     });
                 });
-
-                localforage.configObservables({
-                    crossTabNotification: true,
-                });
-
-                const observable = localforage.newObservable({
-                    crossTabNotification: true,
-                    changeDetection: true,
-                });
-
-                const restoredState = {};
-                localforage.iterate((value, key) => {
-                    if (key && key.indexOf(KEY_PREFIX + 'storage:') === 0) {
-                        const keyspace = key.substr((KEY_PREFIX + 'storage:').length);
-                        restoredState[keyspace] = value;
-                    }
-                }).then(() => {
-                    storageRehydrate(restoredState, persistor)(store.dispatch, store.getState);
-                });
-
-                observable.subscribe({
-                    next: (args) => {
-                        if (args.key && args.key.indexOf(KEY_PREFIX + 'storage:') === 0 && args.oldValue === null) {
-                            const keyspace = args.key.substr((KEY_PREFIX + 'storage:').length);
-
-                            var statePartial = {};
-                            statePartial[keyspace] = args.newValue;
-                            storageRehydrate(statePartial, persistor)(store.dispatch, store.getState);
-                        }
-                    },
-                });
-
-                let purging = false;
-
-                // check to see if the logout request was successful
-                store.subscribe(() => {
-                    const state = store.getState();
-                    const basePath = getBasePath(state);
-
-                    if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
-                        purging = true;
-
-                        persistor.purge().then(() => {
-                            clearUserCookie();
-
-                            // Preserve any query string parameters on logout, including parameters
-                            // used by the application such as extra and redirect_to.
-                            window.location.href = `${basePath}${window.location.search}`;
-
-                            store.dispatch({
-                                type: General.OFFLINE_STORE_RESET,
-                                data: Object.assign({}, reduxInitialState, initialState),
-                            });
-
-                            setTimeout(() => {
-                                purging = false;
-                            }, 500);
-                        });
-                    }
-                });
-            }).catch((error) => {
-                store.dispatch({
-                    type: ActionTypes.STORE_REHYDRATION_FAILED,
-                    error,
-                });
-            });
         },
         persistOptions: {
             autoRehydrate: {
@@ -179,14 +196,15 @@ export default function configureStore(initialState) {
             },
             whitelist,
             debounce: 30,
-            transforms: [
-                setTransformer,
-            ],
+            transforms: [setTransformer],
             _stateIterator: (collection, callback) => {
                 return Object.keys(collection).forEach((key) => {
                     if (key === 'storage') {
                         Object.keys(collection.storage.storage).forEach((storageKey) => {
-                            callback(collection.storage.storage[storageKey], 'storage:' + storageKey);
+                            callback(
+                                collection.storage.storage[storageKey],
+                                'storage:' + storageKey
+                            );
                         });
                     } else {
                         callback(collection[key], key);
@@ -212,5 +230,7 @@ export default function configureStore(initialState) {
         detectNetwork: detect,
     };
 
-    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
+    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer, {
+        enableBuffer: false,
+    });
 }

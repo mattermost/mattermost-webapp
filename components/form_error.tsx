@@ -11,13 +11,13 @@ type Props = {
     iconClassName?: string;
     margin?: boolean;
     errors?: React.ReactNode[];
-}
+};
 
 export default class FormError extends React.PureComponent<Props> {
     public static defaultProps = {
         error: null,
         errors: [],
-    }
+    };
     public render() {
         const {error = null, errors = [], iconClassName, margin, textClassName, type} = this.props;
 
@@ -43,9 +43,7 @@ export default class FormError extends React.PureComponent<Props> {
         if (type === 'modal') {
             return (
                 <div className='form-group'>
-                    <label className='col-sm-12 has-error'>
-                        {message}
-                    </label>
+                    <label className='col-sm-12 has-error'>{message}</label>
                 </div>
             );
         }
@@ -53,9 +51,7 @@ export default class FormError extends React.PureComponent<Props> {
         if (type === 'backstage') {
             return (
                 <div className='pull-left has-error'>
-                    <label className='control-label'>
-                        {message}
-                    </label>
+                    <label className='control-label'>{message}</label>
                 </div>
             );
         }
@@ -63,9 +59,7 @@ export default class FormError extends React.PureComponent<Props> {
         if (margin) {
             return (
                 <div className='form-group has-error'>
-                    <label className='control-label'>
-                        {message}
-                    </label>
+                    <label className='control-label'>{message}</label>
                 </div>
             );
         }
@@ -73,7 +67,7 @@ export default class FormError extends React.PureComponent<Props> {
         return (
             <div className={`col-sm-12 ${textClassName || 'has-error'}`}>
                 <label className='control-label'>
-                    <i className={`fa ${iconClassName || 'fa-exclamation-circle'}`}/> {message}
+                    <i className={`fa ${iconClassName || 'fa-exclamation-circle'}`} /> {message}
                 </label>
             </div>
         );

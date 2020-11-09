@@ -57,7 +57,11 @@ export function isSafari(): boolean {
 }
 
 export function isIosSafari(): boolean {
-    return (userAgent().indexOf('iPhone') !== -1 || userAgent().indexOf('iPad') !== -1) && userAgent().indexOf('Safari') !== -1 && userAgent().indexOf('CriOS') === -1;
+    return (
+        (userAgent().indexOf('iPhone') !== -1 || userAgent().indexOf('iPad') !== -1) &&
+        userAgent().indexOf('Safari') !== -1 &&
+        userAgent().indexOf('CriOS') === -1
+    );
 }
 
 export function isIosChrome(): boolean {
@@ -77,7 +81,11 @@ export function isAndroid(): boolean {
 }
 
 export function isAndroidChrome(): boolean {
-    return userAgent().indexOf('Android') !== -1 && userAgent().indexOf('Chrome') !== -1 && userAgent().indexOf('Version') === -1;
+    return (
+        userAgent().indexOf('Android') !== -1 &&
+        userAgent().indexOf('Chrome') !== -1 &&
+        userAgent().indexOf('Version') === -1
+    );
 }
 
 export function isAndroidFirefox(): boolean {
@@ -142,7 +150,7 @@ export function isWindows7(): boolean {
         return false;
     }
 
-    return (/\bWindows NT 6\.1\b/).test(appVersion);
+    return /\bWindows NT 6\.1\b/.test(appVersion);
 }
 
 export function getDesktopVersion(): string {

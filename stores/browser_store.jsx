@@ -115,11 +115,17 @@ class BrowserStoreClass {
     }
 
     setLandingPreferenceToMattermostApp(siteUrl) {
-        localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.MATTERMOSTAPP);
+        localStorage.setItem(
+            StoragePrefixes.LANDING_PREFERENCE + String(siteUrl),
+            LandingPreferenceTypes.MATTERMOSTAPP
+        );
     }
 
     setLandingPreferenceToBrowser(siteUrl) {
-        localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.BROWSER);
+        localStorage.setItem(
+            StoragePrefixes.LANDING_PREFERENCE + String(siteUrl),
+            LandingPreferenceTypes.BROWSER
+        );
     }
 
     clearLandingPreference(siteUrl) {

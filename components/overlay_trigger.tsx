@@ -17,11 +17,7 @@ type Props = OverlayTriggerProps & {
 };
 
 const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
-    const {
-        overlay,
-        disabled,
-        ...otherProps
-    } = props;
+    const {overlay, disabled, ...otherProps} = props;
 
     // The overlay is rendered outside of the regular React context, and our version react-bootstrap can't forward
     // that context itself, so we have to manually forward the react-intl context to this component's child.
@@ -44,12 +40,7 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
                     <BaseOverlayTrigger
                         {...otherProps}
                         ref={ref}
-                        overlay={
-                            <OverlayWrapper
-                                {...overlayProps}
-                                intl={intl}
-                            />
-                        }
+                        overlay={<OverlayWrapper {...overlayProps} intl={intl} />}
                     />
                 );
             }}

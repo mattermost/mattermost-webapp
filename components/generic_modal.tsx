@@ -26,7 +26,7 @@ type Props = {
 
 type State = {
     show: boolean;
-}
+};
 
 export default class GenericModal extends React.PureComponent<Props, State> {
     static defaultProps: Partial<Props> = {
@@ -46,7 +46,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     onHide = () => {
         this.setState({show: false}, this.props.onHide);
-    }
+    };
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
@@ -56,7 +56,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         if (this.props.handleCancel) {
             this.props.handleCancel();
         }
-    }
+    };
 
     handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
@@ -66,16 +66,13 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         if (this.props.handleConfirm) {
             this.props.handleConfirm();
         }
-    }
+    };
 
     render() {
         let confirmButton;
         if (this.props.handleConfirm) {
             let confirmButtonText: React.ReactNode = (
-                <FormattedMessage
-                    id='generic_modal.confirm'
-                    defaultMessage='Confirm'
-                />
+                <FormattedMessage id='generic_modal.confirm' defaultMessage='Confirm' />
             );
             if (this.props.confirmButtonText) {
                 confirmButtonText = this.props.confirmButtonText;
@@ -84,9 +81,12 @@ export default class GenericModal extends React.PureComponent<Props, State> {
             confirmButton = (
                 <button
                     type='submit'
-                    className={classNames(`GenericModal__button confirm ${this.props.confirmButtonClassName}`, {
-                        disabled: this.props.isConfirmDisabled,
-                    })}
+                    className={classNames(
+                        `GenericModal__button confirm ${this.props.confirmButtonClassName}`,
+                        {
+                            disabled: this.props.isConfirmDisabled,
+                        }
+                    )}
                     onClick={this.handleConfirm}
                     disabled={this.props.isConfirmDisabled}
                 >
@@ -98,10 +98,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         let cancelButton;
         if (this.props.handleCancel) {
             let cancelButtonText: React.ReactNode = (
-                <FormattedMessage
-                    id='generic_modal.cancel'
-                    defaultMessage='Cancel'
-                />
+                <FormattedMessage id='generic_modal.cancel' defaultMessage='Cancel' />
             );
             if (this.props.cancelButtonText) {
                 cancelButtonText = this.props.cancelButtonText;
@@ -130,19 +127,13 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 aria-labelledby='genericModalLabel'
                 id={this.props.id}
             >
-                <Modal.Header
-                    closeButton={true}
-                />
+                <Modal.Header closeButton={true} />
                 <form>
                     <Modal.Body>
                         <div className='GenericModal__header'>
-                            <h1 id='genericModalLabel'>
-                                {this.props.modalHeaderText}
-                            </h1>
+                            <h1 id='genericModalLabel'>{this.props.modalHeaderText}</h1>
                         </div>
-                        <div className='GenericModal__body'>
-                            {this.props.children}
-                        </div>
+                        <div className='GenericModal__body'>{this.props.children}</div>
                     </Modal.Body>
                     <Modal.Footer>
                         {cancelButton}

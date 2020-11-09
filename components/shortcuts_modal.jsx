@@ -303,7 +303,7 @@ class ShortcutsModal extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         isMac: PropTypes.bool.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -314,11 +314,17 @@ class ShortcutsModal extends React.PureComponent {
     }
 
     componentDidMount() {
-        ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, this.handleToggle);
+        ModalStore.addModalListener(
+            Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL,
+            this.handleToggle
+        );
     }
 
     componentWillUnmount() {
-        ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, this.handleToggle);
+        ModalStore.removeModalListener(
+            Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL,
+            this.handleToggle
+        );
     }
 
     handleToggle = () => {
@@ -326,11 +332,11 @@ class ShortcutsModal extends React.PureComponent {
         this.setState({
             show: !this.state.show,
         });
-    }
+    };
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     getShortcuts() {
         const {isMac} = this.props;
@@ -365,10 +371,7 @@ class ShortcutsModal extends React.PureComponent {
             >
                 <div className='shortcuts-content'>
                     <Modal.Header closeButton={true}>
-                        <Modal.Title
-                            componentClass='h1'
-                            id='shortcutsModalLabel'
-                        >
+                        <Modal.Title componentClass='h1' id='shortcutsModalLabel'>
                             <strong>{renderShortcut(formatMessage(shortcuts.mainHeader))}</strong>
                         </Modal.Title>
                     </Modal.Header>
@@ -377,39 +380,65 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.navHeader)}</strong></h4>
+                                        <h4 className='section-title'>
+                                            <strong>{formatMessage(shortcuts.navHeader)}</strong>
+                                        </h4>
                                         {renderShortcut(formatMessage(shortcuts.navPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadNext))}
-                                        {!isLinux && renderShortcut(formatMessage(shortcuts.teamNavPrev))}
-                                        {!isLinux && renderShortcut(formatMessage(shortcuts.teamNavNext))}
+                                        {!isLinux &&
+                                            renderShortcut(formatMessage(shortcuts.teamNavPrev))}
+                                        {!isLinux &&
+                                            renderShortcut(formatMessage(shortcuts.teamNavNext))}
                                         {renderShortcut(formatMessage(shortcuts.teamNavSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navSwitcher))}
                                         {renderShortcut(formatMessage(shortcuts.navDMMenu))}
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
                                         {renderShortcut(formatMessage(shortcuts.navMentions))}
                                         {renderShortcut(formatMessage(shortcuts.navFocusCenter))}
-                                        {renderShortcut(formatMessage(shortcuts.navOpenCloseSidebar))}
+                                        {renderShortcut(
+                                            formatMessage(shortcuts.navOpenCloseSidebar)
+                                        )}
                                     </div>
                                 </div>
                             </div>
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.msgHeader)}</strong></h4>
-                                        <span><strong>{formatMessage(shortcuts.msgInputHeader)}</strong></span>
+                                        <h4 className='section-title'>
+                                            <strong>{formatMessage(shortcuts.msgHeader)}</strong>
+                                        </h4>
+                                        <span>
+                                            <strong>
+                                                {formatMessage(shortcuts.msgInputHeader)}
+                                            </strong>
+                                        </span>
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
-                                            {renderShortcut(formatMessage(shortcuts.msgLastReaction))}
-                                            {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
-                                            {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.msgLastReaction)
+                                            )}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.msgReprintPrev)
+                                            )}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.msgReprintNext)
+                                            )}
                                         </div>
-                                        <span><strong>{formatMessage(shortcuts.msgCompHeader)}</strong></span>
+                                        <span>
+                                            <strong>
+                                                {formatMessage(shortcuts.msgCompHeader)}
+                                            </strong>
+                                        </span>
                                         <div className='subsection'>
-                                            {renderShortcut(formatMessage(shortcuts.msgCompUsername))}
-                                            {renderShortcut(formatMessage(shortcuts.msgCompChannel))}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.msgCompUsername)
+                                            )}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.msgCompChannel)
+                                            )}
                                             {renderShortcut(formatMessage(shortcuts.msgCompEmoji))}
                                         </div>
                                     </div>
@@ -418,20 +447,44 @@ class ShortcutsModal extends React.PureComponent {
                             <div className='col-sm-4'>
                                 <div className='section'>
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.filesHeader)}</strong></h4>
+                                        <h4 className='section-title'>
+                                            <strong>{formatMessage(shortcuts.filesHeader)}</strong>
+                                        </h4>
                                         {renderShortcut(formatMessage(shortcuts.filesUpload))}
                                     </div>
                                     <div className='section--lower'>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.browserHeader)}</strong></h4>
-                                        {renderShortcut(formatMessage(shortcuts.browserChannelPrev))}
-                                        {renderShortcut(formatMessage(shortcuts.browserChannelNext))}
-                                        {renderShortcut(formatMessage(shortcuts.browserFontIncrease))}
-                                        {renderShortcut(formatMessage(shortcuts.browserFontDecrease))}
-                                        <span><strong>{formatMessage(shortcuts.browserInputHeader)}</strong></span>
+                                        <h4 className='section-title'>
+                                            <strong>
+                                                {formatMessage(shortcuts.browserHeader)}
+                                            </strong>
+                                        </h4>
+                                        {renderShortcut(
+                                            formatMessage(shortcuts.browserChannelPrev)
+                                        )}
+                                        {renderShortcut(
+                                            formatMessage(shortcuts.browserChannelNext)
+                                        )}
+                                        {renderShortcut(
+                                            formatMessage(shortcuts.browserFontIncrease)
+                                        )}
+                                        {renderShortcut(
+                                            formatMessage(shortcuts.browserFontDecrease)
+                                        )}
+                                        <span>
+                                            <strong>
+                                                {formatMessage(shortcuts.browserInputHeader)}
+                                            </strong>
+                                        </span>
                                         <div className='subsection'>
-                                            {renderShortcut(formatMessage(shortcuts.browserHighlightPrev))}
-                                            {renderShortcut(formatMessage(shortcuts.browserHighlightNext))}
-                                            {renderShortcut(formatMessage(shortcuts.browserNewline))}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.browserHighlightPrev)
+                                            )}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.browserHighlightNext)
+                                            )}
+                                            {renderShortcut(
+                                                formatMessage(shortcuts.browserNewline)
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -456,10 +509,7 @@ function renderShortcut(text) {
     let keys = null;
     if (shortcut.length > 1) {
         keys = shortcut[1].split('|').map((key) => (
-            <span
-                className='shortcut-key'
-                key={key}
-            >
+            <span className='shortcut-key' key={key}>
                 {key}
             </span>
         ));

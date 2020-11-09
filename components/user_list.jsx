@@ -21,7 +21,7 @@ export default class UserList extends React.PureComponent {
 
         // the type of user list row to render
         rowComponentType: PropTypes.object,
-    }
+    };
 
     static defaultProps = {
         users: [],
@@ -29,7 +29,7 @@ export default class UserList extends React.PureComponent {
         actions: [],
         actionProps: {},
         rowComponentType: UserListRow,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -40,7 +40,7 @@ export default class UserList extends React.PureComponent {
         if (this.containerRef.current) {
             this.containerRef.current.scrollTop = 0;
         }
-    }
+    };
 
     render() {
         const users = this.props.users;
@@ -48,7 +48,7 @@ export default class UserList extends React.PureComponent {
 
         let content;
         if (users == null) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         } else if (users.length > 0) {
             content = users.map((user, index) => {
                 return (
@@ -61,7 +61,7 @@ export default class UserList extends React.PureComponent {
                         actionUserProps={this.props.actionUserProps[user.id]}
                         index={index}
                         totalUsers={users.length}
-                        userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                        userCount={index >= 0 && index < Constants.TEST_ID_COUNT ? index : -1}
                         isDisabled={this.props.isDisabled}
                     />
                 );
@@ -74,19 +74,12 @@ export default class UserList extends React.PureComponent {
                     data-testid='noUsersFound'
                 >
                     <p>
-                        <FormattedMessage
-                            id='user_list.notFound'
-                            defaultMessage='No users found'
-                        />
+                        <FormattedMessage id='user_list.notFound' defaultMessage='No users found' />
                     </p>
                 </div>
             );
         }
 
-        return (
-            <div ref={this.containerRef}>
-                {content}
-            </div>
-        );
+        return <div ref={this.containerRef}>{content}</div>;
     }
 }

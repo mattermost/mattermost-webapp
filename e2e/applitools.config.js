@@ -10,9 +10,7 @@ module.exports = {
     branch: 'master-dev',
     baselineBranch: 'master-dev',
     parentBranch: 'master-dev',
-    browser: [
-        {width: 1024, height: 768, name: 'chrome'},
-    ],
+    browser: [{width: 1024, height: 768, name: 'chrome'}],
     concurrency: 1,
     matchLevel: 'Strict',
     showLogs: false,

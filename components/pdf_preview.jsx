@@ -14,18 +14,17 @@ const MAX_PDF_PAGES = 5;
 
 export default class PDFPreview extends React.PureComponent {
     static propTypes = {
-
         /**
-        * Compare file types
-        */
+         * Compare file types
+         */
         fileInfo: PropTypes.object.isRequired,
 
         /**
-        *  URL of pdf file to output and compare to update props url
-        */
+         *  URL of pdf file to output and compare to update props url
+         */
         fileUrl: PropTypes.string.isRequired,
         scale: PropTypes.number.isRequired,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -79,14 +78,17 @@ export default class PDFPreview extends React.PureComponent {
     }
 
     downloadFile = (e) => {
-        const fileDownloadUrl = this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
+        const fileDownloadUrl =
+            this.props.fileInfo.link || getFileDownloadUrl(this.props.fileInfo.id);
         e.preventDefault();
         window.location.href = fileDownloadUrl;
-    }
+    };
 
     renderPDFPage = (pageIndex, prevProps) => {
-        if ((this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) &&
-            (prevProps.scale === this.props.scale)) {
+        if (
+            (this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) &&
+            prevProps.scale === this.props.scale
+        ) {
             return;
         }
 
@@ -104,11 +106,13 @@ export default class PDFPreview extends React.PureComponent {
 
         this.state.pdfPages[pageIndex].render(renderContext);
         this.pdfPagesRendered[pageIndex] = true;
-    }
+    };
 
     getPdfDocument = () => {
-        PDFJS.getDocument(this.props.fileUrl).then(this.onDocumentLoad).catch(this.onDocumentLoadError);
-    }
+        PDFJS.getDocument(this.props.fileUrl)
+            .then(this.onDocumentLoad)
+            .catch(this.onDocumentLoadError);
+    };
 
     onDocumentLoad = (pdf) => {
         const numPages = pdf.numPages <= MAX_PDF_PAGES ? pdf.numPages : MAX_PDF_PAGES;
@@ -116,12 +120,12 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 1; i <= pdf.numPages; i++) {
             pdf.getPage(i).then(this.onPageLoad);
         }
-    }
+    };
 
     onDocumentLoadError = (reason) => {
         console.log('Unable to load PDF preview: ' + reason); //eslint-disable-line no-console
         this.setState({loading: false, success: false});
-    }
+    };
 
     onPageLoad = (page) => {
         const pdfPages = Object.assign({}, this.state.pdfPages);
@@ -135,69 +139,48 @@ export default class PDFPreview extends React.PureComponent {
         if (page.pageIndex === 0) {
             this.setState({success: true, loading: false});
         }
-    }
+    };
 
     render() {
         if (this.state.loading) {
             return (
                 <div className='view-image__loading'>
-                    <LoadingSpinner/>
+                    <LoadingSpinner />
                 </div>
             );
         }
 
         if (!this.state.success) {
-            return (
-                <FileInfoPreview
-                    fileInfo={this.props.fileInfo}
-                    fileUrl={this.props.fileUrl}
-                />
-            );
+            return <FileInfoPreview fileInfo={this.props.fileInfo} fileUrl={this.props.fileUrl} />;
         }
 
         const pdfCanvases = [];
         for (let i = 0; i < this.state.numPages; i++) {
             pdfCanvases.push(
-                <canvas
-                    ref={this[`pdfCanvasRef-${i}`]}
-                    key={'previewpdfcanvas' + i}
-                />,
+                <canvas ref={this[`pdfCanvasRef-${i}`]} key={'previewpdfcanvas' + i} />
             );
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
                 pdfCanvases.push(
-                    <div
-                        key={'previewpdfspacer' + i}
-                        className='pdf-preview-spacer'
-                    />,
+                    <div key={'previewpdfspacer' + i} className='pdf-preview-spacer' />
                 );
             }
         }
 
         if (this.state.pdf.numPages > MAX_PDF_PAGES) {
             pdfCanvases.push(
-                <div
-                    className='pdf-max-pages'
-                    key='previewpdfmorepages'
-                >
-                    <button
-                        className='btn btn-primary'
-                        onClick={this.downloadFile}
-                    >
-                        {<i className='icon icon-download-outline pdf-download-btn-spacer'/> }
+                <div className='pdf-max-pages' key='previewpdfmorepages'>
+                    <button className='btn btn-primary' onClick={this.downloadFile}>
+                        {<i className='icon icon-download-outline pdf-download-btn-spacer' />}
                         <FormattedMessage
                             id='pdf_preview.max_pages'
                             defaultMessage='Download to read more pages'
                         />
                     </button>
-                </div>,
+                </div>
             );
         }
 
-        return (
-            <div className='post-code'>
-                {pdfCanvases}
-            </div>
-        );
+        return <div className='post-code'>{pdfCanvases}</div>;
     }
 }

@@ -29,7 +29,9 @@ export default class CodePreview extends React.PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         if (props.fileUrl !== state.prevFileUrl) {
-            const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
+            const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(
+                props.fileInfo.extension
+            );
 
             if (!usedLanguage || props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
                 return {
@@ -61,7 +63,8 @@ export default class CodePreview extends React.PureComponent {
         if (!this.state.lang || this.props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
             return;
         }
-        $.ajax({ // eslint-disable-line jquery/no-ajax
+        $.ajax({
+            // eslint-disable-line jquery/no-ajax
             async: true,
             url: this.props.fileUrl,
             type: 'GET',
@@ -69,7 +72,7 @@ export default class CodePreview extends React.PureComponent {
             error: this.handleReceivedError,
             success: this.handleReceivedCode,
         });
-    }
+    };
 
     handleReceivedCode = (data) => {
         let code = data;
@@ -81,11 +84,11 @@ export default class CodePreview extends React.PureComponent {
             loading: false,
             success: true,
         });
-    }
+    };
 
     handleReceivedError = () => {
         this.setState({loading: false, success: false});
-    }
+    };
 
     static supports(fileInfo) {
         return Boolean(SyntaxHighlighting.getLanguageFromFileExtension(fileInfo.extension));
@@ -95,18 +98,13 @@ export default class CodePreview extends React.PureComponent {
         if (this.state.loading) {
             return (
                 <div className='view-image__loading'>
-                    <LoadingSpinner/>
+                    <LoadingSpinner />
                 </div>
             );
         }
 
         if (!this.state.success) {
-            return (
-                <FileInfoPreview
-                    fileInfo={this.props.fileInfo}
-                    fileUrl={this.props.fileUrl}
-                />
-            );
+            return <FileInfoPreview fileInfo={this.props.fileInfo} fileUrl={this.props.fileUrl} />;
         }
 
         const language = SyntaxHighlighting.getLanguageName(this.state.lang);
@@ -122,7 +120,7 @@ export default class CodePreview extends React.PureComponent {
                     <div className='post-code__line-numbers'>
                         {SyntaxHighlighting.renderLineNumbers(this.state.code)}
                     </div>
-                    <code dangerouslySetInnerHTML={{__html: highlighted}}/>
+                    <code dangerouslySetInnerHTML={{__html: highlighted}} />
                 </div>
             </div>
         );

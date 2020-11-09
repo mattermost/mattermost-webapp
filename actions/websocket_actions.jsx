@@ -16,7 +16,11 @@ import {
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
-import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
+import {
+    addChannelToInitialCategory,
+    fetchMyCategories,
+    receivedCategoryOrder,
+} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -50,12 +54,36 @@ import {
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {
+    getCurrentUser,
+    getCurrentUserId,
+    getStatusForUserId,
+    getUser,
+    getIsManualStatusForUserId,
+    isCurrentUserSystemAdmin,
+} from 'mattermost-redux/selectors/entities/users';
+import {
+    getMyTeams,
+    getCurrentRelativeTeamUrl,
+    getCurrentTeamId,
+    getCurrentTeamUrl,
+    getTeam,
+} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannelsInTeam,
+    getChannel,
+    getCurrentChannel,
+    getCurrentChannelId,
+    getRedirectChannelNameForTeam,
+    getMembersInCurrentChannel,
+    getChannelMembersInChannels,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
-import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {
+    haveISystemPermission,
+    haveITeamPermission,
+} from 'mattermost-redux/selectors/entities/roles';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {getSelectedChannelId} from 'selectors/rhs';
@@ -74,7 +102,15 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
+import {
+    ActionTypes,
+    Constants,
+    AnnouncementBarMessages,
+    SocketEvents,
+    UserStatuses,
+    ModalIdentifiers,
+    WarnMetricTypes,
+} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -108,7 +144,7 @@ export function initialize() {
         }
 
         // append a port number if one isn't already specified
-        if (!(/:\d+$/).test(connUrl.host)) {
+        if (!/:\d+$/.test(connUrl.host)) {
             if (connUrl.protocol === 'wss:') {
                 connUrl.host += ':' + config.WebsocketSecurePort;
             } else {
@@ -203,14 +239,11 @@ const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
 export function startPeriodicSync() {
     clearInterval(intervalId);
 
-    intervalId = setInterval(
-        () => {
-            if (getCurrentUser(getState()) != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS,
-    );
+    intervalId = setInterval(() => {
+        if (getCurrentUser(getState()) != null) {
+            reconnect(false);
+        }
+    }, SYNC_INTERVAL_MILLISECONDS);
 }
 
 export function stopPeriodicSync() {
@@ -238,249 +271,258 @@ export function unregisterAllPluginWebSocketEvents(pluginId) {
 }
 
 function handleFirstConnect() {
-    dispatch(batchActions([
-        {
-            type: GeneralTypes.WEBSOCKET_SUCCESS,
-            timestamp: Date.now(),
-        },
-        clearErrors(),
-    ]));
+    dispatch(
+        batchActions([
+            {
+                type: GeneralTypes.WEBSOCKET_SUCCESS,
+                timestamp: Date.now(),
+            },
+            clearErrors(),
+        ])
+    );
 }
 
 function handleClose(failCount) {
     if (failCount > MAX_WEBSOCKET_FAILS) {
-        dispatch(logError({type: 'critical', message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR}, true));
+        dispatch(
+            logError(
+                {type: 'critical', message: AnnouncementBarMessages.WEBSOCKET_PORT_ERROR},
+                true
+            )
+        );
     }
-    dispatch(batchActions([
-        {
-            type: GeneralTypes.WEBSOCKET_FAILURE,
-            timestamp: Date.now(),
-        },
-        incrementWsErrorCount(),
-    ]));
+    dispatch(
+        batchActions([
+            {
+                type: GeneralTypes.WEBSOCKET_FAILURE,
+                timestamp: Date.now(),
+            },
+            incrementWsErrorCount(),
+        ])
+    );
 }
 
 export function handleEvent(msg) {
     switch (msg.event) {
-    case SocketEvents.POSTED:
-    case SocketEvents.EPHEMERAL_MESSAGE:
-        handleNewPostEventDebounced(msg);
-        break;
+        case SocketEvents.POSTED:
+        case SocketEvents.EPHEMERAL_MESSAGE:
+            handleNewPostEventDebounced(msg);
+            break;
 
-    case SocketEvents.POST_EDITED:
-        handlePostEditEvent(msg);
-        break;
+        case SocketEvents.POST_EDITED:
+            handlePostEditEvent(msg);
+            break;
 
-    case SocketEvents.POST_DELETED:
-        handlePostDeleteEvent(msg);
-        break;
+        case SocketEvents.POST_DELETED:
+            handlePostDeleteEvent(msg);
+            break;
 
-    case SocketEvents.POST_UNREAD:
-        handlePostUnreadEvent(msg);
-        break;
+        case SocketEvents.POST_UNREAD:
+            handlePostUnreadEvent(msg);
+            break;
 
-    case SocketEvents.LEAVE_TEAM:
-        handleLeaveTeamEvent(msg);
-        break;
+        case SocketEvents.LEAVE_TEAM:
+            handleLeaveTeamEvent(msg);
+            break;
 
-    case SocketEvents.UPDATE_TEAM:
-        handleUpdateTeamEvent(msg);
-        break;
+        case SocketEvents.UPDATE_TEAM:
+            handleUpdateTeamEvent(msg);
+            break;
 
-    case SocketEvents.UPDATE_TEAM_SCHEME:
-        handleUpdateTeamSchemeEvent(msg);
-        break;
+        case SocketEvents.UPDATE_TEAM_SCHEME:
+            handleUpdateTeamSchemeEvent(msg);
+            break;
 
-    case SocketEvents.DELETE_TEAM:
-        handleDeleteTeamEvent(msg);
-        break;
+        case SocketEvents.DELETE_TEAM:
+            handleDeleteTeamEvent(msg);
+            break;
 
-    case SocketEvents.ADDED_TO_TEAM:
-        handleTeamAddedEvent(msg);
-        break;
+        case SocketEvents.ADDED_TO_TEAM:
+            handleTeamAddedEvent(msg);
+            break;
 
-    case SocketEvents.USER_ADDED:
-        dispatch(handleUserAddedEvent(msg));
-        break;
+        case SocketEvents.USER_ADDED:
+            dispatch(handleUserAddedEvent(msg));
+            break;
 
-    case SocketEvents.USER_REMOVED:
-        handleUserRemovedEvent(msg);
-        break;
+        case SocketEvents.USER_REMOVED:
+            handleUserRemovedEvent(msg);
+            break;
 
-    case SocketEvents.USER_UPDATED:
-        handleUserUpdatedEvent(msg);
-        break;
+        case SocketEvents.USER_UPDATED:
+            handleUserUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.ROLE_ADDED:
-        handleRoleAddedEvent(msg);
-        break;
+        case SocketEvents.ROLE_ADDED:
+            handleRoleAddedEvent(msg);
+            break;
 
-    case SocketEvents.ROLE_REMOVED:
-        handleRoleRemovedEvent(msg);
-        break;
+        case SocketEvents.ROLE_REMOVED:
+            handleRoleRemovedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_SCHEME_UPDATED:
-        handleChannelSchemeUpdatedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_SCHEME_UPDATED:
+            handleChannelSchemeUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.MEMBERROLE_UPDATED:
-        handleUpdateMemberRoleEvent(msg);
-        break;
+        case SocketEvents.MEMBERROLE_UPDATED:
+            handleUpdateMemberRoleEvent(msg);
+            break;
 
-    case SocketEvents.ROLE_UPDATED:
-        handleRoleUpdatedEvent(msg);
-        break;
+        case SocketEvents.ROLE_UPDATED:
+            handleRoleUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_CREATED:
-        dispatch(handleChannelCreatedEvent(msg));
-        break;
+        case SocketEvents.CHANNEL_CREATED:
+            dispatch(handleChannelCreatedEvent(msg));
+            break;
 
-    case SocketEvents.CHANNEL_DELETED:
-        handleChannelDeletedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_DELETED:
+            handleChannelDeletedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_UNARCHIVED:
-        handleChannelUnarchivedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_UNARCHIVED:
+            handleChannelUnarchivedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_CONVERTED:
-        handleChannelConvertedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_CONVERTED:
+            handleChannelConvertedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_UPDATED:
-        dispatch(handleChannelUpdatedEvent(msg));
-        break;
+        case SocketEvents.CHANNEL_UPDATED:
+            dispatch(handleChannelUpdatedEvent(msg));
+            break;
 
-    case SocketEvents.CHANNEL_MEMBER_UPDATED:
-        handleChannelMemberUpdatedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_MEMBER_UPDATED:
+            handleChannelMemberUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.DIRECT_ADDED:
-        dispatch(handleDirectAddedEvent(msg));
-        break;
+        case SocketEvents.DIRECT_ADDED:
+            dispatch(handleDirectAddedEvent(msg));
+            break;
 
-    case SocketEvents.GROUP_ADDED:
-        dispatch(handleGroupAddedEvent(msg));
-        break;
+        case SocketEvents.GROUP_ADDED:
+            dispatch(handleGroupAddedEvent(msg));
+            break;
 
-    case SocketEvents.PREFERENCE_CHANGED:
-        handlePreferenceChangedEvent(msg);
-        break;
+        case SocketEvents.PREFERENCE_CHANGED:
+            handlePreferenceChangedEvent(msg);
+            break;
 
-    case SocketEvents.PREFERENCES_CHANGED:
-        handlePreferencesChangedEvent(msg);
-        break;
+        case SocketEvents.PREFERENCES_CHANGED:
+            handlePreferencesChangedEvent(msg);
+            break;
 
-    case SocketEvents.PREFERENCES_DELETED:
-        handlePreferencesDeletedEvent(msg);
-        break;
+        case SocketEvents.PREFERENCES_DELETED:
+            handlePreferencesDeletedEvent(msg);
+            break;
 
-    case SocketEvents.TYPING:
-        dispatch(handleUserTypingEvent(msg));
-        break;
+        case SocketEvents.TYPING:
+            dispatch(handleUserTypingEvent(msg));
+            break;
 
-    case SocketEvents.STATUS_CHANGED:
-        handleStatusChangedEvent(msg);
-        break;
+        case SocketEvents.STATUS_CHANGED:
+            handleStatusChangedEvent(msg);
+            break;
 
-    case SocketEvents.HELLO:
-        handleHelloEvent(msg);
-        break;
+        case SocketEvents.HELLO:
+            handleHelloEvent(msg);
+            break;
 
-    case SocketEvents.REACTION_ADDED:
-        handleReactionAddedEvent(msg);
-        break;
+        case SocketEvents.REACTION_ADDED:
+            handleReactionAddedEvent(msg);
+            break;
 
-    case SocketEvents.REACTION_REMOVED:
-        handleReactionRemovedEvent(msg);
-        break;
+        case SocketEvents.REACTION_REMOVED:
+            handleReactionRemovedEvent(msg);
+            break;
 
-    case SocketEvents.EMOJI_ADDED:
-        handleAddEmoji(msg);
-        break;
+        case SocketEvents.EMOJI_ADDED:
+            handleAddEmoji(msg);
+            break;
 
-    case SocketEvents.CHANNEL_VIEWED:
-        handleChannelViewedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_VIEWED:
+            handleChannelViewedEvent(msg);
+            break;
 
-    case SocketEvents.PLUGIN_ENABLED:
-        handlePluginEnabled(msg);
-        break;
+        case SocketEvents.PLUGIN_ENABLED:
+            handlePluginEnabled(msg);
+            break;
 
-    case SocketEvents.PLUGIN_DISABLED:
-        handlePluginDisabled(msg);
-        break;
+        case SocketEvents.PLUGIN_DISABLED:
+            handlePluginDisabled(msg);
+            break;
 
-    case SocketEvents.USER_ROLE_UPDATED:
-        handleUserRoleUpdated(msg);
-        break;
+        case SocketEvents.USER_ROLE_UPDATED:
+            handleUserRoleUpdated(msg);
+            break;
 
-    case SocketEvents.CONFIG_CHANGED:
-        handleConfigChanged(msg);
-        break;
+        case SocketEvents.CONFIG_CHANGED:
+            handleConfigChanged(msg);
+            break;
 
-    case SocketEvents.LICENSE_CHANGED:
-        handleLicenseChanged(msg);
-        break;
+        case SocketEvents.LICENSE_CHANGED:
+            handleLicenseChanged(msg);
+            break;
 
-    case SocketEvents.PLUGIN_STATUSES_CHANGED:
-        handlePluginStatusesChangedEvent(msg);
-        break;
+        case SocketEvents.PLUGIN_STATUSES_CHANGED:
+            handlePluginStatusesChangedEvent(msg);
+            break;
 
-    case SocketEvents.OPEN_DIALOG:
-        handleOpenDialogEvent(msg);
-        break;
+        case SocketEvents.OPEN_DIALOG:
+            handleOpenDialogEvent(msg);
+            break;
 
-    case SocketEvents.RECEIVED_GROUP:
-        handleGroupUpdatedEvent(msg);
-        break;
+        case SocketEvents.RECEIVED_GROUP:
+            handleGroupUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
-        handleGroupAssociatedToTeamEvent(msg);
-        break;
+        case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_TEAM:
+            handleGroupAssociatedToTeamEvent(msg);
+            break;
 
-    case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM:
-        handleGroupNotAssociatedToTeamEvent(msg);
-        break;
+        case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM:
+            handleGroupNotAssociatedToTeamEvent(msg);
+            break;
 
-    case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL:
-        handleGroupAssociatedToChannelEvent(msg);
-        break;
+        case SocketEvents.RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL:
+            handleGroupAssociatedToChannelEvent(msg);
+            break;
 
-    case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL:
-        handleGroupNotAssociatedToChannelEvent(msg);
-        break;
+        case SocketEvents.RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL:
+            handleGroupNotAssociatedToChannelEvent(msg);
+            break;
 
-    case SocketEvents.WARN_METRIC_STATUS_RECEIVED:
-        handleWarnMetricStatusReceivedEvent(msg);
-        break;
+        case SocketEvents.WARN_METRIC_STATUS_RECEIVED:
+            handleWarnMetricStatusReceivedEvent(msg);
+            break;
 
-    case SocketEvents.WARN_METRIC_STATUS_REMOVED:
-        handleWarnMetricStatusRemovedEvent(msg);
-        break;
+        case SocketEvents.WARN_METRIC_STATUS_REMOVED:
+            handleWarnMetricStatusRemovedEvent(msg);
+            break;
 
-    case SocketEvents.SIDEBAR_CATEGORY_CREATED:
-        dispatch(handleSidebarCategoryCreated(msg));
-        break;
+        case SocketEvents.SIDEBAR_CATEGORY_CREATED:
+            dispatch(handleSidebarCategoryCreated(msg));
+            break;
 
-    case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
-        dispatch(handleSidebarCategoryUpdated(msg));
-        break;
+        case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
+            dispatch(handleSidebarCategoryUpdated(msg));
+            break;
 
-    case SocketEvents.SIDEBAR_CATEGORY_DELETED:
-        dispatch(handleSidebarCategoryDeleted(msg));
-        break;
-    case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
-        dispatch(handleSidebarCategoryOrderUpdated(msg));
-        break;
-    case SocketEvents.USER_ACTIVATION_STATUS_CHANGED:
-        dispatch(handleUserActivationStatusChange());
-        break;
-    case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
-        dispatch(handleCloudPaymentStatusUpdated(msg));
-        break;
+        case SocketEvents.SIDEBAR_CATEGORY_DELETED:
+            dispatch(handleSidebarCategoryDeleted(msg));
+            break;
+        case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
+            dispatch(handleSidebarCategoryOrderUpdated(msg));
+            break;
+        case SocketEvents.USER_ACTIVATION_STATUS_CHANGED:
+            dispatch(handleUserActivationStatusChange());
+            break;
+        case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
+            dispatch(handleCloudPaymentStatusUpdated(msg));
+            break;
 
-    default:
+        default:
     }
 
     Object.values(pluginEventHandlers).forEach((pluginEvents) => {
@@ -488,7 +530,10 @@ export function handleEvent(msg) {
             return;
         }
 
-        if (pluginEvents.hasOwnProperty(msg.event) && typeof pluginEvents[msg.event] === 'function') {
+        if (
+            pluginEvents.hasOwnProperty(msg.event) &&
+            typeof pluginEvents[msg.event] === 'function'
+        ) {
             pluginEvents[msg.event](msg);
         }
     });
@@ -635,17 +680,15 @@ function handlePostDeleteEvent(msg) {
 }
 
 export function handlePostUnreadEvent(msg) {
-    dispatch(
-        {
-            type: ActionTypes.POST_UNREAD_SUCCESS,
-            data: {
-                lastViewedAt: msg.data.last_viewed_at,
-                channelId: msg.broadcast.channel_id,
-                msgCount: msg.data.msg_count,
-                mentionCount: msg.data.mention_count,
-            },
+    dispatch({
+        type: ActionTypes.POST_UNREAD_SUCCESS,
+        data: {
+            lastViewedAt: msg.data.last_viewed_at,
+            channelId: msg.broadcast.channel_id,
+            msgCount: msg.data.msg_count,
+            mentionCount: msg.data.mention_count,
         },
-    );
+    });
 }
 
 async function handleTeamAddedEvent(msg) {
@@ -698,16 +741,18 @@ export function handleLeaveTeamEvent(msg) {
         const members = getChannelMembersInChannels(state);
         const isMember = Object.values(members).some((member) => member[msg.data.user_id]);
         if (team && isGuest(currentUser) && !isMember) {
-            dispatch(batchActions([
-                {
-                    type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
-                    data: {user_id: msg.data.user_id},
-                },
-                {
-                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-                    data: {team_id: team.id, user_id: msg.data.user_id},
-                },
-            ]));
+            dispatch(
+                batchActions([
+                    {
+                        type: UserTypes.PROFILE_NO_LONGER_VISIBLE,
+                        data: {user_id: msg.data.user_id},
+                    },
+                    {
+                        type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                        data: {team_id: team.id, user_id: msg.data.user_id},
+                    },
+                ])
+            );
         }
     }
 }
@@ -724,23 +769,16 @@ function handleDeleteTeamEvent(msg) {
     const deletedTeam = JSON.parse(msg.data.team);
     const state = store.getState();
     const {teams} = state.entities.teams;
-    if (
-        deletedTeam &&
-        teams &&
-        teams[deletedTeam.id] &&
-        teams[deletedTeam.id].delete_at === 0
-    ) {
+    if (deletedTeam && teams && teams[deletedTeam.id] && teams[deletedTeam.id].delete_at === 0) {
         const {currentUserId} = state.entities.users;
         const {currentTeamId, myMembers} = state.entities.teams;
         const teamMembers = Object.values(myMembers);
-        const teamMember = teamMembers.find((m) => m.user_id === currentUserId && m.team_id === currentTeamId);
+        const teamMember = teamMembers.find(
+            (m) => m.user_id === currentUserId && m.team_id === currentTeamId
+        );
 
         let newTeamId = '';
-        if (
-            deletedTeam &&
-            teamMember &&
-            deletedTeam.id === teamMember.team_id
-        ) {
+        if (deletedTeam && teamMember && deletedTeam.id === teamMember.team_id) {
             const myTeams = {};
             getMyTeams(state).forEach((t) => {
                 myTeams[t.id] = t;
@@ -760,10 +798,12 @@ function handleDeleteTeamEvent(msg) {
             }
         }
 
-        dispatch(batchActions([
-            {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
-            {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
-        ]));
+        dispatch(
+            batchActions([
+                {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
+                {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
+            ])
+        );
 
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
@@ -868,14 +908,16 @@ export async function handleUserRemovedEvent(msg) {
                     dispatch(loadUser(msg.data.remover_id));
                 }
 
-                dispatch(openModal({
-                    modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
-                    dialogType: RemovedFromChannelModal,
-                    dialogProps: {
-                        channelName: currentChannel.display_name,
-                        removerId: msg.data.remover_id,
-                    },
-                }));
+                dispatch(
+                    openModal({
+                        modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
+                        dialogType: RemovedFromChannelModal,
+                        dialogProps: {
+                            channelName: currentChannel.display_name,
+                            removerId: msg.data.remover_id,
+                        },
+                    })
+                );
 
                 await dispatch({
                     type: ChannelTypes.LEAVE_CHANNEL,
@@ -922,17 +964,23 @@ export async function handleUserRemovedEvent(msg) {
     const channelId = msg.broadcast.channel_id || msg.data.channel_id;
     const userId = msg.broadcast.user_id || msg.data.user_id;
     const channel = getChannel(state, channelId);
-    if (channel && !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) && !haveITeamPermission(state, {permission: Permissions.VIEW_MEMBERS, team: channel.team_id})) {
-        dispatch(batchActions([
-            {
-                type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
-                data: {id: channel.team_id, user_id: userId},
-            },
-            {
-                type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-                data: {team_id: channel.team_id, user_id: userId},
-            },
-        ]));
+    if (
+        channel &&
+        !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) &&
+        !haveITeamPermission(state, {permission: Permissions.VIEW_MEMBERS, team: channel.team_id})
+    ) {
+        dispatch(
+            batchActions([
+                {
+                    type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
+                    data: {id: channel.team_id, user_id: userId},
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: channel.team_id, user_id: userId},
+                },
+            ])
+        );
     }
 }
 
@@ -1044,7 +1092,15 @@ function handleChannelDeletedEvent(msg) {
         browserHistory.push(teamUrl + '/channels/' + redirectChannel);
     }
 
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
+    dispatch({
+        type: ChannelTypes.RECEIVED_CHANNEL_DELETED,
+        data: {
+            id: msg.data.channel_id,
+            team_id: msg.broadcast.team_id,
+            deleteAt: msg.data.delete_at,
+            viewArchivedChannels,
+        },
+    });
 }
 
 function handleChannelUnarchivedEvent(msg) {
@@ -1052,7 +1108,10 @@ function handleChannelUnarchivedEvent(msg) {
     const config = getConfig(state);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNARCHIVED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
+    dispatch({
+        type: ChannelTypes.RECEIVED_CHANNEL_UNARCHIVED,
+        data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels},
+    });
 }
 
 function handlePreferenceChangedEvent(msg) {
@@ -1079,7 +1138,10 @@ function handlePreferencesDeletedEvent(msg) {
 }
 
 function addedNewDmUser(preference) {
-    return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
+    return (
+        preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW &&
+        preference.value === 'true'
+    );
 }
 
 export function handleUserTypingEvent(msg) {
@@ -1164,8 +1226,10 @@ function handleReactionRemovedEvent(msg) {
 
 function handleChannelViewedEvent(msg) {
     // Useful for when multiple devices have the app open to different channels
-    if ((!window.isActive || getCurrentChannelId(getState()) !== msg.data.channel_id) &&
-        getCurrentUserId(getState()) === msg.broadcast.user_id) {
+    if (
+        (!window.isActive || getCurrentChannelId(getState()) !== msg.data.channel_id) &&
+        getCurrentUserId(getState()) === msg.broadcast.user_id
+    ) {
         dispatch(markChannelAsRead(msg.data.channel_id, '', false));
     }
 }
@@ -1188,7 +1252,9 @@ function handleUserRoleUpdated(msg) {
     if (user) {
         const roles = msg.data.roles;
         const newRoles = roles.split(' ');
-        const demoted = user.roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN) && !roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN);
+        const demoted =
+            user.roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN) &&
+            !roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN);
 
         store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
         dispatch(loadRolesIfNeeded(newRoles));
@@ -1223,21 +1289,25 @@ function handleOpenDialogEvent(msg) {
         return;
     }
 
-    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+    store.dispatch(
+        openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog})
+    );
 }
 
 function handleGroupUpdatedEvent(msg) {
     const data = JSON.parse(msg.data.group);
-    dispatch(batchActions([
-        {
-            type: GroupTypes.RECEIVED_GROUP,
-            data,
-        },
-        {
-            type: GroupTypes.RECEIVED_MY_GROUPS,
-            data: [data],
-        },
-    ]));
+    dispatch(
+        batchActions([
+            {
+                type: GroupTypes.RECEIVED_GROUP,
+                data,
+            },
+            {
+                type: GroupTypes.RECEIVED_MY_GROUPS,
+                data: [data],
+            },
+        ])
+    );
 }
 
 function handleGroupAssociatedToTeamEvent(msg) {
@@ -1276,20 +1346,25 @@ function handleWarnMetricStatusReceivedEvent(msg) {
     } else if (receivedData.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M) {
         bannerData = AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS;
     }
-    store.dispatch(batchActions([
-        {
-            type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED,
-            data: receivedData,
-        },
-        {
-            type: ActionTypes.SHOW_NOTICE,
-            data: [bannerData],
-        },
-    ]));
+    store.dispatch(
+        batchActions([
+            {
+                type: GeneralTypes.WARN_METRIC_STATUS_RECEIVED,
+                data: receivedData,
+            },
+            {
+                type: ActionTypes.SHOW_NOTICE,
+                data: [bannerData],
+            },
+        ])
+    );
 }
 
 function handleWarnMetricStatusRemovedEvent(msg) {
-    store.dispatch({type: GeneralTypes.WARN_METRIC_STATUS_REMOVED, data: {id: msg.data.warnMetricId}});
+    store.dispatch({
+        type: GeneralTypes.WARN_METRIC_STATUS_REMOVED,
+        data: {id: msg.data.warnMetricId},
+    });
 }
 
 function handleSidebarCategoryCreated(msg) {
@@ -1345,8 +1420,7 @@ function handleUserActivationStatusChange() {
         const license = getLicense(state);
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
-        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(state)
-        ) {
+        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(state)) {
             doDispatch(getStandardAnalytics());
         }
     };

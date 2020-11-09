@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
-
     /*
      * Set to show modal
      */
@@ -75,7 +74,7 @@ type Props = {
 
 type State = {
     checked: boolean;
-}
+};
 
 export default class ConfirmModal extends React.Component<Props, State> {
     static defaultProps = {
@@ -84,7 +83,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
         confirmButtonClass: 'btn btn-primary',
         confirmButtonText: '',
         modalClass: '',
-    }
+    };
 
     constructor(props: Props) {
         super(props);
@@ -105,10 +104,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
-        return (
-            nextProps.show !== this.props.show ||
-            nextState.checked !== this.state.checked
-        );
+        return nextProps.show !== this.props.show || nextState.checked !== this.state.checked;
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -128,19 +124,19 @@ export default class ConfirmModal extends React.Component<Props, State> {
                 this.handleConfirm();
             }
         }
-    }
+    };
 
     handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({checked: e.target.checked});
-    }
+    };
 
     handleConfirm = () => {
         this.props.onConfirm(this.state.checked);
-    }
+    };
 
     handleCancel = () => {
         this.props.onCancel(this.state.checked);
-    }
+    };
 
     render() {
         let checkbox;
@@ -163,12 +159,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
         if (this.props.cancelButtonText) {
             cancelText = this.props.cancelButtonText;
         } else {
-            cancelText = (
-                <FormattedMessage
-                    id='confirm_modal.cancel'
-                    defaultMessage='Cancel'
-                />
-            );
+            cancelText = <FormattedMessage id='confirm_modal.cancel' defaultMessage='Cancel' />;
         }
 
         let cancelButton;
@@ -199,10 +190,7 @@ export default class ConfirmModal extends React.Component<Props, State> {
                 aria-describedby='confirmModalBody'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='confirmModalLabel'
-                    >
+                    <Modal.Title componentClass='h1' id='confirmModalLabel'>
                         {this.props.title}
                     </Modal.Title>
                 </Modal.Header>

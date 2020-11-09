@@ -32,10 +32,7 @@ class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps> {
                         command,
                     }}
                 />
-                <a
-                    href='#'
-                    onClick={this.props.handleSubmit}
-                >
+                <a href='#' onClick={this.props.handleSubmit}>
                     <FormattedMessage
                         id='message_submit_error.sendAsMessageLink'
                         defaultMessage='Click here to send as a message.'
@@ -43,7 +40,7 @@ class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps> {
                 </a>
             </React.Fragment>
         );
-    }
+    };
 
     public render(): JSX.Element | null {
         const error = this.props.error;
@@ -59,9 +56,7 @@ class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps> {
 
         return (
             <div className='has-error'>
-                <label className='control-label'>
-                    {errorContent}
-                </label>
+                <label className='control-label'>{errorContent}</label>
             </div>
         );
     }

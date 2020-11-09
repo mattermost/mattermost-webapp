@@ -19,7 +19,7 @@ describe('ConfirmModal', () => {
             showCheckbox: true,
         };
 
-        const wrapper = shallow(<ConfirmModal {...props}/>);
+        const wrapper = shallow(<ConfirmModal {...props} />);
 
         expect(wrapper.state('checked')).toBe(false);
         expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(false);
@@ -45,7 +45,7 @@ describe('ConfirmModal', () => {
             showCheckbox: true,
         };
 
-        const wrapper = shallow(<ConfirmModal {...props}/>);
+        const wrapper = shallow(<ConfirmModal {...props} />);
 
         expect(wrapper.state('checked')).toBe(false);
         expect(wrapper.find('input[type="checkbox"]').prop('checked')).toBe(false);

@@ -13,7 +13,7 @@ export const HFTRoute = ({component: Component, ...rest}) => (
         render={(props) => (
             <React.Suspense fallback={null}>
                 <HeaderFooterTemplate {...props}>
-                    <Component {...props}/>
+                    <Component {...props} />
                 </HeaderFooterTemplate>
             </React.Suspense>
         )}
@@ -28,7 +28,7 @@ export const LoggedInHFTRoute = ({component: Component, ...rest}) => (
                 <LoggedIn {...props}>
                     <React.Suspense fallback={null}>
                         <HeaderFooterTemplate {...props}>
-                            <Component {...props}/>
+                            <Component {...props} />
                         </HeaderFooterTemplate>
                     </React.Suspense>
                 </LoggedIn>

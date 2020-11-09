@@ -11,20 +11,20 @@ export type Tab = {
     iconTitle: string;
     name: string;
     uiName: string;
-}
+};
 
 export type Props = {
     activeTab?: string;
     tabs: Tab[];
     updateTab: (name: string) => void;
-}
+};
 
 export default class SettingsSidebar extends React.PureComponent<Props> {
     public handleClick = (tab: Tab, e: React.MouseEvent) => {
         e.preventDefault();
         this.props.updateTab(tab.name);
         $(e.target).closest('.settings-modal').addClass('display--content'); // eslint-disable-line jquery/no-closest, jquery/no-class
-    }
+    };
 
     public componentDidMount() {
         if (UserAgent.isFirefox()) {
@@ -41,21 +41,14 @@ export default class SettingsSidebar extends React.PureComponent<Props> {
             }
 
             return (
-                <li
-                    id={`${tab.name}Li`}
-                    key={key}
-                    className={className}
-                >
+                <li id={`${tab.name}Li`} key={key} className={className}>
                     <button
                         id={`${tab.name}Button`}
                         className='cursor--pointer style--none'
                         onClick={this.handleClick.bind(null, tab)}
                         aria-label={tab.uiName.toLowerCase()}
                     >
-                        <i
-                            className={tab.icon}
-                            title={tab.iconTitle}
-                        />
+                        <i className={tab.icon} title={tab.iconTitle} />
                         {tab.uiName}
                     </button>
                 </li>
@@ -64,10 +57,7 @@ export default class SettingsSidebar extends React.PureComponent<Props> {
 
         return (
             <div>
-                <ul
-                    id='tabList'
-                    className='nav nav-pills nav-stacked'
-                >
+                <ul id='tabList' className='nav nav-pills nav-stacked'>
                     {tabList}
                 </ul>
             </div>

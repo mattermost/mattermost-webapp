@@ -14,17 +14,13 @@ describe('components/ColorInput', () => {
     };
 
     test('should match snapshot, init', () => {
-        const wrapper = shallow(
-            <ColorInput {...baseProps}/>,
-        );
+        const wrapper = shallow(<ColorInput {...baseProps} />);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, opened', () => {
-        const wrapper = shallow(
-            <ColorInput {...baseProps}/>,
-        );
+        const wrapper = shallow(<ColorInput {...baseProps} />);
 
         wrapper.find('.input-group-addon').simulate('click');
 
@@ -32,9 +28,7 @@ describe('components/ColorInput', () => {
     });
 
     test('should match snapshot, toggle picker', () => {
-        const wrapper = shallow(
-            <ColorInput {...baseProps}/>,
-        );
+        const wrapper = shallow(<ColorInput {...baseProps} />);
         wrapper.find('.input-group-addon').simulate('click');
         wrapper.find('.input-group-addon').simulate('click');
 
@@ -42,9 +36,7 @@ describe('components/ColorInput', () => {
     });
 
     test('should match snapshot, click on picker', () => {
-        const wrapper = shallow(
-            <ColorInput {...baseProps}/>,
-        );
+        const wrapper = shallow(<ColorInput {...baseProps} />);
 
         wrapper.find('.input-group-addon').simulate('click');
         wrapper.find('.color-popover').simulate('click');
@@ -53,9 +45,7 @@ describe('components/ColorInput', () => {
     });
 
     test('should have match state on togglePicker', () => {
-        const wrapper = shallow(
-            <ColorInput {...baseProps}/>,
-        );
+        const wrapper = shallow(<ColorInput {...baseProps} />);
 
         wrapper.setState({isOpened: true});
 
@@ -67,9 +57,7 @@ describe('components/ColorInput', () => {
     });
 
     test('should keep what the user types in the textbox until blur', () => {
-        const wrapper = shallow(
-            <ColorInput {...baseProps}/>,
-        );
+        const wrapper = shallow(<ColorInput {...baseProps} />);
 
         baseProps.onChange.mockImplementation((value) => wrapper.setProps({value}));
 
@@ -87,6 +75,9 @@ describe('components/ColorInput', () => {
         expect(wrapper.state('value')).toBe('#aabbcc');
         expect(baseProps.onChange).toHaveBeenLastCalledWith('#aabbcc');
         expect(wrapper.find('input').prop('value')).toEqual('#aabbcc');
-        expect(wrapper.find('.color-icon').prop('style')).toHaveProperty('backgroundColor', '#aabbcc');
+        expect(wrapper.find('.color-icon').prop('style')).toHaveProperty(
+            'backgroundColor',
+            '#aabbcc'
+        );
     });
 });

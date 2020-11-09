@@ -11,12 +11,7 @@ describe('components/LoadingImagePreview', () => {
         const loading = 'Loading';
         let progress = 50;
 
-        const wrapper = shallow(
-            <LoadingImagePreview
-                loading={loading}
-                progress={progress}
-            />,
-        );
+        const wrapper = shallow(<LoadingImagePreview loading={loading} progress={progress} />);
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('span').text()).toBe('Loading 50%');

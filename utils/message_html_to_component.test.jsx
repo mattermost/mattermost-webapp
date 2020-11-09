@@ -49,9 +49,13 @@ That was some latex!`;
 
     test('Inline markdown image', () => {
         const options = {markdown: true};
-        const html = TextFormatting.formatText('![Mattermost](/images/icon.png) and a [link](link)', options);
+        const html = TextFormatting.formatText(
+            '![Mattermost](/images/icon.png) and a [link](link)',
+            options
+        );
 
-        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+        const component = messageHtmlToComponent(html, false, {
+            hasPluginTooltips: false,
             postId: 'post_id',
             postType: Constants.PostTypes.HEADER_CHANGE,
         });
@@ -61,9 +65,13 @@ That was some latex!`;
 
     test('Inline markdown image where image is link', () => {
         const options = {markdown: true};
-        const html = TextFormatting.formatText('[![Mattermost](images/icon.png)](images/icon.png)', options);
+        const html = TextFormatting.formatText(
+            '[![Mattermost](images/icon.png)](images/icon.png)',
+            options
+        );
 
-        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+        const component = messageHtmlToComponent(html, false, {
+            hasPluginTooltips: false,
             postId: 'post_id',
             postType: Constants.PostTypes.HEADER_CHANGE,
         });

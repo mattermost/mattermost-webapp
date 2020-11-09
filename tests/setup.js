@@ -86,8 +86,7 @@ expect.extend({
             };
         }
         return {
-            message: () =>
-                `expected ${received} to not contain the exact same values as ${actual}`,
+            message: () => `expected ${received} to not contain the exact same values as ${actual}`,
             pass: false,
         };
     },

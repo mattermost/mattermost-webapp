@@ -17,7 +17,7 @@ type Props = {
     status?: string;
     className?: string;
     type?: string;
-}
+};
 
 export default class StatusIcon extends React.PureComponent<Props> {
     static defaultProps = {
@@ -60,6 +60,6 @@ export default class StatusIcon extends React.PureComponent<Props> {
             IconComponent = StatusOfflineIcon;
         }
 
-        return <IconComponent {...iconComponentProps}/>;
+        return <IconComponent {...iconComponentProps} />;
     }
 }

@@ -41,9 +41,13 @@ describe('Actions.Admin', () => {
     test('Register a custom plugin setting adds the component to the state', async () => {
         expect(store.getState().plugins.adminConsoleCustomComponents).toEqual({});
 
-        store.dispatch(Actions.registerAdminConsoleCustomSetting('plugin-id', 'settingA', React.Component, {showTitle: true}));
-        expect(store.getState().plugins.adminConsoleCustomComponents).toEqual(
-            {'plugin-id': {
+        store.dispatch(
+            Actions.registerAdminConsoleCustomSetting('plugin-id', 'settingA', React.Component, {
+                showTitle: true,
+            })
+        );
+        expect(store.getState().plugins.adminConsoleCustomComponents).toEqual({
+            'plugin-id': {
                 settinga: {
                     key: 'settingA',
                     pluginId: 'plugin-id',
@@ -51,6 +55,8 @@ describe('Actions.Admin', () => {
                     options: {
                         showTitle: true,
                     },
-                }}});
+                },
+            },
+        });
     });
 });

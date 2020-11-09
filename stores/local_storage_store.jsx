@@ -6,8 +6,10 @@ import store from 'stores/redux_store.jsx';
 import {getBasePath} from 'selectors/general';
 
 const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
-const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
-export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
+const getPreviousChannelNameKey = (userId, teamId) =>
+    ['user_team_prev_channel', userId, teamId].join(':');
+export const getPenultimateChannelNameKey = (userId, teamId) =>
+    ['user_team_penultimate_channel', userId, teamId].join(':');
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
 
@@ -42,7 +44,10 @@ class LocalStorageStoreClass {
     }
 
     getPreviousChannelName(userId, teamId, state = store.getState()) {
-        return this.getItem(getPreviousChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
+        return (
+            this.getItem(getPreviousChannelNameKey(userId, teamId), state) ||
+            getRedirectChannelNameForTeam(state, teamId)
+        );
     }
 
     removeItem(key) {
@@ -57,7 +62,10 @@ class LocalStorageStoreClass {
     }
 
     getPenultimateChannelName(userId, teamId, state = store.getState()) {
-        return this.getItem(getPenultimateChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
+        return (
+            this.getItem(getPenultimateChannelNameKey(userId, teamId), state) ||
+            getRedirectChannelNameForTeam(state, teamId)
+        );
     }
 
     setPenultimateChannelName(userId, teamId, channelName) {
@@ -65,7 +73,10 @@ class LocalStorageStoreClass {
     }
 
     removePreviousChannelName(userId, teamId, state = store.getState()) {
-        this.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId, state));
+        this.setItem(
+            getPreviousChannelNameKey(userId, teamId),
+            this.getPenultimateChannelName(userId, teamId, state)
+        );
         this.removeItem(getPenultimateChannelNameKey(userId, teamId));
     }
 

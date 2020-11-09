@@ -13,7 +13,7 @@ type Props = {
     onHeightChange?: (height: number, maxHeight: number) => void;
     onInput?: (e: FormEvent<HTMLTextAreaElement>) => void;
     placeholder?: string;
-}
+};
 
 export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
@@ -69,11 +69,13 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
         }
 
         const height = (this.refs.reference as HTMLTextAreaElement).scrollHeight;
-        const textarea = (this.refs.textarea as HTMLTextAreaElement);
+        const textarea = this.refs.textarea as HTMLTextAreaElement;
 
         if (height > 0 && height !== this.height) {
             const style = getComputedStyle(textarea);
-            const borderWidth = parseInt(style.borderTopWidth || '0', 10) + parseInt(style.borderBottomWidth || '0', 10);
+            const borderWidth =
+                parseInt(style.borderTopWidth || '0', 10) +
+                parseInt(style.borderBottomWidth || '0', 10);
 
             // Directly change the height to avoid circular rerenders
             textarea.style.height = String(height + borderWidth) + 'px';
@@ -84,10 +86,10 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                 this.props.onHeightChange?.(height, parseInt(style.maxHeight || '0', 10));
             });
         }
-    }
+    };
 
     getDOMNode = () => {
-        return (this.refs.textarea as HTMLTextAreaElement);
+        return this.refs.textarea as HTMLTextAreaElement;
     };
 
     handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -135,7 +137,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
         if (!this.props.value && !this.props.defaultValue) {
             textareaPlaceholder = (
                 <div
-                    {...otherProps as any}
+                    {...(otherProps as any)}
                     data-testid={`${id}_placeholder`}
                     style={style.placeholder}
                 >
@@ -178,9 +180,18 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 }
 
-const style: { [Key: string]: CSSProperties} = {
+const style: {[Key: string]: CSSProperties} = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
-    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
+    placeholder: {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        opacity: 0.5,
+        pointerEvents: 'none',
+        position: 'absolute',
+        whiteSpace: 'nowrap',
+        background: 'none',
+        borderColor: 'transparent',
+    },
 };
 /* eslint-enable react/no-string-refs */

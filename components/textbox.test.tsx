@@ -11,18 +11,9 @@ describe('components/TextBox', () => {
         channelId: 'channelId',
         currentUserId: 'currentUserId',
         currentTeamId: 'currentTeamId',
-        profilesInChannel: [
-            {id: 'id1'},
-            {id: 'id2'},
-        ],
-        profilesNotInChannel: [
-            {id: 'id3'},
-            {id: 'id4'},
-        ],
-        autocompleteGroups: [
-            {id: 'gid1'},
-            {id: 'gid2'},
-        ],
+        profilesInChannel: [{id: 'id1'}, {id: 'id2'}],
+        profilesNotInChannel: [{id: 'id3'}, {id: 'id4'}],
+        autocompleteGroups: [{id: 'gid1'}, {id: 'gid2'}],
         actions: {
             autocompleteUsersInChannel: jest.fn(),
             autocompleteChannels: jest.fn(),
@@ -44,7 +35,7 @@ describe('components/TextBox', () => {
                 createMessage='placeholder text'
                 supportsCommands={false}
                 {...baseProps}
-            />,
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -79,7 +70,7 @@ describe('components/TextBox', () => {
                 listenForMentionKeyClick={true}
                 preview={true}
                 openWhenEmpty={true}
-            />,
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -104,7 +95,7 @@ describe('components/TextBox', () => {
                 supportsCommands={false}
                 handlePostError={handlePostError}
                 {...baseProps}
-            />,
+            />
         );
 
         expect(gotError).toEqual(true);
@@ -131,7 +122,7 @@ describe('components/TextBox', () => {
                 supportsCommands={false}
                 handlePostError={handlePostError}
                 {...baseProps}
-            />,
+            />
         );
 
         wrapper.setProps({value: 'some test text that exceeds char limit'});

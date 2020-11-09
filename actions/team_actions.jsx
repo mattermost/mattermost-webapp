@@ -24,7 +24,9 @@ export function removeUserFromTeamAndGetStats(teamId, userId) {
 
 export function addUserToTeamFromInvite(token, inviteId) {
     return async (dispatch) => {
-        const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId));
+        const {data: member, error} = await dispatch(
+            TeamActions.addUserToTeamFromInvite(token, inviteId)
+        );
         if (member) {
             const {data} = await dispatch(TeamActions.getTeam(member.team_id));
 
@@ -96,12 +98,14 @@ export function updateTeamsOrderForUser(teamIds) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const teamOrderPreferences = [{
-            user_id: currentUserId,
-            name: '',
-            category: Preferences.TEAMS_ORDER,
-            value: teamIds.join(','),
-        }];
+        const teamOrderPreferences = [
+            {
+                user_id: currentUserId,
+                name: '',
+                category: Preferences.TEAMS_ORDER,
+                value: teamIds.join(','),
+            },
+        ];
         dispatch(savePreferences(currentUserId, teamOrderPreferences));
     };
 }

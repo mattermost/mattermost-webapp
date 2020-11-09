@@ -16,7 +16,10 @@ describe('Actions.Storage', () => {
         store.dispatch(Actions.setItem('test', 'value'));
 
         assert.equal(store.getState().storage.storage.unknown_test.value, 'value');
-        assert.notEqual(typeof store.getState().storage.storage.unknown_test.timestamp, 'undefined');
+        assert.notEqual(
+            typeof store.getState().storage.storage.unknown_test.timestamp,
+            'undefined'
+        );
     });
 
     it('removeItem', async () => {
@@ -59,15 +62,16 @@ describe('Actions.Storage', () => {
         store.dispatch(Actions.setGlobalItem('prefix_test2', 2));
         store.dispatch(Actions.setGlobalItem('not_prefix_test', 3));
 
-        store.dispatch(Actions.actionOnGlobalItemsWithPrefix(
-            'prefix',
-            (key, value) => touchedPairs.push([key, value]),
-        ));
-
-        assert.deepEqual(
-            touchedPairs,
-            [['prefix_test1', 1], ['prefix_test2', 2]],
+        store.dispatch(
+            Actions.actionOnGlobalItemsWithPrefix('prefix', (key, value) =>
+                touchedPairs.push([key, value])
+            )
         );
+
+        assert.deepEqual(touchedPairs, [
+            ['prefix_test1', 1],
+            ['prefix_test2', 2],
+        ]);
     });
 
     it('actionOnItemsWithPrefix', async () => {
@@ -76,15 +80,16 @@ describe('Actions.Storage', () => {
         store.dispatch(Actions.setItem('not_prefix_test', 3));
 
         const touchedPairs = [];
-        store.dispatch(Actions.actionOnItemsWithPrefix(
-            'prefix',
-            (key, value) => touchedPairs.push([key, value]),
-        ));
-
-        assert.deepEqual(
-            touchedPairs,
-            [['prefix_test1', 1], ['prefix_test2', 2]],
+        store.dispatch(
+            Actions.actionOnItemsWithPrefix('prefix', (key, value) =>
+                touchedPairs.push([key, value])
+            )
         );
+
+        assert.deepEqual(touchedPairs, [
+            ['prefix_test1', 1],
+            ['prefix_test2', 2],
+        ]);
     });
 
     it('clear', async () => {
@@ -139,7 +144,12 @@ describe('Actions.Storage', () => {
             resume: jest.fn(),
         };
 
-        store.dispatch(Actions.storageRehydrate({test: JSON.stringify({value: '123', timestamp: now})}, persistor));
+        store.dispatch(
+            Actions.storageRehydrate(
+                {test: JSON.stringify({value: '123', timestamp: now})},
+                persistor
+            )
+        );
 
         assert.equal(store.getState().storage.storage.test.value, '123');
         assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
@@ -147,7 +157,12 @@ describe('Actions.Storage', () => {
         const older = new Date(now);
         older.setSeconds(now.getSeconds() - 2);
 
-        store.dispatch(Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: older})}, persistor));
+        store.dispatch(
+            Actions.storageRehydrate(
+                {test: JSON.stringify({value: '456', timestamp: older})},
+                persistor
+            )
+        );
 
         assert.equal(store.getState().storage.storage.test.value, '123');
         assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
@@ -155,7 +170,12 @@ describe('Actions.Storage', () => {
         const newer = new Date(now);
         newer.setSeconds(now.getSeconds() + 2);
 
-        store.dispatch(Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: newer})}, persistor));
+        store.dispatch(
+            Actions.storageRehydrate(
+                {test: JSON.stringify({value: '456', timestamp: newer})},
+                persistor
+            )
+        );
 
         assert.equal(store.getState().storage.storage.test.value, '456');
         assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), newer.valueOf());
@@ -163,7 +183,12 @@ describe('Actions.Storage', () => {
         const newest = new Date(now);
         newest.setSeconds(now.getSeconds() + 10);
 
-        store.dispatch(Actions.storageRehydrate({test2: JSON.stringify({value: '789', timestamp: newest})}, persistor));
+        store.dispatch(
+            Actions.storageRehydrate(
+                {test2: JSON.stringify({value: '789', timestamp: newest})},
+                persistor
+            )
+        );
 
         assert.equal(store.getState().storage.storage.test.value, '456');
         assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), newer.valueOf());

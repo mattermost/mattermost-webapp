@@ -7,11 +7,11 @@ import ConfirmModal from './confirm_modal';
 
 type Props = {
     onDelete: () => void;
-}
+};
 
 type State = {
     showDeleteModal: boolean;
-}
+};
 
 export default class DeleteModalTrigger extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -26,15 +26,15 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
         e.preventDefault();
 
         this.setState({showDeleteModal: true});
-    }
+    };
 
     public handleConfirm = () => {
         this.props.onDelete();
-    }
+    };
 
     handleCancel = () => {
         this.setState({showDeleteModal: false});
-    }
+    };
 
     get triggerTitle(): JSX.Element {
         return <div> </div>;
@@ -55,11 +55,8 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
     render() {
         return (
             <span>
-                <button
-                    className='color--link style--none'
-                    onClick={this.handleOpenModal}
-                >
-                    { this.triggerTitle }
+                <button className='color--link style--none' onClick={this.handleOpenModal}>
+                    {this.triggerTitle}
                 </button>
                 <ConfirmModal
                     show={this.state.showDeleteModal}

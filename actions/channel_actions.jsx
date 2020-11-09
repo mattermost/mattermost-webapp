@@ -7,12 +7,20 @@ import {PreferenceTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannelByName,
+    getUnreadChannelIds,
+    getChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {
+    loadNewDMIfNeeded,
+    loadNewGMIfNeeded,
+    loadProfilesForSidebar,
+} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences, NotificationLevels} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
@@ -40,19 +48,24 @@ export function openDirectChannelToUserId(userId) {
             name: channel.id,
             value: now.toString(),
         };
-        const actions = [{
-            type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [prefDirect],
-        }, {
-            type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [prefOpenTime],
-        }];
+        const actions = [
+            {
+                type: PreferenceTypes.RECEIVED_PREFERENCES,
+                data: [prefDirect],
+            },
+            {
+                type: PreferenceTypes.RECEIVED_PREFERENCES,
+                data: [prefOpenTime],
+            },
+        ];
         dispatch(batchActions(actions));
 
-        dispatch(savePreferences(currentUserId, [
-            {user_id: currentUserId, ...prefDirect},
-            {user_id: currentUserId, ...prefOpenTime},
-        ]));
+        dispatch(
+            savePreferences(currentUserId, [
+                {user_id: currentUserId, ...prefDirect},
+                {user_id: currentUserId, ...prefOpenTime},
+            ])
+        );
 
         return {data: channel};
     };
@@ -98,7 +111,9 @@ export function searchMoreChannels(term, showArchivedChannels) {
             throw new Error('No team id');
         }
 
-        const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term, showArchivedChannels));
+        const {data, error} = await dispatch(
+            ChannelActions.searchChannels(teamId, term, showArchivedChannels)
+        );
         if (data) {
             const myMembers = getMyChannelMemberships(state);
 
@@ -119,7 +134,9 @@ export function autocompleteChannels(term, success, error) {
             return;
         }
 
-        const {data, error: err} = await dispatch(ChannelActions.autocompleteChannels(teamId, term));
+        const {data, error: err} = await dispatch(
+            ChannelActions.autocompleteChannels(teamId, term)
+        );
         if (data && success) {
             success(data);
         } else if (err && error) {
@@ -137,7 +154,9 @@ export function autocompleteChannelsForSearch(term, success, error) {
             return;
         }
 
-        const {data, error: err} = await dispatch(ChannelActions.autocompleteChannelsForSearch(teamId, term));
+        const {data, error: err} = await dispatch(
+            ChannelActions.autocompleteChannelsForSearch(teamId, term)
+        );
         if (data && success) {
             success(data);
         } else if (err && error) {
@@ -149,7 +168,9 @@ export function autocompleteChannelsForSearch(term, success, error) {
 export function addUsersToChannel(channelId, userIds) {
     return async (dispatch) => {
         try {
-            const requests = userIds.map((uId) => dispatch(ChannelActions.addChannelMember(channelId, uId)));
+            const requests = userIds.map((uId) =>
+                dispatch(ChannelActions.addChannelMember(channelId, uId))
+            );
 
             return await Promise.all(requests);
         } catch (error) {

@@ -18,7 +18,7 @@ export const getAdminDefinition = createSelector(
             result = reducer(result);
         }
         return result;
-    },
+    }
 );
 
 export const getAdminConsoleCustomComponents = (state, pluginId) =>
@@ -30,20 +30,26 @@ export const getConsoleAccess = createSelector(
     (adminDefinition, mySystemPermissions) => {
         const consoleAccess = {read: {}, write: {}};
         const addEntriesForKey = (entryKey) => {
-            const permissions = ResourceToSysConsolePermissionsTable[entryKey].filter((x) => mySystemPermissions.has(x));
+            const permissions = ResourceToSysConsolePermissionsTable[entryKey].filter((x) =>
+                mySystemPermissions.has(x)
+            );
             consoleAccess.read[entryKey] = permissions.length !== 0;
-            consoleAccess.write[entryKey] = permissions.some((permission) => permission.startsWith('sysconsole_write_'));
+            consoleAccess.write[entryKey] = permissions.some((permission) =>
+                permission.startsWith('sysconsole_write_')
+            );
         };
         const mapAccessValuesForKey = ([key]) => {
             if (key === 'user_management') {
-                ['users', 'groups', 'teams', 'channels', 'permissions'].forEach((userManagementKey) => {
-                    addEntriesForKey(`${key}.${userManagementKey}`);
-                });
+                ['users', 'groups', 'teams', 'channels', 'permissions'].forEach(
+                    (userManagementKey) => {
+                        addEntriesForKey(`${key}.${userManagementKey}`);
+                    }
+                );
             } else {
                 addEntriesForKey(key);
             }
         };
         Object.entries(adminDefinition).forEach(mapAccessValuesForKey);
         return consoleAccess;
-    },
+    }
 );

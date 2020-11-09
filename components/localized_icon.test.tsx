@@ -16,7 +16,7 @@ describe('LocalizedIcon', () => {
     };
 
     test('should render localized title', () => {
-        const wrapper = mountWithIntl(<LocalizedIcon {...baseProps}/>);
+        const wrapper = mountWithIntl(<LocalizedIcon {...baseProps} />);
 
         expect(wrapper.find('i').prop('title')).toBe(baseProps.title.defaultMessage);
     });
@@ -26,12 +26,7 @@ describe('LocalizedIcon', () => {
             ...baseProps,
         };
 
-        const wrapper = mountWithIntl(
-            <LocalizedIcon
-                component='span'
-                {...props}
-            />,
-        );
+        const wrapper = mountWithIntl(<LocalizedIcon component='span' {...props} />);
 
         expect(wrapper.find('i').exists()).toBe(false);
         expect(wrapper.find('span').exists()).toBe(true);
@@ -44,7 +39,7 @@ describe('LocalizedIcon', () => {
             className: 'my-icon',
         };
 
-        const wrapper = mountWithIntl(<LocalizedIcon {...props}/>);
+        const wrapper = mountWithIntl(<LocalizedIcon {...props} />);
 
         expect(wrapper.find('i').prop('className')).toBe(props.className);
     });

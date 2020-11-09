@@ -5,17 +5,9 @@ import * as TextFormatting from 'utils/text_formatting';
 
 describe('TextFormatting.ChannelLinks', () => {
     test('Not channel links', () => {
-        expect(
-            TextFormatting.formatText('~123').trim(),
-        ).toBe(
-            '<p>~123</p>',
-        );
+        expect(TextFormatting.formatText('~123').trim()).toBe('<p>~123</p>');
 
-        expect(
-            TextFormatting.formatText('~town-square').trim(),
-        ).toBe(
-            '<p>~town-square</p>',
-        );
+        expect(TextFormatting.formatText('~town-square').trim()).toBe('<p>~town-square</p>');
     });
 
     describe('Channel links', () => {
@@ -28,9 +20,9 @@ describe('TextFormatting.ChannelLinks', () => {
                 TextFormatting.formatText('~town-square', {
                     channelNamesMap: {'town-square': {display_name: 'Town Square'}},
                     team: {name: 'myteam'},
-                }).trim(),
+                }).trim()
             ).toBe(
-                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a></p>',
+                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a></p>'
             );
         });
 
@@ -39,9 +31,9 @@ describe('TextFormatting.ChannelLinks', () => {
                 TextFormatting.formatText('~town-square.', {
                     channelNamesMap: {'town-square': {display_name: 'Town Square'}},
                     team: {name: 'myteam'},
-                }).trim(),
+                }).trim()
             ).toBe(
-                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a>.</p>',
+                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a>.</p>'
             );
         });
 
@@ -50,9 +42,9 @@ describe('TextFormatting.ChannelLinks', () => {
                 TextFormatting.formatText('~town-square', {
                     channelNamesMap: {'town-square': {display_name: '<b>Reception</b>'}},
                     team: {name: 'myteam'},
-                }).trim(),
+                }).trim()
             ).toBe(
-                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>',
+                '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
             );
         });
 
@@ -62,9 +54,9 @@ describe('TextFormatting.ChannelLinks', () => {
                 TextFormatting.formatText('~town-square', {
                     channelNamesMap: {'town-square': {display_name: '<b>Reception</b>'}},
                     team: {name: 'myteam'},
-                }).trim(),
+                }).trim()
             ).toBe(
-                '<p><a class="mention-link" href="/subpath/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>',
+                '<p><a class="mention-link" href="/subpath/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
             );
         });
 
@@ -73,9 +65,9 @@ describe('TextFormatting.ChannelLinks', () => {
                 TextFormatting.formatText('(~town-square)', {
                     channelNamesMap: {'town-square': {display_name: 'Town Square'}},
                     team: {name: 'myteam'},
-                }).trim(),
+                }).trim()
             ).toBe(
-                '<p>(<a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a>)</p>',
+                '<p>(<a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~Town Square</a>)</p>'
             );
         });
     });
@@ -86,10 +78,8 @@ describe('TextFormatting.ChannelLinks', () => {
                 TextFormatting.formatText('aa~town-square', {
                     channelNamesMap: {'town-square': {display_name: 'Town Square'}},
                     team: {name: 'myteam'},
-                }).trim(),
-            ).toBe(
-                '<p>aa~town-square</p>',
-            );
+                }).trim()
+            ).toBe('<p>aa~town-square</p>');
         });
     });
 });

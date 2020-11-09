@@ -19,11 +19,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {
-    isFromWebhook,
-    isSystemMessage,
-    shouldIgnorePost,
-} from 'mattermost-redux/utils/post_utils';
+import {isFromWebhook, isSystemMessage, shouldIgnorePost} from 'mattermost-redux/utils/post_utils';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 
@@ -32,9 +28,13 @@ import {ActionTypes} from 'utils/constants';
 type NewPostMessageProps = {
     mentions: string[];
     team_id: string;
-}
+};
 
-export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+export function completePostReceive(
+    post: Post,
+    websocketMessageProps: NewPostMessageProps,
+    fetchedChannelMember: boolean
+): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const rootPost = PostSelectors.getPost(getState(), post.root_id);
         if (post.root_id && !rootPost) {
@@ -75,11 +75,17 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
 
         dispatch(setChannelReadAndViewed(post, websocketMessageProps, fetchedChannelMember));
 
-        return dispatch(sendDesktopNotification(post, websocketMessageProps) as unknown as ActionFunc);
+        return dispatch(
+            (sendDesktopNotification(post, websocketMessageProps) as unknown) as ActionFunc
+        );
     };
 }
 
-export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+export function setChannelReadAndViewed(
+    post: Post,
+    websocketMessageProps: NewPostMessageProps,
+    fetchedChannelMember: boolean
+): ActionFunc {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -102,10 +108,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
             ) {
                 markAsRead = true;
                 markAsReadOnServer = false;
-            } else if (
-                post.channel_id === getCurrentChannelId(state) &&
-                window.isActive
-            ) {
+            } else if (post.channel_id === getCurrentChannelId(state) && window.isActive) {
                 markAsRead = true;
                 markAsReadOnServer = true;
             }
@@ -115,7 +118,14 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
             dispatch(markChannelAsRead(post.channel_id, undefined, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
         } else {
-            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember));
+            dispatch(
+                markChannelAsUnread(
+                    websocketMessageProps.team_id,
+                    post.channel_id,
+                    websocketMessageProps.mentions,
+                    fetchedChannelMember
+                )
+            );
         }
 
         return {data: true};

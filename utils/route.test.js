@@ -8,7 +8,10 @@ describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
         test('mfa is enforced', () => {
             const user = {mfa_active: false, auth_service: ''};
-            const config = {EnableMultifactorAuthentication: 'true', EnforceMultifactorAuthentication: 'true'};
+            const config = {
+                EnableMultifactorAuthentication: 'true',
+                EnforceMultifactorAuthentication: 'true',
+            };
             const license = {MFA: 'true'};
 
             assert.ok(checkIfMFARequired(user, license, config, ''));
@@ -31,7 +34,10 @@ describe('Utils.Route', () => {
 
         test('mfa is not enforced or enabled', () => {
             const user = {mfa_active: false, auth_service: ''};
-            const config = {EnableMultifactorAuthentication: 'true', EnforceMultifactorAuthentication: 'false'};
+            const config = {
+                EnableMultifactorAuthentication: 'true',
+                EnforceMultifactorAuthentication: 'false',
+            };
             const license = {MFA: 'true'};
             assert.ok(!checkIfMFARequired(user, license, config, ''));
 

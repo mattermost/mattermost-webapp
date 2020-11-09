@@ -106,7 +106,13 @@ export function allowOAuth2({responseType, clientId, redirectUri, state, scope})
 }
 
 export async function emailToLdap(loginId, password, token, ldapId, ldapPassword, success, error) {
-    const {data, error: err} = await UserActions.switchEmailToLdap(loginId, password, ldapId, ldapPassword, token)(dispatch, getState);
+    const {data, error: err} = await UserActions.switchEmailToLdap(
+        loginId,
+        password,
+        ldapId,
+        ldapPassword,
+        token
+    )(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -115,7 +121,12 @@ export async function emailToLdap(loginId, password, token, ldapId, ldapPassword
 }
 
 export async function emailToOAuth(loginId, password, token, newType, success, error) {
-    const {data, error: err} = await UserActions.switchEmailToOAuth(newType, loginId, password, token)(dispatch, getState);
+    const {data, error: err} = await UserActions.switchEmailToOAuth(
+        newType,
+        loginId,
+        password,
+        token
+    )(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -124,7 +135,11 @@ export async function emailToOAuth(loginId, password, token, newType, success, e
 }
 
 export async function oauthToEmail(currentService, email, password, success, error) {
-    const {data, error: err} = await UserActions.switchOAuthToEmail(currentService, email, password)(dispatch, getState);
+    const {data, error: err} = await UserActions.switchOAuthToEmail(
+        currentService,
+        email,
+        password
+    )(dispatch, getState);
     if (data) {
         if (data.follow_link) {
             emitUserLoggedOutEvent(data.follow_link);
@@ -156,7 +171,10 @@ export async function deleteBrandImage(success, error) {
 }
 
 export async function uploadPublicSamlCertificate(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadPublicSamlCertificate(file)(dispatch, getState);
+    const {data, error: err} = await AdminActions.uploadPublicSamlCertificate(file)(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success('saml-public.crt');
     } else if (err && error) {
@@ -165,7 +183,10 @@ export async function uploadPublicSamlCertificate(file, success, error) {
 }
 
 export async function uploadPrivateSamlCertificate(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadPrivateSamlCertificate(file)(dispatch, getState);
+    const {data, error: err} = await AdminActions.uploadPrivateSamlCertificate(file)(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success('saml-private.key');
     } else if (err && error) {
@@ -174,7 +195,10 @@ export async function uploadPrivateSamlCertificate(file, success, error) {
 }
 
 export async function uploadPublicLdapCertificate(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadPublicLdapCertificate(file)(dispatch, getState);
+    const {data, error: err} = await AdminActions.uploadPublicLdapCertificate(file)(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success('ldap-public.crt');
     } else if (err && error) {
@@ -182,7 +206,10 @@ export async function uploadPublicLdapCertificate(file, success, error) {
     }
 }
 export async function uploadPrivateLdapCertificate(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadPrivateLdapCertificate(file)(dispatch, getState);
+    const {data, error: err} = await AdminActions.uploadPrivateLdapCertificate(file)(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success('ldap-private.key');
     } else if (err && error) {
@@ -191,7 +218,10 @@ export async function uploadPrivateLdapCertificate(file, success, error) {
 }
 
 export async function uploadIdpSamlCertificate(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState);
+    const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success('saml-idp.crt');
     } else if (err && error) {
@@ -209,7 +239,10 @@ export async function removePublicSamlCertificate(success, error) {
 }
 
 export async function removePrivateSamlCertificate(success, error) {
-    const {data, error: err} = await AdminActions.removePrivateSamlCertificate()(dispatch, getState);
+    const {data, error: err} = await AdminActions.removePrivateSamlCertificate()(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -227,7 +260,10 @@ export async function removePublicLdapCertificate(success, error) {
 }
 
 export async function removePrivateLdapCertificate(success, error) {
-    const {data, error: err} = await AdminActions.removePrivateLdapCertificate()(dispatch, getState);
+    const {data, error: err} = await AdminActions.removePrivateLdapCertificate()(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -414,7 +450,10 @@ export async function getSamlMetadataFromIdp(success, error, samlMetadataURL) {
 }
 
 export async function setSamlIdpCertificateFromMetadata(success, error, certData) {
-    const {data, error: err} = await AdminActions.setSamlIdpCertificateFromMetadata(certData)(dispatch, getState);
+    const {data, error: err} = await AdminActions.setSamlIdpCertificateFromMetadata(certData)(
+        dispatch,
+        getState
+    );
     if (data && success) {
         success('saml-idp.crt');
     } else if (err && error) {
@@ -456,7 +495,12 @@ export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted,
         try {
             trackEvent('api', 'api_request_trial_license', {from_page: page});
             const response = await Client4.doFetch(`${Client4.getBaseRoute()}/trial-license`, {
-                method: 'POST', body: JSON.stringify({users, terms_accepted: termsAccepted, receive_emails_accepted: receiveEmailsAccepted}),
+                method: 'POST',
+                body: JSON.stringify({
+                    users,
+                    terms_accepted: termsAccepted,
+                    receive_emails_accepted: receiveEmailsAccepted,
+                }),
             });
             return {data: response};
         } catch (e) {

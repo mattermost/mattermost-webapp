@@ -9,7 +9,10 @@ import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url';
 import PluginRegistry from 'plugins/registry';
-import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
+import {
+    unregisterAllPluginWebSocketEvents,
+    unregisterPluginReconnectHandler,
+} from 'actions/websocket_actions.jsx';
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
 
@@ -48,11 +51,13 @@ export async function initializePlugins() {
         return;
     }
 
-    await Promise.all(data.map((m) => {
-        return loadPlugin(m).catch((loadErr) => {
-            console.error(loadErr.message); //eslint-disable-line no-console
-        });
-    }));
+    await Promise.all(
+        data.map((m) => {
+            return loadPlugin(m).catch((loadErr) => {
+                console.error(loadErr.message); //eslint-disable-line no-console
+            });
+        })
+    );
 }
 
 // getPlugins queries the server for all enabled plugins
@@ -75,9 +80,7 @@ export function getPlugins() {
 const loadedPlugins = {};
 
 // describePlugin takes a manifest and spits out a string suitable for console.log messages.
-const describePlugin = (manifest) => (
-    'plugin ' + manifest.id + ', version ' + manifest.version
-);
+const describePlugin = (manifest) => 'plugin ' + manifest.id + ', version ' + manifest.version;
 
 // loadPlugin fetches the web app bundle described by the given manifest, waits for the bundle to
 // load, and then ensures the plugin has been initialized.
@@ -153,7 +156,7 @@ export function removePlugin(manifest) {
     if (plugin && plugin.uninitialize) {
         plugin.uninitialize();
 
-    // Support the deprecated deinitialize callback from the plugins beta.
+        // Support the deprecated deinitialize callback from the plugins beta.
     } else if (plugin && plugin.deinitialize) {
         plugin.deinitialize();
     }

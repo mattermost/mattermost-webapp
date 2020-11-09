@@ -20,23 +20,27 @@ export function filterAndSortTeamsByDisplayName(teams, locale, teamsOrder = '') 
 
     const teamsOrderList = teamsOrder.split(',');
 
-    const customSortedTeams = teams.filter((team) => {
-        if (team !== null) {
-            return teamsOrderList.includes(team.id);
-        }
-        return false;
-    }).sort((a, b) => {
-        return teamsOrderList.indexOf(a.id) - teamsOrderList.indexOf(b.id);
-    });
+    const customSortedTeams = teams
+        .filter((team) => {
+            if (team !== null) {
+                return teamsOrderList.includes(team.id);
+            }
+            return false;
+        })
+        .sort((a, b) => {
+            return teamsOrderList.indexOf(a.id) - teamsOrderList.indexOf(b.id);
+        });
 
-    const otherTeams = teams.filter((team) => {
-        if (team !== null) {
-            return !teamsOrderList.includes(team.id);
-        }
-        return false;
-    }).sort((a, b) => {
-        return compareTeamsByDisplayName(locale, a, b);
-    });
+    const otherTeams = teams
+        .filter((team) => {
+            if (team !== null) {
+                return !teamsOrderList.includes(team.id);
+            }
+            return false;
+        })
+        .sort((a, b) => {
+            return compareTeamsByDisplayName(locale, a, b);
+        });
 
     return [...customSortedTeams, ...otherTeams].filter((team) => {
         return team && !team.delete_at > 0 && team.display_name != null;

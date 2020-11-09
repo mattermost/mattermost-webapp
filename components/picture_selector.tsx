@@ -24,7 +24,10 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
     const {name, src, defaultSrc, placeholder, loadingPicture, onSelect, onRemove} = props;
 
     const [image, setImage] = useState<string>();
-    const [orientationStyles, setOrientationStyles] = useState<{transform: any; transformOrigin: any}>();
+    const [orientationStyles, setOrientationStyles] = useState<{
+        transform: any;
+        transformOrigin: any;
+    }>();
 
     const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
     const selectButton: React.RefObject<HTMLButtonElement> = React.createRef();
@@ -113,7 +116,10 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
             />
             <div className='PictureSelector__imageContainer'>
                 <div
-                    aria-label={localizeMessage('picture_selector.image.ariaLabel', 'Picture selector image')}
+                    aria-label={localizeMessage(
+                        'picture_selector.image.ariaLabel',
+                        'Picture selector image'
+                    )}
                     className='PictureSelector__image'
                     style={{
                         backgroundImage: 'url(' + image + ')',
@@ -128,9 +134,12 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                     className='PictureSelector__selectButton'
                     disabled={loadingPicture}
                     onClick={handleInputFile}
-                    aria-label={localizeMessage('picture_selector.select_button.ariaLabel', 'Select picture')}
+                    aria-label={localizeMessage(
+                        'picture_selector.select_button.ariaLabel',
+                        'Select picture'
+                    )}
                 >
-                    <i className='icon icon-pencil-outline'/>
+                    <i className='icon icon-pencil-outline' />
                 </button>
             </div>
             {removeButton}

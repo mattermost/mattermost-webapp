@@ -8,13 +8,13 @@ type Props = {
     position: 'absolute' | 'fixed' | 'relative' | 'static' | 'inherit';
     style?: CSSProperties;
     message?: ReactNode;
-}
+};
 
 export default class LoadingScreen extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         position: 'relative',
         style: {},
-    }
+    };
 
     public constructor(props: Props) {
         super(props);
@@ -23,10 +23,7 @@ export default class LoadingScreen extends React.PureComponent<Props> {
 
     public render(): JSX.Element {
         let message: ReactNode = (
-            <FormattedMessage
-                id='loading_screen.loading'
-                defaultMessage='Loading'
-            />
+            <FormattedMessage id='loading_screen.loading' defaultMessage='Loading' />
         );
 
         if (this.props.message) {
@@ -39,12 +36,10 @@ export default class LoadingScreen extends React.PureComponent<Props> {
                 style={{position: this.props.position, ...this.props.style}}
             >
                 <div className='loading__content'>
-                    <h3>
-                        {message}
-                    </h3>
-                    <div className='round round-1'/>
-                    <div className='round round-2'/>
-                    <div className='round round-3'/>
+                    <h3>{message}</h3>
+                    <div className='round round-1' />
+                    <div className='round round-2' />
+                    <div className='round round-3' />
                 </div>
             </div>
         );

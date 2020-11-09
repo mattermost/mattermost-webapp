@@ -6,7 +6,13 @@ import emojiRegex from 'emoji-regex';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
-import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting';
+import {
+    formatText,
+    autolinkAtMentions,
+    highlightSearchTerms,
+    handleUnicodeEmoji,
+    parseSearchTerms,
+} from 'utils/text_formatting';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 
 describe('formatText', () => {
@@ -17,18 +23,16 @@ describe('formatText', () => {
         for (let i = 0; i < 3; i++) {
             spaces += ' ';
             const output = formatText(`${spaces}${emoji}`, {});
-            expect(output).toBe(`<span class="all-emoji"><p>${spaces}<span data-emoticon="slightly_smiling_face">${emoji}</span></p></span>`);
+            expect(output).toBe(
+                `<span class="all-emoji"><p>${spaces}<span data-emoticon="slightly_smiling_face">${emoji}</span></p></span>`
+            );
         }
     });
 });
 
 describe('autolinkAtMentions', () => {
     // testing to make sure @channel, @all & @here are setup properly to get highlighted correctly
-    const mentionTestCases = [
-        'channel',
-        'all',
-        'here',
-    ];
+    const mentionTestCases = ['channel', 'all', 'here'];
     function runSuccessfulAtMentionTests(leadingText = '', trailingText = '') {
         mentionTestCases.forEach((testCase) => {
             const mention = `@${testCase}`;
@@ -44,7 +48,9 @@ describe('autolinkAtMentions', () => {
             }
 
             expect(output).toBe(expected);
-            expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}">${mention}</span>`);
+            expect(tokens.get('$MM_ATMENTION0$').value).toBe(
+                `<span data-mention="${testCase}">${mention}</span>`
+            );
         });
     }
     function runUnsuccessfulAtMentionTests(leadingText = '', trailingText = '') {
@@ -58,7 +64,10 @@ describe('autolinkAtMentions', () => {
             expect(tokens.get('$MM_ATMENTION0$')).toBeUndefined();
         });
     }
-    function runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions(leadingText = '', trailingText = '') {
+    function runUnsuccessfulAtMentionTestsMatchingNonSpecialMentions(
+        leadingText = '',
+        trailingText = ''
+    ) {
         mentionTestCases.forEach((testCase) => {
             const mention = `@${testCase}`;
             const text = `${leadingText}${mention}${trailingText}`;
@@ -66,7 +75,9 @@ describe('autolinkAtMentions', () => {
 
             const output = autolinkAtMentions(text, tokens);
             expect(output).toBe(`${leadingText}$MM_ATMENTION0$`);
-            expect(tokens.get('$MM_ATMENTION0$').value).toBe(`<span data-mention="${testCase}${trailingText}">${mention}${trailingText}</span>`);
+            expect(tokens.get('$MM_ATMENTION0$').value).toBe(
+                `<span data-mention="${testCase}${trailingText}">${mention}${trailingText}</span>`
+            );
         });
     }
 
@@ -143,13 +154,16 @@ describe('autolinkAtMentions', () => {
 describe('highlightSearchTerms', () => {
     test('hashtags should highlight case-insensitively', () => {
         const text = '$MM_HASHTAG0$';
-        const tokens = new Map(
-            [['$MM_HASHTAG0$', {
-                hashtag: 'Test',
-                originalText: '#Test',
-                value: '<a class="mention-link" href="#" data-hashtag="#Test">#Test</a>',
-            }]],
-        );
+        const tokens = new Map([
+            [
+                '$MM_HASHTAG0$',
+                {
+                    hashtag: 'Test',
+                    originalText: '#Test',
+                    value: '<a class="mention-link" href="#" data-hashtag="#Test">#Test</a>',
+                },
+            ],
+        ]);
         const searchPatterns = [
             {
                 pattern: /(\W|^)(#test)\b/gi,
@@ -159,7 +173,9 @@ describe('highlightSearchTerms', () => {
 
         const output = highlightSearchTerms(text, tokens, searchPatterns);
         expect(output).toBe('$MM_SEARCHTERM1$');
-        expect(tokens.get('$MM_SEARCHTERM1$').value).toBe('<span class="search-highlight">$MM_HASHTAG0$</span>');
+        expect(tokens.get('$MM_SEARCHTERM1$').value).toBe(
+            '<span class="search-highlight">$MM_HASHTAG0$</span>'
+        );
     });
 });
 
@@ -181,27 +197,32 @@ describe('handleUnicodeEmoji', () => {
         {
             description: 'should correctly match gendered emojis',
             text: '🙅‍♀️🙅‍♂️',
-            output: '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>',
+            output:
+                '<span data-emoticon="no_good_woman">🙅‍♀️</span><span data-emoticon="no_good_man">🙅‍♂️</span>',
         },
         {
             description: 'should correctly match flags',
             text: '🏳️🇨🇦🇫🇮',
-            output: '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>',
+            output:
+                '<span data-emoticon="white_flag">🏳️</span><span data-emoticon="canada">🇨🇦</span><span data-emoticon="finland">🇫🇮</span>',
         },
         {
             description: 'should correctly match emojis with skin tones',
             text: '👍🏿👍🏻',
-            output: '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>',
+            output:
+                '<span data-emoticon="+1_dark_skin_tone">👍🏿</span><span data-emoticon="+1_light_skin_tone">👍🏻</span>',
         },
         {
             description: 'should correctly match more emojis with skin tones',
             text: '✊🏻✊🏿',
-            output: '<span data-emoticon="fist_raised_light_skin_tone">✊🏻</span><span data-emoticon="fist_raised_dark_skin_tone">✊🏿</span>',
+            output:
+                '<span data-emoticon="fist_raised_light_skin_tone">✊🏻</span><span data-emoticon="fist_raised_dark_skin_tone">✊🏿</span>',
         },
         {
             description: 'should correctly match combined emojis',
             text: '👨‍👩‍👧‍👦👨‍❤️‍👨',
-            output: '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>',
+            output:
+                '<span data-emoticon="family_man_woman_girl_boy">👨‍👩‍👧‍👦</span><span data-emoticon="couple_with_heart_man_man">👨‍❤️‍👨</span>',
         },
     ];
 
@@ -225,21 +246,24 @@ describe('linkOnlyMarkdown', () => {
         const output = formatText(text, options);
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
-            'https://www.mattermost.com</a>?');
+                'https://www.mattermost.com</a>?'
+        );
     });
     test('link with a title', () => {
         const text = 'Do you like [Mattermost](https://www.mattermost.com)?';
         const output = formatText(text, options);
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
-            'Mattermost</a>?');
+                'Mattermost</a>?'
+        );
     });
     test('link with header signs to skip', () => {
         const text = '#### Do you like [Mattermost](https://www.mattermost.com)?';
         const output = formatText(text, options);
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
-            'Mattermost</a>?');
+                'Mattermost</a>?'
+        );
     });
 });
 

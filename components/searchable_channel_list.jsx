@@ -53,12 +53,9 @@ export default class SearchableChannelList extends React.PureComponent {
 
     handleJoin(channel) {
         this.setState({joiningChannel: channel.id});
-        this.props.handleJoin(
-            channel,
-            () => {
-                this.setState({joiningChannel: ''});
-            },
-        );
+        this.props.handleJoin(channel, () => {
+            this.setState({joiningChannel: ''});
+        });
     }
 
     createChannelRow = (channel) => {
@@ -69,17 +66,13 @@ export default class SearchableChannelList extends React.PureComponent {
         if (shouldShowArchivedChannels) {
             archiveIcon = (
                 <div className='more-modal__icon-container'>
-                    <ArchiveIcon className='icon icon__archive'/>
+                    <ArchiveIcon className='icon icon__archive' />
                 </div>
             );
         }
 
         return (
-            <div
-                className='more-modal__row'
-                key={channel.id}
-                id={`ChannelRow-${channel.name}`}
-            >
+            <div className='more-modal__row' key={channel.id} id={`ChannelRow-${channel.name}`}>
                 <div className='more-modal__details'>
                     <button
                         onClick={this.handleJoin.bind(this, channel)}
@@ -102,7 +95,11 @@ export default class SearchableChannelList extends React.PureComponent {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
+                                id={
+                                    shouldShowArchivedChannels
+                                        ? 'more_channels.view'
+                                        : 'more_channels.join'
+                                }
                                 defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
                             />
                         </LoadingWrapper>
@@ -110,21 +107,24 @@ export default class SearchableChannelList extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
     nextPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page + 1, nextDisabled: true});
-        this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
+        this.nextTimeoutId = setTimeout(
+            () => this.setState({nextDisabled: false}),
+            NEXT_BUTTON_TIMEOUT_MILLISECONDS
+        );
         this.props.nextPage(this.state.page + 1);
         $(ReactDOM.findDOMNode(this.channelListScroll.current)).scrollTop(0);
-    }
+    };
 
     previousPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page - 1});
         $(ReactDOM.findDOMNode(this.channelListScroll.current)).scrollTop(0);
-    }
+    };
 
     doSearch = () => {
         const term = this.filter.current.value;
@@ -132,13 +132,13 @@ export default class SearchableChannelList extends React.PureComponent {
         if (term === '') {
             this.setState({page: 0});
         }
-    }
+    };
     toggleArchivedChannelsOn = () => {
         this.props.toggleArchivedChannels(true);
-    }
+    };
     toggleArchivedChannelsOff = () => {
         this.props.toggleArchivedChannels(false);
-    }
+    };
 
     render() {
         const channels = this.props.channels;
@@ -147,7 +147,7 @@ export default class SearchableChannelList extends React.PureComponent {
         let previousButton;
 
         if (this.props.loading && channels.length === 0) {
-            listContent = <LoadingScreen style={{marginTop: '50%'}}/>;
+            listContent = <LoadingScreen style={{marginTop: '50%'}} />;
         } else if (channels.length === 0) {
             listContent = (
                 <div className='no-channel-message'>
@@ -166,17 +166,17 @@ export default class SearchableChannelList extends React.PureComponent {
             const channelsToDisplay = this.props.channels.slice(pageStart, pageEnd);
             listContent = channelsToDisplay.map(this.createChannelRow);
 
-            if (channelsToDisplay.length >= this.props.channelsPerPage && pageEnd < this.props.channels.length) {
+            if (
+                channelsToDisplay.length >= this.props.channelsPerPage &&
+                pageEnd < this.props.channels.length
+            ) {
                 nextButton = (
                     <button
                         className='btn btn-link filter-control filter-control__next'
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
                     >
-                        <FormattedMessage
-                            id='more_channels.next'
-                            defaultMessage='Next'
-                        />
+                        <FormattedMessage id='more_channels.next' defaultMessage='Next' />
                     </button>
                 );
             }
@@ -187,10 +187,7 @@ export default class SearchableChannelList extends React.PureComponent {
                         className='btn btn-link filter-control filter-control__prev'
                         onClick={this.previousPage}
                     >
-                        <FormattedMessage
-                            id='more_channels.prev'
-                            defaultMessage='Previous'
-                        />
+                        <FormattedMessage id='more_channels.prev' defaultMessage='Previous' />
                     </button>
                 );
             }
@@ -203,7 +200,10 @@ export default class SearchableChannelList extends React.PureComponent {
                         id='searchChannelsTextbox'
                         ref={this.filter}
                         className='form-control filter-textbox'
-                        placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
+                        placeholder={{
+                            id: t('filtered_channels_list.search'),
+                            defaultMessage: 'Search channels',
+                        }}
                         inputComponent={LocalizedInput}
                         onInput={this.doSearch}
                     />
@@ -219,14 +219,15 @@ export default class SearchableChannelList extends React.PureComponent {
                             id='searchChannelsTextbox'
                             ref={this.filter}
                             className='form-control filter-textbox'
-                            placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
+                            placeholder={{
+                                id: t('filtered_channels_list.search'),
+                                defaultMessage: 'Search channels',
+                            }}
                             inputComponent={LocalizedInput}
                             onInput={this.doSearch}
                         />
                     </div>
-                    <div className='create_button'>
-                        {this.props.createChannelButton}
-                    </div>
+                    <div className='create_button'>{this.props.createChannelButton}</div>
                 </div>
             );
         }
@@ -238,17 +239,33 @@ export default class SearchableChannelList extends React.PureComponent {
                 <div className='more-modal__dropdown'>
                     <MenuWrapper id='channelsMoreDropdown'>
                         <a>
-                            <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
-                            <span className='caret'/>
+                            <span>
+                                {this.props.shouldShowArchivedChannels
+                                    ? localizeMessage(
+                                          'more_channels.show_archived_channels',
+                                          'Show: Archived Channels'
+                                      )
+                                    : localizeMessage(
+                                          'more_channels.show_public_channels',
+                                          'Show: Public Channels'
+                                      )}
+                            </span>
+                            <span className='caret' />
                         </a>
                         <Menu
                             openLeft={false}
-                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
+                            ariaLabel={localizeMessage(
+                                'team_members_dropdown.menuAriaLabel',
+                                'Change the role of a team member'
+                            )}
                         >
                             <Menu.ItemAction
                                 id='channelsMoreDropdownPublic'
                                 onClick={this.toggleArchivedChannelsOff}
-                                text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                                text={localizeMessage(
+                                    'suggestion.search.public',
+                                    'Public Channels'
+                                )}
                             />
                             <Menu.ItemAction
                                 id='channelsMoreDropdownArchived'
@@ -265,15 +282,8 @@ export default class SearchableChannelList extends React.PureComponent {
             <div className='filtered-user-list'>
                 {input}
                 {channelDropdown}
-                <div
-                    role='application'
-                    ref='channelList'
-                    className='more-modal__list'
-                >
-                    <div
-                        id='moreChannelsList'
-                        ref={this.channelListScroll}
-                    >
+                <div role='application' ref='channelList' className='more-modal__list'>
+                    <div id='moreChannelsList' ref={this.channelListScroll}>
                         {listContent}
                     </div>
                 </div>

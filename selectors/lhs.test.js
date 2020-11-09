@@ -15,9 +15,13 @@ describe('Selectors.Lhs', () => {
     describe('should return the open state of the sidebar menu', () => {
         [true, false].forEach((expected) => {
             it(`when open is ${expected}`, () => {
-                state = {views: {lhs: {
-                    isOpen: expected,
-                }}};
+                state = {
+                    views: {
+                        lhs: {
+                            isOpen: expected,
+                        },
+                    },
+                };
 
                 assert.deepEqual(expected, Selectors.getIsLhsOpen(state));
             });

@@ -75,18 +75,16 @@ export default class WebSocketClient {
 
             // If we've failed a bunch of connections then start backing off
             if (this.connectFailCount > MAX_WEBSOCKET_FAILS) {
-                retryTime = MIN_WEBSOCKET_RETRY_TIME * this.connectFailCount * this.connectFailCount;
+                retryTime =
+                    MIN_WEBSOCKET_RETRY_TIME * this.connectFailCount * this.connectFailCount;
                 if (retryTime > MAX_WEBSOCKET_RETRY_TIME) {
                     retryTime = MAX_WEBSOCKET_RETRY_TIME;
                 }
             }
 
-            setTimeout(
-                () => {
-                    this.initialize(connectionUrl, token);
-                },
-                retryTime,
-            );
+            setTimeout(() => {
+                this.initialize(connectionUrl, token);
+            }, retryTime);
         };
 
         this.conn.onerror = (evt) => {
@@ -113,7 +111,12 @@ export default class WebSocketClient {
                 }
             } else if (this.eventCallback) {
                 if (msg.seq !== this.eventSequence && this.missedEventCallback) {
-                    console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.eventSequence); //eslint-disable-line no-console
+                    console.log(
+                        'missed websocket event, act_seq=' +
+                            msg.seq +
+                            ' exp_seq=' +
+                            this.eventSequence
+                    ); //eslint-disable-line no-console
                     this.missedEventCallback();
                 }
                 this.eventSequence = msg.seq + 1;

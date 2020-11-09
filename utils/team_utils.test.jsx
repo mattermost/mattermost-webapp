@@ -20,10 +20,18 @@ describe('TeamUtils.filterAndSortTeamsByDisplayName', () => {
             {teams: [teamF, teamG], result: []},
             {teams: [teamA, teamB, teamC, teamD, teamE], result: [teamA, teamB, teamC, teamD]},
             {teams: [teamE, teamD, teamC, teamB, teamA], result: [teamA, teamB, teamC, teamD]},
-            {teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG], result: [teamA, teamB, teamC, teamD]},
-            {teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA], result: [teamA, teamB, teamC, teamD]},
+            {
+                teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG],
+                result: [teamA, teamB, teamC, teamD],
+            },
+            {
+                teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA],
+                result: [teamA, teamB, teamC, teamD],
+            },
         ]) {
-            expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams, General.DEFAULT_LOCALE)).toEqual(data.result);
+            expect(
+                TeamUtils.filterAndSortTeamsByDisplayName(data.teams, General.DEFAULT_LOCALE)
+            ).toEqual(data.result);
         }
     });
 
@@ -35,10 +43,22 @@ describe('TeamUtils.filterAndSortTeamsByDisplayName', () => {
             {teams: [teamF, teamG], result: []},
             {teams: [teamA, teamB, teamC, teamD, teamE], result: [teamD, teamB, teamA, teamC]},
             {teams: [teamE, teamD, teamC, teamB, teamA], result: [teamD, teamB, teamA, teamC]},
-            {teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG], result: [teamD, teamB, teamA, teamC]},
-            {teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA], result: [teamD, teamB, teamA, teamC]},
+            {
+                teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG],
+                result: [teamD, teamB, teamA, teamC],
+            },
+            {
+                teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA],
+                result: [teamD, teamB, teamA, teamC],
+            },
         ]) {
-            expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams, General.DEFAULT_LOCALE, teamsOrder)).toEqual(data.result);
+            expect(
+                TeamUtils.filterAndSortTeamsByDisplayName(
+                    data.teams,
+                    General.DEFAULT_LOCALE,
+                    teamsOrder
+                )
+            ).toEqual(data.result);
         }
     });
 });

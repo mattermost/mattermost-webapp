@@ -13,7 +13,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 label='some label'
                 value='some value'
                 providers={[]}
-            />,
+            />
         );
         expect(wrapper).toMatchInlineSnapshot(`
             <div
@@ -57,11 +57,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
 
     test('check snapshot with value prop and changing focus', () => {
         const wrapper = shallow(
-            <AutocompleteSelector
-                providers={[]}
-                label='some label'
-                value='value from prop'
-            />,
+            <AutocompleteSelector providers={[]} label='some label' value='value from prop' />
         );
 
         wrapper.instance().onBlur();
@@ -156,7 +152,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                 value='some value'
                 providers={[]}
                 onSelected={onSelected}
-            />,
+            />
         );
 
         const selected = {text: 'sometext', value: 'somevalue'};

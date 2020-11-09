@@ -21,12 +21,7 @@ describe('OverlayTrigger', () => {
         },
     };
     const baseProps = {
-        overlay: (
-            <FormattedMessage
-                id={testId}
-                defaultMessage='Default value'
-            />
-        ),
+        overlay: <FormattedMessage id={testId} defaultMessage='Default value' />,
     };
 
     // Intercept console error messages since we intentionally cause some as part of these tests
@@ -45,24 +40,26 @@ describe('OverlayTrigger', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
                 <BaseOverlayTrigger {...baseProps}>
-                    <span/>
+                    <span />
                 </BaseOverlayTrigger>
-            </IntlProvider>,
+            </IntlProvider>
         );
 
         // console.error will have been called by FormattedMessage because its intl context is missing
         expect(() => {
             mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
-        }).toThrow('[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.');
+        }).toThrow(
+            '[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.'
+        );
     });
 
     test('custom OverlayTrigger should pass intl to overlay', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
                 <OverlayTrigger {...baseProps}>
-                    <span/>
+                    <span />
                 </OverlayTrigger>
-            </IntlProvider>,
+            </IntlProvider>
         );
 
         const overlay = mount(wrapper.find(BaseOverlayTrigger).prop('overlay'));
@@ -81,9 +78,9 @@ describe('OverlayTrigger', () => {
         const wrapper = mountWithIntl(
             <IntlProvider {...intlProviderProps}>
                 <OverlayTrigger {...props}>
-                    <span/>
+                    <span />
                 </OverlayTrigger>
-            </IntlProvider>,
+            </IntlProvider>
         );
 
         expect(ref.current).toBe(wrapper.find(BaseOverlayTrigger).instance());
@@ -93,10 +90,7 @@ describe('OverlayTrigger', () => {
         const props = {
             ...baseProps,
             overlay: (
-                <span
-                    className='test-overlay-className'
-                    style={{backgroundColor: 'red'}}
-                >
+                <span className='test-overlay-className' style={{backgroundColor: 'red'}}>
                     {'test-overlay'}
                 </span>
             ),
@@ -106,13 +100,15 @@ describe('OverlayTrigger', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
                 <OverlayTrigger {...props}>
-                    <span/>
+                    <span />
                 </OverlayTrigger>
-            </IntlProvider>,
+            </IntlProvider>
         );
 
         // Dive into the react-bootstrap internals to find our overlay
-        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find('span'); // eslint-disable-line no-underscore-dangle
+        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find(
+            'span'
+        ); // eslint-disable-line no-underscore-dangle
 
         // Confirm that we've found the right span
         expect(overlay.exists()).toBe(true);
@@ -131,13 +127,7 @@ describe('OverlayTrigger', () => {
     test('disabled and style should both be supported', () => {
         const props = {
             ...baseProps,
-            overlay: (
-                <span
-                    style={{backgroundColor: 'red'}}
-                >
-                    {'test-overlay'}
-                </span>
-            ),
+            overlay: <span style={{backgroundColor: 'red'}}>{'test-overlay'}</span>,
             defaultOverlayShown: true, // Make sure the overlay is visible
             disabled: true,
         };
@@ -145,13 +135,15 @@ describe('OverlayTrigger', () => {
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
                 <OverlayTrigger {...props}>
-                    <span/>
+                    <span />
                 </OverlayTrigger>
-            </IntlProvider>,
+            </IntlProvider>
         );
 
         // Dive into the react-bootstrap internals to find our overlay
-        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find('span'); // eslint-disable-line no-underscore-dangle
+        const overlay = mount((wrapper.find(BaseOverlayTrigger).instance() as any)._overlay).find(
+            'span'
+        ); // eslint-disable-line no-underscore-dangle
 
         // Confirm that we've found the right span
         expect(overlay.exists()).toBe(true);

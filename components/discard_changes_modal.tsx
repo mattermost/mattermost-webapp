@@ -10,15 +10,12 @@ type Props = {
     show: boolean;
     onConfirm: (checked: boolean) => void;
     onCancel: (checked: boolean) => void;
-}
+};
 
 export default class DiscardChangesModal extends React.PureComponent<Props> {
     public render(): JSX.Element {
         const title: JSX.Element = (
-            <FormattedMessage
-                id='discard_changes_modal.title'
-                defaultMessage='Discard Changes?'
-            />
+            <FormattedMessage id='discard_changes_modal.title' defaultMessage='Discard Changes?' />
         );
 
         const message: JSX.Element = (
@@ -30,10 +27,7 @@ export default class DiscardChangesModal extends React.PureComponent<Props> {
 
         const buttonClass = 'btn btn-primary';
         const button: JSX.Element = (
-            <FormattedMessage
-                id='discard_changes_modal.leave'
-                defaultMessage='Yes, Discard'
-            />
+            <FormattedMessage id='discard_changes_modal.leave' defaultMessage='Yes, Discard' />
         );
 
         const modalClass = 'discard-changes-modal';

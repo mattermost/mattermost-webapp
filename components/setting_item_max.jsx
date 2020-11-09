@@ -18,7 +18,6 @@ export default class SettingItemMax extends React.PureComponent {
     };
 
     static propTypes = {
-
         /**
          * Array of inputs selection
          */
@@ -32,10 +31,7 @@ export default class SettingItemMax extends React.PureComponent {
         /**
          * Client error
          */
-        clientError: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object,
-        ]),
+        clientError: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
         /**
          * Server error
@@ -111,7 +107,7 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of save button
          */
         saveButtonText: PropTypes.string,
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -120,7 +116,9 @@ export default class SettingItemMax extends React.PureComponent {
 
     componentDidMount() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const focusableElements = this.settingList.current.querySelectorAll(
+                '.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
             if (focusableElements.length > 0) {
                 focusableElements[0].focus();
             } else {
@@ -139,10 +137,20 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
             return;
         }
-        if (this.props.disableEnterSubmit !== true && isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
+        if (
+            this.props.disableEnterSubmit !== true &&
+            isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            this.props.submit &&
+            e.target.tagName !== 'SELECT' &&
+            e.target.parentElement &&
+            e.target.parentElement.className !== 'react-select__input' &&
+            !e.target.classList.contains('btn-cancel') &&
+            this.settingList.current &&
+            this.settingList.current.contains(e.target)
+        ) {
             this.handleSubmit(e);
         }
-    }
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -152,22 +160,19 @@ export default class SettingItemMax extends React.PureComponent {
         } else {
             this.props.submit();
         }
-    }
+    };
 
     handleUpdateSection = (e) => {
         this.props.updateSection(this.props.section);
         e.preventDefault();
-    }
+    };
 
     render() {
         let clientError = null;
         if (this.props.clientError) {
             clientError = (
                 <div className='form-group'>
-                    <label
-                        id='clientError'
-                        className='col-sm-12 has-error'
-                    >
+                    <label id='clientError' className='col-sm-12 has-error'>
                         {this.props.clientError}
                     </label>
                 </div>
@@ -178,10 +183,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.serverError) {
             serverError = (
                 <div className='form-group'>
-                    <label
-                        id='serverError'
-                        className='col-sm-12 has-error'
-                    >
+                    <label id='serverError' className='col-sm-12 has-error'>
                         {this.props.serverError}
                     </label>
                 </div>
@@ -196,10 +198,7 @@ export default class SettingItemMax extends React.PureComponent {
 
         if (this.props.extraInfo) {
             extraInfo = (
-                <div
-                    id='extraInfo'
-                    className={hintClass}
-                >
+                <div id='extraInfo' className={hintClass}>
                     {this.props.extraInfo}
                 </div>
             );
@@ -230,10 +229,7 @@ export default class SettingItemMax extends React.PureComponent {
         let title;
         if (this.props.title) {
             title = (
-                <h4
-                    id='settingTitle'
-                    className='col-sm-12 section-title'
-                >
+                <h4 id='settingTitle' className='col-sm-12 section-title'>
                     {this.props.title}
                 </h4>
             );
@@ -260,27 +256,18 @@ export default class SettingItemMax extends React.PureComponent {
             cancelButtonText = this.props.cancelButtonText;
         } else {
             cancelButtonText = (
-                <FormattedMessage
-                    id='setting_item_max.cancel'
-                    defaultMessage='Cancel'
-                />
+                <FormattedMessage id='setting_item_max.cancel' defaultMessage='Cancel' />
             );
         }
 
         return (
-            <section
-                className={`section-max form-horizontal ${this.props.containerStyle}`}
-            >
+            <section className={`section-max form-horizontal ${this.props.containerStyle}`}>
                 {title}
                 <div className={widthClass}>
-                    <div
-                        tabIndex='-1'
-                        ref={this.settingList}
-                        className='setting-list'
-                    >
+                    <div tabIndex='-1' ref={this.settingList} className='setting-list'>
                         {listContent}
                         <div className='setting-list-item'>
-                            <hr/>
+                            <hr />
                             {this.props.submitExtra}
                             {serverError}
                             {clientError}

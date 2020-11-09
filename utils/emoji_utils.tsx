@@ -96,12 +96,9 @@ export function wrapEmojis(text: string): React.ReactNode {
         }
 
         nodes.push(
-            <span
-                key={index}
-                className='emoji'
-            >
+            <span key={index} className='emoji'>
                 {emoji}
-            </span>,
+            </span>
         );
 
         // Remember that emojis can be multiple code points long when incrementing the index

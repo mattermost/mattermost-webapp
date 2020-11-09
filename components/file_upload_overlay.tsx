@@ -9,7 +9,7 @@ import overlayLogoImage from 'images/logoWhite.png';
 
 type Props = {
     overlayType: string;
-}
+};
 
 const FileUploadOverlay: React.FC<Props> = (props: Props) => {
     let overlayClass = 'file-overlay hidden';
@@ -23,34 +23,17 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
         <div className={overlayClass}>
             <div className='overlay__indent'>
                 <div className='overlay__circle'>
-                    <img
-                        className='overlay__files'
-                        src={fileOverlayImage}
-                        alt='Files'
-                    />
+                    <img className='overlay__files' src={fileOverlayImage} alt='Files' />
                     <span>
-                        <FormattedMessage
-                            id='generic_icons.upload'
-                            defaultMessage='Upload Icon'
-                        >
-                            {(title) => (
-                                <i
-                                    className='fa fa-upload'
-                                    title={title as string}
-                                />
-                            )}
+                        <FormattedMessage id='generic_icons.upload' defaultMessage='Upload Icon'>
+                            {(title) => <i className='fa fa-upload' title={title as string} />}
                         </FormattedMessage>
                         <FormattedMessage
                             id='upload_overlay.info'
                             defaultMessage='Drop a file to upload it.'
                         />
                     </span>
-                    <img
-                        className='overlay__logo'
-                        src={overlayLogoImage}
-                        width='100'
-                        alt='Logo'
-                    />
+                    <img className='overlay__logo' src={overlayLogoImage} width='100' alt='Logo' />
                 </div>
             </div>
         </div>

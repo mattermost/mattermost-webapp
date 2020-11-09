@@ -39,7 +39,9 @@ export function loadProfilesForIncomingHooks(hooks) {
 
 export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = DEFAULT_PAGE_SIZE) {
     return async (dispatch) => {
-        const {data} = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, perPage));
+        const {data} = await dispatch(
+            IntegrationActions.getOutgoingHooks('', teamId, page, perPage)
+        );
         if (data) {
             dispatch(loadProfilesForOutgoingHooks(data));
         }
@@ -125,9 +127,10 @@ export function loadProfilesForOAuthApps(apps) {
 }
 
 export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
-    request.get('https://www.googleapis.com/youtube/v3/videos').
-        query({part: 'snippet', id: videoId, key: googleKey}).
-        end((err, res) => {
+    request
+        .get('https://www.googleapis.com/youtube/v3/videos')
+        .query({part: 'snippet', id: videoId, key: googleKey})
+        .end((err, res) => {
             if (err) {
                 return error(err);
             }
