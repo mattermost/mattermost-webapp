@@ -2,7 +2,10 @@
   "extends": [
     "plugin:mattermost/react",
     "plugin:cypress/recommended",
-    "plugin:jquery/deprecated"
+    "plugin:jquery/deprecated",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/react"
   ],
   "plugins": [
     "babel",
