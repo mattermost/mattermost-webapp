@@ -296,14 +296,18 @@ class EditPostModal extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        const ctrlKeyCombo = (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey;
+        const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
+
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const ctrlEnterKeyCombo = (ctrlSend || codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             e.stopPropagation(); // perhaps this should happen in all of these cases? or perhaps Modal should not be listening?
             this.setState({editText: Utils.insertLineBreakFromKeyEvent(e)});
-        } else if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
+        } else if (ctrlEnterKeyCombo) {
             this.handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
             this.handleHide();
