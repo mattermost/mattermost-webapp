@@ -10,13 +10,15 @@ import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {ChannelType} from 'mattermost-redux/types/channels';
 import {TeamType} from 'mattermost-redux/types/teams';
 
+import {TestHelper} from 'utils/test_helper';
+
 import {DraggingStates, DraggingStateTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import SidebarChannelList from './sidebar_channel_list';
 
 describe('SidebarChannelList', () => {
-    const currentChannel = {
+    const currentChannel = TestHelper.getChannelMock({
         id: 'channel_id',
         display_name: 'channel_display_name',
         create_at: 0,
@@ -33,7 +35,7 @@ describe('SidebarChannelList', () => {
         creator_id: '',
         scheme_id: '',
         group_constrained: false,
-    };
+    });
 
     const unreadChannel = {
         id: 'channel_id_2',
@@ -72,7 +74,7 @@ describe('SidebarChannelList', () => {
             scheme_id: 'test',
             group_constrained: false,
         }),
-        currentChannelId: currentChannel.id,
+        currentChannel,
         categories: [
             {
                 id: 'category1',
@@ -125,7 +127,7 @@ describe('SidebarChannelList', () => {
             <SidebarChannelList {...baseProps}/>,
         );
 
-        wrapper.setProps({currentChannelId: 'new_channel_id'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'new_channel_id'})});
         expect(baseProps.actions.close).toHaveBeenCalled();
     });
 
