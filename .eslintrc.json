@@ -58,7 +58,10 @@
       }
     ],
     "react/no-string-refs": 2,
-    "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}]
+    "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}],
+    "react/style-prop-object": [2, {
+      "allow": ["Timestamp"]
+    }]
   },
   "overrides": [
     {
