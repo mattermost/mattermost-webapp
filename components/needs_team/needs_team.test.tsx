@@ -8,7 +8,6 @@ import {TeamType} from 'mattermost-redux/types/teams';
 import {TestHelper} from 'utils/test_helper';
 
 import NeedsTeam from 'components/needs_team/needs_team';
-import {TestHelper} from 'utils/test_helper';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitCloseRightHandSide: jest.fn(),

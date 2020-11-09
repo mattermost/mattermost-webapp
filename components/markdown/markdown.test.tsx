@@ -10,7 +10,6 @@ import {TestHelper} from 'utils/test_helper';
 
 import Markdown from 'components/markdown/markdown';
 import EmojiMap from 'utils/emoji_map';
-import {TestHelper} from 'utils/test_helper';
 
 describe('components/Markdown', () => {
     const baseProps = {

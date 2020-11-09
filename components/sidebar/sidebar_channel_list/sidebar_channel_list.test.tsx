@@ -13,7 +13,6 @@ import {TeamType} from 'mattermost-redux/types/teams';
 import {TestHelper} from 'utils/test_helper';
 
 import {DraggingStates, DraggingStateTypes} from 'utils/constants';
-import {TestHelper} from 'utils/test_helper';
 
 import SidebarChannelList from './sidebar_channel_list';
 
