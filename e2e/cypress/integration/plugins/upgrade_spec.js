@@ -25,6 +25,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Plugin remains enabled when upgraded', () => {
     const pluginIdDemo = 'com.mattermost.demo-plugin';
+    const demoPluginURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.1.0/com.mattermost.demo-plugin-0.1.0.tar.g';
 
     before(() => {
         // # Initialize setup and visit town-square
@@ -43,7 +44,7 @@ describe('Plugin remains enabled when upgraded', () => {
     });
 
     it('MM-T40 Plugin remains enabled when upgraded', () => {
-    // * Upload Demo plugin from the browser
+        // * Upload Demo plugin from the browser
         const fileName1 = 'com.mattermost.demo-plugin-0.1.0.tar.gz';
         const fileName2 = 'com.mattermost.demo-plugin-0.2.0.tar.gz';
         const mimeType = 'application/gzip';
@@ -103,10 +104,7 @@ describe('Plugin remains enabled when upgraded', () => {
     it('MM-T39 Disable Plugin on Removal', () => {
         // # Install demo plugin and enable it
         cy.apiAdminLogin();
-        cy.apiInstallPluginFromUrl(
-            'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.1.0/com.mattermost.demo-plugin-0.1.0.tar.gz',
-            true,
-        ).then(() => {
+        cy.apiInstallPluginFromUrl(demoPluginURL, true).then(() => {
             cy.apiEnablePluginById(pluginIdDemo);
         });
 
@@ -114,19 +112,11 @@ describe('Plugin remains enabled when upgraded', () => {
         cy.apiRemovePluginById(pluginIdDemo);
 
         // # Install demo plugin again
-        let manifest;
-        cy.apiInstallPluginFromUrl(
-            'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.1.0/com.mattermost.demo-plugin-0.1.0.tar.gz',
-            true,
-        ).then((response) => {
-            manifest = response.body;
-        });
+        cy.apiInstallPluginFromUrl(demoPluginURL, true);
 
         // * Confirm demo plugin is not enabled
         cy.apiGetAllPlugins().then((response) => {
             const {active, inactive} = response.plugins;
-            cy.log('inactive', inactive);
-            cy.log('manifest', manifest);
 
             let found = false;
             active.forEach((plugin) => {
