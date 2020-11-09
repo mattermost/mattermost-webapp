@@ -3307,6 +3307,7 @@
   "next_steps_view.complete_profile_step.nameWillBeDisplayed": "Seu nome será exibido com suas mensagens",
   "next_steps_view.complete_profile_step.pictureError": "As fotos devem estar no formato BMP, JPG ou PNG. O tamanho máximo do arquivo é {max}.",
   "next_steps_view.complete_profile_step.saveProfile": "Salvar perfil",
+  "next_steps_view.downloadDesktopAndMobile": "Baixe os aplicativos de desktop e móveis",
   "next_steps_view.invite_members_step.copy_button": "Copiar Link",
   "next_steps_view.invite_members_step.finish": "Terminar",
   "next_steps_view.invite_members_step.send": "Enviar",
