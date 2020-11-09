@@ -283,13 +283,3 @@ describe('Managing bot accounts', () => {
         });
     });
 });
-
-function createCustomAdmin() {
-    const sysadminUser = generateRandomUser('other-admin');
-
-    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
-        return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
-            return cy.wrap({sysadmin: user});
-        });
-    });
-}
