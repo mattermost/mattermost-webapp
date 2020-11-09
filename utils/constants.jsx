@@ -750,6 +750,7 @@ export const PermissionsScope = {
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
+    [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1556,6 +1557,15 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+};
+
+export const ValidationErrors = {
+    USERNAME_REQUIRED: 'USERNAME_REQUIRED',
+    INVALID_LENGTH: 'INVALID_LENGTH',
+    INVALID_CHARACTERS: 'INVALID_CHARACTERS',
+    INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
+    RESERVED_NAME: 'RESERVED_NAME',
+    INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];

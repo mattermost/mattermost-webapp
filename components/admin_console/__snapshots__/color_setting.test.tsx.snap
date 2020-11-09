@@ -6,29 +6,12 @@ exports[`components/ColorSetting should match snapshot, all 1`] = `
   inputId="id"
   label="label"
 >
-  <div
-    className="input-group color-picker colorpicker-element"
-  >
-    <input
-      className="form-control"
-      disabled={false}
-      onChange={[Function]}
-      type="text"
-      value="#fff"
-    />
-    <span
-      className="input-group-addon picker-id"
-      onClick={[Function]}
-    >
-      <i
-        style={
-          Object {
-            "backgroundColor": "#fff",
-          }
-        }
-      />
-    </span>
-  </div>
+  <ColorInput
+    id="id"
+    isDisabled={false}
+    onChange={[Function]}
+    value="#fff"
+  />
 </Settings>
 `;
 
@@ -38,40 +21,12 @@ exports[`components/ColorSetting should match snapshot, clicked on color setting
   inputId="id"
   label="label"
 >
-  <div
-    className="input-group color-picker colorpicker-element"
-  >
-    <input
-      className="form-control"
-      disabled={false}
-      onChange={[Function]}
-      type="text"
-      value="#fff"
-    />
-    <span
-      className="input-group-addon picker-id"
-      onClick={[Function]}
-    >
-      <i
-        style={
-          Object {
-            "backgroundColor": "#fff",
-          }
-        }
-      />
-    </span>
-    <div
-      className="color-picker__popover picker-id"
-    >
-      <ColorPicker
-        color="#fff"
-        disableAlpha={false}
-        onChange={[Function]}
-        styles={Object {}}
-        width={225}
-      />
-    </div>
-  </div>
+  <ColorInput
+    id="id"
+    isDisabled={false}
+    onChange={[Function]}
+    value="#fff"
+  />
 </Settings>
 `;
 
@@ -80,29 +35,12 @@ exports[`components/ColorSetting should match snapshot, disabled 1`] = `
   inputId="id"
   label="label"
 >
-  <div
-    className="input-group color-picker colorpicker-element"
-  >
-    <input
-      className="form-control"
-      disabled={true}
-      onChange={[Function]}
-      type="text"
-      value="#fff"
-    />
-    <span
-      className="input-group-addon picker-id"
-      onClick={[Function]}
-    >
-      <i
-        style={
-          Object {
-            "backgroundColor": "#fff",
-          }
-        }
-      />
-    </span>
-  </div>
+  <ColorInput
+    id="id"
+    isDisabled={true}
+    onChange={[Function]}
+    value="#fff"
+  />
 </Settings>
 `;
 
@@ -111,28 +49,11 @@ exports[`components/ColorSetting should match snapshot, no help text 1`] = `
   inputId="id"
   label="label"
 >
-  <div
-    className="input-group color-picker colorpicker-element"
-  >
-    <input
-      className="form-control"
-      disabled={false}
-      onChange={[Function]}
-      type="text"
-      value="#fff"
-    />
-    <span
-      className="input-group-addon picker-id"
-      onClick={[Function]}
-    >
-      <i
-        style={
-          Object {
-            "backgroundColor": "#fff",
-          }
-        }
-      />
-    </span>
-  </div>
+  <ColorInput
+    id="id"
+    isDisabled={false}
+    onChange={[Function]}
+    value="#fff"
+  />
 </Settings>
 `;
