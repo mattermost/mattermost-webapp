@@ -15,7 +15,6 @@ describe('Notifications', () => {
     let team1;
     let team2;
     let testTeam1TownSquareUrl;
-    let testTeam2TownSquareUrl;
     let siteName;
 
     before(() => {
@@ -31,7 +30,6 @@ describe('Notifications', () => {
 
             cy.apiCreateTeam('team-b', 'Team B').then(({team: anotherTeam}) => {
                 team2 = anotherTeam;
-                testTeam2TownSquareUrl = `/${team2.name}/channels/town-square`;
                 cy.apiAddUserToTeam(team2.id, user1.id);
                 cy.apiAddUserToTeam(team2.id, user2.id);
             });
