@@ -25,6 +25,13 @@
             background: rgba(v(center-channel-color-rgb), 0.08);
         }
 
+        &.active {
+            background: rgba(v(button-bg-rgb), 0.08);
+            .heading, .header-dropdown__icon {
+                color: v(button-bg);
+            }
+        }
+
         .heading span {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -68,20 +75,37 @@
     }
 
     .channel-header__mute {
-        @include opacity(.5);
-        flex: 0;
         float: left;
-        height: 20px;
-        margin: 0 7px;
+        height: 24px;
+        margin-left: 4px;
+        padding: 4px;
         position: relative;
         z-index: 1;
+        @include border-radius(4px);
+        color: v(center-channel-color);
 
-        &.inactive {
-            color: inherit;
+        &:hover {
+            background: rgba(v(center-channel-color-rgb), 0.08);
         }
 
+        &.inactive {
+            .icon {
+                color: v(center-channel-color);
+            }
+        }
+
+
         &.active {
-            @include opacity(1);
+            i {
+               @include opacity(1);
+            }
+        }
+
+        i {
+            @include opacity(.5);
+            font-size: 16px;
+            position: relative;
+            top: -1px;
         }
     }
 
@@ -296,6 +320,7 @@
         .header-placeholder {
             display: flex;
             overflow: hidden;
+            align-items: center;
             span {
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -340,13 +365,8 @@
             button {
                 color: v(center-channel-color-64);
 
-                .button__edit {
-                    color: v(link-color);
+                .edit-icon {
                     display: none;
-
-                    &:hover {
-                        text-decoration: underline;
-                    }
                 }
 
                 &:focus,
@@ -355,8 +375,8 @@
                 }
 
                 &:hover {
-                    .button__edit {
-                        display: inline;
+                    .edit-icon {
+                        display: block;
                     }
                 }
             }
@@ -364,6 +384,10 @@
 
         .markdown-inline-img {
             max-height: 45px;
+        }
+
+        .edit-icon {
+            font-size: 14px;
         }
     }
 

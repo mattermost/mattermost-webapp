@@ -98,7 +98,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerPopoverTextMeasurerRef = React.createRef();
         this.headerOverlayRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0, titleMenuOpen: false};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -247,6 +247,10 @@ class ChannelHeader extends React.PureComponent {
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
         this.toggleFavoriteRef.current.removeAttribute('aria-describedby');
+    }
+
+    setTitleMenuOpen = (open) => {
+        this.setState({titleMenuOpen: open});
     }
 
     showEditChannelHeaderModal = () => {
@@ -547,9 +551,14 @@ class ChannelHeader extends React.PureComponent {
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
-                                    defaultMessage='(Edit)'
+                                    defaultMessage='Edit'
                                 >
-                                    {(message) => <span className='button__edit ml-1'>{message}</span>}
+                                    {(message) => (
+                                        <i
+                                            aria-label={message}
+                                            className='icon icon-pencil-outline edit-icon'
+                                        />
+                                    )}
                                 </FormattedMessage>
                             </button>
                         );
@@ -571,9 +580,14 @@ class ChannelHeader extends React.PureComponent {
                                 />
                                 <FormattedMessage
                                     id='channel_header.editLink'
-                                    defaultMessage='(Edit)'
+                                    defaultMessage='Edit'
                                 >
-                                    {(message) => <span className='button__edit ml-1'>{message}</span>}
+                                    {(message) => (
+                                        <i
+                                            aria-label={message}
+                                            className='icon icon-pencil-outline edit-icon'
+                                        />
+                                    )}
                                 </FormattedMessage>
                             </button>
                         </ChannelPermissionGate>
@@ -685,13 +699,13 @@ class ChannelHeader extends React.PureComponent {
         }
         let title = (
             <React.Fragment>
-                <MenuWrapper>
+                <MenuWrapper onToggle={this.setTitleMenuOpen}>
                     <div
                         id='channelHeaderDropdownButton'
                         className='channel-header__top'
                     >
                         <button
-                            className='channel-header__trigger style--none'
+                            className={`channel-header__trigger style--none ${this.state.titleMenuOpen ? 'active' : ''}`}
                             aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                         >
                             <strong

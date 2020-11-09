@@ -2288,7 +2288,7 @@
   "channel_header.convert": "Convert to Private Channel",
   "channel_header.delete": "Archive Channel",
   "channel_header.directchannel.you": "{displayname} (you) ",
-  "channel_header.editLink": "(Edit)",
+  "channel_header.editLink": "Edit",
   "channel_header.flagged": "Saved posts",
   "channel_header.groupConstrained": "Members managed by linked groups.",
   "channel_header.groupMessageHasGuests": "This group message has guests",
