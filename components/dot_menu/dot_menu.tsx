@@ -25,31 +25,30 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
-
 type Props = {
     post: any;
     teamId?: string;
-    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
+    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string; // TechDebt: Made non-mandatory while converting to typescript
     commentCount?: number;
     isFlagged?: boolean;
-    handleCommentClick?: () => void;
-    handleDropdownOpened?: () => void;
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
-    isMenuOpen?: boolean;
-    isReadOnly?: boolean;
+    isMenuOpen?: boolean,
+    isReadOnly: boolean | null,
     pluginMenuItems: any[];
-    isLicensed: boolean;
-    postEditTimeLimit?: string;
+    isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker: boolean;
-    channelIsArchived: boolean;
-    currentTeamUrl: string;
+    channelIsArchived?: boolean, // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string, // TechDebt: Made non-mandatory while converting to typescript
 
     /**
      * Components for overriding provided by plugins
      */
-    components: any,
+    components?: any, // TechDebt: Made non-mandatory while converting to typescript
 
-    actions: {
+    actions?: {
 
         /**
          * Function flag the post
@@ -85,7 +84,7 @@ type Props = {
          * Function to set the unread mark at given post
          */
         markPostAsUnread: (post_id: number) => void;
-    };
+    }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
     canDelete: boolean;
@@ -162,9 +161,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     handleFlagMenuItemActivated = () => {
         if (this.props.isFlagged) {
-            this.props.actions.unflagPost(this.props.post.id);
+            this.props.actions?.unflagPost(this.props.post.id);
         } else {
-            this.props.actions.flagPost(this.props.post.id);
+            this.props.actions?.flagPost(this.props.post.id);
         }
     }
 
@@ -184,15 +183,15 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     handlePinMenuItemActivated = () => {
         if (this.props.post.is_pinned) {
-            this.props.actions.unpinPost(this.props.post.id);
+            this.props.actions?.unpinPost(this.props.post.id);
         } else {
-            this.props.actions.pinPost(this.props.post.id);
+            this.props.actions?.pinPost(this.props.post.id);
         }
     }
 
     handleUnreadMenuItemActivated = (e: Event) => {
         e.preventDefault();
-        this.props.actions.markPostAsUnread(this.props.post);
+        this.props.actions?.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e: Event) => {
@@ -208,11 +207,11 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             },
         };
 
-        this.props.actions.openModal(deletePostModalData);
+        this.props.actions?.openModal(deletePostModalData);
     }
 
     handleEditMenuItemActivated = () => {
-        this.props.actions.setEditingPost(
+        this.props.actions?.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
