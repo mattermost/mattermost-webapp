@@ -1,3 +1,22 @@
+
+
+@mixin leveled-color($hover, $active) {
+    &:hover,
+    &:focus {
+        background: rgba($hover, .08);
+    }
+    &:active,
+    &.is-active {
+        background: rgba($active, .08);
+    }
+    &.is-active {
+        &:active,
+        &:focus-visible {
+            background: rgba($active, .16);
+        }
+    }
+};
+
 .Button {
     padding: 4px 10px;
     border-radius: 4px;
@@ -25,20 +44,10 @@
         background: transparent;
         border: none;
 
-        &:hover,
-        &:focus {
-            background: rgba(var(--center-channel-color-rgb), .08);
-        }
-        &:active,
-        &.is-active {
-            background: rgba(var(--button-bg-rgb), .08);
-        }
-        &.is-active {
-            &:active,
-            &:focus-visible {
-                background: rgba(var(--button-bg-rgb), .16);
-            }
-        }
+        @include leveled-color(
+            $hover: var(--center-channel-color-rgb),
+            $active: var(--button-bg-rgb),
+        );
     }
 
     &.Button___large {
@@ -52,7 +61,7 @@
         }
     }
 
-    &.Margined:not(:nth-of-type(0)){
+    &.Margined:not(:nth-of-type(0)) {
         margin-left: 4px;
     }
 
@@ -78,15 +87,12 @@
     & + .Button:not(.Margined):not(:hover):not(:focus):not(.is-active) {
         position: relative;
         &::before {
+            display: inline-block;
             position: absolute;
-            width: 1px;
-            height: var(--button-separator-height, 100%);
-            transform: translateY(-50%);
-            top: 50%;
-            left: -.5px;
+            width: 1px; height: var(--button-separator-height, 100%);
+            left: -.5px; top: 50%; transform: translateY(-50%);
             background: rgba(var(--center-channel-color-rgb), .16);
             content: '';
-            display: inline-block;
         }
     }
 }

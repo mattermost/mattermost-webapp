@@ -9,6 +9,7 @@
 
     h3 {
         display: inline-block;
+        margin: 0;
 
         > span {
             font-size: 16px;
@@ -24,6 +25,11 @@
             height: 24px;
             font-weight: 400;
             color: rgba(var(--center-channel-color-rgb), .56);
+
+            &:hover,
+            &:focus {
+                color: rgba(var(--center-channel-color-rgb), 0.72)
+            }
         }
     }
 
