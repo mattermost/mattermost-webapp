@@ -11,7 +11,6 @@ import {FormattedMessage} from 'react-intl';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
 import {AppBinding, AppCall, AppCallTypes} from 'mattermost-redux/types/apps';
-import AppsBindings from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
