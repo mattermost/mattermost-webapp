@@ -29,6 +29,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
         const baseProps = {
             post: {id: 'post_id_1'} as Post,
             isLicensed: false,
+            isReadOnly: false,
             postEditTimeLimit: -1,
             enableEmojiPicker: true,
             components: {},
