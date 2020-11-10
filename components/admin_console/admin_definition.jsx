@@ -176,7 +176,6 @@ export const it = {
     configIsFalse: (group, setting) => (config) => !config[group][setting],
     configContains: (group, setting, word) => (config) => Boolean(config[group][setting].includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
-
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     isPaidTier: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
