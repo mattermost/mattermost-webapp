@@ -119,15 +119,14 @@
 
     .menu-anchor {
         position: absolute;
-        right: 8px;
-        top: 8px;
+        right: 14px;
+        top: 12px;
 
         .Button {
             width: 28px;
             height: 28px;
             padding: 0;
             font-size: 18px;
-            color: rgba(var(--center-channel-color-rgb), .64)
         }
     }
 

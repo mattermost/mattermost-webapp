@@ -9,9 +9,6 @@ import {t} from 'utils/i18n';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import Button from 'components/threading/common/button';
-import SimpleTooltip from 'components/widgets/simple_tooltip';
-
 type Props = {
     isFollowing: boolean,
     isSaved: boolean,
@@ -50,19 +47,7 @@ function ThreadMenu({
         <MenuWrapper
             stopPropagationOnToggle={true}
         >
-            {children || (
-                <SimpleTooltip
-                    id='threadActionMenu'
-                    content={formatMessage({
-                        id: t('threading.threadItem.menu'),
-                        defaultMessage: 'Actions',
-                    })}
-                >
-                    <Button className='Button___icon'>
-                        <i className='Icon icon-dots-vertical'/>
-                    </Button>
-                </SimpleTooltip>
-            )}
+            {children}
 
             <Menu
                 ariaLabel={''}

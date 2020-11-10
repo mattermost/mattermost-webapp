@@ -1,6 +1,6 @@
 
 
-@mixin leveled-color($hover, $active) {
+@mixin leveled-bg($hover, $active) {
     &:hover,
     &:focus {
         background: rgba($hover, .08);
@@ -11,10 +11,32 @@
     }
     &.is-active {
         &:active,
-        &:focus-visible {
+        &:hover,
+        &:focus {
             background: rgba($active, .16);
         }
+
+        &:hover,
+        &:focus {
+            &:active {
+                background: rgba($active, .24);
+            }
+        }
+
     }
+};
+
+@mixin leveled-color($hover, $active) {
+    &:hover,
+        &:focus {
+            text-decoration: none;
+            color: rgba($hover, .72);
+        }
+
+        &:active,
+        &.is-active {
+            color: rgba($active, 1);
+        }
 };
 
 .Button {
@@ -22,32 +44,26 @@
     border-radius: 4px;
     position: relative;
 
-
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
 
     color: rgba(var(--center-channel-color-rgb), .56);
 
-    &:hover,
-    &:focus {
-        text-decoration: none;
-        color: rgba(var(--center-channel-color-rgb), .72);
-    }
-
-    &:active,
-    &.is-active {
-        color: rgba(var(--button-bg-rgb), 1);
-    }
-
     &.Button___transparent {
         background: transparent;
         border: none;
+
+        @include leveled-bg(
+            $hover: var(--center-channel-color-rgb),
+            $active: var(--button-bg-rgb),
+        );
 
         @include leveled-color(
             $hover: var(--center-channel-color-rgb),
             $active: var(--button-bg-rgb),
         );
+
     }
 
     &.Button___large {
@@ -59,10 +75,6 @@
             font-size: 18px;
             line-height: 18px;
         }
-    }
-
-    &.Margined:not(:nth-of-type(0)) {
-        margin-left: 4px;
     }
 
     .Button_prepended {
@@ -81,10 +93,10 @@
     }
 }
 
-.Separated,
-.Button:not(.Margined):not(:hover):not(:focus):not(.is-active) {
-    & + .Separated,
-    & + .Button:not(.Margined):not(:hover):not(:focus):not(.is-active) {
+.separated:not(.Button),
+.separated:not(:hover):not(:focus):not(.is-active) {
+    + .separated:not(.Button),
+    + .separated:not(:hover):not(:focus):not(.is-active) {
         position: relative;
         &::before {
             display: inline-block;

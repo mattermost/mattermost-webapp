@@ -7,9 +7,16 @@
     padding-right: 16px;
     --button-separator-height: 24px;
 
+    .Button {
+        padding: 4px 8px;
+        font-size: 12px;
+        height: 24px;
+    }
+
     h3 {
         display: inline-block;
         margin: 0;
+        color: rgba(var(--center-channel-color-rgb), 1);
 
         > span {
             font-size: 16px;
@@ -20,20 +27,20 @@
         }
 
         .Button {
-            padding: 4px 8px;
-            font-size: 12px;
-            height: 24px;
             font-weight: 400;
             color: rgba(var(--center-channel-color-rgb), .56);
-
-            &:hover,
-            &:focus {
-                color: rgba(var(--center-channel-color-rgb), 0.72)
-            }
         }
     }
 
     > .spacer {
         flex: 1;
+    }
+
+    .MenuWrapper {
+        margin-left: 4px;
+
+        .dropdown-menu {
+            min-width: 250px;
+        }
     }
 }

@@ -143,7 +143,7 @@ storiesOf('Features/Threading/Global Threads', module).
     }).
     add('ThreadHeader', () => {
         return (
-            <StoryBox containerStyle={{width: 900}}>
+            <StoryBox containerStyle={{width: 600}}>
                 <ThreadHeader
                     channelName={text('channelName', 'Enterprise Team')}
 

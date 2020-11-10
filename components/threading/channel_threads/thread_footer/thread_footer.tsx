@@ -75,6 +75,7 @@ function ThreadFooter({
 
             <Button
                 onClick={openThread}
+                className='separated'
                 prepend={
                     <span className='icon'>
                         <i className='icon-reply-outline'/>
@@ -92,6 +93,7 @@ function ThreadFooter({
                 isFollowing={isFollowing}
                 follow={follow}
                 unFollow={unFollow}
+                className='separated'
             />
 
             {Boolean(lastReplyAt) && (
@@ -100,7 +102,7 @@ function ThreadFooter({
                     {...THREADING_TIME}
                 >
                     {({formatted}) => (
-                        <span className='Timestamp Separated alt-visible'>
+                        <span className='Timestamp separated alt-visible'>
                             <FormattedMessage
                                 id='threading.footer.lastReplyAt'
                                 defaultMessage='Last reply {formatted}'

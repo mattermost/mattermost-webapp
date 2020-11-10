@@ -6,6 +6,10 @@
         padding-right: 50px;
         border-bottom: var(--border);
         color: rgba(var(--center-channel-color-rgb), .56);
+
+        .Button + .Button {
+            margin-left: 4px;
+        }
     }
     .right-anchor {
         position: absolute;

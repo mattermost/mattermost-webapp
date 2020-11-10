@@ -37,13 +37,16 @@ const ThreadHeader = ({
     return (
         <header className={classNames('ThreadHeader')}>
             <h3>
-                <span className='Separated'>
+                <span className='separated'>
                     {formatMessage({
                         id: 'threading.header.heading',
                         defaultMessage: 'Thread',
                     })}
                 </span>
-                <Button onClick={useCallback(actions.openInChannel, [actions.openInChannel])}>
+                <Button
+                    className='separated'
+                    onClick={useCallback(actions.openInChannel, [actions.openInChannel])}
+                >
                     {channelName}
                 </Button>
             </h3>
@@ -66,7 +69,7 @@ const ThreadHeader = ({
                         defaultMessage: 'More Actions',
                     })}
                 >
-                    <Button className='Button___icon Button___large Margined'>
+                    <Button className='Button___icon Button___large'>
                         <i className='Icon icon-dots-vertical'/>
                     </Button>
                 </SimpleTooltip>

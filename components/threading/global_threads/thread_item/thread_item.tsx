@@ -10,6 +10,8 @@ import './thread_item.scss';
 import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
+import Button from 'components/threading/common/button';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 import ThreadMenu from '../thread_menu';
 
@@ -101,7 +103,21 @@ const ThreadItem = ({
                     isFollowing={isFollowing}
                     hasUnreads={Boolean(newReplies)}
                     actions={actions}
-                />
+                >
+                    <SimpleTooltip
+                        id='threadActionMenu'
+                        content={(
+                            <FormattedMessage
+                                id='threading.threadItem.menu'
+                                defaultMessage='Actions'
+                            />
+                        )}
+                    >
+                        <Button className='Button___icon'>
+                            <i className='Icon icon-dots-vertical'/>
+                        </Button>
+                    </SimpleTooltip>
+                </ThreadMenu>
             </span>
             <p>
                 {previewText}
