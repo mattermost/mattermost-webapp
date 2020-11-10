@@ -288,14 +288,12 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             url: binding.call.url,
             context: {
                 app_id: binding.app_id,
+                location_id: binding.location_id,
                 team_id: this.props.teamId,
                 channel_id: this.props.post.channel_id,
                 post_id: this.props.post.id,
                 root_id: this.props.post.root_id,
             },
-            from: [
-                binding,
-            ],
         });
     }
 
