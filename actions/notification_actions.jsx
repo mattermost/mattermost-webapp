@@ -4,7 +4,7 @@
 import semver from 'semver';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
-import {getChannel, getCurrentChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -48,7 +48,7 @@ export function sendDesktopNotification(post, msgProps) {
         }
         const teamId = msgProps.team_id;
 
-        let channel = getChannel(state, post.channel_id);
+        let channel = makeGetChannel()(state, post.channel_id);
         const user = getCurrentUser(state);
         const userStatus = getStatusForUserId(state, user.id);
         const member = getMyChannelMember(state, post.channel_id);
