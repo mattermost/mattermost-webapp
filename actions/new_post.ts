@@ -12,7 +12,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {WebsocketEvents} from 'mattermost-redux/constants';
 
-import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -45,9 +45,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
             }
         }
 
-        const currentChannelId = getCurrentChannelId(getState());
-
-        if (post.channel_id === currentChannelId) {
+        if (post.channel_id === getCurrentChannel(getState())?.id) {
             dispatch({
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: post.channel_id,
@@ -103,7 +101,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
                 markAsRead = true;
                 markAsReadOnServer = false;
             } else if (
-                post.channel_id === getCurrentChannelId(state) &&
+                post.channel_id === getCurrentChannel(state)?.id &&
                 window.isActive
             ) {
                 markAsRead = true;
