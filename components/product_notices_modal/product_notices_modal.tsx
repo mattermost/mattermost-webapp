@@ -75,7 +75,28 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
             clientVersion = getDesktopVersion();
         }
 
-        const {data} = await this.props.actions.getInProductNotices(currentTeamId, client, clientVersion);
+        let {data} = await this.props.actions.getInProductNotices(currentTeamId, client, clientVersion);
+        data = [
+            {
+                actionParam: 'https://github.com/mattermost/mattermost-server',
+                actionText: 'Download',
+                description: 'your eyes only! [test](https://test.com)',
+                image: 'https://raw.githubusercontent.com/reflog/notices-experiment/master/images/2020-08-11_11-42.png',
+                title: 'Sysadmin notice title',
+                id: '127',
+                sysAdminOnly: true,
+                teamAdminOnly: false,
+            },
+            {
+                actionParam: 'https://github.com/mattermost/mattermost-webapp',
+                actionText: 'Update',
+                description: 'End user notice description',
+                title: 'End user notice title',
+                id: '128',
+                sysAdminOnly: false,
+                teamAdminOnly: false,
+            },
+        ];
         if (data) {
             this.setState({
                 noticesData: data,
