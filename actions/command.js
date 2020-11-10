@@ -52,7 +52,7 @@ export function executeCommand(message, args) {
                 GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id);
                 return {data: true};
             }
-            const channel = getCurrentChannel(state);
+            const channel = getCurrentChannel(state) || {};
             if (channel.type === Constants.PRIVATE_CHANNEL) {
                 GlobalActions.showLeavePrivateChannelModal(channel);
                 return {data: true};

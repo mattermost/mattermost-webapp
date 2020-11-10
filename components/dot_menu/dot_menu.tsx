@@ -47,13 +47,13 @@ export type Props = {
     isMenuOpen?: boolean;
     isReadOnly?: boolean;
     pluginMenuItems: PluginComponent[];
-    isLicensed: boolean;
-    postEditTimeLimit?: number;
+    isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: number; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker: boolean;
-    channelIsArchived: boolean;
-    currentTeamUrl: string;
-    canEdit: boolean;
-    canDelete: boolean;
+    channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    canEdit?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    canDelete?: boolean; // TechDebt: Made non-mandatory while converting to typescript
 
     /**
      * Components for overriding provided by plugins
@@ -103,8 +103,8 @@ export type Props = {
 type State = {
     openUp: boolean,
     width: number,
-    canEdit: boolean,
-    canDelete: boolean,
+    canEdit?: boolean,
+    canDelete?: boolean,
 }
 
 export default class DotMenu extends React.PureComponent<Props, State> {
@@ -250,7 +250,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef?: Menu) => { // TODO use more specific type
+    refCallback = (menuRef: Menu | null) => {
         if (menuRef) {
             const rect = menuRef.rect();
             if (!rect) {

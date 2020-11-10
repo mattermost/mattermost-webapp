@@ -1,0 +1,332 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/PostInfo removePost, should have called props.actions.removePost(post) 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, compact display 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, deleted post 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col col__remove"
+  >
+    <button
+      className="post__remove theme color--link style--none"
+      onClick={[Function]}
+      type="button"
+    >
+      ×
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, enable emoji picker 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, ephemeral deleted post 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col col__remove"
+  >
+    <button
+      className="post__remove theme color--link style--none"
+      onClick={[Function]}
+      type="button"
+    >
+      ×
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  >
+    <span
+      className="post__visibility"
+    >
+      <FormattedMessage
+        defaultMessage="(Only visible to you)"
+        id="post_info.message.visible"
+      />
+    </span>
+  </div>
+  <div
+    className="col col__remove"
+  >
+    <button
+      className="post__remove theme color--link style--none"
+      onClick={[Function]}
+      type="button"
+    >
+      ×
+    </button>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  >
+    <Connect(PostFlagIcon)
+      isFlagged={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
+  </div>
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  >
+    <Connect(DotMenu)
+      commentCount={0}
+      enableEmojiPicker={false}
+      handleAddReactionClick={[Function]}
+      handleCommentClick={[MockFunction]}
+      handleDropdownOpened={[Function]}
+      isFlagged={false}
+      isMenuOpen={false}
+      isReadOnly={true}
+      post={
+        Object {
+          "channel_id": "g6139tbospd18cmxroesdk3kkc",
+          "create_at": 1502715365009,
+          "delete_at": 0,
+          "edit_at": 1502715372443,
+          "hashtags": "",
+          "id": "e584uzbwwpny9kengqayx5ayzw",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": undefined,
+          "update_at": 1502715372443,
+          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
+    <CommentIcon
+      commentCount={0}
+      extraClass="pull-right"
+      handleCommentClick={[MockFunction]}
+      location="CENTER"
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      searchStyle=""
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, military time 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHover 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  >
+    <Connect(PostTime)
+      eventTime={1502715365009}
+      isPermalink={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
+  </div>
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo toggleEmojiPicker, should have called props.handleDropdownOpened 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col post-menu"
+    data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
+  >
+    <Connect(DotMenu)
+      commentCount={0}
+      enableEmojiPicker={true}
+      handleAddReactionClick={[Function]}
+      handleCommentClick={[MockFunction]}
+      handleDropdownOpened={[Function]}
+      isFlagged={false}
+      isMenuOpen={false}
+      isReadOnly={true}
+      post={
+        Object {
+          "channel_id": "g6139tbospd18cmxroesdk3kkc",
+          "create_at": 1502715365009,
+          "delete_at": 0,
+          "edit_at": 1502715372443,
+          "hashtags": "",
+          "id": "e584uzbwwpny9kengqayx5ayzw",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": undefined,
+          "update_at": 1502715372443,
+          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
+        }
+      }
+    />
+    <Connect(PostFlagIcon)
+      isFlagged={false}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
+    <CommentIcon
+      commentCount={0}
+      extraClass="pull-right"
+      handleCommentClick={[MockFunction]}
+      location="CENTER"
+      postId="e584uzbwwpny9kengqayx5ayzw"
+      searchStyle=""
+    />
+  </div>
+</div>
+`;
