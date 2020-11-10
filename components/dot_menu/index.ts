@@ -33,11 +33,11 @@ type OwnProps = {
     post: Post;
     commentCount?: number;
     isFlagged?: boolean;
-    handleCommentClick?: () => void;
-    handleDropdownOpened?: () => void;
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly?: boolean;
+    isReadOnly: boolean | null;
     enableEmojiPicker: boolean;
     location: Location,
 }

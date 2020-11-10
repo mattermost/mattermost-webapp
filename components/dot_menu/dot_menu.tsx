@@ -41,11 +41,11 @@ export type Props = {
     location: Location;
     commentCount?: number;
     isFlagged?: boolean;
-    handleCommentClick?: () => void;
-    handleDropdownOpened?: () => void;
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly?: boolean;
+    isReadOnly: boolean | null;
     pluginMenuItems: PluginComponent[];
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: number; // TechDebt: Made non-mandatory while converting to typescript
