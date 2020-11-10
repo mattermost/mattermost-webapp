@@ -94,6 +94,7 @@ const ThreadItem = ({
                 <Timestamp
                     className='alt-hidden'
                     value={lastReplyAt}
+                    capitalize={true}
                     {...THREADING_TIME}
                 />
             </h1>

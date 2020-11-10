@@ -14,5 +14,4 @@ export const THREADING_TIME: Partial<ComponentProps<typeof Timestamp>> = {
         'week',
     ],
     useTime: false,
-    style: 'short',
 };

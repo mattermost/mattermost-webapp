@@ -12,6 +12,7 @@ import {
 import {isValidElementType} from 'react-is';
 import {Unit} from '@formatjs/intl-relativetimeformat';
 import moment, {Moment} from 'moment-timezone';
+import {capitalize as caps} from 'lodash';
 
 import {isSameYear, isWithin, isEqual, getDiff} from 'utils/datetime';
 import {Resolvable, resolve} from 'utils/resolvable';
@@ -39,6 +40,7 @@ export type RelativeOptions = FormatRelativeTimeOptions & {
     relNearest?: number;
     truncateEndpoints?: boolean;
     updateIntervalInSeconds?: number;
+    capitalize?: boolean;
 }
 
 function isRelative(format: ResolvedFormats['relative']): format is RelativeOptions {
@@ -70,6 +72,7 @@ type Breakpoint = RequireOnlyOne<{
 type DisplayAs = {
     display: UnitDescriptor | ReactNode;
     updateIntervalInSeconds?: number;
+    capitalize?: boolean;
 }
 
 export type RangeDescriptor = Breakpoint & DisplayAs;
@@ -154,7 +157,7 @@ class Timestamp extends PureComponent<Props, State> {
         // fixed
         year: 'numeric',
         month: 'long',
-        day: '2-digit',
+        day: 'numeric',
         weekday: 'long',
         hour: 'numeric',
         minute: 'numeric',
@@ -227,7 +230,8 @@ class Timestamp extends PureComponent<Props, State> {
             diff = value <= this.state.now ? -0 : +0;
         }
 
-        return this.props.intl.formatRelativeTime(diff, unit, format);
+        const rel = this.props.intl.formatRelativeTime(diff, unit, format);
+        return format.capitalize ? caps(rel) : rel;
     }
 
     formatDateTime(value: Date, format: DateTimeOptions): string {
@@ -278,7 +282,8 @@ class Timestamp extends PureComponent<Props, State> {
             useRelative = (): ResolvedFormats['relative'] => {
                 const {
                     display,
-                    updateIntervalInSeconds,
+                    updateIntervalInSeconds = this.props.updateIntervalInSeconds,
+                    capitalize = this.props.capitalize,
                 } = this.autoRange(value);
 
                 if (display) {
@@ -303,6 +308,7 @@ class Timestamp extends PureComponent<Props, State> {
                             numeric,
                             style,
                             updateIntervalInSeconds: updateIntervalInSeconds ?? defaultRefreshIntervals.get(unit),
+                            capitalize,
                         };
                     }
                 }

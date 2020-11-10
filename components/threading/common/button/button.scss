@@ -28,27 +28,29 @@
 
 @mixin leveled-color($hover, $active) {
     &:hover,
-        &:focus {
-            text-decoration: none;
-            color: rgba($hover, .72);
-        }
+    &:focus {
+        color: rgba($hover, .72);
+    }
 
-        &:active,
-        &.is-active {
-            color: rgba($active, 1);
-        }
+    &:active,
+    &.is-active {
+        color: rgba($active, 1);
+    }
 };
 
 .Button {
     padding: 4px 10px;
     border-radius: 4px;
     position: relative;
-
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
 
     color: rgba(var(--center-channel-color-rgb), .56);
+
+    &:hover {
+        text-decoration: none;
+    }
 
     &.Button___transparent {
         background: transparent;
