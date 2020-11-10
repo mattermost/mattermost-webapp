@@ -22,7 +22,6 @@ import {
 } from 'actions/post_actions.jsx';
 import {GlobalState} from 'types/store';
 import * as PostUtils from 'utils/post_utils.jsx';
-import {Constants} from 'utils/constants';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
