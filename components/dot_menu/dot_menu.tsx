@@ -252,7 +252,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef?: Menu) => {
+    refCallback = (menuRef: Menu | null) => {
         if (menuRef) {
             const rect = menuRef.rect();
             if (!rect) {
