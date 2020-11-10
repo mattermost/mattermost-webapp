@@ -56,7 +56,7 @@ export function checkAndSetMobileView() {
 export function goToLastViewedChannel() {
     return async (dispatch, getState) => {
         const state = getState();
-        const currentChannel = getCurrentChannel(state);
+        const currentChannel = getCurrentChannel(state) || {};
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const directChannel = getAllDirectChannelsNameMapInCurrentTeam(state);
         const channels = Object.assign({}, channelsInTeam, directChannel);
