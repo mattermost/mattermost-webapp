@@ -24,12 +24,6 @@ body {
             overflow: auto;
         }
     }
-
-    .channel-view {
-        &#channel-view {
-            background: var(--center-channel-bg);
-        }
-    }
 }
 
 *:focus {
@@ -90,6 +84,7 @@ body {
     @include clearfix;
     height: 100%;
     position: relative;
+    background: var(--center-channel-bg);
 }
 
 img {
