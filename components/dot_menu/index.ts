@@ -22,6 +22,7 @@ import {
 } from 'actions/post_actions.jsx';
 import {GlobalState} from 'types/store';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {Constants} from 'utils/constants';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
@@ -51,10 +52,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
+    let postEditTimeLimit;
+    if (config.PostEditTimeLimit) {
+        postEditTimeLimit = parseInt(config.PostEditTimeLimit, 10);
+    }
+
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit: getConfig(state).PostEditTimeLimit,
+        postEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
