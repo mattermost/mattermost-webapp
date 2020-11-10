@@ -11,6 +11,8 @@ import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entit
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
@@ -30,9 +32,16 @@ import {getSiteURL} from 'utils/url';
 import DotMenu from './dot_menu';
 
 type Props = {
-    post: {
-        channel_id: string;
-    };
+    post: Post;
+    commentCount?: number;
+    isFlagged?: boolean;
+    handleCommentClick: React.EventHandler<React.MouseEvent>;
+    handleCardClick: (post: Post) => void;
+    handleDropdownOpened: (open: boolean) => void;
+    handleAddReactionClick: () => void;
+    isMenuOpen: boolean;
+    isReadOnly: boolean | null;
+    enableEmojiPicker?: boolean;
 };
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
@@ -41,7 +50,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const license = getLicense(state);
     const config = getConfig(state);
     const userId = getCurrentUserId(state);
-    const channel = getChannel(state, ownProps.post.channel_id);
+    const channel = getChannel(state, post.channel_id);
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 

@@ -4,7 +4,8 @@
 import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
-import {Locations, PostTypes} from 'utils/constants';
+import {Locations} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
@@ -18,7 +19,7 @@ jest.mock('utils/utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: {id: 'post_id_1', is_pinned: false, type: ''},
+        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false}),
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -95,10 +96,10 @@ describe('components/dot_menu/DotMenu', () => {
     test('should not have divider when able to edit or delete a system message', () => {
         const props = {
             ...baseProps,
-            post: {
+            post: TestHelper.getPostMock({
                 ...baseProps.post,
-                type: PostTypes.JOIN_CHANNEL,
-            },
+                type: 'system_join_channel',
+            }),
         };
         const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,

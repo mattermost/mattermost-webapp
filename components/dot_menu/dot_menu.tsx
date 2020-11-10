@@ -8,6 +8,8 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -26,7 +28,7 @@ const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
-    post: any;
+    post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string; // TechDebt: Made non-mandatory while converting to typescript
     commentCount?: number;
@@ -53,12 +55,12 @@ type Props = {
         /**
          * Function flag the post
          */
-        flagPost: (post_id: number) => void;
+        flagPost: (postId: string) => void;
 
         /**
          * Function to unflag the post
          */
-        unflagPost: (post_id: number) => void;
+        unflagPost: (postId: string) => void;
 
         /**
          * Function to set the editing post
@@ -68,22 +70,22 @@ type Props = {
         /**
          * Function to pin the post
          */
-        pinPost: (post_id: number) => void;
+        pinPost: (postId: string) => void;
 
         /**
          * Function to unpin the post
          */
-        unpinPost: (post_id: number) => void;
+        unpinPost: (postId: string) => void;
 
         /**
          * Function to open a modal
          */
-        openModal: (post_id: any) => void;
+        openModal: (postId: any) => void;
 
         /**
          * Function to set the unread mark at given post
          */
-        markPostAsUnread: (post_id: number) => void;
+        markPostAsUnread: (post: Post) => void;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;

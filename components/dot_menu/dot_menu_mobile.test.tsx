@@ -5,6 +5,7 @@ import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
 import DotMenu from 'components/dot_menu/dot_menu';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/utils', () => {
     return {
@@ -24,7 +25,7 @@ jest.mock('utils/post_utils', () => {
 describe('components/dot_menu/DotMenu on mobile view', () => {
     test('should match snapshot', () => {
         const baseProps = {
-            post: {id: 'post_id_1'},
+            post: TestHelper.getPostMock({id: 'post_id_1'}),
             isLicensed: false,
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
