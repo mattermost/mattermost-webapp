@@ -211,7 +211,7 @@ export default class WebSocketClient {
 
     getStatusesByIds(userIds: string[], callback?: () => void) {
         const data = {
-            user_ids: userIds
+            user_ids: userIds,
         };
         this.sendMessage('get_statuses_by_ids', data, callback);
     }

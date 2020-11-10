@@ -29,7 +29,6 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
 import DotMenu, {Location} from './dot_menu';
-import {Constants} from 'utils/constants';
 
 type OwnProps = {
     post: Post;
