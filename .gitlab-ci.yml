@@ -33,23 +33,17 @@ lint:
   script:
     - npm run check
 
-test: #todo
+test: #todo check on how to create junit.xml, there currently is none
   extends: .check
   script:
     - npm run test-ci
-  artifacts:
-    paths:
-      - build/
-    reports:
-      junit: build/
-    expire_in: 7 days
 
-type-check: #todo
+type-check:
   extends: .check
   script:
     - npm run check-types
 
-i18n-check: #todo
+i18n-check:
   extends: .check
   script:
     - cp i18n/en.json /tmp/en.json
