@@ -53,6 +53,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
             display_name: 'custom_category_1',
+            muted: false,
         },
         currentTeamId: 'team1',
         isUnread: false,
