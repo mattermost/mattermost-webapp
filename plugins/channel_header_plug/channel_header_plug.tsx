@@ -120,7 +120,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         this.toggleDropdown(false);
     }
 
-    fireActionAndClose = (action: (...args: any) => void) => {
+    fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }

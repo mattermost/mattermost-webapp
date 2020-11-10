@@ -49,7 +49,7 @@ export type Props = {
     isReadOnly?: boolean;
     pluginMenuItems: PluginComponent[];
     isLicensed: boolean;
-    postEditTimeLimit?: string;
+    postEditTimeLimit?: number;
     enableEmojiPicker: boolean;
     channelIsArchived: boolean;
     currentTeamUrl: string;
@@ -143,12 +143,12 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         const {post, isLicensed} = this.props;
         const {canEdit} = this.state;
 
-        const postEditTimeLimit = this.props.postEditTimeLimit || String(Constants.UNSET_POST_EDIT_TIME_LIMIT);
+        const postEditTimeLimit = this.props.postEditTimeLimit || Constants.UNSET_POST_EDIT_TIME_LIMIT;
 
         if (canEdit && isLicensed) {
-            if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
+            if (postEditTimeLimit !== Constants.UNSET_POST_EDIT_TIME_LIMIT) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (parseInt(postEditTimeLimit, 10) * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -184,7 +184,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e: Event) => {
+    handleAddReactionMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -205,12 +205,12 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         }
     }
 
-    handleUnreadMenuItemActivated = (e: Event) => {
+    handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e: Event) => {
+    handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -252,9 +252,13 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef?: any) => {
+    refCallback = (menuRef?: Menu) => {
         if (menuRef) {
             const rect = menuRef.rect();
+            if (!rect) {
+                return;
+            }
+
             const buttonRect = this.buttonRef.current?.getBoundingClientRect();
             const y = (typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y) || 0;
             const windowHeight = window.innerHeight;
