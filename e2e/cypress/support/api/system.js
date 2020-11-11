@@ -55,8 +55,6 @@ Cypress.Commands.add('apiUploadLicense', (filePath) => {
 });
 
 Cypress.Commands.add('apiInstallTrialLicense', () => {
-    const NUMBER_OF_USERS = 100;
-
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/trial-license',
@@ -64,7 +62,7 @@ Cypress.Commands.add('apiInstallTrialLicense', () => {
         body: {
             trialreceive_emails_accepted: true,
             terms_accepted: true,
-            users: NUMBER_OF_USERS,
+            users: Cypress.env('numberOfTrialUsers'),
         },
     }).then((response) => {
         expect(response.status).to.equal(200);
