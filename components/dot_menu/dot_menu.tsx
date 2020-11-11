@@ -95,7 +95,7 @@ type Props = {
 type State = {
     canEdit: boolean;
     openUp: boolean;
-    width: number;
+    width?: number;
     canDelete: boolean;
 }
 
@@ -234,7 +234,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: any) => {
+    refCallback = (menuRef: Menu) => {
         if (menuRef) {
             const rect = menuRef.rect();
             const buttonRect = this.buttonRef.current?.getBoundingClientRect();
@@ -247,7 +247,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
-                width: rect.width,
+                width: rect?.width,
             });
         }
     }

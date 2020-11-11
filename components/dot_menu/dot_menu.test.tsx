@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {shallow, ShallowWrapper} from 'enzyme';
+import {PostType} from 'mattermost-redux/types/posts';
 import React from 'react';
 
-import {Locations} from 'utils/constants';
+import {Locations, PostTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
@@ -98,7 +99,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             post: TestHelper.getPostMock({
                 ...baseProps.post,
-                type: 'system_join_channel',
+                type: PostTypes.JOIN_CHANNEL as PostType,
             }),
         };
         const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
