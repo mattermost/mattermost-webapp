@@ -8,54 +8,38 @@
 // ***************************************************************
 
 // Group: @integrations
-
-/**
- * Note : This test requires the demo plugin tar file under fixtures folder.
- * Download :
- * NOTE : latest demo plugin has autocomplete tests, but is not yet released.
- * make dist latest master and copy to ./e2e/cypress/fixtures/com.mattermost.demo-plugin-0.8.0.tar.gz
- * https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.8.0/com.mattermost.demo-plugin-0.8.0.tar.gz
- * Copy to : ./e2e/cypress/fixtures/com.mattermost.demo-plugin-0.8.0.tar.gz
-
- * Note : This test requires the jira plugin tar file under fixtures folder.
- * Download :
- * https://github.com/mattermost/mattermost-plugin-jira/releases/download/v3.0.0/jira-3.0.0.tar.gz
- * Copy to : ./e2e/cypress/fixtures/jira-3.0.0.tar.gz
- */
-
 describe('Integrations', () => {
     const pluginIdDemo = 'com.mattermost.demo-plugin';
     const pluginIdJira = 'jira';
 
     before(() => {
         // # Initialize setup and visit town-square
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup().then(({ team }) => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # If Demo plugin is already enabled, uninstall it
-            cy.apiRemovePluginById(pluginIdDemo);
-            cy.apiRemovePluginById(pluginIdJira);
+            cy.apiRemovePluginById(pluginIdDemo, true);
+            cy.apiRemovePluginById(pluginIdJira, true);
         });
 
-        const jiraFile = 'jira-3.0.0-beta2.1.tar.gz';
-        const demoFile = 'com.mattermost.demo-plugin-0.8.0.tar.gz';
+        const demoURL = "https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.9.0.tar.gz"
+        const jiraURL = "https://github.com/mattermost/mattermost-plugin-jira/releases/download/v3.0.0/jira-3.0.0.tar.gz"
 
-        cy.apiUploadPlugin(demoFile);
-        cy.apiUploadPlugin(jiraFile);
+        cy.apiInstallPluginFromUrl(demoURL, true)
+        cy.apiInstallPluginFromUrl(jiraURL, true)
 
-        const newSettings = {
+        cy.apiUpdateConfig({
             PluginSettings: {
                 PluginStates: {
                     jira: {
                         Enable: true,
                     },
-                    'com.mattermost.demo-plugin': {
+                    "com.mattermost.demo-plugin": {
                         Enable: true,
                     },
                 },
             },
-        };
-        cy.apiUpdateConfig(newSettings);
+        });
     });
 
     after(() => {
@@ -63,7 +47,7 @@ describe('Integrations', () => {
         cy.apiRemovePluginById(pluginIdJira);
     });
 
-    it('T2829 Test an example of plugin that uses sub commands', () => {
+    it.only('T2829 Test an example of plugin that uses sub commands', () => {
         // # Post a slash command with trailing space
         cy.get('#post_textbox').clear().type('/jira ');
 
