@@ -11,15 +11,18 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Environment', () => {
     let townsquareLink;
+    let testTeam;
 
+    const mattermostIcon = 'mattermost-icon_128x128.png';
     before(() => {
         cy.apiInitSetup().then(({team}) => {
+            testTeam = team;
             townsquareLink = `/${team.name}/channels/town-square`;
         });
     });
 
     it('MM-T959 - Web server mode - Webserver gzip', () => {
-        cy.visit(`http://localhost:8065/admin_console/environment/web_server`);
+        cy.visit('http://localhost:8065/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
@@ -30,21 +33,48 @@ describe('Environment', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
+        cy.get('.sidebar-header-dropdown__icon').click();
+        cy.findByText('Team Settings').should('be.visible').click();
 
-        // # Verify image is present in the post footer
-        verifyImageInPostFooter();
+        // * Check that the 'Team Settings' modal was opened
+        cy.get('#teamSettingsModal').should('exist').within(() => {
+            // clicking on edit button
+            cy.get('#team_iconEdit').should('be.visible').click();
 
-        // # Post message
-        cy.postMessage('Image upload');
+            // verify the settings picture button is visible to click
+            cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-        // # Verify image is not present in the post footer
-        verifyImageInPostFooter(false);
+            // before uploading the picture the save button must be disabled
+            cy.findByTestId('saveSettingPicture').should('be.disabled');
+
+            // # Upload a file on center view
+            cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
+
+            // after uploading the picture the save button must be disabled
+            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+
+            // # Close the modal
+            cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
+        });
+
+        // Validate that the picture is being displayed
+        cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
+            cy.findByTestId('teamIconImage').then((imageDiv) => {
+                const url = imageDiv.css('background-image').split('"')[1];
+
+                // # Verify that the emoji image is the correct one
+                cy.fixture(mattermostIcon).then((overrideImage) => {
+                    cy.request({url, encoding: 'base64'}).then((response) => {
+                        expect(response.status).to.equal(200);
+                        expect(response.body).to.eq(overrideImage);
+                    });
+                });
+            });
+        });
     });
 
     it('MM-T960 - Web server mode - Webserver Uncompressed', () => {
-        cy.visit(`http://localhost:8065/admin_console/environment/web_server`);
+        cy.visit('http://localhost:8065/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Uncompressed');
@@ -55,21 +85,48 @@ describe('Environment', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
+        cy.get('.sidebar-header-dropdown__icon').click();
+        cy.findByText('Team Settings').should('be.visible').click();
 
-        // # Verify image is present in the post footer
-        verifyImageInPostFooter();
+        // * Check that the 'Team Settings' modal was opened
+        cy.get('#teamSettingsModal').should('exist').within(() => {
+            // clicking on edit button
+            cy.get('#team_iconEdit').should('be.visible').click();
 
-        // # Post message
-        cy.postMessage('Image upload');
+            // verify the settings picture button is visible to click
+            cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-        // # Verify image is not present in the post footer
-        verifyImageInPostFooter(false);
+            // before uploading the picture the save button must be disabled
+            cy.findByTestId('saveSettingPicture').should('be.disabled');
+
+            // # Upload a file on center view
+            cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
+
+            // after uploading the picture the save button must be disabled
+            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+
+            // # Close the modal
+            cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
+        });
+
+        // Validate that the picture is being displayed
+        cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
+            cy.findByTestId('teamIconImage').then((imageDiv) => {
+                const url = imageDiv.css('background-image').split('"')[1];
+
+                // # Verify that the emoji image is the correct one
+                cy.fixture(mattermostIcon).then((overrideImage) => {
+                    cy.request({url, encoding: 'base64'}).then((response) => {
+                        expect(response.status).to.equal(200);
+                        expect(response.body).to.eq(overrideImage);
+                    });
+                });
+            });
+        });
     });
 
     it('MM-T961 - Web server mode - Webserver Disabled', () => {
-        cy.visit(`http://localhost:8065/admin_console/environment/web_server`);
+        cy.visit('http://localhost:8065/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Disabled');
@@ -80,21 +137,48 @@ describe('Environment', () => {
         // # Navigate to a channel
         cy.visit(townsquareLink);
 
-        // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
+        cy.get('.sidebar-header-dropdown__icon').click();
+        cy.findByText('Team Settings').should('be.visible').click();
 
-        // # Verify image is present in the post footer
-        verifyImageInPostFooter();
+        // * Check that the 'Team Settings' modal was opened
+        cy.get('#teamSettingsModal').should('exist').within(() => {
+            // clicking on edit button
+            cy.get('#team_iconEdit').should('be.visible').click();
 
-        // # Post message
-        cy.postMessage('Image upload');
+            // verify the settings picture button is visible to click
+            cy.findByTestId('inputSettingPictureButton').should('be.visible').click();
 
-        // # Verify image is not present in the post footer
-        verifyImageInPostFooter(false);
+            // before uploading the picture the save button must be disabled
+            cy.findByTestId('saveSettingPicture').should('be.disabled');
+
+            // # Upload a file on center view
+            cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
+
+            // after uploading the picture the save button must be disabled
+            cy.findByTestId('saveSettingPicture').should('not.be.disabled').click().wait(TIMEOUTS.HALF_SEC);
+
+            // # Close the modal
+            cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
+        });
+
+        // Validate that the picture is being displayed
+        cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
+            cy.findByTestId('teamIconImage').then((imageDiv) => {
+                const url = imageDiv.css('background-image').split('"')[1];
+
+                // # Verify that the emoji image is the correct one
+                cy.fixture(mattermostIcon).then((overrideImage) => {
+                    cy.request({url, encoding: 'base64'}).then((response) => {
+                        expect(response.status).to.equal(200);
+                        expect(response.body).to.eq(overrideImage);
+                    });
+                });
+            });
+        });
     });
 
     it('MM-T991 - Database fields can be edited and saved', () => {
-        cy.visit(`http://localhost:8065/admin_console/environment/database`);
+        cy.visit('http://localhost:8065/admin_console/environment/database');
 
         const queryTimeoutValue = 100;
         const maxOpenConnsValue = 1000;
@@ -113,7 +197,7 @@ describe('Environment', () => {
     });
 
     it('MM-T993 - Minimum hashtag length at least 2', () => {
-        cy.visit(`http://localhost:8065/admin_console/environment/database`);
+        cy.visit('http://localhost:8065/admin_console/environment/database');
 
         const minimumHashtagOrig = 3;
         const minimumHashtagLength1 = 2;
@@ -146,7 +230,7 @@ describe('Environment', () => {
         // * Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
-        cy.visit(`http://localhost:8065/admin_console/environment/elasticsearch`);
+        cy.visit('http://localhost:8065/admin_console/environment/elasticsearch');
 
         // * Verify the ElasticSearch fields are disabled
         cy.findByTestId('connectionUrlinput').should('be.disabled');
@@ -181,7 +265,7 @@ describe('Environment', () => {
     });
 
     it('MM-T995 - Amazon S3 settings', () => {
-        cy.visit(`http://localhost:8065/admin_console/environment/file_storage`);
+        cy.visit('http://localhost:8065/admin_console/environment/file_storage');
 
         // # CLick dropdown to open selection
         cy.findByTestId('FileSettings.DriverNamedropdown').select('Amazon S3');
@@ -243,17 +327,5 @@ describe('Environment', () => {
         cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
             return alert[0].innerText === message;
         }));
-    }
-
-    function verifyImageInPostFooter(verifyExistence = true) {
-        if (verifyExistence) {
-            // * Verify that the image exists in the post message footer
-            cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
-                should('exist').
-                and('be.visible');
-        } else {
-            // * Verify that the image no longer exists in the post message footer
-            cy.get('#postCreateFooter').find('div.post-image__column').should('not.exist');
-        }
     }
 });
