@@ -2,8 +2,6 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-// import PropTypes from 'prop-types';
-// import React from 'react';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -16,6 +14,7 @@ import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
 
 type Props = {
     channelId: string;
@@ -36,17 +35,18 @@ type Props = {
     viewArchivedChannels: boolean;
     isCloud: boolean;
     actions: {
-        goToLastViewedChannel: () => void;
-        setShowNextStepsView: (show: boolean) => void;
-        getProfiles: () => any;
+        goToLastViewedChannel: () => Promise<{data: boolean}>;
+        setShowNextStepsView: (show: boolean) => Action;
+        getProfiles: (page?: number, perPage?: number, options?: any) => ActionFunc;
     },
 };
 
 type State = {
     channelId: string;
     url: string;
-    focusedPostId: string;
+    focusedPostId: string | undefined;
     deferredPostView: any;
+    showNextSteps: boolean;
 };
 
 export default class ChannelView extends React.PureComponent<Props, State> {
@@ -63,7 +63,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         );
     }
 
-    public static getDerivedStateFromProps(props: any, state: any) {
+    public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState = {};
         const focusedPostId = props.match.params.postid;
 
@@ -89,25 +89,26 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
         return null;
     }
-    public channelViewRef: any;
-    public constructor(props: any) {
+    channelViewRef: React.RefObject<HTMLDivElement>;
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             url: props.match.url,
             channelId: props.channelId,
-            focusedPostId: props.focusedPostId,
+            focusedPostId: props.match.params.postid,
             deferredPostView: ChannelView.createDeferredPostView(),
+            showNextSteps: props.showNextSteps,
         };
 
         this.channelViewRef = React.createRef();
     }
 
-    public getChannelView = () => {
+    getChannelView = () => {
         return this.channelViewRef.current;
     }
 
-    public onClickCloseChannel = () => {
+    onClickCloseChannel = () => {
         this.props.actions.goToLastViewedChannel();
     }
 
@@ -118,7 +119,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         }
     }
 
-    public componentDidUpdate(prevProps: any) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             mark('ChannelView#componentDidUpdate');
 
@@ -147,7 +148,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         }
     }
 
-    public render() {
+    render() {
         const {channelIsArchived} = this.props;
         if (this.props.showTutorial && !this.props.isCloud) {
             return (
