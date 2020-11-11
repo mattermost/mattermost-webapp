@@ -45,7 +45,7 @@ type Props = {
 type State = {
     channelId: string;
     url: string;
-    focusedPostId: string | undefined;
+    focusedPostId?: string;
     deferredPostView: any;
     showNextSteps: boolean;
 };
