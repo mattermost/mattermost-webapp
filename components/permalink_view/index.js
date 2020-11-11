@@ -15,15 +15,8 @@ function mapStateToProps(state) {
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state);
     const currentUserId = getCurrentUserId(state);
-    let channelId = '';
-    if (channel) {
-        channelId = channel.id;
-    }
-
-    let teamName = '';
-    if (team) {
-        teamName = team.name;
-    }
+    const channelId = channel ? channel.id : '';
+    const teamName = team ? team.name : '';
 
     return {
         channelId,
