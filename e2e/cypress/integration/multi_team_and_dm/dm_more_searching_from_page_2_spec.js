@@ -9,23 +9,23 @@
 
 // Group: @multi_team_and_dm
 
-describe('Integrations', () => {
+describe('Multi Team and DM', () => {
     let testChannel;
     let testTeam;
     let testUser;
-    let multiUser;
-
+    
     before(() => {
         // # Setup with the new team, channel and user
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
             testUser = user;
+            searchTerm = user.username;
 
-            // # Create 50 users
-            Cypress._.times(10, (i) =>{
-                cy.apiCreateUser({prefix: `test + ${i}`}).then(() => {
-                    cy.apiAddUserToTeam(testTeam.id, user.id)
+            // # Create 52 users so the user must page forward in the dm list
+            Cypress._.times(2, (i) =>{
+                cy.apiCreateUser({prefix: `atestuser0${i}`}).then(() => {
+                    cy.apiAddUserToTeam(testTeam.id, user.id);
                 });
             });
 
@@ -36,5 +36,25 @@ describe('Integrations', () => {
     });
 
     it('MM-T446 DM More... searching from page 2 of user list', () => {
+        // # Open the Direct Message modal
+        cy.findByLabelText('write a direct message').click();
+
+        // # Move to the next page of users
+        cy.get('button[class*="next"]').click().then(() => {
+
+            // # Enter a search term
+            cy.get('#selectItems').click().type(searchTerm).then(() => {
+
+                // * Assert that the previous / next links do not appear
+                cy.get('button[class*="next"]').should('not.exist');
+                cy.get('button[class*="previous"]').should('not.exist');
+
+                // * Assert that the search term does not return wrong user(s)
+                cy.get('span[id*="testuser"]').should('not.be.visible');
+
+                // * Assert that the search term returns the correct user
+                cy.get('span[id*="displayedUserName"]').should('contain', searchTerm);
+            });
+        });
     });
 });
