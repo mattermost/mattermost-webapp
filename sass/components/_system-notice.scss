@@ -1,7 +1,7 @@
 @charset 'UTF-8';
 
 .system-notice {
-    @include box-shadow(0 20px 30px alpha-color($black, 0.07), 0 14px 20px alpha-color($black, 0.07));
+    @include box-shadow(0 20px 30px rgba(var(--center-channel-color-rgb), 0.1), 0 14px 20px rgba(var(--center-channel-color-rgb), 0.1));
     @include border-radius(4px);
 
     position: absolute;
