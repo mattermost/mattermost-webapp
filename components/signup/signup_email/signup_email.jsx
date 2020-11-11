@@ -12,7 +12,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants';
+import Constants, {ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
@@ -193,29 +193,32 @@ export default class SignupEmail extends React.PureComponent {
         }
 
         const usernameError = Utils.isValidUsername(providedUsername);
-        if (usernameError === 'Cannot use a reserved word as a username.') {
-            this.setState({
-                nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),
-                emailError: '',
-                passwordError: '',
-                serverError: '',
-            });
-            return false;
-        } else if (usernameError) {
-            this.setState({
-                nameError: (
-                    <FormattedMessage
-                        id='signup_user_completed.usernameLength'
-                        values={{
-                            min: Constants.MIN_USERNAME_LENGTH,
-                            max: Constants.MAX_USERNAME_LENGTH,
-                        }}
-                    />
-                ),
-                emailError: '',
-                passwordError: '',
-                serverError: '',
-            });
+        if (usernameError) {
+            let errObj;
+            if (usernameError.id === ValidationErrors.RESERVED_NAME) {
+                errObj = {
+                    nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),
+                    emailError: '',
+                    passwordError: '',
+                    serverError: '',
+                };
+            } else {
+                errObj = {
+                    nameError: (
+                        <FormattedMessage
+                            id='signup_user_completed.usernameLength'
+                            values={{
+                                min: Constants.MIN_USERNAME_LENGTH,
+                                max: Constants.MAX_USERNAME_LENGTH,
+                            }}
+                        />
+                    ),
+                    emailError: '',
+                    passwordError: '',
+                    serverError: '',
+                };
+            }
+            this.setState(errObj);
             return false;
         }
 

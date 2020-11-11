@@ -22,7 +22,7 @@ import moment from 'moment';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
@@ -1015,13 +1015,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
+
     const link = document.querySelector('link.code_theme');
     if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
-        var xmlHTTP = new XMLHttpRequest();
+
+        const xmlHTTP = new XMLHttpRequest();
+
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            link.attributes.href = cssPath;
+            link.href = cssPath;
+
             if (UserAgent.isFirefox()) {
                 link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
@@ -1030,6 +1034,7 @@ export function updateCodeTheme(userTheme) {
                 changeCss('code.hljs', 'visibility: visible');
             }
         };
+
         xmlHTTP.send();
     }
 }
@@ -1097,19 +1102,29 @@ export function scrollbarWidth(el) {
 }
 
 export function isValidUsername(name) {
-    var error = '';
+    let error;
     if (!name) {
-        error = 'This field is required';
+        error = {
+            id: ValidationErrors.USERNAME_REQUIRED,
+        };
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
-        error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
+        error = {
+            id: ValidationErrors.INVALID_LENGTH,
+        };
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = {
+            id: ValidationErrors.INVALID_CHARACTERS,
+        };
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
-        error = 'First character must be a letter.';
+        error = {
+            id: ValidationErrors.INVALID_FIRST_CHARACTER,
+        };
     } else {
-        for (var i = 0; i < Constants.RESERVED_USERNAMES.length; i++) {
-            if (name === Constants.RESERVED_USERNAMES[i]) {
-                error = 'Cannot use a reserved word as a username.';
+        for (const reserved of Constants.RESERVED_USERNAMES) {
+            if (name === reserved) {
+                error = {
+                    id: ValidationErrors.RESERVED_NAME,
+                };
                 break;
             }
         }
@@ -1125,7 +1140,9 @@ export function isValidBotUsername(name) {
     }
 
     if (name.endsWith('.')) {
-        error = "Username must not end with '.' symbol.";
+        error = {
+            id: ValidationErrors.INVALID_LAST_CHARACTER,
+        };
     }
 
     return error;

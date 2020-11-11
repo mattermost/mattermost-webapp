@@ -121,6 +121,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
     <Connect(injectIntl(CreateComment))
       channelId="channel_id"
       latestPostId="id"
+      onHeightChange={[Function]}
       rootDeleted={false}
       rootId="id"
     />

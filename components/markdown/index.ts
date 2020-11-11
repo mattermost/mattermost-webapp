@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getAutolinkedUrlSchemes, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getAutolinkedUrlSchemes, getConfig, getManagedResourcePaths} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
@@ -48,6 +48,7 @@ function makeMapStateToProps() {
             autolinkedUrlSchemes: getAutolinkedUrlSchemes(state),
             channelNamesMap: getChannelNamesMap(state, ownProps),
             enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
+            managedResourcePaths: getManagedResourcePaths(state),
             mentionKeys: ownProps.mentionKeys || getAllUserMentionKeys(state),
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
