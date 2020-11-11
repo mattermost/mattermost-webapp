@@ -47,7 +47,7 @@ describe('Integrations', () => {
         cy.apiRemovePluginById(pluginIdJira);
     });
 
-    it.only('T2829 Test an example of plugin that uses sub commands', () => {
+    it('T2829 Test an example of plugin that uses sub commands', () => {
         // # Post a slash command with trailing space
         cy.get('#post_textbox').clear().type('/jira ');
 
