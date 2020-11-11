@@ -14,15 +14,18 @@ import {withRouter} from 'react-router-dom';
 
 import {getProfiles} from 'mattermost-redux/actions/users';
 
+import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+
 import {getDirectTeammate} from 'utils/utils.jsx';
+
 import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
+
 import {setShowNextStepsView} from 'actions/views/next_steps';
+
 import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
-import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import ChannelView from './channel_view';
 
