@@ -9,27 +9,35 @@
 
 // Group: @multi_team_and_dm
 
+import {getAdminAccount} from '../../support/env';
+
 describe('Integrations', () => {
-    let userA;
     let testChannel;
+    let testTeam;
+    let testUser;
+    let otherUser;
+    const sysadmin = getAdminAccount();
 
     before(() => {
         // # Setup with the new team, channel and user
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
-            userA = user;
-            console.log(testChannel.name)
+            testUser = user;
+
+            // # Create otherUser
+            cy.apiCreateUser().then(({user: user2}) => {
+                otherUser = user2;
+            });
+
+            // # Login with testUser and visit test channel
+            cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
     it('MM-T439 Town Square is not marked as unread for existing users when a new user is added to the team', () => {
-        const unreadChannel = `channel ${testChannel.name} public channel unread`;
-        const readChannel = `channel ${testChannel.name} public channel`;
-        
-        // # Disable join/ leave messages for user A
-        cy.apiLogin(userA);
+        // # Disable join/ leave messages for testUser
         cy.findByLabelText('main menu').click();
         cy.get('#accountSettings').click();
         cy.findByLabelText('advanced').click();
@@ -37,27 +45,21 @@ describe('Integrations', () => {
         cy.get('#joinLeaveOff').click();
         cy.get('#accountSettingsHeader > .close > [aria-hidden="true"]').click();
 
-        // # Confirm created channel and Town Square are read
+        // # Confirm Town Square is marked as read
         cy.get('#sidebarItem_town-square').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        cy.get(`#sidebarItem_${testChannel.name}`).should('not.have', 'attr', 'aria-label', unreadChannel)//.should('have.attr', 'aria-label', readChannel);
-        
-        // # Remove focus from Town Square and public channel
+
+        // # Remove focus from Town Square
         cy.get('#sidebarItem_off-topic').click();
 
-        // # Create 2nd user and add to Town Square and public channel
-        cy.apiAdminLogin().then(() => {
-            cy.apiCreateUser().then(({user: userB}) => {
-                cy.apiAddUserToTeam(testTeam.id, userB.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, userB.id);
-                });
-            });
-        });
+        // # Login as admin and add second user to team
+        cy.externalRequest({user: sysadmin, method: 'post', path: `teams/${testTeam.id}/members`, data: {team_id: testTeam.id, user_id: otherUser.id}});
 
-        // # Log in as first user and assert Town Square and public channel are still marked as un-read
-        cy.apiLogin(userA).then(() => {
+        // * Assert that Town Square is still marked as read after second user added to team
+        cy.get('#sidebarItem_town-square').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
+
+        // * Switch to different channel and assert that Town Square is still marked as read
+        cy.get(`#sidebarItem_${testChannel.name}`).click().then(() => {
             cy.get('#sidebarItem_town-square').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
-            cy.get(`#sidebarItem_${testChannel.name}`).should('not.have', 'attr', 'aria-label', unreadChannel) //.should('have.attr', 'aria-label', readChannel);
-        })
+        });
     });
 });
