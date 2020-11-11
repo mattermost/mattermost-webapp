@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,7 +20,7 @@ export default class UserList extends React.PureComponent {
         isDisabled: PropTypes.bool,
 
         // the type of user list row to render
-        rowComponentType: PropTypes.node,
+        rowComponentType: PropTypes.object,
     }
 
     static defaultProps = {
@@ -32,9 +31,14 @@ export default class UserList extends React.PureComponent {
         rowComponentType: UserListRow,
     }
 
+    constructor(props) {
+        super(props);
+        this.containerRef = React.createRef();
+    }
+
     scrollToTop = () => {
-        if (this.refs.container) {
-            this.refs.container.scrollTop = 0;
+        if (this.containerRef.current) {
+            this.containerRef.current.scrollTop = 0;
         }
     }
 
@@ -80,10 +84,9 @@ export default class UserList extends React.PureComponent {
         }
 
         return (
-            <div ref='container'>
+            <div ref={this.containerRef}>
                 {content}
             </div>
         );
     }
 }
-/* eslint-enable react/no-string-refs */
