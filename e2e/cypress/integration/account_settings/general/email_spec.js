@@ -14,7 +14,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getEmailUrl, reUrl, getRandomId} from '../../../utils';
 
 describe('Account Settings -> General -> Email', () => {
-    let testUser, otherUser;
+    let testUser;
+    let otherUser;
     let testTeam;
 
     before(() => {
@@ -92,9 +93,9 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#emailEdit').should('be.visible').click();
 
         // # Type some random email
-        cy.get('#primaryEmail').should('be.visible').type("random@example.com");
+        cy.get('#primaryEmail').should('be.visible').type('random@example.com');
         cy.get('#confirmEmail').should('be.visible').clear();
-        cy.get('#currentPassword').should('be.visible').type("randompass");
+        cy.get('#currentPassword').should('be.visible').type('randompass');
 
         // # Save the settings
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
@@ -111,6 +112,7 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#emailEdit').should('be.visible').click();
 
         const randomId = getRandomId();
+
         // # Type new email
         cy.get('#primaryEmail').should('be.visible').type(`user-${randomId}@example.com`);
         cy.get('#confirmEmail').should('be.visible').type(`user-${randomId}@example.com`);
@@ -136,6 +138,7 @@ describe('Account Settings -> General -> Email', () => {
             assert(matched.length > 0);
 
             const permalink = matched[0];
+
             // # Click on the link
             cy.visit(permalink);
 
@@ -151,13 +154,11 @@ describe('Account Settings -> General -> Email', () => {
             expect(response.data.subject).to.equal('[Mattermost] Your email address has changed');
         });
 
-
         cy.toAccountSettingsModal();
 
         // * Verify new email address (MM-2070)
         cy.get('#emailDesc').should('be.visible').should('have.text', `user-${randomId}@example.com`);
     });
-
 
     // it('MM-T2071 Change email address: update email verification prompt ', () => {
 
@@ -166,7 +167,6 @@ describe('Account Settings -> General -> Email', () => {
     // it('MM-T2072', () => {
 
     // });
-
 
     it('MM-T2073 - Verify email verification message after logout', () => {
         // # Click "Edit" to the right of "Email"
