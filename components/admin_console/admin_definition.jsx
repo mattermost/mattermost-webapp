@@ -47,6 +47,7 @@ import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import BleveSettings from './bleve_settings.jsx';
+import FeatureFlags from './feature_flags.tsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
@@ -700,6 +701,16 @@ const AdminDefinition = {
                         label_default: 'Enable Insecure Outgoing Connections: ',
                         help_text: t('admin.service.insecureTlsDesc'),
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.ManagedResourcePaths',
+                        label: t('admin.service.managedResourcePaths'),
+                        label_default: 'Managed Resource Paths:',
+                        help_text: t('admin.service.managedResourcePathsDescription'),
+                        help_text_default: 'A comma-separated list of paths on the Mattermost server that are managed by another service. See [here](!https://docs.mattermost.com/install/desktop-managed-resources.html) for more information.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -4774,7 +4785,7 @@ const AdminDefinition = {
                 name_default: 'Experimental Features',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonColor.title'),
                         label_default: 'AD/LDAP Login Button Color:',
@@ -4785,7 +4796,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonBorderColor.title'),
                         label_default: 'AD/LDAP Login Button Border Color:',
@@ -4796,7 +4807,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonTextColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonTextColor.title'),
                         label_default: 'AD/LDAP Login Button Text Color:',
@@ -4864,7 +4875,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonColor',
                         label: t('admin.experimental.emailSettingsLoginButtonColor.title'),
                         label_default: 'Email Login Button Color:',
@@ -4874,7 +4885,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.emailSettingsLoginButtonBorderColor.title'),
                         label_default: 'Email Login Button Border Color:',
@@ -4884,7 +4895,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonTextColor',
                         label: t('admin.experimental.emailSettingsLoginButtonTextColor.title'),
                         label_default: 'Email Login Button Text Color:',
@@ -5131,7 +5142,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonColor',
                         label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
                         label_default: 'SAML Login Button Color:',
@@ -5142,7 +5153,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.samlSettingsLoginButtonBorderColor.title'),
                         label_default: 'SAML Login Button Border Color:',
@@ -5153,7 +5164,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonTextColor',
                         label: t('admin.experimental.samlSettingsLoginButtonTextColor.title'),
                         label_default: 'SAML Login Button Text Color:',
@@ -5311,6 +5322,20 @@ const AdminDefinition = {
                         isHidden: it.not(it.licensedForFeature('Cloud')),
                     },
                 ],
+            },
+        },
+        feature_flags: {
+            url: 'experimental/feature_flags',
+            title: t('admin.feature_flags.title'),
+            title_default: 'Feature Flags',
+            isHidden: it.configIsTrue('ExperimentalSettings'),
+            isDisabled: true,
+            searchableStrings: [
+                'admin.feature_flags.title',
+            ],
+            schema: {
+                id: 'Feature Flags',
+                component: FeatureFlags,
             },
         },
         bleve: {

@@ -123,6 +123,22 @@ describe('components/ChannelHeader', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should unmute the channel when mute icon is clicked', () => {
+        const props = {
+            ...populatedProps,
+            isMuted: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        wrapper.find('.channel-header__mute').simulate('click');
+        wrapper.update();
+        expect(props.actions.updateChannelNotifyProps).toHaveBeenCalledTimes(1);
+        expect(props.actions.updateChannelNotifyProps).toHaveBeenCalledWith('user_id', 'channel_id', {mark_unread: 'all'});
+    });
+
     test('should render active pinned posts', () => {
         const props = {
             ...populatedProps,

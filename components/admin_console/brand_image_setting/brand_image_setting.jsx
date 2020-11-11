@@ -185,6 +185,7 @@ export default class BrandImageSetting extends React.PureComponent {
                         )}
                     >
                         <button
+                            type='button'
                             className='remove-image__btn'
                             onClick={this.handleDeleteButtonPressed}
                         >
@@ -233,6 +234,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 <div className='col-sm-8'>
                     <div className='file__upload mt-5'>
                         <button
+                            type='button'
                             className={letbtnDefaultClass}
                             disabled={this.props.disabled}
                         >

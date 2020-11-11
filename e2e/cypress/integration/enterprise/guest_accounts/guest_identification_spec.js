@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @guest_account
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
@@ -23,7 +23,7 @@ describe('Guest Accounts', () => {
     let testTeam;
     let testChannel;
     let adminMFASecret;
-    const username = 'g' + getRandomId(); // username has to starts with a letter.
+    const username = 'g' + getRandomId(); // username has to start with a letter.
 
     before(() => {
         cy.apiInitSetup().then(({team, channel}) => {
