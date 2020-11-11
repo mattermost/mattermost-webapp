@@ -104,10 +104,10 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#clientError').should('be.visible').should('have.text', 'The new emails you entered do not match.');
     });
 
-    // This test is a combination of 2 sub-tests because you cannot really complete 2069 without doing 2070.
+    // This test is a combination of 4 sub-tests because they are sub-parts of the same test.
     // Doing them individually would have a dependency with the previous test.
     // Hence, a combined single test for everything is better.
-    it('MM-T2069/MM-T2070 email address verification', () => {
+    it('MM-T2069/MM-T2070/MM-T2071/MM-T2072 email address verification', () => {
         // # Click "Edit" to the right of "Email"
         cy.get('#emailEdit').should('be.visible').click();
 
@@ -121,8 +121,14 @@ describe('Account Settings -> General -> Email', () => {
         // # Save the settings
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
-        // * Verify the announcement bar
+        // * Verify the announcement bar (MM-2071)
         cy.get('.announcement-bar').should('be.visible').should('contain.text', 'Check your email inbox to verify the address.');
+
+        // # Reload the page
+        cy.reload();
+
+        // * Check that the email verification message is not showed.
+        cy.get('.announcement-bar').should('not.exist');
 
         const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
 
@@ -159,14 +165,6 @@ describe('Account Settings -> General -> Email', () => {
         // * Verify new email address (MM-2070)
         cy.get('#emailDesc').should('be.visible').should('have.text', `user-${randomId}@example.com`);
     });
-
-    // it('MM-T2071 Change email address: update email verification prompt ', () => {
-
-    // });
-
-    // it('MM-T2072', () => {
-
-    // });
 
     it('MM-T2073 - Verify email verification message after logout', () => {
         // # Click "Edit" to the right of "Email"
