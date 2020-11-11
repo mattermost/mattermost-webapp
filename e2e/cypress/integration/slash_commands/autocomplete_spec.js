@@ -14,7 +14,7 @@ describe('Integrations', () => {
 
     before(() => {
         // # Initialize setup and visit town-square
-        cy.apiInitSetup().then(({ team }) => {
+        cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # If Demo plugin is already enabled, uninstall it
@@ -22,11 +22,11 @@ describe('Integrations', () => {
             cy.apiRemovePluginById(pluginIdJira, true);
         });
 
-        const demoURL = "https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.9.0.tar.gz"
-        const jiraURL = "https://github.com/mattermost/mattermost-plugin-jira/releases/download/v3.0.0/jira-3.0.0.tar.gz"
+        const demoURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.9.0.tar.gz';
+        const jiraURL = 'https://github.com/mattermost/mattermost-plugin-jira/releases/download/v3.0.0/jira-3.0.0.tar.gz';
 
-        cy.apiInstallPluginFromUrl(demoURL, true)
-        cy.apiInstallPluginFromUrl(jiraURL, true)
+        cy.apiInstallPluginFromUrl(demoURL, true);
+        cy.apiInstallPluginFromUrl(jiraURL, true);
 
         cy.apiUpdateConfig({
             PluginSettings: {
@@ -34,7 +34,7 @@ describe('Integrations', () => {
                     jira: {
                         Enable: true,
                     },
-                    "com.mattermost.demo-plugin": {
+                    'com.mattermost.demo-plugin': {
                         Enable: true,
                     },
                 },
