@@ -13,7 +13,8 @@ describe('Multi Team and DM', () => {
     let testChannel;
     let testTeam;
     let testUser;
-    
+    let searchTerm;
+
     before(() => {
         // # Setup with the new team, channel and user
         cy.apiInitSetup().then(({team, channel, user}) => {
@@ -23,8 +24,8 @@ describe('Multi Team and DM', () => {
             searchTerm = user.username;
 
             // # Create 52 users so the user must page forward in the dm list
-            Cypress._.times(2, (i) =>{
-                cy.apiCreateUser({prefix: `atestuser0${i}`}).then(() => {
+            Cypress._.times(52, () => {
+                cy.apiCreateUser({prefix: 'atestuser'}).then(() => {
                     cy.apiAddUserToTeam(testTeam.id, user.id);
                 });
             });
@@ -41,10 +42,8 @@ describe('Multi Team and DM', () => {
 
         // # Move to the next page of users
         cy.get('button[class*="next"]').click().then(() => {
-
             // # Enter a search term
             cy.get('#selectItems').click().type(searchTerm).then(() => {
-
                 // * Assert that the previous / next links do not appear
                 cy.get('button[class*="next"]').should('not.exist');
                 cy.get('button[class*="previous"]').should('not.exist');
