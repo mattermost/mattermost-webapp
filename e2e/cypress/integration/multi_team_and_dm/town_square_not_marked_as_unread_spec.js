@@ -11,7 +11,7 @@
 
 import {getAdminAccount} from '../../support/env';
 
-describe('Integrations', () => {
+describe('Multi Team and DM', () => {
     let testChannel;
     let testTeam;
     let testUser;
