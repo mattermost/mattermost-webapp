@@ -145,8 +145,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         }
 
         this.props.actions.doAppCall({
-            url: binding.call.url,
-            type: AppCallTypes.SUBMIT,
+            ...binding.call,
             context: {
                 app_id: binding.app_id,
                 location_id: binding.location_id,

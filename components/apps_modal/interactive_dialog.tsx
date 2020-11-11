@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError,
-    checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
+import {AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
+import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integrations';
 
 import SpinnerButton from 'components/spinner_button';
 
@@ -17,39 +17,44 @@ import {localizeMessage} from 'utils/utils.jsx';
 import DialogElement from './dialog_element';
 import DialogIntroductionText from './dialog_introduction_text';
 
-export default class InteractiveDialog extends React.PureComponent {
-    static propTypes = {
-        url: PropTypes.string.isRequired,
-        callbackId: PropTypes.string,
-        elements: PropTypes.arrayOf(PropTypes.object),
-        title: PropTypes.string.isRequired,
-        introductionText: PropTypes.string,
-        iconUrl: PropTypes.string,
-        submitLabel: PropTypes.string,
-        notifyOnCancel: PropTypes.bool,
-        state: PropTypes.string,
-        onHide: PropTypes.func,
-        actions: PropTypes.shape({
-            submitInteractiveDialog: PropTypes.func.isRequired,
-        }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
-    };
+export type Props = {
+    modal: AppModalState;
+    appID?: string;
+    url: string;
+    callbackId?: string;
+    elements: DialogElementProps[],
+    title: string;
+    introductionText?: string;
+    iconUrl?: string;
+    submitLabel?: string;
+    notifyOnCancel?: boolean;
+    state?: string;
+    onHide: () => void,
+    actions: {
+        submit: (dialog: {
+            values: {
+                [name: string]: string;
+            };
+        }) => Promise<{data: AppCallResponse}>;
+    },
+    emojiMap: {};
+}
 
-    constructor(props) {
+type State = {
+    show: boolean;
+    values: {[name: string]: string};
+    error: string | null;
+    errors: {[name: string]: React.ReactNode};
+    submitting: boolean;
+}
+
+export default class InteractiveDialog extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
-        const values = {};
-        if (props.elements != null) {
-            props.elements.forEach((e) => {
-                if (e.type === 'bool') {
-                    values[e.name] =
-                        e.default === true ||
-                        String(e.default).toLowerCase() === 'true';
-                } else {
-                    values[e.name] = e.default || null;
-                }
-            });
-        }
+        const {form} = props.modal;
+
+        const values = this.initFormValues(form);
 
         this.state = {
             show: true,
@@ -60,12 +65,23 @@ export default class InteractiveDialog extends React.PureComponent {
         };
     }
 
-    handleSubmit = async (e) => {
+    initFormValues = (form: AppForm): {[name: string]: string} => {
+        const values: {[name: string]: any} = {};
+        if (form && form.fields) {
+            form.fields.forEach((f) => {
+                values[f.name] = f.value || null;
+            });
+        }
+
+        return values;
+    }
+
+    handleSubmit = async (e: {preventDefault: ()=>void}) => {
         e.preventDefault();
 
         const {elements} = this.props;
         const values = this.state.values;
-        const errors = {};
+        const errors: {[name: string]: React.ReactNode} = {};
         if (elements) {
             elements.forEach((elem) => {
                 const error = checkDialogElementForError(
@@ -90,22 +106,22 @@ export default class InteractiveDialog extends React.PureComponent {
             return;
         }
 
-        const {url, callbackId, state, appID} = this.props;
-
         const dialog = {
-            url,
-            callback_id: callbackId,
-            state,
-            submission: values,
+            values,
         };
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submitInteractiveDialog(
+        const {data} = await this.props.actions.submit(
             dialog,
         );
 
         this.setState({submitting: false});
+
+        if (data?.type === 'form' && data.form) {
+            this.setState({values: this.initFormValues(data.form)});
+            return;
+        }
 
         let hasErrors = false;
 
@@ -115,14 +131,14 @@ export default class InteractiveDialog extends React.PureComponent {
                 this.setState({error: data.error});
             }
 
-            if (
-                data.errors &&
-                Object.keys(data.errors).length >= 0 &&
-                checkIfErrorsMatchElements(data.errors, elements)
-            ) {
-                hasErrors = true;
-                this.setState({errors: data.errors});
-            }
+            // if (
+            //     data.errors &&
+            //     Object.keys(data.errors).length >= 0 &&
+            //     checkIfErrorsMatchElements(data.errors, elements)
+            // ) {
+            //     hasErrors = true;
+            //     this.setState({errors: data.errors});
+            // }
         }
 
         if (!hasErrors) {
@@ -135,23 +151,23 @@ export default class InteractiveDialog extends React.PureComponent {
     };
 
     handleHide = (submitted = false) => {
-        const {url, callbackId, state, notifyOnCancel} = this.props;
+        // const {url, callbackId, state, notifyOnCancel} = this.props;
 
-        if (!submitted && notifyOnCancel) {
-            const dialog = {
-                url,
-                callback_id: callbackId,
-                state,
-                cancelled: true,
-            };
+        // if (!submitted && notifyOnCancel) {
+        //     const dialog = {
+        //         url,
+        //         callback_id: callbackId,
+        //         state,
+        //         cancelled: true,
+        //     };
 
-            this.props.actions.submitInteractiveDialog(dialog);
-        }
+        //     this.props.actions.submit(dialog);
+        // }
 
         this.setState({show: false});
     };
 
-    onChange = (name, value) => {
+    onChange = (name: string, value: any) => {
         const values = {...this.state.values, [name]: value};
         this.setState({values});
     };
@@ -165,7 +181,7 @@ export default class InteractiveDialog extends React.PureComponent {
             elements,
         } = this.props;
 
-        let submitText = (
+        let submitText: React.ReactNode = (
             <FormattedMessage
                 id='interactive_dialog.submit'
                 defaultMessage='Submit'
@@ -203,7 +219,7 @@ export default class InteractiveDialog extends React.PureComponent {
                 <form onSubmit={this.handleSubmit}>
                     <Modal.Header
                         closeButton={true}
-                        style={{borderBottom: elements == null && '0px'}}
+                        style={{borderBottom: elements && elements.length ? '': '0px'}}
                     >
                         <Modal.Title
                             componentClass='h1'
@@ -224,10 +240,12 @@ export default class InteractiveDialog extends React.PureComponent {
                             )}
                             {elements &&
                             elements.map((e, index) => {
+                                const field = this.props.modal.form.fields.find((f) => f.name === e.name) as AppField & {key?: string};
                                 return (
                                     <DialogElement
+                                        field={field}
+                                        key={field.key || field.name}
                                         autoFocus={index === 0}
-                                        key={'dialogelement' + e.name}
                                         displayName={e.display_name}
                                         name={e.name}
                                         type={e.type}
