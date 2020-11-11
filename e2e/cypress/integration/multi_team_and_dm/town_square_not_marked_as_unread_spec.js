@@ -51,7 +51,7 @@ describe('Integrations', () => {
         // # Remove focus from Town Square
         cy.get('#sidebarItem_off-topic').click();
 
-        // # Login as admin and add second user to team
+        // # Add second user to team in external session
         cy.externalRequest({user: sysadmin, method: 'post', path: `teams/${testTeam.id}/members`, data: {team_id: testTeam.id, user_id: otherUser.id}});
 
         // * Assert that Town Square is still marked as read after second user added to team
