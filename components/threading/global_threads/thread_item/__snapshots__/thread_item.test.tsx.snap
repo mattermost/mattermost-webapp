@@ -14,8 +14,9 @@ exports[`components/threading/global_threads/thread_item should report total num
       Enterprise Team
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
+      capitalize={true}
       className="alt-hidden"
-      style="short"
+      day="numeric"
       units={
         Array [
           "now",
@@ -49,7 +50,25 @@ exports[`components/threading/global_threads/thread_item should report total num
       hasUnreads={false}
       isFollowing={true}
       isSaved={false}
-    />
+    >
+      <Memo(SimpleTooltip)
+        content={
+          <FormattedMessage
+            defaultMessage="Actions"
+            id="threading.threadItem.menu"
+          />
+        }
+        id="threadActionMenu"
+      >
+        <Memo(Button)
+          className="Button___icon"
+        >
+          <i
+            className="Icon icon-dots-vertical"
+          />
+        </Memo(Button)>
+      </Memo(SimpleTooltip)>
+    </Memo(ThreadMenu)>
   </span>
   <p>
     Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
@@ -130,8 +149,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Enterprise Team
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
+      capitalize={true}
       className="alt-hidden"
-      style="short"
+      day="numeric"
       units={
         Array [
           "now",
@@ -165,7 +185,25 @@ exports[`components/threading/global_threads/thread_item should report unread me
       hasUnreads={true}
       isFollowing={true}
       isSaved={false}
-    />
+    >
+      <Memo(SimpleTooltip)
+        content={
+          <FormattedMessage
+            defaultMessage="Actions"
+            id="threading.threadItem.menu"
+          />
+        }
+        id="threadActionMenu"
+      >
+        <Memo(Button)
+          className="Button___icon"
+        >
+          <i
+            className="Icon icon-dots-vertical"
+          />
+        </Memo(Button)>
+      </Memo(SimpleTooltip)>
+    </Memo(ThreadMenu)>
   </span>
   <p>
     Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
@@ -244,8 +282,9 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Enterprise Team
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
+      capitalize={true}
       className="alt-hidden"
-      style="short"
+      day="numeric"
       units={
         Array [
           "now",
@@ -279,7 +318,25 @@ exports[`components/threading/global_threads/thread_item should report unread me
       hasUnreads={true}
       isFollowing={true}
       isSaved={false}
-    />
+    >
+      <Memo(SimpleTooltip)
+        content={
+          <FormattedMessage
+            defaultMessage="Actions"
+            id="threading.threadItem.menu"
+          />
+        }
+        id="threadActionMenu"
+      >
+        <Memo(Button)
+          className="Button___icon"
+        >
+          <i
+            className="Icon icon-dots-vertical"
+          />
+        </Memo(Button)>
+      </Memo(SimpleTooltip)>
+    </Memo(ThreadMenu)>
   </span>
   <p>
     Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.

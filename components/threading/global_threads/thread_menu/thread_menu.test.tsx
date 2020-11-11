@@ -24,6 +24,9 @@ describe('components/threading/common/thread_menu', () => {
                 unSave: jest.fn(),
                 copyLink: jest.fn(),
             },
+            children: (
+                <button>{'test'}</button>
+            ),
         };
     });
 

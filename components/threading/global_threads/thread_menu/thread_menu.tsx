@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, PropsWithChildren} from 'react';
+import React, {memo, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -22,7 +22,8 @@ type Props = {
         markUnread: () => void,
         openInChannel: () => void,
         copyLink: () => void,
-    }
+    },
+    children: ReactNode;
 };
 
 function ThreadMenu({
@@ -40,7 +41,7 @@ function ThreadMenu({
         copyLink,
     },
     children,
-}: PropsWithChildren<Props>) {
+}: Props) {
     const {formatMessage} = useIntl();
 
     return (

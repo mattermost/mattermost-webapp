@@ -45,6 +45,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     }
   />
   <Memo(Button)
+    className="separated"
     onClick={[MockFunction]}
     prepend={
       <span
@@ -67,12 +68,13 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     />
   </Memo(Button)>
   <Memo(FollowButton)
+    className="separated"
     follow={[MockFunction]}
     isFollowing={true}
     unFollow={[MockFunction]}
   />
   <Connect(injectIntl(Timestamp))
-    style="short"
+    day="numeric"
     units={
       Array [
         "now",
@@ -155,6 +157,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     }
   />
   <Memo(Button)
+    className="separated"
     onClick={[MockFunction]}
     prepend={
       <span
@@ -177,12 +180,13 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     />
   </Memo(Button)>
   <Memo(FollowButton)
+    className="separated"
     follow={[MockFunction]}
     isFollowing={true}
     unFollow={[MockFunction]}
   />
   <Connect(injectIntl(Timestamp))
-    style="short"
+    day="numeric"
     units={
       Array [
         "now",

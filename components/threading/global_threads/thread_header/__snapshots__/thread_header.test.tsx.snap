@@ -24,15 +24,16 @@ exports[`components/threading/global_threads/thread_header should match snapshot
   >
     <h3>
       <span
-        className="Separated"
+        className="separated"
       >
         Thread
       </span>
       <Memo(Button)
+        className="separated"
         onClick={[MockFunction]}
       >
         <button
-          className="Button Button___transparent"
+          className="Button Button___transparent separated"
           onClick={[MockFunction]}
         >
           <span
@@ -173,7 +174,7 @@ exports[`components/threading/global_threads/thread_header should match snapshot
                 }
               >
                 <Memo(Button)
-                  className="Button___icon Button___large Margined"
+                  className="Button___icon Button___large"
                   onBlur={[Function]}
                   onClick={null}
                   onFocus={[Function]}
@@ -181,7 +182,7 @@ exports[`components/threading/global_threads/thread_header should match snapshot
                   onMouseOver={[Function]}
                 >
                   <button
-                    className="Button Button___transparent Button___icon Button___large Margined"
+                    className="Button Button___transparent Button___icon Button___large"
                     onBlur={[Function]}
                     onClick={null}
                     onFocus={[Function]}

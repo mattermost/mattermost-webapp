@@ -92,10 +92,10 @@ const ThreadItem = ({
                     </Badge>
                 )}
                 <Timestamp
+                    {...THREADING_TIME}
                     className='alt-hidden'
                     value={lastReplyAt}
                     capitalize={true}
-                    {...THREADING_TIME}
                 />
             </h1>
             <span className='menu-anchor alt-visible'>
