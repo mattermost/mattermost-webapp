@@ -15,16 +15,15 @@ import FollowButton from '../../common/follow_button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 type Props = {
-    channelName: string,
-    isFollowing: boolean,
-    isSaved: boolean,
+    channelName: string;
+    isFollowing: boolean;
+    isSaved: boolean;
     actions: {
-        follow: () => void,
-        unFollow: () => void,
-        openInChannel: () => void,
-    }
-
-} & ComponentProps<typeof ThreadMenu>;
+        follow: () => void;
+        unFollow: () => void;
+        openInChannel: () => void;
+    };
+} & Omit<ComponentProps<typeof ThreadMenu>, 'children'>;
 
 const ThreadHeader = ({
     channelName,
