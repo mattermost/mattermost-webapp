@@ -2,13 +2,15 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+
+import {Post} from 'mattermost-redux/types/posts';
+import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -21,116 +23,125 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
-export default class PostInfo extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
-         * The post to render the info for
-         */
-        post: PropTypes.object.isRequired,
+    /**
+     * The post to render the info for
+     */
+    post: Post,
 
-        /*
-         * The id of the team which belongs the post
-         */
-        teamId: PropTypes.string,
+    /**
+     * The id of the team which belongs the post
+     */
+    teamId?: string;
 
-        /*
-         * Function called when the comment icon is clicked
-         */
-        handleCommentClick: PropTypes.func.isRequired,
+    /**
+     * Function called when the comment icon is clicked
+     */
+    handleCommentClick: React.EventHandler<React.MouseEvent>;
 
-        /*
-         * Function called when the card icon is clicked
-         */
-        handleCardClick: PropTypes.func.isRequired,
+    /**
+     * Function called when the card icon is clicked
+     */
+    handleCardClick: (post: Post) => void;
 
-        /*
-         * Funciton called when the post options dropdown is opened
-         */
-        handleDropdownOpened: PropTypes.func.isRequired,
+    /**
+     * Function called when the post options dropdown is opened
+     */
+    handleDropdownOpened: (e: boolean) => void;
 
-        /*
-         * Set to mark the post as flagged
-         */
-        isFlagged: PropTypes.bool,
+    /**
+     * Set to mark the post as flagged
+     */
+    isFlagged?: boolean;
 
-        /*
-         * Set to mark the post as open the extra info in the rhs
-         */
-        isCardOpen: PropTypes.bool,
+    /**
+     * Set to mark the post as open the extra info in the rhs
+     */
+    isCardOpen?: boolean;
 
-        /*
-         * The number of replies in the same thread as this post
-         */
-        replyCount: PropTypes.number,
+    /**
+     * The number of replies in the same thread as this post
+     */
+    replyCount?: number;
+
+    /**
+     * Set to indicate that this is previous post was not a reply to the same thread
+     */
+    isFirstReply?: boolean;
+
+    /**
+     * Set to render in mobile view
+     */
+    isMobile?: boolean;
+
+    /**
+     * Set to render in compact view
+     */
+    compactDisplay?: boolean;
+
+    /**
+     * Set to mark post as being hovered over
+     */
+    hover: boolean;
+
+    /**
+     * Set to render the post time when not hovering
+     */
+    showTimeWithoutHover: boolean;
+
+    /**
+     * Whether to show the emoji picker.
+     */
+    enableEmojiPicker?: boolean;
+
+    /**
+     * Set not to allow edits on post
+     */
+    isReadOnly: boolean | null;
+
+    /**
+     * To check if the state of emoji for last message and from where it was emitted
+     */
+    shortcutReactToLastPostEmittedFrom?: string;
+
+    /**
+     * To Check if the current post is last in the list
+     */
+    isLastPost?: boolean;
+
+    actions: {
 
         /**
-         * Set to indicate that this is previous post was not a reply to the same thread
+         * Function to remove the post
          */
-        isFirstReply: PropTypes.bool,
+        removePost: (post: ExtendedPost) => void;
 
         /**
-         * Set to render in mobile view
+         * Function to set or unset emoji picker for last message
          */
-        isMobile: PropTypes.bool,
-
-        /**
-         * Set to render in compact view
-         */
-        compactDisplay: PropTypes.bool,
-
-        /**
-         * Set to mark post as being hovered over
-         */
-        hover: PropTypes.bool.isRequired,
-
-        /**
-         * Set to render the post time when not hovering
-         */
-        showTimeWithoutHover: PropTypes.bool.isRequired,
-
-        /**
-         * Whether to show the emoji picker.
-         */
-        enableEmojiPicker: PropTypes.bool, // Made it optional until migrating this file to TS
-
-        /**
-         * Set not to allow edits on post
-         */
-        isReadOnly: PropTypes.bool,
-
-        /**
-         * To check if the state of emoji for last message and from where it was emitted
-         */
-        shortcutReactToLastPostEmittedFrom: PropTypes.string,
-
-        /**
-         * To Check if the current post is last in the list
-         */
-        isLastPost: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to remove the post
-             */
-            removePost: PropTypes.func.isRequired,
-
-            /**
-             * Function to set or unset emoji picker for last message
-             */
-            emitShortcutReactToLastPostFrom: PropTypes.func,
-        }), // Made it optional until migrating this file to TS
-
-        shouldShowDotMenu: PropTypes.bool, // Made it optional until migrating this file to TS
+        emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
     };
 
-    constructor(props) {
+    shouldShowDotMenu: boolean;
+};
+
+type State = {
+    showEmojiPicker: boolean;
+    showDotMenu: boolean;
+    showOptionsMenuWithoutHover: boolean;
+};
+
+export default class PostInfo extends React.PureComponent<Props, State> {
+    private postHeaderRef: React.RefObject<HTMLDivElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             showEmojiPicker: false,
             showOptionsMenuWithoutHover: false,
+            showDotMenu: false,
         };
 
         this.postHeaderRef = React.createRef();
@@ -162,16 +173,16 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
-    handleDotMenuOpened = (open) => {
+    handleDotMenuOpened = (open: boolean) => {
         this.setState({showDotMenu: open});
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
     getDotMenu = () => {
-        return this.refs.dotMenu;
+        return this.refs.dotMenu as HTMLDivElement;
     };
 
-    buildOptions = (post, isSystemMessage, fromAutoResponder) => {
+    buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean) => {
         if (!this.props.shouldShowDotMenu) {
             return null;
         }
@@ -252,13 +263,12 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
-    handleShortcutReactToLastPost = (isLastPost) => {
+    handleShortcutReactToLastPost = (isLastPost: boolean) => {
         if (isLastPost) {
-            const {post, isReadOnly, enableEmojiPicker, isMobile,
-                actions: {emitShortcutReactToLastPostFrom}} = this.props;
+            const {post, isReadOnly, enableEmojiPicker, isMobile, actions} = this.props;
 
             // Setting the last message emoji action to empty to clean up the redux state
-            emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
+            actions.emitShortcutReactToLastPostFrom?.(Locations.NO_WHERE);
 
             // Following are the types of posts on which adding reaction is not possible
             const isDeletedPost = post && post.state === Posts.POST_DELETED;
@@ -268,27 +278,29 @@ export default class PostInfo extends React.PureComponent {
             const isFailedPost = post && post.failed;
 
             // Checking if post is at scroll view of the user
-            const boundingRectOfPostInfo = this.postHeaderRef.current.getBoundingClientRect();
-            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
-                boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
+            const boundingRectOfPostInfo: DOMRect | undefined = this.postHeaderRef?.current?.getBoundingClientRect();
+            if (boundingRectOfPostInfo) {
+                const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
+                    boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
 
-            if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
-                    !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
-                this.setState({
-                    showOptionsMenuWithoutHover: true,
-                }, () => {
-                    this.toggleEmojiPicker();
-                });
+                if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isAutoRespondersPost &&
+                        !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
+                    this.setState({
+                        showOptionsMenuWithoutHover: true,
+                    }, () => {
+                        this.toggleEmojiPicker();
+                    });
+                }
             }
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromCenter = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
         shortcutReactToLastPostEmittedFrom === Locations.CENTER;
-        if (shortcutReactToLastPostEmittedFromCenter) {
+        if (shortcutReactToLastPostEmittedFromCenter && isLastPost !== undefined) {
             this.handleShortcutReactToLastPost(isLastPost);
         }
     }
