@@ -22,7 +22,7 @@ describe('Environment', () => {
     });
 
     it('MM-T959 - Web server mode - Webserver gzip', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/web_server');
+        cy.visit('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
@@ -57,12 +57,12 @@ describe('Environment', () => {
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
         });
 
-        // Validate that the picture is being displayed
+        // Validate that the image is being displayed
         cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
             cy.findByTestId('teamIconImage').then((imageDiv) => {
                 const url = imageDiv.css('background-image').split('"')[1];
 
-                // # Verify that the emoji image is the correct one
+                // # Verify that the image is the correct one
                 cy.fixture(mattermostIcon).then((overrideImage) => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
@@ -74,7 +74,7 @@ describe('Environment', () => {
     });
 
     it('MM-T960 - Web server mode - Webserver Uncompressed', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/web_server');
+        cy.visit('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Uncompressed');
@@ -109,12 +109,12 @@ describe('Environment', () => {
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
         });
 
-        // Validate that the picture is being displayed
+        // Validate that the image is being displayed
         cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
             cy.findByTestId('teamIconImage').then((imageDiv) => {
                 const url = imageDiv.css('background-image').split('"')[1];
 
-                // # Verify that the emoji image is the correct one
+                // # Verify that the image is the correct one
                 cy.fixture(mattermostIcon).then((overrideImage) => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
@@ -126,7 +126,7 @@ describe('Environment', () => {
     });
 
     it('MM-T961 - Web server mode - Webserver Disabled', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/web_server');
+        cy.visit('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Disabled');
@@ -161,12 +161,12 @@ describe('Environment', () => {
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
         });
 
-        // Validate that the picture is being displayed
+        // Validate that the image is being displayed
         cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().within(() => {
             cy.findByTestId('teamIconImage').then((imageDiv) => {
                 const url = imageDiv.css('background-image').split('"')[1];
 
-                // # Verify that the emoji image is the correct one
+                // # Verify that the image is the correct one
                 cy.fixture(mattermostIcon).then((overrideImage) => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
@@ -178,7 +178,7 @@ describe('Environment', () => {
     });
 
     it('MM-T991 - Database fields can be edited and saved', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/database');
+        cy.visit('/admin_console/environment/database');
 
         const queryTimeoutValue = 100;
         const maxOpenConnsValue = 1000;
@@ -197,7 +197,7 @@ describe('Environment', () => {
     });
 
     it('MM-T993 - Minimum hashtag length at least 2', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/database');
+        cy.visit('/admin_console/environment/database');
 
         const minimumHashtagOrig = 3;
         const minimumHashtagLength1 = 2;
@@ -210,7 +210,7 @@ describe('Environment', () => {
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
-            // * Verify the database setting values are saved
+            // * Verify the database setting value is saved
             expect(config.ServiceSettings.MinimumHashtagLength).to.eq(minimumHashtagLength1);
         });
 
@@ -221,7 +221,7 @@ describe('Environment', () => {
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
-            // * Verify the database setting values are saved
+            // * Verify the database setting value is reset to original value
             expect(config.ServiceSettings.MinimumHashtagLength).to.eq(minimumHashtagOrig);
         });
     });
@@ -230,7 +230,7 @@ describe('Environment', () => {
         // * Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
-        cy.visit('http://localhost:8065/admin_console/environment/elasticsearch');
+        cy.visit('/admin_console/environment/elasticsearch');
 
         // * Verify the ElasticSearch fields are disabled
         cy.findByTestId('connectionUrlinput').should('be.disabled');
@@ -265,7 +265,7 @@ describe('Environment', () => {
     });
 
     it('MM-T995 - Amazon S3 settings', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/file_storage');
+        cy.visit('/admin_console/environment/file_storage');
 
         // # CLick dropdown to open selection
         cy.findByTestId('FileSettings.DriverNamedropdown').select('Amazon S3');
@@ -297,7 +297,7 @@ describe('Environment', () => {
     });
 
     it('MM-T996 - Amazon S3 connection error messaging', () => {
-        cy.visit('http://localhost:8065/admin_console/environment/file_storage');
+        cy.visit('/admin_console/environment/file_storage');
 
         // # CLick dropdown to open selection
         cy.findByTestId('FileSettings.DriverNamedropdown').select('Amazon S3');
