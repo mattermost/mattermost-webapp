@@ -35,7 +35,7 @@ describe('components/apps_modal/InteractiveDialog', () => {
             submit: jest.fn().mockResolvedValue({
                 data: {
                     type: '',
-                } as AppCallResponse
+                } as AppCallResponse,
             }),
         },
         emojiMap: new EmojiMap(new Map()),
@@ -104,9 +104,9 @@ describe('components/apps_modal/InteractiveDialog', () => {
                     form: {
                         fields: [
                             {name: selectElement.name, value: selectElement.default} as AppField,
-                        ]
-                    }
-                }
+                        ],
+                    },
+                },
             };
 
             const store = mockStore({});

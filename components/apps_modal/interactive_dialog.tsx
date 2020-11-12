@@ -219,7 +219,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                 <form onSubmit={this.handleSubmit}>
                     <Modal.Header
                         closeButton={true}
-                        style={{borderBottom: elements && elements.length ? '': '0px'}}
+                        style={{borderBottom: elements && elements.length ? '' : '0px'}}
                     >
                         <Modal.Title
                             componentClass='h1'

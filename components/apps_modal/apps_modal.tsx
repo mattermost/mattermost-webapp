@@ -1,10 +1,14 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React from 'react';
 
 import {AppCall, AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
 import {InteractiveDialogConfig, DialogElement} from 'mattermost-redux/types/integrations';
 
-import InteractiveDialog from './interactive_dialog';
 import EmojiMap from 'utils/emoji_map';
+
+import InteractiveDialog from './interactive_dialog';
 
 type FormValues = {
     [name: string]: any;
@@ -39,13 +43,13 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             const res = await props.actions.doAppCall(call);
             return res;
         } catch (e) {
-            return {data: {type: 'error', error: e.message}}
+            return {data: {type: 'error', error: e.message}};
         }
-    }
+    };
 
     const onHide = () => {
         return props.onHide();
-    }
+    };
 
     const {form, call} = props.modal;
     const f = {
@@ -67,7 +71,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             }}
         />
     );
-}
+};
 
 export default AppsModal;
 
@@ -198,26 +202,26 @@ enum FieldType {
     bool = 'bool',
     user = 'user',
     channel = 'channel',
-};
+}
 
 const makeSubDialogField: SubDialogMaker = (field) => {
     switch (field.type) {
-        case FieldType.text:
-            return makeTextField(field);
-        case FieldType.bool:
-            return makeBooleanField(field);
-        case FieldType.static_select:
-            return makeStaticSelectField(field);
-        case FieldType.dynamic_select:
-            return makeDynamicSelectField(field);
-        case FieldType.user:
-            return makeUserSelectField(field);
-        case FieldType.channel:
-            return makeChannelSelectField(field);
-        default:
-            return makeTextField(field);
+    case FieldType.text:
+        return makeTextField(field);
+    case FieldType.bool:
+        return makeBooleanField(field);
+    case FieldType.static_select:
+        return makeStaticSelectField(field);
+    case FieldType.dynamic_select:
+        return makeDynamicSelectField(field);
+    case FieldType.user:
+        return makeUserSelectField(field);
+    case FieldType.channel:
+        return makeChannelSelectField(field);
+    default:
+        return makeTextField(field);
     }
-}
+};
 
 export const fieldToDialogElement = (field: AppField): DialogElement => {
     const subField = makeSubDialogField(field);
@@ -232,7 +236,7 @@ export const fieldToDialogElement = (field: AppField): DialogElement => {
         min_length: field.min_length || 0,
         max_length: field.max_length || 0,
         help_text: field.description,
-    }
+    };
 
     return element;
 };

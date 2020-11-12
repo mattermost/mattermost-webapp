@@ -105,7 +105,7 @@ export default class DialogElement extends React.PureComponent<Props, State> {
 
         const {actions, field} = this.props;
         if (field.type === 'user') {
-                this.provider = new GenericUserProvider(actions.autocompleteUsers);
+            this.provider = new GenericUserProvider(actions.autocompleteUsers);
         } else if (field.type === 'channel') {
             this.provider = new GenericChannelProvider(actions.autocompleteChannels);
         } else if (field.options) {
