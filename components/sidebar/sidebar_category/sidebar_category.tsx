@@ -25,6 +25,9 @@ import {isKeyPressed} from 'utils/utils';
 import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
 
+import {shortcuts} from 'components/shortcuts/shortcuts';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
+
 import SidebarCategoryMenu from './sidebar_category_menu';
 
 type Props = {
@@ -265,6 +268,10 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     className='hidden-xs'
                 >
                     {addHelpLabel}
+                    <ShortcutSequence
+                        shortcut={shortcuts.navDMMenu}
+                        hideDescription={true}
+                    />
                 </Tooltip>
             );
 
