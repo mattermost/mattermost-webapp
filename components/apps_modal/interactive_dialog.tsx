@@ -12,6 +12,7 @@ import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integr
 
 import SpinnerButton from 'components/spinner_button';
 
+import EmojiMap from 'utils/emoji_map';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import DialogElement from './dialog_element';
@@ -37,7 +38,7 @@ export type Props = {
             };
         }) => Promise<{data: AppCallResponse}>;
     },
-    emojiMap: {};
+    emojiMap: EmojiMap;
 }
 
 type State = {
@@ -151,18 +152,18 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     };
 
     handleHide = (submitted = false) => {
-        // const {url, callbackId, state, notifyOnCancel} = this.props;
+        const {notifyOnCancel} = this.props;
 
-        // if (!submitted && notifyOnCancel) {
-        //     const dialog = {
-        //         url,
-        //         callback_id: callbackId,
-        //         state,
-        //         cancelled: true,
-        //     };
+        if (!submitted && notifyOnCancel) {
+            // const dialog = {
+            //     url,
+            //     callback_id: callbackId,
+            //     state,
+            //     cancelled: true,
+            // };
 
-        //     this.props.actions.submit(dialog);
-        // }
+            // this.props.actions.submit(dialog);
+        }
 
         this.setState({show: false});
     };

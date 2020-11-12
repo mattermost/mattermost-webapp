@@ -13,8 +13,8 @@ import AppsModal from 'components/apps_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, call && call.context.channel_id || '', call && call.context.root_id);
-const ephemeralJSON = (obj: {}, call?: AppCall) => ephemeral('```json\n' + JSON.stringify(obj, null, 2) + '\n```', call);
+const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (call && call.context.channel_id) || '', call && call.context.root_id);
+const ephemeralJSON = (obj: unknown, call?: AppCall) => ephemeral('```json\n' + JSON.stringify(obj, null, 2) + '\n```', call);
 
 export function doAppCall(call: AppCall): ActionFunc {
     return async (dispatch: DispatchFunc) => {

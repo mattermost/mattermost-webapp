@@ -90,7 +90,7 @@ export default class InteractiveDialog extends React.PureComponent {
             return;
         }
 
-        const {url, callbackId, state, appID} = this.props;
+        const {url, callbackId, state} = this.props;
 
         const dialog = {
             url,

@@ -133,7 +133,7 @@ const makeTextField: SubDialogMaker = (field) => {
     };
 };
 
-const makeBooleanField: SubDialogMaker = (field) => {
+const makeBooleanField: SubDialogMaker = () => {
     return {
         type: 'bool',
         subtype: '',
@@ -142,14 +142,14 @@ const makeBooleanField: SubDialogMaker = (field) => {
     };
 };
 
-const makeRadioField: SubDialogMaker = (field) => {
-    return {
-        type: 'radio',
-        subtype: '',
-        options: [],
-        data_source: '',
-    };
-};
+// const makeRadioField: SubDialogMaker = () => {
+//     return {
+//         type: 'radio',
+//         subtype: '',
+//         options: [],
+//         data_source: '',
+//     };
+// };
 
 const makeStaticSelectField: SubDialogMaker = (field) => {
     let options: {text: string; value: string}[] = [];
@@ -177,7 +177,7 @@ const makeDynamicSelectField: SubDialogMaker = (field) => {
     };
 };
 
-const makeUserSelectField: SubDialogMaker = (field) => {
+const makeUserSelectField: SubDialogMaker = () => {
     return {
         type: 'select',
         subtype: '',
@@ -186,7 +186,7 @@ const makeUserSelectField: SubDialogMaker = (field) => {
     };
 };
 
-const makeChannelSelectField: SubDialogMaker = (field) => {
+const makeChannelSelectField: SubDialogMaker = () => {
     return {
         type: 'select',
         subtype: '',

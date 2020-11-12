@@ -71,14 +71,14 @@ export default class DialogElement extends React.PureComponent<Props, State> {
         };
     }
 
-    // Function added for dynamic App modals
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.field !== this.props.field) {
-            const {value} = this.props.field;
-            this.setState({value});
-            this.props.onChange(this.props.name, value);
-        }
-    }
+    // // Function added for dynamic App modals
+    // componentDidUpdate(prevProps: Props) {
+    //     if (prevProps.field !== this.props.field) {
+    //         const {value} = this.props.field;
+    //         this.setState({value});
+    //         this.props.onChange(this.props.name, value);
+    //     }
+    // }
 
     handleSelected = (selected: StaticOption | UserProfile | Channel) => {
         const {name, dataSource, onChange} = this.props;
