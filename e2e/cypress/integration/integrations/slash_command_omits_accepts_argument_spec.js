@@ -35,7 +35,7 @@ describe('Integrations', () => {
         cy.apiRemovePluginById('com.mattermost.agenda');
     });
 
-    it('MM-T2832 Use a slash command that omits accepts an optional argument', () => {
+    it('MM-T2832 Use a slash command that omits an optional argument', () => {
         const todaysDate = Cypress.moment().format('MMMDD');
         const testText = 'meeting agenda items';
 
