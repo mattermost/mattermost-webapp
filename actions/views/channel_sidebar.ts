@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createCategory as createCategoryRedux, moveChannelToCategory} from 'mattermost-redux/actions/channel_categories';
+import {createCategory as createCategoryRedux, moveChannelsToCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCategory, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
+import {insertMultipleWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import {setItem} from 'actions/storage';
 import {getChannelsInCategoryOrder} from 'selectors/views/channel_sidebar';
 import {DraggingState, GlobalState} from 'types/store';
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
+import { target } from 'webpack.config';
 
 export function collapseCategory(categoryId: string) {
     return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, true);
@@ -58,15 +59,15 @@ export function createCategory(teamId: string, displayName: string, channelIds?:
 
 // moveChannelInSidebar moves a channel to a given category in the sidebar, but it accounts for when the target index
 // may have changed due to archived channels not being shown in the sidebar.
-export function moveChannelInSidebar(categoryId: string, channelId: string, targetIndex: number) {
+export function moveChannelsInSidebar(categoryId: string, channelIds: string[], targetIndex: number, draggableChannelId: string) {
     return (dispatch: DispatchFunc, getState: () => GlobalState) => {
-        const newIndex = adjustTargetIndexForMove(getState(), categoryId, channelId, targetIndex);
+        const newIndex = adjustTargetIndexForMove(getState(), categoryId, channelIds, targetIndex, draggableChannelId);
 
-        return dispatch(moveChannelToCategory(categoryId, channelId, newIndex));
+        return dispatch(moveChannelsToCategory(categoryId, channelIds, newIndex));
     };
 }
 
-export function adjustTargetIndexForMove(state: GlobalState, categoryId: string, channelId: string, targetIndex: number) {
+export function adjustTargetIndexForMove(state: GlobalState, categoryId: string, channelIds: string[], targetIndex: number, draggableChannelId: string) {
     if (targetIndex === 0) {
         // The channel is being placed first, so there's nothing above that could affect the index
         return 0;
@@ -74,17 +75,21 @@ export function adjustTargetIndexForMove(state: GlobalState, categoryId: string,
 
     const category = getCategory(state, categoryId);
     const filteredChannels = makeGetChannelsForCategory()(state, category);
+    const filteredChannelIds = filteredChannels.map((channel) => channel.id);
+
+    // When dragging multiple channels, we don't actually remove all of them from the list as react-beautiful-dnd doesn't support that
+    // Account for channels removed above the insert point, except the one currently being dragged which is already accounted for by react-beautiful-dnd
+    const removedChannelsAboveInsert = filteredChannelIds.filter((channel, index) => channel !== draggableChannelId && channelIds.indexOf(channel) !== -1 && index <= targetIndex);
 
     if (category.channel_ids.length === filteredChannels.length) {
         // There are no archived channels in the category, so the targetIndex from react-beautiful-dnd will be correct
-        return targetIndex;
+        return targetIndex - removedChannelsAboveInsert.length;
     }
 
-    const filteredChannelIds = filteredChannels.map((channel) => channel.id);
-    const updatedChannelIds = insertWithoutDuplicates(filteredChannelIds, channelId, targetIndex);
+    const updatedChannelIds = insertMultipleWithoutDuplicates(filteredChannelIds, channelIds, targetIndex - removedChannelsAboveInsert.length);
 
     // After "moving" the channel in the sidebar, find what channel comes above it
-    const previousChannelId = updatedChannelIds[updatedChannelIds.indexOf(channelId) - 1];
+    const previousChannelId = updatedChannelIds[updatedChannelIds.indexOf(channelIds[0]) - 1];
 
     // We want the channel to still be below that channel, so place the new index below it
     let newIndex = category.channel_ids.indexOf(previousChannelId) + 1;
@@ -93,12 +98,12 @@ export function adjustTargetIndexForMove(state: GlobalState, categoryId: string,
     // the channel being removed. For example, if we're moving channelA from [channelA, channelB, channelC] to
     // [channelB, channelA, channelC], newIndex would currently be 2 (which comes after channelB), but we need
     // it to be 1 (which comes after channelB once channelA is removed).
-    const sourceIndex = category.channel_ids.indexOf(channelId);
+    const sourceIndex = category.channel_ids.indexOf(channelIds[0]);
     if (sourceIndex !== -1 && sourceIndex < newIndex) {
         newIndex -= 1;
     }
 
-    return newIndex;
+    return Math.max(newIndex - removedChannelsAboveInsert.length, 0);
 }
 
 export function clearChannelSelection() {
@@ -158,11 +163,9 @@ export function multiSelectChannelTo(channelId: string) {
         // everything inbetween needs to have it's selection toggled.
         // with the exception of the start and end values which will always be selected
 
-        const sorted = isSelectingForwards ? inBetween : [...inBetween].reverse();
-
         return dispatch({
             type: ActionTypes.MULTISELECT_CHANNEL_TO,
-            data: sorted,
+            data: inBetween,
         });
     };
 }

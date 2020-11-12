@@ -97,7 +97,7 @@ describe('SidebarChannelList', () => {
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),
-            moveChannelInSidebar: jest.fn(),
+            moveChannelsInSidebar: jest.fn(),
             moveCategory: jest.fn(),
             removeFromCategory: jest.fn(),
             setDraggingState: jest.fn(),

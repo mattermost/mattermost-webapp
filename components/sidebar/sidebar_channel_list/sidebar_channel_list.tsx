@@ -57,19 +57,21 @@ type Props = {
     displayedChannels: Channel[];
     newCategoryIds: string[];
     draggingState: DraggingState;
+    selectedChannelIds: string[];
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
     onDragEnd: (result: DropResult) => void;
 
     actions: {
-        moveChannelInSidebar: (categoryId: string, channelId: string, newIndex: number) => void;
+        moveChannelsInSidebar: (categoryId: string, channelIds: string[], newIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
         expandCategory: (categoryId: string) => void;
+        clearChannelSelection: () => void;
     };
 };
 
@@ -362,6 +364,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
         droppable[0].style.height = `${droppable[0].scrollHeight}px`;
 
+        if (!this.props.selectedChannelIds.find((id) => before.draggableId === id)) {
+            this.props.actions.clearChannelSelection();
+        }
+
         const draggingState: DraggingState = {
             state: DraggingStates.CAPTURE,
             id: before.draggableId,
@@ -396,8 +402,20 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
-                this.props.actions.moveChannelInSidebar(result.destination.droppableId, result.draggableId, result.destination.index);
-                trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
+                let channelsToMove = [result.draggableId];
+                if (this.props.selectedChannelIds.length) {
+                    channelsToMove = [...this.props.selectedChannelIds];
+
+                    // Reorder such that the channels move in the order that they appear in the sidebar
+                    const displayedChannelIds = this.props.displayedChannels.map((channel) => channel.id);
+                    channelsToMove = channelsToMove.sort((a, b) => displayedChannelIds.indexOf(a) - displayedChannelIds.indexOf(b));
+                }
+
+                // channelsToMove.forEach((channelId, index) => {
+                //     this.props.actions.moveChannelInSidebar(result.destination!.droppableId, channelId, result.destination!.index + index);
+                //     trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
+                // });
+                this.props.actions.moveChannelsInSidebar(result.destination.droppableId, channelsToMove, result.destination.index, result.draggableId);
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
                 trackEvent('ui', 'ui_sidebar_dragdrop_dropped_category');

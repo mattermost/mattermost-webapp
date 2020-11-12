@@ -102,7 +102,7 @@ describe('adjustTargetIndexForMove', () => {
 
                 const targetIndex = testCase.inChannelIds.indexOf('new');
 
-                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', 'new', targetIndex);
+                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', ['new'], targetIndex, 'new');
 
                 const actualChannelIds = insertWithoutDuplicates(channelIds, 'new', newIndex);
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
@@ -142,7 +142,7 @@ describe('adjustTargetIndexForMove', () => {
 
                 const targetIndex = testCase.inChannelIds.indexOf('one');
 
-                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', 'one', targetIndex);
+                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', ['one'], targetIndex, 'one');
 
                 const actualChannelIds = insertWithoutDuplicates(channelIds, 'one', newIndex);
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
@@ -182,7 +182,7 @@ describe('adjustTargetIndexForMove', () => {
 
                 const targetIndex = testCase.inChannelIds.indexOf('seven');
 
-                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', 'seven', targetIndex);
+                const newIndex = Actions.adjustTargetIndexForMove(store.getState(), 'category1', ['seven'], targetIndex, 'seven');
 
                 const actualChannelIds = insertWithoutDuplicates(channelIds, 'seven', newIndex);
                 expect(actualChannelIds).toEqual(testCase.expectedChannelIds);
@@ -290,7 +290,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_four', 'category1_three', 'category1_two', 'category1_one']);
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
     });
 
     test('should select group of channels where some other channels were already selected', () => {
@@ -306,7 +306,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_four', 'category1_three', 'category1_two', 'category1_one']);
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
     });
 
     test('should select group of channels where some other channels were already selected but in new selection', () => {
@@ -322,7 +322,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_four', 'category1_three', 'category1_two', 'category1_one']);
+        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
     });
 
     test('should select group of channels across categories', () => {

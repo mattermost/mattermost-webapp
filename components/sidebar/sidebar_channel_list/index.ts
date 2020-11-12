@@ -13,9 +13,10 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {switchToChannelById} from 'actions/views/channel';
 import {
     expandCategory,
-    moveChannelInSidebar,
+    moveChannelsInSidebar,
     setDraggingState,
     stopDragging,
+    clearChannelSelection,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
@@ -38,6 +39,7 @@ function makeMapStateToProps() {
             displayedChannels: getDisplayedChannels(state),
             draggingState: getDraggingState(state),
             newCategoryIds: state.views.channelSidebar.newCategoryIds,
+            selectedChannelIds: state.views.channelSidebar.selectedChannelIds,
         };
     };
 }
@@ -47,11 +49,12 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
-            moveChannelInSidebar,
+            moveChannelsInSidebar,
             moveCategory,
             setDraggingState,
             stopDragging,
             expandCategory,
+            clearChannelSelection,
         }, dispatch),
     };
 }
