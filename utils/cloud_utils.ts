@@ -8,7 +8,6 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
         return false;
     }
 
-    // Will developers ever learn? :D
     const expiryYear = customer.payment_method.exp_year;
 
     // This works because we store the expiry month as the actual 1-12 base month, but Date uses a 0-11 base month
