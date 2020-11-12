@@ -39,11 +39,12 @@ describe('Integrations', () => {
         const todaysDate = Cypress.moment().format('MMMDD');
         const testText = 'meeting agenda items';
 
-        // * Suggestion list is visible after typing "/agenda " with space character
+        // # Post a message with the agenda plugin using queue
         cy.findByTestId('post_textbox').type(`/agenda queue ${testText}{enter}`);
         cy.uiWaitUntilMessagePostedIncludes(`${testText}`).then(() => {
             cy.getLastPostId().then((postId) => {
                 cy.get(`#postMessageText_${postId}`).within(() => {
+                    // * Assert that the message has been posted with the corrext date and text
                     cy.contains(`${testChannel.name}-${todaysDate} 1) ${testText}`);
                 });
             });
