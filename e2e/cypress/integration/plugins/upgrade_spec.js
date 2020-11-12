@@ -25,7 +25,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Plugin remains enabled when upgraded', () => {
     const pluginIdDemo = 'com.mattermost.demo-plugin';
-    const demoPluginURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.1.0/com.mattermost.demo-plugin-0.1.0.tar.g';
+    const demoPluginURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.1.0/com.mattermost.demo-plugin-0.1.0.tar.gz';
 
     before(() => {
         // # Initialize setup and visit town-square
