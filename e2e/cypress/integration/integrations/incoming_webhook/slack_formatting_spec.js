@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @incoming_webhook
 
 describe('Incoming webhook', () => {
@@ -56,28 +55,32 @@ describe('Incoming webhook', () => {
     describe('MM-T626 Incoming webhook is only image and fallback text', () => {
         const id = 'MM-T626';
 
+        const baseUrl = Cypress.config('baseUrl');
+        const imageUrl = 'https://cdn.pixabay.com/photo/2017/10/10/22/24/wide-format-2839089_960_720.jpg';
+        const imageSrc = `${baseUrl}/api/v4/image?url=${encodeURIComponent(imageUrl)}`;
+
         it('first payload', () => {
             const search = id + '-1';
-            const payload = {text: search, "attachments":[{"fallback": "fallback text", "image_url":"https://cdn.pixabay.com/photo/2017/10/10/22/24/wide-format-2839089_960_720.jpg"}]};
+            const payload = {text: search, "attachments":[{"fallback": "fallback text", "image_url": imageUrl}]};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
             cy.getLastPost().within((el) => {
                 cy.get('.post-message__text').should('have.text', search);
-                cy.get('.attachment__image').should('have.attr', 'src', 'http://localhost:8065/api/v4/image?url=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2017%2F10%2F10%2F22%2F24%2Fwide-format-2839089_960_720.jpg');
+                cy.get('.attachment__image').should('have.attr', 'src', imageSrc);
             });
         });
 
         it('second payload', () => {
             const search = id + '-2';
-            const payload = {"channel": "off-topic", "text": search, "username": "new_username", "attachments":[{"fallback": "fallback text", "image_url":"https://cdn.pixabay.com/photo/2017/10/10/22/24/wide-format-2839089_960_720.jpg"}], "icon_url": "http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png"}
+            const payload = {"channel": "off-topic", "text": search, "username": "new_username", "attachments":[{"fallback": "fallback text", "image_url": imageUrl}], "icon_url": "http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png"}
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
             cy.visit(offTopicLink);
 
             cy.getLastPost().within((el) => {
                 cy.get('.post-message__text').should('have.text', search);
-                cy.get('.attachment__image').should('have.attr', 'src', 'http://localhost:8065/api/v4/image?url=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2017%2F10%2F10%2F22%2F24%2Fwide-format-2839089_960_720.jpg');
+                cy.get('.attachment__image').should('have.attr', 'src', imageSrc);
             });
         });
     });
@@ -219,14 +222,14 @@ describe('Incoming webhook', () => {
         }]});
 
         const testCases = [
-            {short: true, shouldShowShort: true},
-            {short: false, shouldShowShort: false},
-            {short: 'true', shouldShowShort: true},
-            {short: 'false', shouldShowShort: false},
+            {short: true, shouldShowShort: true, desc: 'true boolean'},
+            {short: false, shouldShowShort: false, desc: 'false boolean'},
+            {short: 'true', shouldShowShort: true, desc: 'true string'},
+            {short: 'false', shouldShowShort: false, desc: 'false string'},
         ];
 
         testCases.forEach((testCase, i) => {
-            it('should show table elements based on short value ${i}', () => {
+            it(`should show table elements based on short value ${testCase.desc}`, () => {
                 const currentID = `${id} - ${i}`;
                 const payload = makePayloadFromShortValue(testCase.short, currentID);
                 cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
@@ -265,7 +268,7 @@ describe('Incoming webhook', () => {
         const id = 'MM-T633';
 
         const payload = {
-            "title": "Title", "attachments": [{"type": "slack_attachment", "color": "#7CD197", "fields": [{"short": false, "title": "Area", "value": "This is a test post from the Integrations tab of release testing that will be deleted by someone who has the admin level permissions to do so. Meanwhile you, the lowly tester, can smile and go back to TM4J to check this baby off as Passed. Good job rookie!"}],
+            "title": "Title", "attachments": [{"type": "slack_attachment", "color": "#7CD197", "fields": [{"short": false, "title": "Area", "value": "This is a test post from the Integrations tab of release testing that will be deleted by someone who has the admin level permissions to do so."}],
             text: `${id} This is the text of the attachment. This text should be searchable. Findme.`}],
         };
 
