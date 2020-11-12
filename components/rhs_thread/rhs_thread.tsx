@@ -214,10 +214,6 @@ export default class RhsThread extends React.Component<Props, State> {
         this.props.actions.selectPostCard(post);
     }
 
-    private onBusy = (isBusy: boolean) => {
-        this.setState({isBusy});
-    }
-
     private filterPosts = (posts: Post[], selected: Post | FakePost, openTime: number): Post[] => {
         const postsArray: Post[] = [];
 
@@ -295,6 +291,11 @@ export default class RhsThread extends React.Component<Props, State> {
         this.setState({
             isScrolling: false,
         });
+    }
+
+    private handlePostCommentResize = (): void => {
+        this.resizeRhsPostList();
+        this.scrollToBottom();
     }
 
     public render(): JSX.Element {
@@ -381,6 +382,7 @@ export default class RhsThread extends React.Component<Props, State> {
                         ref={this.postCreateContainerRef}
                     >
                         <CreateComment
+                            onHeightChange={this.handlePostCommentResize}
                             channelId={selected.channel_id}
                             rootId={selected.id}
                             rootDeleted={(selected as Post).state === Posts.POST_DELETED}
