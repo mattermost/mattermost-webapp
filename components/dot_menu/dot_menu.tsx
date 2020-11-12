@@ -30,7 +30,7 @@ export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
     post: Post;
     teamId?: string;
-    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string; // TechDebt: Made non-mandatory while converting to typescript
+    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     commentCount?: number;
     isFlagged?: boolean;
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
@@ -38,7 +38,7 @@ type Props = {
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean,
     isReadOnly: boolean | null,
-    pluginMenuItems?: any[]; // TechDebt: Made non-mandatory while converting to typescript
+    pluginMenuItems?: any[];
     isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
@@ -93,9 +93,9 @@ type Props = {
 }
 
 type State = {
-    canEdit: boolean;
     openUp: boolean;
     width?: number;
+    canEdit: boolean;
     canDelete: boolean;
 }
 
@@ -233,18 +233,22 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     refCallback = (menuRef: Menu) => {
         if (menuRef) {
-            const rect = menuRef.rect();
             const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            const y = typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y;
+            let y;
+            if (typeof buttonRect?.y === 'undefined') {
+                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+            } else {
+                y = buttonRect?.y;
+            }
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-            const spaceOnTop = (y || 0) - Constants.CHANNEL_HEADER_HEIGHT;
+            const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
             const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
-                width: rect?.width,
+                width: menuRef.rect()?.width,
             });
         }
     }
@@ -295,7 +299,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 );
             });
 
-        if (!this.state.canDelete && !this.state.canEdit && pluginItems != null && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -392,7 +396,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {((pluginItems != null && pluginItems.length > 0) || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {((typeof pluginItems !== 'undefined' && pluginItems.length > 0) || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
