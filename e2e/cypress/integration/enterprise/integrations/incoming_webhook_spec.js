@@ -42,6 +42,7 @@ describe('Incoming webhook', () => {
             sysadminUser = me.user;
         });
 
+        cy.apiRequireLicenseForFeature('Elasticsearch');
         enableElasticSearch();
     });
 
