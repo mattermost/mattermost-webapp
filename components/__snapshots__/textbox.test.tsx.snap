@@ -49,20 +49,13 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
             },
             Object {
               "id": "id2",
-            },
-          ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
             },
           ],
           "requestStarted": false,
@@ -164,20 +157,13 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
             },
             Object {
               "id": "id2",
-            },
-          ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
             },
           ],
           "requestStarted": false,
@@ -264,20 +250,13 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
             },
             Object {
               "id": "id2",
-            },
-          ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
             },
           ],
           "requestStarted": false,
@@ -364,20 +343,13 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
+          "priorityProfiles": undefined,
           "profilesInChannel": Array [
             Object {
               "id": "id1",
             },
             Object {
               "id": "id2",
-            },
-          ],
-          "profilesNotInChannel": Array [
-            Object {
-              "id": "id3",
-            },
-            Object {
-              "id": "id4",
             },
           ],
           "requestStarted": false,
