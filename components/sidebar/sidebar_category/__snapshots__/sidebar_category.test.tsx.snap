@@ -311,6 +311,21 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
           placement="right"
         >
           Create new direct message
+          <Memo(ShortcutSequence)
+            hideDescription={true}
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu",
+                },
+                "mac": Object {
+                  "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu.mac",
+                },
+              }
+            }
+          />
         </Tooltip>
       }
       placement="top"
@@ -429,6 +444,21 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
           placement="right"
         >
           Create new direct message
+          <Memo(ShortcutSequence)
+            hideDescription={true}
+            shortcut={
+              Object {
+                "default": Object {
+                  "defaultMessage": "Direct messages menu:	Ctrl|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu",
+                },
+                "mac": Object {
+                  "defaultMessage": "Direct messages menu:	⌘|Shift|K",
+                  "id": "shortcuts.nav.direct_messages_menu.mac",
+                },
+              }
+            }
+          />
         </Tooltip>
       }
       placement="top"
