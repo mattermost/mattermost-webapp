@@ -44,7 +44,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(`${testText}`).then(() => {
             cy.getLastPostId().then((postId) => {
                 cy.get(`#postMessageText_${postId}`).within(() => {
-                    // * Assert that the message has been posted with the corrext date and text
+                    // * Assert that the message has been posted with the correct date and text
                     cy.contains(`${testChannel.name}-${todaysDate} 1) ${testText}`);
                 });
             });
