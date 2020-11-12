@@ -36,7 +36,7 @@ type Props = {
     commentCount?: number;
     isFlagged?: boolean;
     handleCommentClick: React.EventHandler<React.MouseEvent>;
-    handleCardClick: (post: Post) => void;
+    handleCardClick?: (post: Post) => void;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick: () => void;
     isMenuOpen: boolean;

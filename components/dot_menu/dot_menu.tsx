@@ -38,10 +38,10 @@ type Props = {
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean,
     isReadOnly: boolean | null,
-    pluginMenuItems: any[];
+    pluginMenuItems?: any[]; // TechDebt: Made non-mandatory while converting to typescript
     isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
-    enableEmojiPicker: boolean;
+    enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean, // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string, // TechDebt: Made non-mandatory while converting to typescript
 
@@ -101,13 +101,10 @@ type State = {
 
 export default class DotMenu extends React.PureComponent<Props, State> {
     static defaultProps = {
-        post: {},
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
-        pluginMenuItems: [],
         location: Locations.CENTER,
-        enableEmojiPicker: false,
     }
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
@@ -266,7 +263,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        const pluginItems = this.props.pluginMenuItems.
+        const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
@@ -298,7 +295,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 );
             });
 
-        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.state.canDelete && !this.state.canEdit && pluginItems != null && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -395,7 +392,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {((pluginItems != null && pluginItems.length > 0) || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}

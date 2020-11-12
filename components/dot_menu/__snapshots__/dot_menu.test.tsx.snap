@@ -52,7 +52,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   >
     <MenuItemAction
       onClick={[MockFunction]}
-      show={false}
+      show={true}
       text="Reply"
     />
     <Connect(ChannelPermissionGate)
@@ -72,13 +72,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       id="unread_post_post_id_1"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Mark as Unread"
     />
     <MenuItemAction
       id="permalink_post_id_1"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Copy Link"
     />
     <MenuItemAction
@@ -100,8 +100,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       id="pin_post_post_id_1"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Pin"
+    />
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
     />
     <MenuItemAction
       id="edit_post_post_id_1"
@@ -176,7 +181,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   >
     <MenuItemAction
       onClick={[MockFunction]}
-      show={false}
+      show={true}
       text="Reply"
     />
     <Connect(ChannelPermissionGate)
@@ -196,13 +201,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       id="unread_post_post_id_1"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Mark as Unread"
     />
     <MenuItemAction
       id="permalink_post_id_1"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Copy Link"
     />
     <MenuItemAction
@@ -224,8 +229,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       id="pin_post_post_id_1"
       onClick={[Function]}
-      show={false}
+      show={true}
       text="Pin"
+    />
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
     />
     <MenuItemAction
       id="edit_post_post_id_1"
