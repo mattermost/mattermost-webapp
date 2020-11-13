@@ -10,7 +10,8 @@ stages:
   - ee-s3-onprem-rc
 
 variables:
-  ONLY_BUILD: "yes"
+  ONLY_BUILD: "no"
+  ONLY_TEST: "yes"
 
 include:
   - project: mattermost/ci/mattermost-webapp
