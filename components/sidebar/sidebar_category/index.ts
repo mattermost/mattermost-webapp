@@ -27,6 +27,7 @@ function makeMapStateToProps() {
             isCollapsed: isCategoryCollapsed(state, ownProps.category.id),
             channels: getChannelsForCategory(state, ownProps.category),
             draggingState: getDraggingState(state),
+            dmGMUserLimit: state.views.channel.limitVisibleDMsGMs,
         };
     };
 }

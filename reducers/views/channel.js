@@ -166,6 +166,15 @@ function channelPrefetchStatus(state = {}, action) {
     }
 }
 
+function limitVisibleDMsGMs(state = Infinity, action) {
+    switch (action.type) {
+    case 'LIMIT_VISIBLE_DM_GM_COUNT':
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
@@ -176,4 +185,5 @@ export default combineReducers({
     lastGetPosts,
     toastStatus,
     channelPrefetchStatus,
+    limitVisibleDMsGMs,
 });

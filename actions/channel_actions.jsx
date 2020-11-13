@@ -3,7 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {PreferenceTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, PreferenceTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
@@ -168,4 +168,11 @@ export function muteChannel(userId, channelId) {
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.MENTION,
     });
+}
+
+export function limitVisibleDMsGMs(count) {
+    return {
+        type: 'LIMIT_VISIBLE_DM_GM_COUNT',
+        data: count,
+    };
 }

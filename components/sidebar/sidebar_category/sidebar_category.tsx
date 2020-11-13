@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -14,8 +13,6 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import OverlayTrigger from 'components/overlay_trigger';
-
 import {DraggingState} from 'types/store';
 
 import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
@@ -24,6 +21,8 @@ import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
+
+import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
@@ -37,6 +36,7 @@ type Props = {
     isCollapsed: boolean;
     isNewCategory: boolean;
     draggingState: DraggingState;
+    limitVisibleDMsGMs: number;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
@@ -223,6 +223,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             channels,
             isCollapsed,
             isNewCategory,
+            limitVisibleDMsGMs,
         } = this.props;
 
         if (!category) {
@@ -233,12 +234,12 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const renderedChannels = channels.map(this.renderChannel);
+        const renderedChannels = channels.map(this.renderChannel).slice(0, limitVisibleDMsGMs);
 
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
         let directMessagesModalButton: JSX.Element;
-        let isCollapsible = true;
+        const isCollapsible = true;
         if (isNewCategory) {
             newLabel = (
                 <div className='SidebarCategory_newLabel'>
@@ -257,70 +258,15 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 />
             );
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-            const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
-
-            const addTooltip = (
-                <Tooltip
-                    id='new-group-tooltip'
-                    className='hidden-xs'
-                >
-                    {addHelpLabel}
-                </Tooltip>
-            );
-
-            let sortingIcon: JSX.Element;
-            let sortHelpLabel;
-            if (category.sorting === CategorySorting.Alphabetical) {
-                sortingIcon = (<i className='icon-sort-alphabetical-ascending'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
-            } else {
-                sortingIcon = (<i className='icon-clock-outline'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by most recent');
-            }
-
-            const sortTooltip = (
-                <Tooltip
-                    id='new-group-tooltip'
-                    className='hidden-xs'
-                >
-                    {sortHelpLabel}
-                </Tooltip>
-            );
-
             categoryMenu = (
-                <React.Fragment>
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={sortTooltip}
-                    >
-                        <button
-                            className='SidebarChannelGroupHeader_sortButton'
-                            onClick={this.handleSortDirectMessages}
-                            aria-label={sortHelpLabel}
-                        >
-                            {sortingIcon}
-                        </button>
-                    </OverlayTrigger>
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={addTooltip}
-                    >
-                        <button
-                            className='SidebarChannelGroupHeader_addButton'
-                            onClick={this.handleOpenDirectMessagesModal}
-                            aria-label={addHelpLabel}
-                        >
-                            <i className='icon-plus'/>
-                        </button>
-                    </OverlayTrigger>
-                </React.Fragment>
+                <SidebarCategorySortingMenu
+                    category={category}
+                    handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
+                    isCollapsed={this.props.isCollapsed}
+                    isMenuOpen={this.state.isMenuOpen}
+                    onToggleMenu={this.handleMenuToggle}
+                />
             );
-
-            if (!channels || !channels.length) {
-                isCollapsible = false;
-            }
         } else {
             categoryMenu = (
                 <SidebarCategoryMenu

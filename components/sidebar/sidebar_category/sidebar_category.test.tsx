@@ -49,6 +49,7 @@ describe('components/sidebar/sidebar_category', () => {
         isNewCategory: false,
         isCollapsed: false,
         isDisabled: false,
+        limitVisibleDMsGMs: Infinity,
         actions: {
             setCategoryCollapsed: jest.fn(),
             setCategorySorting: jest.fn(),

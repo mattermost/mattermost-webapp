@@ -54,6 +54,7 @@ export type GlobalState = BaseGlobalState & {
             channelPrefetchStatus: {
                 [channelId: string]: string;
             };
+            limitVisibleDMsGMs: number;
         };
 
         rhs: RhsViewState;

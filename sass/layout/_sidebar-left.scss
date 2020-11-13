@@ -358,6 +358,40 @@
                 }
             }
         }
+        .categorySortingMenu {
+            text-transform: capitalize;
+
+            .categorySortingMenuDiv {
+                display: flex;
+                padding: 0 15px;
+                margin: 0;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sorting-menu-dropdown-icon { 
+                padding: 0;
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .sorting-menu-icon {
+                padding: 0x 12px;
+                width: 0
+            }       
+            
+            .MenuGroup.menu-divider {
+                margin: 5px -32px 5px 0;
+            }
+
+            .selected {
+                text-transform: none;
+                font-size: 12px;
+                color: (var(--center-channel-text), 0.56);
+                width: 50%;
+                text-align: right;
+            }
+        }
     }
 
     .SidebarMenu_menuButton {
