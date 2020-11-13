@@ -161,6 +161,12 @@
         }
     }
 
+    &.top {
+        > .arrow {
+            border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
+    }
+
     &.left {
         > .arrow {
             border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
