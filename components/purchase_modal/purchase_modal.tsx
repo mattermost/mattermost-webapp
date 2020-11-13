@@ -81,7 +81,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         return {...state, productPrice};
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         this.props.actions.getCloudProducts();
 
