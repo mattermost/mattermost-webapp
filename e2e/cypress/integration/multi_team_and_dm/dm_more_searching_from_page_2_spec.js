@@ -26,7 +26,7 @@ describe('Multi Team and DM', () => {
 
             // # Create 52 users so the user must page forward in the dm list
             Cypress._.times(52, () => {
-                cy.apiCreateUser({prefix: `${prefix}`}).then(() => {
+                cy.apiCreateUser({prefix}).then(() => {
                     cy.apiAddUserToTeam(testTeam.id, user.id);
                 });
             });
@@ -42,21 +42,20 @@ describe('Multi Team and DM', () => {
         cy.findByLabelText('write a direct message').click();
 
         // # Move to the next page of users
-        cy.findByText('Next').click().then(() => {
-            cy.findByText('Previous').should('exist');
+        cy.findByText('Next').click();
+        cy.findByText('Previous').should('exist');
 
-            // # Enter a search term
-            cy.findByText('Search and add members').click().type(searchTerm).then(() => {
-                // * Assert that the previous / next links do not appear since there should only be 1 record displayed
-                cy.findByText('Next').should('not.exist');
-                cy.findByText('Previous').should('not.exist');
+        // # Enter a search term
+        cy.findByText('Search and add members').click().type(searchTerm);
 
-                // * Assert that the search term does not return wrong user(s)
-                cy.findAllByText(`${prefix}`).should('not.exist');
+        // * Assert that the previous / next links do not appear since there should only be 1 record displayed
+        cy.findByText('Next').should('not.exist');
+        cy.findByText('Previous').should('not.exist');
 
-                // * Assert that the search term returns the correct user and is visible
-                cy.findByText(`${searchTerm}@sample.mattermost.com`).should('be.visible');
-            });
-        });
+        // * Assert that the search term does not return wrong user(s)
+        cy.findAllByText(prefix).should('not.exist');
+
+        // * Assert that the search term returns the correct user and is visible
+        cy.findByText(`${searchTerm}@sample.mattermost.com`).should('be.visible');
     });
 });
