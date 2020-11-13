@@ -1327,7 +1327,7 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Manage Channel Settings",
   "admin.permissions.permission.manage_public_channel_properties.description": "Update public channel names, headers and purposes.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Manage Channel Settings",
-  "admin.permissions.permission.manage_remote_clusters.description": "Add, remove and view remote clusters to share channels",
+  "admin.permissions.permission.manage_remote_clusters.description": "Add, remove and view remote clusters for shared channels",
   "admin.permissions.permission.manage_remote_clusters.name": "Manage Remote Clusters",
   "admin.permissions.permission.manage_roles.description": "Manage roles",
   "admin.permissions.permission.manage_roles.name": "Manage roles",
