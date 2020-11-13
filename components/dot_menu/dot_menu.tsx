@@ -339,7 +339,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             return (
                 <Menu.ItemAction
                     text={item.label}
-                    key={item.app_id + item.location_id}
+                    key={item.app_id + item.location}
                     onClick={() => this.onClickAppBinding(item)}
                     icon={(<img src={item.icon}/>)}
                 />

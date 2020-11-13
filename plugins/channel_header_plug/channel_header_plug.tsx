@@ -91,7 +91,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 
 type ChannelHeaderPlugProps = {
     components?: PluginComponent[];
-    bindings?: AppBinding[];
+    appsBindings: AppBinding[];
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
@@ -160,7 +160,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
     createAppBindingButton = (binding: AppBinding) => {
         return (
             <HeaderIconWrapper
-                key={'channelHeaderButton' + binding.location_id}
+                key={'channelHeaderButton' + binding.location}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={(
                     <img
@@ -170,7 +170,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                     />
                 )}
                 onClick={() => this.onClick(binding)}
-                buttonId={binding.location_id || ''}
+                buttonId={binding.location || ''}
                 tooltipKey={'plugin'}
                 tooltipText={binding.label}
             />
@@ -198,7 +198,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         const items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
             return (
                 <li
-                    key={'channelHeaderPlug' + binding.app_id + binding.location_id}
+                    key={'channelHeaderPlug' + binding.app_id + binding.location}
                 >
                     <a
                         href='#'
@@ -276,7 +276,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
     render() {
         const components = this.props.components || [];
-        const appBindings = this.props.bindings || [];
+        const appBindings = this.props.appsBindings;
 
         if (components.length === 0 && appBindings.length === 0) {
             return null;
