@@ -410,11 +410,6 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     const displayedChannelIds = this.props.displayedChannels.map((channel) => channel.id);
                     channelsToMove = channelsToMove.sort((a, b) => displayedChannelIds.indexOf(a) - displayedChannelIds.indexOf(b));
                 }
-
-                // channelsToMove.forEach((channelId, index) => {
-                //     this.props.actions.moveChannelInSidebar(result.destination!.droppableId, channelId, result.destination!.index + index);
-                //     trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
-                // });
                 this.props.actions.moveChannelsInSidebar(result.destination.droppableId, channelsToMove, result.destination.index, result.draggableId);
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {DraggingState} from 'types/store';
 import Constants, {DraggingStates} from 'utils/constants';
 
@@ -77,6 +78,10 @@ type Props = {
     isCategoryDragged: boolean;
 
     isDropDisabled: boolean;
+
+    isChannelSelected: boolean;
+
+    selectedChannelIds: string[];
 };
 
 type State = {
@@ -131,6 +136,9 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             isCurrentChannel,
             isDraggable,
             isDMCategory,
+            isChannelSelected,
+            draggingState,
+            selectedChannelIds,
         } = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
@@ -151,6 +159,19 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         let wrappedComponent: React.ReactNode;
 
         if (isDraggable) {
+            let selectedCount: React.ReactNode | undefined;
+            if (isChannelSelected && draggingState.state && draggingState.id === channel.id && selectedChannelIds.length > 1) {
+                selectedCount = (
+                    <div className='SidebarChannel__selectedCount'>
+                        <FormattedMarkdownMessage
+                            id='sidebar_channel.selectedCount'
+                            defaultMessage='{count} selected'
+                            values={{count: selectedChannelIds.length}}
+                        />
+                    </div>
+                );
+            }
+
             wrappedComponent = (
                 <Draggable
                     draggableId={channel.id}
@@ -166,6 +187,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                     unread: this.isUnread(),
                                     active: isCurrentChannel,
                                     dragging: snapshot.isDragging,
+                                    selectedDragging: isChannelSelected && draggingState.state && draggingState.id !== channel.id,
                                     fadeDMs: snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages'),
                                     noFloat: isDMCategory && !snapshot.isDragging,
                                 })}
@@ -176,6 +198,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                 tabIndex={-1}
                             >
                                 {component}
+                                {selectedCount}
                             </li>
                         );
                     }}

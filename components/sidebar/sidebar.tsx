@@ -11,7 +11,7 @@ import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import Pluggable from 'plugins/pluggable';
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import AddChannelDropdown from './add_channel_dropdown';
@@ -67,7 +67,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             });
         }
 
-        window.addEventListener('click', this.handleClearChannelSelection);
+        window.addEventListener('click', this.handleClickClearChannelSelection);
+        window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -77,15 +78,22 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('click', this.handleClearChannelSelection);
+        window.removeEventListener('click', this.handleClickClearChannelSelection);
+        window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
     }
 
-    handleClearChannelSelection = (event: MouseEvent) => {
+    handleClickClearChannelSelection = (event: MouseEvent) => {
         if (event.defaultPrevented) {
             return;
         }
 
         this.props.actions.clearChannelSelection();
+    }
+
+    handleKeyDownClearChannelSelection = (event: KeyboardEvent) => {
+        if (Utils.isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
+            this.props.actions.clearChannelSelection();
+        }
     }
 
     showMoreDirectChannelsModal = () => {
