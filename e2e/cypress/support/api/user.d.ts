@@ -293,5 +293,24 @@ declare namespace Cypress {
          *   cy.apiActivateUserMFA('user-id', activate: false);
          */
         apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
+
+        /**
+         * Create a user access token
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1tokens/post
+         * @param {String} userId - ID of user for whom to generate token
+         * @param {String} description - The description of the token usage
+         * @example
+         *   cy.apiAccessToken('user-id', 'token for cypress tests');
+         */
+        apiAccessToken(userId: string, description: string): Chainable<UserAccessToken>;
+
+        /**
+         * Revoke a user access token
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1tokens~1revoke/post
+         * @param {String} tokenId - The id of the token to revoke
+         * @example
+         *   cy.apiRevokeAccessToken('token-id')
+         */
+        apiRevokeAccessToken(tokenId: string): Chainable<Response>;
     }
 }

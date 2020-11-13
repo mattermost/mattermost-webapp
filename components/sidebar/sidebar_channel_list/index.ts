@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
-import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -31,7 +31,7 @@ function makeMapStateToProps() {
 
         return {
             currentTeam,
-            currentChannelId: getCurrentChannelId(state),
+            currentChannel: getCurrentChannel(state),
             categories: getCategoriesForTeam(state, currentTeam.id),
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
             unreadChannelIds: getUnreadChannelIds(state),
