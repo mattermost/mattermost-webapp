@@ -40,7 +40,7 @@ describe('User Management', () => {
             });
 
             // * Can page backward as well.
-            cy.get('button[id="searchableUserListPrevBtn"]').should('be.visible').click();
+            cy.get('#searchableUserListPrevBtn').should('be.visible').click();
         });
     });
 
@@ -151,13 +151,13 @@ describe('User Management', () => {
         // # Search for the user.
         cy.get('#searchUsers').clear().type(oldEmail).wait(TIMEOUTS.HALF_SEC);
 
-        // # Open the actions menu.
-        cy.get('[data-testid="userListRow"] .more-modal__right .more-modal__actions .MenuWrapper .text-right a').
-            click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('userListRow').within(() => {
+            // # Open the actions menu.
+            cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
 
-        // # Click the Update email menu option.
-        cy.get('[data-testid="userListRow"] .more-modal__right .more-modal__actions .MenuWrapper .MenuWrapperAnimation-enter-done').
-            find('li').eq(4).click().wait(TIMEOUTS.HALF_SEC);
+            // # Click the Update email menu option.
+            cy.findByLabelText('User Actions Menu').findByText('Update Email').click().wait(TIMEOUTS.HALF_SEC);
+        });
 
         // # Verify the modal opened.
         cy.findByTestId('resetEmailModal').should('exist');
@@ -175,7 +175,7 @@ describe('User Management', () => {
             cy.get('form.form-horizontal').find('.has-error p.error').should('be.visible').and('contain', errorMsg);
 
             // # Close the modal.
-            cy.get('button[aria-label="Close"]').click();
+            cy.findByLabelText('Close').click();
         }
     }
 
