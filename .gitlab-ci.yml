@@ -3,11 +3,10 @@ stages:
   # These need to have separate stages, otherwise artifacts would overwrite each other
   - te-build
   - te-s3
-  - ee-s3-test # copy of te
+  - ee-build-test
+  - ee-s3-test # rudder-rc, stripe-test
   - ee-build-live # rudder-live, stripe-live
   - ee-s3-live
-  - ee-build-onprem-rc # rudder-rc
-  - ee-s3-onprem-rc
 
 variables:
   ONLY_BUILD: "no"
