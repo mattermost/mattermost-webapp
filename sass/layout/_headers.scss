@@ -182,6 +182,11 @@
                 width: 16px;
                 height: 16px;
             }
+
+            svg {
+                fill: rgba(var(--center-channel-color-rgb), 0.6);
+            }
+
         }
 
         a {
