@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {Stripe} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
@@ -25,7 +26,7 @@ import {browserHistory} from 'utils/browser_history';
 import './payment_info_edit.scss';
 import AlertBanner from 'components/alert_banner';
 
-let stripePromise: any;
+let stripePromise: Promise<Stripe | null>;
 
 const PaymentInfoEdit: React.FC = () => {
     const dispatch = useDispatch();

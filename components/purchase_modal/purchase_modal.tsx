@@ -31,7 +31,7 @@ import ProcessPaymentSetup from './process_payment_setup';
 import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
 
-let stripePromise: any;
+let stripePromise: Promise<Stripe | null>;
 
 type Props = {
     show: boolean;
