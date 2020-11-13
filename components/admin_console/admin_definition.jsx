@@ -30,6 +30,8 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import SystemRoles from './system_roles';
+import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
@@ -47,6 +49,7 @@ import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import BleveSettings from './bleve_settings.jsx';
+import FeatureFlags from './feature_flags.tsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
@@ -505,6 +508,29 @@ const AdminDefinition = {
                 component: PermissionSchemesSettings,
             },
         },
+        system_role: {
+            url: 'user_management/system_roles/:role_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            schema: {
+                id: 'SystemRole',
+                component: SystemRole,
+            },
+        },
+        system_roles: {
+            url: 'user_management/system_roles',
+            title: t('admin.sidebar.systemRoles'),
+            title_default: 'System Roles (Beta)',
+            searchableStrings: [],
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.system_roles')),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            schema: {
+                id: 'SystemRoles',
+                component: SystemRoles,
+            },
+        },
     },
     environment: {
         icon: 'fa-server',
@@ -700,6 +726,16 @@ const AdminDefinition = {
                         label_default: 'Enable Insecure Outgoing Connections: ',
                         help_text: t('admin.service.insecureTlsDesc'),
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.ManagedResourcePaths',
+                        label: t('admin.service.managedResourcePaths'),
+                        label_default: 'Managed Resource Paths:',
+                        help_text: t('admin.service.managedResourcePathsDescription'),
+                        help_text_default: 'A comma-separated list of paths on the Mattermost server that are managed by another service. See [here](!https://docs.mattermost.com/install/desktop-managed-resources.html) for more information.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -5311,6 +5347,20 @@ const AdminDefinition = {
                         isHidden: it.not(it.licensedForFeature('Cloud')),
                     },
                 ],
+            },
+        },
+        feature_flags: {
+            url: 'experimental/feature_flags',
+            title: t('admin.feature_flags.title'),
+            title_default: 'Feature Flags',
+            isHidden: it.configIsTrue('ExperimentalSettings'),
+            isDisabled: true,
+            searchableStrings: [
+                'admin.feature_flags.title',
+            ],
+            schema: {
+                id: 'Feature Flags',
+                component: FeatureFlags,
             },
         },
         bleve: {
