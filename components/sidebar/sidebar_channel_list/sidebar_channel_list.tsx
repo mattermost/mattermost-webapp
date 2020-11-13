@@ -376,8 +376,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (this.props.categories.some((category) => category.id === before.draggableId)) {
             draggingState.type = DraggingStateTypes.CATEGORY;
         } else {
-            const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === before.draggableId);
-            draggingState.type = (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) ? DraggingStateTypes.DM : DraggingStateTypes.CHANNEL;
+            const draggingChannels = this.props.displayedChannels.filter((channel) => this.props.selectedChannelIds.indexOf(channel.id) !== -1 || channel.id === before.draggableId);
+            if (draggingChannels.every((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.DM;
+            } else if (draggingChannels.every((channel) => channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.CHANNEL;
+            } else {
+                draggingState.type = DraggingStateTypes.MIXED_CHANNELS;
+            }
         }
 
         this.props.actions.setDraggingState(draggingState);
