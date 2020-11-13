@@ -25,7 +25,7 @@ describe('Incoming webhook', () => {
         });
 
         // # Create and visit new channel and create incoming webhook
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
 
@@ -43,7 +43,7 @@ describe('Incoming webhook', () => {
             offTopicLink = `/${team.name}/channels/off-topic`;
         });
 
-        cy.apiGetMe().then(me => {
+        cy.apiGetMe().then((me) => {
             sysadminUser = me.user;
         });
     });
@@ -61,11 +61,11 @@ describe('Incoming webhook', () => {
 
         it('first payload', () => {
             const search = id + '-1';
-            const payload = {text: search, "attachments":[{"fallback": "fallback text", "image_url": imageUrl}]};
+            const payload = {text: search, attachments: [{fallback: 'fallback text', image_url: imageUrl}]};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-            cy.getLastPost().within((el) => {
+            cy.getLastPost().within(() => {
                 cy.get('.post-message__text').should('have.text', search);
                 cy.get('.attachment__image').should('have.attr', 'src', imageSrc);
             });
@@ -73,12 +73,12 @@ describe('Incoming webhook', () => {
 
         it('second payload', () => {
             const search = id + '-2';
-            const payload = {"channel": "off-topic", "text": search, "username": "new_username", "attachments":[{"fallback": "fallback text", "image_url": imageUrl}], "icon_url": "http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png"}
+            const payload = {channel: 'off-topic', text: search, username: 'new_username', attachments: [{fallback: 'fallback text', image_url: imageUrl}], icon_url: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png'};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
             cy.visit(offTopicLink);
 
-            cy.getLastPost().within((el) => {
+            cy.getLastPost().within(() => {
                 cy.get('.post-message__text').should('have.text', search);
                 cy.get('.attachment__image').should('have.attr', 'src', imageSrc);
             });
@@ -90,13 +90,13 @@ describe('Incoming webhook', () => {
 
         it('wide image', () => {
             const search = id + '-wide';
-            const payload = {text: search, "attachments":[{"image_url":"https://cdn.pixabay.com/photo/2017/10/10/22/24/wide-format-2839089_960_720.jpg"}]};
+            const payload = {text: search, attachments: [{image_url: 'https://cdn.pixabay.com/photo/2017/10/10/22/24/wide-format-2839089_960_720.jpg'}]};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
             // Original image is 960x246. 960/246 = ~3.9. Let's make sure image is rendered with 3.9 +/- 0.1
 
-            cy.getLastPost().within((el) => {
+            cy.getLastPost().within(() => {
                 cy.get('.post-message__text').should('have.text', search);
                 const originalWidth = 960;
                 const originalHeight = 246;
@@ -109,11 +109,11 @@ describe('Incoming webhook', () => {
 
         it('tall image', () => {
             const search = id + '-tall';
-            const payload = {text: search, "attachments":[{"image_url":"https://media.npr.org/programs/atc/features/2009/may/short/abetall3-0483922b5fb40887fc9fbe20a606e256cbbd10ee-s800-c85.jpg"}]};
+            const payload = {text: search, attachments: [{image_url: 'https://media.npr.org/programs/atc/features/2009/may/short/abetall3-0483922b5fb40887fc9fbe20a606e256cbbd10ee-s800-c85.jpg'}]};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-            cy.getLastPost().within((el) => {
+            cy.getLastPost().within(() => {
                 cy.get('.post-message__text').should('have.text', search);
                 const originalWidth = 385;
                 const originalHeight = 916;
@@ -143,7 +143,7 @@ describe('Incoming webhook', () => {
             return Boolean(postedMessageEl && postedMessageEl.textContent.includes(id));
         }));
 
-        cy.getLastPost().within((el) => {
+        cy.getLastPost().within(() => {
             cy.get('.post-message__text').within(() => {
                 cy.get('.mention--highlight').eq(0).should('have.text', '@here');
                 cy.get('.mention--highlight').eq(1).should('have.text', '@channel');
@@ -156,9 +156,15 @@ describe('Incoming webhook', () => {
 
         const payload = {
             channel: testChannel.name,
-            "attachments": [{"type": "slack_attachment", "color": "#7CD197", "fields": [{"short": false, "title": "Area", "value": "Testing with a very long piece of text that will take up the whole width of the table (stopping short of the space where the thumbnail image is displayed). This is one more sentence to really make it a long field, and let's add a taco emoji :taco:."}, {"short": true, "title": "Iteration", "value": "Testing"}, {"short": true, "title": "State", "value": "New"}, {"short": false, "title": "Reason", "value": "New defect reported"}, {"short": false, "title": "Random field", "value": "This is a field which is not marked as short so it should be rendered on a separate row"}, {"short": true, "title": "Short 1", "value": "Short field"}, {"short": true, "title": "Short 2", "value": "Another one"}, {"short": true, "title": "Field with link", "value": "<http://example.com|Link>"}], "mrkdwn_in": ["pretext"],
-            "pretext": `${id} <@${sysadminUser.id}> Some text here to look at (verify eyes emoji) :eyes:`,
-            "text": "This is the text of the attachment. There should be a small Jenkins thumbnail off to the right.", "thumb_url": "https://slack.global.ssl.fastly.net/7bf4/img/services/jenkins-ci_128.png", "title": "A slack attachment", "title_link": "https://www.google.com"}]
+            attachments: [{type: 'slack_attachment',
+                color: '#7CD197',
+                fields: [{short: false, title: 'Area', value: "Testing with a very long piece of text that will take up the whole width of the table (stopping short of the space where the thumbnail image is displayed). This is one more sentence to really make it a long field, and let's add a taco emoji :taco:."}, {short: true, title: 'Iteration', value: 'Testing'}, {short: true, title: 'State', value: 'New'}, {short: false, title: 'Reason', value: 'New defect reported'}, {short: false, title: 'Random field', value: 'This is a field which is not marked as short so it should be rendered on a separate row'}, {short: true, title: 'Short 1', value: 'Short field'}, {short: true, title: 'Short 2', value: 'Another one'}, {short: true, title: 'Field with link', value: '<http://example.com|Link>'}],
+                mrkdwn_in: ['pretext'],
+                pretext: `${id} <@${sysadminUser.id}> Some text here to look at (verify eyes emoji) :eyes:`,
+                text: 'This is the text of the attachment. There should be a small Jenkins thumbnail off to the right.',
+                thumb_url: 'https://slack.global.ssl.fastly.net/7bf4/img/services/jenkins-ci_128.png',
+                title: 'A slack attachment',
+                title_link: 'https://www.google.com'}],
         };
 
         cy.visit(offTopicLink);
@@ -168,7 +174,7 @@ describe('Incoming webhook', () => {
         cy.get(`#sidebarItem_${testChannel.name}`).find('#unreadMentions').should('have.text', '1');
         cy.get(`#sidebarItem_${testChannel.name}`).click();
 
-        cy.getLastPost().within((el) => {
+        cy.getLastPost().within(() => {
             cy.get('.attachment__thumb-pretext').should('contain', id);
             cy.get('.attachment__thumb-pretext a.mention-link').should('have.text', '@sysadmin');
             cy.get('.attachment__thumb-pretext span[data-emoticon="eyes"]').should('exist');
@@ -186,9 +192,15 @@ describe('Incoming webhook', () => {
 
         const payload = {
             channel: testChannel.name,
-            "attachments": [{"type": "slack_attachment", "color": "#7CD197", "fields": [{"short": false, "title": "Area", "value": "Testing with a very long piece of text that will take up the whole width of the table (stopping short of the space where the thumbnail image is displayed). This is one more sentence to really make it a long field, and let's add a taco emoji :taco:."}, {"short": true, "title": "Iteration", "value": "Testing"}, {"short": true, "title": "State", "value": "New"}, {"short": false, "title": "Reason", "value": "New defect reported"}, {"short": false, "title": "Random field", "value": "This is a field which is not marked as short so it should be rendered on a separate row"}, {"short": true, "title": "Short 1", "value": "Short field"}, {"short": true, "title": "Short 2", "value": "Another one"}, {"short": true, "title": "Field with link", "value": "<http://example.com|Link>"}], "mrkdwn_in": ["pretext"],
-            "pretext": `${id} Some text here to look at (verify eyes emoji) :eyes:`,
-            "text": `This is the text of the attachment. <@${sysadminUser.id}>, There should be a small Jenkins thumbnail off to the right.`, "thumb_url": "https://slack.global.ssl.fastly.net/7bf4/img/services/jenkins-ci_128.png", "title": "A slack attachment", "title_link": "https://www.google.com"}]
+            attachments: [{type: 'slack_attachment',
+                color: '#7CD197',
+                fields: [{short: false, title: 'Area', value: "Testing with a very long piece of text that will take up the whole width of the table (stopping short of the space where the thumbnail image is displayed). This is one more sentence to really make it a long field, and let's add a taco emoji :taco:."}, {short: true, title: 'Iteration', value: 'Testing'}, {short: true, title: 'State', value: 'New'}, {short: false, title: 'Reason', value: 'New defect reported'}, {short: false, title: 'Random field', value: 'This is a field which is not marked as short so it should be rendered on a separate row'}, {short: true, title: 'Short 1', value: 'Short field'}, {short: true, title: 'Short 2', value: 'Another one'}, {short: true, title: 'Field with link', value: '<http://example.com|Link>'}],
+                mrkdwn_in: ['pretext'],
+                pretext: `${id} Some text here to look at (verify eyes emoji) :eyes:`,
+                text: `This is the text of the attachment. <@${sysadminUser.id}>, There should be a small Jenkins thumbnail off to the right.`,
+                thumb_url: 'https://slack.global.ssl.fastly.net/7bf4/img/services/jenkins-ci_128.png',
+                title: 'A slack attachment',
+                title_link: 'https://www.google.com'}],
         };
 
         cy.visit(offTopicLink);
@@ -198,7 +210,7 @@ describe('Incoming webhook', () => {
         cy.get(`#sidebarItem_${testChannel.name}`).find('#unreadMentions').should('have.text', '1');
         cy.get(`#sidebarItem_${testChannel.name}`).click();
 
-        cy.getLastPost().within((el) => {
+        cy.getLastPost().within(() => {
             cy.get('.attachment__thumb-pretext').should('contain', id);
             cy.get('.attachment__thumb-pretext span[data-emoticon="eyes"]').should('exist');
 
@@ -216,10 +228,17 @@ describe('Incoming webhook', () => {
 
         const makePayloadFromShortValue = (short, currentID) => ({
             channel: testChannel.name,
-            "attachments": [{"type": "slack_attachment", "color": "#7CD197", "fields": [{"short": false, "title": "Area", "value": "Testing with a very long piece of text that will take up the whole width of the table (stopping short of the space where the thumbnail image is displayed). This is one more sentence to really make it a long field, and let's add a taco emoji :taco:."}, {"short": true, "title": "Iteration", "value": "Testing"}, {"short": true, "title": "State", "value": "New"}, {"short": false, "title": "Reason", "value": "New defect reported"}, {"short": false, "title": "Random field", "value": "This is a field which is not marked as short so it should be rendered on a separate row"}, {"short": true, "title": "Short 1", "value": "Short field"},
-            {"short": short, "title": "Short 2", "value": "Another one"}, {"short": true, "title": "Field with link", "value": "<http://example.com|Link>"}], "mrkdwn_in": ["pretext"], "pretext": "Some text here to look at (verify eyes emoji) :eyes:",
-            "text": `${currentID} ${short} This is the text of the attachment. <@${sysadminUser.id}>, there should be a small Jenkins thumbnail off to the right.`, "thumb_url": "https://slack.global.ssl.fastly.net/7bf4/img/services/jenkins-ci_128.png", "title": "A slack attachment", "title_link": "https://www.google.com"
-        }]});
+            attachments: [{type: 'slack_attachment',
+                color: '#7CD197',
+                fields: [{short: false, title: 'Area', value: "Testing with a very long piece of text that will take up the whole width of the table (stopping short of the space where the thumbnail image is displayed). This is one more sentence to really make it a long field, and let's add a taco emoji :taco:."}, {short: true, title: 'Iteration', value: 'Testing'}, {short: true, title: 'State', value: 'New'}, {short: false, title: 'Reason', value: 'New defect reported'}, {short: false, title: 'Random field', value: 'This is a field which is not marked as short so it should be rendered on a separate row'}, {short: true, title: 'Short 1', value: 'Short field'},
+                    {short, title: 'Short 2', value: 'Another one'}, {short: true, title: 'Field with link', value: '<http://example.com|Link>'}],
+                mrkdwn_in: ['pretext'],
+                pretext: 'Some text here to look at (verify eyes emoji) :eyes:',
+                text: `${currentID} ${short} This is the text of the attachment. <@${sysadminUser.id}>, there should be a small Jenkins thumbnail off to the right.`,
+                thumb_url: 'https://slack.global.ssl.fastly.net/7bf4/img/services/jenkins-ci_128.png',
+                title: 'A slack attachment',
+                title_link: 'https://www.google.com',
+            }]});
 
         const testCases = [
             {short: true, shouldShowShort: true, desc: 'true boolean'},
@@ -234,7 +253,7 @@ describe('Incoming webhook', () => {
                 const payload = makePayloadFromShortValue(testCase.short, currentID);
                 cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-                cy.getLastPost().within((el) => {
+                cy.getLastPost().within(() => {
                     cy.get('.attachment__body .post-message__text-container p').should('contain', currentID);
 
                     if (testCase.shouldShowShort) {
@@ -259,37 +278,19 @@ describe('Incoming webhook', () => {
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-        cy.getLastPost().within((el) => {
+        cy.getLastPost().within(() => {
             cy.get('.post__body p').should('have.text', text);
         });
-    });
-
-    it('MM-T633 Text in Slack-style attachment is searchable', () => {
-        const id = 'MM-T633';
-
-        const payload = {
-            "title": "Title", "attachments": [{"type": "slack_attachment", "color": "#7CD197", "fields": [{"short": false, "title": "Area", "value": "This is a test post from the Integrations tab of release testing that will be deleted by someone who has the admin level permissions to do so."}],
-            text: `${id} This is the text of the attachment. This text should be searchable. Findme.`}],
-        };
-
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
-
-        cy.get('#searchBox').wait(100).type('findme').type('{enter}', {force: true});
-
-        cy.get('#search-items-container').within((el) => {
-            cy.get('.attachment__body').should('contain', id);
-            cy.get('.attachment__body').should('contain', 'Findme.');
-        })
     });
 
     it('MM-T634 Action buttons in Slack-style attachment post', () => {
         const id = 'MM-T634';
 
-        const payload = {text: id, "attachments":[{"pretext": "This is the attachment pretext.","text":"This is the attachment text.","actions":[{"name":"Select an option...","integration":{"url":"http://127.0.0.1:7357/action_options","context":{"action":"do_something"}},"type":"select","data_source":"channels"},{"name":"Select an option...","integration":{"url":"http://127.0.0.1:7357/action_options","context":{"action":"do_something"}},"type":"select","options":[{"text":"Option1","value":"opt1"},{"text":"Option2","value":"opt2"},{"text":"Option3","value":"opt3"}]},{"name":"Ephemeral Message","integration":{"url":"http://127.0.0.1:7357","context":{"action":"do_something_ephemeral"}}},{"name":"Update","integration":{"url":"http://127.0.0.1:7357","context":{"action":"do_something_update"}}}]}]};
+        const payload = {text: id, attachments: [{pretext: 'This is the attachment pretext.', text: 'This is the attachment text.', actions: [{name: 'Select an option...', integration: {url: 'http://127.0.0.1:7357/action_options', context: {action: 'do_something'}}, type: 'select', data_source: 'channels'}, {name: 'Select an option...', integration: {url: 'http://127.0.0.1:7357/action_options', context: {action: 'do_something'}}, type: 'select', options: [{text: 'Option1', value: 'opt1'}, {text: 'Option2', value: 'opt2'}, {text: 'Option3', value: 'opt3'}]}, {name: 'Ephemeral Message', integration: {url: 'http://127.0.0.1:7357', context: {action: 'do_something_ephemeral'}}}, {name: 'Update', integration: {url: 'http://127.0.0.1:7357', context: {action: 'do_something_update'}}}]}]};
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-        cy.getLastPost().within((el) => {
+        cy.getLastPost().within(() => {
             cy.get('.post-message__text').should('have.text', id);
 
             cy.get('.attachment-actions > :nth-child(1)').should('have.attr', 'data-testid', 'autoCompleteSelector');
@@ -307,11 +308,11 @@ describe('Incoming webhook', () => {
     it('MM-T635 Initial selection on post action dropdown', () => {
         const id = 'MM-T635';
 
-        const payload = {text: id, "attachments":[{"pretext": "This is the attachment pretext.","text":"This is the attachment text.","actions":[{"name":"Select an option...","integration":{"url":"http://127.0.0.1:7357/action_options","context":{"action":"do_something"}},"type":"select","data_source":"channels"},{"name":"Select an option...","integration":{"url":"http://127.0.0.1:7357/action_options","context":{"action":"do_something"}},"type":"select","options":[{"text":"Option1","value":"opt1"},{"text":"Option2","value":"opt2"},{"text":"Option3","value":"opt3"}]},{"name":"Ephemeral Message","integration":{"url":"http://127.0.0.1:7357","context":{"action":"do_something_ephemeral"}}},{"name":"Update","integration":{"url":"http://127.0.0.1:7357","context":{"action":"do_something_update"}}}]}]};
+        const payload = {text: id, attachments: [{pretext: 'This is the attachment pretext.', text: 'This is the attachment text.', actions: [{name: 'Select an option...', integration: {url: 'http://127.0.0.1:7357/action_options', context: {action: 'do_something'}}, type: 'select', data_source: 'channels'}, {name: 'Select an option...', integration: {url: 'http://127.0.0.1:7357/action_options', context: {action: 'do_something'}}, type: 'select', options: [{text: 'Option1', value: 'opt1'}, {text: 'Option2', value: 'opt2'}, {text: 'Option3', value: 'opt3'}]}, {name: 'Ephemeral Message', integration: {url: 'http://127.0.0.1:7357', context: {action: 'do_something_ephemeral'}}}, {name: 'Update', integration: {url: 'http://127.0.0.1:7357', context: {action: 'do_something_update'}}}]}]};
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-        cy.getLastPost().within((el) => {
+        cy.getLastPost().within(() => {
             cy.get('.post-message__text').should('have.text', id);
 
             cy.get('.attachment-actions > :nth-child(1)').should('have.attr', 'data-testid', 'autoCompleteSelector');
