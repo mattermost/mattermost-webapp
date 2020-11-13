@@ -519,7 +519,7 @@ const AdminDefinition = {
         system_roles: {
             url: 'user_management/system_roles',
             title: t('admin.sidebar.systemRoles'),
-            title_default: 'System Roles',
+            title_default: 'System Roles (Beta)',
             searchableStrings: [],
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
