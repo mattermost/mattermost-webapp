@@ -39,27 +39,30 @@ describe('Multi Team and DM', () => {
     it('MM-T439 Town Square is not marked as unread for existing users when a new user is added to the team', () => {
         // # Disable join/ leave messages for testUser
         cy.findByLabelText('main menu').click();
-        cy.get('#accountSettings').click();
+        cy.findByText('Account Settings').click();
         cy.findByLabelText('advanced').click();
-        cy.get('#joinLeaveDesc').click();
+        cy.findByText('Enable Join/Leave Messages').click();
         cy.get('#joinLeaveOff').click();
-        cy.get('#accountSettingsHeader > .close > [aria-hidden="true"]').click();
+        cy.findByText('Save').click();
+        cy.get('#accountSettingsHeader').within(() => {
+            cy.findByText('Close').click({force: true});
+        });
 
         // # Confirm Town Square is marked as read
-        cy.get('#sidebarItem_town-square').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
+        cy.findByLabelText('town square public channel').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
 
         // # Remove focus from Town Square
-        cy.get('#sidebarItem_off-topic').click();
+        cy.findByLabelText('off-topic public channel').click();
 
         // # Add second user to team in external session
         cy.externalRequest({user: sysadmin, method: 'post', path: `teams/${testTeam.id}/members`, data: {team_id: testTeam.id, user_id: otherUser.id}});
 
         // * Assert that Town Square is still marked as read after second user added to team
-        cy.get('#sidebarItem_town-square').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
+        cy.findByLabelText('town square public channel').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
 
         // * Switch to different channel and assert that Town Square is still marked as read
-        cy.get(`#sidebarItem_${testChannel.name}`).click().then(() => {
-            cy.get('#sidebarItem_town-square').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
+        cy.findByText(`${testChannel.display_name}`).click().then(() => {
+            cy.findByLabelText('town square public channel').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
         });
     });
 });
