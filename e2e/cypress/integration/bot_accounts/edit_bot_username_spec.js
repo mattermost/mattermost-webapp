@@ -33,7 +33,6 @@ describe('Edit bot username', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Create and visit channel
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
         });
@@ -43,7 +42,7 @@ describe('Edit bot username', () => {
         // # Visit bot config
         cy.visit('/admin_console/integrations/bot_accounts');
 
-        // # Click 'true' to enable
+        // # Verify that the setting is enabled
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue', {timeout: TIMEOUTS.ONE_MIN}).should('be.checked');
 
         // # Visit the integrations
@@ -74,8 +73,10 @@ describe('Edit bot username', () => {
                 // * Check that user name is as expected
                 cy.get('#username').should('have.value', botName);
 
-                // * Check that details are empty
+                // * Check that the display name is correct
                 cy.get('#displayName').should('have.value', 'Test Bot');
+
+                // * Check that description is empty
                 cy.get('#description').should('have.value', '');
 
                 newbotName = `bot-${getRandomId()}`;
