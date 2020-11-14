@@ -2,19 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMissingProfilesByIds, getMissingProfilesByUsernames} from 'mattermost-redux/actions/users';
 import {Preferences} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, makeGetProfilesByIdsAndUsernames} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import CombinedSystemMessage from './combined_system_message.jsx';
 
 function makeMapStateToProps() {
     const getProfilesByIdsAndUsernames = makeGetProfilesByIdsAndUsernames();
 
-    return (state, ownProps) => {
+    return (state:GlobalState, ownProps) => {
         const currentUser = getCurrentUser(state);
         const {allUserIds, allUsernames} = ownProps;
 
@@ -27,7 +29,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getMissingProfilesByIds,
