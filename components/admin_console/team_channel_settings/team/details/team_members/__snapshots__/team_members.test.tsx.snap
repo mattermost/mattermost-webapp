@@ -146,9 +146,9 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         },
       }
     }
+    onSearch={[Function]}
     removeUser={[Function]}
     scope="team"
-    search={[Function]}
     term=""
     totalCount={3}
     updateMembership={[Function]}
@@ -402,9 +402,9 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
     loadPage={[Function]}
     loading={true}
     memberships={Object {}}
+    onSearch={[Function]}
     removeUser={[Function]}
     scope="team"
-    search={[Function]}
     term=""
     totalCount={0}
     updateMembership={[Function]}
