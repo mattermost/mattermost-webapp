@@ -10,7 +10,6 @@
 // Group: @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
 import {getRandomId} from '../../utils';
 
 describe('Edit bot username', () => {
