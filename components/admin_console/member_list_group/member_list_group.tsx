@@ -110,10 +110,6 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term: string) => {
-        this.props.actions.setModalSearchTerm(term);
-    }
-
     private getRows = (): Row[] => {
         const {users} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
@@ -188,7 +184,7 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.props.actions.setModalSearchTerm}
                     term={this.props.searchTerm || ''}
                     placeholderEmpty={placeholderEmpty}
                 />
