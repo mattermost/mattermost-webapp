@@ -34,6 +34,7 @@ describe('Channel sidebar', () => {
         // * Verify that we've switched to the new team and are on Town Square
         cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('contain', teamName);
         cy.url().should('include', `/${teamName}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
     it('should display collapsed state when collapsed', () => {
@@ -74,6 +75,7 @@ describe('Channel sidebar', () => {
 
                 // Force a reload to ensure the unread message displays
                 cy.reload();
+                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Check that the CHANNELS group header is visible
                 cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
@@ -110,8 +112,9 @@ describe('Channel sidebar', () => {
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(TIMEOUTS.TWO_SEC);
 
-        // # Reload the page
+        // # Reload the page and wait
         cy.reload();
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // * Verify that the category still appears collapsed after refresh
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
@@ -126,8 +129,9 @@ describe('Channel sidebar', () => {
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // # Reload the page
+        // # Reload the page and wait
         cy.reload();
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // * Verify that the category still appears not collapsed after refresh
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');
@@ -153,7 +157,7 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarFilters_filterButton').click();
 
         // * Verify that the unread filter is enabled
-        cy.get('.SidebarChannelGroupHeader:contains(UNREAD CHANNELS)').should('be.visible');
+        cy.get('.SidebarChannelGroupHeader:contains(ALL UNREAD)').should('be.visible');
 
         // # Disable the unread filter
         cy.get('.SidebarFilters_filterButton').click();

@@ -8,6 +8,8 @@ import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
+import {TestHelper} from 'utils/test_helper';
+
 import DataPrefetch from './data_prefetch';
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -16,7 +18,7 @@ jest.mock('actions/user_actions.jsx', () => ({
 
 describe('/components/data_prefetch', () => {
     const defaultProps = {
-        currentChannelId: '',
+        currentChannel: TestHelper.getChannelMock({id: ''}),
         actions: {
             prefetchChannelPosts: jest.fn(() => Promise.resolve({})),
             trackDMGMOpenChannels: jest.fn(() => Promise.resolve()),
@@ -26,7 +28,7 @@ describe('/components/data_prefetch', () => {
             2: ['unreadChannel'],
         },
         prefetchRequestStatus: {},
-        unreadChannels: [{
+        unreadChannels: [TestHelper.getChannelMock({
             id: 'mentionChannel',
             display_name: 'mentionChannel',
             create_at: 0,
@@ -43,7 +45,7 @@ describe('/components/data_prefetch', () => {
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1234,
-        }, {
+        }), TestHelper.getChannelMock({
             id: 'unreadChannel',
             display_name: 'unreadChannel',
             create_at: 0,
@@ -60,7 +62,7 @@ describe('/components/data_prefetch', () => {
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1235,
-        }],
+        })],
     };
 
     test('should call posts of current channel when it is set', async () => {
@@ -70,7 +72,7 @@ describe('/components/data_prefetch', () => {
         const instance = wrapper.instance();
 
         instance.prefetchPosts = jest.fn();
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
         await loadProfilesForSidebar();
         expect(defaultProps.actions.trackDMGMOpenChannels).toHaveBeenCalled();
@@ -82,7 +84,7 @@ describe('/components/data_prefetch', () => {
         );
         const instance = wrapper.instance();
         instance.prefetchPosts = jest.fn();
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
 
         expect(loadProfilesForSidebar).toHaveBeenCalledTimes(1);
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
@@ -108,7 +110,7 @@ describe('/components/data_prefetch', () => {
         const instance = wrapper.instance();
         instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
 
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
         await props.actions.prefetchChannelPosts();
 
@@ -137,7 +139,7 @@ describe('/components/data_prefetch', () => {
         const instance = wrapper.instance() as DataPrefetch;
         instance.prefetchPosts = jest.fn(() => Promise.resolve({}));
 
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
 
         await props.actions.prefetchChannelPosts();
         await loadProfilesForSidebar();
@@ -169,7 +171,7 @@ describe('/components/data_prefetch', () => {
         );
         const instance = wrapper.instance();
         instance.prefetchPosts = jest.fn();
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
 
         expect(loadProfilesForSidebar).toHaveBeenCalledTimes(1);
         expect(instance.prefetchPosts).toHaveBeenCalledWith('currentChannelId');
@@ -209,7 +211,7 @@ describe('/components/data_prefetch', () => {
         const wrapper = shallow(
             <DataPrefetch {...props}/>,
         );
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
 
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
         await loadProfilesForSidebar();
@@ -247,7 +249,7 @@ describe('/components/data_prefetch', () => {
         const wrapper = shallow<DataPrefetch>(
             <DataPrefetch {...props}/>,
         );
-        wrapper.setProps({currentChannelId: 'currentChannelId'});
+        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'currentChannelId'})});
 
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
         await loadProfilesForSidebar();

@@ -49,6 +49,7 @@ export default class CopyText extends React.PureComponent<Props> {
             >
                 <a
                     href='#'
+                    data-testid='copyText'
                     className='fa fa-copy ml-2'
                     onClick={this.copyText}
                 />
