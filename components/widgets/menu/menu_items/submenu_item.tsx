@@ -186,22 +186,30 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
+                        const hasDivider = s.id === 'SidebarChannelMenu-moveToDivider';
                         return (
-                            <SubMenuItem
+                            <div
+                                className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
-                                id={s.id}
-                                postId={postId}
-                                text={s.text}
-                                selectedValueText={s.selectedValueText}
-                                icon={s.icon}
-                                subMenu={s.subMenu}
-                                action={s.action}
-                                filter={s.filter}
-                                xOffset={parentWidth}
-                                ariaLabel={ariaLabel}
-                                root={false}
-                                direction={s.direction}
-                            />
+                            >
+                                <SubMenuItem
+                                    id={s.id}
+                                    postId={postId}
+                                    text={s.text}
+                                    selectedValueText={s.selectedValueText}
+                                    icon={s.icon}
+                                    subMenu={s.subMenu}
+                                    action={s.action}
+                                    filter={s.filter}
+                                    xOffset={parentWidth}
+                                    ariaLabel={ariaLabel}
+                                    root={false}
+                                    direction={s.direction}
+                                />
+                                {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
+                                    <i className='icon-check'/>
+                                </span>}
+                            </div>
                         );
                     }) : ''}
                 </ul>

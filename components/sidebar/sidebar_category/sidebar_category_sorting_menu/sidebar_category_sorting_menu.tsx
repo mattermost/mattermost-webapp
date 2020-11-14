@@ -58,6 +58,11 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         this.setState({selectedCategorySort: sorting});
     }
 
+    handlelimitVisibleDMsGMs = (number: number) => {
+        this.props.actions.limitVisibleDMsGMs(number);
+        this.setState({selectedDmNumber: number});
+    }
+
     handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
@@ -88,7 +93,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 id: `SidebarCategorySortingMenu-dmCount-${number}`,
                 direction: 'right' as any,
                 text: number,
-                action: () => this.props.actions.limitVisibleDMsGMs(number),
+                action: () => this.handlelimitVisibleDMsGMs(number),
             } as SubmenuItemProps;
         });
 
@@ -183,6 +188,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 onToggleMenu={this.onToggleMenu}
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                 tabIndex={isCollapsed ? -1 : 0}
+                additionalClass={'sortingMenuAdditionalClass'}
             >
                 {this.renderDropdownItems()}
             </SidebarMenu>

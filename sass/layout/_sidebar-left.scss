@@ -376,12 +376,23 @@
             }
 
             .sorting-menu-icon {
-                padding: 0x 12px;
-                width: 0
+                padding-left: 12px;
+                width: 0;
             }       
             
             .MenuGroup.menu-divider {
                 margin: 5px -32px 5px 0;
+            }
+
+            .SubMenuItemContainer:not(.hasDivider) {
+                display: flex;
+                padding: 0 15px;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sorting-menu-checkbox i {
+                color: var(--button-bg);
             }
 
             .selected {
@@ -563,6 +574,10 @@
 
             &:hover, &:focus {
                 background-color: rgba(255, 255, 255, 0.08);
+            }
+
+            &.sortingMenuAdditionalClass {
+                margin: 0;
             }
         }
 

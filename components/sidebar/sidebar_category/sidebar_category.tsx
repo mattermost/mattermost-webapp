@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -12,6 +13,8 @@ import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_c
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {DraggingState} from 'types/store';
 
@@ -239,7 +242,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
         let directMessagesModalButton: JSX.Element;
-        const isCollapsible = true;
+        let isCollapsible = true;
         if (isNewCategory) {
             newLabel = (
                 <div className='SidebarCategory_newLabel'>
@@ -258,15 +261,45 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 />
             );
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-            categoryMenu = (
-                <SidebarCategorySortingMenu
-                    category={category}
-                    handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
-                    isCollapsed={this.props.isCollapsed}
-                    isMenuOpen={this.state.isMenuOpen}
-                    onToggleMenu={this.handleMenuToggle}
-                />
+            const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
+
+            const addTooltip = (
+                <Tooltip
+                    id='new-group-tooltip'
+                    className='hidden-xs'
+                >
+                    {addHelpLabel}
+                </Tooltip>
             );
+
+            categoryMenu = (
+                <React.Fragment>
+                    <SidebarCategorySortingMenu
+                        category={category}
+                        handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
+                        isCollapsed={this.props.isCollapsed}
+                        isMenuOpen={this.state.isMenuOpen}
+                        onToggleMenu={this.handleMenuToggle}
+                    />
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={addTooltip}
+                    >
+                        <button
+                            className='SidebarChannelGroupHeader_addButton'
+                            onClick={this.handleOpenDirectMessagesModal}
+                            aria-label={addHelpLabel}
+                        >
+                            <i className='icon-plus'/>
+                        </button>
+                    </OverlayTrigger>
+                </React.Fragment>
+            );
+
+            if (!channels || !channels.length) {
+                isCollapsible = false;
+            }
         } else {
             categoryMenu = (
                 <SidebarCategoryMenu
