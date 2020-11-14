@@ -45,6 +45,41 @@ describe('Message permalink', () => {
     });
 
     // it('MM-T1630 - "Jump" to convo works every time for a conversation', () => {
+    //     cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+
+    //     // # Post 25 messages
+    //     let index = 0;
+    //     for (index = 0; index < 25; index++) {
+    //         cy.postMessage(String(index));
+    //     }
+
+    //     // # Search for a message in the current channel
+    //     cy.get('#searchBox').clear().type('in:town-square').type('{enter}');
+
+    //     // # Jump to first permalink view (most recent message)
+    //     cy.get('.search-item__jump').first().click();
+
+    //     // # Verify that we jumped to the last message
+    //     cy.getLastPostId().then((postId) => {
+    //         cy.get(`#postMessageText_${postId}`).should('contain', index-1);
+    //     });
+
+    //     // # Scroll to the first message
+    //     cy.getNthPostId(-index).then((postId) => {
+    //         // # Scroll into view
+    //         cy.get(`#post_${postId}`).scrollIntoView();
+    //     });
+
+    //     // # Search for a message in the current channel
+    //     cy.get('#searchBox').clear().type('in:town-square').type('{enter}');
+
+    //     // # Jump to first permalink view (most recent message)
+    //     cy.get('.search-item__jump').first().click();
+
+    //     // # Verify that we jumped to the last message
+    //     cy.getLastPostId().then((postId) => {
+    //         cy.get(`#postMessageText_${postId}`).should('contain', index-1);
+    //     });
     // });
 
     it('MM-T2222 - Channel shortlinking - ~ autocomplete', () => {
@@ -172,6 +207,7 @@ describe('Message permalink', () => {
             tempUser = user1;
             cy.apiAddUserToTeam(testTeam.id, tempUser.id);
 
+            // # Login as the other user
             cy.apiLogout();
             cy.apiLogin(otherUser);
 
@@ -180,12 +216,13 @@ describe('Message permalink', () => {
             // # Clear then type channel url
             cy.get('#post_textbox').should('be.visible').clear().type(`${Cypress.config('baseUrl')}/${testTeam.name}/channels/${testChannel.name}`).type('{enter}');
 
+            // # Login as the temporary user
             cy.apiLogout();
             cy.apiLogin(tempUser);
             cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
 
             // # Check that the channel permalink has been posted
-            cy.getLastPostId().then((postId) => {
+            cy.getLastPostId().then(() => {
                 cy.get('a.markdown__link').click();
                 cy.get('#channelHeaderTitle').should('be.visible').should('contain', `${testChannel.display_name}`);
             });
