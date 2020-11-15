@@ -1,5 +1,5 @@
 @charset 'UTF-8';
-@import "compass/css3/transition";
+@import 'compass/css3/transition';
 
 .app__body .popover.channel-header__popover {
     box-shadow: none;
@@ -149,7 +149,7 @@
         }
 
         &.first {
-            border-top: 1px solid transparent;
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             margin-top: 4px;
         }
 
@@ -296,7 +296,7 @@
     }
 
     &:before {
-        content: "";
+        content: '';
         height: 1px;
         background: rgba(var(--center-channel-color-rgb), 0.08);
         position: absolute;
