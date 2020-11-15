@@ -9,8 +9,8 @@ stages:
   - ee-s3-live
 
 variables:
-  ONLY_BUILD: "no"
-  ONLY_TEST: "yes"
+  ONLY_BUILD: "yes"
+  ONLY_TEST: "no"
 
 include:
   - project: mattermost/ci/mattermost-webapp
