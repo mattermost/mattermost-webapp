@@ -10,6 +10,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
+import {limitVisibleDMsGMSSelector} from 'selectors/views/channel';
 import {isCategoryCollapsed, getDraggingState} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
@@ -27,7 +28,7 @@ function makeMapStateToProps() {
             isCollapsed: isCategoryCollapsed(state, ownProps.category.id),
             channels: getChannelsForCategory(state, ownProps.category),
             draggingState: getDraggingState(state),
-            dmGMUserLimit: state.views.channel.limitVisibleDMsGMs,
+            dmGMUserLimit: limitVisibleDMsGMSSelector(state),
         };
     };
 }

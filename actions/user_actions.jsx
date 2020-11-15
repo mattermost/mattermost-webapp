@@ -24,6 +24,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {limitVisibleDMsGMSSelector} from 'selectors/views/channel.js';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
@@ -32,7 +33,15 @@ export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
+const unlimitedFilterAutoclosedDMs = makeFilterAutoclosedDMs();
+
+export const filterAutoclosedDMs = (state, channels, categoryType) => {
+    const autoClosedDMs = unlimitedFilterAutoclosedDMs(state, channels, categoryType);
+    const limit = limitVisibleDMsGMSSelector(state);
+
+    return autoClosedDMs.slice(0, limit);
+};
+
 export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
 export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '', options = {}) {
