@@ -3,7 +3,9 @@
 
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
-import LastUsers from 'components/post_view/combined_system_message/last_users.jsx';
+import LastUsers, {LastUsers as LastUsersType} from 'components/post_view/combined_system_message/last_users.jsx';
+
+import {ShallowWrapper} from 'enzyme';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -42,7 +44,7 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
     });
 
     test('should match state on handleOnClick', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallowWithIntl<LastUsersType>(
             <LastUsers {...baseProps}/>,
         );
 

@@ -11,12 +11,12 @@ import {getCurrentUser, makeGetProfilesByIdsAndUsernames} from 'mattermost-redux
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import CombinedSystemMessage from './combined_system_message.jsx';
+import CombinedSystemMessage, {Props} from './combined_system_message.jsx';
 
 function makeMapStateToProps() {
     const getProfilesByIdsAndUsernames = makeGetProfilesByIdsAndUsernames();
 
-    return (state:GlobalState, ownProps) => {
+    return (state:GlobalState, ownProps: Props) => {
         const currentUser = getCurrentUser(state);
         const {allUserIds, allUsernames} = ownProps;
 

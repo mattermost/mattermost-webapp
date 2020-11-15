@@ -57,7 +57,7 @@ type State = {
     expand: boolean;
 }
 
-class LastUsers extends React.PureComponent<Props, State> {
+export class LastUsers extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -66,13 +66,13 @@ class LastUsers extends React.PureComponent<Props, State> {
         };
     }
 
-    handleOnClick = (e: React.MouseEvent) => {
+    handleOnClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.preventDefault();
 
         this.setState({expand: true});
     }
 
-    renderMessage = (formattedMessage: string) => {
+    renderMessage = (formattedMessage: string): JSX.Element => {
         return (
             <Markdown
                 message={formattedMessage}
@@ -81,7 +81,7 @@ class LastUsers extends React.PureComponent<Props, State> {
         );
     }
 
-    render() {
+    render(): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {expand} = this.state;
         const {
