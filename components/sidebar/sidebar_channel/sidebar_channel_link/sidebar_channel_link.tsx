@@ -54,6 +54,8 @@ type Props = {
      * Checks if channel is collapsed
      */
     isCollapsed: boolean;
+
+    hasDraft: boolean;
 };
 
 type State = {
@@ -144,7 +146,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     };
 
     render() {
-        const {link, label, channel, unreadMentions, icon, isMuted} = this.props;
+        const {link, label, channel, unreadMentions, icon, isMuted, hasDraft} = this.props;
 
         let labelElement: JSX.Element = (
             <span
@@ -178,6 +180,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 <SidebarChannelIcon
                     channel={channel}
                     icon={icon}
+                    hasDraft={hasDraft}
                 />
                 <div
                     className={'SidebarChannelLinkLabel_wrapper'}

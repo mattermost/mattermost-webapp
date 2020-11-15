@@ -33,6 +33,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         actions: {
             leaveChannel: jest.fn(),
         },
+        hasDraft: false,
     };
 
     test('should match snapshot', () => {

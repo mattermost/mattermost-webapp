@@ -23,6 +23,7 @@ type Props = {
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     };
+    hasDraft: boolean;
 };
 
 type State = {
@@ -51,7 +52,7 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
     }
 
     render() {
-        const {channel, currentTeamName} = this.props;
+        const {channel, currentTeamName, hasDraft} = this.props;
 
         return (
             <SidebarChannelLink
@@ -61,6 +62,7 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
                 isCollapsed={this.props.isCollapsed}
+                hasDraft={hasDraft}
             />
         );
     }

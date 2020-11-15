@@ -41,6 +41,7 @@ describe('components/sidebar/sidebar_channel', () => {
         isCategoryDragged: false,
         isDropDisabled: false,
         draggingState: {},
+        hasDraft: false,
     };
 
     test('should match snapshot', () => {
@@ -177,6 +178,34 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...props}/>,
         );
 
+        expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
+    });
+
+    test('should not be collapsed if channel has draft', () => {
+        const props = {
+            ...baseProps,
+            isCategoryCollapsed: true,
+            hasDraft: true,
+        };
+
+        const wrapper = shallow<SidebarChannel>(
+            <SidebarChannel {...props}/>,
+        );
+
+        expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
+    });
+
+    test('should not be collapsed if channel has draft and unread messages', () => {
+        const props = {
+            ...baseProps,
+            isCategoryCollapsed: true,
+            hasDraft: true,
+        };
+
+        const wrapper = shallow<SidebarChannel>(
+            <SidebarChannel {...props}/>,
+        );
+        wrapper.instance().isUnread = jest.fn(() => true);
         expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
     });
 });

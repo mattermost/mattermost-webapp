@@ -18,19 +18,6 @@ type OwnProps = {
     channel?: Channel;
 }
 
-function hasDraft(draft: any, currentChannel?: Channel, channel?: Channel) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannel?.id !== channel?.id;
-}
-
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const currentChannel = getCurrentChannel(state);
-    const draft = ownProps.channel?.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : false;
-
-    return {
-        hasDraft: hasDraft(draft, currentChannel, ownProps.channel),
-    };
-}
-
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
@@ -38,4 +25,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelIcon);
+export default connect(null, mapDispatchToProps)(SidebarChannelIcon);

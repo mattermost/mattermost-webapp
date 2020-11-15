@@ -6,15 +6,21 @@ import {connect} from 'react-redux';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentChannel, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {getDraggingState} from 'selectors/views/channel_sidebar';
+import {getPostDraft} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
-import {NotificationLevels} from 'utils/constants';
+import {NotificationLevels, StoragePrefixes} from 'utils/constants';
 
 import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;
+}
+
+function hasDraft(draft: any, currentChannel?: Channel, channel?: Channel) {
+    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannel?.id !== channel?.id;
 }
 
 function makeMapStateToProps() {
@@ -26,6 +32,7 @@ function makeMapStateToProps() {
 
         const member = getMyChannelMemberships(state)[ownProps.channelId];
         const currentChannel = getCurrentChannel(state) || {};
+        const draft = ownProps.channelId ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channelId) : false;
 
         // Unread counts
         let unreadMentions = 0;
@@ -51,6 +58,7 @@ function makeMapStateToProps() {
             unreadMsgs,
             showUnreadForMsgs,
             draggingState: getDraggingState(state),
+            hasDraft: hasDraft(draft, currentChannel, channel),
         };
     };
 }
