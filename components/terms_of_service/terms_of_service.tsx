@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Button, ButtonGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
@@ -19,19 +19,40 @@ import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
 import {Constants} from 'utils/constants.jsx';
+import EmojiMap from 'utils/emoji_map';
 
-export default class TermsOfService extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object,
-        termsEnabled: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            getTermsOfService: PropTypes.func.isRequired,
-            updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
-        }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
+export interface UpdateMyTermsOfServiceStatusResponse {
+    terms_of_service_create_at: number;
+    terms_of_service_id: string;
+    user_id: number;
+}
+
+export interface TermsOfServiceProps {
+    location: {search: string},
+    termsEnabled: boolean,
+    actions: {
+        getTermsOfService: () => Promise<{ data: ReduxTermsOfService }>;
+        updateMyTermsOfServiceStatus: (
+            termsOfServiceId: string,
+            accepted: boolean
+        ) => {data: UpdateMyTermsOfServiceStatusResponse};
     };
+    emojiMap: EmojiMap;
+}
 
-    constructor(props) {
+interface TermsOfServiceState {
+    customTermsOfServiceId: string;
+    customTermsOfServiceText: string;
+    loading: boolean;
+    loadingAgree: boolean;
+    loadingDisagree: boolean;
+    serverError: React.ReactNode;
+}
+
+export default class TermsOfService extends React.PureComponent<TermsOfServiceProps, TermsOfServiceState> {
+    formattedText: (text: string) => string;
+
+    constructor(props: TermsOfServiceProps) {
         super(props);
 
         this.state = {
@@ -43,10 +64,10 @@ export default class TermsOfService extends React.PureComponent {
             serverError: null,
         };
 
-        this.formattedText = memoizeResult((text) => formatText(text, {}, props.emojiMap));
+        this.formattedText = memoizeResult((text: string) => formatText(text, {}, props.emojiMap));
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         if (this.props.termsEnabled) {
             this.getTermsOfService();
         } else {
@@ -54,7 +75,7 @@ export default class TermsOfService extends React.PureComponent {
         }
     }
 
-    getTermsOfService = async () => {
+    getTermsOfService = async (): Promise<void> => {
         this.setState({
             customTermsOfServiceId: '',
             customTermsOfServiceText: '',
@@ -72,12 +93,12 @@ export default class TermsOfService extends React.PureComponent {
         }
     };
 
-    handleLogoutClick = (e) => {
+    handleLogoutClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.preventDefault();
         GlobalActions.emitUserLoggedOutEvent('/login');
     };
 
-    handleAcceptTerms = () => {
+    handleAcceptTerms = (): void => {
         this.setState({
             loadingAgree: true,
             serverError: null,
@@ -96,7 +117,7 @@ export default class TermsOfService extends React.PureComponent {
         );
     };
 
-    handleRejectTerms = () => {
+    handleRejectTerms = (): void => {
         this.setState({
             loadingDisagree: true,
             serverError: null,
@@ -109,7 +130,7 @@ export default class TermsOfService extends React.PureComponent {
         );
     };
 
-    registerUserAction = async (accepted, success) => {
+    registerUserAction = async (accepted: boolean, success: (data: UpdateMyTermsOfServiceStatusResponse) => void): Promise<void> => {
         const {data} = await this.props.actions.updateMyTermsOfServiceStatus(this.state.customTermsOfServiceId, accepted);
         if (data) {
             success(data);
@@ -127,7 +148,7 @@ export default class TermsOfService extends React.PureComponent {
         }
     };
 
-    render() {
+    render(): JSX.Element {
         if (this.state.loading) {
             return <LoadingScreen/>;
         }
