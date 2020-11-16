@@ -293,5 +293,17 @@ declare namespace Cypress {
          *   cy.apiActivateUserMFA('user-id', activate: false);
          */
         apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
+
+        /**
+         * Update a user auth method.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+         * @param {String} userId - ID of user to patch
+         * @param {String} authData
+         * @param {String} password
+         * @param {String} authService
+         * @example
+         *   cy.apiUpdateUserAuth('user-id', 'auth-data', 'password', 'auth-service');
+         */
+        apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
     }
 }

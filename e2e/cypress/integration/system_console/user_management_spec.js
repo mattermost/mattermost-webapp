@@ -16,11 +16,24 @@ const TIMEOUTS = require('../../fixtures/timeouts');
 describe('User Management', () => {
     const newUsername = 'u' + getRandomId();
     const newEmailAddr = newUsername + '@sample.mattermost.com';
+    let testTeam;
+    let testChannel;
+    let sysadmin;
     let testUser;
+    let otherUser;
 
     before(() => {
-        cy.apiInitSetup().then(({user}) => {
+        cy.apiInitSetup().then(({team, channel, user}) => {
+            testChannel = channel;
+            testTeam = team;
             testUser = user;
+            return cy.apiCreateUser();
+        }).then(({user: user2}) => {
+            otherUser = user2;
+        });
+
+        cy.apiAdminLogin().then((res) => {
+            sysadmin = res.user;
         });
     });
 
@@ -139,15 +152,214 @@ describe('User Management', () => {
         cy.apiLogin({username: newEmailAddr, password: testUser.password}).apiLogout();
 
         // # Revert the config.
-        cy.apiAdminLogin();
-        cy.apiUpdateConfig({
+        cy.apiAdminLogin().apiUpdateConfig({
             EmailSettings: {
                 RequireEmailVerification: false,
             },
         });
+
+        resetUserEmail(newEmailAddr, testUser.email, '');
+    });
+
+    it('MM-T931 Users - Can\'t update a user\'s email address if user has other signin method', () => {
+        // # Update config.
+        cy.apiUpdateConfig({
+            GitLabSettings: {
+                Enable: true,
+            },
+        });
+        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+
+        cy.apiCreateUser().then(({user: gitlabUser}) => {
+            cy.apiUpdateUserAuth(gitlabUser.id, gitlabUser.email, '', 'gitlab');
+
+            // # Search for the user.
+            cy.get('#searchUsers').clear().type(gitlabUser.email).wait(TIMEOUTS.HALF_SEC);
+
+            cy.findByTestId('userListRow').within(() => {
+                // # Open the actions menu.
+                cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
+
+                // # Click the Update email menu option.
+                cy.findByLabelText('User Actions Menu').findByText('Update Email').should('not.exist');
+            });
+        });
+    });
+
+    it('MM-T941 Users - Revoke all sessions for unreachable users', () => {
+        // # Login as a system user - User
+        cy.apiLogin(testUser);
+        cy.getCookies().then((cookies) => {
+            const userCookies = cookies;
+
+            // # Turn off the Mobile device (or) activate the Airplane mode on that mobile phone.
+            // Not logging out from testUser so that we can emulate the going offline immediately.
+            cy.apiAdminLogin();
+
+            // # Navigate to System Console -> Users Page
+            cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+
+            // # Search for the user.
+            cy.get('#searchUsers').clear().type(testUser.email).wait(TIMEOUTS.HALF_SEC);
+
+            cy.findByTestId('userListRow').within(() => {
+                // # Open the actions menu.
+                cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
+
+                // # Click on the 'Revoke All Sessions' button.
+                cy.findByLabelText('User Actions Menu').findByText('Revoke Sessions').click();
+            });
+
+            // # Verify the modal opened.
+            cy.get('#confirmModal').should('exist');
+
+            // # Confirm by clicking the "Revoke" button.
+            cy.get('#confirmModalButton').click();
+
+            // # Logout with admin user.
+            cy.apiLogout();
+
+            // * If a user is not online when the Revoke Sessions option was chosen,
+            // then the user's session should be deactivated next time, when the user
+            // goes online and accesses the Mattermost application
+            userCookies.forEach((cookie) => {
+                cy.setCookie(cookie.name, cookie.value);
+            });
+            cy.visit('/');
+
+            // # Check if user's session is automatically logged out and the user is redirected to the login page.
+            cy.url().should('contain', '/login');
+        });
+    });
+
+    it('MM-T942 Users - Deactivated user not in drop-down, auto-logged out', () => {
+        cy.apiLogin(testUser);
+
+        // # Create a direct channel between two users
+        cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
+            // # Visit the channel using the channel name
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            cy.postMessage('hello');
+        });
+
+        cy.apiLogout().apiAdminLogin();
+        activateUser(otherUser, false);
+        cy.apiLogout();
+
+        // * Verify that user is deactivated
+        cy.request({
+            url: '/api/v4/users/login',
+            method: 'POST',
+            failOnStatusCode: false,
+            body: {login_id: otherUser.username, password: otherUser.password},
+        }).then((response) => {
+            expect(response.status).to.equal(401);
+            expect(response.body.message).to.contain('your account has been deactivated');
+        });
+
+        cy.apiLogin(testUser);
+
+        // visit test channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Click hamburger main menu
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+
+        // # Click View Members
+        cy.get('#sidebarDropdownMenu #viewMembers').should('be.visible').click();
+
+        // * Check View Members modal dialog
+        cy.get('#teamMembersModal').should('be.visible').within(() => {
+            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email);
+
+            // * Deactivated user does not show up in View Members for teams
+            cy.findByTestId('noUsersFound').should('be.visible');
+            cy.findByLabelText('Close').click();
+        });
+
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.HALF_SEC);
+
+        // # Click Channel Members
+        cy.get('#channelMemberIcon').should('be.visible').click();
+
+        // # Click View Members
+        cy.get('#member-list-popover').within(() => {
+            cy.findByText('Manage Members').click();
+        });
+
+        // * Deactivated user does not show up in View Members for channels
+        cy.get('#channelMembersModal').should('be.visible').within(() => {
+            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email);
+            cy.findByTestId('noUsersFound').should('be.visible');
+            cy.findByLabelText('Close').click();
+        });
+
+        // * User does show up in DM More menu so that DM channels can be viewed.
+        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('not.be.visible');
+        cy.get('#moreDirectMessage').should('be.visible').click();
+
+        // * Verify that new messages cannot be posted.
+        cy.get('#moreDmModal').should('be.visible').within(() => {
+            cy.get('#selectItems input').type(otherUser.email + '{enter}').wait(TIMEOUTS.HALF_SEC);
+            cy.get('#post_textbox').should('not.exist');
+        });
+
+        // # Restore the user.
+        cy.apiLogout().apiAdminLogin();
+        activateUser(otherUser, true);
+    });
+
+    it('MM-T943 Users - Deactivate a user - DM, GM in LHS (not actively viewing DM in another window)', () => {
+        cy.apiLogin(testUser);
+
+        // # Open a DM with a user you want to deactivate, post a message
+        cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            cy.postMessage(':)');
+        });
+
+        // # Also open a GM with that user and a third user, post a message.
+        cy.apiCreateGroupChannel([sysadmin.id, otherUser.id, testUser.id]).then(({channel}) => {
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.postMessage('hello');
+        });
+
+        const displayName = [sysadmin, otherUser].
+            map((member) => member.username).
+            sort((a, b) => a.localeCompare(b, 'en', {numeric: true})).
+            join(', ');
+
+        // # Observe DM and GM in LHS.
+        cy.get('#directChannelList').findByText(displayName).should('be.visible');
+        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('be.visible');
+
+        // # System Console > Users Deactivate the user.
+        cy.apiLogout().apiAdminLogin();
+        activateUser(otherUser, false);
+
+        // # Go back to view team.
+        cy.apiLogin(testUser).visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.HALF_SEC);
+
+        // * On returning to the team the DM has been removed from LHS.
+        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('not.be.visible');
+
+        // * GM stays in LHS channel list.
+        cy.get('#directChannelList').findByText(displayName).should('be.visible');
+
+        // # Open GM channel.
+        cy.get('#directChannelList').findByText(displayName).click().wait(TIMEOUTS.HALF_SEC);
+
+        // * GM still has message box (is not archived)
+        cy.findByTestId('post_textbox').should('be.visible');
+
+        // # Restore the user.
+        cy.apiLogout().apiAdminLogin();
+        activateUser(otherUser, true);
     });
 
     function resetUserEmail(oldEmail, newEmail, errorMsg) {
+        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+
         // # Search for the user.
         cy.get('#searchUsers').clear().type(oldEmail).wait(TIMEOUTS.HALF_SEC);
 
@@ -176,6 +388,34 @@ describe('User Management', () => {
 
             // # Close the modal.
             cy.findByLabelText('Close').click();
+        }
+    }
+
+    function activateUser(user, activate) {
+        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+
+        // # Search for the user.
+        cy.get('#searchUsers').clear().type(user.email).wait(TIMEOUTS.HALF_SEC);
+
+        cy.findByTestId('userListRow').within(() => {
+            if (activate) {
+                cy.findByText('Inactive').click().wait(TIMEOUTS.HALF_SEC);
+
+                // # Click on the "Activate" button.
+                cy.findByLabelText('User Actions Menu').findByText('Activate').click();
+            } else {
+                cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
+
+                // # Click on the "Deactivate" button.
+                cy.findByLabelText('User Actions Menu').findByText('Deactivate').click();
+            }
+        });
+
+        if (!activate) {
+            // # Verify the modal opened and then confirm.
+            cy.get('#confirmModal').should('exist').within(() => {
+                cy.get('#confirmModalButton').click().wait(TIMEOUTS.HALF_SEC);
+            });
         }
     }
 
