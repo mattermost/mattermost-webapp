@@ -39,7 +39,6 @@ type Props = {
     isCollapsed: boolean;
     isNewCategory: boolean;
     draggingState: DraggingState;
-    limitVisibleDMsGMs: number;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
@@ -226,7 +225,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             channels,
             isCollapsed,
             isNewCategory,
-            limitVisibleDMsGMs,
         } = this.props;
 
         if (!category) {
@@ -237,7 +235,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const renderedChannels = channels.map(this.renderChannel).slice(0, limitVisibleDMsGMs);
+        const renderedChannels = channels.map(this.renderChannel);
 
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;

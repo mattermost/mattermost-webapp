@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {setCategorySorting} from 'mattermost-redux/actions/channel_categories';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-
-import {limitVisibleDMsGMs} from 'actions/channel_actions';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
@@ -35,6 +35,7 @@ function makeMapStateToProps() {
             categories,
             category: ownProps.category,
             handleOpenMoreDirectChannelsModal: ownProps.handleOpenMoreDirectChannelsModal,
+            currentUserId: getCurrentUserId(state),
         };
     };
 }
@@ -43,7 +44,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             setCategorySorting,
-            limitVisibleDMsGMs,
+            savePreferences,
         }, dispatch),
     };
 }

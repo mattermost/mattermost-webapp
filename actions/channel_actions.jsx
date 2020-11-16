@@ -169,10 +169,3 @@ export function muteChannel(userId, channelId) {
         mark_unread: NotificationLevels.MENTION,
     });
 }
-
-export function limitVisibleDMsGMs(count) {
-    return {
-        type: 'LIMIT_VISIBLE_DM_GM_COUNT',
-        data: count,
-    };
-}

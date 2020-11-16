@@ -4,7 +4,9 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
+import {Preferences} from 'mattermost-redux/constants/index';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -21,9 +23,10 @@ type Props = {
     isCollapsed: boolean;
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;
+    currentUserId: string;
     actions: {
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
-        limitVisibleDMsGMs: (count: number) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
 };
 
@@ -59,7 +62,13 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
     }
 
     handlelimitVisibleDMsGMs = (number: number) => {
-        this.props.actions.limitVisibleDMsGMs(number);
+        const {currentUserId} = this.props;
+        this.props.actions.savePreferences(currentUserId, [{
+            user_id: currentUserId,
+            category: Preferences.CATEGORY_SIDEBAR_SETTINGS,
+            name: Preferences.LIMIT_VISIBLE_DMS_GMS,
+            value: `${number}`,
+        }]);
         this.setState({selectedDmNumber: number});
     }
 
@@ -103,7 +112,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 id: 'showAllDms',
                 direction: 'right' as any,
                 text: intl.formatMessage({id: 'sidebar.allDirectMessages', defaultMessage: 'All direct messages'}),
-                action: () => this.props.actions.limitVisibleDMsGMs(Infinity),
+                action: () => this.handlelimitVisibleDMsGMs(Infinity),
             },
             {
                 id: 'SidebarChannelMenu-moveToDivider',

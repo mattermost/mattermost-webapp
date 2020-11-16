@@ -135,6 +135,7 @@ const defaultSidebarSettingPreference = {
     unreads_at_top: 'true',
     favorite_at_top: 'true',
     sorting: 'alpha',
+    limit_visible_dms_gms: 20,
 };
 
 /**

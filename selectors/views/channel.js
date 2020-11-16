@@ -3,7 +3,3 @@
 
 export const getLastPostsApiTimeForChannel = (state, channelId) => state.views.channel.lastGetPosts[channelId];
 export const getToastStatus = (state) => state.views.channel.toastStatus;
-
-export function limitVisibleDMsGMSSelector(state) {
-    return state.views.channel.limitVisibleDMsGMs;
-}
