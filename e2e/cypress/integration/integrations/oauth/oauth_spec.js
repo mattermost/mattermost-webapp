@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @integrations
+// Group: @enterprise @integrations
 
 import {checkboxesTitleToIdMap} from '../../enterprise/system_console/channel_moderation/constants';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -26,6 +26,7 @@ describe('Integrations page', () => {
     let oauthClientSecret;
 
     before(() => {
+        cy.apiRequireLicense();
         cy.requireWebhookServer();
 
         // # Set ServiceSettings to expected values
