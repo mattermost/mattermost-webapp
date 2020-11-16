@@ -159,9 +159,9 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         const {draggingState, category} = this.props;
 
         if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-            return draggingState.type === DraggingStateTypes.CHANNEL || draggingState.type === DraggingStateTypes.MIXED_CHANNELS;
+            return draggingState.type === DraggingStateTypes.CHANNEL;
         } else if (category.type === CategoryTypes.CHANNELS) {
-            return draggingState.type === DraggingStateTypes.DM || draggingState.type === DraggingStateTypes.MIXED_CHANNELS;
+            return draggingState.type === DraggingStateTypes.DM;
         }
 
         return false;

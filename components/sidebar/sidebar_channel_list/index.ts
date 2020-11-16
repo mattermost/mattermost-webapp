@@ -17,6 +17,7 @@ import {
     setDraggingState,
     stopDragging,
     clearChannelSelection,
+    multiSelectChannelAdd,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
@@ -55,6 +56,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             stopDragging,
             expandCategory,
             clearChannelSelection,
+            multiSelectChannelAdd,
         }, dispatch),
     };
 }
