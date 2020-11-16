@@ -1376,7 +1376,7 @@
   "admin.permissions.roles.system_admin.description": "Access to modifying everything.",
   "admin.permissions.roles.system_admin.name": "System Admin",
   "admin.permissions.roles.system_admin.type": "System Role",
-  "admin.permissions.roles.system_manager.description": "Slightly less access than super admin.",
+  "admin.permissions.roles.system_manager.description": "Slightly less access than system admin.",
   "admin.permissions.roles.system_manager.name": "System Manager",
   "admin.permissions.roles.system_manager.type": "System Role",
   "admin.permissions.roles.system_read_only_admin.description": "Read only access for oversight.",
