@@ -9,7 +9,7 @@
 
 // Group: @enterprise @incoming_webhook
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {
     enableElasticSearch,
 } from '../elasticsearch_autocomplete/helpers';
