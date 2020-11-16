@@ -21,7 +21,7 @@ include:
   - local: .gitlab-ci/check.gitlab-ci.yml
 
 empty:
-  stage: .pre
+  stage: create-vars
   script:
     - echo "empty"
 
