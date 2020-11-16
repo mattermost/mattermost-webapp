@@ -105,6 +105,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         isFlagged: false,
         isReadOnly: false,
         location: Locations.CENTER,
+        pluginMenuItems: [],
     }
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
