@@ -3,7 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {ChannelTypes, PreferenceTypes} from 'mattermost-redux/action_types';
+import {PreferenceTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
