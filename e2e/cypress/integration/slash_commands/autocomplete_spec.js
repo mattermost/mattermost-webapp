@@ -47,7 +47,7 @@ describe('Integrations', () => {
         cy.apiRemovePluginById(pluginIdJira);
     });
 
-    it('T2829 Test an example of plugin that uses sub commands', () => {
+    it('MM-T2829 Test an example of plugin that uses sub commands', () => {
         // # Post a slash command with trailing space
         cy.get('#post_textbox').clear().type('/jira ');
 
@@ -75,7 +75,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('T2830 Test an example of a plugin using static list', () => {
+    it('MM-T2830 Test an example of a plugin using static list', () => {
         // # Post a slash command with trailing space
         cy.get('#post_textbox').clear().type('/jira ');
 
@@ -85,7 +85,7 @@ describe('Integrations', () => {
         // # Narrow down list to show info only suggestion
         cy.get('#post_textbox').type('i');
 
-        // * Verify suggestion list is visible with at three children (issue, instance, info)
+        // * Verify suggestion list is visible with three children (issue, instance, info)
         cy.get('#suggestionList').should('be.visible').children().
             should('contain.text', 'issue').
             should('contain.text', 'instance').
@@ -120,7 +120,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('T2831 Test an example of plugin using dynamic list', () => {
+    it('MM-T2831 Test an example of plugin using dynamic list', () => {
         // # Post a slash command with trailing space
         cy.get('#post_textbox').clear().type('/autocomplete_test dynamic-arg ');
 
@@ -144,7 +144,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('T2832 Use a slash command that omits the optional argument', () => {
+    it('MM-T2832 Use a slash command that omits the optional argument', () => {
         // # Post a slash command that omits the optional argument
         cy.get('#post_textbox').clear().type('/autocomplete_test optional-arg {enter}');
 
@@ -154,7 +154,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('T2833 Use a slash command that accepts an optional argument', () => {
+    it('MM-T2833 Use a slash command that accepts an optional argument', () => {
         // # Post a slash command that accepts an optional argument
         cy.get('#post_textbox').clear().type('/autocomplete_test optional-arg --name1 testarg {enter}');
 
@@ -164,7 +164,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('T2834 Slash command help stays visible for system slash command', () => {
+    it('MM-T2834 Slash command help stays visible for system slash command', () => {
         // # Post a slash command without trailing space
         cy.get('#post_textbox').type('/rename');
 
@@ -190,7 +190,7 @@ describe('Integrations', () => {
         cy.get('.slash-command__desc').contains('[text]').should('be.visible');
     });
 
-    it('T2835 Slash command help stays visible for plugin', () => {
+    it('MM-T2835 Slash command help stays visible for plugin', () => {
         // # Post a slash command with trailing space
         cy.get('#post_textbox').clear().type('/jira ');
 
