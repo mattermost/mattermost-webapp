@@ -129,27 +129,6 @@ describe('Notifications', () => {
         });
     });
 
-    it('MM-T561 Browser tab and team sidebar - direct messages don\'t add indicator on team icon in team sidebar (but do in browser tab)', () => {
-        // # User A: Join teams A and B. Open team A
-        cy.apiLogin(user1);
-        cy.visit(testTeam1TownSquareUrl);
-
-        // # User B: Join team B
-        // # User B: Post a direct message to user A
-        cy.apiCreateDirectChannel([user1.id, user2.id]).then(({channel: ownDMChannel}) => {
-            cy.postMessageAs({sender: user2, message: `@${user1.username}`, channelId: ownDMChannel.id});
-        });
-
-        // * Browser tab shows: (1) * Town Square - [team name] Mattermost
-        cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
-
-        // * Team sidebar shows: No unread / mention indicator in team sidebar on either team
-        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
-        cy.get(`#${team2.name}TeamButton`).parent().within(() => {
-            cy.get('.badge').should('not.be.visible');
-        });
-    });
-
     function verifyFaviconEquals(expectedFixture) {
         cy.get('link[rel=icon]').should('have.attr', 'href').then((defaultFaviconUrl) => {
             cy.fixture(expectedFixture).then((imageData) => {
