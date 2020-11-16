@@ -2,27 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from 'mattermost-redux/types/channels';
 
-import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal.jsx';
+import {Value} from 'components/multiselect/multiselect';
+
+import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal';
+
+type UserProfileValue = Value & UserProfile;
 
 describe('components/channel_invite_modal', () => {
-    const event = {
-        preventDefault: jest.fn(),
-    };
-
     const users = [{
         id: 'user-1',
         label: 'user-1',
         value: 'user-1',
         delete_at: 0,
-    }, {
+    } as UserProfileValue, {
         id: 'user-2',
         label: 'user-2',
         value: 'user-2',
         delete_at: 0,
-    }];
+    } as UserProfileValue];
 
     const channel = {
         create_at: 1508265709607,
@@ -39,7 +41,7 @@ describe('components/channel_invite_modal', () => {
         total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
-    };
+    } as Channel;
 
     const baseProps = {
         channel,
@@ -84,7 +86,7 @@ describe('components/channel_invite_modal', () => {
                             label: 'user-3',
                             value: 'user-3',
                             delete_at: 0,
-                        },
+                        } as UserProfileValue,
                     }
                 }
                 excludeUsers={
@@ -94,7 +96,7 @@ describe('components/channel_invite_modal', () => {
                             label: 'user-1',
                             value: 'user-1',
                             delete_at: 0,
-                        },
+                        } as UserProfileValue,
                     }
                 }
             />,
@@ -103,7 +105,7 @@ describe('components/channel_invite_modal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
             <ChannelInviteModal {...baseProps}/>,
         );
 
@@ -113,23 +115,24 @@ describe('components/channel_invite_modal', () => {
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
+        const props = {...baseProps};
         const wrapper = shallow(
-            <ChannelInviteModal {...baseProps}/>,
+            <ChannelInviteModal {...props}/>,
         );
 
-        wrapper.find(Modal).props().onExited();
-        expect(wrapper.instance().props.onHide).toHaveBeenCalledTimes(1);
+        wrapper.find(Modal).props().onExited!(document.createElement('div'));
+        expect(props.onHide).toHaveBeenCalledTimes(1);
     });
 
     test('should fail to add users on handleSubmit', (done) => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
             <ChannelInviteModal
                 {...baseProps}
             />,
         );
 
         wrapper.setState({values: users, show: true});
-        wrapper.instance().handleSubmit(event);
+        wrapper.instance().handleSubmit();
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.instance().props.actions.addUsersToChannel).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
@@ -151,18 +154,18 @@ describe('components/channel_invite_modal', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
             <ChannelInviteModal
                 {...props}
             />,
         );
 
         wrapper.setState({values: users, show: true});
-        wrapper.instance().handleSubmit(event);
+        wrapper.instance().handleSubmit();
         expect(wrapper.state('saving')).toEqual(true);
         expect(wrapper.instance().props.actions.addUsersToChannel).toHaveBeenCalledTimes(1);
         process.nextTick(() => {
-            expect(wrapper.state('inviteError')).toBeNull();
+            expect(wrapper.state('inviteError')).toBeUndefined();
             expect(wrapper.state('saving')).toEqual(false);
             expect(wrapper.state('show')).toEqual(false);
             done();
@@ -177,20 +180,20 @@ describe('components/channel_invite_modal', () => {
             onAddCallback,
         };
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
             <ChannelInviteModal
                 {...props}
             />,
         );
 
         wrapper.setState({values: users, show: true});
-        wrapper.instance().handleSubmit(event);
+        wrapper.instance().handleSubmit();
         expect(onAddCallback).toHaveBeenCalled();
         expect(wrapper.instance().props.actions.addUsersToChannel).toHaveBeenCalledTimes(0);
     });
 
     test('should trim the search term', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
             <ChannelInviteModal {...baseProps}/>,
         );
 
