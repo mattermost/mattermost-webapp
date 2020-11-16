@@ -20,6 +20,10 @@ include:
     file: private.yml
   - local: .gitlab-ci/check.gitlab-ci.yml
 
+empty:
+  script:
+    - echo "empty"
+
 prepare:
   stage: .pre
   image: mattermost/mattermost-build-webapp:20200829_node-10.22
