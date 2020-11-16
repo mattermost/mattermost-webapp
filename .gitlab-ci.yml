@@ -7,6 +7,8 @@ stages:
   - ee-s3-test # rudder-rc, stripe-test
   - ee-build-live # rudder-live, stripe-live
   - ee-s3-live
+  - create-vars
+  - trigger
 
 variables:
   ONLY_BUILD: "yes"
