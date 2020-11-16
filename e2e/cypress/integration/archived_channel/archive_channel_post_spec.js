@@ -7,10 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Archived channels', () => {
+    let testTeam;
+    let otherUser;
+
     before(() => {
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -19,8 +22,14 @@ describe('Archived channels', () => {
         });
 
         // # Login as test user and visit create channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+        cy.apiInitSetup().then(({team, channel}) => {
+            testTeam = team;
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
+                cy.apiAddUserToTeam(testTeam.id, second.id);
+                otherUser = second;
+            });
         });
     });
 
@@ -46,5 +55,63 @@ describe('Archived channels', () => {
 
         // * RHS text box should not be visible
         cy.get('#reply_textbox').should('not.be.visible');
+    });
+
+    it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
+        // # Create a channel that will be archived
+        cy.apiCreateChannel(testTeam.id, 'archived-channel', 'Archived Channel').then(({channel}) => {
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            // # Post message
+            cy.postMessage('Test');
+
+            // # Create permalink to post
+            cy.getLastPostId().then((id) => {
+                const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${id}`;
+
+                // # Click on ... button of last post
+                cy.clickPostDotMenu(id);
+
+                // # Click on "Copy Link"
+                cy.uiClickCopyLink(permalink);
+
+                // # Post the message in another channel
+                cy.get('#sidebarItem_off-topic').click();
+                cy.postMessage(`${permalink}`).wait(TIMEOUTS.ONE_SEC);
+            });
+
+            // # Archive the channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.uiArchiveChannel();
+        });
+
+        // # Change user
+        cy.apiLogout();
+        cy.reload();
+        cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Read the message and save post
+        cy.get('a.markdown__link').click();
+        cy.getNthPostId(1).then((postId) => {
+            cy.clickPostSaveIcon(postId);
+        });
+
+        // # View saved posts
+        cy.get('#channelHeaderFlagButton').click();
+        cy.wait(TIMEOUTS.HALF_SEC);
+
+        // * RHS should be visible
+        cy.get('#searchContainer').should('be.visible');
+
+        // * Should be able to click on reply
+        cy.get('#search-items-container div.post-message__text-container > div').last().should('have.attr', 'id').and('not.include', ':').
+            invoke('replace', 'rhsPostMessageText_', '').then((rhsPostId) => {
+                cy.clickPostCommentIcon(rhsPostId, 'SEARCH');
+
+                // * RHS text box should not be visible
+                cy.get('#reply_textbox').should('not.be.visible');
+            });
     });
 });

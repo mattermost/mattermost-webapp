@@ -130,7 +130,7 @@ export default class ViewImageModal extends React.PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const updatedProps = {};
-        if (props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
+        if (props.fileInfos[state.imageIndex] && props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
             updatedProps.showZoomControls = true;
         } else {
             updatedProps.showZoomControls = false;
