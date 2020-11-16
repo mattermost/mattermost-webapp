@@ -45,6 +45,13 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         }
     }
 
+    private getStatValue(stat: number | AnalyticsRow[]):number {
+        if (typeof stat === 'number') {
+            return stat;
+        }
+        return stat[0].value;
+    }
+
     public render() {
         const stats = this.props.stats!;
         const isLicensed = this.props.isLicensed;
@@ -82,7 +89,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                         />
                     }
                     icon='fa-comment'
-                    count={Number(stats[StatTypes.TOTAL_POSTS])}
+                    count={this.getStatValue(stats[StatTypes.TOTAL_POSTS])}
                 />
             );
 
@@ -155,7 +162,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                         />
                     }
                     icon='fa-signal'
-                    count={Number(stats[StatTypes.TOTAL_SESSIONS])}
+                    count={this.getStatValue(stats[StatTypes.TOTAL_SESSIONS])}
                 />
             );
 
@@ -169,7 +176,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                         />
                     }
                     icon='fa-terminal'
-                    count={Number(stats[StatTypes.TOTAL_COMMANDS])}
+                    count={this.getStatValue(stats[StatTypes.TOTAL_COMMANDS])}
                 />
             );
 
@@ -183,7 +190,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                         />
                     }
                     icon='fa-arrow-down'
-                    count={Number(stats[StatTypes.TOTAL_IHOOKS])}
+                    count={this.getStatValue(stats[StatTypes.TOTAL_IHOOKS])}
                 />
             );
 
@@ -197,7 +204,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                         />
                     }
                     icon='fa-arrow-up'
-                    count={Number(stats[StatTypes.TOTAL_OHOOKS])}
+                    count={this.getStatValue(stats[StatTypes.TOTAL_OHOOKS])}
                 />
             );
 
@@ -212,7 +219,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                             />
                         }
                         icon='fa-user'
-                        count={Number(stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS])}
+                        count={this.getStatValue(stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS])}
                     />
                     <StatisticCount
                         id='masterDbConns'
@@ -223,7 +230,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                             />
                         }
                         icon='fa-terminal'
-                        count={Number(stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS])}
+                        count={this.getStatValue(stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS])}
                     />
                     <StatisticCount
                         id='replicaDbConns'
@@ -234,7 +241,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                             />
                         }
                         icon='fa-terminal'
-                        count={Number(stats[StatTypes.TOTAL_READ_DB_CONNECTIONS])}
+                        count={this.getStatValue(stats[StatTypes.TOTAL_READ_DB_CONNECTIONS])}
                     />
                 </div>
             );
@@ -287,7 +294,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                     />
                 }
                 icon='fa-user'
-                count={Number(stats[StatTypes.TOTAL_USERS])}
+                count={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
             />
         );
 
@@ -301,7 +308,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                     />
                 }
                 icon='fa-users'
-                count={Number(stats[StatTypes.TOTAL_TEAMS])}
+                count={this.getStatValue(stats[StatTypes.TOTAL_TEAMS])}
             />
         );
 
@@ -315,7 +322,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                     />
                 }
                 icon='fa-globe'
-                count={Number(stats[StatTypes.TOTAL_PUBLIC_CHANNELS]) + Number(stats[StatTypes.TOTAL_PRIVATE_GROUPS])}
+                count={this.getStatValue(stats[StatTypes.TOTAL_PUBLIC_CHANNELS]) + this.getStatValue(stats[StatTypes.TOTAL_PRIVATE_GROUPS])}
             />
         );
 
@@ -329,7 +336,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                     />
                 }
                 icon='fa-users'
-                count={Number(stats[StatTypes.DAILY_ACTIVE_USERS])}
+                count={this.getStatValue(stats[StatTypes.DAILY_ACTIVE_USERS])}
             />
         );
 
@@ -343,7 +350,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                     />
                 }
                 icon='fa-users'
-                count={Number(stats[StatTypes.MONTHLY_ACTIVE_USERS])}
+                count={this.getStatValue(stats[StatTypes.MONTHLY_ACTIVE_USERS])}
             />
         );
 
