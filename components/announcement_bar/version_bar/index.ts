@@ -3,9 +3,11 @@
 
 import {connect} from 'react-redux';
 
-import VersionBar from './version_bar.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-function mapStateToProps(state) {
+import VersionBar from './version_bar';
+
+function mapStateToProps(state:GlobalState) {
     return {
         serverVersion: state.entities.general.serverVersion,
     };
