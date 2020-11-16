@@ -37,11 +37,33 @@ describe('Notifications', () => {
                 cy.apiAddUserToTeam(team2.id, user1.id);
                 cy.apiAddUserToTeam(team2.id, user2.id);
             });
-        });
 
-        cy.apiGetConfig().then(({config}) => {
-            siteName = config.TeamSettings.SiteName;
+            cy.apiGetConfig().then(({config}) => {
+                siteName = config.TeamSettings.SiteName;
+            });
+
+            // # Remove mention notification (for initial channel).
+            cy.apiLogin(user1);
+            cy.visit(testTeam1TownSquareUrl);
+            cy.get('#publicChannelList').get('.unread-title').click();
+            cy.apiLogout();
         });
+    });
+
+    it('MM-T556 Browser tab and team sidebar notification - no unreads/mentions', () => {
+        // # User 1 views team A
+        cy.apiLogin(user1);
+        cy.visit(testTeam1TownSquareUrl);
+
+        cy.title().should('include', `Town Square - ${team1.display_name} ${siteName}`);
+
+        // * Browser tab shows channel name with no unread indicator
+        cy.get(`#${team1.name}TeamButton`).parent('.unread').should('not.be.visible');
+        cy.get('.badge').should('not.be.visible');
+
+        // * No unread/mention indicator in team sidebar
+        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
+        cy.get('.badge').should('not.be.visible');
     });
 
     it('MM-T560_1 Browser tab and team sidebar unreads and mentions - Mention in different team', () => {
@@ -49,9 +71,6 @@ describe('Notifications', () => {
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
         cy.wait(TIMEOUTS.HALF_SEC);
-
-        // # Remove mention notification (for initial channel).
-        cy.get('#publicChannelList').get('.unread-title').click();
 
         // # Return to town square
         cy.visit(testTeam1TownSquareUrl);
@@ -67,6 +86,8 @@ describe('Notifications', () => {
             cy.postMessageAs({sender: user2, message: `@${user1.username}`, channelId: channel.id});
         });
 
+        cy.wait(TIMEOUTS.HALF_SEC);
+
         // * Browser tab should displays (1) * channel - [team name] Mattermost
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
@@ -76,8 +97,8 @@ describe('Notifications', () => {
             cy.get('.badge').contains('1');
         });
 
-        // * Favicon should stay blue (not turn red) when there are mentions indicated
-        verifyFaviconEquals('favicon-default-16x16.png');
+        // * Favicon should turn red when there are mentions indicated
+        verifyFaviconEquals('favicon-mentions-16x16.png');
     });
 
     it('MM-T560_2 Team sidebar icon - Badge with mention count increments when added to channel', () => {
