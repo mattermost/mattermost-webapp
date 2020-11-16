@@ -170,7 +170,7 @@ export default class WebSocketClient {
         }
     }
 
-    sendMessage(action: string, data: any, responseCallback?: () => void) { // TODO data any or unknown?
+    sendMessage(action: string, data: any, responseCallback?: () => void) {
         const msg = {
             action,
             seq: this.sequence++,
