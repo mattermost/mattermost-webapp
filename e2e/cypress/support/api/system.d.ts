@@ -64,6 +64,16 @@ declare namespace Cypress {
         apiUploadLicense(filePath: string): Chainable<Response>;
 
         /**
+         * Request and install a trial license for your server.
+         * See https://api.mattermost.com/#tag/system/paths/~1trial-license/post
+         * @returns {Object} `out.data` as response status
+         *
+         * @example
+         *   cy.apiInstallTrialLicense();
+         */
+        apiInstallTrialLicense(): Chainable<Record<string, any>>;
+
+        /**
          * Remove the license file from the server. This will disable all enterprise features.
          * See https://api.mattermost.com/#tag/system/paths/~1license/delete
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
