@@ -133,7 +133,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             isCurrentChannel,
             isDraggable,
             isDMCategory,
-            hasDraft
+            hasDraft,
         } = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean; hasDraft: boolean}> = SidebarBaseChannel;

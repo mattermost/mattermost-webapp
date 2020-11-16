@@ -169,7 +169,7 @@ describe('Channel sidebar', () => {
 
     it('should collapse channels that do not have a draft message', () => {
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(({channel}) => {
+            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(() => {
                 // # Create the draft message
                 const draft = `Draft message ${getRandomId()}`;
                 cy.get('#post_textbox').clear().type(draft);

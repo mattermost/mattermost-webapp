@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentChannel, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {Channel} from 'mattermost-redux/types/channels';
 
 import {getDraggingState} from 'selectors/views/channel_sidebar';
 import {getPostDraft} from 'selectors/rhs';
