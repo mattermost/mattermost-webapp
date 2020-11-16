@@ -53,7 +53,7 @@ describe('Bot accounts ownership and API', () => {
     });
 
     it('MM-T1872 Bot can post to DM channel', () => {
-        // # Create private channel that bot doesn't belong to
+        // # Create DM channel that bot doesn't belong to
         cy.apiCreateDirectChannel([newUser.id, adminUser.id]).then(({channel}) => {
             // # Create token for the bot
             cy.apiAccessToken(newBot.user_id, 'some text').then(({token}) => {
@@ -79,7 +79,7 @@ describe('Bot accounts ownership and API', () => {
             const msg1 = 'this is a bot message ' + botName;
             cy.postBotMessage({channelId: newChannel.id, message: msg1, props: {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token});
 
-            // # Re-login to validate post presence
+            // # Visit test channel
             cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
             // * Validate post was created
@@ -192,7 +192,7 @@ describe('Bot accounts ownership and API', () => {
     });
 
     it('MM-T1878 Disable token can not be used to post', () => {
-        // # Create private channel that bot doesn't belong to
+        // # Create DM channel that bot doesn't belong to
         cy.apiCreateDirectChannel([newUser.id, adminUser.id]).then(({channel}) => {
             // # Create token for the bot
             cy.apiAccessToken(newBot.user_id, 'some text').then(({token, id}) => {
