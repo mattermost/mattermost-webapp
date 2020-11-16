@@ -166,4 +166,35 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS) i').should('be.visible').should('have.class', 'icon-rotate-minus-90');
         cy.get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES) i').should('be.visible').should('not.have.class', 'icon-rotate-minus-90');
     });
+
+    it('should collapse channels that do not have a draft message', () => {
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(({channel}) => {
+                // # Create the draft message
+                const draft = `Draft message ${getRandomId()}`;
+                cy.get('#post_textbox').clear().type(draft);
+
+                // # Check that the CHANNELS group header is visible
+                cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
+
+                // * Verify that all channels are visible
+                cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
+                cy.get('.SidebarChannel:contains(Town Square)').should('be.visible');
+                cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
+
+                // # Open Off Topic
+                cy.get('.SidebarChannel:contains(Off-Topic)').click();
+
+                // # Click on CHANNELS
+                cy.get('@channelsGroup').click();
+
+                // * Verify that Off-Topic and Town-Square are visible
+                cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
+                cy.get('.SidebarChannel:contains(Town Square)').should('be.visible');
+
+                // * Verify that Channel Test is not visible
+                cy.get('.SidebarChannel:contains(Channel Test)').should('not.be.visible');
+            });
+        });
+    });
 });

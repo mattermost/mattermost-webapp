@@ -24,6 +24,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
     }
   }
   closeHandler={[Function]}
+  hasDraft={false}
   icon={
     <i
       className="icon icon-globe"
@@ -59,6 +60,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
     }
   }
   closeHandler={[Function]}
+  hasDraft={false}
   icon={
     <i
       className="icon icon-lock-outline"
