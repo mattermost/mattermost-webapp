@@ -12,15 +12,12 @@ import {getDraggingState} from 'selectors/views/channel_sidebar';
 import {getPostDraft} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import {NotificationLevels, StoragePrefixes} from 'utils/constants';
+import {hasDraft} from 'utils/channel_utils';
 
 import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;
-}
-
-function hasDraft(draft: any, currentChannel?: Channel, channel?: Channel) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannel?.id !== channel?.id;
 }
 
 function makeMapStateToProps() {
