@@ -29,7 +29,7 @@ describe('Category muting', () => {
         }));
     });
 
-    it('category headers should be muted and unmuted correctly', () => {
+    it('MM-T3488 category headers should be muted and unmuted correctly', () => {
         // * Verify that the Channels category and its channels start unmuted
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').should('not.have.class', 'muted');
         cy.get('#sidebarItem_town-square').should('not.have.class', 'muted');
@@ -52,7 +52,7 @@ describe('Category muting', () => {
         cy.get('#sidebarItem_off-topic').should('not.have.class', 'muted');
     });
 
-    it('moving a channel into a muted category should mute it', () => {
+    it('MM-T3489_1 moving a channel into a muted category should mute it', () => {
         // # Create a new category
         cy.uiCreateSidebarCategory().then((category) => {
             // # Mute the new category
@@ -76,5 +76,9 @@ describe('Category muting', () => {
             // * Verify that Town Square is now unmuted
             cy.get('#sidebarItem_town-square').should('not.have.class', 'muted');
         });
+    });
+
+    it('M-T3489_2 being added to a new channel should not mute it, even if the Channels category is muted', () => {
+        // TODO
     });
 });
