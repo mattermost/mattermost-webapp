@@ -279,13 +279,10 @@ function makeChannelSearchFilter(channelPrefix) {
         }
 
         if (splitPrefixBySpace.length > 1) {
-            let match = true;
-            splitPrefixBySpace.forEach((searchPrefix) => {
-                if (!searchString.toLowerCase().includes(searchPrefix)) {
-                    match = false;
-                }
+            const lowerCaseSearch = searchString.toLowerCase();
+            return splitPrefixBySpace.every((searchPrefix) => {
+                return lowerCaseSearch.includes(searchPrefix);
             });
-            return match;
         }
 
         return searchString.toLowerCase().includes(channelPrefixLower);
