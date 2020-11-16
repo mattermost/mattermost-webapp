@@ -3,7 +3,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Stripe, loadStripe} from '@stripe/stripe-js';
+import {Stripe} from '@stripe/stripe-js';
+import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
 import {Product} from 'mattermost-redux/types/cloud';
@@ -30,7 +31,7 @@ import ProcessPaymentSetup from './process_payment_setup';
 import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
 
-const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+let stripePromise: Promise<Stripe | null>;
 
 type Props = {
     show: boolean;
@@ -223,6 +224,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
+        if (!stripePromise) {
+            stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+        }
         return (
             <Elements
                 options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
