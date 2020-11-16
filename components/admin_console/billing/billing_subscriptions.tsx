@@ -6,7 +6,7 @@ import {useDispatch, useStore, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -53,14 +53,15 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const customer = useSelector((state: GlobalState) => state.entities.cloud.customer);
+
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
+    const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
-    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCustomerCardExpired(customer));
+    const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -74,6 +75,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
+        getCloudCustomer()(dispatch, store.getState());
 
         if (!analytics) {
             (async function getAllAnalytics() {
@@ -239,7 +241,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             onDismiss={() => handleHide()}
                         />
                     )}
-                    {showCreditCardBanner && (
+                    {showCreditCardBanner && isCardExpired && (
                         <AlertBanner
                             mode='danger'
                             title={
