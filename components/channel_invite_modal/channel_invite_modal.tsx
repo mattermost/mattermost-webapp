@@ -1,17 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
-import MultiSelect from 'components/multiselect/multiselect';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -21,41 +24,53 @@ import Constants from 'utils/constants';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-export default class ChannelInviteModal extends React.PureComponent {
-    static propTypes = {
-        profilesNotInCurrentChannel: PropTypes.array.isRequired,
-        profilesNotInCurrentTeam: PropTypes.array.isRequired,
-        onHide: PropTypes.func.isRequired,
-        channel: PropTypes.object.isRequired,
+type UserProfileValue = Value & UserProfile;
 
-        // skipCommit = true used with onAddCallback will result in users not being committed immediately
-        skipCommit: PropTypes.bool,
+type Props = {
+    profilesNotInCurrentChannel: UserProfileValue[];
+    profilesNotInCurrentTeam: UserProfileValue[],
+    onHide: () => void,
+    channel: Channel,
 
-        // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-        onAddCallback: PropTypes.func,
+    // skipCommit = true used with onAddCallback will result in users not being committed immediately
+    skipCommit?: boolean,
 
-        // Dictionaries of userid mapped users to exclude or include from this list
-        excludeUsers: PropTypes.object,
-        includeUsers: PropTypes.object,
+    // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
+    onAddCallback?: (userProfiles?: UserProfileValue[]) => void,
 
-        actions: PropTypes.shape({
-            addUsersToChannel: PropTypes.func.isRequired,
-            getProfilesNotInChannel: PropTypes.func.isRequired,
-            getTeamStats: PropTypes.func.isRequired,
-            searchProfiles: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+    // Dictionaries of userid mapped users to exclude or include from this list
+    excludeUsers?: Dictionary<UserProfileValue>,
+    includeUsers?: Dictionary<UserProfileValue>,
 
-    static defaultProps = {
+    actions: {
+        addUsersToChannel: any,
+        getProfilesNotInChannel: any,
+        getTeamStats: (teamId: string) => ActionFunc,
+        searchProfiles: (term: string, options: any) => ActionFunc
+    }
+}
+
+type State = {
+    values: UserProfileValue[];
+    term: string;
+    show: boolean;
+    saving: boolean;
+    loadingUsers: boolean;
+    inviteError?: string;
+}
+
+export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props, State> {
+    private searchTimeoutId = 0;
+    private selectedItemRef = React.createRef<HTMLDivElement>();
+
+    public static defaultProps = {
         includeUsers: {},
         excludeUsers: {},
         skipCommit: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
-
-        this.searchTimeoutId = 0;
 
         this.state = {
             values: [],
@@ -63,13 +78,11 @@ export default class ChannelInviteModal extends React.PureComponent {
             show: true,
             saving: false,
             loadingUsers: true,
-        };
-
-        this.selectedItemRef = React.createRef();
+        } as State;
     }
 
-    addValue = (value) => {
-        const values = Object.assign([], this.state.values);
+    private addValue = (value: UserProfileValue): void => {
+        const values: Array<UserProfileValue> = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
         }
@@ -77,18 +90,18 @@ export default class ChannelInviteModal extends React.PureComponent {
         this.setState({values});
     };
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
     }
 
-    onHide = () => {
+    public onHide = (): void => {
         this.setState({show: false});
     };
 
-    handleInviteError = (err) => {
+    public handleInviteError = (err: any): void => {
         if (err) {
             this.setState({
                 saving: false,
@@ -97,30 +110,31 @@ export default class ChannelInviteModal extends React.PureComponent {
         }
     };
 
-    handleDelete = (values) => {
+    private handleDelete = (values: UserProfileValue[]): void => {
         this.setState({values});
     };
 
-    setUsersLoadingState = (loadingState) => {
+    private setUsersLoadingState = (loadingState: boolean): void => {
         this.setState({
             loadingUsers: loadingState,
         });
     };
 
-    handlePageChange = (page, prevPage) => {
+    private handlePageChange = (page: number, prevPage: number): void => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(
+                this.props.channel.team_id,
+                this.props.channel.id,
+                this.props.channel.group_constrained,
+                page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
     };
 
-    handleSubmit = (e) => {
+    public handleSubmit = (): void => {
         const {actions, channel} = this.props;
-        if (e) {
-            e.preventDefault();
-        }
 
         const userIds = this.state.values.map((v) => v.id);
         if (userIds.length === 0) {
@@ -131,7 +145,7 @@ export default class ChannelInviteModal extends React.PureComponent {
             this.props.onAddCallback(this.state.values);
             this.setState({
                 saving: false,
-                inviteError: null,
+                inviteError: undefined,
             });
             this.onHide();
             return;
@@ -139,27 +153,27 @@ export default class ChannelInviteModal extends React.PureComponent {
 
         this.setState({saving: true});
 
-        actions.addUsersToChannel(channel.id, userIds).then((result) => {
+        actions.addUsersToChannel(channel.id, userIds).then((result: any) => {
             if (result.error) {
                 this.handleInviteError(result.error);
             } else {
                 this.setState({
                     saving: false,
-                    inviteError: null,
+                    inviteError: undefined,
                 });
                 this.onHide();
             }
         });
     };
 
-    search = (searchTerm) => {
+    public search = (searchTerm: string): void => {
         const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
         this.setState({
             term,
         });
 
-        this.searchTimeoutId = setTimeout(
+        this.searchTimeoutId = window.setTimeout(
             async () => {
                 if (!term) {
                     return;
@@ -178,15 +192,15 @@ export default class ChannelInviteModal extends React.PureComponent {
         );
     };
 
-    renderAriaLabel = (option) => {
+    private renderAriaLabel = (option: UserProfileValue): string => {
         if (!option) {
-            return null;
+            return '';
         }
         return option.username;
     }
 
-    renderOption = (option, isSelected, onAdd, onMouseMove) => {
-        var rowSelected = '';
+    private renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+        let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
@@ -226,11 +240,11 @@ export default class ChannelInviteModal extends React.PureComponent {
         );
     };
 
-    renderValue(props) {
+    private renderValue = (props: { data: { username: string } }) => {
         return props.data.username;
     }
 
-    render() {
+    public render = (): JSX.Element => {
         let inviteError = null;
         if (this.state.inviteError) {
             inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
@@ -250,8 +264,10 @@ export default class ChannelInviteModal extends React.PureComponent {
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
         let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
-            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user) && !this.props.excludeUsers[user.id];
-        });
+            return user.delete_at === 0 &&
+                !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
+                (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
+        }).map((user) => user as UserProfileValue);
 
         if (this.props.includeUsers) {
             const includeUsers = Object.values(this.props.includeUsers);

@@ -432,7 +432,6 @@ export default class RhsThread extends React.Component<Props, State> {
                     autoHideDuration={500}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
-                    autoHeight={true}
                     autoHeightMax={this.state.postsContainerHeight}
                     renderView={renderView}
                     onScroll={this.handleScroll}
@@ -469,9 +468,9 @@ export default class RhsThread extends React.Component<Props, State> {
                                 {commentsLists}
                             </div>
                         </div>
+                        {createComment}
                     </div>
                 </Scrollbars>
-                {createComment}
             </div>
         );
     }

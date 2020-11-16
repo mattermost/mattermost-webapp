@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import VersionBar from 'components/announcement_bar/version_bar/version_bar.jsx';
+import VersionBar from 'components/announcement_bar/version_bar/version_bar';
 import AnnouncementBar from 'components/announcement_bar/default_announcement_bar';
 
 describe('components/VersionBar', () => {
