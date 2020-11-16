@@ -83,7 +83,7 @@ describe('SidebarChannelList', () => {
                 display_name: 'custom_category_1',
                 sorting: CategorySorting.Alphabetical,
                 channel_ids: ['channel_id', 'channel_id_2'],
-                muted: true
+                muted: true,
             },
         ],
         unreadChannelIds: ['channel_id_2'],

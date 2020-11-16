@@ -42,7 +42,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             display_name: 'custom_category_1',
             sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
-            muted: true
+            muted: true,
         }],
         currentUserId: 'user_id',
         currentCategory: {
@@ -53,7 +53,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
             display_name: 'custom_category_1',
-            muted: true
+            muted: true,
         },
         currentTeamId: 'team1',
         isUnread: false,

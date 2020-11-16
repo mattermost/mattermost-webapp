@@ -20,7 +20,7 @@ describe('components/sidebar/sidebar_category', () => {
             display_name: 'custom_category_1',
             channel_ids: ['channel_id'],
             sorting: CategorySorting.Alphabetical,
-            muted: true
+            muted: true,
         },
         channels: [
             {

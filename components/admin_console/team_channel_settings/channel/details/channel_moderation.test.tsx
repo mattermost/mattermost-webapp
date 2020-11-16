@@ -22,8 +22,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
             },
             admins: {
                 value: true,
-                enabled: true
-            }
+                enabled: true,
+            },
         },
     }];
     const onChannelPermissionsChanged = () => {
@@ -78,8 +78,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
             {
@@ -95,8 +95,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
         ];
@@ -129,8 +129,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
             {
@@ -146,8 +146,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
         ];
@@ -180,8 +180,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
             {
@@ -197,8 +197,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
         ];
@@ -231,8 +231,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
             {
@@ -248,8 +248,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             },
         ];
@@ -346,8 +346,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             };
             const result = instance.errorMessagesToDisplay(input);
@@ -380,8 +380,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             };
             const result = instance.errorMessagesToDisplay(input);
@@ -414,8 +414,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                     },
                     admins: {
                         value: true,
-                        enabled: true
-                    }
+                        enabled: true,
+                    },
                 },
             };
             const result = instance.errorMessagesToDisplay(input);
@@ -437,8 +437,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
                 {
@@ -454,8 +454,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
             ];
@@ -491,8 +491,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
                 {
@@ -508,8 +508,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
             ];
@@ -545,8 +545,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
                 {
@@ -562,8 +562,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
             ];
@@ -599,8 +599,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
                 {
@@ -616,8 +616,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
             ];
@@ -653,8 +653,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
                 {
@@ -670,8 +670,8 @@ describe('admin_console/team_channel_settings/channel/ChannelModeration', () => 
                         },
                         admins: {
                             value: true,
-                            enabled: true
-                        }
+                            enabled: true,
+                        },
                     },
                 },
             ];
