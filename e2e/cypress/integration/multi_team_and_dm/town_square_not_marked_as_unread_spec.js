@@ -45,11 +45,10 @@ describe('Multi Team and DM', () => {
         cy.get('#joinLeaveOff').click();
         cy.findByText('Save').click();
         cy.get('#accountSettingsHeader').within(() => {
-            cy.findByText('Close').click({force: true});
+            cy.findByLabelText('Close').click();
         });
-
         // # Confirm Town Square is marked as read
-        cy.findByLabelText('town square public channel').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
+        cy.findByLabelText('town square public channel').should('be.visible');
 
         // # Remove focus from Town Square
         cy.findByLabelText('off-topic public channel').click();
@@ -58,11 +57,10 @@ describe('Multi Team and DM', () => {
         cy.externalRequest({user: sysadmin, method: 'post', path: `teams/${testTeam.id}/members`, data: {team_id: testTeam.id, user_id: otherUser.id}});
 
         // * Assert that Town Square is still marked as read after second user added to team
-        cy.findByLabelText('town square public channel').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
+        cy.findByLabelText('town square public channel').should('be.visible');
 
         // * Switch to different channel and assert that Town Square is still marked as read
-        cy.findByText(`${testChannel.display_name}`).click().then(() => {
-            cy.findByLabelText('town square public channel').should('not.have', 'attr', 'aria-label', 'town square public channel unread').should('have.attr', 'aria-label', 'town square public channel');
-        });
+        cy.findByText(`${testChannel.display_name}`).click();
+        cy.findByLabelText('town square public channel').should('have.attr', 'aria-label', 'town square public channel').should('not.have.css','font-weight','600');
     });
 });
