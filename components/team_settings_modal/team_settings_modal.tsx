@@ -14,7 +14,7 @@ import TeamSettings from 'components/team_settings';
 
 type Props = {
     onHide: () => void,
-    isCloud: boolean,
+    isCloud?: boolean,
 }
 
 export type State = {
