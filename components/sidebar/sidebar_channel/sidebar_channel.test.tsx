@@ -41,6 +41,8 @@ describe('components/sidebar/sidebar_channel', () => {
         isCategoryDragged: false,
         isDropDisabled: false,
         draggingState: {},
+        selectedChannelIds: [],
+        isChannelSelected: false,
     };
 
     test('should match snapshot', () => {

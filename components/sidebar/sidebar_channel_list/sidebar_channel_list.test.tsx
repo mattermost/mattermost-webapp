@@ -88,6 +88,7 @@ describe('SidebarChannelList', () => {
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
         newCategoryIds: [],
+        selectedChannelIds: [],
         isUnreadFilterEnabled: false,
         draggingState: {},
         categoryCollapsedState: {},
@@ -103,6 +104,7 @@ describe('SidebarChannelList', () => {
             setDraggingState: jest.fn(),
             stopDragging: jest.fn(),
             expandCategory: jest.fn(),
+            clearChannelSelection: jest.fn(),
         },
     };
 
@@ -280,6 +282,6 @@ describe('SidebarChannelList', () => {
         };
 
         wrapper.instance().onDragEnd(channelResult);
-        expect(baseProps.actions.moveChannelInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.draggableId, channelResult.destination!.index);
+        expect(baseProps.actions.moveChannelsInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, [channelResult.draggableId], channelResult.destination!.index, channelResult.draggableId);
     });
 });

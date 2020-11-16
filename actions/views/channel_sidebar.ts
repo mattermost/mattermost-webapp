@@ -10,7 +10,6 @@ import {setItem} from 'actions/storage';
 import {getChannelsInCategoryOrder} from 'selectors/views/channel_sidebar';
 import {DraggingState, GlobalState} from 'types/store';
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
-import { target } from 'webpack.config';
 
 export function collapseCategory(categoryId: string) {
     return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, true);

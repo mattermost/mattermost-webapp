@@ -164,7 +164,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                 selectedCount = (
                     <div className='SidebarChannel__selectedCount'>
                         <FormattedMarkdownMessage
-                            id='sidebar_channel.selectedCount'
+                            id='sidebar_left.sidebar_channel.selectedCount'
                             defaultMessage='{count} selected'
                             values={{count: selectedChannelIds.length}}
                         />
