@@ -109,7 +109,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term = '') => {
+    onSearch = (term = '') => {
         this.loadPage(0, term, this.state.filters);
     };
 
@@ -348,7 +348,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
