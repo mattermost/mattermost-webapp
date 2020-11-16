@@ -9,12 +9,15 @@ import {Tooltip} from 'react-bootstrap';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 
+import {Dictionary} from 'mattermost-redux/types/utilities';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import WarnMetricAckModal from 'components/warn_metric_ack_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+
+import {WarnMetricStatus} from 'mattermost-redux/types/config';
 
 type Props = {
     showCloseButton: boolean;
@@ -28,7 +31,7 @@ type Props = {
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
-    warnMetricStatus?: Record<string, unknown>;
+    warnMetricStatus?: Dictionary<WarnMetricStatus>;
     isTallBanner: boolean;
     actions: {
         incrementAnnouncementBarCount: ()=>void;
@@ -46,7 +49,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         isTallBanner: false,
     }
 
-    public componentDidMount() {// public for testing
+    componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
         if (this.props.isTallBanner) {
             document.body.classList.add('announcement-banner-tall--fixed');
@@ -55,7 +58,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         }
     }
 
-    public componentWillUnmount() {
+    componentWillUnmount() {
         if (this.props.announcementBarCount === 1 && !this.props.isTallBanner) {
             document.body.classList.remove('announcement-bar--fixed');
         } else if (this.props.announcementBarCount === 1 && this.props.isTallBanner) {
@@ -65,14 +68,14 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         this.props.actions.decrementAnnouncementBarCount();
     }
 
-    public handleClose = (e: any) => {
+    handleClose = (e: any) => {
         e.preventDefault();
         if (this.props.handleClose) {
             this.props.handleClose();
         }
     }
 
-    public render() {
+    render() {
         if (!this.props.message) {
             return null;
         }
