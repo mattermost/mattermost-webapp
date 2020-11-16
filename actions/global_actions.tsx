@@ -229,8 +229,8 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;
 
-        const timeBetweenUserTypingUpdatesMilliseconds = stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds);
-        const maxNotificationsPerChannel = stringToNumber(config.MaxNotificationsPerChannel);
+        const timeBetweenUserTypingUpdatesMilliseconds = Utils.stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds);
+        const maxNotificationsPerChannel = Utils.stringToNumber(config.MaxNotificationsPerChannel);
 
         if (((t - lastTimeTypingSent) > timeBetweenUserTypingUpdatesMilliseconds) &&
             (membersInChannel < maxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {
@@ -242,14 +242,6 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
     };
 
     return dispatch(userTyping);
-}
-
-function stringToNumber(s?: string): number {
-    if (!s) {
-        return 0;
-    }
-
-    return parseInt(s, 10);
 }
 
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
