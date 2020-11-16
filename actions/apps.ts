@@ -40,7 +40,7 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
         case AppCallResponseTypes.FORM:
             if (!res.form) {
                 const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `form`, but no form was included in response.';
-                ephemeral(errMsg, call)
+                ephemeral(errMsg, call);
                 return {data: res};
             }
 

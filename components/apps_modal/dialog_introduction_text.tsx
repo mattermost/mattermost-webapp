@@ -13,7 +13,7 @@ type Props = {
     emojiMap: EmojiMap;
 };
 
-const DialogIntroductionText: React.FC<Props> = (props) => {
+const DialogIntroductionText: React.FC<Props> = (props: Props) => {
     const formattedMessage = Markdown.format(
         props.value,
         {
@@ -31,6 +31,6 @@ const DialogIntroductionText: React.FC<Props> = (props) => {
             dangerouslySetInnerHTML={{__html: formattedMessage}}
         />
     );
-}
+};
 
 export default DialogIntroductionText;
