@@ -30,7 +30,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
 
     const submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse}> => {
         if (!props.modal) {
-            return {data: {type: 'error', error: 'props.modal is not defined'}};
+            return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.modal is not defined'}};
         }
 
         const call: AppCall = {
