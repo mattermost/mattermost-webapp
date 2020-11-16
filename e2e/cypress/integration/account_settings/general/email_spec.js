@@ -107,7 +107,7 @@ describe('Account Settings -> General -> Email', () => {
     // This test is a combination of 4 sub-tests because they are sub-parts of the same test.
     // Doing them individually would have a dependency with the previous test.
     // Hence, a combined single test for everything is better.
-    it('MM-T2069/MM-T2070/MM-T2071/MM-T2072 email address verification', () => {
+    it('MM-T2069 Email: Can update email address and verify through email notification', () => {
         // # Click "Edit" to the right of "Email"
         cy.get('#emailEdit').should('be.visible').click();
 
@@ -121,7 +121,7 @@ describe('Account Settings -> General -> Email', () => {
         // # Save the settings
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
-        // * Verify the announcement bar (MM-2071)
+        // * Verify the announcement bar
         cy.get('.announcement-bar').should('be.visible').should('contain.text', 'Check your email inbox to verify the address.');
 
         // # Reload the page
@@ -162,7 +162,7 @@ describe('Account Settings -> General -> Email', () => {
 
         cy.toAccountSettingsModal();
 
-        // * Verify new email address (MM-2070)
+        // * Verify new email address
         cy.get('#emailDesc').should('be.visible').should('have.text', `user-${randomId}@example.com`);
     });
 
