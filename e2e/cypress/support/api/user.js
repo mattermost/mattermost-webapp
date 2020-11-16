@@ -138,6 +138,16 @@ Cypress.Commands.add('apiPatchMe', (data) => {
     });
 });
 
+Cypress.Commands.add('apiCreateCustomAdmin', () => {
+    const sysadminUser = generateRandomUser('other-admin');
+
+    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
+        return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
+            return cy.wrap({sysadmin: user});
+        });
+    });
+});
+
 Cypress.Commands.add('apiCreateAdmin', () => {
     const {username, password} = getAdminAccount();
 
@@ -271,6 +281,23 @@ Cypress.Commands.add('apiDeactivateUser', (userId) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'DELETE',
         url: `/api/v4/users/${userId}`,
+    };
+
+    // # Deactivate a user account
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('apiActivateUser', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/users/${userId}/active`,
+        body: {
+            active: true,
+        },
     };
 
     // # Deactivate a user account
