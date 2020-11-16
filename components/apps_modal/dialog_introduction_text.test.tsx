@@ -6,7 +6,7 @@ import {mount} from 'enzyme';
 
 import EmojiMap from 'utils/emoji_map';
 
-import DialogIntroductionText from './dialog_introduction_text.jsx';
+import DialogIntroductionText from './dialog_introduction_text.js';
 
 describe('components/DialogIntroductionText', () => {
     const emojiMap = new EmojiMap(new Map());
@@ -17,7 +17,7 @@ describe('components/DialogIntroductionText', () => {
             value: '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
             emojiMap,
         };
-        const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
+        const wrapper = mount<DialogIntroductionText>(<DialogIntroductionText {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -27,7 +27,7 @@ describe('components/DialogIntroductionText', () => {
             value: '',
             emojiMap,
         };
-        const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
+        const wrapper = mount<DialogIntroductionText>(<DialogIntroductionText {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });
