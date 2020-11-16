@@ -146,11 +146,7 @@ describe('Bot accounts ownership and API', () => {
                 // # Disable the bot
                 cy.visit(`/${newTeam.name}/integrations/bots`);
 
-                cy.findByText(`Test Bot (@${botName})`).then((el) => {
-                    // # Make sure it's on the screen
-                    cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
-                    cy.wrap(el[0].parentElement.parentElement).find('.item-actions > button:nth-child(3)').click();
-                });
+                cy.findByText(`Test Bot (@${botName})`).scrollIntoView().parent().findByText('Disable').click();
 
                 // # Try to post again
                 const msg2 = 'this is a bot message2 ' + botName;
@@ -168,12 +164,7 @@ describe('Bot accounts ownership and API', () => {
 
                 // # Enable the bot again
                 cy.visit(`/${newTeam.name}/integrations/bots`);
-
-                cy.findByText(`Test Bot (@${botName})`).then((el) => {
-                    // # Make sure it's on the screen
-                    cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
-                    cy.wrap(el[0].parentElement.parentElement).find('.item-actions > button').click();
-                });
+                cy.findByText(`Test Bot (@${botName})`).scrollIntoView().parent().findByText('Enable').click();
 
                 // # Try to post again
 
