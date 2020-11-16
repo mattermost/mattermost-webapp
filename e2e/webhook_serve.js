@@ -17,7 +17,7 @@ server.use(express.urlencoded({extended: true}));
 
 process.title = process.argv[2];
 
-server.get('/', (req, res) => res.send('I\'m alive!\n'));
+server.get('/', (req, res) => res.status(200).send('I\'m alive!\n'));
 server.post('/message_menus', postMessageMenus);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
@@ -49,7 +49,7 @@ function postSendOauthCredentials(req, res) {
         accessTokenUri: getBaseUrl() + '/oauth/access_token',
         redirectUri: getWebhookBaseUrl() + '/complete_oauth',
     });
-    return res.send('OK');
+    return res.status(200).send('OK');
 }
 
 function getStartOAuth(req, res) {
@@ -59,7 +59,7 @@ function getStartOAuth(req, res) {
 function getCompleteOauth(req, res) {
     client.code.getToken(req.originalUrl).then((user) => {
         authedUser = user;
-        return res.send('OK');
+        return res.status(200).send('OK');
     }).catch((reason) => {
         return res.status(reason.status).send(reason);
     });
@@ -73,7 +73,7 @@ async function postOAuthMessage(req, res) {
         url: apiUrl,
     });
     try {
-        axios({
+        await axios({
             url: apiUrl,
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ async function postOAuthMessage(req, res) {
     } catch (err) {
         // Do nothing
     }
-    return res.send('OK');
+    return res.status(200).send('OK');
 }
 
 function postSlackCompatibleMessageResponse(req, res) {

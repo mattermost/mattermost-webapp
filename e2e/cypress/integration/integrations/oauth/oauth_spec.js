@@ -135,7 +135,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T648 Part 1 - OAuth 2.0 Zapier tests', () => {
+    it('MM-T648_1 OAuth 2.0 Application - Setup', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -183,7 +183,7 @@ describe('Integrations page', () => {
         cy.get('#doneButton').click();
     });
 
-    it('Aux - Exchange tokens', () => {
+    it('MM-T648_2 OAuth 2.0 Application - Exchange tokens', () => {
         cy.apiLogin(user1);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -192,11 +192,11 @@ describe('Integrations page', () => {
         // # Click on the allow button
         cy.findByText('Allow').click();
 
-        // * Exchange succesful
+        // * Exchange succesfull
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T648 Part 2 - OAuth 2.0 Zapier tests', () => {
+    it('MM-T648_3 OAuth 2.0 Application - Post message using OAuth credentials', () => {
         // # Visit a channel
         cy.visit(testChannelUrl1);
 
@@ -213,7 +213,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T649 Edit Zapier', () => {
+    it('MM-T649 Edit Oauth 2.0 Application', () => {
         cy.apiLogin(user2);
         cy.visit(testChannelUrl1);
 
@@ -248,7 +248,7 @@ describe('Integrations page', () => {
         cy.get('#saveOauthApp').click();
 
         cy.contains('.item-details', oauthClientID).should('exist').within(() => {
-            // * Description should be editted
+            // * Description should be edited
             cy.findByText('TestEdited').should('exist');
         });
 
@@ -269,7 +269,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T650 Deauthorize Zapier', () => {
+    it('MM-T650 Deauthorize OAuth 2.0 Application', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -302,7 +302,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('MM-T651 Part 1 Reconnect Zapier', () => {
+    it('MM-T651_1 Reconnect OAuth 2.0 Application - Connect application', () => {
         cy.apiLogin(user1);
 
         // # Visit the webhook url to start the OAuth handshake
@@ -311,11 +311,11 @@ describe('Integrations page', () => {
         // # Click on the allow button
         cy.findByText('Allow').click();
 
-        // * Exchange succesful
+        // * Exchange succesfull
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T651 Part 2 Reconnect Zapier', () => {
+    it('MM-T651_2 Reconnect OAuth 2.0 Application - Post message using OAuth credentials', () => {
         cy.apiLogin(user1);
 
         // # Visit a channel
@@ -404,7 +404,7 @@ describe('Integrations page', () => {
         cy.findByText('OK').should('exist');
     });
 
-    it('MM-T655 Delete Zapier', () => {
+    it('MM-T655 Delete OAuth 2.0 Application', () => {
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
@@ -436,5 +436,5 @@ describe('Integrations page', () => {
 });
 
 function getWebhookBaseUrl() {
-    return process.env.CYPRESS_webhookBaseUrl || 'http://localhost:3000';
+    return Cypress.env('webhookBaseUrl');
 }
