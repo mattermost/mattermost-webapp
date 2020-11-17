@@ -6,6 +6,7 @@ import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} 
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
@@ -47,7 +48,6 @@ type Props = {
     currentTeamId: string;
     preview?: boolean;
     profilesInChannel: { id: string }[];
-    profilesNotInChannel: { id: string }[];
     autocompleteGroups: { id: string }[] | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
@@ -57,6 +57,7 @@ type Props = {
     useChannelMentions: boolean;
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
+    priorityProfiles?: UserProfile[];
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -79,11 +80,11 @@ export default class Textbox extends React.PureComponent<Props> {
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
-                profilesNotInChannel: this.props.profilesNotInChannel,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
                 searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
+                priorityProfiles: this.props.priorityProfiles,
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
@@ -109,7 +110,6 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
             this.props.profilesInChannel !== prevProps.profilesInChannel ||
-            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel ||
             this.props.autocompleteGroups !== prevProps.autocompleteGroups) {
             // Update channel id for AtMentionProvider.
             const providers = this.suggestionProviders;
@@ -118,11 +118,11 @@ export default class Textbox extends React.PureComponent<Props> {
                     (providers[i] as AtMentionProvider).setProps({
                         currentUserId: this.props.currentUserId,
                         profilesInChannel: this.props.profilesInChannel,
-                        profilesNotInChannel: this.props.profilesNotInChannel,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,
                         searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
+                        priorityProfiles: this.props.priorityProfiles,
                     });
                 }
             }

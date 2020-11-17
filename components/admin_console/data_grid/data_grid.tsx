@@ -52,8 +52,8 @@ type Props = {
     nextPage: () => void;
     previousPage: () => void;
 
-    search: (term: string) => void;
-    term: string;
+    onSearch?: (term: string) => void;
+    term?: string;
     searchPlaceholder?: string;
 
     filterProps?: {
@@ -74,6 +74,11 @@ const MINIMUM_COLUMN_WIDTH = 100;
 
 class DataGrid extends React.PureComponent<Props, State> {
     private ref: React.RefObject<HTMLDivElement>;
+
+    static defaultProps = {
+        term: '',
+        searchPlaceholder: '',
+    }
 
     public constructor(props: Props) {
         super(props);
@@ -183,15 +188,18 @@ class DataGrid extends React.PureComponent<Props, State> {
         );
     }
 
-    private renderSearch(): JSX.Element {
-        return (
-            <DataGridSearch
-                onSearch={this.search}
-                placeholder={this.props.searchPlaceholder || ''}
-                term={this.props.term}
-                filterProps={this.props.filterProps}
-            />
-        );
+    private renderSearch(): JSX.Element | null {
+        if (this.props.onSearch) {
+            return (
+                <DataGridSearch
+                    onSearch={this.search}
+                    placeholder={this.props.searchPlaceholder}
+                    term={this.props.term}
+                    filterProps={this.props.filterProps}
+                />
+            );
+        }
+        return null;
     }
 
     private nextPage = () => {
@@ -207,7 +215,9 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private search = (term: string) => {
-        this.props.search(term);
+        if (this.props.onSearch) {
+            this.props.onSearch(term);
+        }
     }
 
     private renderFooter = (): JSX.Element | null => {

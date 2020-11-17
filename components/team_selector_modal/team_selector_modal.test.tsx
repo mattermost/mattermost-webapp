@@ -4,51 +4,45 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamSelectorModal from 'components/team_selector_modal/team_selector_modal.jsx';
+import {TestHelper} from 'utils/test_helper';
+
+import TeamSelectorModal, {Props} from './team_selector_modal';
 
 describe('components/TeamSelectorModal', () => {
-    const defaultProps = {
+    const defaultProps: Props = {
         currentSchemeId: 'xxx',
         alreadySelected: ['id1'],
         searchTerm: '',
         teams: [
-            {
+            TestHelper.getTeamMock({
                 id: 'id1',
-                label: 'label1',
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 1',
-                value: 'value1',
-            },
-            {
+            }),
+            TestHelper.getTeamMock({
                 id: 'id2',
-                label: 'label2',
                 delete_at: 123,
                 scheme_id: '',
                 display_name: 'Team 2',
-                value: 'value2',
-            },
-            {
+            }),
+            TestHelper.getTeamMock({
                 id: 'id3',
-                label: 'label3',
                 delete_at: 0,
                 scheme_id: 'test',
                 display_name: 'Team 3',
-                value: 'value3',
-            },
-            {
+            }),
+            TestHelper.getTeamMock({
                 id: 'id4',
-                label: 'label4',
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 4',
-                value: 'value4',
-            },
+            }),
         ],
         onModalDismissed: jest.fn(),
         onTeamsSelected: jest.fn(),
         actions: {
-            loadTeams: jest.fn(() => Promise.resolve()),
+            loadTeams: jest.fn().mockResolvedValue({data: []}),
             setModalSearchTerm: jest.fn(() => Promise.resolve()),
             searchTeams: jest.fn(() => Promise.resolve()),
         },
