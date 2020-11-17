@@ -9,8 +9,8 @@
 
 // Group: @messaging
 
-import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 
 describe('autocomplete', () => {
     let testTeam;
@@ -18,7 +18,7 @@ describe('autocomplete', () => {
     let testUser;
     let otherUser;
     let otherUser2;
-    let notinchannelUser;
+    let notInChannelUser;
     let sysadmin;
     let displayNameTestUser;
     let displayNameOtherUser;
@@ -51,8 +51,8 @@ describe('autocomplete', () => {
             });
 
             cy.apiCreateUser({prefix: 'notinchannel'}).then(({user: user1}) => {
-                notinchannelUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, notinchannelUser.id);
+                notInChannelUser = user1;
+                cy.apiAddUserToTeam(testTeam.id, notInChannelUser.id);
             });
         });
     });
@@ -61,12 +61,12 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
 
         // # Clear then type @  and user name
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`);
-
-        // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').within(() => {
-            cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`).then(() => {
+            // * Verify that the item is displayed or not as expected.
+            cy.get('#suggestionList').within(() => {
+                cy.findByText(displayNameTestUser).should('be.visible');
+                cy.findByText(displayNameOtherUser).should('not.be.visible');
+            });
         });
 
         // # Post user mention
@@ -82,12 +82,12 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
 
         // # Clear then type @ and user nickname
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.nickname}`);
-
-        // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').within(() => {
-            cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.nickname}`).then(() => {
+            // * Verify that the item is displayed or not as expected.
+            cy.get('#suggestionList').within(() => {
+                cy.findByText(displayNameTestUser).should('be.visible');
+                cy.findByText(displayNameOtherUser).should('not.be.visible');
+            });
         });
 
         // # Post user mention
@@ -103,12 +103,12 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
 
         // # Clear then type @  and user first names
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.first_name}`);
-
-        // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').within(() => {
-            cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.first_name}`).then(() => {
+            // * Verify that the item is displayed or not as expected.
+            cy.get('#suggestionList').within(() => {
+                cy.findByText(displayNameTestUser).should('be.visible');
+                cy.findByText(displayNameOtherUser).should('not.be.visible');
+            });
         });
 
         // # Post user mention
@@ -140,22 +140,24 @@ describe('autocomplete', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Type user name
-        cy.get('#post_textbox').type(`${notinchannelUser.username}`);
+        cy.get('#post_textbox').type(`${notInChannelUser.username}`);
 
         // # Post user mention
         cy.get('#post_textbox').type('{enter}{enter}');
 
+        const message = `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`;
+
         cy.getLastPostId().then((postId) => {
             // * Verify that the correct system message is displayed or not
-            cy.get(`#postMessageText_${postId}`).should('include.text', `@${notinchannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
+            cy.get(`#postMessageText_${postId}`).should('include.text', message);
 
             // * Click on the link to add the user to the channel
-            cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click();
-        });
-
-        // * Verify that the correct system message is displayed or not
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('include.text', `@${notinchannelUser.username} added to the channel by you`);
+            cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click().then(() => {
+                // * Verify that the correct system message is displayed or not
+                cy.getLastPostId().then((npostId) => {
+                    cy.get(`#postMessageText_${npostId}`).should('include.text', `@${notInChannelUser.username} added to the channel by you`);
+                });
+            });
         });
     });
 
@@ -222,7 +224,7 @@ describe('autocomplete', () => {
     it('MM-T2209 @ autocomplete - not in DM, GM', () => {
         const userGroupIds = [testUser.id, otherUser.id, otherUser2.id];
 
-        // # Create a group channel for 2 users
+        // # Create a group channel for 3 users
         cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Visit the channel using the name using the channels route
             cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
@@ -234,7 +236,7 @@ describe('autocomplete', () => {
             cy.get('#suggestionList').should('be.visible');
 
             // # Type user name
-            cy.get('#post_textbox').type(`${notinchannelUser.username}`);
+            cy.get('#post_textbox').type(`${notInChannelUser.username}`);
 
             // # Post user name mention
             cy.get('#post_textbox').type('{enter}{enter}');
@@ -242,10 +244,10 @@ describe('autocomplete', () => {
             // # Check that the user name has been posted
             cy.getLastPostId().then((postId) => {
                 // * Verify that the correct system message is displayed or not
-                cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notinchannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
+                cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
                 // # Check that the user name has been posted
-                cy.get(`#postMessageText_${postId}`).should('contain', `${notinchannelUser.username}`);
+                cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
 
                 // * Verify that the @ mention is a link
                 cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
@@ -263,15 +265,15 @@ describe('autocomplete', () => {
             cy.get('#suggestionList').should('be.visible');
 
             // # Type user name
-            cy.get('#post_textbox').type(`${notinchannelUser.username}`);
+            cy.get('#post_textbox').type(`${notInChannelUser.username}`);
             cy.get('#post_textbox').type('{enter}{enter}');
 
             cy.getLastPostId().then((postId) => {
                 // * Verify that the correct system message is displayed or not
-                cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notinchannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
+                cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
                 // # Check that the user name has been posted
-                cy.get(`#postMessageText_${postId}`).should('contain', `${notinchannelUser.username}`);
+                cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
 
                 // * Verify that the @ mention is a link
                 cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
