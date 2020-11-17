@@ -4,9 +4,10 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {Preferences} from 'mattermost-redux/constants/index';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import Constants from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -37,6 +38,10 @@ type State = {
     selectedCategorySort: string;
 };
 
+enum Settings {
+    limitVisibleDmsGms = 'limit_visible_dms_gms',
+}
+
 export class SidebarCategorySortingMenu extends React.PureComponent<Props, State> {
     isLeaving: boolean;
 
@@ -65,8 +70,8 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         const {currentUserId} = this.props;
         this.props.actions.savePreferences(currentUserId, [{
             user_id: currentUserId,
-            category: Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            name: Preferences.LIMIT_VISIBLE_DMS_GMS,
+            category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
+            name: Settings.limitVisibleDmsGms,
             value: `${number}`,
         }]);
         this.setState({selectedDmNumber: number});
