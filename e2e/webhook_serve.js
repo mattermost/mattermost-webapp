@@ -3,6 +3,7 @@
 
 const express = require('express');
 const axios = require('axios');
+var ClientOAuth2 = require('client-oauth2');
 
 const webhookUtils = require('./utils/webhook_utils');
 
@@ -16,7 +17,7 @@ server.use(express.urlencoded({extended: true}));
 
 process.title = process.argv[2];
 
-server.get('/', (req, res) => res.send('I\'m alive!\n'));
+server.get('/', (req, res) => res.status(200).send('I\'m alive!\n'));
 server.post('/message_menus', postMessageMenus);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
@@ -25,8 +26,75 @@ server.post('/dialog_submit', onDialogSubmit);
 server.post('/boolean_dialog_request', onBooleanDialogRequest);
 server.post('/slack_compatible_message_response', postSlackCompatibleMessageResponse);
 server.post('/send_message_to_channel', postSendMessageToChannel);
+server.post('/post_outgoing_webhook', postOutgoingWebhook);
+
+server.post('/send_oauth_credentials', postSendOauthCredentials);
+server.get('/start_oauth', getStartOAuth);
+server.get('/complete_oauth', getCompleteOauth);
+server.post('/postOAuthMessage', postOAuthMessage);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
+
+let appID;
+let appSecret;
+let client;
+let authedUser;
+function postSendOauthCredentials(req, res) {
+    appID = req.body.appID.trim();
+    appSecret = req.body.appSecret.trim();
+    client = new ClientOAuth2({
+        clientId: appID,
+        clientSecret: appSecret,
+        authorizationUri: getBaseUrl() + '/oauth/authorize',
+        accessTokenUri: getBaseUrl() + '/oauth/access_token',
+        redirectUri: getWebhookBaseUrl() + '/complete_oauth',
+    });
+    return res.status(200).send('OK');
+}
+
+function getStartOAuth(req, res) {
+    return res.redirect(client.code.getUri());
+}
+
+function getCompleteOauth(req, res) {
+    client.code.getToken(req.originalUrl).then((user) => {
+        authedUser = user;
+        return res.status(200).send('OK');
+    }).catch((reason) => {
+        return res.status(reason.status).send(reason);
+    });
+}
+
+async function postOAuthMessage(req, res) {
+    const {channelId, message, rootId, createAt} = req.body;
+    const apiUrl = getBaseUrl() + '/api/v4/posts';
+    authedUser.sign({
+        method: 'post',
+        url: apiUrl,
+    });
+    try {
+        await axios({
+            url: apiUrl,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                Authorization: 'Bearer ' + authedUser.accessToken,
+            },
+            method: 'post',
+            data: {
+                channel_id: channelId,
+                message,
+                type: '',
+                create_at: createAt,
+                parent_id: rootId,
+                root_id: rootId,
+            },
+        });
+    } catch (err) {
+        // Do nothing
+    }
+    return res.status(200).send('OK');
+}
 
 function postSlackCompatibleMessageResponse(req, res) {
     const {spoiler, skipSlackParsing} = req.body.context;
@@ -52,7 +120,7 @@ function postMessageMenus(req, res) {
 }
 
 async function openDialog(dialog) {
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = getBaseUrl();
     await axios({
         method: 'post',
         url: `${baseUrl}/api/v4/actions/dialogs/open`,
@@ -154,10 +222,58 @@ function getWebhookBaseUrl() {
     return process.env.CYPRESS_webhookBaseUrl || 'http://localhost:3000';
 }
 
+function getBaseUrl() {
+    return process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+}
+
 // Convenient way to send response in a channel by using sysadmin account
 function sendSysadminResponse(message, channelId) {
     const username = process.env.CYPRESS_adminUsername || 'sysadmin';
     const password = process.env.CYPRESS_adminPassword || 'Sys@dmin-sample1';
-    const baseUrl = process.env.CYPRESS_baseUrl || 'http://localhost:8065';
+    const baseUrl = getBaseUrl();
     postMessageAs({sender: {username, password}, message, channelId, baseUrl});
+}
+
+const responseTypes = ['in_channel', 'comment'];
+
+function getWebhookResponse(body, {responseType, username, iconUrl}) {
+    const payload = Object.entries(body).map(([key, value]) => `- ${key}: "${value}"`).join('\n');
+
+    return `
+\`\`\`
+#### Outgoing Webhook Payload
+${payload}
+#### Webhook override to Mattermost instance
+- response_type: "${responseType}"
+- type: ""
+- username: "${username}"
+- icon_url: "${iconUrl}"
+\`\`\`
+`;
+}
+
+/**
+ * @route "POST /post_outgoing_webhook?override_username={username}&override_icon_url={iconUrl}&response_type={comment}"
+ * @query override_username - the user name that overrides the user name defined by the outgoing webhook
+ * @query override_icon_url - the user icon url that overrides the user icon url defined by the outgoing webhook
+ * @query response_type - "in_channel" (default) or "comment"
+ */
+function postOutgoingWebhook(req, res) {
+    const {body, query} = req;
+    if (!body) {
+        res.status(404).send({error: 'Invalid data'});
+    }
+
+    const responseType = query.response_type || responseTypes[0];
+    const username = query.override_username || '';
+    const iconUrl = query.override_icon_url || '';
+
+    const response = {
+        text: getWebhookResponse(body, {responseType, username, iconUrl}),
+        username,
+        icon_url: iconUrl,
+        type: '',
+        response_type: responseType,
+    };
+    res.status(200).send(response);
 }
