@@ -143,7 +143,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
         this.props.onAddCallback(users);
     }
 
-    private search = async (term: string) => {
+    private onSearch = async (term: string) => {
         this.props.actions.setUserGridSearch(term);
     }
 
@@ -284,7 +284,7 @@ export default class TeamMembers extends React.PureComponent<Props, State> {
                     totalCount={totalCount}
                     memberships={teamMembers}
                     updateMembership={this.updateMembership}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     term={searchTerm}
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
