@@ -62,6 +62,6 @@ describe('Multi Team and DM', () => {
 
         // * Switch to different channel and assert that Town Square is still marked as read
         cy.findByText(`${testChannel.display_name}`).click();
-        cy.findByLabelText('town square public channel').should('have.attr', 'aria-label', 'town square public channel').should('not.have.css', 'font-weight', '600');
+        cy.findByLabelText('town square public channel').should('not.have.css', 'font-weight', '600');
     });
 });
