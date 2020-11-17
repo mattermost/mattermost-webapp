@@ -153,6 +153,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         case 'link':
             return (
                 <button
+                    type='button'
                     className='btn btn-primary'
                     onClick={() => this.linkSelectedGroups()}
                     disabled={this.props.readOnly}
@@ -167,6 +168,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         case 'unlink':
             return (
                 <button
+                    type='button'
                     className='btn btn-primary'
                     onClick={() => this.unlinkSelectedGroups()}
                     disabled={this.props.readOnly}
@@ -181,6 +183,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         default:
             return (
                 <button
+                    type='button'
                     className='btn btn-inactive disabled'
                     disabled={this.props.readOnly}
                 >
@@ -497,6 +500,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                             />
                         </div>
                         <button
+                            type='button'
                             className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
                             onClick={(e: any) => this.previousPage(e)}
                             disabled={firstPage}
@@ -504,6 +508,7 @@ export default class GroupsList extends React.PureComponent<Props, State> {
                             <PreviousIcon/>
                         </button>
                         <button
+                            type='button'
                             className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                             onClick={(e: any) => this.nextPage(e)}
                             disabled={lastPage}

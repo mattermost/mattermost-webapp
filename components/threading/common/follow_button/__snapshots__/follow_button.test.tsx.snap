@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/threading/common/follow_button should say follow and fire start action 1`] = `
+<Memo(FollowButton)
+  follow={[MockFunction]}
+  isFollowing={false}
+  unFollow={[Function]}
+>
+  <Memo(Button)
+    isActive={false}
+    onClick={[MockFunction]}
+  >
+    <button
+      className="Button Button___transparent"
+      onClick={[MockFunction]}
+    >
+      <span
+        className="Button_label"
+      >
+        <FormattedMessage
+          defaultMessage="Follow"
+          id="threading.notFollowing"
+        >
+          <span>
+            Follow
+          </span>
+        </FormattedMessage>
+      </span>
+    </button>
+  </Memo(Button)>
+</Memo(FollowButton)>
+`;
+
+exports[`components/threading/common/follow_button should say following and fire stop action 1`] = `
+<Memo(FollowButton)
+  follow={[MockFunction]}
+  isFollowing={true}
+  unFollow={[MockFunction]}
+>
+  <Memo(Button)
+    isActive={true}
+    onClick={[MockFunction]}
+  >
+    <button
+      className="Button Button___transparent is-active"
+      onClick={[MockFunction]}
+    >
+      <span
+        className="Button_label"
+      >
+        <FormattedMessage
+          defaultMessage="Following"
+          id="threading.following"
+        >
+          <span>
+            Following
+          </span>
+        </FormattedMessage>
+      </span>
+    </button>
+  </Memo(Button)>
+</Memo(FollowButton)>
+`;

@@ -1,18 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
+import {Client4} from 'mattermost-redux/client';
+import {Invoice} from 'mattermost-redux/types/cloud';
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import noBillingHistoryGraphic from 'images/no_billing_history_graphic.svg';
+import {CloudLinks} from 'utils/constants';
 
 import './billing_history.scss';
 
 type Props = {
 
 };
+
+const PAGE_LENGTH = 4;
 
 const noBillingHistorySection = (
     <div className='BillingHistory__noHistory'>
@@ -27,10 +39,11 @@ const noBillingHistorySection = (
             />
         </div>
         <a
-            target='_blank'
+            target='_new'
             rel='noopener noreferrer'
-            href='http://www.google.com'
+            href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'
+            onClick={() => trackEvent('cloud_admin', 'click_billing_history', {screen: 'billing'})}
         >
             <FormattedMessage
                 id='admin.billing.history.seeHowBillingWorks'
@@ -40,48 +53,9 @@ const noBillingHistorySection = (
     </div>
 );
 
-// TODO: Temp data
-const billingInfo: any = [
-    {
-        id: 1,
-        date: new Date(2020, 5, 16),
-        product_name: 'Mattermost Professional Cloud',
-        charge_desc: '50 users at full rate, 14 users with partial charges',
-        total: 125.5,
-        status: 'Payment failed',
-    },
-    {
-        id: 2,
-        date: new Date(2020, 5, 6),
-        product_name: 'Mattermost Professional Cloud',
-        charge_desc: '50 users at full rate, 14 users with partial charges',
-        total: 125.5,
-        status: 'Pending',
-        invoice: 'http://www.google.com',
-    },
-    {
-        id: 3,
-        date: new Date(2020, 5, 16),
-        product_name: 'Mattermost Professional Cloud',
-        charge_desc: '30 users at full rate, 14 users with partial charges',
-        total: 71.5,
-        status: 'Paid',
-        invoice: 'http://www.google.com',
-    },
-    {
-        id: 4,
-        date: new Date(2020, 5, 6),
-        product_name: 'Mattermost Professional Cloud',
-        charge_desc: '30 users at full rate, 14 users with partial charges',
-        total: 71.5,
-        status: 'Paid',
-        invoice: 'http://www.google.com',
-    },
-];
-
 const getPaymentStatus = (status: string) => {
     switch (status) {
-    case 'Payment failed':
+    case 'failed':
         return (
             <div className='BillingHistory__paymentStatus failed'>
                 <i className='icon icon-alert-outline'/>
@@ -91,17 +65,7 @@ const getPaymentStatus = (status: string) => {
                 />
             </div>
         );
-    case 'Pending':
-        return (
-            <div className='BillingHistory__paymentStatus pending'>
-                <i className='icon icon-check-circle-outline'/>
-                <FormattedMessage
-                    id='admin.billing.history.pending'
-                    defaultMessage='Pending'
-                />
-            </div>
-        );
-    case 'Paid':
+    case 'paid':
         return (
             <div className='BillingHistory__paymentStatus paid'>
                 <i className='icon icon-check-circle-outline'/>
@@ -112,87 +76,171 @@ const getPaymentStatus = (status: string) => {
             </div>
         );
     default:
-        return null;
+        return (
+            <div className='BillingHistory__paymentStatus pending'>
+                <i className='icon icon-check-circle-outline'/>
+                <FormattedMessage
+                    id='admin.billing.history.pending'
+                    defaultMessage='Pending'
+                />
+            </div>
+        );
     }
 };
 
 const BillingHistory: React.FC<Props> = () => {
-    const [billingHistory, setBillingHistory] = useState(billingInfo);
+    const dispatch = useDispatch();
+    const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const product = useSelector((state: GlobalState) => {
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
+        }
+        return undefined;
+    });
 
-    const showNoBillingHistoryView = () => {
-        setBillingHistory(undefined);
+    const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
+    const [firstRecord, setFirstRecord] = useState(1);
+
+    const previousPage = () => {
+        if (firstRecord > PAGE_LENGTH) {
+            setFirstRecord(firstRecord - PAGE_LENGTH);
+        }
     };
+    const nextPage = () => {
+        if (invoices && (firstRecord + PAGE_LENGTH) < Object.values(invoices).length) {
+            setFirstRecord(firstRecord + PAGE_LENGTH);
+        }
 
-    const previousPage = () => {};
-    const nextPage = () => {};
+        // TODO: When server paging, check if there are more invoices
+    };
+    useEffect(() => {
+        dispatch(getCloudProducts());
+        dispatch(getCloudSubscription());
+        dispatch(getInvoices());
+        pageVisited('cloud_admin', 'pageview_billing_history');
+    }, []);
+
+    useEffect(() => {
+        if (invoices && Object.values(invoices).length) {
+            const invoicesByDate = Object.values(invoices).sort((a, b) => b.period_start - a.period_start);
+            setBillingHistory(invoicesByDate.slice(firstRecord - 1, (firstRecord - 1) + PAGE_LENGTH));
+        }
+    }, [invoices, firstRecord]);
+
+    const paging = (
+        <div className='BillingHistory__paging'>
+            <FormattedMarkdownMessage
+                id='admin.billing.history.pageInfo'
+                defaultMessage='{startRecord} - {endRecord} of {totalRecords}'
+                values={{
+                    startRecord: firstRecord,
+                    endRecord: Math.min(firstRecord + (PAGE_LENGTH - 1), Object.values(invoices || []).length),
+                    totalRecords: Object.values(invoices || []).length,
+                }}
+            />
+            <button
+                onClick={previousPage}
+                disabled={firstRecord <= PAGE_LENGTH}
+            >
+                <i className='icon icon-chevron-left'/>
+            </button>
+            <button
+                onClick={nextPage}
+                disabled={!invoices || (firstRecord + PAGE_LENGTH) >= Object.values(invoices).length}
+            >
+                <i className='icon icon-chevron-right'/>
+            </button>
+        </div>
+    );
 
     const billingHistoryTable = billingHistory && (
-        <table className='BillingHistory__table'>
-            <tr className='BillingHistory__table-header'>
-                <th>
-                    <FormattedMessage
-                        id='admin.billing.history.date'
-                        defaultMessage='Date'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.billing.history.description'
-                        defaultMessage='Description'
-                    />
-                </th>
-                <th className='BillingHistory__table-headerTotal'>
-                    <FormattedMessage
-                        id='admin.billing.history.total'
-                        defaultMessage='Total'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.billing.history.status'
-                        defaultMessage='Status'
-                    />
-                </th>
-                <th>{''}</th>
-            </tr>
-            {billingHistory.map((info: any) => (
-                <tr
-                    className='BillingHistory__table-row'
-                    key={info.id}
-                >
-                    <td>
-                        <FormattedDate
-                            value={info.date}
-                            month='2-digit'
-                            day='2-digit'
-                            year='numeric'
+        <>
+            <table className='BillingHistory__table'>
+                <tr className='BillingHistory__table-header'>
+                    <th>
+                        <FormattedMessage
+                            id='admin.billing.history.date'
+                            defaultMessage='Date'
                         />
-                    </td>
-                    <td>
-                        <div>{info.product_name}</div>
-                        <div className='BillingHistory__table-bottomDesc'>{info.charge_desc}</div>
-                    </td>
-                    <td className='BillingHistory__table-total'>
-                        <FormattedNumber
-                            value={info.total}
-                            // eslint-disable-next-line react/style-prop-object
-                            style='currency'
-                            currency='USD'
+                    </th>
+                    <th>
+                        <FormattedMessage
+                            id='admin.billing.history.description'
+                            defaultMessage='Description'
                         />
-                    </td>
-                    <td>
-                        {getPaymentStatus(info.status)}
-                    </td>
-                    <td className='BillingHistory__table-invoice'>
-                        {info.invoice &&
-                            <a href={info.invoice}>
-                                <i className='icon icon-file-pdf-outline'/>
-                            </a>
-                        }
-                    </td>
+                    </th>
+                    <th className='BillingHistory__table-headerTotal'>
+                        <FormattedMessage
+                            id='admin.billing.history.total'
+                            defaultMessage='Total'
+                        />
+                    </th>
+                    <th>
+                        <FormattedMessage
+                            id='admin.billing.history.status'
+                            defaultMessage='Status'
+                        />
+                    </th>
+                    <th>{''}</th>
                 </tr>
-            ))}
-        </table>
+                {billingHistory.map((invoice: Invoice) => {
+                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
+                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
+
+                    return (
+                        <tr
+                            className='BillingHistory__table-row'
+                            key={invoice.id}
+                        >
+                            <td>
+                                <FormattedDate
+                                    value={new Date(invoice.period_start)}
+                                    month='2-digit'
+                                    day='2-digit'
+                                    year='numeric'
+                                    timeZone='UTC'
+                                />
+                            </td>
+                            <td>
+                                <div>{product?.name}</div>
+                                <div className='BillingHistory__table-bottomDesc'>
+                                    <FormattedMarkdownMessage
+                                        id='admin.billing.history.usersAndRates'
+                                        defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
+                                        values={{
+                                            fullUsers,
+                                            partialUsers,
+                                        }}
+                                    />
+                                </div>
+                            </td>
+                            <td className='BillingHistory__table-total'>
+                                <FormattedNumber
+                                    value={(invoice.total / 100.0)}
+                                    // eslint-disable-next-line react/style-prop-object
+                                    style='currency'
+                                    currency='USD'
+                                />
+                            </td>
+                            <td>
+                                {getPaymentStatus(invoice.status)}
+                            </td>
+                            <td className='BillingHistory__table-invoice'>
+                                <a
+                                    target='_new'
+                                    rel='noopener noreferrer'
+                                    href={Client4.getInvoicePdfUrl(invoice.id)}
+                                >
+                                    <i className='icon icon-file-pdf-outline'/>
+                                </a>
+                            </td>
+                        </tr>
+                    );
+                })}
+            </table>
+            {paging}
+        </>
     );
 
     return (
@@ -220,34 +268,22 @@ const BillingHistory: React.FC<Props> = () => {
                                 </div>
                             </div>
                         </div>
+
                         <div className='BillingHistory__cardBody'>
-                            {billingHistory ? billingHistoryTable : noBillingHistorySection}
-                            <div className='BillingHistory__paging'>
-                                <FormattedMarkdownMessage
-                                    id='admin.billing.history.pageInfo'
-                                    defaultMessage='{startRecord} - {endRecord} of {totalRecords}'
-                                    values={{
-                                        startRecord: 1,
-                                        endRecord: 4,
-                                        totalRecords: 4,
-                                    }}
-                                />
-                                <button
-                                    onClick={previousPage}
-                                    disabled={true}
-                                >
-                                    <i className='icon icon-chevron-left'/>
-                                </button>
-                                <button
-                                    onClick={nextPage}
-                                    disabled={false}
-                                >
-                                    <i className='icon icon-chevron-right'/>
-                                </button>
-                            </div>
+                            {invoices != null && (
+                                <>
+                                    {billingHistory ?
+                                        billingHistoryTable :
+                                        noBillingHistorySection}
+                                </>
+                            )}
+                            {invoices == null && (
+                                <div className='BillingHistory__spinner'>
+                                    <LoadingSpinner/>
+                                </div>
+                            )}
                         </div>
                     </div>
-                    <button onClick={showNoBillingHistoryView}>{'Show No Billing History View'}</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,180 @@
+@import 'utils/variables';
+
+#SystemRolePermissions {
+    margin-top: 0;
+}
+
+.SystemRolePermissions {
+    padding: 2rem 2rem 2rem 2rem;
+    background: #F5F5F5;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.87);
+
+    .PermissionRow {
+        &:nth-child(even) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .PermissionSection {
+            height: auto;
+            display: flex;
+            flex-direction: row;
+
+            .PermissionSectionText {
+                margin-top: 10px;
+                padding: 14px 16px;
+                align-content: flex-start;
+                display: flex;
+                flex-direction: column;
+                flex-grow: 3;
+
+                .PermissionSectionText_title {
+                    font-size: 14px;
+                    color: rgba(var(--sys-center-channel-color-rgb), 0.87);
+                    font-weight: 600;
+                }
+
+                .PermissionSectionText_description {
+                    font-size: 12px;
+                }
+            }
+
+            .PermissionSectionDropdown {
+                padding: 0 16px;
+                margin: auto;
+
+                .Menu__content {
+                    min-width: 256px;
+                }
+
+                .MenuWrapper {
+                    background: rgba(var(--sys-center-channel-color-rgb), 0.04);
+                    box-sizing: border-box;
+                    border-radius: 4px;
+
+                    .PermissionSectionDropdownButton {
+                        background: var(--sys-center-channel-bg);
+                        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+                        box-sizing: border-box;
+                        border-radius: 4px;
+                        width: 132px;
+                        height: 32px;
+                        display: flex;
+                        justify-content: space-between;
+
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 12px;
+                        line-height: 28px;
+                        color: var(--sys-center-channel-color);
+                        padding: 1px 0px 1px 4px;
+
+                        &:hover {
+                            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.48);
+                        }
+
+                        .PermissionSectionDropdownButton_text {
+                            text-align: left;
+                            padding-left: 8px;
+                            flex-grow: 3;
+                            max-width: 230px;
+                            overflow-x: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        .PermissionSectionDropdownButton_more {
+                            color: rgba(var(--sys-center-channel-color-rgb), 0.6);
+                            margin-right: 8px;
+                        }
+
+                        .PermissionSectionDropdownButton_icon {
+                            min-width: 32px;
+                            height: 31px;
+                            border-left: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+                            margin-top: -1px;
+                            .Icon {
+                                display: flex;
+                                width: 14px;
+                                height: 14px;
+                                padding-top: 8px;
+                                margin-left: 6px;
+                                margin-right: 0;
+                            }
+                        }
+                    }
+
+                    &[disabled] {
+                        opacity: 1;
+                        .PermissionSectionDropdownButton {
+                            color: var(--sys-center-channel-color);
+                            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+                            border-color: rgba(var(--sys-center-channel-color-rgb), 0.16);
+                        }
+                    }
+                }
+
+                .PermissionSectionDropdownOptions_description {
+                    line-height: 16px;
+                    padding-bottom: 4px;
+                }
+            }
+        }
+
+        .PermissionSubsectionsToggle {
+            margin: 0;
+            line-height: 16px;
+            button {
+                font-size: 12px;
+            }
+        }
+        .PermissionSubsections {
+            margin: 0 0 14px 16px;
+            border-left: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+            padding-left: 16px;
+
+            .PermissionSection {
+                height: auto;
+                padding: 4px 0;
+
+                .PermissionSectionText {
+                    .PermissionSectionText_title {
+                        font-size: 12px;
+                        font-weight: 400;
+                    }
+                    padding: 0;
+                    margin: auto;
+                }
+                .PermissionSection_description {
+                    span {
+                        border-radius: 2px;
+                        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+                        padding: 0 4px;
+                    }
+                    font-weight: 600;
+                    font-size: 10px;
+                    line-height: 15px;
+                    margin: 0;
+                }
+
+                .PermissionSectionDropdown {
+                    padding: 0 16px;
+                    margin: 0;
+                }
+
+            }
+
+            .PermissionSection:last-of-type {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .PermissionSectionDropdownOptions {
+        .PermissionSectionDropdownOptions_label {
+            font-size: 14px;
+            color: var(--sys-center-channel-color);
+        }
+        .PermissionSectionDropdownOptions_description {
+            font-size: 12px;
+            color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+        }
+    }
+}

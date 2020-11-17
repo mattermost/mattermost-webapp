@@ -47,6 +47,7 @@ class AdminSidebar extends React.PureComponent {
         config: PropTypes.object,
         plugins: PropTypes.object,
         adminDefinition: PropTypes.object,
+        cloud: PropTypes.object,
         buildEnterpriseReady: PropTypes.bool,
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
@@ -145,7 +146,7 @@ class AdminSidebar extends React.PureComponent {
     }
 
     visibleSections = () => {
-        const {config, license, buildEnterpriseReady, consoleAccess, adminDefinition} = this.props;
+        const {config, license, buildEnterpriseReady, consoleAccess, adminDefinition, cloud} = this.props;
         const isVisible = (item) => {
             if (!item.schema) {
                 return false;
@@ -155,7 +156,7 @@ class AdminSidebar extends React.PureComponent {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess)) {
+            if (item.isHidden && item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud)) {
                 return false;
             }
             return true;
@@ -172,12 +173,12 @@ class AdminSidebar extends React.PureComponent {
     }
 
     renderRootMenu = (definition) => {
-        const {config, license, buildEnterpriseReady, consoleAccess} = this.props;
+        const {config, license, buildEnterpriseReady, consoleAccess, cloud} = this.props;
         const sidebarSections = [];
         Object.entries(definition).forEach(([key, section]) => {
             let isSectionHidden = false;
             if (section.isHidden) {
-                isSectionHidden = typeof section.isHidden === 'function' ? section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(section.isHidden);
+                isSectionHidden = typeof section.isHidden === 'function' ? section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud) : Boolean(section.isHidden);
             }
             if (!isSectionHidden) {
                 const sidebarItems = [];
@@ -187,7 +188,7 @@ class AdminSidebar extends React.PureComponent {
                     }
 
                     if (item.isHidden) {
-                        if (typeof item.isHidden === 'function' ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess) : Boolean(item.isHidden)) {
+                        if (typeof item.isHidden === 'function' ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud) : Boolean(item.isHidden)) {
                             return;
                         }
                     }

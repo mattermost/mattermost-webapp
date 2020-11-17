@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -333,6 +332,11 @@ class CreatePost extends React.PureComponent {
         this.lastChannelSwitchAt = 0;
         this.draftsForChannel = {};
         this.lastOrientation = null;
+
+        this.topDiv = React.createRef();
+        this.textboxRef = React.createRef();
+        this.fileUploadRef = React.createRef();
+        this.createPostControlsRef = React.createRef();
     }
 
     componentDidMount() {
@@ -423,7 +427,7 @@ class CreatePost extends React.PureComponent {
         }
 
         if (this.lastOrientation && orientation !== this.lastOrientation && (document.activeElement || {}).id === 'post_textbox') {
-            this.refs.textbox.blur();
+            this.textboxRef.current.blur();
         }
 
         this.lastOrientation = orientation;
@@ -761,12 +765,12 @@ class CreatePost extends React.PureComponent {
 
     focusTextbox = (keepFocus = false) => {
         const postTextboxDisabled = this.props.readOnlyChannel || !this.props.canPost;
-        if (this.refs.textbox && postTextboxDisabled) {
-            this.refs.textbox.blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
+        if (this.textboxRef.current && postTextboxDisabled) {
+            this.textboxRef.current.blur(); // Fixes Firefox bug which causes keyboard shortcuts to be ignored (MM-22482)
             return;
         }
-        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+            this.textboxRef.current.focus();
         }
     }
 
@@ -785,8 +789,8 @@ class CreatePost extends React.PureComponent {
             if (e.persist) {
                 e.persist();
             }
-            if (this.refs.textbox) {
-                this.refs.textbox.blur();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -954,8 +958,8 @@ class CreatePost extends React.PureComponent {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload) {
-                    this.refs.fileUpload.cancelUpload(id);
+                if (this.fileUploadRef.current && this.fileUploadRef.current) {
+                    this.fileUploadRef.current.cancelUpload(id);
                 }
             }
         } else {
@@ -1015,15 +1019,15 @@ class CreatePost extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        if (this.refs.textbox) {
-            return this.refs.textbox;
+        if (this.textboxRef.current) {
+            return this.textboxRef.current;
         }
 
         return null;
     }
 
     getCreatePostControls = () => {
-        return this.refs.createPostControls;
+        return this.createPostControlsRef.current;
     }
 
     fillMessageFromHistory() {
@@ -1043,7 +1047,7 @@ class CreatePost extends React.PureComponent {
     }
 
     handleSelect = (e) => {
-        Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
+        Utils.adjustSelection(this.textboxRef.current.getInputBox(), e);
     }
 
     handleKeyDown = (e) => {
@@ -1088,8 +1092,8 @@ class CreatePost extends React.PureComponent {
         } else {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
-        if (this.refs.textbox) {
-            this.refs.textbox.blur();
+        if (this.textboxRef.current) {
+            this.textboxRef.current.blur();
         }
         this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
@@ -1122,7 +1126,7 @@ class CreatePost extends React.PureComponent {
         this.setState({
             message: res.message,
         }, () => {
-            const textbox = this.refs.textbox.getInputBox();
+            const textbox = this.textboxRef.current.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
     }
@@ -1164,7 +1168,7 @@ class CreatePost extends React.PureComponent {
     }
 
     setMessageAndCaretPostion = (newMessage, newCaretPosition) => {
-        const textbox = this.refs.textbox.getInputBox();
+        const textbox = this.textboxRef.current.getInputBox();
 
         this.setState({
             message: newMessage,
@@ -1255,8 +1259,8 @@ class CreatePost extends React.PureComponent {
         });
 
         window.requestAnimationFrame(() => {
-            if (this.refs.textbox) {
-                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
+            if (this.textboxRef.current) {
+                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
             }
         });
     }
@@ -1438,7 +1442,7 @@ class CreatePost extends React.PureComponent {
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
-                    ref='fileUpload'
+                    ref={this.fileUploadRef}
                     fileCount={this.getFileCount()}
                     getTarget={this.getFileUploadTarget}
                     onFileUploadChange={this.handleFileUploadChange}
@@ -1502,7 +1506,7 @@ class CreatePost extends React.PureComponent {
         return (
             <form
                 id='create_post'
-                ref='topDiv'
+                ref={this.topDiv}
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
@@ -1535,7 +1539,7 @@ class CreatePost extends React.PureComponent {
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 id='post_textbox'
-                                ref='textbox'
+                                ref={this.textboxRef}
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
@@ -1544,7 +1548,7 @@ class CreatePost extends React.PureComponent {
                                 useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
-                                ref='createPostControls'
+                                ref={this.createPostControlsRef}
                                 className='post-body__actions'
                             >
                                 {callButton}
