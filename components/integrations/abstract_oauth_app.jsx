@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -63,6 +62,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
 
         this.image = new Image();
         this.image.onload = this.imageLoaded;
+        this.icon_url = React.createRef();
         this.state = this.getStateFromApp(this.props.initialApp || {});
     }
 
@@ -83,7 +83,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
     imageLoaded = () => {
         this.setState({
             has_icon: true,
-            icon_url: this.refs.icon_url.value,
+            icon_url: this.icon_url.current.value,
         });
     }
 
@@ -393,7 +393,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                             <div className='col-md-5 col-sm-8'>
                                 <input
                                     id='icon_url'
-                                    ref='icon_url'
+                                    ref={this.icon_url}
                                     type='url'
                                     maxLength='512'
                                     className='form-control'
@@ -470,4 +470,3 @@ export default class AbstractOAuthApp extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
