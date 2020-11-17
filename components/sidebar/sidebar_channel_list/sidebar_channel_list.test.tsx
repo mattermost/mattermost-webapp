@@ -106,6 +106,7 @@ describe('SidebarChannelList', () => {
             stopDragging: jest.fn(),
             expandCategory: jest.fn(),
             clearChannelSelection: jest.fn(),
+            multiSelectChannelAdd: jest.fn(),
         },
     };
 
