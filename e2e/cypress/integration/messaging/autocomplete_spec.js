@@ -284,32 +284,26 @@ describe('autocomplete', () => {
     it('MM-T2212 @ mention followed by dot or underscore should highlight', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
 
-        // # Clear then type @
-        cy.get('#post_textbox').should('be.visible').clear().type('@');
-
         // # Type input suffixed with '.'
-        cy.get('#post_textbox').type(`${sysadmin.username}`).type('.').type('{enter}');
+        cy.get('#post_textbox').clear().type(`@${sysadmin.username}.`).type('{enter}{enter}').then(() => {
+            cy.getLastPostId().then((postId) => {
+                // # Check that the user name has been posted
+                cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
-        cy.getLastPostId().then((postId) => {
-            // # Check that the user name has been posted
-            cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
-
-            // * Verify that the group mention does have colored text
-            cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+                // * Verify that the group mention does have colored text
+                cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+            });
         });
 
-        // # Clear then type @
-        cy.get('#post_textbox').should('be.visible').clear().type('@');
-
         // # Type input suffixed with '_'
-        cy.get('#post_textbox').type(`${sysadmin.username}`).type('_').type('{enter}');
+        cy.get('#post_textbox').clear().type(`@${sysadmin.username}_`).type('{enter}{enter}').then(() => {
+            cy.getLastPostId().then((postId) => {
+                // # Check that the user name has been posted
+                cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
-        cy.getLastPostId().then((postId) => {
-            // # Check that the user name has been posted
-            cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
-
-            // * Verify that the @ mention does have colored text
-            cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+                // * Verify that the @ mention does have colored text
+                cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+            });
         });
     });
 
