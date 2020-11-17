@@ -1,6 +1,6 @@
 .check:
   stage: test
-  image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20200829_node-10.22
   cache:
     key:
       files:
