@@ -26,8 +26,8 @@ describe('Multi Team and DM', () => {
             testChannel = channel;
             testUser = user;
 
-            // # Create 6 test users with prefix 'common'
-            Cypress._.times(1, () => {
+            // # Create 4 test users with prefix 'common'
+            Cypress._.times(4, () => {
                 cy.apiCreateUser({prefix: common}).then(() => {
                     cy.apiAddUserToTeam(testTeam.id, user.id);
                 });
