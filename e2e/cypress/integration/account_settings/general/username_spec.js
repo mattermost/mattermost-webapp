@@ -73,7 +73,6 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         cy.get('#accountSettingsHeader > .close').click();
     });
 
-    //Note: the test case mentions an error message that could not be found in the codebase: "This username is already taken. Please choose another." Added a note to the testcase to update the error message.
     it('MM-T2052 Username already taken', () => {
         // # Click the General tab
         cy.get('#generalButton').should('be.visible').click();
@@ -135,7 +134,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             // # Step 4
             const text = `${newTempUserName} test message!`;
 
-            // # Post the text that was declared earlier and logout from sysadmin account
+            // # Post the user name mention declared earlier
             cy.postMessage(`${text}{enter}{enter}`);
 
             // # Click on the @ button
