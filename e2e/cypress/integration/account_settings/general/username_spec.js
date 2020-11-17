@@ -9,6 +9,8 @@
 
 // Group: @account_setting
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Account Settings > Sidebar > General > Edit', () => {
     let testTeam;
     let testChannel;
@@ -131,19 +133,20 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             cy.get('#headerUsername').should('contain', '@' + newTempUserName);
 
             // # Step 4
-            // # Clear then type @
-            cy.get('#post_textbox').should('be.visible').clear().type('@');
+            const text = `${newTempUserName} test message!`;
 
-            // * Verify that the suggestion list is visible
-            cy.get('#suggestionList').should('be.visible');
+            // # Post the text that was declared earlier and logout from sysadmin account
+            cy.postMessage(`${text}{enter}{enter}`);
 
-            // # Type user name
-            cy.get('#post_textbox').type(newTempUserName);
-            cy.get('#post_textbox').type('{enter}{enter}');
+            // # Click on the @ button
+            cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
-            // # Check that the user name has been posted
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`).should('contain', newTempUserName);
+            // * Ensure that the user's name is in the search box after clicking on the @ button
+            cy.get('#searchBox').should('be.visible').and('have.value', `@${newTempUserName} `);
+            cy.get('#search-items-container').should('be.visible').within(() => {
+                // * Ensure that the mentions are visible in the RHS
+                cy.findByText(`${newTempUserName}`).should('be.visible');
+                cy.findByText(`${newTempUserName} test message!`).should('be.visible');
             });
         });
     });
