@@ -289,7 +289,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             return;
         }
         this.props.actions.doAppCall({
-            url: binding.call.url,
+            ...binding.call,
             context: {
                 app_id: binding.app_id,
                 location_id: binding.location_id,

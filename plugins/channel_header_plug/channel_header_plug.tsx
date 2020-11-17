@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, AppCall, AppCallTypes} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -145,8 +145,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         }
 
         this.props.actions.doAppCall({
-            url: binding.call.url,
-            type: AppCallTypes.SUBMIT,
+            ...binding.call,
             context: {
                 app_id: binding.app_id,
                 location_id: binding.location_id,
