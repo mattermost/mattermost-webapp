@@ -278,13 +278,13 @@ describe('components/AdminSidebar', () => {
                     Scope: 'scope',
                 },
                 GitLabSettings: {
-                    Id: 'googleID',
-                    Secret: 'googleSecret',
+                    Id: 'gitlabID',
+                    Secret: 'gitlabSecret',
                     Scope: 'scope',
                 },
                 Office365Settings: {
-                    Id: 'googleID',
-                    Secret: 'googleSecret',
+                    Id: 'office365ID',
+                    Secret: 'office365Secret',
                     Scope: 'scope',
                 },
                 FeatureFlags: {
