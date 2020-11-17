@@ -10,19 +10,15 @@
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getAdminAccount} from '../../support/env';
 
 describe('Message permalink', () => {
     let testTeam;
     let testChannel;
     let testUser;
     let otherUser;
-    let notinchannelUser;
-    let sysadmin;
+    let notInChannelUser;
 
     before(() => {
-        sysadmin = getAdminAccount();
-
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
@@ -37,10 +33,14 @@ describe('Message permalink', () => {
             });
 
             cy.apiCreateUser({prefix: 'notinchannel'}).then(({user: user1}) => {
-                notinchannelUser = user1;
-                cy.apiAddUserToTeam(testTeam.id, notinchannelUser.id);
+                notInChannelUser = user1;
+                cy.apiAddUserToTeam(testTeam.id, notInChannelUser.id);
             });
         });
+    });
+
+    beforeEach(() => {
+        cy.apiAdminLogin();
     });
 
     it('MM-T1630 - "Jump" to convo works every time for a conversation', () => {
@@ -58,7 +58,7 @@ describe('Message permalink', () => {
         // # Jump to first permalink view (most recent message)
         cy.get('.search-item__jump').first().click();
 
-        // # Verify that we jumped to the lmost recent message
+        // # Verify that we jumped to the most recent message
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('contain', index - 1);
         });
@@ -121,17 +121,14 @@ describe('Message permalink', () => {
         cy.get('#post_textbox').type('{enter}{enter}');
 
         cy.apiLogout();
-        cy.apiLogin(notinchannelUser);
+        cy.apiLogin(notInChannelUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Check that the user display name has been posted
+        // # Check that the channel display name has been posted
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('contain', `${testChannel.display_name}`);
             cy.get('a.mention-link').click();
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', `${testChannel.display_name}`);
-        }).then(() => {
-            cy.apiLogout();
-            cy.apiLogin(sysadmin);
         });
     });
 
@@ -155,7 +152,7 @@ describe('Message permalink', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
 
             // # Visit the permalink
-            cy.visit(`${permalink}`);
+            cy.visit(permalink);
 
             // # Check that the post message is the correct one
             cy.getLastPostId().then((postId) => {
@@ -190,13 +187,10 @@ describe('Message permalink', () => {
                 cy.apiLogin(testUser);
 
                 // # Visit the permalink
-                cy.visit(`${permalink}`);
+                cy.visit(permalink);
 
                 // # Check the error message
                 cy.findByText('Permalink belongs to a deleted message or to a channel to which you do not have access.').should('be.visible');
-            }).then(() => {
-                cy.apiLogout();
-                cy.apiLogin(sysadmin);
             });
         });
     });
