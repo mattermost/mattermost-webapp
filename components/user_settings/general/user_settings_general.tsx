@@ -643,7 +643,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         <div className='setting-list__hint pb-3'>
                             <FormattedMessage
                                 id='user.settings.general.emailOpenIdCantUpdate'
-                                defaultMessage='Login occurs through OpenId Connect. Email cannot be updated. Email address used for notifications is {email}.'
+                                defaultMessage='Login occurs through OpenID Connect. Email cannot be updated. Email address used for notifications is {email}.'
                                 values={{
                                     email: this.state.originalEmail,
                                 }}

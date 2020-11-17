@@ -602,7 +602,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             >
                                 <FormattedMessage
                                     id='user.settings.security.switchOpenId'
-                                    defaultMessage='Switch to Using OpenId SSO'
+                                    defaultMessage='Switch to Using OpenID SSO'
                                 />
                             </Link>
                             <br/>

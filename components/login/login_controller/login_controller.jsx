@@ -746,11 +746,12 @@ class LoginController extends React.PureComponent {
             if (this.props.openidButtonColor) {
                 buttonStyle.backgroundColor = this.props.openidButtonColor;
             }
-            var buttonText = (
+            let buttonText = (
                 <FormattedMessage
                     id='login.openid'
-                    defaultMessage='Open Id'
-                />);
+                    defaultMessage='Open ID'
+                />
+            );
             if (this.props.openidButtonText) {
                 buttonText = this.props.openidButtonText;
             }
@@ -763,7 +764,6 @@ class LoginController extends React.PureComponent {
                     href={Client4.getOAuthRoute() + '/openid/login' + this.props.location.search}
                 >
                     <span>
-                        <span className='icon'/>
                         <span>
                             {buttonText}
                         </span>

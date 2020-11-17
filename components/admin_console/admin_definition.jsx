@@ -174,7 +174,12 @@ export const it = {
     stateIsFalse: (key) => (config, state) => !state[key],
     configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
     configIsFalse: (group, setting) => (config) => !config[group][setting],
-    configContains: (group, setting, word) => (config) => {Boolean(config[group][setting].includes(word))},
+    configContains: (group, setting, word) => (config) => {
+        if(config && config[group] && config[group][setting]){
+            return Boolean(config[group][setting].includes(word));
+        }
+        return false;
+    },
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
 
     licensed: (config, state, license) => license.IsLicensed === 'true',
@@ -4020,11 +4025,15 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            tag: 'deprecated',
+            tag: {
+                value: t('admin.sidebar.oauth.tag'),
+                value_default: 'deprecated',
+                shouldDisplay: (config) => config.FeatureFlag.OpenIdConnect === 'on',
+            },
             isHidden: it.any(
                 it.not(it.licensed),
                 it.all(
-                    it.configContains('FeatureFlags', 'OpenIdConnect', 'on'),
+                    // it.configContains('FeatureFlags', 'OpenIdConnect', 'on'),
                     it.not(usesLegacyOauth),
                 ),
             ),
@@ -4081,9 +4090,10 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(it.licensedForFeature('GoogleOAuth')),
                             it.not(it.licensedForFeature('Office365OAuth')),
-                            it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
+                            // it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
                             it.not(usesLegacyOauth),
                         ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -4333,15 +4343,15 @@ const AdminDefinition = {
         openid: {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
-            title_default: 'OpenId Connect',
+            title_default: 'OpenID Connect',
             isHidden: it.any(
                 it.not(it.licensedForFeature('OpenId')),
-                it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
+                // it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
             ),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
-                name_default: 'OpenId Connect',
+                name_default: 'OpenID Connect',
                 onConfigLoad: (config) => {
                     const newState = {};
                     if (config.Office365Settings && config.Office365Settings.Enable) {
@@ -4376,31 +4386,23 @@ const AdminDefinition = {
                     newConfig.GitLabSettings.Enable = false;
                     newConfig.OpenIdSettings.Enable = false;
 
+                    let configSetting = '';
                     if (config.openidType === Constants.OFFICE365_SERVICE) {
-                        newConfig.Office365Settings.Enable = true;
-                        newConfig.Office365Settings.Scope = 'profile openid email';
-                        newConfig.Office365Settings.UserApiEndpoint = '';
-                        newConfig.Office365Settings.AuthEndpoint = '';
-                        newConfig.Office365Settings.TokenEndpoint = '';
+                        configSetting = 'Office365Settings';
+                    } else if (config.openidType === Constants.GOOGLE_SERVICE) {
+                        configSetting = 'GoogleSettings';
+                    } else if (config.openidType === Constants.GITLAB_SERVICE) {
+                        configSetting = 'GitLabSettings';
+                    } else if (config.openidType === Constants.OPENID_SERVICE) {
+                        configSetting = 'OpenIdSettings';
                     }
-                    if (config.openidType === Constants.GOOGLE_SERVICE) {
-                        newConfig.GoogleSettings.Enable = true;
-                        newConfig.GoogleSettings.Scope = 'profile openid email';
-                        newConfig.GoogleSettings.UserApiEndpoint = '';
-                        newConfig.GoogleSettings.AuthEndpoint = '';
-                        newConfig.GoogleSettings.TokenEndpoint = '';
-                    }
-                    if (config.openidType === Constants.GITLAB_SERVICE) {
-                        newConfig.GitLabSettings.Enable = true;
-                        newConfig.GitLabSettings.Scope = 'profile openid email';
-                        newConfig.GitLabSettings.UserApiEndpoint = '';
-                        newConfig.GitLabSettings.AuthEndpoint = '';
-                        newConfig.GitLabSettings.TokenEndpoint = '';
-                    }
-                    if (config.openidType === Constants.OPENID_SERVICE) {
-                        newConfig.OpenIdSettings.Enable = true;
-                        newConfig.OpenIdSettings.Scope = 'profile openid email';
-                    }
+
+                    newConfig[configSetting].Enable = true;
+                    newConfig[configSetting].Scope = Constants.OPENID_SCOPES;
+                    newConfig[configSetting].UserApiEndpoint = '';
+                    newConfig[configSetting].AuthEndpoint = '';
+                    newConfig[configSetting].TokenEndpoint = '';
+
                     delete newConfig.openidType;
                     return newConfig;
                 },
@@ -4413,17 +4415,18 @@ const AdminDefinition = {
                             it.not(it.licensed),
                             it.not(usesLegacyOauth),
                         ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'openidType',
                         label: t('admin.openid.select'),
-                        label_default: 'Select OpenId Connect Service Provider:',
+                        label_default: 'Select Service Provider:',
                         options: [
                             {
                                 value: 'off',
                                 display_name: t('admin.openid.off'),
-                                display_name_default: 'Do not allow sign-in via an OpenId provider.',
+                                display_name_default: 'Do not allow sign-in via an OpenID provider.',
                             },
                             {
                                 value: Constants.GITLAB_SERVICE,
@@ -4455,10 +4458,10 @@ const AdminDefinition = {
                             {
                                 value: Constants.OPENID_SERVICE,
                                 display_name: t('admin.oauth.openid'),
-                                display_name_default: 'OpenId Connect',
+                                display_name_default: 'OpenID Connect (Other)',
                                 isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
-                                help_text_default: 'Follow provider directions for creating an OpenId Application',
+                                help_text_default: 'Follow provider directions for creating an OpenId Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
                                 help_text_markdown: true,
                             },
                         ],
@@ -4496,10 +4499,10 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'GitLabSettings.Id',
-                        label: t('admin.gitlab.clientIdTitle'),
-                        label_default: 'Application ID:',
-                        help_text: t('admin.gitlab.clientIdDescription'),
-                        help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
+                        label: t('admin.openid.clientIdTitle'),
+                        label_default: 'Client ID:',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
@@ -4508,12 +4511,12 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'GitLabSettings.Secret',
-                        label: t('admin.gitlab.clientSecretTitle'),
-                        label_default: 'Application Secret Key:',
-                        help_text: t('admin.gitlab.clientSecretDescription'),
-                        help_text_default: 'Obtain this value via the instructions above for logging into GitLab.',
+                        label: t('admin.openid.clientSecretTitle'),
+                        label_default: 'Client Secret:',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.gitlab.clientSecretExample'),
-                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx442pnqMxQY"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
@@ -4532,10 +4535,10 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'GoogleSettings.Id',
-                        label: t('admin.google.clientIdTitle'),
+                        label: t('admin.openid.clientIdTitle'),
                         label_default: 'Client ID:',
-                        help_text: t('admin.google.clientIdDescription'),
-                        help_text_default: 'The Client ID you received when registering your application with Google.',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.google.clientIdExample'),
                         placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
@@ -4544,10 +4547,10 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'GoogleSettings.Secret',
-                        label: t('admin.google.clientSecretTitle'),
+                        label: t('admin.openid.clientSecretTitle'),
                         label_default: 'Client Secret:',
-                        help_text: t('admin.google.clientSecretDescription'),
-                        help_text_default: 'The Client Secret you received when registering your application with Google.',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.google.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
@@ -4585,10 +4588,10 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'Office365Settings.Id',
-                        label: t('admin.office365.clientIdTitle'),
-                        label_default: 'Application ID:',
-                        help_text: t('admin.office365.clientIdDescription'),
-                        help_text_default: 'The Application/Client ID you received when registering your application with Microsoft.',
+                        label: t('admin.openid.clientIdTitle'),
+                        label_default: 'Client ID:',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.office365.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
@@ -4597,10 +4600,10 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'Office365Settings.Secret',
-                        label: t('admin.office365.clientSecretTitle'),
-                        label_default: 'Application Secret Password:',
-                        help_text: t('admin.office365.clientSecretDescription'),
-                        help_text_default: 'The Application Secret Password you generated when registering your application with Microsoft.',
+                        label: t('admin.openid.clientSecretTitle'),
+                        label_default: 'Client Secret:',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.office365.clientSecretExample'),
                         placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
@@ -4611,11 +4614,11 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'OpenIdSettings.ButtonText',
                         label: t('admin.openid.buttonTextTitle'),
-                        label_default: 'Button Text:',
+                        label_default: 'Button Name:',
                         placeholder: t('admin.openid.buttonTextEx'),
-                        placeholder_default: 'E.g.: "OKTA"',
+                        placeholder_default: 'Custom Button Name',
                         help_text: t('admin.openid.buttonTextDesc'),
-                        help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "openid".',
+                        help_text_default: 'The text that will show on the login button.',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
@@ -4636,7 +4639,7 @@ const AdminDefinition = {
                         label: t('admin.openid.discoveryEndpointTitle'),
                         label_default: 'Discovery Endpoint:',
                         placeholder: t('admin.openid.discovery.placeholder'),
-                        placeholder_default: 'E.g.: "https://openid.provider.com/.well-known/openid-configuration"',
+                        placeholder_default: 'https://id.mydomain.com/.well-known/openid-configuration',
                         help_text: t('admin.openid.discoveryEndpointDesc'),
                         help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
                         help_text_markdown: false,
@@ -4648,7 +4651,7 @@ const AdminDefinition = {
                         label: t('admin.openid.clientIdTitle'),
                         label_default: 'Client ID:',
                         help_text: t('admin.openid.clientIdDescription'),
-                        help_text_default: 'The Client ID you received when registering your application with your provider.',
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
@@ -4659,7 +4662,7 @@ const AdminDefinition = {
                         label: t('admin.openid.clientSecretTitle'),
                         label_default: 'Client Secret:',
                         help_text: t('admin.openid.clientSecretDescription'),
-                        help_text_default: 'The Client Secret you received when registering your application with your provider.',
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),

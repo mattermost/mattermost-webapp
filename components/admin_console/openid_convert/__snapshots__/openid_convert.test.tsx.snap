@@ -35,10 +35,11 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
     >
       <button
         className="btn"
+        data-testid="openid_convert"
         onClick={[Function]}
       >
         <FormattedMessage
-          defaultMessage="Convert to OpenId Connect"
+          defaultMessage="Convert to OpenID Connect"
           id="admin.openidconvert.text"
         />
       </button>
@@ -56,6 +57,7 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
       </a>
       <div
         className="error-message"
+        data-testid="errorMessage"
       >
         <FormError
           error={null}

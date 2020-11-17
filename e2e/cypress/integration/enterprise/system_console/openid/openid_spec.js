@@ -13,6 +13,7 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 const FAKE_SETTING = '********************************';
+const SERVICE_PROIVDER_LABEL = 'Select Service Provider:';
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
@@ -37,6 +38,11 @@ describe('MM-27688 - System console-OpenId Connect', () => {
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
+        cy.apiUpdateConfig({
+            FeatureFlags: {
+                OpenIdConnect: 'on',
+            },
+        });
     });
     it('MM-27688 - Set to Generic OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
@@ -47,7 +53,8 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
-        cy.get('#openidType').select('openid').wait(TIMEOUTS.ONE_SEC);
+        // cy.get('#openidType').select('openid').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('openid').wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#OpenIdSettings\\.ButtonText').clear().type('TestButtonTest');
         cy.get('#OpenIdSettings\\.ButtonColor-inputColorValue').clear().type('#c02222');
@@ -76,7 +83,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
-        cy.get('#openidType').select('google').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('google').wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#GoogleSettings\\.Id').clear().type('GoogleId');
         cy.get('#GoogleSettings\\.Secret').clear().type('GoogleSecret');
@@ -101,7 +108,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
-        cy.get('#openidType').select('gitlab').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('gitlab').wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#GitLabSettings\\.Url').clear().type('https://gitlab.com');
         cy.get('#GitLabSettings\\.Id').clear().type('GitlabId');
@@ -127,7 +134,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
-        cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('office365').wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#Office365Settings\\.DirectoryId').clear().type('common');
         cy.get('#Office365Settings\\.Id').clear().type('Office365Id');

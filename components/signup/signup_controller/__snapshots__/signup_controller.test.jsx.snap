@@ -309,9 +309,6 @@ exports[`components/SignupController should match snapshot for all signup option
           }
         >
           <span>
-            <span
-              className="icon"
-            />
             <span>
               OpenId
             </span>

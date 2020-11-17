@@ -12,6 +12,7 @@ import {AdminConfig} from 'mattermost-redux/types/config';
 import {BaseProps} from 'components/admin_console/admin_settings';
 
 import {browserHistory} from 'utils/browser_history';
+import {Constants} from 'utils/constants';
 
 import FormError from 'components/form_error';
 
@@ -19,9 +20,8 @@ import imagePath from 'images/openid-convert/emoticon-outline.svg';
 
 import './openid_convert.scss';
 
-const openidScope = 'profile openid email';
-
 type Props = BaseProps & {
+    disabled?: boolean;
     actions: {
         updateConfig: (config: AdminConfig) => ActionFunc & Partial<{error?: ClientErrorPlaceholder}>;
     }
@@ -49,7 +49,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
 
         const newConfig = JSON.parse(JSON.stringify(this.props.config));
 
-        newConfig.Office365Settings.Scope = openidScope;
+        newConfig.Office365Settings.Scope = Constants.OPENID_SCOPES;
         if (newConfig.Office365Settings.DirectoryId) {
             newConfig.Office365Settings.DiscoveryEndpoint = 'https://login.microsoftonline.com/' + newConfig.Office365Settings.DirectoryId + '/v2.0/.well-known/openid-configuration';
         }
@@ -57,13 +57,13 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         newConfig.Office365Settings.AuthEndpoint = '';
         newConfig.Office365Settings.TokenEndpoint = '';
 
-        newConfig.GoogleSettings.Scope = openidScope;
+        newConfig.GoogleSettings.Scope = Constants.OPENID_SCOPES;
         newConfig.GoogleSettings.DiscoveryEndpoint = 'https://accounts.google.com/.well-known/openid-configuration';
         newConfig.GoogleSettings.UserApiEndpoint = '';
         newConfig.GoogleSettings.AuthEndpoint = '';
         newConfig.GoogleSettings.TokenEndpoint = '';
 
-        newConfig.GitLabSettings.Scope = openidScope;
+        newConfig.GitLabSettings.Scope = Constants.OPENID_SCOPES;
         if (newConfig.GitLabSettings.UserApiEndpoint) {
             const url = newConfig.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
             newConfig.GitLabSettings.DiscoveryEndpoint = url + '/.well-known/openid-configuration';
@@ -108,11 +108,12 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                         <button
                             className='btn'
                             data-testid='openid_convert'
+                            disabled={this.props.disabled}
                             onClick={this.upgradeConfig}
                         >
                             <FormattedMessage
                                 id='admin.openidconvert.text'
-                                defaultMessage='Convert to OpenId Connect'
+                                defaultMessage='Convert to OpenID Connect'
                             />
                         </button>
                         <a

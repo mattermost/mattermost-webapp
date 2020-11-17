@@ -277,6 +277,16 @@ describe('components/AdminSidebar', () => {
                     Secret: 'googleSecret',
                     Scope: 'scope',
                 },
+                GitLabSettings: {
+                    Id: 'googleID',
+                    Secret: 'googleSecret',
+                    Scope: 'scope',
+                },
+                Office365Settings: {
+                    Id: 'googleID',
+                    Secret: 'googleSecret',
+                    Scope: 'scope',
+                },
                 FeatureFlags: {
                     OpenIdConnect: 'on',
                 },

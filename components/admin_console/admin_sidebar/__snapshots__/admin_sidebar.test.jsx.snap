@@ -68,7 +68,6 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
               name="plugins/plugin_mattermost-autolink"
               parentLink=""
               subsection={false}
-              tag=""
               title="Autolink"
             />
           </AdminSidebarCategory>
@@ -161,7 +160,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               name="plugins/plugin_mattermost-autolink"
               parentLink=""
               subsection={false}
-              tag=""
               title="Autolink"
             />
           </AdminSidebarCategory>
@@ -576,7 +574,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="plugins/plugin_plugin_0"
               parentLink=""
               subsection={false}
-              tag=""
               title="Plugin 0"
             />
           </AdminSidebarCategory>
@@ -1314,7 +1311,12 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               name="authentication/oauth"
               parentLink=""
               subsection={false}
-              tag="deprecated"
+              tag={
+                <FormattedMessage
+                  defaultMessage="deprecated"
+                  id="admin.sidebar.oauth.tag"
+                />
+              }
               title={
                 <FormattedMessage
                   defaultMessage="OAuth 2.0"
@@ -1331,7 +1333,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               tag=""
               title={
                 <FormattedMessage
-                  defaultMessage="OpenId Connect"
+                  defaultMessage="OpenID Connect"
                   id="admin.sidebar.openid"
                 />
               }
@@ -1383,7 +1385,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               name="plugins/plugin_plugin_0"
               parentLink=""
               subsection={false}
-              tag=""
               title="Plugin 0"
             />
           </AdminSidebarCategory>

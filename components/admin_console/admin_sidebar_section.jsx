@@ -19,7 +19,7 @@ export default class AdminSidebarSection extends React.PureComponent {
             children: PropTypes.node,
             action: PropTypes.node,
             definitionKey: PropTypes.string,
-            tag: PropTypes.string,
+            tag: PropTypes.node,
         };
     }
 
@@ -28,7 +28,6 @@ export default class AdminSidebarSection extends React.PureComponent {
             parentLink: '',
             subsection: false,
             children: [],
-            tag: '',
         };
     }
 

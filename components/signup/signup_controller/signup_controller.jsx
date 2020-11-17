@@ -240,11 +240,12 @@ export default class SignupController extends React.PureComponent {
             if (this.props.openidButtonColor) {
                 buttonStyle.backgroundColor = this.props.openidButtonColor;
             }
-            var buttonText = (
+            let buttonText = (
                 <FormattedMessage
                     id='login.openid'
                     defaultMessage='Open Id'
-                />);
+                />
+            );
             if (this.props.openidButtonText) {
                 buttonText = this.props.openidButtonText;
             }
@@ -257,7 +258,6 @@ export default class SignupController extends React.PureComponent {
                     href={Client4.getOAuthRoute() + '/openid/signup' + window.location.search}
                 >
                     <span>
-                        <span className='icon'/>
                         <span>
                             {buttonText}
                         </span>
