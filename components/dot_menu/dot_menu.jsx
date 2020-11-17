@@ -257,7 +257,7 @@ export default class DotMenu extends React.PureComponent {
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
-        const showAddReactionMenuItem = this.props.emojiReactionCount >= Constants.EMOJI_REACTIONS_LIMIT;
+        const hideAddReactionMenuItem = this.props.emojiReactionCount >= Constants.EMOJI_REACTIONS_LIMIT;
 
         const pluginItems = this.props.pluginMenuItems.
             filter((item) => {
@@ -300,7 +300,7 @@ export default class DotMenu extends React.PureComponent {
             !isSystemMessage &&
             !this.props.isReadOnly &&
             this.props.enableEmojiPicker &&
-            showAddReactionMenuItem
+            hideAddReactionMenuItem
         ) {
             showAddReactionButton = false;
         }
