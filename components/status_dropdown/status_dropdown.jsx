@@ -82,7 +82,7 @@ export default class StatusDropdown extends React.PureComponent {
         var endTime = new Date().getTime();
         switch (index) {
         case 0:
-            endTime = new Date(currentTime + (30 * 60000));
+            endTime = new Date(currentTime + (1 * 30 * 60000));
             break;
         case 1:
             endTime = new Date(currentTime + (2 * 30 * 60000));
@@ -164,12 +164,12 @@ export default class StatusDropdown extends React.PureComponent {
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
-        const dndSubMenuItems = this.dndTimes.map((tm, index) => {
+        const dndSubMenuItems = this.dndTimes.map((time, index) => {
             return {
-                id: `dndTime-${tm}`,
+                id: `dndTime-${time}`,
                 direction: 'right',
-                text: tm,
-                action: () => setDnd(tm, index),
+                text: time,
+                action: () => setDnd(event, index),
             };
         });
 
