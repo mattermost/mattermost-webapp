@@ -15,6 +15,7 @@ import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
+import ButtonSelector from 'components/button_selector';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
@@ -166,19 +167,46 @@ export default class DialogElement extends React.PureComponent {
                 />
             );
         } else if (type === 'select') {
-            return (
-                <AutocompleteSelector
-                    id={name}
-                    providers={this.providers}
-                    onSelected={this.handleSelected}
-                    label={displayNameContent}
-                    helpText={helpTextContent}
-                    placeholder={placeholder}
-                    value={this.state.value}
-                    listComponent={this.props.listComponent}
-                    listStyle='bottom'
-                />
-            );
+            switch (subtype) {
+            case 'button':
+                return (
+                    <ButtonSelector
+                        id={name}
+                        options={this.props.options}
+                        onChange={onChange}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        value={value || ''}
+                        shouldSubmit={false}
+                    />
+                );
+            case 'submit':
+                return (
+                    <ButtonSelector
+                        id={name}
+                        options={this.props.options}
+                        onChange={onChange}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        value={value || ''}
+                        shouldSubmit={true}
+                    />
+                );
+            default:
+                return (
+                    <AutocompleteSelector
+                        id={name}
+                        providers={this.providers}
+                        onSelected={this.handleSelected}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        placeholder={placeholder}
+                        value={this.state.value}
+                        listComponent={this.props.listComponent}
+                        listStyle='bottom'
+                    />
+                );
+            }
         } else if (type === 'bool') {
             return (
                 <BoolSetting
