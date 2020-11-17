@@ -1,0 +1,772 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/team/TeamList should match snapshot 1`] = `
+<div
+  className="TeamsList"
+>
+  <DataGrid
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.team_settings.team_list.nameHeader"
+          />,
+          "width": 4,
+        },
+        Object {
+          "field": "management",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Management"
+            id="admin.team_settings.team_list.mappingHeader"
+          />,
+        },
+        Object {
+          "field": "edit",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={1}
+    filterProps={
+      Object {
+        "keys": Array [
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "management": Object {
+            "keys": Array [
+              "allow_open_invite",
+              "invite_only",
+              "group_constrained",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Management"
+              id="admin.team_settings.team_list.mappingHeader"
+            />,
+            "values": Object {
+              "allow_open_invite": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Anyone Can Join"
+                  id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.team_settings.team_row.managementMethod.groupSync"
+                />,
+                "value": false,
+              },
+              "invite_only": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Invite Only"
+                  id="admin.team_settings.team_row.managementMethod.inviteOnly"
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    placeholderEmpty={
+      <FormattedMessage
+        defaultMessage="No teams found"
+        id="admin.team_settings.team_list.no_teams_found"
+      />
+    }
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DNedit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/123"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "123",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DNManagement"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+      ]
+    }
+    rowsContainerStyles={
+      Object {
+        "minHeight": "80px",
+      }
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={1}
+  />
+</div>
+`;
+
+exports[`admin_console/team_channel_settings/team/TeamList should match snapshot with paging 1`] = `
+<div
+  className="TeamsList"
+>
+  <DataGrid
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.team_settings.team_list.nameHeader"
+          />,
+          "width": 4,
+        },
+        Object {
+          "field": "management",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Management"
+            id="admin.team_settings.team_list.mappingHeader"
+          />,
+        },
+        Object {
+          "field": "edit",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={10}
+    filterProps={
+      Object {
+        "keys": Array [
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "management": Object {
+            "keys": Array [
+              "allow_open_invite",
+              "invite_only",
+              "group_constrained",
+            ],
+            "name": <FormattedMessage
+              defaultMessage="Management"
+              id="admin.team_settings.team_list.mappingHeader"
+            />,
+            "values": Object {
+              "allow_open_invite": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Anyone Can Join"
+                  id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.team_settings.team_row.managementMethod.groupSync"
+                />,
+                "value": false,
+              },
+              "invite_only": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Invite Only"
+                  id="admin.team_settings.team_row.managementMethod.inviteOnly"
+                />,
+                "value": false,
+              },
+            },
+          },
+        },
+      }
+    }
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    placeholderEmpty={
+      <FormattedMessage
+        defaultMessage="No teams found"
+        id="admin.team_settings.team_list.no_teams_found"
+      />
+    }
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN0edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id0"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id0",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN0Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN0"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN0
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN1edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id1"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id1",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN1Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN1"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN1
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN2edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id2"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id2",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN2Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN2"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN2
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN3edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id3"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id3",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN3Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN3"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN3
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN4edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id4"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id4",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN4Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN4"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN4
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN5edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id5"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id5",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN5Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN5"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN5
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN6edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id6"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id6",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN6Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN6"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN6
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN7edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id7"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id7",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN7Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN7"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN7
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN8edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id8"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id8",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN8Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN8"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN8
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editText"
+              data-testid="DN9edit"
+            >
+              <Link
+                to="/admin_console/user_management/teams/id9"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.team_settings.team_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "id9",
+            "management": <span
+              className="TeamList_managementText"
+              data-testid="DN9Management"
+            >
+              <FormattedMessage
+                defaultMessage="Invite Only"
+                id="admin.team_settings.team_row.managementMethod.inviteOnly"
+              />
+            </span>,
+            "name": <div
+              className="TeamList_nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  name="DN9"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList_nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN9
+                </b>
+                
+              </div>
+            </div>,
+          },
+          "onClick": [Function],
+        },
+      ]
+    }
+    rowsContainerStyles={
+      Object {
+        "minHeight": "800px",
+      }
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={30}
+  />
+</div>
+`;
