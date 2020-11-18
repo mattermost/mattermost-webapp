@@ -143,11 +143,6 @@ class LegacySidebar extends React.PureComponent {
          */
         viewArchivedChannels: PropTypes.bool,
 
-        /**
-         * Setting that enables prefetching data for channels
-         */
-        isDataPrefechEnabled: PropTypes.bool,
-
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
@@ -618,7 +613,6 @@ class LegacySidebar extends React.PureComponent {
             currentTeam,
             currentUser,
             isOpen,
-            isDataPrefechEnabled,
         } = this.props;
 
         const {
@@ -716,7 +710,7 @@ class LegacySidebar extends React.PureComponent {
                 role='navigation'
                 aria-labelledby='sidebar-left'
             >
-                {isDataPrefechEnabled && <DataPrefetch/>}
+                <DataPrefetch/>
                 {morePublicDirectChannelsModal}
                 {moreDirectChannelsModal}
 
