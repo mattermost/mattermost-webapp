@@ -359,8 +359,10 @@
             }
         }
         .categorySortingMenu {
-            text-transform: capitalize;
-
+            .MenuItem {
+                text-transform: capitalize;
+                width: 100%;
+            }
             .categorySortingMenuDiv {
                 display: flex;
                 padding: 0 15px;
@@ -376,9 +378,14 @@
             }
 
             .sorting-menu-icon {
-                padding-left: 12px;
+                padding-left: 0 ;
                 width: 0;
-            }       
+            }
+            
+            .sorting-menu-checkbox {
+                padding-right: 30px;
+                width: 0;
+            }    
             
             .MenuGroup.menu-divider {
                 margin: 5px -32px 5px 0;
@@ -386,7 +393,6 @@
 
             .SubMenuItemContainer:not(.hasDivider) {
                 display: flex;
-                padding: 0 15px;
                 justify-content: space-between;
                 align-items: center;
             }

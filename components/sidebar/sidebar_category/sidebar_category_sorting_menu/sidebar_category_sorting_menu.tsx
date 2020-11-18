@@ -155,7 +155,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         id={'showMessageCount'}
                         subMenu={categoryMenuItems}
                         text={intl.formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
-                        selectedValueText={selectedDmNumber}
+                        selectedValueText={selectedDmNumber === Infinity ? 'All direct messages' : selectedDmNumber}
                         icon={<i className='icon-account-multiple-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
