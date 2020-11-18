@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -12,51 +13,83 @@
 import {getRandomId} from '../../../utils';
 
 describe('Integrations', () => {
+    let testUser;
+    let secondUser;
+    let testTeam;
+    let testChannel;
     let newIncomingHook;
     let incomingWebhook;
-    let testChannel;
-    let testTeam;
-    let otherUser;
 
     before(() => {
-        // # Create test team, channel, and webhook
-        cy.apiInitSetup().then(({team, channel, user}) => {
-            testTeam = team;
-            testChannel = channel;
-            newIncomingHook = {
-                channel_id: channel.id,
-                channel_locked: true,
-                description: 'Test Webhook Description',
-                display_name: 'Test Webhook Name',
-            };
-            cy.log('create a second user');
+        // # Create new setup
+        cy.apiInitSetup().then(({user}) => {
+            testUser = user;
+
+            // # Creaate a second user
             cy.apiCreateUser().then(({user: user2}) => {
-                otherUser = user2;
-                cy.log('add this user to the team');
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
-                    cy.log('add this user to the channel');
-                    cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-                });
+                secondUser = user2;
             });
 
-            //# Create a new webhook
-            cy.apiCreateWebhook(newIncomingHook).then((hook) => {
-                incomingWebhook = hook;
+            // # Login as the new user
+            cy.apiLogin(user).then(() => {
+                // # Create a new team with the new user
+                cy.apiCreateTeam('test-team', 'Team Testers').then(({team}) => {
+                    testTeam = team;
+
+                    // # Add second user to the test team
+                    cy.apiAddUserToTeam(testTeam.id, secondUser.id);
+
+                    // # Create a new test channel for the team
+                    cy.apiCreateChannel(testTeam.id, 'test-channel', 'Testers Channel').then(({channel}) => {
+                        testChannel = channel;
+
+                        newIncomingHook = {
+                            channel_id: testChannel.id,
+                            channel_locked: true,
+                            description: 'Test Webhook Description',
+                            display_name: 'Test Webhook Name',
+                        };
+
+                        //# Create a new webhook
+                        cy.apiCreateWebhook(newIncomingHook).then((hook) => {
+                            incomingWebhook = hook;
+                        });
+
+                        // # Add second user to the test channel
+                        cy.apiAddUserToChannel(testChannel.id, secondUser.id).then(() => {
+                            // # Remove the first user from the channel
+                            cy.apiDeleteUserFromTeam(testTeam.id, testUser.id);
+
+                            // # Login as the second user
+                            cy.apiLogin(secondUser);
+
+                            // # Visit the test channel
+                            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                        });
+                    });
+                });
             });
-            cy.apiLogin(user);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
-    it('MM-T640 Cancel out of edit', () => {
+    it('MM-T638 Webhook posts when webhook creator is not a member of the channel', () => {
         const payload = getPayload(testChannel);
+
+        // # Post the webhook message
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+
+        // * Assert that the message was posted even though webhook author has been removed
+        cy.uiWaitUntilMessagePostedIncludes('this webhook was set up by a used that is no longer in this channel').then(() => {
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#postMessageText_${postId}`).should('have.text', `${payload.text}`);
+            });
+        });
     });
 });
 
 function getPayload(testChannel) {
     return {
         channel: testChannel.name,
-        text: `${getRandomId()} - this is from incoming webhook`,
+        text: `${getRandomId()} - this webhook was set up by a used that is no longer in this channel`,
     };
 }
