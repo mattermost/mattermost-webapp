@@ -1874,6 +1874,46 @@ export function applyHotkeyMarkdown(e) {
 }
 
 /**
+ * Applies Link markdown on textbox associated with event and returns
+ * modified text alongwith modified cursor position.
+ */
+export function applyLinkKeyMarkdown(e) {
+    e.preventDefault();
+
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    let isLink = false;
+
+    isLink = prefix.endsWith("[") && suffix.startsWith("]()");
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+
+    if(isLink){
+        newValue = prefix.substring(0,selectionStart-1) + selection + suffix.substring(3) ;
+        newStart = selectionStart-1;
+        newEnd = selectionEnd-1;
+    } else {
+        newValue = prefix + "[" + selection + "]()" + suffix ;
+        newStart = selectionEnd + 3;
+        newEnd = newStart;
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+/**
  * Adjust selection to correct text when there is Italic markdown (_) around selected text.
  */
 export function adjustSelection(inputBox, e) {

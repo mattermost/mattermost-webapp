@@ -1039,6 +1039,8 @@ class CreatePost extends React.PureComponent {
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
         const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
+        const ctrlAltCombo = ctrlOrMetaKeyPressed && e.altKey
+        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -1055,6 +1057,8 @@ class CreatePost extends React.PureComponent {
             this.loadNextMessage(e);
         } else if (ctrlKeyCombo && markdownHotkey) {
             this.applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            this.applyLinkKeyMarkdown(e);
         }
     }
 
@@ -1102,6 +1106,17 @@ class CreatePost extends React.PureComponent {
 
     applyHotkeyMarkdown = (e) => {
         const res = Utils.applyHotkeyMarkdown(e);
+
+        this.setState({
+            message: res.message,
+        }, () => {
+            const textbox = this.textboxRef.current.getInputBox();
+            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+        });
+    }
+
+    applyLinkKeyMarkdown = (e) => {
+        const res = Utils.applyLinkKeyMarkdown(e);
 
         this.setState({
             message: res.message,
