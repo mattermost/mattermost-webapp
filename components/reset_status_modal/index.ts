@@ -12,30 +12,32 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {UserStatus} from 'mattermost-redux/types/users';
 
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import {autoResetStatus} from 'actions/user_actions.jsx';
 
 import ResetStatusModal from './reset_status_modal';
-import {ActionFunc, GenericAction } from 'mattermost-redux/types/actions';
-import { GlobalState } from 'mattermost-redux/types/store';
 
 type Actions = {
-    
-        /*
-         * Function to get and then reset the user's status if needed
-         */
-        autoResetStatus: () => Promise<UserStatus>;
 
-        /*
-         * Function to set the status for a user
-         */
-        setStatus: (status: UserStatus) => ActionFunc;
+    /*
+    * Function to get and then reset the user's status if needed
+    */
+    autoResetStatus: () => Promise<UserStatus>;
 
-        /*
-         * Function to save user preferences
-         */
-        savePreferences: (userId: string, preferences: Array<PreferenceType>) => Promise<{
-            data: boolean;
-        }>;
+    /*
+    * Function to set the status for a user
+    */
+    setStatus: (status: UserStatus) => ActionFunc;
+
+    /*
+    * Function to save user preferences
+    */
+    savePreferences: (userId: string, preferences: Array<PreferenceType>) => Promise<{
+        data: boolean;
+    }>;
 }
 
 function mapStateToProps(state: GlobalState) {

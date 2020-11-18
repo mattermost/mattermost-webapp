@@ -9,12 +9,13 @@ import {UserStatus} from 'mattermost-redux/types/users';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
 import ConfirmModal from 'components/confirm_modal';
 import {toTitleCase} from 'utils/utils.jsx';
 import {UserStatuses} from 'utils/constants';
 
 import {t} from 'utils/i18n';
-import { ActionFunc } from 'mattermost-redux/types/actions';
 
 type Props = {
 
