@@ -241,6 +241,7 @@ var config = {
         ],
     },
     resolve: {
+        symlinks: false,
         modules: [
             'node_modules',
             path.resolve(__dirname),
