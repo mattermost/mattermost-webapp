@@ -71,7 +71,7 @@ class BrowserStoreClass {
         return loginId === sessionStorage.getItem(StoragePrefixes.LOGIN);
     }
 
-    clear(options?: any) {
+    clear(options?: {exclude: any}) {
         dispatch(Actions.clear(options));
     }
 

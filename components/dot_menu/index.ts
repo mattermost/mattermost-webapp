@@ -55,10 +55,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const appsBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
 
+    let postEditTimeLimit;
+    if (config.PostEditTimeLimit) {
+        postEditTimeLimit = parseInt(config.PostEditTimeLimit, 10);
+    }
+
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit: getConfig(state).PostEditTimeLimit,
+        postEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,

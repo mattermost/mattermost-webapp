@@ -257,6 +257,7 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    APPS_MODAL: 'apps_modal',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
     INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
