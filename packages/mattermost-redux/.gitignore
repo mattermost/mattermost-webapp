@@ -1,0 +1,62 @@
+# OSX
+#
+.DS_Store
+
+
+*.iml
+.idea
+
+# node.js
+#
+node_modules/
+npm-debug.log
+.npminstall
+.yarninstall
+
+# Vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+tags
+
+mattermost-redux-*.tgz
+.tmp
+
+# Compiled files
+/action_types
+/actions
+/client
+/constants
+/reducers
+/selectors
+/store
+/utils
+/types
+
+# browser bundle
+/lib
+
+# flow
+/flow-typed
+/.flowinstall
+
+.vscode/
+
+# test coverage
+coverage
+/.rts2_cache_cjs/
+/.rts2_cache_esm/
+/dist/
+/build/
+/tsconfig.tsbuildinfo
+junit.xml
+index.d.ts
+index.js
+index.js.map
+mattermost.client4.js
+mattermost.client4.js.map
+mattermost.websocket_client.js
+mattermost.websocket_client.js.map

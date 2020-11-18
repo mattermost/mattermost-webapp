@@ -1,0 +1,29 @@
+stages:
+  - test
+
+include:
+  project: mattermost/ci/mattermost-redux
+  ref: master
+  file: private.yml
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+lint:
+  stage: test
+  image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm run check
+    - npm run tsc
+
+test:
+  stage: test
+  image: mattermost/mattermost-build-webapp:20200829_node-10.22
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm test
