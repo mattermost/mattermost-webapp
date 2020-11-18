@@ -58,7 +58,9 @@ describe('Integrations', () => {
                         // # Add second user to the test channel
                         cy.apiAddUserToChannel(testChannel.id, secondUser.id).then(() => {
                             // # Remove the first user from the channel
-                            cy.apiDeleteUserFromTeam(testTeam.id, testUser.id);
+                            cy.apiDeleteUserFromTeam(testTeam.id, testUser.id).then(({data}) => {
+                                expect(data.status).to.equal('OK');
+                            });
 
                             // # Login as the second user
                             cy.apiLogin(secondUser);
