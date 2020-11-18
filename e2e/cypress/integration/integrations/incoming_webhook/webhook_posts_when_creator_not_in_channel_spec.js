@@ -31,7 +31,7 @@ describe('Integrations', () => {
             });
 
             // # Login as the new user
-            cy.apiLogin(user).then(() => {
+            cy.apiLogin(testUser).then(() => {
                 // # Create a new team with the new user
                 cy.apiCreateTeam('test-team', 'Team Testers').then(({team}) => {
                     testTeam = team;
