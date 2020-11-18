@@ -1,0 +1,41 @@
+{
+    "name": "@mattermost/compass-icons",
+    "version": "0.1.0",
+    "private": true,
+    "description": "",
+    "main": "build/css/compass-icons.css",
+    "scripts": {
+        "start": "npm run build",
+        "clean": "rm -rf config.json build",
+        "build": "run-s build:config build:font",
+        "build:config": "node -r esm generate-config.js",
+        "build:font": "fontello-cli --css ./build/css --font ./build/font install",
+        "open": "run-s build:config open:font",
+        "open:font": "fontello-cli open",
+        "package": "run-s build:config package:font",
+        "package:font": "fontello-cli install"
+    },
+    "keywords": [
+        "mattermost",
+        "compass",
+        "icons"
+    ],
+    "author": "Mattermost",
+    "license": "MIT",
+    "dependencies": {
+        "esm": "^3.2.25",
+        "fontello-batch-cli": "^4.0.0",
+        "fontello-cli": "^0.5.0",
+        "lodash": "^4.17.20",
+        "needle": "^2.5.2",
+        "open": "^7.2.1",
+        "svgpath": "^2.3.0",
+        "unzip": "^0.1.11",
+        "xmldom": "^0.3.0"
+    },
+    "devDependencies": {
+        "eslint-config-prettier": "^6.11.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^2.1.1"
+    }
+}
