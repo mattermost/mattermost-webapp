@@ -2,24 +2,25 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import NotifyCounts from 'components/notify_counts';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 
-const CollapseLhsButton = ({
+type Props = {
     actions: {
-        toggleLhs,
-    },
-}) => (
+        toggleLhs: (e?:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    }
+}
+
+const CollapseLhsButton:React.FunctionComponent<Props> = (props: Props) => (
     <button
         key='navbar-toggle-sidebar'
         type='button'
         className='navbar-toggle'
         data-toggle='collapse'
         data-target='#sidebar-nav'
-        onClick={toggleLhs}
+        onClick={props.actions.toggleLhs}
     >
         <span className='sr-only'>
             <FormattedMessage
@@ -31,11 +32,5 @@ const CollapseLhsButton = ({
         <NotifyCounts/>
     </button>
 );
-
-CollapseLhsButton.propTypes = {
-    actions: PropTypes.shape({
-        toggleLhs: PropTypes.func.isRequired,
-    }).isRequired,
-};
 
 export default CollapseLhsButton;
