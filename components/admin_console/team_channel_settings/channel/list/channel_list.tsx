@@ -31,7 +31,6 @@ interface ChannelListProps {
     data: ChannelWithTeamData[];
     total: number;
     removeGroup?: () => void;
-    onPageChangedCallback?: () => void;
     emptyListTextId?: string;
     emptyListTextDefaultMessage?: string;
     isDisabled?: boolean;
