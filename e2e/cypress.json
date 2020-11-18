@@ -16,6 +16,7 @@
         "enableVisualTest": false,
         "ldapServer": "localhost",
         "ldapPort": 389,
+        "numberOfTrialUsers": 100,
         "runLDAPSync": true,
         "runWithEELicense": false,
         "resetBeforeTest": false,
