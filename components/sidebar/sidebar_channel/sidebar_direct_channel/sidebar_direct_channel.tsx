@@ -30,7 +30,6 @@ type Props = {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
         leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
     };
-    hasDraft: boolean;
 };
 
 type State = {
@@ -122,7 +121,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {channel, teammate, currentTeamName, hasDraft} = this.props;
+        const {channel, teammate, currentTeamName} = this.props;
 
         if (!teammate) {
             return null;
@@ -146,7 +145,6 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
                 isCollapsed={this.props.isCollapsed}
-                hasDraft={hasDraft}
             />
         );
     }

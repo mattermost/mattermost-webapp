@@ -19,7 +19,6 @@ type Props = {
     actions: {
         leaveChannel: (channelId: any) => void;
     };
-    hasDraft: boolean;
 };
 
 type State = {
@@ -66,7 +65,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
     }
 
     render() {
-        const {channel, currentTeamName, hasDraft} = this.props;
+        const {channel, currentTeamName} = this.props;
 
         let ariaLabelPrefix;
         if (channel.type === Constants.OPEN_CHANNEL) {
@@ -84,7 +83,6 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
                 closeHandler={this.getCloseHandler()!}
                 icon={this.getIcon()!}
                 isCollapsed={this.props.isCollapsed}
-                hasDraft={hasDraft}
             />
         );
     }
