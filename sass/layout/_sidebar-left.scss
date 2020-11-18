@@ -928,20 +928,21 @@
         }
 
         &.selected {
-            background: rgba(var(--sidebar-text-active-border-rgb), 0.24);
+            background: rgba(var(--sidebar-text-active-border-rgb), 1);
 
             &:hover {
-                background: rgba(var(--sidebar-text-active-border-rgb), 0.32);
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.88);
             }
         }
 
     }
 
     .SidebarLink.selected {
-        background: rgba(var(--sidebar-text-active-border-rgb), 0.24);
+        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        color: rgba(var(--sidebar-text-rgb),1);
 
         &:hover {
-            background: rgba(var(--sidebar-text-active-border-rgb), 0.32);
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.88);
         }
     }
 
