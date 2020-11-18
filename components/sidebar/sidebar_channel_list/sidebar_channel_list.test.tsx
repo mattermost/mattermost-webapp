@@ -73,7 +73,7 @@ describe('SidebarChannelList', () => {
             scheme_id: 'test',
             group_constrained: false,
         }),
-        currentChannel,
+        currentChannelId: currentChannel.id,
         categories: [
             {
                 id: 'category1',
@@ -130,7 +130,7 @@ describe('SidebarChannelList', () => {
             <SidebarChannelList {...baseProps}/>,
         );
 
-        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'new_channel_id'})});
+        wrapper.setProps({currentChannelId: 'new_channel_id'});
         expect(baseProps.actions.close).toHaveBeenCalled();
     });
 

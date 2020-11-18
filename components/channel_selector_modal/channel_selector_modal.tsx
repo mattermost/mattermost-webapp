@@ -1,48 +1,56 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import Constants from 'utils/constants';
 import {localizeMessage, compareChannels} from 'utils/utils.jsx';
 
-import MultiSelect from 'components/multiselect/multiselect';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+type ChannelWithTeamDataValue = ChannelWithTeamData & Value;
+
+type Props = {
+    searchTerm: string,
+    onModalDismissed?: () => void,
+    onChannelsSelected?: (channels:ChannelWithTeamData[]) => void,
+    groupID: string,
+    actions: {
+        loadChannels: (page?: number, perPage?: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean) => Promise<{data: ChannelWithTeamData[]}>,
+        setModalSearchTerm: (term: string) => ActionResult,
+        searchAllChannels: (term: string, opts?: ChannelSearchOpts) => Promise<{data: ChannelWithTeamData[]}>,
+    },
+}
+
+type State = {
+    values: ChannelWithTeamDataValue[],
+    show: boolean,
+    search: boolean,
+    loadingChannels: boolean,
+    channels: ChannelWithTeamData[],
+}
+
 const CHANNELS_PER_PAGE = 50;
 
-export default class ChannelSelectorModal extends React.PureComponent {
-    static propTypes = {
-        searchTerm: PropTypes.string.isRequired,
-        onModalDismissed: PropTypes.func,
-        onChannelsSelected: PropTypes.func,
-        groupID: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            loadChannels: PropTypes.func.isRequired,
-            setModalSearchTerm: PropTypes.func.isRequired,
-            searchAllChannels: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+export default class ChannelSelectorModal extends React.PureComponent<Props, State> {
+    searchTimeoutId = 0
+    selectedItemRef = React.createRef<HTMLDivElement>()
 
-    constructor(props) {
-        super(props);
-
-        this.searchTimeoutId = 0;
-
-        this.state = {
-            values: [],
-            show: true,
-            search: false,
-            loadingChannels: true,
-            channels: [],
-        };
-
-        this.selectedItemRef = React.createRef();
-    }
+    state: State = {
+        values: [],
+        show: true,
+        search: false,
+        loadingChannels: true,
+        channels: [],
+    };
 
     componentDidMount() {
         this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
@@ -51,7 +59,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
         });
     }
 
-    componentDidUpdate(prevProps) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps: Props) { // eslint-disable-line camelcase
         if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
@@ -62,7 +70,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
                     this.setChannelsLoadingState(false);
                 });
             } else {
-                this.searchTimeoutId = setTimeout(
+                this.searchTimeoutId = window.setTimeout(
                     async () => {
                         this.setChannelsLoadingState(true);
                         const response = await this.props.actions.searchAllChannels(searchTerm, {not_associated_to_group: this.props.groupID});
@@ -86,7 +94,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
         }
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: any) => {
         if (e) {
             e.preventDefault();
         }
@@ -95,26 +103,28 @@ export default class ChannelSelectorModal extends React.PureComponent {
             return;
         }
 
-        this.props.onChannelsSelected(this.state.values);
+        if (this.props.onChannelsSelected) {
+            this.props.onChannelsSelected(this.state.values);
+        }
         this.handleHide();
     }
 
-    addValue = (value) => {
-        const values = Object.assign([], this.state.values);
-        if (value && value.id && values.findIndex((v) => v.id === value.id) === -1) {
+    addValue = (value: ChannelWithTeamDataValue) => {
+        const values = [...this.state.values];
+        if (value?.id && !values.some((v) => v.id === value.id)) {
             values.push(value);
         }
 
         this.setState({values});
     }
 
-    setChannelsLoadingState = (loadingState) => {
+    setChannelsLoadingState = (loadingState: boolean) => {
         this.setState({
             loadingChannels: loadingState,
         });
     }
 
-    handlePageChange = (page, prevPage) => {
+    handlePageChange = (page:number, prevPage: number) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
             this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
@@ -131,18 +141,22 @@ export default class ChannelSelectorModal extends React.PureComponent {
         }
     }
 
-    handleDelete = (values) => {
+    handleDelete = (values: ChannelWithTeamDataValue[]) => {
         this.setState({values});
     }
 
-    search = (term, multiselectComponent) => {
+    search = (term: string, multiselectComponent: MultiSelect<ChannelWithTeamDataValue>) => {
         if (multiselectComponent.state.page !== 0) {
             multiselectComponent.setState({page: 0});
         }
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption = (option, isSelected, onAdd, onMouseMove) => {
+    renderOption = (
+        option:ChannelWithTeamDataValue,
+        isSelected: boolean,
+        onAdd: (value:ChannelWithTeamDataValue) => void,
+        onMouseMove: (value:ChannelWithTeamDataValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -175,7 +189,7 @@ export default class ChannelSelectorModal extends React.PureComponent {
         );
     }
 
-    renderValue(props) {
+    renderValue(props: {data: ChannelWithTeamDataValue}) {
         return props.data.display_name + ' (' + props.data.team_display_name + ')';
     }
 
@@ -188,6 +202,9 @@ export default class ChannelSelectorModal extends React.PureComponent {
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
+
+        const options = this.state.channels.map((i): ChannelWithTeamDataValue => ({...i, label: i.display_name, value: i.id}));
+        const values = this.state.values.map((i): ChannelWithTeamDataValue => ({...i, label: i.display_name, value: i.id}));
 
         return (
             <Modal
@@ -210,12 +227,12 @@ export default class ChannelSelectorModal extends React.PureComponent {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <MultiSelect
+                    <MultiSelect<ChannelWithTeamDataValue>
                         key='addChannelsToSchemeKey'
-                        options={this.state.channels}
+                        options={options}
                         optionRenderer={this.renderOption}
                         selectedItemRef={this.selectedItemRef}
-                        values={this.state.values}
+                        values={values}
                         valueRenderer={this.renderValue}
                         perPage={CHANNELS_PER_PAGE}
                         handlePageChange={this.handlePageChange}

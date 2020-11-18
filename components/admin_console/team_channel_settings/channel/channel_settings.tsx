@@ -2,29 +2,30 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import ChannelsList from 'components/admin_console/team_channel_settings/channel/list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
-export class ChannelsSettings extends React.PureComponent {
-    static propTypes = {
-        siteName: PropTypes.string.isRequired,
-    };
+interface Props {
+    siteName?: string,
+}
 
-    constructor(props) {
+export interface ChannelSettingsState {
+    startCount: number,
+    endCount: number,
+    total: number,
+}
+
+export class ChannelsSettings extends React.PureComponent<Props> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             startCount: 0,
             endCount: 1,
             total: 0,
         };
-    }
-
-    onPageChangedCallback = ({startCount, endCount, total}) => {
-        this.setState({startCount, endCount, total});
     }
 
     render = () => {
@@ -48,9 +49,7 @@ export class ChannelsSettings extends React.PureComponent {
                             subtitleDefault={'Manage channel settings.'}
                             subtitleValues={{...this.state}}
                         >
-                            <ChannelsList
-                                onPageChangedCallback={this.onPageChangedCallback}
-                            />
+                            <ChannelsList/>
                         </AdminPanel>
                     </div>
                 </div>
