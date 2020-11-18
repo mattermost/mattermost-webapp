@@ -14,6 +14,7 @@ import {toTitleCase} from 'utils/utils.jsx';
 import {UserStatuses} from 'utils/constants';
 
 import {t} from 'utils/i18n';
+import { ActionFunc } from 'mattermost-redux/types/actions';
 
 type Props = {
 
@@ -42,40 +43,54 @@ type Props = {
         /*
          * Function to get and then reset the user's status if needed
          */
-        autoResetStatus: () => any;
+        autoResetStatus: () => Promise<UserStatus>;
 
         /*
          * Function to set the status for a user
          */
-        setStatus: (status: UserStatus) => any;
+        setStatus: (status: UserStatus) => ActionFunc;
 
         /*
          * Function to save user preferences
          */
-        savePreferences: (userId: string, preferences: Array<PreferenceType>) => any;
+        savePreferences: (userId: string, preferences: Array<PreferenceType>) => Promise<{
+            data: boolean;
+        }>;
     }
 };
 
 type State = {
     show: boolean;
-    currentUserStatus: any;
+    currentUserStatus: {
+        user_id: string,
+        status: string,
+        manual: boolean,
+        last_activity_at: number,
+        active_channel?: string;
+    },
     newStatus: string;
 };
 
 export default class ResetStatusModal extends React.PureComponent<Props, State> {
-    public constructor(props: any) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
             show: false,
-            currentUserStatus: {},
+            currentUserStatus: {
+                user_id: '',
+                status: '',
+                manual: false,
+                last_activity_at: 0,
+                active_channel: undefined,
+            },
             newStatus: props.newStatus || 'online',
         };
     }
 
     public componentDidMount() {
         this.props.actions.autoResetStatus().then(
-            (status: any) => {
+            (status: UserStatus) => {
                 const statusIsManual = status.manual;
                 const autoResetPrefNotSet = this.props.autoResetPref === '';
 
