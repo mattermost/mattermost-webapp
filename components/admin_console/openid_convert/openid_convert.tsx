@@ -49,28 +49,22 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
 
         const newConfig = JSON.parse(JSON.stringify(this.props.config));
 
-        newConfig.Office365Settings.Scope = Constants.OPENID_SCOPES;
         if (newConfig.Office365Settings.DirectoryId) {
             newConfig.Office365Settings.DiscoveryEndpoint = 'https://login.microsoftonline.com/' + newConfig.Office365Settings.DirectoryId + '/v2.0/.well-known/openid-configuration';
         }
-        newConfig.Office365Settings.UserApiEndpoint = '';
-        newConfig.Office365Settings.AuthEndpoint = '';
-        newConfig.Office365Settings.TokenEndpoint = '';
-
-        newConfig.GoogleSettings.Scope = Constants.OPENID_SCOPES;
         newConfig.GoogleSettings.DiscoveryEndpoint = 'https://accounts.google.com/.well-known/openid-configuration';
-        newConfig.GoogleSettings.UserApiEndpoint = '';
-        newConfig.GoogleSettings.AuthEndpoint = '';
-        newConfig.GoogleSettings.TokenEndpoint = '';
 
-        newConfig.GitLabSettings.Scope = Constants.OPENID_SCOPES;
         if (newConfig.GitLabSettings.UserApiEndpoint) {
             const url = newConfig.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
             newConfig.GitLabSettings.DiscoveryEndpoint = url + '/.well-known/openid-configuration';
         }
-        newConfig.GitLabSettings.UserApiEndpoint = '';
-        newConfig.GitLabSettings.AuthEndpoint = '';
-        newConfig.GitLabSettings.TokenEndpoint = '';
+
+        ['Office365Settings', 'GoogleSettings', 'GitLabSettings'].forEach(setting => {
+            newConfig[setting].Scope = Constants.OPENID_SCOPES;
+            newConfig[setting].UserApiEndpoint = '';
+            newConfig[setting].AuthEndpoint = '';
+            newConfig[setting].TokenEndpoint = '';
+        });
 
         const {error: err} = await this.props.actions.updateConfig(newConfig);
         if (err) {
