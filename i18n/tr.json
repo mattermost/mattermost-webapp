@@ -703,7 +703,6 @@
   "admin.experimental.clientSideCertEnable.title": "İstemci Tarafı Sertifikalandırması Kullanılsın:",
   "admin.experimental.closeUnusedDirectMessages.desc": "Bu seçenek etkinleştirildiğinde, 7 günden uzun süredir herhangi bir etkinlik olmayan görüşmeler yan çubukta gizlenir. Devre dışı bırakıldığında, el ile kapatılana kadar görüşmeler görüntülenir.",
   "admin.experimental.closeUnusedDirectMessages.title": "Yan Çubuktaki Doğrudan İletiler Otomatik Kapatılsın:",
-  "admin.experimental.cloudBilling.desc": "Cloud için yeni faturalama özetini görüntüle",
   "admin.experimental.cloudBilling.title": "Cloud Faturalama:",
   "admin.experimental.defaultTheme.desc": "Sistemdeki tüm yeni kullanıcılara uygulanacak varsayılan temayı ayarlayın.",
   "admin.experimental.defaultTheme.title": "Varsayılan Tema:",

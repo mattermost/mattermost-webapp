@@ -676,7 +676,6 @@
   "admin.experimental.clientSideCertEnable.title": "开启客户端证书：",
   "admin.experimental.closeUnusedDirectMessages.desc": "当设为是时，7 天内没有活动的私信对话将从侧栏隐藏。当设为否时，对话将一直保留直到手动关闭。",
   "admin.experimental.closeUnusedDirectMessages.title": "自动从侧栏关闭私信：",
-  "admin.experimental.cloudBilling.desc": "显示新的云端计费视图",
   "admin.experimental.cloudBilling.title": "云计费：",
   "admin.experimental.defaultTheme.desc": "设定新用户的默认风格。",
   "admin.experimental.defaultTheme.title": "默认风格：",

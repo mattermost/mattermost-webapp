@@ -702,7 +702,6 @@
   "admin.experimental.clientSideCertEnable.title": "Client-side-certificering inschakelen:",
   "admin.experimental.closeUnusedDirectMessages.desc": "Als dit ingeschakeld is, worden directe berichten met geen activiteit in de voorbije zeven dagen verborgen in de zijbalk. Als dit uitgeschakeld is, blijven conversaties in de zijbalk tot ze handmatig worden gesloten.",
   "admin.experimental.closeUnusedDirectMessages.title": "Automatische directe berichten in zijbalk:",
-  "admin.experimental.cloudBilling.desc": "Toon de nieuwe factuurweergave voor Cloud",
   "admin.experimental.cloudBilling.title": "Cloud facturatie:",
   "admin.experimental.defaultTheme.desc": "Stel een standaardthema in dat van toepassing is op alle nieuwe gebruikers op het systeem.",
   "admin.experimental.defaultTheme.title": "Standaardthema:",
