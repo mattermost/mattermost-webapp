@@ -44,6 +44,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   }
   loading={false}
   nextPage={[Function]}
+  onSearch={[Function]}
   page={0}
   placeholderEmpty={
     <FormattedMessage
@@ -401,7 +402,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       "minHeight": "160px",
     }
   }
-  search={[Function]}
+  searchPlaceholder=""
   startCount={1}
   term=""
   total={2}
@@ -452,6 +453,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   }
   loading={false}
   nextPage={[Function]}
+  onSearch={[Function]}
   page={0}
   placeholderEmpty={
     <FormattedMessage
@@ -974,7 +976,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       "minHeight": "240px",
     }
   }
-  search={[Function]}
+  searchPlaceholder=""
   startCount={1}
   term=""
   total={3}
@@ -1025,6 +1027,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
   }
   loading={false}
   nextPage={[Function]}
+  onSearch={[Function]}
   page={0}
   placeholderEmpty={
     <FormattedMessage
@@ -1212,7 +1215,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
       "minHeight": "80px",
     }
   }
-  search={[Function]}
+  searchPlaceholder=""
   startCount={1}
   term=""
   total={1}
