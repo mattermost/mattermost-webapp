@@ -53,19 +53,24 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appsBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
+    const appBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
+
+    let postEditTimeLimit;
+    if (config.PostEditTimeLimit) {
+        postEditTimeLimit = parseInt(config.PostEditTimeLimit, 10);
+    }
 
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit: getConfig(state).PostEditTimeLimit,
+        postEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
-        appsBindings,
+        appBindings,
         ...ownProps,
     };
 }

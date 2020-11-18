@@ -219,8 +219,14 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
             className="dropdown btn-group"
           >
             <CustomToggle
+              bsClass="dropdown-toggle"
+              bsRole="toggle"
               dropdownOpen={false}
+              id="channelHeaderPlugDropdown"
               key=".0"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              open={false}
             >
               <button
                 className="channel-header__icon channel-header__icon--wide "
@@ -350,8 +356,12 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
               </button>
             </CustomToggle>
             <CustomMenu
+              bsClass="dropdown-menu"
+              bsRole="menu"
               key=".1"
+              labelledBy="channelHeaderPlugDropdown"
               onClose={[Function]}
+              onSelect={[Function]}
               open={false}
             >
               <RootCloseWrapper

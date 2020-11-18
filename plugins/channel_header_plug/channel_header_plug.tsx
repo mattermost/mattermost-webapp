@@ -91,7 +91,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 
 type ChannelHeaderPlugProps = {
     components?: PluginComponent[];
-    appsBindings: AppBinding[];
+    appBindings: AppBinding[];
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
@@ -120,7 +120,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         this.toggleDropdown(false);
     }
 
-    fireActionAndClose = (action: (...args: any) => void) => {
+    fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
@@ -145,15 +145,13 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         }
 
         this.props.actions.doAppCall({
-            url: binding.call.url,
+            ...binding.call,
             context: {
                 app_id: binding.app_id,
+                location_id: binding.location_id,
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
-            from: [
-                binding,
-            ],
         });
     }
 
@@ -207,12 +205,10 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                             url: binding.call!.url,
                             context: {
                                 app_id: binding.app_id,
+                                location_id: binding.location_id,
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },
-                            from: [
-                                binding,
-                            ],
                         }))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
@@ -276,7 +272,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
     render() {
         const components = this.props.components || [];
-        const appBindings = this.props.appsBindings;
+        const appBindings = this.props.appBindings || [];
 
         if (components.length === 0 && appBindings.length === 0) {
             return null;
