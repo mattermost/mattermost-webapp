@@ -207,7 +207,7 @@ class AdminSidebar extends React.PureComponent {
                     const subDefinitionKey = `${key}.${subKey}`;
                     let tag = '';
                     if (item.tag?.shouldDisplay(config)) {
-                        tag = item.tag.value
+                        tag = item.tag.value;
                     }
                     sidebarItems.push((
                         <AdminSidebarSection
