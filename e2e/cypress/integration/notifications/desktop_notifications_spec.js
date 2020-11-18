@@ -186,6 +186,38 @@ describe('Desktop notifications', () => {
             });
         });
     });
+
+    it('MM-T497 Desktop Notifications for empty string without mention badge', () => {
+        cy.apiCreateUser({}).then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // # Visit the MM webapp with the notification API stubbed.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
+
+            const actualMsg = '---';
+            const expected = '@' + testUser.username + ' did something new';
+
+            // # Ensure notifications are set up to fire a desktop notification for all activity.
+            changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                // # Have another user send a post.
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
+
+                // * Desktop notification should be received with expected body.
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
+
+                // * Verify that the channel is now unread without a mention badge
+                cy.get(`#sidebarItem_${channel.name} .badge`).should('not.exist');
+            });
+        });
+    });
 });
 
 const changeDesktopNotificationSettingsAs = (category) => {
