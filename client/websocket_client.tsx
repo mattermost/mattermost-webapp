@@ -190,13 +190,10 @@ export default class WebSocketClient {
     }
 
     userTyping(channelId: string, parentId: string, callback?: () => void) {
-        const data = {} as {
-            channel_id: string,
-            parent_id: string,
+        const data = {
+            channel_id: channelId,
+            parent_id: parentId,
         };
-        data.channel_id = channelId;
-        data.parent_id = parentId;
-
         this.sendMessage('user_typing', data, callback);
     }
 
@@ -213,10 +210,9 @@ export default class WebSocketClient {
     }
 
     getStatusesByIds(userIds: string[], callback?: () => void) {
-        const data = {} as {
-            user_ids: string[],
+        const data = {
+            user_ids: userIds,
         };
-        data.user_ids = userIds;
         this.sendMessage('get_statuses_by_ids', data, callback);
     }
 }

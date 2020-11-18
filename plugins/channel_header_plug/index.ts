@@ -17,7 +17,7 @@ import ChannelHeaderPlug from './channel_header_plug';
 function mapStateToProps(state: GlobalState) {
     return {
         components: state.plugins.components.ChannelHeaderButton,
-        appsBindings: getAppsBindings(state, AppBindings.APPS_BINDINGS_CHANNEL_HEADER_ICON),
+        appBindings: getAppsBindings(state, AppBindings.APPS_BINDINGS_CHANNEL_HEADER_ICON),
         theme: getTheme(state),
     };
 }
