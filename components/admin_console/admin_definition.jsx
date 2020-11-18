@@ -174,12 +174,6 @@ export const it = {
     stateIsFalse: (key) => (config, state) => !state[key],
     configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
     configIsFalse: (group, setting) => (config) => !config[group][setting],
-    // configContains: (group, setting, word) => (config) => {
-    //     if(config && config[group] && config[group][setting]){
-    //         return Boolean(config[group][setting].includes(word));
-    //     }
-    //     return false;
-    // },
     configContains: (group, setting, word) => (config) => Boolean(config[group][setting].includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
@@ -4026,14 +4020,18 @@ const AdminDefinition = {
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
             tag: {
-                value: t('admin.sidebar.oauth.tag'),
-                value_default: 'deprecated',
-                shouldDisplay: (config) => config.FeatureFlag.OpenIdConnect === 'on',
+                value: (
+                    <FormattedMessage
+                        id='admin.sidebar.oauth.tag'
+                        defaultMessage='deprecated'
+                    />
+                ),
+                shouldDisplay: (config) => config.FeatureFlags.OpenIdConnect === 'on',
             },
             isHidden: it.any(
                 it.not(it.licensed),
                 it.all(
-                    // it.configContains('FeatureFlags', 'OpenIdConnect', 'on'),
+                    it.configContains('FeatureFlags', 'OpenIdConnect', 'on'),
                     it.not(usesLegacyOauth),
                 ),
             ),
@@ -4090,7 +4088,7 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(it.licensedForFeature('GoogleOAuth')),
                             it.not(it.licensedForFeature('Office365OAuth')),
-                            // it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
+                            it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
@@ -4346,7 +4344,7 @@ const AdminDefinition = {
             title_default: 'OpenID Connect',
             isHidden: it.any(
                 it.not(it.licensedForFeature('OpenId')),
-                // it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
+                it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
             ),
             schema: {
                 id: 'OpenIdSettings',
