@@ -62,6 +62,7 @@
 .channel-header__icon--wide {
     width: auto;
     padding: 0 6px;
+    min-width: unset;
 }
 
 .channel-header__icon--left {
@@ -71,6 +72,10 @@
     .icon {
         width: 16px;
         height: 16px;
+    }
+    svg {
+        width: 12px;
+        height: 12px;
     }
 }
 

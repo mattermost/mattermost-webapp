@@ -18,7 +18,7 @@
         display: flex;
         flex: 1 1 0;
         min-width: 0;
-        padding: 2px 4px;
+        padding: 4px 6px;
         @include border-radius(4px);
 
         &:hover {
@@ -111,7 +111,7 @@
 
     .flex-parent {
         display: flex;
-        padding: 0 16px;
+        padding: 0 16px 0 8px;
     }
 
     .flex-child {
@@ -191,7 +191,9 @@
     }
 
     .heading {
-        font-size: 14px;
+        font-size: 16px;
+        line-height: 16px;
+        margin: 0 0 0 4px;
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -226,8 +228,9 @@
 
 .header-dropdown__icon {
     color: inherit;
-    font-size: 19px;
-    margin: 0 0 0 8px;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0 0 0 4px;
     position: relative;
     top: 0;
 }
@@ -239,7 +242,7 @@
 }
 
 .channel-header__info {
-    margin-top: 10px;
+    margin-top: 8px;
     white-space: nowrap;
 
     .dropdown-toggle {
@@ -291,7 +294,7 @@
         position: relative;
         text-overflow: ellipsis;
         margin: 0;
-        height: 27px;
+        height: 24px;
         width: 100%;
         display: flex;
         align-items: center;
@@ -321,6 +324,7 @@
             display: flex;
             overflow: hidden;
             align-items: center;
+            margin-left: 4px;
             span {
                 overflow: hidden;
                 text-overflow: ellipsis;
