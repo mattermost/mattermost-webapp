@@ -41,7 +41,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
             savePreferences: jest.fn(),
             leaveDirectChannel: jest.fn(),
         },
-        hasDraft: false,
     };
 
     test('should match snapshot', () => {

@@ -72,7 +72,7 @@ export const getChannelsInCategoryOrder = (() => {
                         const isUnread = unreadChannelIds.some(filterByUnread);
                         const draft = getDraftFromStorage(storage, channel.id);
 
-                        return isUnread || currentChannel.id === channel.id || hasDraft(draft, currentChannel, channel);
+                        return isUnread || currentChannel.id === channel.id || hasDraft(draft);
                     };
                     return channels.filter(filter);
                 }

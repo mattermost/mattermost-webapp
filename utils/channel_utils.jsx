@@ -51,6 +51,6 @@ export function isArchivedChannel(channel) {
     return Boolean(channel && channel.delete_at !== 0);
 }
 
-export function hasDraft(draft, currentChannel, channel) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannel?.id !== channel?.id;
+export function hasDraft(draft) {
+    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length);
 }

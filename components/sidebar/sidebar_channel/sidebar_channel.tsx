@@ -133,10 +133,9 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             isCurrentChannel,
             isDraggable,
             isDMCategory,
-            hasDraft,
         } = this.props;
 
-        let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean; hasDraft: boolean}> = SidebarBaseChannel;
+        let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {
             ChannelComponent = SidebarDirectChannel;
         } else if (channel.type === Constants.GM_CHANNEL) {
@@ -148,7 +147,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                 isCollapsed={this.isCollapsed(this.props)}
                 channel={channel}
                 currentTeamName={currentTeamName}
-                hasDraft={hasDraft}
             />
         );
 

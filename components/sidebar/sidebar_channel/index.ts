@@ -28,7 +28,7 @@ function makeMapStateToProps() {
 
         const member = getMyChannelMemberships(state)[ownProps.channelId];
         const currentChannel = getCurrentChannel(state) || {};
-        const draft = ownProps.channelId ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channelId) : false;
+        const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channelId);
 
         // Unread counts
         let unreadMentions = 0;
@@ -54,7 +54,7 @@ function makeMapStateToProps() {
             unreadMsgs,
             showUnreadForMsgs,
             draggingState: getDraggingState(state),
-            hasDraft: hasDraft(draft, currentChannel, channel),
+            hasDraft: hasDraft(draft),
         };
     };
 }

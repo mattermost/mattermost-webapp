@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {Channel} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -11,6 +12,9 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {NotificationLevels} from 'utils/constants';
+import {getPostDraft} from 'selectors/rhs';
+import {StoragePrefixes} from 'utils/constants';
+import {hasDraft} from 'utils/channel_utils';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -20,11 +24,16 @@ type OwnProps = {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const member = getMyChannelMemberships(state)[ownProps.channel.id];
+    const currentChannel = getCurrentChannel(state);
+    const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id);
 
     // Unread counts
     let unreadMentions = 0;
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
+
+    let isDraft = false;
+
     if (member) {
         unreadMentions = member.mention_count;
 
@@ -36,12 +45,16 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
             showUnreadForMsgs = member.notify_props.mark_unread !== NotificationLevels.MENTION;
         }
     }
+    if (hasDraft(draft) && currentChannel?.id !== ownProps.channel.id) {
+        isDraft = true;
+    }
 
     return {
         unreadMentions,
         unreadMsgs,
         showUnreadForMsgs,
         isMuted: isChannelMuted(member),
+        hasDraft: isDraft,
     };
 }
 

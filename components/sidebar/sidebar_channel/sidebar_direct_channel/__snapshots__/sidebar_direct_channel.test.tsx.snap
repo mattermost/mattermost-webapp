@@ -23,7 +23,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     }
   }
   closeHandler={[Function]}
-  hasDraft={false}
   icon={
     <StatusIconNew
       className=""
@@ -59,7 +58,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     }
   }
   closeHandler={[Function]}
-  hasDraft={false}
   icon={
     <InlineSVG
       cacheRequests={true}
@@ -99,7 +97,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     }
   }
   closeHandler={[Function]}
-  hasDraft={false}
   icon={
     <StatusIconNew
       className=""
@@ -135,7 +132,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
     }
   }
   closeHandler={[Function]}
-  hasDraft={false}
   icon={
     <i
       className="icon icon-archive-outline"
