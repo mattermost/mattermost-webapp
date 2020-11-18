@@ -63,12 +63,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
-        // cy.get('#openidType').select('openid').wait(TIMEOUTS.ONE_SEC);
         cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('openid').wait(TIMEOUTS.ONE_SEC);
 
-        cy.findByLabelText("Button Name:").clear().type('TestButtonTest');
+        cy.findByLabelText('Button Name:').clear().type('TestButtonTest');
 
-        // cy.findByLabelText('Button Color:').clear().type('#c02222');
         cy.get('#OpenIdSettings\\.ButtonColor-inputColorValue').clear().type('#c02222');
 
         cy.findByLabelText(DISCOVERY_ENDPOINT_LABEL).clear().type('http://test.com/.well-known/openid-configuration');
@@ -76,7 +74,6 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('OpenIdSecret');
 
         cy.findByTestId('saveSetting').click().wait(TIMEOUTS.ONE_SEC);
-        // cy.findByLabelText('Save').click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -124,7 +121,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.wait(TIMEOUTS.FIVE_SEC);
         cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('gitlab').wait(TIMEOUTS.ONE_SEC);
 
-        cy.findByLabelText("GitLab Site URL:").clear().type('https://gitlab.com');
+        cy.findByLabelText('GitLab Site URL:').clear().type('https://gitlab.com');
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GitlabId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('GitlabSecret');
 
@@ -150,7 +147,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.wait(TIMEOUTS.FIVE_SEC);
         cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('office365').wait(TIMEOUTS.ONE_SEC);
 
-        cy.findByLabelText("Directory (tenant) ID:").clear().type('common');
+        cy.findByLabelText('Directory (tenant) ID:').clear().type('common');
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('Office365Id');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('Office365Secret');
 
