@@ -759,6 +759,8 @@
         list-style-type: none;
         /* border: solid 2px transparent; */
         color: rgba(var(--sidebar-text-rgb), 0.6);
+        transform: scaleY(100%);
+        transform-origin: top;
 
         &:hover {
             .btn-close {
@@ -817,7 +819,7 @@
 
 
     .SidebarChannel.animating {
-        transition-property: height, padding, color;
+        transition-property: height, padding, color, transform;
         transition-duration: 0.15s; /* collapse animation speed */
         transition-timing-function: ease-out;
     }
@@ -827,6 +829,7 @@
     }
 
     .SidebarChannel.collapsed {
+        transform: scaleY(0);
         height: 0 !important;
         padding-top: 0;
         padding-bottom: 0;
