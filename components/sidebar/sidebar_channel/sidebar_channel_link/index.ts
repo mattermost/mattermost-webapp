@@ -7,11 +7,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {Channel} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from 'types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {NotificationLevels,StoragePrefixes} from 'utils/constants';
+import {NotificationLevels, StoragePrefixes} from 'utils/constants';
 import {getPostDraft} from 'selectors/rhs';
 import {hasDraft} from 'utils/channel_utils';
 
