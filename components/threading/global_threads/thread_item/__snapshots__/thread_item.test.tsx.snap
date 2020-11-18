@@ -1,0 +1,335 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/threading/global_threads/thread_item should report total number of replies 1`] = `
+<article
+  className="ThreadItem"
+  onClick={[MockFunction]}
+  tabIndex={0}
+>
+  <h1>
+    Johnny Depp
+    <Memo(Badge)
+      onClick={[Function]}
+    >
+      Enterprise Team
+    </Memo(Badge)>
+    <Connect(injectIntl(Timestamp))
+      className="alt-hidden"
+      units={
+        Array [
+          "now",
+          "minute",
+          "hour",
+          "day",
+          "week",
+        ]
+      }
+      useTime={false}
+      value={2020-09-29T02:30:15.701Z}
+    />
+  </h1>
+  <span
+    className="menu-anchor alt-visible"
+  >
+    <Memo(ThreadMenu)
+      actions={
+        Object {
+          "copyLink": [MockFunction],
+          "follow": [MockFunction],
+          "markRead": [MockFunction],
+          "markUnread": [MockFunction],
+          "openInChannel": [MockFunction],
+          "save": [MockFunction],
+          "select": [MockFunction],
+          "unFollow": [MockFunction],
+          "unSave": [MockFunction],
+        }
+      }
+      hasUnreads={false}
+      isFollowing={true}
+      isSaved={false}
+    />
+  </span>
+  <p>
+    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
+  </p>
+  <div
+    className="activity"
+  >
+    <Memo(Avatars)
+      size="xs"
+      users={
+        Array [
+          Object {
+            "name": "Johnny Depp",
+            "url": "test-url-1",
+            "username": "johnny.depp",
+          },
+          Object {
+            "name": "Bilbo Baggins",
+            "url": "test-url-2",
+            "username": "bilbo.baggins",
+          },
+          Object {
+            "name": "Anthony Michael Hall",
+            "url": "test-url-3",
+            "username": "michael.hall",
+          },
+          Object {
+            "name": "Kathy Baker",
+            "url": "test-url-4",
+            "username": "kathy.baker",
+          },
+          Object {
+            "name": "Vincent Price",
+            "url": "test-url-5",
+            "username": "vincent.price",
+          },
+          Object {
+            "name": "Alan Arkin",
+            "url": "test-url-6",
+            "username": "alan.arkin",
+          },
+        ]
+      }
+    />
+    <FormattedMessage
+      defaultMessage="{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}"
+      id="threading.numReplies"
+      values={
+        Object {
+          "totalReplies": 9,
+        }
+      }
+    />
+  </div>
+</article>
+`;
+
+exports[`components/threading/global_threads/thread_item should report unread mentions 1`] = `
+<article
+  className="ThreadItem has-unreads"
+  onClick={[MockFunction]}
+  tabIndex={0}
+>
+  <h1>
+    <div
+      className="indicator"
+    >
+      <div
+        className="dot-mentions"
+      >
+        1
+      </div>
+    </div>
+    Johnny Depp
+    <Memo(Badge)
+      onClick={[Function]}
+    >
+      Enterprise Team
+    </Memo(Badge)>
+    <Connect(injectIntl(Timestamp))
+      className="alt-hidden"
+      units={
+        Array [
+          "now",
+          "minute",
+          "hour",
+          "day",
+          "week",
+        ]
+      }
+      useTime={false}
+      value={2020-09-29T02:30:15.701Z}
+    />
+  </h1>
+  <span
+    className="menu-anchor alt-visible"
+  >
+    <Memo(ThreadMenu)
+      actions={
+        Object {
+          "copyLink": [MockFunction],
+          "follow": [MockFunction],
+          "markRead": [MockFunction],
+          "markUnread": [MockFunction],
+          "openInChannel": [MockFunction],
+          "save": [MockFunction],
+          "select": [MockFunction],
+          "unFollow": [MockFunction],
+          "unSave": [MockFunction],
+        }
+      }
+      hasUnreads={true}
+      isFollowing={true}
+      isSaved={false}
+    />
+  </span>
+  <p>
+    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
+  </p>
+  <div
+    className="activity"
+  >
+    <Memo(Avatars)
+      size="xs"
+      users={
+        Array [
+          Object {
+            "name": "Johnny Depp",
+            "url": "test-url-1",
+            "username": "johnny.depp",
+          },
+          Object {
+            "name": "Bilbo Baggins",
+            "url": "test-url-2",
+            "username": "bilbo.baggins",
+          },
+          Object {
+            "name": "Anthony Michael Hall",
+            "url": "test-url-3",
+            "username": "michael.hall",
+          },
+          Object {
+            "name": "Kathy Baker",
+            "url": "test-url-4",
+            "username": "kathy.baker",
+          },
+          Object {
+            "name": "Vincent Price",
+            "url": "test-url-5",
+            "username": "vincent.price",
+          },
+          Object {
+            "name": "Alan Arkin",
+            "url": "test-url-6",
+            "username": "alan.arkin",
+          },
+        ]
+      }
+    />
+    <FormattedMessage
+      defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
+      id="threading.numNewReplies"
+      values={
+        Object {
+          "newReplies": 2,
+        }
+      }
+    />
+  </div>
+</article>
+`;
+
+exports[`components/threading/global_threads/thread_item should report unread messages 1`] = `
+<article
+  className="ThreadItem has-unreads"
+  onClick={[MockFunction]}
+  tabIndex={0}
+>
+  <h1>
+    <div
+      className="indicator"
+    >
+      <div
+        className="dot-unreads"
+      />
+    </div>
+    Johnny Depp
+    <Memo(Badge)
+      onClick={[Function]}
+    >
+      Enterprise Team
+    </Memo(Badge)>
+    <Connect(injectIntl(Timestamp))
+      className="alt-hidden"
+      units={
+        Array [
+          "now",
+          "minute",
+          "hour",
+          "day",
+          "week",
+        ]
+      }
+      useTime={false}
+      value={2020-09-29T02:30:15.701Z}
+    />
+  </h1>
+  <span
+    className="menu-anchor alt-visible"
+  >
+    <Memo(ThreadMenu)
+      actions={
+        Object {
+          "copyLink": [MockFunction],
+          "follow": [MockFunction],
+          "markRead": [MockFunction],
+          "markUnread": [MockFunction],
+          "openInChannel": [MockFunction],
+          "save": [MockFunction],
+          "select": [MockFunction],
+          "unFollow": [MockFunction],
+          "unSave": [MockFunction],
+        }
+      }
+      hasUnreads={true}
+      isFollowing={true}
+      isSaved={false}
+    />
+  </span>
+  <p>
+    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
+  </p>
+  <div
+    className="activity"
+  >
+    <Memo(Avatars)
+      size="xs"
+      users={
+        Array [
+          Object {
+            "name": "Johnny Depp",
+            "url": "test-url-1",
+            "username": "johnny.depp",
+          },
+          Object {
+            "name": "Bilbo Baggins",
+            "url": "test-url-2",
+            "username": "bilbo.baggins",
+          },
+          Object {
+            "name": "Anthony Michael Hall",
+            "url": "test-url-3",
+            "username": "michael.hall",
+          },
+          Object {
+            "name": "Kathy Baker",
+            "url": "test-url-4",
+            "username": "kathy.baker",
+          },
+          Object {
+            "name": "Vincent Price",
+            "url": "test-url-5",
+            "username": "vincent.price",
+          },
+          Object {
+            "name": "Alan Arkin",
+            "url": "test-url-6",
+            "username": "alan.arkin",
+          },
+        ]
+      }
+    />
+    <FormattedMessage
+      defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
+      id="threading.numNewReplies"
+      values={
+        Object {
+          "newReplies": 2,
+        }
+      }
+    />
+  </div>
+</article>
+`;

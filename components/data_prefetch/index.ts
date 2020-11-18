@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannelId, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
@@ -72,7 +72,7 @@ function mapStateToProps(state: GlobalState) {
         prefetchQueueObj,
         prefetchRequestStatus,
         unreadChannels,
-        currentChannelId: getCurrentChannelId(state),
+        currentChannel: getCurrentChannel(state),
     };
 }
 
