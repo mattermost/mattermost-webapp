@@ -336,12 +336,17 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             }) || [];
 
         const appsBindings = this.props.appsBindings.map((item) => {
+            let icon: JSX.Element | undefined;
+            if (item.icon) {
+                icon = (<img src={item.icon}/>);
+            }
+
             return (
                 <Menu.ItemAction
                     text={item.label}
                     key={item.app_id + item.location_id}
                     onClick={() => this.onClickAppBinding(item)}
-                    icon={(<img src={item.icon}/>)}
+                    icon={icon}
                 />
             );
         });
