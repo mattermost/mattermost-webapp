@@ -153,9 +153,8 @@ export function multiSelectChannelTo(channelId: string) {
             return null;
         }
 
-        const isSelectingForwards: boolean = indexOfNew > indexOfLast;
-        const start: number = isSelectingForwards ? indexOfLast : indexOfNew;
-        const end: number = isSelectingForwards ? indexOfNew : indexOfLast;
+        const start: number = Math.min(indexOfLast, indexOfNew);
+        const end: number = Math.max(indexOfLast, indexOfNew);
 
         const inBetween = allChannelsIdsInOrder.slice(start, end + 1);
 
