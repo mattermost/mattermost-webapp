@@ -10,10 +10,15 @@
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
+import {getRandomId} from '../../utils';
 
 import {clickCategoryMenuItem} from './helpers';
 
 describe('Category muting', () => {
+    let testTeam;
+    let testUser;
+
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -21,7 +26,10 @@ describe('Category muting', () => {
             },
         });
 
-        cy.apiInitSetup({loginAfter: true}).then((({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then((({team, user}) => {
+            testTeam = team;
+            testUser = user;
+
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Wait for the team to load
@@ -79,6 +87,27 @@ describe('Category muting', () => {
     });
 
     it('M-T3489_2 being added to a new channel should not mute it, even if the Channels category is muted', () => {
-        // TODO
+        // * Verify that the Channels category starts unmuted
+        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').should('not.have.class', 'muted');
+
+        // # Mute Channels
+        clickCategoryMenuItem('channels', 'Mute Category');
+
+        cy.makeClient({user: getAdminAccount()}).then((client) => {
+            // # Have another user create a channel
+            const channelName = `channel${getRandomId()}`;
+            cy.wrap(client.createChannel({
+                display_name: channelName,
+                name: channelName,
+                team_id: testTeam.id,
+                type: 'O',
+            })).then((channel) => {
+                // # And then invite us to it
+                cy.wrap(client.addToChannel(testUser.id, channel.id));
+
+                // * Verify that the test channel appears in the sidebar and is unmuted
+                cy.get(`#sidebarItem_${channel.name}`).should('be.visible').should('not.have.class', 'muted');
+            });
+        });
     });
 });
