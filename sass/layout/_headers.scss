@@ -27,7 +27,7 @@
 
         &.active {
             background: rgba(v(button-bg-rgb), 0.08);
-            .heading, .header-dropdown__icon {
+            .heading, .header-dropdown-chevron-icon {
                 color: v(button-bg);
             }
         }

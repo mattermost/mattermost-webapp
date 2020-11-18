@@ -87,14 +87,14 @@ export default class PopoverListMembers extends React.PureComponent {
         this.props.actions.openModal(modalData);
     };
 
-    handleGetProfilesInChannel = (e) => {
-        this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
+    handleGetProfilesInChannel = () => {
+        this.setState({showPopover: !this.state.showPopover});
         this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status', {active: true});
     };
 
     getTargetPopover = () => {
         this.membersList.current.focus();
-        return this.state.popoverTarget;
+        return this.refs.member_popover_target;
     };
 
     render() {

@@ -653,7 +653,7 @@ class ChannelHeader extends React.PureComponent {
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
                         aria-label={ariaLabel}
                     >
-                        <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
+                        <i className={'icon ' + (this.props.isFavorite ? 'icon-star' : 'icon-star-outline')}/>
                     </button>
                 </OverlayTrigger>
             );
@@ -682,7 +682,7 @@ class ChannelHeader extends React.PureComponent {
                         className={'style--none color--link channel-header__mute inactive'}
                         aria-label={formatMessage({id: 'generic_icons.muted', defaultMessage: 'Muted Icon'})}
                     >
-                        <i className={'icon fa fa-bell-slash-o'}/>
+                        <i className={'icon icon-bell-off-outline'}/>
                     </button>
                 </OverlayTrigger>
             );
@@ -721,7 +721,7 @@ class ChannelHeader extends React.PureComponent {
                             </strong>
                             <span
                                 id='channelHeaderDropdownIcon'
-                                className='fa fa-angle-down header-dropdown__icon'
+                                className='icon icon-chevron-down header-dropdown-chevron-icon'
                                 aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
                             />
                         </button>
