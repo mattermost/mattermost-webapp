@@ -66,7 +66,7 @@ export default class AdminSidebarSection extends React.PureComponent {
         if (this.props.tag) {
             tag = (
                 <span className={`${className}-tag`}>
-                    <span>{this.props.tag}</span>
+                    {this.props.tag}
                 </span>
             );
         }
