@@ -20,7 +20,7 @@ const FeatureFlags: React.FC<Props> = (props: Props) => {
             <tr key={ffKey}>
                 <td width='20px'/>
                 <td className='whitespace--nowrap'>{ffKey}</td>
-                <td className='whitespace--nowrap'>{flags[ffKey]}</td>
+                <td className='whitespace--nowrap'>{String(flags[ffKey])}</td>
             </tr>
         ));
     }
