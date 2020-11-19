@@ -30,7 +30,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
   >
     <button
       aria-label="members"
-      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      className="member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
       id="member_popover"
       onClick={[Function]}
     >
@@ -141,7 +141,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
   >
     <button
       aria-label="members"
-      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      className="member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
       id="member_popover"
       onClick={[Function]}
     >
@@ -252,7 +252,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
   >
     <button
       aria-label="members"
-      className="member-popover__trigger channel-header__icon channel-header__icon--wide "
+      className="member-popover__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide "
       id="member_popover"
       onClick={[Function]}
     >
