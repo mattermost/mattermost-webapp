@@ -1245,7 +1245,7 @@
   "admin.permissions.group.manage_public_channel_members_and_read_groups.description": "Leden van publieke kanalen toevoegen of verwijderen.",
   "admin.permissions.group.manage_public_channel_members_and_read_groups.name": "Kanaalleden beheren",
   "admin.permissions.group.manage_shared_channels.description": "Beheer gedeelde kanalen",
-  "admin.permissions.group.manage_shared_channels.name": "Beheer gedeelde kanalen",
+  "admin.permissions.group.manage_shared_channels.name": "Gedeelde kanalen",
   "admin.permissions.group.posts.description": "Berichten schrijven, bewerken en verwijderen.",
   "admin.permissions.group.posts.name": "Berichten Beheren",
   "admin.permissions.group.private_channel.description": "Je kan kanalen maken en archiveren, instellingen en leden beheren.",
