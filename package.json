@@ -1,6 +1,22 @@
 {
   "name": "root",
+  "version": "0.0.1",
   "private": true,
+  "description": "Mono repo for the Mattermost Webapp and related core packages.",
+  "homepage": "https://github.com/mattermost/mattermost-webapp",
+  "author": "Mattermost",
+  "license": "Apache-2.0",
+  "repository": "github:mattermost/mattermost-webapp",
+  "bugs": {
+    "url": "https://github.com/mattermost/mattermost-webapp/issues"
+  },
+  "scripts": {
+    "clean": "lerna run clean",
+    "initialize": "lerna bootstrap",
+    "start": "lerna run start --parallel",
+    "build": "lerna run build",
+    "check": "lerna run check"
+  },
   "devDependencies": {
     "lerna": "^3.22.1"
   }

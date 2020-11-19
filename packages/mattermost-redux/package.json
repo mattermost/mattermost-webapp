@@ -2,11 +2,12 @@
   "name": "mattermost-redux",
   "version": "5.3.1",
   "description": "Common code (API client, Redux stores, logic, utility functions) for building a Mattermost client",
-  "homepage": "https://github.com/mattermost/mattermost-redux",
+  "homepage": "https://github.com/mattermost/mattermost-webapp/packages/mattermost-redux",
+  "author": "Mattermost",
   "license": "Apache-2.0",
-  "repository": "github:mattermost/mattermost-redux",
+  "repository": "github:mattermost/mattermost-webapp",
   "bugs": {
-    "url": "https://github.com/mattermost/mattermost-redux/issues"
+    "url": "https://github.com/mattermost/mattermost-webapp/issues"
   },
   "files": [
     "./index*",
@@ -25,6 +26,7 @@
     "./README.MD",
     "./SECURITY.MD"
   ],
+  "main": "./index.js",
   "browser": "./index.js",
   "exports": {
     ".": "./index.js",
@@ -48,21 +50,17 @@
     "./types/*": "./types/*.js"
   },
   "scripts": {
+    "clean": "rm -rf node_modules dist",
     "start": "tsc --watch",
     "build": "cross-env NODE_ENV=production tsc",
-    "clean": "rm -rf node_modules dist",
     "check": "eslint --ignore-path .gitignore --ignore-pattern node_modules --quiet 'src/**/*.ts' 'src/**/*.test.js'",
+    "check:tsc": "tsc --noEmit",
     "fix": "eslint --ignore-path .gitignore --ignore-pattern node_modules --quiet 'src/**/*.ts' 'src/**/*.test.js' --fix",
-    "tsc": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit --watch",
     "test": "jest --forceExit --detectOpenHandles --maxWorkers=2",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "prepare": "npm run build",
-    "dev": "tsc --outDir ${WEBAPP_DIR:-../mattermost-webapp}/node_modules/mattermost-redux",
-    "dev-mobile": "tsc --outDir ${MOBILE_DIR:-../mattermost-mobile}/node_modules/mattermost-redux",
-    "dev:watch": "tsc --watch --outDir ${WEBAPP_DIR:-../mattermost-webapp}/node_modules/mattermost-redux",
-    "dev-mobile:watch": "tsc --watch --outDir ${MOBILE_DIR:-../mattermost-mobile}/node_modules/mattermost-redux"
+    "prepare": "npm run build"
   },
   "dependencies": {
     "core-js": "3.6.5",

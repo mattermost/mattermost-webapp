@@ -1,27 +1,30 @@
 {
     "name": "@mattermost/compass-icons",
     "version": "0.1.0",
-    "private": true,
-    "description": "",
+    "description": "Mattermost Compass Design System's icon font repository",
+    "homepage": "https://github.com/mattermost/mattermost-webapp/packages/compass-icons/",
+    "author": "Mattermost",
+    "license": "Apache-2.0",
+    "repository": "github:mattermost/mattermost-webapp",
+    "bugs": {
+        "url": "https://github.com/mattermost/mattermost-webapp/issues"
+    },
+    "files": [
+        "./build/**/*"
+    ],
     "main": "build/css/compass-icons.css",
+    "browser": "build/css/compass-icons.css",
+    "exports": {
+        ".": "./build/css/compass-icons.css"
+    },
     "scripts": {
-        "start": "npm run build",
         "clean": "rm -rf config.json build",
         "build": "run-s build:config build:font",
         "build:config": "node -r esm generate-config.js",
         "build:font": "fontello-cli --css ./build/css --font ./build/font install",
-        "open": "run-s build:config open:font",
-        "open:font": "fontello-cli open",
         "package": "run-s build:config package:font",
         "package:font": "fontello-cli install"
     },
-    "keywords": [
-        "mattermost",
-        "compass",
-        "icons"
-    ],
-    "author": "Mattermost",
-    "license": "MIT",
     "dependencies": {
         "esm": "^3.2.25",
         "fontello-batch-cli": "^4.0.0",

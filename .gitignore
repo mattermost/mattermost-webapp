@@ -11,6 +11,7 @@ mattermost-webapp.iml
 .vscode/
 junit.xml
 coverage
+lerna-debug.log
 
 # Environment variables
 .env*
