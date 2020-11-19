@@ -31,7 +31,7 @@ exports[`components/sidebar/sidebar_menu should match snapshot 1`] = `
   >
     <button
       aria-label="some aria label"
-      className="SidebarMenu_menuButton undefined"
+      className="SidebarMenu_menuButton"
     >
       <i
         className="icon-dots-vertical"
