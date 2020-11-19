@@ -539,6 +539,12 @@
         &.SidebarChannelGroupHeader--sticky {
             position: sticky;
         }
+
+        &.muted {
+            .icon-chevron-down, .SidebarChannelGroupHeader_text {
+                opacity: 0.4;
+            }
+        }
     }
 
     .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
