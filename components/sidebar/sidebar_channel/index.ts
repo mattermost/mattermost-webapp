@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentChannel, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {getDraggingState} from 'selectors/views/channel_sidebar';
@@ -27,8 +27,8 @@ function makeMapStateToProps() {
         const currentTeam = getCurrentTeam(state);
 
         const member = getMyChannelMemberships(state)[ownProps.channelId];
-        const currentChannel = getCurrentChannel(state) || {};
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channelId);
+        const currentChannelId = getCurrentChannelId(state);
 
         // Unread counts
         let unreadMentions = 0;
@@ -48,7 +48,7 @@ function makeMapStateToProps() {
 
         return {
             channel,
-            isCurrentChannel: channel.id === currentChannel.id,
+            isCurrentChannel: channel.id === currentChannelId,
             currentTeamName: currentTeam.name,
             unreadMentions,
             unreadMsgs,

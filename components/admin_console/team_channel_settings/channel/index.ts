@@ -4,9 +4,11 @@
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {connect} from 'react-redux';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import {ChannelsSettings} from './channel_settings';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const siteName = config.SiteName;
 
