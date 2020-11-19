@@ -5,7 +5,12 @@
 
 import {createSelector} from 'reselect';
 
-import {getAllChannels, getCurrentChannelId, getMyChannelMemberships, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getAllChannels,
+    getCurrentChannelId,
+    getMyChannelMemberships,
+    getUnreadChannelIds,
+} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetChannelsByCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
