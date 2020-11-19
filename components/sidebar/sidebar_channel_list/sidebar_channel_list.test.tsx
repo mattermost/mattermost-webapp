@@ -73,7 +73,7 @@ describe('SidebarChannelList', () => {
             scheme_id: 'test',
             group_constrained: false,
         }),
-        currentChannel,
+        currentChannelId: currentChannel.id,
         categories: [
             {
                 id: 'category1',
@@ -83,6 +83,7 @@ describe('SidebarChannelList', () => {
                 display_name: 'custom_category_1',
                 sorting: CategorySorting.Alphabetical,
                 channel_ids: ['channel_id', 'channel_id_2'],
+                muted: true,
             },
         ],
         unreadChannelIds: ['channel_id_2'],
@@ -126,7 +127,7 @@ describe('SidebarChannelList', () => {
             <SidebarChannelList {...baseProps}/>,
         );
 
-        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'new_channel_id'})});
+        wrapper.setProps({currentChannelId: 'new_channel_id'});
         expect(baseProps.actions.close).toHaveBeenCalled();
     });
 
