@@ -7,7 +7,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -16,14 +15,10 @@ import {GlobalState} from 'types/store';
 
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
-type OwnProps = {
-    category: ChannelCategory;
-    handleOpenMoreDirectChannelsModal: (e: Event) => void;
-}
 function makeMapStateToProps() {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
-    return (state: GlobalState, ownProps: OwnProps) => {
+    return (state: GlobalState) => {
         let categories;
         const currentTeam = getCurrentTeam(state);
 
@@ -33,8 +28,6 @@ function makeMapStateToProps() {
 
         return {
             categories,
-            category: ownProps.category,
-            handleOpenMoreDirectChannelsModal: ownProps.handleOpenMoreDirectChannelsModal,
             currentUserId: getCurrentUserId(state),
         };
     };

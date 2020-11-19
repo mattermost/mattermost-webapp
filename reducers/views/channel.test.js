@@ -17,7 +17,6 @@ describe('Reducers.channel', () => {
         lastGetPosts: {},
         toastStatus: false,
         channelPrefetchStatus: {},
-        limitVisibleDMsGMs: Infinity,
     };
 
     test('Initial state', () => {

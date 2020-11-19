@@ -280,13 +280,14 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
           ],
           "display_name": "custom_category_1",
           "id": "category1",
+          "muted": true,
           "sorting": "recent",
           "team_id": "team1",
           "type": "direct_messages",
           "user_id": "",
         }
       }
-      handleOpenMoreDirectChannelsModal={[MockFunction]}
+      handleOpenDirectMessagesModal={[Function]}
       isCollapsed={false}
       isMenuOpen={false}
       onToggleMenu={[Function]}
@@ -386,13 +387,14 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
           ],
           "display_name": "custom_category_1",
           "id": "category1",
+          "muted": true,
           "sorting": "recent",
           "team_id": "team1",
           "type": "direct_messages",
           "user_id": "",
         }
       }
-      handleOpenMoreDirectChannelsModal={[MockFunction]}
+      handleOpenDirectMessagesModal={[Function]}
       isCollapsed={false}
       isMenuOpen={false}
       onToggleMenu={[Function]}

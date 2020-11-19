@@ -274,7 +274,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 <React.Fragment>
                     <SidebarCategorySortingMenu
                         category={category}
-                        handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
+                        handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
                         isCollapsed={this.props.isCollapsed}
                         isMenuOpen={this.state.isMenuOpen}
                         onToggleMenu={this.handleMenuToggle}

@@ -161,7 +161,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
                 >
                     <button
                         ref={this.menuButtonRef}
-                        className={classNames([`SidebarMenu_menuButton ${additionalClass}`])}
+                        className={classNames(['SidebarMenu_menuButton', {additionalClass}])}
                         aria-label={buttonAriaLabel}
                         tabIndex={this.props.tabIndex}
                     >

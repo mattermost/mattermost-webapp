@@ -18,7 +18,7 @@ import {Props as SubmenuItemProps} from 'components/widgets/menu/menu_items/subm
 
 type Props = {
     category: ChannelCategory;
-    handleOpenMoreDirectChannelsModal: (e: Event) => void;
+    handleOpenDirectMessagesModal: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     categories?: ChannelCategory[];
     intl: IntlShape;
     isCollapsed: boolean;
@@ -43,8 +43,6 @@ enum Settings {
 }
 
 export class SidebarCategorySortingMenu extends React.PureComponent<Props, State> {
-    isLeaving: boolean;
-
     constructor(props: Props) {
         super(props);
 
@@ -54,8 +52,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
             selectedDmNumber: 20,
             selectedCategorySort: CategorySorting.Alphabetical,
         };
-
-        this.isLeaving = false;
     }
 
     handleSortDirectMessages = (sorting: CategorySorting) => {
@@ -72,15 +68,9 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
             user_id: currentUserId,
             category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
             name: Settings.limitVisibleDmsGms,
-            value: `${number}`,
+            value: number.toString(),
         }]);
         this.setState({selectedDmNumber: number});
-    }
-
-    handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.stopPropagation();
-        this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
-        trackEvent('ui', 'ui_sidebar_create_direct_message');
     }
 
     renderDropdownItems = () => {
@@ -129,8 +119,9 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         const browseDirectMessages = (
             <Menu.Group>
                 <Menu.ItemAction
+                    additionalClass=' SidebarCategorySortingMenu__ActionItem'
                     id={'browseDirectMessages'}
-                    onClick={this.handleOpenDirectMessagesModal}
+                    onClick={this.props.handleOpenDirectMessagesModal}
                     icon={<i className='icon-account-plus-outline'/>}
                     text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
                 />
@@ -155,7 +146,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         id={'showMessageCount'}
                         subMenu={categoryMenuItems}
                         text={intl.formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
-                        selectedValueText={selectedDmNumber === Infinity ? 'All DMs' : selectedDmNumber}
+                        selectedValueText={selectedDmNumber === Infinity ? 'All' : selectedDmNumber}
                         icon={<i className='icon-account-multiple-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
@@ -202,7 +193,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 onToggleMenu={this.onToggleMenu}
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                 tabIndex={isCollapsed ? -1 : 0}
-                additionalClass='sortingMenuAdditionalClass'
+                additionalClass='additionalClass'
             >
                 {this.renderDropdownItems()}
             </SidebarMenu>

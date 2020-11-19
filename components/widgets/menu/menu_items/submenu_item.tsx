@@ -235,14 +235,14 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     <span
                         id={'channelHeaderDropdownIconLeft_' + id}
-                        className={classNames([`fa fa-angle-left SubMenu__icon-left${hasSubmenu && !isMobile && (direction === 'left') ? '' : '-empty'}`, {mobile: isMobile, 'sorting-menu-dropdown-icon': categorySortingMenu}])}
+                        className={classNames([`fa fa-angle-left SubMenu__icon-left${hasSubmenu && !isMobile && (direction === 'left') ? '' : '-empty'}`, {'sorting-menu-dropdown-icon': categorySortingMenu, mobile: isMobile}])}
                         aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {textProp}
                     {selectedValueText && <span className='selected'>{selectedValueText}</span>}
                     <span
                         id={'channelHeaderDropdownIconRight_' + id}
-                        className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu && !isMobile && (direction === 'right') ? '' : '-empty'}`, {mobile: isMobile, 'sorting-menu-dropdown-icon': categorySortingMenu}])}
+                        className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu && !isMobile && (direction === 'right') ? '' : '-empty'}`, {'sorting-menu-dropdown-icon': categorySortingMenu, mobile: isMobile}])}
                         aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {subMenuContent}
