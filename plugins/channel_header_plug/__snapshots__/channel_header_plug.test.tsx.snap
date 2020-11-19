@@ -2,6 +2,11 @@
 
 exports[`plugins/ChannelHeaderPlug should match snapshot with no extended component 1`] = `
 <ChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [Function],
+    }
+  }
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
@@ -11,6 +16,11 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
 
 exports[`plugins/ChannelHeaderPlug should match snapshot with one extended component 1`] = `
 <ChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [Function],
+    }
+  }
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -110,6 +120,11 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
 
 exports[`plugins/ChannelHeaderPlug should match snapshot with six extended components 1`] = `
 <ChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [Function],
+    }
+  }
   channel={Object {}}
   channelMember={Object {}}
   components={

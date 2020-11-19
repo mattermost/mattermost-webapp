@@ -4,8 +4,12 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug.jsx';
-import {mountWithIntl} from '../../tests/helpers/intl-test-helper';
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Theme} from 'mattermost-redux/types/preferences';
+
+import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {PluginComponent} from 'types/store/plugins';
 
 describe('plugins/ChannelHeaderPlug', () => {
     const testPlug = {
@@ -15,15 +19,19 @@ describe('plugins/ChannelHeaderPlug', () => {
         action: jest.fn,
         dropdownText: 'some dropdown text',
         tooltipText: 'some tooltip text',
-    };
+    } as PluginComponent;
 
     test('should match snapshot with no extended component', () => {
         const wrapper = mount(
             <ChannelHeaderPlug
                 components={[]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                actions={{
+                    doAppCall: jest.fn,
+                }}
+                appBindings={[]}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -33,9 +41,13 @@ describe('plugins/ChannelHeaderPlug', () => {
         const wrapper = mount(
             <ChannelHeaderPlug
                 components={[testPlug]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                actions={{
+                    doAppCall: jest.fn,
+                }}
+                appBindings={[]}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -52,9 +64,13 @@ describe('plugins/ChannelHeaderPlug', () => {
                     {...testPlug, id: 'someid5'},
                     {...testPlug, id: 'someid6'},
                 ]}
-                channel={{}}
-                channelMember={{}}
-                theme={{}}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                actions={{
+                    doAppCall: jest.fn,
+                }}
+                appBindings={[]}
             />,
         );
         expect(wrapper).toMatchSnapshot();

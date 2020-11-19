@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
+import {OverlayTrigger as BaseOverlayTrigger} from 'react-bootstrap';
 import {IntlContext, IntlShape} from 'react-intl';
 
 import {Provider} from 'react-redux';
+
+import {AdditionalOverlayTriggerProps} from 'types/external/react-bootstrap';
 
 import store from 'stores/redux_store.jsx';
 
 export {BaseOverlayTrigger};
 
-type Props = OverlayTriggerProps;
+type Props = AdditionalOverlayTriggerProps;
 
 const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
     const {overlay, ...otherProps} = props;

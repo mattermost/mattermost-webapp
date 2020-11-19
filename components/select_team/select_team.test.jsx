@@ -6,9 +6,9 @@ import {shallow} from 'enzyme';
 
 import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team.jsx';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitUserLoggedOutEvent: jest.fn(),
 }));
 
