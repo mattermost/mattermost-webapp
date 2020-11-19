@@ -6,11 +6,11 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Client4} from 'mattermost-redux/client';
-import {General} from 'mattermost-redux/constants';
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import * as UserUtils from 'mattermost-redux/utils/user_utils';
+import {Client4} from '@mattermost/redux/client';
+import {General} from '@mattermost/redux/constants';
+import {ActionResult} from '@mattermost/redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
+import * as UserUtils from '@mattermost/redux/utils/user_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 

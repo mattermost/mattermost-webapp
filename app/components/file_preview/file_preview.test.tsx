@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {getFileUrl} from '@mattermost/redux/utils/file_utils';
 
 import FilePreview from './file_preview';
 

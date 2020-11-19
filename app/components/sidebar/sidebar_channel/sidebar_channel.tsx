@@ -5,7 +5,7 @@ import React from 'react';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import {DraggingState} from 'types/store';
 import Constants, {DraggingStates} from 'utils/constants';

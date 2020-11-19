@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
 
 import CreateTeam from './create_team';
 

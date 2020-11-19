@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ChannelType, Channel} from '@mattermost/redux/types/channels';
+import {ServerError} from '@mattermost/redux/types/errors';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';

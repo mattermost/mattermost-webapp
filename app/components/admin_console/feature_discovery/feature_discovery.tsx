@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {AnalyticsRow} from '@mattermost/redux/types/admin';
 
 import * as Utils from 'utils/utils.jsx';
 

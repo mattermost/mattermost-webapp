@@ -3,9 +3,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {getInt} from '@mattermost/redux/selectors/entities/preferences';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
 
 import {closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {Preferences} from 'utils/constants';

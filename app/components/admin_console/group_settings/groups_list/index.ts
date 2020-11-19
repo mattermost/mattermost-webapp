@@ -5,11 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {createSelector} from 'reselect';
 
-import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from 'mattermost-redux/actions/admin';
-import {getLdapGroups, getLdapGroupsCount} from 'mattermost-redux/selectors/entities/admin';
+import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from '@mattermost/redux/actions/admin';
+import {getLdapGroups, getLdapGroupsCount} from '@mattermost/redux/selectors/entities/admin';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
 import GroupsList from './groups_list';
 

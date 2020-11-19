@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {loadRolesIfNeeded} from '@mattermost/redux/actions/roles';
 
 import {GlobalState} from 'types/store';
 

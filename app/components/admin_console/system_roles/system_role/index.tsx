@@ -4,11 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {Role} from 'mattermost-redux/types/roles';
-import {updateUserRoles} from 'mattermost-redux/actions/users';
-import {editRole} from 'mattermost-redux/actions/roles';
-import {getRolesById} from 'mattermost-redux/selectors/entities/roles';
+import {GenericAction, ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
+import {Role} from '@mattermost/redux/types/roles';
+import {updateUserRoles} from '@mattermost/redux/actions/users';
+import {editRole} from '@mattermost/redux/actions/roles';
+import {getRolesById} from '@mattermost/redux/selectors/entities/roles';
 
 import {GlobalState} from 'types/store';
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';

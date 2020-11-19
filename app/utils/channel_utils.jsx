@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import Permissions from 'mattermost-redux/constants/permissions';
+import {haveIChannelPermission} from '@mattermost/redux/selectors/entities/roles';
+import Permissions from '@mattermost/redux/constants/permissions';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';

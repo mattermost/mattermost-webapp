@@ -3,7 +3,7 @@
 
 import XRegExp from 'xregexp';
 
-import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from '@mattermost/redux/utils/user_utils';
 
 import {Constants} from 'utils/constants';
 

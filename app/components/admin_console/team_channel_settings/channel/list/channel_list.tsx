@@ -5,9 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';
-import {debounce} from 'mattermost-redux/actions/helpers';
+import {ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
+import {ChannelWithTeamData, ChannelSearchOpts} from '@mattermost/redux/types/channels';
+import {debounce} from '@mattermost/redux/actions/helpers';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/telemetry_actions.jsx';

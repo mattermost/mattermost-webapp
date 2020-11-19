@@ -5,9 +5,9 @@ import React, {ReactNode, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions} from '@mattermost/redux/constants';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/redux/types/teams';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';

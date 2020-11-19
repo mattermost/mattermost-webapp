@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getProfiles} from 'mattermost-redux/actions/users';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getProfiles} from '@mattermost/redux/actions/users';
+import {makeGetCategory} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentUser, isCurrentUserSystemAdmin} from '@mattermost/redux/selectors/entities/users';
 
 import {setShowNextStepsView} from 'actions/views/next_steps';
 import {closeRightHandSide} from 'actions/views/rhs';

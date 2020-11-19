@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PluginState from 'mattermost-redux/constants/plugins';
+import PluginState from '@mattermost/redux/constants/plugins';
 
 import PluginManagement from 'components/admin_console/plugin_management/plugin_management';
 

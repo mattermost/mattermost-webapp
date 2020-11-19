@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {CategoryTypes} from '@mattermost/redux/constants/channel_categories';
+import {CategorySorting} from '@mattermost/redux/types/channel_categories';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 

@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
-import {Preferences} from 'mattermost-redux/constants';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getAutolinkedUrlSchemes, getConfig, getManagedResourcePaths} from 'mattermost-redux/selectors/entities/general';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
+import {Preferences} from '@mattermost/redux/constants';
+import {getChannelsNameMapInCurrentTeam} from '@mattermost/redux/selectors/entities/channels';
+import {getAutolinkedUrlSchemes, getConfig, getManagedResourcePaths} from '@mattermost/redux/selectors/entities/general';
+import {getBool} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getAllUserMentionKeys} from '@mattermost/redux/selectors/entities/search';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/redux/types/store';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {getSiteURL} from 'utils/url';

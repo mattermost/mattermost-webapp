@@ -3,9 +3,9 @@
 
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts} from '@mattermost/redux/constants';
 
-import {Post, PostType} from 'mattermost-redux/types/posts';
+import {Post, PostType} from '@mattermost/redux/types/posts';
 
 import PostInfo from 'components/post_view/post_info/post_info';
 

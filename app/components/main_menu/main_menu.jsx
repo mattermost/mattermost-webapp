@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl} from 'react-intl';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions} from '@mattermost/redux/constants';
 
 import {isEmpty} from 'lodash';
 

@@ -4,22 +4,22 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getChannelStats} from 'mattermost-redux/actions/channels';
+import {getChannelStats} from '@mattermost/redux/actions/channels';
 import {
     getMyTeamMembers,
     getMyTeamUnreads,
     getTeamStats,
     getTeamMember,
     updateTeamMemberSchemeRoles,
-} from 'mattermost-redux/actions/teams';
-import {getUser, updateUserActive} from 'mattermost-redux/actions/users';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+} from '@mattermost/redux/actions/teams';
+import {getUser, updateUserActive} from '@mattermost/redux/actions/users';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
+import {getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl, getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/redux/types/store';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {removeUserFromTeamAndGetStats} from 'actions/team_actions.jsx';
 

@@ -20,7 +20,7 @@ jest.mock('actions/views/lhs', () => ({
     close: jest.fn(),
 }));
 
-jest.mock('mattermost-redux/actions/users', () => ({
+jest.mock('@mattermost/redux/actions/users', () => ({
     loadMe: () => ({type: 'MOCK_RECEIVED_ME'}),
 }));
 

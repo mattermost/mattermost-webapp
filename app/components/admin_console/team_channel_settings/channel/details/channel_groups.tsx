@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Group} from 'mattermost-redux/types/groups';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Group} from '@mattermost/redux/types/groups';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import {t} from 'utils/i18n';
 

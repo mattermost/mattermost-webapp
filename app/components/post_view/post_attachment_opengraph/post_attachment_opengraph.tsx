@@ -6,8 +6,8 @@ import {
     OpenGraphMetadataImage,
     Post,
     PostImage,
-} from 'mattermost-redux/types/posts';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+} from '@mattermost/redux/types/posts';
+import {Dictionary} from '@mattermost/redux/types/utilities';
 import React from 'react';
 
 import SizeAwareImage from 'components/size_aware_image';

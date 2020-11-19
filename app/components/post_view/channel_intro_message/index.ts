@@ -3,13 +3,13 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getProfilesInCurrentChannel, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {isCurrentChannelReadOnly, getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getProfilesInCurrentChannel, getCurrentUserId, getUser} from '@mattermost/redux/selectors/entities/users';
+import {get} from '@mattermost/redux/selectors/entities/preferences';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate, getDisplayNameByUser} from 'utils/utils.jsx';

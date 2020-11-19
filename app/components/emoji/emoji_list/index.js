@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCustomEmojiIdsSortedByName} from 'mattermost-redux/selectors/entities/emojis';
+import {getCustomEmojiIdsSortedByName} from '@mattermost/redux/selectors/entities/emojis';
 
-import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {getCustomEmojis, searchCustomEmojis} from '@mattermost/redux/actions/emojis';
 
 import EmojiList from './emoji_list.jsx';
 

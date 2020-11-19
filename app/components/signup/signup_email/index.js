@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {createUser} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
+import {createUser} from '@mattermost/redux/actions/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getTeamInviteInfo} from '@mattermost/redux/actions/teams';
 
 import {setGlobalItem} from 'actions/storage';
 import {loginById} from 'actions/views/login';

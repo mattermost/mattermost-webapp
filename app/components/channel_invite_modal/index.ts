@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getTeamStats} from 'mattermost-redux/actions/teams';
-import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/users';
-import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {getTeamStats} from '@mattermost/redux/actions/teams';
+import {getProfilesNotInChannel, searchProfiles} from '@mattermost/redux/actions/users';
+import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, makeGetProfilesNotInChannel} from '@mattermost/redux/selectors/entities/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 

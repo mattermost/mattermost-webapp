@@ -5,7 +5,7 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import OverlayTrigger from 'components/overlay_trigger';
 

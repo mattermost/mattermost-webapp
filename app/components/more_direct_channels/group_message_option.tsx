@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/redux/types/teams';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';

@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
-import {updateMe} from 'mattermost-redux/actions/users';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {updateMe} from '@mattermost/redux/actions/users';
+import {ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import ManageTimezones from './manage_timezones';
 

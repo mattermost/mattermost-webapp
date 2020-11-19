@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
+import {getInt} from '@mattermost/redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
 

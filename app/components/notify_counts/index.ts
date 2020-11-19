@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getUnreadsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getUnreadsInCurrentTeam} from '@mattermost/redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
 

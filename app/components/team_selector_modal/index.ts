@@ -3,10 +3,10 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, AnyAction, bindActionCreators, Dispatch} from 'redux';
-import {getTeams as loadTeams, searchTeams} from 'mattermost-redux/actions/teams';
-import {getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getTeams as loadTeams, searchTeams} from '@mattermost/redux/actions/teams';
+import {getTeams} from '@mattermost/redux/selectors/entities/teams';
 
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from '@mattermost/redux/types/actions';
 
 import {setModalSearchTerm} from 'actions/views/search';
 

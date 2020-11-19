@@ -4,10 +4,10 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeam, patchTeam, removeTeamIcon, setTeamIcon, regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
-import {Permissions} from 'mattermost-redux/constants';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getTeam, patchTeam, removeTeamIcon, setTeamIcon, regenerateTeamInviteId} from '@mattermost/redux/actions/teams';
+import {Permissions} from '@mattermost/redux/constants';
+import {haveITeamPermission} from '@mattermost/redux/selectors/entities/roles';
 
 import TeamGeneralTab from './team_general_tab.jsx';
 

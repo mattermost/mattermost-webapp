@@ -9,8 +9,8 @@ import {Stripe} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCloudCustomer} from '@mattermost/redux/actions/cloud';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {completeStripeAddPaymentMethod} from 'actions/cloud';
 import BlockableLink from 'components/admin_console/blockable_link';

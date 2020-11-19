@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen, fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
-import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
-import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from 'mattermost-redux/selectors/entities/users';
-import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
-import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Channel} from 'mattermost-redux/types/channels';
+import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen, fetchMyChannelsAndMembers} from '@mattermost/redux/actions/channels';
+import {getUser, getUserByUsername, getUserByEmail} from '@mattermost/redux/actions/users';
+import {getTeamByName} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from '@mattermost/redux/selectors/entities/users';
+import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam, getRedirectChannelNameForTeam} from '@mattermost/redux/selectors/entities/channels';
+import {GetStateFunc, DispatchFunc, ActionFunc} from '@mattermost/redux/types/actions';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {Channel} from '@mattermost/redux/types/channels';
 import {History} from 'history';
 
 import {Constants} from 'utils/constants';

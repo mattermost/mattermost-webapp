@@ -4,21 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
+import {getTeams, getTeamStats} from '@mattermost/redux/actions/teams';
 import {
     getUser,
     getUserAccessToken,
     getProfiles,
     searchProfiles,
     revokeSessionsForAllUsers,
-} from 'mattermost-redux/actions/users';
-import {logError} from 'mattermost-redux/actions/errors';
-import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
-import {getUsers} from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Stats} from 'mattermost-redux/constants';
+} from '@mattermost/redux/actions/users';
+import {logError} from '@mattermost/redux/actions/errors';
+import {getTeamsList} from '@mattermost/redux/selectors/entities/teams';
+import {getUsers} from '@mattermost/redux/selectors/entities/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {Stats} from '@mattermost/redux/constants';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {GlobalState} from 'types/store';
 

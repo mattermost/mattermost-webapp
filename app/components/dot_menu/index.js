@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getLicense, getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {getCurrentTeamId, getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
 
 import {openModal} from 'actions/views/modals';
 import {

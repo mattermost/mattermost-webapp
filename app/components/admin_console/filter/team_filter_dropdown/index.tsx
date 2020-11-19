@@ -6,10 +6,10 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {createSelector} from 'reselect';
 
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {TeamSearchOpts} from 'mattermost-redux/types/teams';
-import {getTeams as fetchTeams, searchTeams} from 'mattermost-redux/actions/teams';
-import {getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
+import {TeamSearchOpts} from '@mattermost/redux/types/teams';
+import {getTeams as fetchTeams, searchTeams} from '@mattermost/redux/actions/teams';
+import {getTeams} from '@mattermost/redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
 

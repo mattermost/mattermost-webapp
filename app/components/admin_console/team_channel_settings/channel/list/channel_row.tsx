@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/redux/types/channels';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 

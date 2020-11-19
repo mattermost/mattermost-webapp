@@ -3,7 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
+import {updateChannelNotifyProps} from '@mattermost/redux/actions/channels';
 
 import MenuItemToggleMuteChannel from './toggle_mute_channel';
 

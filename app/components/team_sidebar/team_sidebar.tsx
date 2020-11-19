@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/redux/types/teams';
 
 import TeamButton from './team_button';
 

@@ -5,9 +5,9 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+import {saveSearchBarText, searchTextUpdate} from '@mattermost/redux/actions/gifs';
+import {getTheme} from '@mattermost/redux/selectors/entities/preferences';
+import {changeOpacity, makeStyleFromTheme} from '@mattermost/redux/utils/theme_utils';
 
 import constants from 'components/gif_picker/utils/constants';
 import SearchBar from 'components/gif_picker/components/SearchBar';

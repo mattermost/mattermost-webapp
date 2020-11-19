@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
-import {General} from 'mattermost-redux/constants';
+import {General} from '@mattermost/redux/constants';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';

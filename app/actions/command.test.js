@@ -5,10 +5,10 @@ import configureStore from 'redux-mock-store';
 
 import thunk from 'redux-thunk';
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
-import * as Channels from 'mattermost-redux/selectors/entities/channels';
-import * as Teams from 'mattermost-redux/selectors/entities/teams';
+import * as Channels from '@mattermost/redux/selectors/entities/channels';
+import * as Teams from '@mattermost/redux/selectors/entities/teams';
 
 import {ActionTypes, Constants} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';

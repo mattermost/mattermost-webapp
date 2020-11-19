@@ -18,7 +18,7 @@ import uk from './uk.json';
 import zhTW from './zh-TW.json';
 import zhCN from './zh-CN.json';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import store from 'stores/redux_store.jsx';
 

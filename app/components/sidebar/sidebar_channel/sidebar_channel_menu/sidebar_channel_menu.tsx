@@ -4,9 +4,9 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {CategoryTypes} from '@mattermost/redux/constants/channel_categories';
+import {Channel} from '@mattermost/redux/types/channels';
+import {ChannelCategory} from '@mattermost/redux/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import ChannelInviteModal from 'components/channel_invite_modal';

@@ -9,9 +9,9 @@ import {
     getTeamMembersForUser,
     removeUserFromTeam,
     updateTeamMemberSchemeRoles,
-} from 'mattermost-redux/actions/teams';
+} from '@mattermost/redux/actions/teams';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {getCurrentLocale} from 'selectors/i18n';
 

@@ -4,10 +4,10 @@
 import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {ExtendedPost} from 'mattermost-redux/actions/posts';
+import {Post} from '@mattermost/redux/types/posts';
+import {FileInfo} from '@mattermost/redux/types/files';
+import {DispatchFunc, GetStateFunc} from '@mattermost/redux/types/actions';
+import {ExtendedPost} from '@mattermost/redux/actions/posts';
 
 type CreatePostAction =
     (post: Post, files?: FileInfo[]) => (dispatch: DispatchFunc) => Promise<{data: boolean}>;

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';

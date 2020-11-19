@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getConfig, getLicense} from '@mattermost/redux/selectors/entities/general';
+import {GenericAction} from '@mattermost/redux/types/actions';
+import {getStandardAnalytics} from '@mattermost/redux/actions/admin';
+import {makeGetCategory} from '@mattermost/redux/selectors/entities/preferences';
+import {getCloudSubscription} from '@mattermost/redux/actions/cloud';
 
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin} from '@mattermost/redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
 

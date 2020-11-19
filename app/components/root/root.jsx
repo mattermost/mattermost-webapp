@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {rudderAnalytics, Client4} from 'mattermost-redux/client';
+import {rudderAnalytics, Client4} from '@mattermost/redux/client';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import {setUrl} from 'mattermost-redux/actions/general';
-import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {setUrl} from '@mattermost/redux/actions/general';
+import {setSystemEmojis} from '@mattermost/redux/actions/emojis';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
 
 import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';

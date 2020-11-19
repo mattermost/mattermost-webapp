@@ -3,8 +3,8 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
-import {UserProfile} from 'mattermost-redux/src/types/users';
+import {Client4} from '@mattermost/redux/client';
+import {UserProfile} from '@mattermost/redux/src/types/users';
 
 import MenuIcon from 'components/widgets/icons/menu_icon';
 

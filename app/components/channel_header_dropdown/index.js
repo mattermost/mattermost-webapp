@@ -8,8 +8,8 @@ import {
     getCurrentUser,
     getUserStatuses,
     getCurrentUserId,
-} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+} from '@mattermost/redux/selectors/entities/users';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
 import {
     getCurrentChannel,
     isCurrentChannelDefault,
@@ -18,7 +18,7 @@ import {
     isCurrentChannelArchived,
     isCurrentChannelReadOnly,
     getRedirectChannelNameForTeam,
-} from 'mattermost-redux/selectors/entities/channels';
+} from '@mattermost/redux/selectors/entities/channels';
 
 import {getPenultimateViewedChannelName} from 'selectors/local_storage';
 

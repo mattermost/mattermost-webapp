@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions} from '@mattermost/redux/constants';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';

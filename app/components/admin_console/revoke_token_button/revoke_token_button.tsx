@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 interface RevokeTokenButtonProps {

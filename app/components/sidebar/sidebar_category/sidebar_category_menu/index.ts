@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {ActionFunc} from '@mattermost/redux/types/actions';
+import {GlobalState} from '@mattermost/redux/types/store';
 
 import {openModal} from 'actions/views/modals';
 

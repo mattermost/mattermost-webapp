@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import {closeModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';

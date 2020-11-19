@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError,
     checkIfErrorsMatchElements,
-} from 'mattermost-redux/utils/integration_utils';
+} from '@mattermost/redux/utils/integration_utils';
 
 import SpinnerButton from 'components/spinner_button';
 

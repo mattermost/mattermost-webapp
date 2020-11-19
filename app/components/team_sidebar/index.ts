@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {GenericAction} from '@mattermost/redux/types/actions';
+import {getMyTeams} from '@mattermost/redux/selectors/entities/teams';
 
 import TeamSidebar from './team_sidebar';
 

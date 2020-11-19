@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import UserSettingsSecurity from './user_settings_security';
 

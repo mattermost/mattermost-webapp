@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getPlugins} from 'mattermost-redux/actions/admin';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getPlugins} from '@mattermost/redux/actions/admin';
+import {getConfig, getLicense} from '@mattermost/redux/selectors/entities/general';
 
 import {getNavigationBlocked} from 'selectors/views/admin';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';

@@ -3,9 +3,9 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
+import {updateChannelNotifyProps} from '@mattermost/redux/actions/channels';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getMyCurrentChannelMembership} from '@mattermost/redux/selectors/entities/channels';
 
 import ChannelNotificationsModal from './channel_notifications_modal.jsx';
 

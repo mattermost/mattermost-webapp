@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as UserActions from 'mattermost-redux/actions/users';
+import * as UserActions from '@mattermost/redux/actions/users';
 
 export function login(loginId, password, mfaToken) {
     return (dispatch) => {

@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {doPostActionWithCookie} from 'mattermost-redux/actions/posts';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {doPostActionWithCookie} from '@mattermost/redux/actions/posts';
+import {getCurrentRelativeTeamUrl} from '@mattermost/redux/selectors/entities/teams';
 
 import MessageAttachment from './message_attachment';
 

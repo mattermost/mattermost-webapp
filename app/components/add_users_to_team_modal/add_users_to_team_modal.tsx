@@ -5,10 +5,10 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Team} from '@mattermost/redux/types/teams';
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';

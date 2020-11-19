@@ -3,13 +3,13 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {PreferenceTypes} from 'mattermost-redux/action_types';
-import * as ChannelActions from 'mattermost-redux/actions/channels';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {PreferenceTypes} from '@mattermost/redux/action_types';
+import * as ChannelActions from '@mattermost/redux/actions/channels';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getMyChannelMemberships} from '@mattermost/redux/selectors/entities/common';
+import {getChannelByName, getUnreadChannelIds, getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeamUrl, getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';

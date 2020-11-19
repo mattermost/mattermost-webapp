@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
-import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+import {getRoles} from '@mattermost/redux/selectors/entities/roles';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';

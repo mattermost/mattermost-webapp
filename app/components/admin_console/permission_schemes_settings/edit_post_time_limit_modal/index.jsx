@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig, updateConfig} from 'mattermost-redux/actions/admin';
-import * as Selectors from 'mattermost-redux/selectors/entities/admin';
+import {getConfig, updateConfig} from '@mattermost/redux/actions/admin';
+import * as Selectors from '@mattermost/redux/selectors/entities/admin';
 
 import EditPostTimeLimitModal from './edit_post_time_limit_modal';
 

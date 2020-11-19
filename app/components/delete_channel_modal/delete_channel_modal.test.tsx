@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 

@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
-import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
-import {getTeam} from 'mattermost-redux/actions/teams';
-import {Permissions} from 'mattermost-redux/constants';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getChannelsInCurrentTeam} from '@mattermost/redux/selectors/entities/channels';
+import {haveIChannelPermission, haveITeamPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getConfig, getLicense} from '@mattermost/redux/selectors/entities/general';
+import {getProfiles, searchProfiles as reduxSearchProfiles} from '@mattermost/redux/actions/users';
+import {searchChannels as reduxSearchChannels} from '@mattermost/redux/actions/channels';
+import {getTeam} from '@mattermost/redux/actions/teams';
+import {Permissions} from '@mattermost/redux/constants';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';

@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getTeamMember} from 'mattermost-redux/actions/teams';
-import {getChannelMember} from 'mattermost-redux/actions/channels';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getTeamMember} from '@mattermost/redux/actions/teams';
+import {getChannelMember} from '@mattermost/redux/actions/channels';
+import {getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
 
 import {getSelectedPost} from 'selectors/rhs';
 

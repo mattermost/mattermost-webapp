@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getRedirectChannelNameForTeam} from '@mattermost/redux/selectors/entities/channels';
 
 import store from 'stores/redux_store.jsx';
 import {getBasePath} from 'selectors/general';

@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import EventEmitter from 'mattermost-redux/utils/event_emitter';
+import EventEmitter from '@mattermost/redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants';

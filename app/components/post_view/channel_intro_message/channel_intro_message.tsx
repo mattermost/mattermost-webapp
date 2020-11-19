@@ -3,11 +3,11 @@
 
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions} from '@mattermost/redux/constants';
 
-import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileRedux} from '@mattermost/redux/types/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import React from 'react';
 

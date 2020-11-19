@@ -3,10 +3,10 @@
 
 import {batchActions} from 'redux-batched-actions';
 import request from 'superagent';
-import {FileTypes} from 'mattermost-redux/action_types';
-import {getLogErrorAction} from 'mattermost-redux/actions/errors';
-import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
-import {Client4} from 'mattermost-redux/client';
+import {FileTypes} from '@mattermost/redux/action_types';
+import {getLogErrorAction} from '@mattermost/redux/actions/errors';
+import {forceLogoutIfNecessary} from '@mattermost/redux/actions/helpers';
+import {Client4} from '@mattermost/redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 

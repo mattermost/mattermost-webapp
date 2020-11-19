@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from '@mattermost/redux/selectors/entities/general';
 
 import SystemAnalytics from './system_analytics.jsx';
 

@@ -5,10 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {MovementMode, DropResult} from 'react-beautiful-dnd';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {ChannelType} from 'mattermost-redux/types/channels';
-import {TeamType} from 'mattermost-redux/types/teams';
+import {CategoryTypes} from '@mattermost/redux/constants/channel_categories';
+import {CategorySorting} from '@mattermost/redux/types/channel_categories';
+import {ChannelType} from '@mattermost/redux/types/channels';
+import {TeamType} from '@mattermost/redux/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
 

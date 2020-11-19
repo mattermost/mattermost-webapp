@@ -4,8 +4,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
+import {DispatchFunc} from '@mattermost/redux/types/actions';
+import {getCloudCustomer} from '@mattermost/redux/actions/cloud';
 
 import {pageVisited} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';

@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {getLicense} from '@mattermost/redux/selectors/entities/general';
+import {makeGetCategory} from '@mattermost/redux/selectors/entities/preferences';
+import {UserProfile} from '@mattermost/redux/types/users';
 
-import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getUsers} from '@mattermost/redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';

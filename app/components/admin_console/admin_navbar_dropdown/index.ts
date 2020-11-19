@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {getMyTeams} from '@mattermost/redux/selectors/entities/teams';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {deferNavigation} from 'actions/admin_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';

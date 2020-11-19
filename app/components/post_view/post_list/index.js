@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
-import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
-import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
-import {RequestStatus} from 'mattermost-redux/constants';
+import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from '@mattermost/redux/selectors/entities/posts';
+import {isManuallyUnread} from '@mattermost/redux/selectors/entities/channels';
+import {memoizeResult} from '@mattermost/redux/utils/helpers';
+import {markChannelAsRead, markChannelAsViewed} from '@mattermost/redux/actions/channels';
+import {makePreparePostIdsForPostList} from '@mattermost/redux/utils/post_list';
+import {RequestStatus} from '@mattermost/redux/constants';
 
 import {updateNewMessagesAtInChannel} from 'actions/global_actions.jsx';
 import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';

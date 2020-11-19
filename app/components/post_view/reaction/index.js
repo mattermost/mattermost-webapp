@@ -4,17 +4,17 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {removeReaction} from 'mattermost-redux/actions/posts';
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-import {getCurrentUserId, makeGetProfilesForReactions, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import Permissions from 'mattermost-redux/constants/permissions';
-import Constants from 'mattermost-redux/constants/general';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {removeReaction} from '@mattermost/redux/actions/posts';
+import {getMissingProfilesByIds} from '@mattermost/redux/actions/users';
+import {getCurrentUserId, makeGetProfilesForReactions, getCurrentUser} from '@mattermost/redux/selectors/entities/users';
+import {getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCustomEmojisByName} from '@mattermost/redux/selectors/entities/emojis';
+import {getEmojiImageUrl} from '@mattermost/redux/utils/emoji_utils';
+import {getTeammateNameDisplaySetting} from '@mattermost/redux/selectors/entities/preferences';
+import {haveIChannelPermission} from '@mattermost/redux/selectors/entities/roles';
+import Permissions from '@mattermost/redux/constants/permissions';
+import Constants from '@mattermost/redux/constants/general';
+import {getConfig, getLicense} from '@mattermost/redux/selectors/entities/general';
 
 import {addReaction} from 'actions/post_actions.jsx';
 

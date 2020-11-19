@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, UserTypes} from '@mattermost/redux/action_types';
 
 function channels(state = [], action) {
     switch (action.type) {

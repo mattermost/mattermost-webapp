@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
-import {TeamType} from 'mattermost-redux/types/teams';
+import {TeamType} from '@mattermost/redux/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
 

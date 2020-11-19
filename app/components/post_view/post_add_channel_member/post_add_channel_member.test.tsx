@@ -4,8 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from '@mattermost/redux/types/posts';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {sendAddToChannelEphemeralPost} from 'actions/global_actions';
 import {TestHelper} from 'utils/test_helper';

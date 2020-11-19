@@ -4,13 +4,13 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Client4} from '@mattermost/redux/client';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {ActionFunc} from '@mattermost/redux/types/actions';
+import {Channel} from '@mattermost/redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
 
-import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm} from '@mattermost/redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';

@@ -4,7 +4,7 @@
 
 import {connect} from 'react-redux';
 
-import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
+import {getRoles} from '@mattermost/redux/selectors/entities/roles_helpers';
 
 import {GlobalState} from 'types/store';
 

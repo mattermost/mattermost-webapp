@@ -9,7 +9,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {injectIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import {debounce} from 'mattermost-redux/actions/helpers';
+import {debounce} from '@mattermost/redux/actions/helpers';
 
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';

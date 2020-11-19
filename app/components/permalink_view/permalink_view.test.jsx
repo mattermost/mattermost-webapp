@@ -6,7 +6,7 @@ import React from 'react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {getPostThread} from 'mattermost-redux/actions/posts';
+import {getPostThread} from '@mattermost/redux/actions/posts';
 
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -28,7 +28,7 @@ jest.mock('actions/channel_actions.jsx', () => ({
     }),
 }));
 
-jest.mock('mattermost-redux/actions/posts', () => ({
+jest.mock('@mattermost/redux/actions/posts', () => ({
     getPostThread: jest.fn((postId) => {
         const post = {id: 'postid1', message: 'some message', channel_id: 'channelid1'};
         const post2 = {id: 'postid2', message: 'some message', channel_id: 'channelid2'};
@@ -50,7 +50,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
     }),
 }));
 
-jest.mock('mattermost-redux/actions/channels', () => ({
+jest.mock('@mattermost/redux/actions/channels', () => ({
     selectChannel: (...args) => ({type: 'MOCK_SELECT_CHANNEL', args}),
     joinChannel: (...args) => ({type: 'MOCK_JOIN_CHANNEL', args}),
     getChannelStats: (...args) => ({type: 'MOCK_GET_CHANNEL_STATS', args}),

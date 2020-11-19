@@ -5,8 +5,8 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {PreferenceType} from '@mattermost/redux/types/preferences';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import Accordion from 'components/accordion';

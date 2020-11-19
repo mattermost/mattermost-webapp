@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as PostActions from 'mattermost-redux/actions/posts';
+import * as PostActions from '@mattermost/redux/actions/posts';
 
-import {logError} from 'mattermost-redux/actions/errors';
+import {logError} from '@mattermost/redux/actions/errors';
 
 import {ActionTypes, AnnouncementBarTypes} from 'utils/constants';
 

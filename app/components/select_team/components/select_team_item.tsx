@@ -4,7 +4,7 @@
 import React, {ReactNode, MouseEvent} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/redux/types/teams';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';

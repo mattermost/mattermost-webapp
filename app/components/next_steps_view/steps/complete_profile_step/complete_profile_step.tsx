@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {Preferences} from 'mattermost-redux/constants';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {Preferences} from '@mattermost/redux/constants';
+import {getBool} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
 
 import NewChannelModal from './new_channel_modal.jsx';
 

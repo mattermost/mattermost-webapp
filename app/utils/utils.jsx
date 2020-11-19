@@ -4,18 +4,18 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Client4} from 'mattermost-redux/client';
-import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {Client4} from '@mattermost/redux/client';
+import {Posts} from '@mattermost/redux/constants';
+import {getChannel, getRedirectChannelNameForTeam} from '@mattermost/redux/selectors/entities/channels';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getTeammateNameDisplaySetting, getBool} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentUserId, getUser} from '@mattermost/redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
-} from 'mattermost-redux/utils/theme_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+} from '@mattermost/redux/utils/theme_utils';
+import {displayUsername} from '@mattermost/redux/utils/user_utils';
+import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from '@mattermost/redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';

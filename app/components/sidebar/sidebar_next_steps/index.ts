@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators} from 'redux';
 
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {makeGetCategory} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentUserId, getCurrentUser, isCurrentUserSystemAdmin} from '@mattermost/redux/selectors/entities/users';
 
 import {getSteps} from '../../next_steps_view/steps';
 

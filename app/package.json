@@ -36,6 +36,7 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "3.2.3",
     "@formatjs/intl-relativetimeformat": "6.2.3",
+    "@mattermost/redux": "5.3.1",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.9.0",
     "@types/country-list": "2.1.0",
@@ -65,7 +66,6 @@
     "localforage-observable": "2.0.1",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#87769262aa02e1784570f61f4f962050e07cc335",
-    "mattermost-redux": "5.3.1",
     "moment-timezone": "0.5.31",
     "p-queue": "6.6.1",
     "pdfjs-dist": "2.1.266",

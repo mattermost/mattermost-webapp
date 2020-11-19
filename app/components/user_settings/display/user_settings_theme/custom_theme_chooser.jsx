@@ -5,7 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedMessage} from 'react-intl';
-import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {setThemeDefaults} from '@mattermost/redux/utils/theme_utils';
 
 import {t} from 'utils/i18n';
 

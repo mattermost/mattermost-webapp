@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveISystemPermission} from '@mattermost/redux/selectors/entities/roles';
 
 import {GlobalState} from 'types/store';
 

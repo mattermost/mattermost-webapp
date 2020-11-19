@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {DATE_LINE} from 'mattermost-redux/utils/post_list';
+import {DATE_LINE} from '@mattermost/redux/utils/post_list';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 

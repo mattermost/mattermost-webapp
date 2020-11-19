@@ -3,7 +3,7 @@
 
 import React, {ReactNode} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Dictionary} from '@mattermost/redux/types/utilities';
 
 import {t} from 'utils/i18n';
 

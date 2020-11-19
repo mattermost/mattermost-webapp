@@ -4,16 +4,16 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {ActionResult, GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {memoizeResult} from '@mattermost/redux/utils/helpers';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {ActionResult, GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
 
-import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from '@mattermost/redux/utils/user_utils';
 
-import {filterProfiles} from 'mattermost-redux/selectors/entities/users';
-import {getMembersInTeams} from 'mattermost-redux/selectors/entities/teams';
-import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {filterProfiles} from '@mattermost/redux/selectors/entities/users';
+import {getMembersInTeams} from '@mattermost/redux/selectors/entities/teams';
+import {getChannelMembersInChannels} from '@mattermost/redux/selectors/entities/channels';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 import {loadChannelMembersForProfilesList, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';

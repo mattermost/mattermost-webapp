@@ -4,9 +4,9 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {convertChannelToPrivate} from 'mattermost-redux/actions/channels';
+import {convertChannelToPrivate} from '@mattermost/redux/actions/channels';
 
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
 
 import ConvertChannelModal from './convert_channel_modal.jsx';
 

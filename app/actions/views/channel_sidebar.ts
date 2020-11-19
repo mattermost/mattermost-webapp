@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createCategory as createCategoryRedux, moveChannelToCategory} from 'mattermost-redux/actions/channel_categories';
-import {getCategory, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
+import {createCategory as createCategoryRedux, moveChannelToCategory} from '@mattermost/redux/actions/channel_categories';
+import {getCategory, makeGetChannelsForCategory} from '@mattermost/redux/selectors/entities/channel_categories';
+import {DispatchFunc, GetStateFunc} from '@mattermost/redux/types/actions';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {insertWithoutDuplicates} from '@mattermost/redux/utils/array_utils';
 
 import {setItem} from 'actions/storage';
 import {DraggingState} from 'types/store';

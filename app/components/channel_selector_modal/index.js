@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getAllChannels as loadChannels, searchAllChannels} from 'mattermost-redux/actions/channels';
+import {getAllChannels as loadChannels, searchAllChannels} from '@mattermost/redux/actions/channels';
 
 import {setModalSearchTerm} from 'actions/views/search';
 

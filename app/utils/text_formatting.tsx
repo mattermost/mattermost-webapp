@@ -8,7 +8,7 @@ import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import {formatWithRenderer} from 'utils/markdown';
 

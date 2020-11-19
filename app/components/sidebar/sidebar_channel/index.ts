@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentChannel, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getMyChannelMemberships} from '@mattermost/redux/selectors/entities/common';
+import {getCurrentChannel, makeGetChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
 
 import {getDraggingState} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';

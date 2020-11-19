@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
 import ExternalImage from './external_image';
 

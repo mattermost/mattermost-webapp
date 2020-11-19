@@ -5,16 +5,16 @@ import {connect} from 'react-redux';
 
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
 
-import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from '@mattermost/redux/utils/user_utils';
 
-import {getFilteredUsersStats, getProfiles, searchProfiles} from 'mattermost-redux/actions/users';
+import {getFilteredUsersStats, getProfiles, searchProfiles} from '@mattermost/redux/actions/users';
 
-import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
-import {getProfiles as selectProfiles, getFilteredUsersStats as selectFilteredUserStats, makeSearchProfilesStartingWithTerm, filterProfiles, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getRoles} from '@mattermost/redux/selectors/entities/roles_helpers';
+import {getProfiles as selectProfiles, getFilteredUsersStats as selectFilteredUserStats, makeSearchProfilesStartingWithTerm, filterProfiles, getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import {setUserGridSearch} from 'actions/views/search';
 import {GlobalState} from 'types/store';

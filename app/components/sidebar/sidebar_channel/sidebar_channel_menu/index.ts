@@ -4,17 +4,17 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
-import {addChannelToCategory} from 'mattermost-redux/actions/channel_categories';
-import Permissions from 'mattermost-redux/constants/permissions';
-import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {makeGetCategoriesForTeam, getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from '@mattermost/redux/actions/channels';
+import {addChannelToCategory} from '@mattermost/redux/actions/channel_categories';
+import Permissions from '@mattermost/redux/constants/permissions';
+import {isFavoriteChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getMyChannelMemberships, getCurrentUserId} from '@mattermost/redux/selectors/entities/common';
+import {makeGetCategoriesForTeam, getCategoryInTeamWithChannel} from '@mattermost/redux/selectors/entities/channel_categories';
+import {haveIChannelPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {ActionFunc} from '@mattermost/redux/types/actions';
+import {Channel} from '@mattermost/redux/types/channels';
+import {isChannelMuted} from '@mattermost/redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';

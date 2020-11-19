@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {TeamTypes} from 'mattermost-redux/action_types';
+import {TeamTypes} from '@mattermost/redux/action_types';
 
 import lhsReducer from 'reducers/views/lhs';
 import {ActionTypes} from 'utils/constants';

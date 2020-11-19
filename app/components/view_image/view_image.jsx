@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
+import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from '@mattermost/redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {FileTypes, ZoomSettings} from 'utils/constants';

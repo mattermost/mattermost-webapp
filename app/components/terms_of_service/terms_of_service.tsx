@@ -5,8 +5,8 @@ import React from 'react';
 import {Button, ButtonGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
+import {memoizeResult} from '@mattermost/redux/utils/helpers';
+import {TermsOfService as ReduxTermsOfService} from '@mattermost/redux/types/terms_of_service';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';

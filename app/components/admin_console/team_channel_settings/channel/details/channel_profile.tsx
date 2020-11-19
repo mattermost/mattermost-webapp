@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/redux/types/channels';
+import {Team} from '@mattermost/redux/types/teams';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 

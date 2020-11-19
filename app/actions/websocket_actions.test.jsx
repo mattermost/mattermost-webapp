@@ -5,17 +5,17 @@ import {
     getProfilesAndStatusesForPosts,
     getThreadsForPosts,
     receivedNewPost,
-} from 'mattermost-redux/actions/posts';
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
+} from '@mattermost/redux/actions/posts';
+import {ChannelTypes, UserTypes} from '@mattermost/redux/action_types';
 import {
     getMissingProfilesByIds,
     getStatusesByIds,
     getUser,
-} from 'mattermost-redux/actions/users';
+} from '@mattermost/redux/actions/users';
 import {
     getChannelStats,
-} from 'mattermost-redux/actions/channels';
-import {General, WebsocketEvents} from 'mattermost-redux/constants';
+} from '@mattermost/redux/actions/channels';
+import {General, WebsocketEvents} from '@mattermost/redux/constants';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -44,19 +44,19 @@ import {
     reconnect,
 } from './websocket_actions';
 
-jest.mock('mattermost-redux/actions/posts', () => ({
-    ...jest.requireActual('mattermost-redux/actions/posts'),
+jest.mock('@mattermost/redux/actions/posts', () => ({
+    ...jest.requireActual('@mattermost/redux/actions/posts'),
     getThreadsForPosts: jest.fn(() => ({type: 'GET_THREADS_FOR_POSTS'})),
     getProfilesAndStatusesForPosts: jest.fn(),
 }));
 
-jest.mock('mattermost-redux/actions/users', () => ({
+jest.mock('@mattermost/redux/actions/users', () => ({
     getMissingProfilesByIds: jest.fn(() => ({type: 'GET_MISSING_PROFILES_BY_IDS'})),
     getStatusesByIds: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
     getUser: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
 }));
 
-jest.mock('mattermost-redux/actions/channels', () => ({
+jest.mock('@mattermost/redux/actions/channels', () => ({
     getChannelStats: jest.fn(() => ({type: 'GET_CHANNEL_STATS'})),
 }));
 

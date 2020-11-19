@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Posts} from '@mattermost/redux/constants';
 
 import {t} from 'utils/i18n';
 import {intlShape} from 'utils/react_intl';

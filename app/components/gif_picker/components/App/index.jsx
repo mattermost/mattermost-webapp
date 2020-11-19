@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {saveAppProps} from 'mattermost-redux/actions/gifs';
+import {saveAppProps} from '@mattermost/redux/actions/gifs';
 
 import Header from 'components/gif_picker/components/Header';
 

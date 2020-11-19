@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getStatusesByIds} from 'mattermost-redux/actions/users';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getPostsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
-import {getDirectShowPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getStatusesByIds} from '@mattermost/redux/actions/users';
+import {getCurrentChannelId} from '@mattermost/redux/selectors/entities/channels';
+import {getPostsInCurrentChannel} from '@mattermost/redux/selectors/entities/posts';
+import {getDirectShowPreferences} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants';

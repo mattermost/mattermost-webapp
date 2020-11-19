@@ -4,15 +4,15 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/redux/types/config';
 
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {Dictionary} from '@mattermost/redux/src/types/utilities';
 
-import {AnalyticsRow} from 'mattermost-redux/src/types/admin';
+import {AnalyticsRow} from '@mattermost/redux/src/types/admin';
 
-import {ClientLicense} from 'mattermost-redux/src/types/config';
+import {ClientLicense} from '@mattermost/redux/src/types/config';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/redux/types/preferences';
 
 import {Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';

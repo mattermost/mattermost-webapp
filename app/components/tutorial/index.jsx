@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 
-import {Permissions} from 'mattermost-redux/constants';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {Permissions} from '@mattermost/redux/constants';
+import {getChannelsNameMapInCurrentTeam} from '@mattermost/redux/selectors/entities/channels';
+import {getLicense, getConfig} from '@mattermost/redux/selectors/entities/general';
+import {haveITeamPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
 
 import Constants from 'utils/constants';
 

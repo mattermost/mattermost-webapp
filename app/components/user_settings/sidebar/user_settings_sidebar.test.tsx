@@ -4,9 +4,9 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
-import {SidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {SidebarPreferences} from '@mattermost/redux/selectors/entities/preferences';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 

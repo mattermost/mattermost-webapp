@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
+import {getEmbedFromMetadata} from '@mattermost/redux/utils/post_utils';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';

@@ -4,21 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {ServerError} from '@mattermost/redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/redux/types/users';
 
-import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from '@mattermost/redux/utils/user_utils';
 
-import {ActionResult, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelStats} from 'mattermost-redux/types/channels';
+import {ActionResult, ActionFunc, GenericAction} from '@mattermost/redux/types/actions';
+import {ChannelStats} from '@mattermost/redux/types/channels';
 
-import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
+import {getChannelStats} from '@mattermost/redux/actions/channels';
+import {getFilteredUsersStats} from '@mattermost/redux/actions/users';
 
-import {getChannelMembersInChannels, getAllChannelStats, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetProfilesInChannel, makeSearchProfilesInChannel, filterProfiles, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getChannelMembersInChannels, getAllChannelStats, getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {makeGetProfilesInChannel, makeSearchProfilesInChannel, filterProfiles, getFilteredUsersStats as selectFilteredUsersStats} from '@mattermost/redux/selectors/entities/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
 import {setUserGridSearch, setUserGridFilters} from 'actions/views/search';

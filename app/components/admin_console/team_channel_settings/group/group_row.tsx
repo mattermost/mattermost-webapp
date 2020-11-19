@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/redux/types/groups';
 import {FormattedMessage} from 'react-intl';
 
 import ToggleModalButton from 'components/toggle_modal_button';

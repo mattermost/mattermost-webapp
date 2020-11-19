@@ -4,10 +4,10 @@
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
-import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
+import {createCustomEmoji} from '@mattermost/redux/actions/emojis';
 
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {ActionFunc, ActionResult, GenericAction} from '@mattermost/redux/types/actions';
+import {CustomEmoji} from '@mattermost/redux/types/emojis';
 
 import {getEmojiMap} from 'selectors/emojis';
 

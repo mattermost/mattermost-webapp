@@ -6,12 +6,12 @@ import 'bootstrap';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {Role} from 'mattermost-redux/types/roles';
-import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {CloudState} from 'mattermost-redux/types/cloud';
+import {ActionFunc} from '@mattermost/redux/types/actions';
+import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/redux/types/config';
+import {Role} from '@mattermost/redux/types/roles';
+import {ConsoleAccess} from '@mattermost/redux/types/admin';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {CloudState} from '@mattermost/redux/types/cloud';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';

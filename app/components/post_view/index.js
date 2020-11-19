@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getUser} from '@mattermost/redux/selectors/entities/users';
+import {getTeamByName, getTeamMemberships} from '@mattermost/redux/selectors/entities/teams';
 
 import {Constants} from 'utils/constants';
 

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {leaveChannel} from 'actions/views/channel';
 

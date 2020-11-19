@@ -14,9 +14,9 @@ import {
     AdminTypes,
     IntegrationTypes,
     PreferenceTypes,
-} from 'mattermost-redux/action_types';
-import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
-import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
+} from '@mattermost/redux/action_types';
+import {WebsocketEvents, General, Permissions} from '@mattermost/redux/constants';
+import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from '@mattermost/redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
     getMyChannelMember,
@@ -25,10 +25,10 @@ import {
     viewChannel,
     markChannelAsRead,
     getChannelMemberCountsByGroup,
-} from 'mattermost-redux/actions/channels';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
-import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
-import {setServerVersion} from 'mattermost-redux/actions/general';
+} from '@mattermost/redux/actions/channels';
+import {getCloudSubscription} from '@mattermost/redux/actions/cloud';
+import {loadRolesIfNeeded} from '@mattermost/redux/actions/roles';
+import {setServerVersion} from '@mattermost/redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
@@ -37,26 +37,26 @@ import {
     postDeleted,
     receivedNewPost,
     receivedPost,
-} from 'mattermost-redux/actions/posts';
-import {clearErrors, logError} from 'mattermost-redux/actions/errors';
+} from '@mattermost/redux/actions/posts';
+import {clearErrors, logError} from '@mattermost/redux/actions/errors';
 
-import * as TeamActions from 'mattermost-redux/actions/teams';
+import * as TeamActions from '@mattermost/redux/actions/teams';
 import {
     checkForModifiedUsers,
     getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
     getUser as loadUser,
-} from 'mattermost-redux/actions/users';
-import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
-import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
-import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+} from '@mattermost/redux/actions/users';
+import {removeNotVisibleUsers} from '@mattermost/redux/actions/websocket';
+import {Client4} from '@mattermost/redux/client';
+import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from '@mattermost/redux/selectors/entities/users';
+import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getConfig, getLicense} from '@mattermost/redux/selectors/entities/general';
+import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from '@mattermost/redux/selectors/entities/channels';
+import {getPost, getMostRecentPostIdInChannel} from '@mattermost/redux/selectors/entities/posts';
+import {haveISystemPermission, haveITeamPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getStandardAnalytics} from '@mattermost/redux/actions/admin';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 

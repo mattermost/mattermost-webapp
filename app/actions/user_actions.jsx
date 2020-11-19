@@ -3,11 +3,11 @@
 
 import PQueue from 'p-queue';
 
-import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
-import * as UserActions from 'mattermost-redux/actions/users';
-import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
+import {getChannelAndMyMember, getChannelMembersByIds} from '@mattermost/redux/actions/channels';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getTeamMembersByIds} from '@mattermost/redux/actions/teams';
+import * as UserActions from '@mattermost/redux/actions/users';
+import {Preferences as PreferencesRedux, General} from '@mattermost/redux/constants';
 import {
     getChannel,
     getCurrentChannelId,
@@ -15,12 +15,12 @@ import {
     getMyChannelMember,
     getChannelMembersInChannels,
     getDirectChannels,
-} from 'mattermost-redux/selectors/entities/channels';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
-import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+} from '@mattermost/redux/selectors/entities/channels';
+import {getBool} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentTeamId, getTeamMember} from '@mattermost/redux/selectors/entities/teams';
+import * as Selectors from '@mattermost/redux/selectors/entities/users';
+import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from '@mattermost/redux/selectors/entities/channel_categories';
+import {CategoryTypes} from '@mattermost/redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';

@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
-import {General} from 'mattermost-redux/constants';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUserLocale} from '@mattermost/redux/selectors/entities/i18n';
+import {General} from '@mattermost/redux/constants';
 
 import * as I18n from 'i18n/i18n';
 

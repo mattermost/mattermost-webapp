@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
-import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
-import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {getAllChannelsWithCount as getData, searchAllChannels} from '@mattermost/redux/actions/channels';
+import {getAllChannels} from '@mattermost/redux/selectors/entities/channels';
+import {GenericAction, ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
+import {ChannelWithTeamData, ChannelSearchOpts} from '@mattermost/redux/types/channels';
 
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';

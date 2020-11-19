@@ -4,18 +4,18 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {updateUserActive} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {addUserToTeam} from 'mattermost-redux/actions/teams';
+import {getUser} from '@mattermost/redux/selectors/entities/users';
+import {updateUserActive} from '@mattermost/redux/actions/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {addUserToTeam} from '@mattermost/redux/actions/teams';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from '@mattermost/redux/types/actions';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/redux/types/store';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/redux/types/errors';
 
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/redux/types/teams';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 

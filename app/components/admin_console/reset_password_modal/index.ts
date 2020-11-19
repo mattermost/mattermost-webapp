@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {updateUserPassword} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {updateUserPassword} from '@mattermost/redux/actions/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
 
 import {GlobalState} from 'types/store';
 

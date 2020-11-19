@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {Groups} from 'mattermost-redux/constants';
+import {Groups} from '@mattermost/redux/constants';
 
 import {browserHistory} from 'utils/browser_history';
 

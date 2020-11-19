@@ -4,9 +4,9 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionFunc} from '@mattermost/redux/types/actions';
+import {Channel} from '@mattermost/redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import * as Utils from 'utils/utils.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';

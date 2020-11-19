@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/redux/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';

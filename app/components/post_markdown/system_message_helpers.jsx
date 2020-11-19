@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {General, Posts} from 'mattermost-redux/constants';
+import {General, Posts} from '@mattermost/redux/constants';
 
 import * as Utils from 'utils/utils.jsx';
 

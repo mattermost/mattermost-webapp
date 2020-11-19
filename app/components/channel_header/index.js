@@ -8,9 +8,9 @@ import {
     favoriteChannel,
     unfavoriteChannel,
     updateChannelNotifyProps,
-} from 'mattermost-redux/actions/channels';
-import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
-import {General} from 'mattermost-redux/constants';
+} from '@mattermost/redux/actions/channels';
+import {getCustomEmojisInText} from '@mattermost/redux/actions/emojis';
+import {General} from '@mattermost/redux/constants';
 import {
     getCurrentChannel,
     getMyCurrentChannelMembership,
@@ -18,15 +18,15 @@ import {
     isCurrentChannelMuted,
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
-} from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
+} from '@mattermost/redux/selectors/entities/channels';
+import {getTeammateNameDisplaySetting, getNewSidebarPreference} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from '@mattermost/redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getUser,
     makeGetProfilesInChannel,
-} from 'mattermost-redux/selectors/entities/users';
-import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+} from '@mattermost/redux/selectors/entities/users';
+import {getUserIdFromChannelName} from '@mattermost/redux/utils/channel_utils';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 import {openModal, closeModal} from 'actions/views/modals';

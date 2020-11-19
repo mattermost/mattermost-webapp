@@ -4,10 +4,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Role} from 'mattermost-redux/types/roles';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {Role} from '@mattermost/redux/types/roles';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {ServerError} from '@mattermost/redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/redux/types/users';
 
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';

@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
-import {Posts} from 'mattermost-redux/constants/index';
+import {Posts} from '@mattermost/redux/constants/index';
 import {
     isPostEphemeral,
     isPostPendingOrFailed,
     isMeMessage as checkIsMeMessage,
-} from 'mattermost-redux/utils/post_utils';
+} from '@mattermost/redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';

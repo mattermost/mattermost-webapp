@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {memoizeResult} from '@mattermost/redux/utils/helpers';
 
 import Markdown from 'components/markdown';
 import GlobeIcon from 'components/widgets/icons/globe_icon';

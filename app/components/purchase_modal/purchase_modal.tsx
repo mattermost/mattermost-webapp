@@ -7,8 +7,8 @@ import {Stripe} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {Product} from 'mattermost-redux/types/cloud';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Product} from '@mattermost/redux/types/cloud';
+import {Dictionary} from '@mattermost/redux/types/utilities';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';

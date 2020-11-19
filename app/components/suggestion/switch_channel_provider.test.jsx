@@ -20,8 +20,8 @@ jest.mock('stores/redux_store', () => ({
     getState: jest.fn(),
 }));
 
-jest.mock('mattermost-redux/client', () => {
-    const original = jest.requireActual('mattermost-redux/client');
+jest.mock('@mattermost/redux/client', () => {
+    const original = jest.requireActual('@mattermost/redux/client');
 
     return {
         ...original,
@@ -32,8 +32,8 @@ jest.mock('mattermost-redux/client', () => {
     };
 });
 
-jest.mock('mattermost-redux/actions/channels', () => ({
-    ...jest.requireActual('mattermost-redux/actions/channels'),
+jest.mock('@mattermost/redux/actions/channels', () => ({
+    ...jest.requireActual('@mattermost/redux/actions/channels'),
     searchChannels: () => jest.fn().mockResolvedValue(Promise.resolve({data: [{
         id: 'channel_other_user1',
         type: 'O',

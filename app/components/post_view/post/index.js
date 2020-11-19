@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {Posts} from 'mattermost-redux/constants';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {Posts} from '@mattermost/redux/constants';
+import {getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getPost, makeIsPostCommentMention} from '@mattermost/redux/selectors/entities/posts';
+import {get} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {isSystemMessage} from '@mattermost/redux/utils/post_utils';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';

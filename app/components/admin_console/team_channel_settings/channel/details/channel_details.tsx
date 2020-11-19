@@ -5,15 +5,15 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {Groups, Permissions} from 'mattermost-redux/constants';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Scheme} from 'mattermost-redux/types/schemes';
-import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
-import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
-import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Groups, Permissions} from '@mattermost/redux/constants';
+import {ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Scheme} from '@mattermost/redux/types/schemes';
+import {ChannelModerationRoles} from '@mattermost/redux/types/roles';
+import {SyncablePatch, Group} from '@mattermost/redux/types/groups';
+import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from '@mattermost/redux/types/channels';
+import {Team} from '@mattermost/redux/types/teams';
 
 import ConfirmModal from 'components/confirm_modal';
 import BlockableLink from 'components/admin_console/blockable_link';

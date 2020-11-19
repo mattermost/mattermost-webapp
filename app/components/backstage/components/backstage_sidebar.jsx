@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions} from '@mattermost/redux/constants';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';

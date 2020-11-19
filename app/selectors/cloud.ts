@@ -2,8 +2,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 

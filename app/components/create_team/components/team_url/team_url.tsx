@@ -6,8 +6,8 @@ import React from 'react';
 import {Button, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {Client4Error} from 'mattermost-redux/types/client4';
+import {Team} from '@mattermost/redux/types/teams';
+import {Client4Error} from '@mattermost/redux/types/client4';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 

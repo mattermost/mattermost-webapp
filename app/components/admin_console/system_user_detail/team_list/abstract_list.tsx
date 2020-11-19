@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';

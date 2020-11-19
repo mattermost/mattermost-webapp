@@ -22,7 +22,7 @@ jest.mock('selectors/emojis', () => ({
     getRecentEmojis: jest.fn(),
 }));
 
-jest.mock('mattermost-redux/actions/emojis', () => ({
+jest.mock('@mattermost/redux/actions/emojis', () => ({
     getCustomEmojiByName: (...args) => ({type: 'MOCK_GET_CUSTOM_EMOJI_BY_NAME', args}),
 }));
 

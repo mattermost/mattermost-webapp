@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/redux/types/teams';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {t} from 'utils/i18n';

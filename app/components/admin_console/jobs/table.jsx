@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
 import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';

@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {DispatchFunc, GetStateFunc} from '@mattermost/redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Channel} from '@mattermost/redux/types/channels';
+import {ServerError} from '@mattermost/redux/types/errors';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';

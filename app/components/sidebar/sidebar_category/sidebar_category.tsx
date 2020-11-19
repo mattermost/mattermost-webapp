@@ -7,10 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
+import {CategoryTypes} from '@mattermost/redux/constants/channel_categories';
+import {Channel} from '@mattermost/redux/types/channels';
+import {ChannelCategory, CategorySorting} from '@mattermost/redux/types/channel_categories';
+import {localizeMessage} from '@mattermost/redux/utils/i18n_utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 

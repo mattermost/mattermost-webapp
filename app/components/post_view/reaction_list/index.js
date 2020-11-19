@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {makeGetReactionsForPost} from '@mattermost/redux/selectors/entities/posts';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {addReaction} from 'actions/post_actions.jsx';
 

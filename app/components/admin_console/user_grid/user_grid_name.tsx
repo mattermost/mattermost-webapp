@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Client4} from '@mattermost/redux/client';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import ProfilePicture from 'components/profile_picture';
 

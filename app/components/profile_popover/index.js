@@ -4,17 +4,17 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId, getUser} from '@mattermost/redux/selectors/entities/users';
 import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
     getTeamMember,
-} from 'mattermost-redux/selectors/entities/teams';
+} from '@mattermost/redux/selectors/entities/teams';
 import {
     getCurrentChannel,
     getChannelMembersInChannels,
     canManageAnyChannelMembersInCurrentTeam,
-} from 'mattermost-redux/selectors/entities/channels';
+} from '@mattermost/redux/selectors/entities/channels';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';

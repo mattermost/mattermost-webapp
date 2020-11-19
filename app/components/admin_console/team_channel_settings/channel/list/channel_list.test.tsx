@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/src/types/channels';
+import {Channel} from '@mattermost/redux/src/types/channels';
 
 import {TestHelper} from 'utils/test_helper';
 

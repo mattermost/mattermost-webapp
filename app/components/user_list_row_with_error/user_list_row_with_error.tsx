@@ -3,12 +3,12 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/redux/types/channels';
 import {ConnectedComponent} from 'react-redux';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/redux/types/errors';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';

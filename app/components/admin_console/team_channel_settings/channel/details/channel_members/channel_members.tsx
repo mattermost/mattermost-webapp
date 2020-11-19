@@ -4,13 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Dictionary} from '@mattermost/redux/types/utilities';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import GeneralConstants from 'mattermost-redux/constants/general';
+import {ActionResult} from '@mattermost/redux/types/actions';
+import {ServerError} from '@mattermost/redux/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/redux/types/channels';
+import GeneralConstants from '@mattermost/redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';

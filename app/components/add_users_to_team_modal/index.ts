@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {Team} from '@mattermost/redux/types/teams';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
 
-import {getProfilesNotInTeam, searchProfiles} from 'mattermost-redux/actions/users';
+import {getProfilesNotInTeam, searchProfiles} from '@mattermost/redux/actions/users';
 
-import {getProfilesNotInTeam as selectProfilesNotInTeam} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesNotInTeam as selectProfilesNotInTeam} from '@mattermost/redux/selectors/entities/users';
 
 import AddUsersToTeamModal from './add_users_to_team_modal';
 

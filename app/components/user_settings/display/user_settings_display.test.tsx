@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import UserSettingsDisplay from 'components/user_settings/display/user_settings_display';

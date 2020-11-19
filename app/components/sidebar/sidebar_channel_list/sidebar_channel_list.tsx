@@ -9,10 +9,10 @@ import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 
-import {General} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Team} from 'mattermost-redux/types/teams';
+import {General} from '@mattermost/redux/constants';
+import {Channel} from '@mattermost/redux/types/channels';
+import {ChannelCategory} from '@mattermost/redux/types/channel_categories';
+import {Team} from '@mattermost/redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';

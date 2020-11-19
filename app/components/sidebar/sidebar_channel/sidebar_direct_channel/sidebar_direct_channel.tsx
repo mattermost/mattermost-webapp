@@ -5,9 +5,9 @@ import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 import Svg from 'react-inlinesvg';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Channel} from '@mattermost/redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {PreferenceType} from '@mattermost/redux/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {browserHistory} from 'utils/browser_history';

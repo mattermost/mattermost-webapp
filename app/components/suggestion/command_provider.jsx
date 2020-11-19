@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {Client4} from '@mattermost/redux/client';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
+import {getChannel, getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
 
 import store from 'stores/redux_store.jsx';
 

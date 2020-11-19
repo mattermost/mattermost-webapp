@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getMyTeamMember} from '@mattermost/redux/selectors/entities/teams';
 
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {GlobalState} from 'types/store';
 

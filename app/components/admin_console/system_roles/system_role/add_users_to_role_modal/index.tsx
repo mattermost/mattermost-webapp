@@ -4,13 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
 
-import {getProfiles, searchProfiles} from 'mattermost-redux/actions/users';
+import {getProfiles, searchProfiles} from '@mattermost/redux/actions/users';
 
-import {getProfiles as selectProfiles} from 'mattermost-redux/selectors/entities/users';
+import {getProfiles as selectProfiles} from '@mattermost/redux/selectors/entities/users';
 
 import AddUsersToRoleModal, {Props} from './add_users_to_role_modal';
 

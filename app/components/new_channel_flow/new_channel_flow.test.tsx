@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 import assert from 'assert';
 
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
+import {ChannelType, Channel} from '@mattermost/redux/types/channels';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';

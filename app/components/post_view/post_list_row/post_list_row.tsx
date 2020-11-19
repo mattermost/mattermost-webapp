@@ -5,9 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
+import * as PostListUtils from '@mattermost/redux/utils/post_list';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';

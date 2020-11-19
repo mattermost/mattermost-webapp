@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
-import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
+import {Posts} from '@mattermost/redux/constants';
+import {isMeMessage as checkIsMeMessage} from '@mattermost/redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';

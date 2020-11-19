@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import {focusPost} from './actions';
 import PermalinkView from './permalink_view.jsx';

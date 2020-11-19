@@ -5,9 +5,9 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+import {saveSearchScrollPosition} from '@mattermost/redux/actions/gifs';
+import {getTheme} from '@mattermost/redux/selectors/entities/preferences';
+import {changeOpacity, makeStyleFromTheme} from '@mattermost/redux/utils/theme_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 

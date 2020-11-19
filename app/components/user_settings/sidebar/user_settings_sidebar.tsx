@@ -5,11 +5,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/src/types/users';
+import {UserProfile} from '@mattermost/redux/src/types/users';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/redux/types/preferences';
 
-import {SidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {SidebarPreferences} from '@mattermost/redux/selectors/entities/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 

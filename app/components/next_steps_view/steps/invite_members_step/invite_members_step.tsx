@@ -6,9 +6,9 @@ import {FormattedMessage} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
-import {ServerError} from 'mattermost-redux/types/errors';
-import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
-import {isEmail} from 'mattermost-redux/utils/helpers';
+import {ServerError} from '@mattermost/redux/types/errors';
+import {TeamInviteWithError, Team} from '@mattermost/redux/types/teams';
+import {isEmail} from '@mattermost/redux/utils/helpers';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';

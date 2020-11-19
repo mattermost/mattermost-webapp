@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Preferences} from 'mattermost-redux/constants';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Preferences} from '@mattermost/redux/constants';
+import {PreferenceType} from '@mattermost/redux/types/preferences';
 
 import GenericModal from 'components/generic_modal';
 

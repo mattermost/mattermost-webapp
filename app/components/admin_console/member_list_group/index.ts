@@ -4,13 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {getGroupStats} from 'mattermost-redux/actions/groups';
-import {searchProfiles, getProfilesInGroup} from 'mattermost-redux/actions/users';
+import {getGroupStats} from '@mattermost/redux/actions/groups';
+import {searchProfiles, getProfilesInGroup} from '@mattermost/redux/actions/users';
 
-import {getGroupMemberCount} from 'mattermost-redux/selectors/entities/groups';
-import {getProfilesInGroup as selectProfiles, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
+import {getGroupMemberCount} from '@mattermost/redux/selectors/entities/groups';
+import {getProfilesInGroup as selectProfiles, searchProfilesInGroup} from '@mattermost/redux/selectors/entities/users';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from '@mattermost/redux/types/actions';
 
 import {setModalSearchTerm} from 'actions/views/search';
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {CloudCustomer, Subscription} from 'mattermost-redux/types/cloud';
+import {CloudCustomer, Subscription} from '@mattermost/redux/types/cloud';
 import {isEmpty} from 'lodash';
 
 import {browserHistory} from 'utils/browser_history';

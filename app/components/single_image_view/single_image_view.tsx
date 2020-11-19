@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
+import {getFilePreviewUrl, getFileUrl} from '@mattermost/redux/utils/file_utils';
+import {FileInfo} from '@mattermost/redux/types/files';
+import {Post} from '@mattermost/redux/types/posts';
 
 import SizeAwareImage from 'components/size_aware_image';
 import {FileTypes} from 'utils/constants';

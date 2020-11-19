@@ -4,11 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {Channel} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {getMyChannelMemberships} from '@mattermost/redux/selectors/entities/common';
+import {Channel} from '@mattermost/redux/types/channels';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {GenericAction} from '@mattermost/redux/types/actions';
+import {isChannelMuted} from '@mattermost/redux/utils/channel_utils';
 
 import {NotificationLevels} from 'utils/constants';
 

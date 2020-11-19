@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
 const MAX_NETWORK_RETRIES = 7;
 const MIN_NETWORK_RETRY_TIME = 3000; // 3 sec

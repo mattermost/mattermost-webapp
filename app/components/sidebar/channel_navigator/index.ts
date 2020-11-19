@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';

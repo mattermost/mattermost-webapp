@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Dictionary} from '@mattermost/redux/types/utilities';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {

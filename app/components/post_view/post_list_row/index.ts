@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from '@mattermost/redux/types/channels';
+import {Post} from '@mattermost/redux/types/posts';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';

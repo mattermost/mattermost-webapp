@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
-import {ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {TeamMembership} from '@mattermost/redux/types/teams';
+import {ChannelMembership} from '@mattermost/redux/types/channels';
 
 import * as Utils from 'utils/utils.jsx';
 

@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {getLicenseConfig} from '@mattermost/redux/actions/general';
+import {ActionFunc, GenericAction} from '@mattermost/redux/types/actions';
 
 import {requestTrialLicense} from 'actions/admin_actions';
 

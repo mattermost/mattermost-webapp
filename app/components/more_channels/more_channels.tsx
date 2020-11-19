@@ -5,9 +5,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import Permissions from 'mattermost-redux/constants/permissions';
+import {Channel} from '@mattermost/redux/types/channels';
+import {ActionFunc, ActionResult} from '@mattermost/redux/types/actions';
+import Permissions from '@mattermost/redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
 

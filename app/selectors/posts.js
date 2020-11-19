@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getPost} from '@mattermost/redux/selectors/entities/posts';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {getBool as getBoolPreference} from '@mattermost/redux/selectors/entities/preferences';
 
 import {getGlobalItem} from 'selectors/storage';
 import {Preferences, StoragePrefixes} from 'utils/constants';

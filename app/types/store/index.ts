@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
-import {GlobalState as BaseGlobalState} from 'mattermost-redux/types/store';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Channel} from '@mattermost/redux/types/channels';
+import {MarketplacePlugin} from '@mattermost/redux/types/plugins';
+import {GlobalState as BaseGlobalState} from '@mattermost/redux/types/store';
+import {Dictionary} from '@mattermost/redux/types/utilities';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';

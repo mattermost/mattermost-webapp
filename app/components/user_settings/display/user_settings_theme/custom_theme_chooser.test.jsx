@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {Preferences} from 'mattermost-redux/constants';
+import {Preferences} from '@mattermost/redux/constants';
 
 import CustomThemeChooser from 'components/user_settings/display/user_settings_theme/custom_theme_chooser.jsx';
 

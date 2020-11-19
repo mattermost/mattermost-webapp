@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl} from '@mattermost/redux/utils/emoji_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 

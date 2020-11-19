@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Posts} from 'mattermost-redux/constants';
+import {Posts} from '@mattermost/redux/constants';
 
 import PostMarkdown from 'components/post_markdown/post_markdown';
 import Markdown from 'components/markdown';

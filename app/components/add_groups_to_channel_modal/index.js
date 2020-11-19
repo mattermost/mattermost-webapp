@@ -3,10 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getGroupsNotAssociatedToChannel, linkGroupSyncable, getAllGroupsAssociatedToChannel, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
-import {getTeam} from 'mattermost-redux/actions/teams';
-import {getGroupsNotAssociatedToChannel as selectGroupsNotAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getGroupsNotAssociatedToChannel, linkGroupSyncable, getAllGroupsAssociatedToChannel, getAllGroupsAssociatedToTeam} from '@mattermost/redux/actions/groups';
+import {getTeam} from '@mattermost/redux/actions/teams';
+import {getGroupsNotAssociatedToChannel as selectGroupsNotAssociatedToChannel} from '@mattermost/redux/selectors/entities/groups';
+import {getCurrentChannel} from '@mattermost/redux/selectors/entities/channels';
 
 import {setModalSearchTerm} from 'actions/views/search';
 

@@ -3,12 +3,12 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
-import {getIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/integrations';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getIncomingHook, updateIncomingHook} from '@mattermost/redux/actions/integrations';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {ActionFunc, ActionResult, GenericAction} from '@mattermost/redux/types/actions';
+import {IncomingWebhook} from '@mattermost/redux/types/integrations';
 
 import EditIncomingWebhook from './edit_incoming_webhook';
 

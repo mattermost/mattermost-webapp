@@ -3,10 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
+import {autoUpdateTimezone} from '@mattermost/redux/actions/timezone';
+import {getCurrentChannelId} from '@mattermost/redux/selectors/entities/channels';
+import {getLicense, getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUser, shouldShowTermsOfService} from '@mattermost/redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';

@@ -5,7 +5,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
 import {leaveChannel} from 'actions/views/channel';
 

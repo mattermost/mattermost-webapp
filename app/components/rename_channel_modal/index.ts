@@ -5,11 +5,11 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
-import {patchChannel} from 'mattermost-redux/actions/channels';
-import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {patchChannel} from '@mattermost/redux/actions/channels';
+import {getTeam} from '@mattermost/redux/selectors/entities/teams';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {ActionFunc, GenericAction} from '@mattermost/redux/types/actions';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import {getSiteURL} from 'utils/url';
 

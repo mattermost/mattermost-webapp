@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import Permissions from 'mattermost-redux/constants/permissions';
+import Permissions from '@mattermost/redux/constants/permissions';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';

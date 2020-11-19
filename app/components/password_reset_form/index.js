@@ -3,8 +3,8 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {resetUserPassword} from 'mattermost-redux/actions/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {resetUserPassword} from '@mattermost/redux/actions/users';
 
 import PasswordResetForm from './password_reset_form';
 

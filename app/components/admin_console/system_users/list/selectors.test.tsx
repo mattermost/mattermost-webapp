@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as users from 'mattermost-redux/selectors/entities/users';
+import * as users from '@mattermost/redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import {getUsers} from 'components/admin_console/system_users/list/selectors';
 
-jest.mock('mattermost-redux/selectors/entities/users');
+jest.mock('@mattermost/redux/selectors/entities/users');
 
 describe('components/admin_console/system_users/list/selectors', () => {
     const state = {} as GlobalState;

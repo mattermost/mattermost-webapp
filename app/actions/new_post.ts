@@ -7,23 +7,23 @@ import {
     markChannelAsRead,
     markChannelAsUnread,
     markChannelAsViewed,
-} from 'mattermost-redux/actions/channels';
-import * as PostActions from 'mattermost-redux/actions/posts';
+} from '@mattermost/redux/actions/channels';
+import * as PostActions from '@mattermost/redux/actions/posts';
 
-import {WebsocketEvents} from 'mattermost-redux/constants';
+import {WebsocketEvents} from '@mattermost/redux/constants';
 
-import {getCurrentChannel, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
-import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentChannel, isManuallyUnread} from '@mattermost/redux/selectors/entities/channels';
+import * as PostSelectors from '@mattermost/redux/selectors/entities/posts';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {ActionFunc, DispatchFunc, GetStateFunc} from '@mattermost/redux/types/actions';
+import {Post} from '@mattermost/redux/types/posts';
 
 import {
     isFromWebhook,
     isSystemMessage,
     shouldIgnorePost,
-} from 'mattermost-redux/utils/post_utils';
+} from '@mattermost/redux/utils/post_utils';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 

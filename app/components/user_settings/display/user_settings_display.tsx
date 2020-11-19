@@ -3,10 +3,10 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+import {getTimezoneRegion} from '@mattermost/redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
+import {PreferenceType} from '@mattermost/redux/types/preferences';
+import {UserProfile, UserTimezone} from '@mattermost/redux/types/users';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';

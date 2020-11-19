@@ -2,15 +2,15 @@
 // See LICENSE.txt for license information.
 
 import semver from 'semver';
-import {logError} from 'mattermost-redux/actions/errors';
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
-import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {logError} from '@mattermost/redux/actions/errors';
+import {getProfilesByIds} from '@mattermost/redux/actions/users';
+import {getCurrentChannel, getMyChannelMember, makeGetChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getTeammateNameDisplaySetting} from '@mattermost/redux/selectors/entities/preferences';
+import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from '@mattermost/redux/selectors/entities/users';
+import {isChannelMuted} from '@mattermost/redux/utils/channel_utils';
+import {isSystemMessage} from '@mattermost/redux/utils/post_utils';
+import {displayUsername} from '@mattermost/redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';

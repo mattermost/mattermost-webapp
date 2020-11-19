@@ -3,10 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {getInt} from '@mattermost/redux/selectors/entities/preferences';
 
 import {openMenu as openRhsMenu} from 'actions/views/rhs';
 import {getIsRhsMenuOpen} from 'selectors/rhs';

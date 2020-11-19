@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {isChannelReadOnlyById, getChannel} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
+import {makeGetReactionsForPost} from '@mattermost/redux/selectors/entities/posts';
+import {makeGetDisplayName} from '@mattermost/redux/selectors/entities/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {get} from '@mattermost/redux/selectors/entities/preferences';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';

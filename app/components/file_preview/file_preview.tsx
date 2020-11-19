@@ -3,8 +3,8 @@
 /* eslint-disable react/no-string-refs */
 
 import React, {ReactNode} from 'react';
-import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {getFileThumbnailUrl, getFileUrl} from '@mattermost/redux/utils/file_utils';
+import {FileInfo} from '@mattermost/redux/types/files';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import Constants, {FileTypes} from 'utils/constants';

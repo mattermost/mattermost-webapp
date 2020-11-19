@@ -3,12 +3,12 @@
 
 import {combineReducers} from 'redux';
 
-import {ChannelCategoryTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelCategoryTypes, UserTypes} from '@mattermost/redux/action_types';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {GenericAction} from '@mattermost/redux/types/actions';
+import {ChannelCategory} from '@mattermost/redux/types/channel_categories';
 
-import {removeItem} from 'mattermost-redux/utils/array_utils';
+import {removeItem} from '@mattermost/redux/utils/array_utils';
 
 import {DraggingState} from 'types/store';
 

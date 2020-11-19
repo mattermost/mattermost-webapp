@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {getUserTimezone} from '@mattermost/redux/selectors/entities/timezone';
 
 import {getCurrentDateForTimezone} from 'utils/timezone';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';

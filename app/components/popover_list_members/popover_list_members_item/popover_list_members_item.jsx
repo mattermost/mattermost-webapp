@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
 import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/widgets/icons/message_icon';

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateTeamMemberSchemeRoles, getTeamMembersForUser, getTeamsForUser, removeUserFromTeam} from 'mattermost-redux/actions/teams';
+import {updateTeamMemberSchemeRoles, getTeamMembersForUser, getTeamsForUser, removeUserFromTeam} from '@mattermost/redux/actions/teams';
 
 import {getCurrentLocale} from 'selectors/i18n';
 

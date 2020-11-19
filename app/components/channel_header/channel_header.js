@@ -8,9 +8,9 @@ import {Tooltip, Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import {Permissions} from 'mattermost-redux/constants';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import {Permissions} from '@mattermost/redux/constants';
+import {memoizeResult} from '@mattermost/redux/utils/helpers';
+import {displayUsername} from '@mattermost/redux/utils/user_utils';
 
 import 'bootstrap';
 

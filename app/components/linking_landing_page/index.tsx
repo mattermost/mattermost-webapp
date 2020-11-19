@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {Client4} from 'mattermost-redux/client';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {Client4} from '@mattermost/redux/client';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getTheme} from '@mattermost/redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 

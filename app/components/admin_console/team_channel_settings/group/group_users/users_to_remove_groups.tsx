@@ -5,8 +5,8 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Group} from 'mattermost-redux/types/groups';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Group} from '@mattermost/redux/types/groups';
 
 import OverlayTrigger from 'components/overlay_trigger';
 

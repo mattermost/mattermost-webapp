@@ -3,21 +3,21 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {SearchTypes} from 'mattermost-redux/action_types';
+import {SearchTypes} from '@mattermost/redux/action_types';
 import {
     clearSearch,
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
-} from 'mattermost-redux/actions/search';
-import * as PostActions from 'mattermost-redux/actions/posts';
-import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
-import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
+} from '@mattermost/redux/actions/search';
+import * as PostActions from '@mattermost/redux/actions/posts';
+import {getCurrentUserId, getCurrentUserMentionKeys} from '@mattermost/redux/selectors/entities/users';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentChannelId} from '@mattermost/redux/selectors/entities/channels';
+import {getPost} from '@mattermost/redux/selectors/entities/posts';
+import {getUserTimezone} from '@mattermost/redux/selectors/entities/timezone';
+import {getUserCurrentTimezone} from '@mattermost/redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';

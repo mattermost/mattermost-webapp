@@ -3,14 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig, getLicense} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
-import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentUserId, isCurrentUserSystemAdmin, getStatusForUserId} from '@mattermost/redux/selectors/entities/users';
+import {haveIChannelPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getChannelTimezones, getChannelMemberCountsByGroup} from '@mattermost/redux/actions/channels';
+import {get, getInt, getBool} from '@mattermost/redux/selectors/entities/preferences';
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
@@ -18,15 +18,15 @@ import {
     getPost,
     makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
-} from 'mattermost-redux/selectors/entities/posts';
-import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
+} from '@mattermost/redux/selectors/entities/posts';
+import {getAssociatedGroupsForReferenceByMention} from '@mattermost/redux/selectors/entities/groups';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
     removeReaction,
-} from 'mattermost-redux/actions/posts';
-import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+} from '@mattermost/redux/actions/posts';
+import {Permissions, Posts, Preferences as PreferencesRedux} from '@mattermost/redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 

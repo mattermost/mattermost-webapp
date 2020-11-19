@@ -5,13 +5,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {uniq, difference} from 'lodash';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/redux/types/roles';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import {ActionResult} from '@mattermost/redux/types/actions';
 
-import Permissions from 'mattermost-redux/constants/permissions';
+import Permissions from '@mattermost/redux/constants/permissions';
 
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';

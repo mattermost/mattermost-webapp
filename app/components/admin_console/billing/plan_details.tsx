@@ -7,7 +7,7 @@ import {FormattedDate, FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 import classNames from 'classnames';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {ClientPluginManifest} from '@mattermost/redux/types/plugins';
+import {IDMappedObjects} from '@mattermost/redux/types/utilities';
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;

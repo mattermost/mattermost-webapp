@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {
     IntegrationTypes,
-} from 'mattermost-redux/action_types';
+} from '@mattermost/redux/action_types';
 
 import {openModal} from 'actions/views/modals';
 

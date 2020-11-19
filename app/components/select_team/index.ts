@@ -5,13 +5,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {getTeams} from 'mattermost-redux/actions/teams';
-import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Permissions} from 'mattermost-redux/constants';
-import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getTeams} from '@mattermost/redux/actions/teams';
+import {loadRolesIfNeeded} from '@mattermost/redux/actions/roles';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {Permissions} from '@mattermost/redux/constants';
+import {haveISystemPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getSortedListableTeams, getTeamMemberships} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 

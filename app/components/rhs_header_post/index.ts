@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentRelativeTeamUrl} from '@mattermost/redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
 

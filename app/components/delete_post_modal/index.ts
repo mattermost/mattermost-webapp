@@ -4,8 +4,8 @@
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {ActionFunc} from '@mattermost/redux/types/actions';
+import {Post} from '@mattermost/redux/types/posts';
 
 import {deleteAndRemovePost} from 'actions/post_actions.jsx';
 

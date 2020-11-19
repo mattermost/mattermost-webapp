@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import {
     getConfig,
     getLicense,
-} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
+import {getStandardAnalytics} from '@mattermost/redux/actions/admin';
 import {bindActionCreators, Dispatch} from 'redux';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {GenericAction} from '@mattermost/redux/types/actions';
+import {getCloudSubscription} from '@mattermost/redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 

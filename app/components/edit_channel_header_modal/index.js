@@ -3,9 +3,9 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {patchChannel} from 'mattermost-redux/actions/channels';
-import {Preferences} from 'mattermost-redux/constants';
+import {getBool} from '@mattermost/redux/selectors/entities/preferences';
+import {patchChannel} from '@mattermost/redux/actions/channels';
+import {Preferences} from '@mattermost/redux/constants';
 
 import {closeModal} from 'actions/views/modals';
 import {setShowPreviewOnEditChannelHeaderModal} from 'actions/views/textbox';

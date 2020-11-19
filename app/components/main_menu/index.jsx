@@ -7,17 +7,17 @@ import {bindActionCreators} from 'redux';
 import {
     getConfig,
     getLicense,
-} from 'mattermost-redux/selectors/entities/general';
+} from '@mattermost/redux/selectors/entities/general';
 import {
     getMyTeams,
     getJoinableTeamIds,
     getCurrentTeam,
     getMyTeamMember,
-} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Permissions} from 'mattermost-redux/constants';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
+import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from '@mattermost/redux/selectors/entities/roles';
+import {Permissions} from '@mattermost/redux/constants';
+import {getCloudSubscription} from '@mattermost/redux/actions/cloud';
 
 import {isAdmin} from 'utils/utils.jsx';
 

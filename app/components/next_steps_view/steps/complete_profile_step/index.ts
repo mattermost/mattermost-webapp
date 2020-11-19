@@ -8,8 +8,8 @@ import {
     updateMe,
     setDefaultProfileImage,
     uploadProfileImage,
-} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+} from '@mattermost/redux/actions/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 

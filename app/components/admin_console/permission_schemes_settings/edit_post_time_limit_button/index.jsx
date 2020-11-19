@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import EditPostTimeLimitButton from './edit_post_time_limit_button';
 

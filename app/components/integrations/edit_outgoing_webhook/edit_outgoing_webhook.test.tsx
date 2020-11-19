@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
-import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
+import {OutgoingWebhook} from '@mattermost/redux/types/integrations';
 
 import EditOutgoingWebhook
     from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook';

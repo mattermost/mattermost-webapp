@@ -5,8 +5,8 @@
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/redux/types/channels';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';

@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as Actions from 'mattermost-redux/actions/integrations';
-import {getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getUsers} from 'mattermost-redux/selectors/entities/users';
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Permissions} from 'mattermost-redux/constants';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import * as Actions from '@mattermost/redux/actions/integrations';
+import {getOutgoingHooks} from '@mattermost/redux/selectors/entities/integrations';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
+import {getAllChannels} from '@mattermost/redux/selectors/entities/channels';
+import {getUsers} from '@mattermost/redux/selectors/entities/users';
+import {haveITeamPermission} from '@mattermost/redux/selectors/entities/roles';
+import {Permissions} from '@mattermost/redux/constants';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {loadOutgoingHooksAndProfilesForTeam} from 'actions/integration_actions';
 

@@ -8,7 +8,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
-import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+import {sortFileInfos} from '@mattermost/redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 

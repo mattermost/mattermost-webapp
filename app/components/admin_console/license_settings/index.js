@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {uploadLicense, removeLicense} from 'mattermost-redux/actions/admin';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getLicenseConfig} from '@mattermost/redux/actions/general';
+import {uploadLicense, removeLicense} from '@mattermost/redux/actions/admin';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer, ping} from 'actions/admin_actions';
 

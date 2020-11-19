@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
+import {getTeamStats as loadTeamStats} from '@mattermost/redux/actions/teams';
 
-import {getTeamStats} from 'mattermost-redux/selectors/entities/teams';
+import {getTeamStats} from '@mattermost/redux/selectors/entities/teams';
 
 import TeamInList from './team_in_list.jsx';
 

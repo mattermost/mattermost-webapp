@@ -4,9 +4,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {UserTypes} from 'mattermost-redux/action_types';
-import {Client4} from 'mattermost-redux/client';
-import {Preferences} from 'mattermost-redux/constants';
+import {UserTypes} from '@mattermost/redux/action_types';
+import {Client4} from '@mattermost/redux/client';
+import {Preferences} from '@mattermost/redux/constants';
 import {
     getChannelsInCurrentTeam,
     getDirectAndGroupChannels,
@@ -15,21 +15,21 @@ import {
     makeGetChannel,
     getMyChannelMemberships,
     getChannelByName,
-} from 'mattermost-redux/selectors/entities/channels';
+} from '@mattermost/redux/selectors/entities/channels';
 
-import {getTeammateNameDisplaySetting, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getTeammateNameDisplaySetting, getMyPreferences} from '@mattermost/redux/selectors/entities/preferences';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentTeamId} from '@mattermost/redux/selectors/entities/teams';
 import {
     getCurrentUserId,
     getUserIdsInChannels,
     getUser,
     makeSearchProfilesMatchingWithTerm,
-} from 'mattermost-redux/selectors/entities/users';
-import {searchChannels} from 'mattermost-redux/actions/channels';
-import {logError} from 'mattermost-redux/actions/errors';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
+} from '@mattermost/redux/selectors/entities/users';
+import {searchChannels} from '@mattermost/redux/actions/channels';
+import {logError} from '@mattermost/redux/actions/errors';
+import {getLastPostPerChannel} from '@mattermost/redux/selectors/entities/posts';
+import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from '@mattermost/redux/utils/channel_utils';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';

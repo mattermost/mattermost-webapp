@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership, TeamStats, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
-import {Teams} from 'mattermost-redux/constants';
+import {ActionResult} from '@mattermost/redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {TeamMembership, TeamStats, GetTeamMembersOpts} from '@mattermost/redux/types/teams';
+import {Teams} from '@mattermost/redux/constants';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';

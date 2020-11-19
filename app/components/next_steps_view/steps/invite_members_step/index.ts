@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {sendEmailInvitesToTeamGracefully, regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {TeamInviteWithError} from 'mattermost-redux/types/teams';
+import {sendEmailInvitesToTeamGracefully, regenerateTeamInviteId} from '@mattermost/redux/actions/teams';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentTeam} from '@mattermost/redux/selectors/entities/teams';
+import {GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
+import {ServerError} from '@mattermost/redux/types/errors';
+import {TeamInviteWithError} from '@mattermost/redux/types/teams';
 
 import {GlobalState} from 'types/store';
 

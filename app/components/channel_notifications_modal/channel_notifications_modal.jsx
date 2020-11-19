@@ -7,7 +7,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {isChannelMuted} from '@mattermost/redux/utils/channel_utils';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';

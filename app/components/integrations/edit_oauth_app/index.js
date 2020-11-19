@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getOAuthApp, editOAuthApp} from 'mattermost-redux/actions/integrations';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getOAuthApp, editOAuthApp} from '@mattermost/redux/actions/integrations';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
 import EditOAuthApp from './edit_oauth_app.jsx';
 

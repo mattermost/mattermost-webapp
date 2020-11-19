@@ -6,7 +6,7 @@ import {
     PostTypes,
     TeamTypes,
     SearchTypes,
-} from 'mattermost-redux/action_types';
+} from '@mattermost/redux/action_types';
 
 import {ActionTypes, RHSStates} from 'utils/constants';
 

@@ -4,7 +4,7 @@
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {toggleMenu as toggleRhsMenu} from 'actions/views/rhs';
 

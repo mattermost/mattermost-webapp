@@ -8,12 +8,12 @@ import {
     joinChannel,
     markChannelAsRead,
     unfavoriteChannel,
-} from 'mattermost-redux/actions/channels';
-import * as PostActions from 'mattermost-redux/actions/posts';
-import {TeamTypes} from 'mattermost-redux/action_types';
-import {autocompleteUsers} from 'mattermost-redux/actions/users';
-import {selectTeam} from 'mattermost-redux/actions/teams';
-import {Posts, RequestStatus} from 'mattermost-redux/constants';
+} from '@mattermost/redux/actions/channels';
+import * as PostActions from '@mattermost/redux/actions/posts';
+import {TeamTypes} from '@mattermost/redux/action_types';
+import {autocompleteUsers} from '@mattermost/redux/actions/users';
+import {selectTeam} from '@mattermost/redux/actions/teams';
+import {Posts, RequestStatus} from '@mattermost/redux/constants';
 
 import {
     getChannel,
@@ -25,14 +25,14 @@ import {
     getAllDirectChannelsNameMapInCurrentTeam,
     isFavoriteChannel,
     isManuallyUnread,
-} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
-import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
-import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
+} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId, getTeamsList} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUserId, getUserByUsername} from '@mattermost/redux/selectors/entities/users';
+import {getMostRecentPostIdInChannel, getPost} from '@mattermost/redux/selectors/entities/posts';
+import {makeAddLastViewAtToProfiles} from '@mattermost/redux/selectors/entities/utils';
 
-import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
-import EventEmitter from 'mattermost-redux/utils/event_emitter';
+import {getChannelByName} from '@mattermost/redux/utils/channel_utils';
+import EventEmitter from '@mattermost/redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getLastViewedChannelName} from 'selectors/local_storage';

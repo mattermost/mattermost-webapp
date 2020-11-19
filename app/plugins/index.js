@@ -3,7 +3,7 @@
 
 import regeneratorRuntime from 'regenerator-runtime';
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';

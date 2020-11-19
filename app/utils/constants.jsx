@@ -3,9 +3,9 @@
 
 import keyMirror from 'key-mirror';
 
-import Permissions from 'mattermost-redux/constants/permissions';
+import Permissions from '@mattermost/redux/constants/permissions';
 
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
+import * as PostListUtils from '@mattermost/redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';

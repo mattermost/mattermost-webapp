@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import Permissions from 'mattermost-redux/constants/permissions';
+import Permissions from '@mattermost/redux/constants/permissions';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';

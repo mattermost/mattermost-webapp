@@ -4,15 +4,15 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {receivedNewPost} from 'mattermost-redux/actions/posts';
-import {Posts} from 'mattermost-redux/constants';
+import {receivedNewPost} from '@mattermost/redux/actions/posts';
+import {Posts} from '@mattermost/redux/constants';
 
 import * as NewPostActions from 'actions/new_post';
 import {Constants} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
-jest.mock('mattermost-redux/actions/channels', () => ({
+jest.mock('@mattermost/redux/actions/channels', () => ({
     markChannelAsUnread: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_UNREAD', args}),
     markChannelAsRead: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_READ', args}),
     markChannelAsViewed: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_VIEWED', args}),

@@ -3,7 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {favoriteChannel, unfavoriteChannel} from '@mattermost/redux/actions/channels';
 
 import ToggleFavoriteChannel from './toggle_favorite_channel';
 

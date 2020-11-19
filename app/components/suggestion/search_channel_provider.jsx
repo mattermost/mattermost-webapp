@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {isDirectChannel, isGroupChannel, sortChannelsByTypeListAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {isDirectChannel, isGroupChannel, sortChannelsByTypeListAndDisplayName} from '@mattermost/redux/utils/channel_utils';
 
 import store from 'stores/redux_store.jsx';
 

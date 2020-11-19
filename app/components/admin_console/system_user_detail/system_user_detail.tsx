@@ -7,15 +7,15 @@ import {Redirect, RouteComponentProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
-import {isEmail} from 'mattermost-redux/utils/helpers';
+import {isEmail} from '@mattermost/redux/utils/helpers';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/redux/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/redux/types/users';
 
-import {$ID} from 'mattermost-redux/types/utilities';
+import {$ID} from '@mattermost/redux/types/utilities';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/redux/types/errors';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 

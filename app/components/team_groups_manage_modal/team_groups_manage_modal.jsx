@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
-import {Groups} from 'mattermost-redux/constants';
+import {Groups} from '@mattermost/redux/constants';
 
 import ConfirmModal from 'components/confirm_modal';
 

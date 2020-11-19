@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {General} from 'mattermost-redux/constants';
+import {General} from '@mattermost/redux/constants';
 
 import MoreInfo from 'components/activity_log_modal/components/more_info';
 

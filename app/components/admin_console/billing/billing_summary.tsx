@@ -6,7 +6,7 @@ import {Tooltip} from 'react-bootstrap';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {Client4} from 'mattermost-redux/client';
+import {Client4} from '@mattermost/redux/client';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';

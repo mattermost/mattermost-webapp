@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+import {getTimezoneRegion} from '@mattermost/redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {ActionResult} from '@mattermost/redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';

@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {bindActionCreators} from 'redux';
-import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getAllChannelStats} from '@mattermost/redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl} from '@mattermost/redux/selectors/entities/teams';
+import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from '@mattermost/redux/selectors/entities/users';
+import {getTeammateNameDisplaySetting} from '@mattermost/redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';

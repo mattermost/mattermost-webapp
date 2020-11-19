@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {General} from 'mattermost-redux/constants';
+import {General} from '@mattermost/redux/constants';
 
 import {clearFileInput} from 'utils/utils';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';

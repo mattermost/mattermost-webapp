@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
-import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+import {changeOpacity, makeStyleFromTheme} from '@mattermost/redux/utils/theme_utils';
 
 import NavigationButton from './navigation_button';
 

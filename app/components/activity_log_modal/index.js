@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
-import {getCurrentUserId, getUserSessions} from 'mattermost-redux/selectors/entities/users';
+import {getSessions, revokeSession} from '@mattermost/redux/actions/users';
+import {getCurrentUserId, getUserSessions} from '@mattermost/redux/selectors/entities/users';
 
 import {getCurrentLocale} from 'selectors/i18n';
 

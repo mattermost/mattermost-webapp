@@ -4,11 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Posts} from '@mattermost/redux/constants';
 
-import {Post, PostType} from 'mattermost-redux/src/types/posts';
+import {Post, PostType} from '@mattermost/redux/src/types/posts';
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from '@mattermost/redux/types/preferences';
 
 import PostMessageView from 'components/post_view/post_message_view/post_message_view';
 

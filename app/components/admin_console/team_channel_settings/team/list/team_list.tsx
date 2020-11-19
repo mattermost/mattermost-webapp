@@ -4,9 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
-import {debounce} from 'mattermost-redux/actions/helpers';
+import {debounce} from '@mattermost/redux/actions/helpers';
 
-import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts, TeamsWithCount} from '@mattermost/redux/types/teams';
 
 import {browserHistory} from 'utils/browser_history';
 

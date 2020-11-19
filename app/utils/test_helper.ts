@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
-import {Bot} from 'mattermost-redux/types/bots';
-import {Role} from 'mattermost-redux/types/roles';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
+import {Channel, ChannelMembership, ChannelNotifyProps} from '@mattermost/redux/types/channels';
+import {Bot} from '@mattermost/redux/types/bots';
+import {Role} from '@mattermost/redux/types/roles';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {Team, TeamMembership} from '@mattermost/redux/types/teams';
+import {Group} from '@mattermost/redux/types/groups';
+import {FileInfo} from '@mattermost/redux/types/files';
+import {Post} from '@mattermost/redux/types/posts';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {

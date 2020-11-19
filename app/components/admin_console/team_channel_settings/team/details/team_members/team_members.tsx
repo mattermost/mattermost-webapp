@@ -4,12 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ServerError} from 'mattermost-redux/types/errors';
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import GeneralConstants from 'mattermost-redux/constants/general';
+import {ServerError} from '@mattermost/redux/types/errors';
+import {ActionResult} from '@mattermost/redux/types/actions';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/redux/types/users';
+import {TeamMembership, Team} from '@mattermost/redux/types/teams';
+import {Dictionary} from '@mattermost/redux/types/utilities';
+import GeneralConstants from '@mattermost/redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';

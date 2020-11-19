@@ -11,9 +11,9 @@ import {
     installPluginFromUrl,
     enablePlugin,
     disablePlugin,
-} from 'mattermost-redux/actions/admin';
+} from '@mattermost/redux/actions/admin';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import PluginManagement from './plugin_management';
 

@@ -3,14 +3,14 @@
 
 import {createSelector} from 'reselect';
 
-import {Client4} from 'mattermost-redux/client';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Permissions, Posts} from 'mattermost-redux/constants';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
-import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
+import {Client4} from '@mattermost/redux/client';
+import {haveIChannelPermission} from '@mattermost/redux/selectors/entities/roles';
+import {makeGetReactionsForPost} from '@mattermost/redux/selectors/entities/posts';
+import {get} from '@mattermost/redux/selectors/entities/preferences';
+import {makeGetDisplayName, getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {Permissions, Posts} from '@mattermost/redux/constants';
+import * as PostListUtils from '@mattermost/redux/utils/post_list';
+import {canEditPost as canEditPostRedux, isPostEphemeral} from '@mattermost/redux/utils/post_utils';
 
 import {allAtMentions} from 'utils/text_formatting';
 
@@ -255,7 +255,7 @@ export function isIdNotPost(postId) {
 }
 
 // getOldestPostId returns the oldest valid post ID in the given list of post IDs. This function is copied from
-// mattermost-redux, except it also includes additional special IDs that are only used in the web app.
+// @mattermost/redux, except it also includes additional special IDs that are only used in the web app.
 export function getOldestPostId(postIds) {
     for (let i = postIds.length - 1; i >= 0; i--) {
         const item = postIds[i];
@@ -303,7 +303,7 @@ export function getPreviousPostId(postIds, startIndex) {
 }
 
 // getLatestPostId returns the most recent valid post ID in the given list of post IDs. This function is copied from
-// mattermost-redux, except it also includes additional special IDs that are only used in the web app.
+// @mattermost/redux, except it also includes additional special IDs that are only used in the web app.
 export function getLatestPostId(postIds) {
     for (let i = 0; i < postIds.length; i++) {
         const item = postIds[i];

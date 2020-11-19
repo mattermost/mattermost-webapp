@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
+import {DispatchFunc, GetStateFunc} from '@mattermost/redux/types/actions';
 
 import {ActionTypes, Preferences, RecommendedNextSteps} from 'utils/constants';
 

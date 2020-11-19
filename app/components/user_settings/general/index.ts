@@ -9,12 +9,12 @@ import {
     sendVerificationEmail,
     setDefaultProfileImage,
     uploadProfileImage,
-} from 'mattermost-redux/actions/users';
-import {clearErrors, logError} from 'mattermost-redux/actions/errors';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+} from '@mattermost/redux/actions/users';
+import {clearErrors, logError} from '@mattermost/redux/actions/errors';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {ActionFunc} from '@mattermost/redux/types/actions';
 
 import UserSettingsGeneralTab, {Props} from './user_settings_general';
 

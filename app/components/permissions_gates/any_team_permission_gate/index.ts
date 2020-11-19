@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {haveITeamPermission} from '@mattermost/redux/selectors/entities/roles';
+import {getMyTeams} from '@mattermost/redux/selectors/entities/teams';
+import {GlobalState} from '@mattermost/redux/types/store';
 
 import AnyTeamPermissionGate from './any_team_permission_gate';
 

@@ -3,8 +3,8 @@
 
 import {createSelector} from 'reselect';
 
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCustomEmojisByName} from '@mattermost/redux/selectors/entities/emojis';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import LocalStorageStore from 'stores/local_storage_store';
 

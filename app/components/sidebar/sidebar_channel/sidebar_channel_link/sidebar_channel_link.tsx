@@ -6,7 +6,7 @@ import {Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/redux/types/channels';
 
 import {mark, trackEvent} from 'actions/telemetry_actions';
 

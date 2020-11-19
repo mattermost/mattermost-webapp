@@ -6,11 +6,11 @@ import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
-import {Posts} from 'mattermost-redux/constants';
-import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {Posts} from '@mattermost/redux/constants';
+import * as ReduxPostUtils from '@mattermost/redux/utils/post_utils';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {ExtendedPost} from 'mattermost-redux/actions/posts';
+import {Post} from '@mattermost/redux/types/posts';
+import {ExtendedPost} from '@mattermost/redux/actions/posts';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';

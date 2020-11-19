@@ -4,13 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {updateUserRoles, uploadProfileImage, setDefaultProfileImage, createUserAccessToken} from 'mattermost-redux/actions/users';
-import {createBot, patchBot} from 'mattermost-redux/actions/bots';
-import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Permissions} from 'mattermost-redux/constants';
+import {updateUserRoles, uploadProfileImage, setDefaultProfileImage, createUserAccessToken} from '@mattermost/redux/actions/users';
+import {createBot, patchBot} from '@mattermost/redux/actions/bots';
+import {getBotAccounts} from '@mattermost/redux/selectors/entities/bots';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getUser} from '@mattermost/redux/selectors/entities/users';
+import {haveISystemPermission} from '@mattermost/redux/selectors/entities/roles';
+import {Permissions} from '@mattermost/redux/constants';
 
 import AddBot from './add_bot.jsx';
 

@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ProductNotices, ProductNotice} from 'mattermost-redux/types/product_notices';
-import {WebsocketStatus} from 'mattermost-redux/types/websocket';
+import {ProductNotices, ProductNotice} from '@mattermost/redux/types/product_notices';
+import {WebsocketStatus} from '@mattermost/redux/types/websocket';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 

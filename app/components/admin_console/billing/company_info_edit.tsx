@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {getName} from 'country-list';
 
-import {getCloudCustomer, updateCloudCustomer, updateCloudCustomerAddress} from 'mattermost-redux/actions/cloud';
+import {getCloudCustomer, updateCloudCustomer, updateCloudCustomerAddress} from '@mattermost/redux/actions/cloud';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import DropdownInput from 'components/dropdown_input';

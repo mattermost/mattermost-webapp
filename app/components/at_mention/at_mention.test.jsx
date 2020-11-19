@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {General} from 'mattermost-redux/constants';
+import {General} from '@mattermost/redux/constants';
 
 import AtMention from 'components/at_mention/at_mention.jsx';
 

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+import {getUserIdFromChannelName} from '@mattermost/redux/utils/channel_utils';
 
 import {imageURLForUser} from 'utils/utils.jsx';
 import Constants from 'utils/constants';

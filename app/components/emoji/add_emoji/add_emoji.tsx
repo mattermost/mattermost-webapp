@@ -5,11 +5,11 @@ import React, {ChangeEvent, FormEvent, SyntheticEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/redux/types/users';
+import {CustomEmoji} from '@mattermost/redux/types/emojis';
+import {Team} from '@mattermost/redux/types/teams';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionResult} from '@mattermost/redux/types/actions';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error';

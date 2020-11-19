@@ -3,11 +3,11 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
-import {sendVerificationEmail} from 'mattermost-redux/actions/users';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {sendVerificationEmail} from '@mattermost/redux/actions/users';
+import {getConfig} from '@mattermost/redux/selectors/entities/general';
+import {getCurrentUser} from '@mattermost/redux/selectors/entities/users';
+import {GlobalState} from '@mattermost/redux/types/store';
+import {GenericAction, ActionFunc} from '@mattermost/redux/types/actions';
 
 import UserSettingsModal, {Props} from './user_settings_modal';
 

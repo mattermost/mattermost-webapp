@@ -5,9 +5,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
-import {createComplianceReport, getComplianceReports} from 'mattermost-redux/actions/admin';
-import {getComplianceReports as selectComplianceReports, getConfig} from 'mattermost-redux/selectors/entities/admin';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {createComplianceReport, getComplianceReports} from '@mattermost/redux/actions/admin';
+import {getComplianceReports as selectComplianceReports, getConfig} from '@mattermost/redux/selectors/entities/admin';
+import {getLicense} from '@mattermost/redux/selectors/entities/general';
 
 import ComplianceReports from './compliance_reports.jsx';
 

@@ -5,11 +5,11 @@
 import $ from 'jquery';
 import React, {UIEvent} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import {Posts} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ExtendedPost} from 'mattermost-redux/actions/posts';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Posts} from '@mattermost/redux/constants';
+import {Channel} from '@mattermost/redux/types/channels';
+import {ExtendedPost} from '@mattermost/redux/actions/posts';
+import {Post} from '@mattermost/redux/types/posts';
+import {UserProfile} from '@mattermost/redux/types/users';
 
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';

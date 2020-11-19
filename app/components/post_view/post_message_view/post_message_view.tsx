@@ -3,10 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Posts} from 'mattermost-redux/constants';
-import {Post} from 'mattermost-redux/types/posts';
+import {Posts} from '@mattermost/redux/constants';
+import {Post} from '@mattermost/redux/types/posts';
 
-import {Theme} from 'mattermost-redux/types/preferences';
+import {Theme} from '@mattermost/redux/types/preferences';
 
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';

@@ -4,8 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {getMyTeams} from '@mattermost/redux/selectors/entities/teams';
+import {GenericAction} from '@mattermost/redux/types/actions';
 
 import {setUnreadFilterEnabled} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';

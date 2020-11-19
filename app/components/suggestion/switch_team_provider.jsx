@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import * as Selectors from 'mattermost-redux/selectors/entities/teams';
+import * as Selectors from '@mattermost/redux/selectors/entities/teams';
 import {FormattedMessage} from 'react-intl';
 
 import {getCurrentLocale} from 'selectors/i18n';

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionResult} from '@mattermost/redux/types/actions';
 
 import MoreChannels, {Props} from 'components/more_channels/more_channels';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';

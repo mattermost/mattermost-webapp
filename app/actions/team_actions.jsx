@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {TeamTypes} from 'mattermost-redux/action_types';
-import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
-import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
-import {getUser} from 'mattermost-redux/actions/users';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {TeamTypes} from '@mattermost/redux/action_types';
+import {viewChannel, getChannelStats} from '@mattermost/redux/actions/channels';
+import * as TeamActions from '@mattermost/redux/actions/teams';
+import {getCurrentChannelId, isManuallyUnread} from '@mattermost/redux/selectors/entities/channels';
+import {getUser} from '@mattermost/redux/actions/users';
+import {savePreferences} from '@mattermost/redux/actions/preferences';
+import {getCurrentUserId} from '@mattermost/redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
