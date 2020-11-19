@@ -13,7 +13,7 @@
   "scripts": {
     "clean": "rm -rf node_modules dist",
     "start": "webpack --progress --watch",
-    "start:dev-server": "webpack-dev-server -d",
+    "start:dev": "webpack-dev-server -d",
     "start:storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "build:storybook": "build-storybook -s ./storybook/static",

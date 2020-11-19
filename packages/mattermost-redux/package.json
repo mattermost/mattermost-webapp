@@ -50,7 +50,7 @@
     "./types/*": "./types/*.js"
   },
   "scripts": {
-    "clean": "rm -rf node_modules dist",
+    "clean": "rm -rf node_modules action_types actions client constants reducers selectors store utils types index*",
     "start": "tsc --watch",
     "build": "cross-env NODE_ENV=production tsc",
     "check": "eslint --ignore-path .gitignore --ignore-pattern node_modules --quiet 'src/**/*.ts' 'src/**/*.test.js'",

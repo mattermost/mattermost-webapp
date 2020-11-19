@@ -8,7 +8,7 @@ export NODE_OPTIONS=--max-old-space-size=4096
 build-storybook: node_modules ## Build the storybook
 	@echo Building storybook
 
-	npm run build-storybook
+	npm run build:storybook
 
 storybook: node_modules ## Run the storybook development environment
 	npm run storybook
@@ -26,7 +26,7 @@ fix-style: node_modules ## Fix JS file ESLint issues
 check-types: node_modules ## Checks TS file for TypeScript confirmity
 	@echo Checking for TypeScript compliance
 
-	npm run check-types
+	npm run check:types
 
 test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
@@ -75,15 +75,15 @@ build: node_modules ## Builds the app
 run: node_modules ## Runs app
 	@echo Running mattermost Webapp for development
 
-	npm run run &
+	npm run start &
 
 dev: node_modules ## Runs webpack-dev-server
-	npm run dev-server
+	npm run start:dev
 
 run-fullmap: node_modules ## Legacy alias to run
 	@echo Running mattermost Webapp for development
 
-	npm run run &
+	npm run start &
 
 stop: ## Stops webpack
 	@echo Stopping changes watching

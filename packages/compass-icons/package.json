@@ -16,6 +16,7 @@
     },
     "scripts": {
         "clean": "rm -rf node_modules config.json dist fontello-*",
+        "start": "npm run build",
         "build": "run-s build:config build:font",
         "build:config": "node -r esm generate-config.js",
         "build:font": "fontello-cli --css ./dist/css --font ./dist/font install",
