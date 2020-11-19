@@ -360,9 +360,13 @@
         }
 
         .SidebarCategorySortingMenu__ActionItem {
-            .icon {
-                width: 100%;
-                padding-right: 5px;
+            padding: 0 15px 0 12px;
+
+            .MenuItem__primary-text {
+                span.icon {
+                    width: 100%;
+                    padding-right: 5px;
+                }
             }
         }
         .categorySortingMenu {
