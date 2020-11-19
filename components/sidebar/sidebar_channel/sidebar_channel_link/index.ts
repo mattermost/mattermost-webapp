@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -23,7 +23,7 @@ type OwnProps = {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const member = getMyChannelMemberships(state)[ownProps.channel.id];
-    const currentChannel = getCurrentChannel(state);
+    const currentChannelId = getCurrentChannelId(state);
     const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id);
 
     // Unread counts
@@ -44,7 +44,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
             showUnreadForMsgs = member.notify_props.mark_unread !== NotificationLevels.MENTION;
         }
     }
-    if (hasDraft(draft) && currentChannel?.id !== ownProps.channel.id) {
+    if (hasDraft(draft) && currentChannelId !== ownProps.channel.id) {
         isDraft = true;
     }
 
