@@ -5,8 +5,11 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
 import {Tooltip} from 'react-bootstrap';
+
+import {WarnMetricStatus} from 'mattermost-redux/types/config';
+
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 
@@ -17,34 +20,32 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-export default class AnnouncementBar extends React.PureComponent {
-    static propTypes = {
-        showCloseButton: PropTypes.bool,
-        color: PropTypes.string,
-        textColor: PropTypes.string,
-        type: PropTypes.string,
-        message: PropTypes.node.isRequired,
-        handleClose: PropTypes.func,
-        announcementBarCount: PropTypes.number.isRequired,
-        showModal: PropTypes.bool,
-        modalButtonText: PropTypes.string,
-        modalButtonDefaultText: PropTypes.string,
-        showLinkAsButton: PropTypes.bool,
-        warnMetricStatus: PropTypes.object,
-        isTallBanner: PropTypes.bool,
-        actions: PropTypes.shape({
-            incrementAnnouncementBarCount: PropTypes.func.isRequired,
-            decrementAnnouncementBarCount: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    showCloseButton: boolean;
+    color: string;
+    textColor: string;
+    type: string;
+    message: React.ReactNode;
+    handleClose?: (e?:any)=>void;
+    announcementBarCount?: number;
+    showModal?: ()=> void;
+    modalButtonText?: string;
+    modalButtonDefaultText?: string;
+    showLinkAsButton: boolean;
+    warnMetricStatus?: Dictionary<WarnMetricStatus>;
+    isTallBanner: boolean;
+    actions: {
+        incrementAnnouncementBarCount: ()=>void;
+        decrementAnnouncementBarCount: ()=>void;
+    };
+}
 
+export default class AnnouncementBar extends React.PureComponent<Props> {
     static defaultProps = {
         showCloseButton: false,
         color: '',
         textColor: '',
         type: AnnouncementBarTypes.CRITICAL,
-        handleClose: null,
-        onButtonClick: null,
         showLinkAsButton: false,
         isTallBanner: false,
     }
@@ -68,7 +69,7 @@ export default class AnnouncementBar extends React.PureComponent {
         this.props.actions.decrementAnnouncementBarCount();
     }
 
-    handleClose = (e) => {
+    handleClose = (e: any) => {
         e.preventDefault();
         if (this.props.handleClose) {
             this.props.handleClose();
@@ -81,8 +82,8 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         let barClass = 'announcement-bar';
-        const barStyle = {};
-        const linkStyle = {};
+        const barStyle = {backgroundColor: '', color: ''};
+        const linkStyle = {color: ''};
         if (this.props.color && this.props.textColor) {
             barStyle.backgroundColor = this.props.color;
             barStyle.color = this.props.textColor;
