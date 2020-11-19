@@ -1,5 +1,5 @@
 {
-  "name": "mattermost-webapp",
+  "name": "@mattermost/webapp",
   "version": "0.0.1",
   "private": true,
   "description": "Mattermost is a high trust, open source collaboration platform built for developers.",
@@ -36,6 +36,7 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "3.2.3",
     "@formatjs/intl-relativetimeformat": "6.2.3",
+    "@mattermost/compass-icons": "0.1.0",
     "@mattermost/redux": "5.3.1",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.9.0",

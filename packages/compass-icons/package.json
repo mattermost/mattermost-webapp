@@ -9,26 +9,24 @@
     "bugs": {
         "url": "https://github.com/mattermost/mattermost-webapp/issues"
     },
-    "files": [
-        "./build/**/*"
-    ],
-    "main": "build/css/compass-icons.css",
-    "browser": "build/css/compass-icons.css",
+    "main": "dist/css/compass-icons.css",
+    "browser": "dist/css/compass-icons.css",
     "exports": {
-        ".": "./build/css/compass-icons.css"
+        ".": "./dist/css/compass-icons.css"
     },
     "scripts": {
-        "clean": "rm -rf config.json build",
+        "clean": "rm -rf node_modules config.json dist fontello-*",
         "build": "run-s build:config build:font",
         "build:config": "node -r esm generate-config.js",
-        "build:font": "fontello-cli --css ./build/css --font ./build/font install",
+        "build:font": "fontello-cli --css ./dist/css --font ./dist/font install",
         "package": "run-s build:config package:font",
-        "package:font": "fontello-cli install"
+        "package:font": "fontello-cli install",
+        "prepare": "npm run build"
     },
     "dependencies": {
         "esm": "^3.2.25",
         "fontello-batch-cli": "^4.0.0",
-        "fontello-cli": "^0.5.0",
+        "fontello-cli": "^0.5.1",
         "lodash": "^4.17.20",
         "needle": "^2.5.2",
         "open": "^7.2.1",

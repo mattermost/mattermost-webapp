@@ -15,7 +15,8 @@
     "initialize": "lerna bootstrap",
     "start": "lerna run start --parallel",
     "build": "lerna run build",
-    "check": "lerna run check"
+    "check": "lerna run check",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "^3.22.1"
