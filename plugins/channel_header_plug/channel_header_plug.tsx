@@ -91,7 +91,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 
 type ChannelHeaderPlugProps = {
     components?: PluginComponent[];
-    appBindings?: AppBinding[];
+    appBindings: AppBinding[];
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
@@ -158,7 +158,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
     createAppBindingButton = (binding: AppBinding) => {
         return (
             <HeaderIconWrapper
-                key={'channelHeaderButton' + binding.location_id}
+                key={'channelHeaderButton' + binding.location}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={(
                     <img
@@ -168,7 +168,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                     />
                 )}
                 onClick={() => this.onClick(binding)}
-                buttonId={binding.location_id || ''}
+                buttonId={binding.location || ''}
                 tooltipKey={'plugin'}
                 tooltipText={binding.label}
             />
@@ -196,7 +196,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         const items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
             return (
                 <li
-                    key={'channelHeaderPlug' + binding.app_id + binding.location_id}
+                    key={'channelHeaderPlug' + binding.app_id + binding.location}
                 >
                     <a
                         href='#'

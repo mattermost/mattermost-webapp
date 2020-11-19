@@ -53,7 +53,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appsBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
+    const appBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
 
     let postEditTimeLimit;
     if (config.PostEditTimeLimit) {
@@ -70,7 +70,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
-        appsBindings,
+        appBindings,
         ...ownProps,
     };
 }
