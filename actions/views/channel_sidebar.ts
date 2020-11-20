@@ -10,6 +10,7 @@ import {setItem} from 'actions/storage';
 import {getChannelsInCategoryOrder} from 'selectors/views/channel_sidebar';
 import {DraggingState, GlobalState} from 'types/store';
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
+import { getCurrentChannelId } from 'mattermost-redux/selectors/entities/channels';
 
 export function collapseCategory(categoryId: string) {
     return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, true);
@@ -113,17 +114,24 @@ export function clearChannelSelection() {
     };
 }
 
-export function multiSelectChannel(channelId: string) {
-    return {
-        type: ActionTypes.MULTISELECT_CHANNEL,
-        data: channelId,
-    };
-}
-
 export function multiSelectChannelAdd(channelId: string) {
-    return {
-        type: ActionTypes.MULTISELECT_CHANNEL_ADD,
-        data: channelId,
+    return (dispatch: DispatchFunc, getState: () => GlobalState) => {
+        const state: GlobalState = getState();
+        const selectedChannelIds = state.views.channelSidebar.selectedChannelIds;
+
+        // Nothing already selected, so we include the active channel
+        if (!selectedChannelIds.length) {
+            const currentChannel = getCurrentChannelId(state);
+            dispatch({
+                type: ActionTypes.MULTISELECT_CHANNEL,
+                data: currentChannel,
+            });
+        }
+
+        return dispatch({
+            type: ActionTypes.MULTISELECT_CHANNEL_ADD,
+            data: channelId,
+        });
     };
 }
 
@@ -131,14 +139,16 @@ export function multiSelectChannelTo(channelId: string) {
     return (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const state: GlobalState = getState();
         const selectedChannelIds = state.views.channelSidebar.selectedChannelIds;
-        const lastSelected = state.views.channelSidebar.lastSelectedChannel;
+        let lastSelected = state.views.channelSidebar.lastSelectedChannel;
 
-        // Nothing already selected
+        // Nothing already selected, so start with the active channel
         if (!selectedChannelIds.length) {
-            return dispatch({
+            const currentChannel = getCurrentChannelId(state);
+            dispatch({
                 type: ActionTypes.MULTISELECT_CHANNEL,
-                data: channelId,
+                data: currentChannel,
             });
+            lastSelected = currentChannel;
         }
 
         const allChannelsIdsInOrder = getChannelsInCategoryOrder(state).map((channel) => channel.id);

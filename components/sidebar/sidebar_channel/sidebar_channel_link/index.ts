@@ -9,7 +9,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {multiSelectChannelAdd, multiSelectChannelTo, multiSelectChannel} from 'actions/views/channel_sidebar';
+import {multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
@@ -51,7 +51,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            multiSelectChannel,
             multiSelectChannelTo,
             multiSelectChannelAdd,
         }, dispatch),

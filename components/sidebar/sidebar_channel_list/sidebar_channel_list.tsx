@@ -409,8 +409,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
-                let channelsToMove = [result.draggableId];
+                // Multi channel case
                 if (this.props.selectedChannelIds.length) {
+                    let channelsToMove = [result.draggableId];
+
                     // Filter out channels that can't go in the category specified
                     const targetCategory = this.props.categories.find((category) => category.id === result.destination?.droppableId);
                     channelsToMove = this.props.selectedChannelIds.filter((channelId) => {
@@ -422,11 +424,13 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     // Reorder such that the channels move in the order that they appear in the sidebar
                     const displayedChannelIds = this.props.displayedChannels.map((channel) => channel.id);
                     channelsToMove.sort((a, b) => displayedChannelIds.indexOf(a) - displayedChannelIds.indexOf(b));
-                }
-                this.props.actions.moveChannelsInSidebar(result.destination.droppableId, channelsToMove, result.destination.index, result.draggableId);
+                    this.props.actions.moveChannelsInSidebar(result.destination.droppableId, channelsToMove, result.destination.index, result.draggableId);
 
-                // Remove selection from channels that were moved
-                channelsToMove.forEach((channelId) => this.props.actions.multiSelectChannelAdd(channelId));
+                    // Remove selection from channels that were moved
+                    channelsToMove.forEach((channelId) => this.props.actions.multiSelectChannelAdd(channelId));
+                } else {
+                    this.props.actions.moveChannelsInSidebar(result.destination.droppableId, [result.draggableId], result.destination.index, result.draggableId);
+                }
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
                 trackEvent('ui', 'ui_sidebar_dragdrop_dropped_category');
