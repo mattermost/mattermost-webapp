@@ -17,7 +17,6 @@ describe('Integrations', () => {
     let secondUser;
     let testTeam;
     let testChannel;
-    let newIncomingHook;
     let incomingWebhook;
 
     before(() => {
@@ -25,7 +24,7 @@ describe('Integrations', () => {
         cy.apiInitSetup().then(({user}) => {
             testUser = user;
 
-            // # Creaate a second user
+            // # Create a second user
             cy.apiCreateUser().then(({user: user2}) => {
                 secondUser = user2;
             });
@@ -43,7 +42,7 @@ describe('Integrations', () => {
                     cy.apiCreateChannel(testTeam.id, 'test-channel', 'Testers Channel').then(({channel}) => {
                         testChannel = channel;
 
-                        newIncomingHook = {
+                        const newIncomingHook = {
                             channel_id: testChannel.id,
                             channel_locked: true,
                             description: 'Test Webhook Description',
@@ -81,10 +80,9 @@ describe('Integrations', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // * Assert that the message was posted even though webhook author has been removed
-        cy.uiWaitUntilMessagePostedIncludes('this webhook was set up by a used that is no longer in this channel').then(() => {
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`).should('have.text', `${payload.text}`);
-            });
+        cy.uiWaitUntilMessagePostedIncludes(payload.text);
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).should('have.text', `${payload.text}`);
         });
     });
 });
@@ -92,6 +90,6 @@ describe('Integrations', () => {
 function getPayload(testChannel) {
     return {
         channel: testChannel.name,
-        text: `${getRandomId()} - this webhook was set up by a used that is no longer in this channel`,
+        text: `${getRandomId()} - this webhook was set up by a user that is no longer in this channel`,
     };
 }
