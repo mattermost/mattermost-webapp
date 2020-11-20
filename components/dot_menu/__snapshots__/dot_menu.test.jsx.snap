@@ -64,7 +64,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     >
       <MenuItemAction
         onClick={[Function]}
-        show={false}
+        show={true}
         text="Add Reaction"
       />
     </Connect(ChannelPermissionGate)>
@@ -192,7 +192,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     >
       <MenuItemAction
         onClick={[Function]}
-        show={false}
+        show={true}
         text="Add Reaction"
       />
     </Connect(ChannelPermissionGate)>

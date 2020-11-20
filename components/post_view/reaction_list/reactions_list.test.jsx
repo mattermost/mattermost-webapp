@@ -4,6 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {EmojiIndicesByAlias} from 'utils/emoji';
+import Constants from 'utils/constants';
+
 import ReactionList from './reaction_list.jsx';
 
 describe('components/ReactionList', () => {
@@ -53,5 +56,36 @@ describe('components/ReactionList', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not render add reaction button when existing reactions exceeded limit', async () => {
+        const mappedReactions = {...reactions};
+        for (const [emoji, index] of [...EmojiIndicesByAlias]) {
+            if (Number(Constants.EMOJI_REACTIONS_LIMIT) === Number(index)) {
+                break;
+            }
+            mappedReactions[`${reaction.user_id}-${emoji}`] = {...reaction, emoji_name: emoji};
+        }
+
+        const props = {
+            ...baseProps,
+            reactions: mappedReactions,
+        };
+
+        const wrapper = shallow(
+            <ReactionList {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('.post-reaction-list').text()).toBe('');
+    });
+
+    test('should render add reaction button when existing reactions within limit', async () => {
+        const wrapper = shallow(
+            <ReactionList {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('.post-reaction-list').text()).toBe('<EmojiPickerOverlay /><AddReactionIcon />');
     });
 });

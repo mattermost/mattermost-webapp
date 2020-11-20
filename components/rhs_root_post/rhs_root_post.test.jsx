@@ -10,7 +10,8 @@ import RhsRootPost from 'components/rhs_root_post/rhs_root_post.jsx';
 import EmojiMap from 'utils/emoji_map';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
-import {Locations} from 'utils/constants';
+import PostReaction from 'components/post_view/post_reaction';
+import {Locations, EMOJI_REACTIONS_LIMIT} from 'utils/constants';
 
 jest.mock('utils/post_utils.jsx', () => ({
     isEdited: jest.fn().mockReturnValue(true),
@@ -50,6 +51,7 @@ describe('components/RhsRootPost', () => {
         previewEnabled: false,
         isEmbedVisible: false,
         enableEmojiPicker: true,
+        emojiReactionCount: 1,
         enablePostUsernameOverride: false,
         isReadOnly: false,
         pluginPostTypes: {},
@@ -199,5 +201,33 @@ describe('components/RhsRootPost', () => {
         expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
         expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
         expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
+    });
+
+    test('should not render PostReaction when existing reactions exceeded limit', async () => {
+        const props = {
+            ...baseProps,
+            emojiReactionCount: EMOJI_REACTIONS_LIMIT + 1,
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...props}/>,
+        );
+
+        const postReaction = wrapper.find(PostReaction);
+        expect(postReaction).toHaveLength(0);
+    });
+
+    test('should render PostReaction when existing reactions count in limit', async () => {
+        const props = {
+            ...baseProps,
+            emojiReactionCount: 1,
+        };
+
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...props}/>,
+        );
+
+        const postReaction = wrapper.find(PostReaction);
+        expect(postReaction).toHaveLength(1);
     });
 });

@@ -79,6 +79,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
         >
           <Connect(DotMenu)
             commentCount={0}
+            emojiReactionCount={1}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
@@ -540,6 +541,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
         >
           <Connect(DotMenu)
             commentCount={0}
+            emojiReactionCount={1}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}

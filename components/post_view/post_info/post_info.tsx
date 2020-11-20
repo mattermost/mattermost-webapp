@@ -30,6 +30,11 @@ type Props = {
      */
     post: Post,
 
+    /*
+     * Used for disabling add reactions button
+     */
+    emojiReactionCount?: number,
+
     /**
      * The id of the team which belongs the post
      */
@@ -111,7 +116,6 @@ type Props = {
     isLastPost?: boolean;
 
     actions: {
-
         /**
          * Function to remove the post
          */
@@ -187,7 +191,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const {isMobile, isReadOnly} = this.props;
+        const {isMobile, isReadOnly, emojiReactionCount} = this.props;
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
@@ -205,7 +209,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker;
+        const showReactionIcon = !isSystemMessage && hover && !isReadOnly && this.props.enableEmojiPicker && emojiReactionCount < Constants.EMOJI_REACTIONS_LIMIT;
         let postReaction;
         if (showReactionIcon) {
             postReaction = (
@@ -225,6 +229,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         if (showDotMenuIcon) {
             dotMenu = (
                 <DotMenu
+                    emojiReactionCount={this.props.emojiReactionCount}
                     post={post}
                     commentCount={this.props.replyCount}
                     isFlagged={this.props.isFlagged}

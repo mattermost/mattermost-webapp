@@ -96,6 +96,22 @@ class CreateComment extends React.PureComponent {
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
+
+        /**
+         * The reactions to render on latest replyable post
+         */
+        reactionsByEmojiNameForLatestPost: PropTypes.array,
+
+        /**
+         * Used for disabling add reactions button
+         */
+        latestPostReactionsCount: PropTypes.number,
+
+        /**
+         * To check if reaction is available in map
+         */
+        emojiMap: PropTypes.object,
+
         locale: PropTypes.string.isRequired,
 
         /**
@@ -264,9 +280,12 @@ class CreateComment extends React.PureComponent {
             uploadsProgressPercent: {},
             renderScrollbar: false,
             scrollbarWidth: 0,
+            postError: null,
             mentions: [],
             memberNotifyCount: 0,
         };
+
+        this.reactionLimitTimer = null;
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;
@@ -297,6 +316,7 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+        clearTimeout(this.reactionLimitTimer);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -593,6 +613,29 @@ class CreateComment extends React.PureComponent {
             setTimeout(() => {
                 this.setState({errorClass: null});
             }, Constants.ANIMATION_TIMEOUT);
+        }
+
+        const isReaction = Utils.REACTION_PATTERN.exec(draft.message);
+        if (isReaction && this.props.emojiMap?.has(isReaction[2])) {
+            const isIncomingReactionPresentForLatestPost = this.props.reactionsByEmojiNameForLatestPost?.indexOf(isReaction[2]) > -1;
+            if (
+                !isIncomingReactionPresentForLatestPost &&
+                isReaction[1] === '+' &&
+                this.props.latestPostReactionsCount >= Constants.EMOJI_REACTIONS_LIMIT
+            ) {
+                const errorMessage = (
+                    <FormattedMessage
+                        id='create_post.reaction_limit_message'
+                        defaultMessage='Reaction limit exceeded for this message.'
+                    />
+                );
+
+                this.reactionLimitTimer = setTimeout(() => this.handlePostError(errorMessage), Constants.REACTION_LIMIT_MESSAGE_TIMEOUT);
+                return;
+            }
+        }
+
+        if (this.state.postError) {
             return;
         }
 
