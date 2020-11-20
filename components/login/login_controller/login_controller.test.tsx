@@ -6,7 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import Constants from 'utils/constants';
 import LocalStorageStore from 'stores/local_storage_store';
-import LoginController from 'components/login/login_controller/login_controller';
+import LoginController, {LoginController as LoginControllerType} from 'components/login/login_controller/login_controller';
 
 describe('components/login/LoginController', () => {
     const baseProps = {
@@ -125,8 +125,9 @@ describe('components/login/LoginController', () => {
 
         wrapper.setState({sessionExpired: true});
 
-        const e = {preventDefault: jest.fn()};
-        wrapper.instance().preSubmit(e);
+        const e = {preventDefault: jest.fn()} as unknown as React.FormEvent;
+        const instance = (wrapper.instance() as LoginControllerType);
+        instance.preSubmit(e);
 
         expect(wrapper.state('sessionExpired')).toBe(false);
     });

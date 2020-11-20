@@ -71,7 +71,7 @@ type State = {
     serverError: JSX.Element;
 }
 
-class LoginController extends React.PureComponent<Props, State> {
+export class LoginController extends React.PureComponent<Props, State> {
     private readonly loginIdInput: React.RefObject<HTMLInputElement>;
     private readonly passwordInput: React.RefObject<HTMLInputElement>;
     private closeSessionExpiredNotification: (() => void) | undefined;
@@ -139,19 +139,19 @@ class LoginController extends React.PureComponent<Props, State> {
         this.showSessionExpiredNotificationIfNeeded();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         this.configureTitle();
         this.showSessionExpiredNotificationIfNeeded();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         if (this.closeSessionExpiredNotification) {
             this.closeSessionExpiredNotification();
             this.closeSessionExpiredNotification = undefined;
         }
     }
 
-    configureTitle = () => {
+    configureTitle = (): void => {
         if (this.state.sessionExpired) {
             document.title = this.props.intl.formatMessage({
                 id: 'login.session_expired.title',
@@ -164,7 +164,7 @@ class LoginController extends React.PureComponent<Props, State> {
         }
     }
 
-    showSessionExpiredNotificationIfNeeded = () => {
+    showSessionExpiredNotificationIfNeeded = (): void => {
         if (this.state.sessionExpired && !this.closeSessionExpiredNotification) {
             showNotification({
                 title: this.props.siteName!,
