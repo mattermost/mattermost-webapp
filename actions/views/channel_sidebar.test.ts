@@ -217,6 +217,7 @@ describe('multiSelectChannelTo', () => {
                 },
             },
             channels: {
+                currentChannelId: 'category1_one',
                 channels: {
                     ...channelIds.reduce((init: {[key: string]: Partial<Channel>}, val) => {
                         init[`category1_${val}`] = {id: `category1_${val}`, delete_at: 0};
@@ -247,18 +248,18 @@ describe('multiSelectChannelTo', () => {
         },
         views: {
             channelSidebar: {
-                selectedChannelIds: [],
+                multiSelectedChannelIds: [],
                 lastSelectedChannel: '',
             },
         },
     };
 
-    test('should select single channel if none are selected', () => {
+    test('should only select current channel if is selected ID and none other are selected', () => {
         const store = configureStore(initialState);
 
-        store.dispatch(Actions.multiSelectChannelTo('category1_five'));
+        store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five']);
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one']);
     });
 
     test('should select group of channels in ascending order', () => {
@@ -266,7 +267,7 @@ describe('multiSelectChannelTo', () => {
             ...initialState,
             views: {
                 channelSidebar: {
-                    selectedChannelIds: ['category1_two'],
+                    multiSelectedChannelIds: ['category1_two'],
                     lastSelectedChannel: 'category1_two',
                 },
             },
@@ -274,7 +275,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_seven'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_two', 'category1_three', 'category1_four', 'category1_five', 'category1_six', 'category1_seven']);
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_two', 'category1_three', 'category1_four', 'category1_five', 'category1_six', 'category1_seven']);
     });
 
     test('should select group of channels in descending order and sort by ascending', () => {
@@ -282,7 +283,7 @@ describe('multiSelectChannelTo', () => {
             ...initialState,
             views: {
                 channelSidebar: {
-                    selectedChannelIds: ['category1_five'],
+                    multiSelectedChannelIds: ['category1_five'],
                     lastSelectedChannel: 'category1_five',
                 },
             },
@@ -290,7 +291,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
     });
 
     test('should select group of channels where some other channels were already selected', () => {
@@ -298,7 +299,7 @@ describe('multiSelectChannelTo', () => {
             ...initialState,
             views: {
                 channelSidebar: {
-                    selectedChannelIds: ['category1_five', 'category2_six', 'category2_three'],
+                    multiSelectedChannelIds: ['category1_five', 'category2_six', 'category2_three'],
                     lastSelectedChannel: 'category1_five',
                 },
             },
@@ -306,7 +307,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
     });
 
     test('should select group of channels where some other channels were already selected but in new selection', () => {
@@ -314,7 +315,7 @@ describe('multiSelectChannelTo', () => {
             ...initialState,
             views: {
                 channelSidebar: {
-                    selectedChannelIds: ['category1_five', 'category1_three', 'category1_one'],
+                    multiSelectedChannelIds: ['category1_five', 'category1_three', 'category1_one'],
                     lastSelectedChannel: 'category1_five',
                 },
             },
@@ -322,7 +323,7 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category1_one'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_one', 'category1_two', 'category1_three', 'category1_four', 'category1_five']);
     });
 
     test('should select group of channels across categories', () => {
@@ -330,7 +331,7 @@ describe('multiSelectChannelTo', () => {
             ...initialState,
             views: {
                 channelSidebar: {
-                    selectedChannelIds: ['category1_five'],
+                    multiSelectedChannelIds: ['category1_five'],
                     lastSelectedChannel: 'category1_five',
                 },
             },
@@ -338,6 +339,6 @@ describe('multiSelectChannelTo', () => {
 
         store.dispatch(Actions.multiSelectChannelTo('category2_two'));
 
-        expect(store.getState().views.channelSidebar.selectedChannelIds).toEqual(['category1_five', 'category1_six', 'category1_seven', 'category2_one', 'category2_two']);
+        expect(store.getState().views.channelSidebar.multiSelectedChannelIds).toEqual(['category1_five', 'category1_six', 'category1_seven', 'category2_one', 'category2_two']);
     });
 });

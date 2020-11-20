@@ -174,5 +174,5 @@ export function getDraggingState(state: GlobalState) {
 }
 
 export function isChannelSelected(state: GlobalState, channelId: string) {
-    return state.views.channelSidebar.selectedChannelIds.indexOf(channelId) !== -1;
+    return state.views.channelSidebar.multiSelectedChannelIds.indexOf(channelId) !== -1;
 }

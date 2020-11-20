@@ -89,7 +89,7 @@ describe('SidebarChannelList', () => {
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
         newCategoryIds: [],
-        selectedChannelIds: [],
+        multiSelectedChannelIds: [],
         isUnreadFilterEnabled: false,
         draggingState: {},
         categoryCollapsedState: {},
@@ -284,6 +284,6 @@ describe('SidebarChannelList', () => {
         };
 
         wrapper.instance().onDragEnd(channelResult);
-        expect(baseProps.actions.moveChannelsInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, [channelResult.draggableId], channelResult.destination!.index, channelResult.draggableId);
+        expect(baseProps.actions.moveChannelsInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.destination!.index, channelResult.draggableId);
     });
 });

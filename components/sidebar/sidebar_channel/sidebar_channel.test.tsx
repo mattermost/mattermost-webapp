@@ -41,7 +41,7 @@ describe('components/sidebar/sidebar_channel', () => {
         isCategoryDragged: false,
         isDropDisabled: false,
         draggingState: {},
-        selectedChannelIds: [],
+        multiSelectedChannelIds: [],
         isChannelSelected: false,
     };
 

@@ -52,7 +52,7 @@ function makeMapStateToProps() {
             showUnreadForMsgs,
             draggingState: getDraggingState(state),
             isChannelSelected: isChannelSelected(state, ownProps.channelId),
-            selectedChannelIds: state.views.channelSidebar.selectedChannelIds,
+            multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
         };
     };
 }

@@ -75,22 +75,22 @@ export function newCategoryIds(state: string[] = [], action: GenericAction): str
     }
 }
 
-export function selectedChannelIds(state: string[] = [], action: GenericAction): string[] {
+export function multiSelectedChannelIds(state: string[] = [], action: GenericAction): string[] {
     switch (action.type) {
     case ActionTypes.MULTISELECT_CHANNEL:
-        // Task was not previously selected
+        // Channel was not previously selected
         // now will be the only selected item
         if (!state.includes(action.data)) {
             return [action.data];
         }
 
-        // Task was part of a selected group
+        // Channel was part of a selected group
         // will now become the only selected item
         if (state.length > 1) {
             return [action.data];
         }
 
-        // task was previously selected but not in a group
+        // Channel was previously selected but not in a group
         // we will now clear the selection
         return [];
     case ActionTypes.MULTISELECT_CHANNEL_ADD:
@@ -131,6 +131,6 @@ export default combineReducers({
     unreadFilterEnabled,
     draggingState,
     newCategoryIds,
-    selectedChannelIds,
+    multiSelectedChannelIds,
     lastSelectedChannel,
 });

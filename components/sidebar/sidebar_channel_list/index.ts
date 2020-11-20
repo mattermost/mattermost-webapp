@@ -40,7 +40,7 @@ function makeMapStateToProps() {
             displayedChannels: getDisplayedChannels(state),
             draggingState: getDraggingState(state),
             newCategoryIds: state.views.channelSidebar.newCategoryIds,
-            selectedChannelIds: state.views.channelSidebar.selectedChannelIds,
+            multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
         };
     };
 }

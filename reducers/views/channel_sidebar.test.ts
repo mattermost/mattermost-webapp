@@ -5,7 +5,7 @@ import {ActionTypes} from 'utils/constants';
 
 import * as Reducers from './channel_sidebar';
 
-describe('selectedChannelIds', () => {
+describe('multiSelectedChannelIds', () => {
     test('should select single channel when it does not exist in the list', () => {
         const initialState = [
             'channel-1',
@@ -13,7 +13,7 @@ describe('selectedChannelIds', () => {
             'channel-3',
         ];
 
-        const state = Reducers.selectedChannelIds(
+        const state = Reducers.multiSelectedChannelIds(
             initialState,
             {
                 type: ActionTypes.MULTISELECT_CHANNEL,
@@ -31,7 +31,7 @@ describe('selectedChannelIds', () => {
             'channel-3',
         ];
 
-        const state = Reducers.selectedChannelIds(
+        const state = Reducers.multiSelectedChannelIds(
             initialState,
             {
                 type: ActionTypes.MULTISELECT_CHANNEL,
@@ -47,7 +47,7 @@ describe('selectedChannelIds', () => {
             'channel-1',
         ];
 
-        const state = Reducers.selectedChannelIds(
+        const state = Reducers.multiSelectedChannelIds(
             initialState,
             {
                 type: ActionTypes.MULTISELECT_CHANNEL,
@@ -64,7 +64,7 @@ describe('selectedChannelIds', () => {
             'channel-2',
         ];
 
-        const state = Reducers.selectedChannelIds(
+        const state = Reducers.multiSelectedChannelIds(
             initialState,
             {
                 type: ActionTypes.MULTISELECT_CHANNEL_ADD,
@@ -86,7 +86,7 @@ describe('selectedChannelIds', () => {
             'channel-3',
         ];
 
-        const state = Reducers.selectedChannelIds(
+        const state = Reducers.multiSelectedChannelIds(
             initialState,
             {
                 type: ActionTypes.MULTISELECT_CHANNEL_ADD,

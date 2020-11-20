@@ -81,7 +81,7 @@ type Props = {
 
     isChannelSelected: boolean;
 
-    selectedChannelIds: string[];
+    multiSelectedChannelIds: string[];
 };
 
 type State = {
@@ -138,7 +138,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             isDMCategory,
             isChannelSelected,
             draggingState,
-            selectedChannelIds,
+            multiSelectedChannelIds,
         } = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
@@ -159,14 +159,14 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         let wrappedComponent: React.ReactNode;
 
         if (isDraggable) {
-            let selectedCount: React.ReactNode | undefined;
-            if (isChannelSelected && draggingState.state && draggingState.id === channel.id && selectedChannelIds.length > 1) {
+            let selectedCount: React.ReactNode;
+            if (isChannelSelected && draggingState.state && draggingState.id === channel.id && multiSelectedChannelIds.length > 1) {
                 selectedCount = (
                     <div className='SidebarChannel__selectedCount'>
                         <FormattedMarkdownMessage
                             id='sidebar_left.sidebar_channel.selectedCount'
                             defaultMessage='{count} selected'
-                            values={{count: selectedChannelIds.length}}
+                            values={{count: multiSelectedChannelIds.length}}
                         />
                     </div>
                 );
