@@ -15,6 +15,7 @@ import addContext from 'mochawesome/addContext';
 
 import './api';
 import './api_commands'; // soon to deprecate
+import './client';
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';

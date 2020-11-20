@@ -243,6 +243,7 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
 
 function makeChannelSearchFilter(channelPrefix) {
     const channelPrefixLower = channelPrefix.toLowerCase();
+    const splitPrefixBySpace = channelPrefixLower.trim().split(/[ ,]+/);
     const curState = getState();
     const usersInChannels = getUserIdsInChannels(curState);
     const userSearchStrings = {};
@@ -275,6 +276,13 @@ function makeChannelSearchFilter(channelPrefix) {
                 }
                 searchString += userString;
             }
+        }
+
+        if (splitPrefixBySpace.length > 1) {
+            const lowerCaseSearch = searchString.toLowerCase();
+            return splitPrefixBySpace.every((searchPrefix) => {
+                return lowerCaseSearch.includes(searchPrefix);
+            });
         }
 
         return searchString.toLowerCase().includes(channelPrefixLower);

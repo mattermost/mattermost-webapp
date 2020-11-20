@@ -30,6 +30,8 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import SystemRoles from './system_roles';
+import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
@@ -504,6 +506,29 @@ const AdminDefinition = {
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
+            },
+        },
+        system_role: {
+            url: 'user_management/system_roles/:role_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            schema: {
+                id: 'SystemRole',
+                component: SystemRole,
+            },
+        },
+        system_roles: {
+            url: 'user_management/system_roles',
+            title: t('admin.sidebar.systemRoles'),
+            title_default: 'System Roles (Beta)',
+            searchableStrings: [],
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.system_roles')),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            schema: {
+                id: 'SystemRoles',
+                component: SystemRoles,
             },
         },
     },
@@ -5311,16 +5336,6 @@ const AdminDefinition = {
                     //     placeholder: t('admin.experimental.replyToAddress.example'),
                     //     placeholder_default: 'E.g.: "reply-to@example.com"',
                     // },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ExperimentalSettings.CloudBilling',
-                        label: t('admin.experimental.cloudBilling.title'),
-                        label_default: 'Cloud Billing:',
-                        help_text: t('admin.experimental.cloudBilling.desc'),
-                        help_text_default: 'Show the new billing view for Cloud',
-                        help_text_markdown: false,
-                        isHidden: it.not(it.licensedForFeature('Cloud')),
-                    },
                 ],
             },
         },
