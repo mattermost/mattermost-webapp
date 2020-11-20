@@ -56,6 +56,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Reply"
     />
     <Connect(ChannelPermissionGate)
+      channelId=""
       permissions={
         Array [
           "add_reaction",
@@ -184,6 +185,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Reply"
     />
     <Connect(ChannelPermissionGate)
+      channelId=""
       permissions={
         Array [
           "add_reaction",
