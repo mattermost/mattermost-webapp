@@ -16,7 +16,7 @@ describe('Multi Team and DM', () => {
     let testTeam;
     let testUser;
 
-    const common = 'common';
+    // const common = 'common';
     const unique = `${getRandomId(4)}`;
 
     before(() => {
@@ -28,7 +28,7 @@ describe('Multi Team and DM', () => {
 
             // # Create 4 test users with prefix 'common'
             Cypress._.times(4, () => {
-                cy.apiCreateUser({prefix: common}).then(() => {
+                cy.apiCreateUser({prefix: 'common'}).then(() => {
                     cy.apiAddUserToTeam(testTeam.id, user.id);
                 });
             });
@@ -49,11 +49,10 @@ describe('Multi Team and DM', () => {
     it('MM-T444 DM More... show user count', () => {
         // # Open the Direct Message modal
         cy.findByLabelText('See more direct messages').click();
-        let totalUsers;
 
         cy.get('#multiSelectHelpMemberInfo > :nth-child(2)').then((number) => {
             // # Grab total number of users before filter applied
-            totalUsers = number.text().split(' ').slice(2, 3);
+            const totalUsers = number.text().split(' ').slice(2, 3);
 
             // * Assert that 2 unique users are displayed
             cy.findByText('Search and add members').click().type(unique).then(() => {
