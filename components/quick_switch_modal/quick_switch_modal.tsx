@@ -5,6 +5,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
@@ -23,6 +24,17 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
 
+type SwitchToChannelResult = {
+    data?: true;
+    error?: true;
+}
+type ProviderSuggestions = {
+    matchedPretext: any,
+    terms: string[],
+    items: any[],
+    component: SwitchChannelProvider|SwitchTeamProvider,
+}
+
 export type Props = {
 
     /**
@@ -35,8 +47,8 @@ export type Props = {
      */
     showTeamSwitcher: boolean;
     actions: {
-        joinChannelById: any,
-        switchToChannel: any
+        joinChannelById: (channelId: string) => Promise<any>;
+        switchToChannel: (channel: Channel) => Promise<SwitchToChannelResult>;
     }
 }
 
@@ -129,7 +141,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
                 await joinChannelById(selectedChannel.id);
             }
-            switchToChannel(selectedChannel).then((result: any) => {
+            switchToChannel(selectedChannel).then((result: SwitchToChannelResult) => {
                 if (result.data) {
                     this.onHide();
                 }
@@ -168,7 +180,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         this.focusTextbox();
     }
 
-    private handleSuggestionsReceived = (suggestions: any): void => {
+    private handleSuggestionsReceived = (suggestions: ProviderSuggestions): void => {
         const loadingPropPresent = suggestions.items.some((item: any) => item.loading);
         this.setState({shouldShowLoadingSpinner: loadingPropPresent,
             pretext: suggestions.matchedPretext,
