@@ -53,32 +53,31 @@ describe('Integrations', () => {
     });
 
     it('MM-T643 Incoming webhook:Long URL for embedded image', () => {
-        const payload = getPayload(testChannel);
         const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const queries = letters.split('').reduce((acc, letter) => {
             const newValue = acc + `&${letter}=${letters}`;
             return newValue;
         }, '');
         const url = `http://via.placeholder.com/300.png?expires=213134234234234234234234${queries}`;
+        const payload = getPayload(testChannel, url);
 
         // # Post the webhook message
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         // * Assert that the message was posted
-        cy.uiWaitUntilMessagePostedIncludes('Hey attachments').then(() => {
-            cy.getLastPostId().then(() => {
-                const baseUrl = Cypress.config('baseUrl');
-                const encodedUrl = `${baseUrl}/api/v4/image?url=${encodeURIComponent(url)}`;
+        cy.uiWaitUntilMessagePostedIncludes('Hey attachments');
+        cy.getLastPostId().then(() => {
+            const baseUrl = Cypress.config('baseUrl');
+            const encodedUrl = `${baseUrl}/api/v4/image?url=${encodeURIComponent(url)}`;
 
-                // * Assert that file image is present
-                cy.findByLabelText('file thumbnail').should('be.visible').and('have.attr', 'src', encodedUrl);
+            // * Assert that file image is present
+            cy.findByLabelText('file thumbnail').should('be.visible').and('have.attr', 'src', encodedUrl);
 
-                // * Assert that the Show More button is visible
-                cy.get('#showMoreButton').should('be.visible').and('have.text', 'Show more').click().then(() => {
-                    // * Assert that the Show less button is visible after Show more is clicked
-                    cy.get('#post-list');
-                    cy.get('#showMoreButton').scrollIntoView().should('have.text', 'Show less');
-                });
+            // * Assert that the Show More button is visible
+            cy.get('#showMoreButton').should('be.visible').and('have.text', 'Show more').click().then(() => {
+                // * Assert that the Show less button is visible after Show more is clicked
+                cy.get('#post-list');
+                cy.get('#showMoreButton').scrollIntoView().should('have.text', 'Show less');
             });
         });
     });
