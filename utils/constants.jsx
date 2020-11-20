@@ -751,6 +751,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
+    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1524,6 +1525,9 @@ export const Constants = {
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_READ_ONLY_ADMIN: 'system_read_only_admin',
+    PERMISSIONS_SYSTEM_USER_MANAGER: 'system_user_manager',
+    PERMISSIONS_SYSTEM_MANAGER: 'system_manager',
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
