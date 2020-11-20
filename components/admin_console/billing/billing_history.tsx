@@ -10,6 +10,8 @@ import {Client4} from 'mattermost-redux/client';
 import {Invoice} from 'mattermost-redux/types/cloud';
 import {GlobalState} from 'mattermost-redux/types/store';
 
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -112,7 +114,6 @@ const BillingHistory: React.FC<Props> = () => {
 
         // TODO: When server paging, check if there are more invoices
     };
-
     useEffect(() => {
         dispatch(getCloudProducts());
         dispatch(getCloudSubscription());
@@ -198,6 +199,7 @@ const BillingHistory: React.FC<Props> = () => {
                                     month='2-digit'
                                     day='2-digit'
                                     year='numeric'
+                                    timeZone='UTC'
                                 />
                             </td>
                             <td>
@@ -266,8 +268,20 @@ const BillingHistory: React.FC<Props> = () => {
                                 </div>
                             </div>
                         </div>
+
                         <div className='BillingHistory__cardBody'>
-                            {billingHistory ? billingHistoryTable : noBillingHistorySection}
+                            {invoices != null && (
+                                <>
+                                    {billingHistory ?
+                                        billingHistoryTable :
+                                        noBillingHistorySection}
+                                </>
+                            )}
+                            {invoices == null && (
+                                <div className='BillingHistory__spinner'>
+                                    <LoadingSpinner/>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

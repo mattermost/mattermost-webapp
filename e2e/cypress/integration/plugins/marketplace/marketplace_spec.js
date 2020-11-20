@@ -261,13 +261,30 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-allPlugins').scrollIntoView().should('be.visible');
 
             // * Verify installed plugins tabs button should be visible
-            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible');
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible');
+            });
 
             // * Verify modal list is visible
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
         });
 
         it('autofocus on search plugin input box', () => {
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.findByLabelText('Close').click();
+            });
+
+            cy.get('#lhsHeader').should('be.visible').within(() => {
+                // # Click hamburger main menu
+                cy.findByLabelText('main menu').click();
+
+                // * Verify dropdown menu should be visible
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
+                    // * Plugin Marketplace button should be visible then click
+                    cy.findByText('Plugin Marketplace').should('be.visible').click();
+                });
+            });
+
             // * Verify search plugins should be focused
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
@@ -283,7 +300,9 @@ describe('Plugin Marketplace', () => {
         // this test uses exist, not visible, due to issues with Cypress
         it('render the list of installed plugins on demand', () => {
             // # Click on installed plugins tab
-            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
+            });
 
             // * Verify all plugins tab should not be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
@@ -478,8 +497,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
 
             // * Verify one local plugin should be installed
-            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
-            cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
+                cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
+            });
 
             // * Verify no error bar should be visible
             cy.get('#error_bar').should('not.exist');
