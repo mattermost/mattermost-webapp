@@ -8,6 +8,8 @@ import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
+import {TestHelper} from 'utils/test_helper';
+
 import DataPrefetch from './data_prefetch';
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -26,7 +28,7 @@ describe('/components/data_prefetch', () => {
             2: ['unreadChannel'],
         },
         prefetchRequestStatus: {},
-        unreadChannels: [{
+        unreadChannels: [TestHelper.getChannelMock({
             id: 'mentionChannel',
             display_name: 'mentionChannel',
             create_at: 0,
@@ -43,7 +45,7 @@ describe('/components/data_prefetch', () => {
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1234,
-        }, {
+        }), TestHelper.getChannelMock({
             id: 'unreadChannel',
             display_name: 'unreadChannel',
             create_at: 0,
@@ -60,7 +62,7 @@ describe('/components/data_prefetch', () => {
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1235,
-        }],
+        })],
     };
 
     test('should call posts of current channel when it is set', async () => {

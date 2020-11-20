@@ -57,10 +57,58 @@ Cypress.Commands.add('apiEmailTest', () => {
 // *****************************************************************************
 
 /**
-* Unpins pinned posts of given postID directly via API
+* Creates a post directly via API
 * This API assume that the user is logged in and has cookie to access
-* @param {String} postId - Post ID of the pinned post to unpin
+* @param {String} channelId - Where to post
+* @param {String} message - What to post
+* @param {String} rootId - Parent post ID. Set to "" to avoid nesting
+* @param {Object} props - Post props
+* @param {String} token - Optional token to use for auth. If not provided - posts as current user
 */
+Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token = '', failOnStatusCode = true) => {
+    const headers = {'X-Requested-With': 'XMLHttpRequest'};
+    if (token !== '') {
+        headers.Authorization = `Bearer ${token}`;
+    }
+    return cy.request({
+        headers,
+        failOnStatusCode,
+        url: '/api/v4/posts',
+        method: 'POST',
+        body: {
+            channel_id: channelId,
+            root_id: rootId,
+            message,
+            props,
+        },
+    });
+});
+
+/**
+ * Creates a post directly via API
+ * This API assume that the user is logged in as admin
+ * @param {String} userDd - user for whom to create the token
+ */
+Cypress.Commands.add('apiCreateToken', (userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/tokens`,
+        method: 'POST',
+        body: {
+            description: 'some text',
+        },
+    }).then((response) => {
+        // * Validate that request was denied
+        expect(response.status).to.equal(200);
+        return {token: response.body.token};
+    });
+});
+
+/**
+ * Unpins pinned posts of given postID directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Post} postId - Post ID of the pinned post to unpin
+ */
 Cypress.Commands.add('apiUnpinPosts', (postId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -132,27 +180,6 @@ Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
     const admin = getAdminAccount();
 
     cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
-});
-
-/**
- * Get access token
- * This API assume that the user is logged in and has cookie to access
- * @param {String} user_id - The user id to generate token for
- * @param {String} description - The description of the token usage
- * All parameters are required
- */
-Cypress.Commands.add('apiAccessToken', (userId, description) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/' + userId + '/tokens',
-        method: 'POST',
-        body: {
-            description,
-        },
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response.body.token);
-    });
 });
 
 /**
