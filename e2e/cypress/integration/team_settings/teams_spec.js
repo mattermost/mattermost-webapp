@@ -12,6 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
+import {ignoreUncaughtException} from '../../support/notification';
 
 function removeTeamMember(teamName, username) {
     cy.apiAdminLogin();
@@ -26,9 +27,13 @@ function removeTeamMember(teamName, username) {
 describe('Teams Suite', () => {
     let testTeam;
     let testUser;
+    let newUser;
 
     beforeEach(() => {
         cy.apiAdminLogin();
+        cy.apiCreateUser().then(({user}) => {
+            newUser = user;
+        });
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
@@ -210,5 +215,177 @@ describe('Teams Suite', () => {
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
+    });
+
+    it('MM-T2312 Team setting / Team name: Change name', () => {
+        // # visit /
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on team settings menu item
+        cy.findByText('Team Settings').should('be.visible').click();
+
+        // # Click on the team name menu item
+        cy.findByText('Team Name').should('be.visible').click();
+
+        // # Change team name in the input
+        cy.get('#teamName').should('be.visible').clear().type('Test team');
+
+        // Save new team name
+        cy.get('#saveSetting').click();
+
+        // # Close the team settings
+        cy.get('body').type('{esc}', {force: true});
+
+        // # Verify url has original team name
+        cy.url().should('include', `/${testTeam.name}/channels/town-square`);
+    });
+
+    it('MM-T2317 Team setting / Update team description', () => {
+        // # visit /
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on team settings menu item
+        cy.findByText('Team Settings').should('be.visible').click();
+
+        // # Click on the team description menu item
+        cy.findByText('Team Description').should('be.visible').click();
+
+        // # Change team description in the input
+        cy.get('#teamDescription').should('be.visible').clear().type('This is the best team');
+
+        // Save new team description
+        cy.get('#saveSetting').click();
+
+        // # Close the team settings
+        cy.get('body').type('{esc}', {force: true});
+    });
+
+    it('MM-T2318/MM-T2320 Team setting / Allow anyone to join this team', () => {
+        // # UI
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on team settings menu item
+        cy.findByText('Team Settings').should('be.visible').click();
+
+        // # Click on the team description menu item
+        cy.findByText('Allow any user with an account on this server to join this team').should('be.visible').click();
+
+        // # Change team description in the input
+        cy.get('#teamOpenInvite').click();
+
+        // Save new team description
+        cy.get('#saveSetting').click();
+
+        // # Close the team settings
+        cy.get('body').type('{esc}', {force: true});
+
+        // # Functionality
+
+        // # Require license and create new user
+        cy.apiRequireLicenseForFeature('GuestAccounts');
+
+        cy.visit('/login');
+        cy.apiLogin(newUser);
+
+        // * Verify if the user is redirected to the Select Team page
+        cy.url().should('include', '/select_team');
+        cy.get('#teamsYouCanJoinContent').should('be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        // # Select test team name
+        cy.get(`#${testTeam.name.charAt(0).toUpperCase() + testTeam.name.slice(1)}`).click();
+        cy.wait(TIMEOUTS.THREE_SEC);
+
+        // # Verify Town square is visible
+        cy.url().should('include', `/${testTeam.name}/channels/town-square`);
+        cy.findByText('Town Square').should('be.visible');
+    });
+
+    it('MM-T2322/MM-T2323 Team setting / Do not allow anyone to join this team', () => {
+        // # UI
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on team settings menu item
+        cy.findByText('Team Settings').should('be.visible').click();
+
+        // # Click on the team description menu item
+        cy.findByText('Allow any user with an account on this server to join this team').should('be.visible').click();
+
+        // # Change team description in the input
+        cy.get('#teamOpenInviteNo').click();
+
+        // Save new team description
+        cy.get('#saveSetting').click();
+
+        // # Close the team settings
+        cy.get('body').type('{esc}', {force: true});
+
+        // # Functionality
+
+        // # Require license and login new user
+        cy.apiRequireLicenseForFeature('GuestAccounts');
+        cy.apiLogout();
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        cy.visit('/login');
+        cy.apiLogin(newUser);
+
+        // * Verify if the user is redirected to the Select Team page
+        cy.url().should('include', '/select_team');
+        cy.get('#teamsYouCanJoinContent').should('be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        // * Verify the user can login to a team
+        cy.get('.signup-team-dir').children().first().click();
+        ignoreUncaughtException();
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on Join another team menu item
+        cy.findByText('Join Another Team').should('be.visible').click();
+
+        // # Verify the original test team isn't on the lit
+        cy.get('.signup-team-dir').children().should('not.contain', `#${testTeam.name.charAt(0).toUpperCase() + testTeam.name.slice(1)}`);
+    });
+
+    it('MM-T2328 Team setting / Member can view and search for members', () => {
+        cy.apiLogout();
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        cy.visit('/login');
+        cy.apiLogin(newUser);
+
+        // * Verify if the user is redirected to the Select Team page
+        cy.url().should('include', '/select_team');
+        cy.get('#teamsYouCanJoinContent').should('be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        // * Verify the user can login to a team
+        cy.get('.signup-team-dir').children().first().click();
+        ignoreUncaughtException();
+
+        // # Open the hamburger menu
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on Join another team menu item
+        cy.findByText('View Members').should('be.visible').click();
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchUsersInput').type('sysadmin');
+        cy.get('.more-modal__list').should('be.visible').children().should('have.length', 1);
     });
 });
