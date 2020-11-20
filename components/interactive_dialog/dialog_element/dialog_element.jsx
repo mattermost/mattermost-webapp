@@ -35,16 +35,11 @@ export default class DialogElement extends React.PureComponent {
         value: PropTypes.any,
         onChange: PropTypes.func,
         autoFocus: PropTypes.bool,
-        listComponent: PropTypes.elementType,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
             autocompleteUsers: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static defaultProps = {
-        listComponent: ModalSuggestionList,
-    };
 
     constructor(props) {
         super(props);
@@ -175,7 +170,7 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     value={this.state.value}
-                    listComponent={this.props.listComponent}
+                    listComponent={ModalSuggestionList}
                     listStyle='bottom'
                 />
             );
