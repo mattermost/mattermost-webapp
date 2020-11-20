@@ -32,7 +32,7 @@ import ChannelView from './channel_view';
 type Actions = {
     goToLastViewedChannel: () => Promise<{data: boolean}>;
     setShowNextStepsView: (show: boolean) => Action;
-    getProfiles: (page?: number, perPage?: number, options?: any) => ActionFunc;
+    getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
 }
 
 // Temporary selector until getDirectTeammate is converted to be redux-friendly
@@ -40,7 +40,7 @@ const getDeactivatedChannel = createSelector(
     (state: GlobalState, channelId: string) => {
         return getDirectTeammate(state, channelId);
     },
-    (teammate: any) => {
+    (teammate: Record<string, any>) => {
         return Boolean(teammate && teammate.delete_at);
     },
 );

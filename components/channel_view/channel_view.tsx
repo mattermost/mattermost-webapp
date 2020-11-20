@@ -38,7 +38,7 @@ type Props = {
     actions: {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
         setShowNextStepsView: (show: boolean) => Action;
-        getProfiles: (page?: number, perPage?: number, options?: any) => ActionFunc;
+        getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     },
 };
 
@@ -64,7 +64,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         );
     }
 
-    public static getDerivedStateFromProps(props: Props, state: State) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState = {};
         const focusedPostId = props.match.params.postid;
 
