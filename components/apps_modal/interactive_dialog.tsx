@@ -179,8 +179,10 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     };
 
     onChange = (name: string, value: any) => {
-        const values = {...this.state.values, [name]: value};
-        this.setState({values});
+        this.setState((state) => {
+            const values = {...state.values, [name]: value};
+            return {values}
+        });
     };
 
     renderModal() {
