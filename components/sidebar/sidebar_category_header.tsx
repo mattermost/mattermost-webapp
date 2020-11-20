@@ -40,6 +40,7 @@ type Props = StaticProps & {
     isCollapsible: boolean,
     isDragging?: boolean;
     isDraggingOver?: boolean;
+    muted: boolean,
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
@@ -48,6 +49,7 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
         <div
             className={classNames('SidebarChannelGroupHeader', {
                 'SidebarChannelGroupHeader--sticky': supportsStickyHeaders(),
+                muted: props.muted,
             })}
         >
             <button

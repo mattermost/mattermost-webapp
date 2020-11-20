@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -36,6 +35,8 @@ type Props = {
 }
 
 export default class ResetPasswordModal extends React.PureComponent<Props, State> {
+    private currentPasswordRef: React.RefObject<HTMLInputElement>;
+    private passwordRef: React.RefObject<HTMLInputElement>;
     public static defaultProps: Partial<Props> = {
         show: false,
     };
@@ -47,6 +48,9 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
         };
+
+        this.currentPasswordRef = React.createRef();
+        this.passwordRef = React.createRef();
     }
 
     public componentWillUnmount(): void {
@@ -63,8 +67,8 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
         }
 
         let currentPassword = '';
-        if (this.refs.currentPassword) {
-            currentPassword = (this.refs.currentPassword as HTMLInputElement).value;
+        if (this.currentPasswordRef.current) {
+            currentPassword = (this.currentPasswordRef.current as HTMLInputElement).value;
             if (currentPassword === '') {
                 const errorMsg = (
                     <FormattedMessage
@@ -77,7 +81,7 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
             }
         }
 
-        const password = (this.refs.password as HTMLInputElement).value;
+        const password = (this.passwordRef.current as HTMLInputElement).value;
 
         const {valid, error} = Utils.isValidPassword(password, this.props.passwordConfig);
         if (!valid && error) {
@@ -159,7 +163,7 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
                         </span>
                         <input
                             type='password'
-                            ref='currentPassword'
+                            ref={this.currentPasswordRef}
                             className='form-control'
                             autoFocus={true}
                         />
@@ -205,7 +209,7 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
                                     </span>
                                     <input
                                         type='password'
-                                        ref='password'
+                                        ref={this.passwordRef}
                                         className='form-control'
                                         autoFocus={newPasswordFocus}
                                     />
@@ -242,4 +246,3 @@ export default class ResetPasswordModal extends React.PureComponent<Props, State
         );
     }
 }
-/* eslint-enable react/no-string-refs */
