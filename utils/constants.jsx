@@ -751,6 +751,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
+    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -1524,6 +1525,9 @@ export const Constants = {
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_READ_ONLY_ADMIN: 'system_read_only_admin',
+    PERMISSIONS_SYSTEM_USER_MANAGER: 'system_user_manager',
+    PERMISSIONS_SYSTEM_MANAGER: 'system_manager',
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
@@ -1557,6 +1561,15 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+};
+
+export const ValidationErrors = {
+    USERNAME_REQUIRED: 'USERNAME_REQUIRED',
+    INVALID_LENGTH: 'INVALID_LENGTH',
+    INVALID_CHARACTERS: 'INVALID_CHARACTERS',
+    INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
+    RESERVED_NAME: 'RESERVED_NAME',
+    INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
