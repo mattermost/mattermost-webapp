@@ -375,3 +375,5 @@ t('admin.permissions.group.manage_shared_channels.name');
 t('admin.permissions.group.manage_shared_channels.description');
 t('admin.permissions.permission.manage_shared_channels.name');
 t('admin.permissions.permission.manage_shared_channels.description');
+t('admin.permissions.permission.manage_remote_clusters.name');
+t('admin.permissions.permission.manage_remote_clusters.description');
