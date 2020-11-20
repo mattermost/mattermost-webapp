@@ -11,14 +11,14 @@ import {AppCallResponse, AppCallResponseTypes, AppField, AppForm, AppModalState}
 import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integrations';
 
 import SpinnerButton from 'components/spinner_button';
+import SuggestionList from 'components/suggestion/suggestion_list';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import EmojiMap from 'utils/emoji_map';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import DialogElement from './dialog_element';
 import DialogIntroductionText from './dialog_introduction_text';
-import SuggestionList from 'components/suggestion/suggestion_list';
-import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 export type Props = {
     modal: AppModalState;
@@ -90,7 +90,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
         e.preventDefault();
 
         const {elements} = this.props;
-        let values = this.state.values;
+        const values = this.state.values;
         const errors: {[name: string]: React.ReactNode} = {};
         if (elements) {
             elements.forEach((elem) => {
@@ -139,16 +139,15 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                 this.setState({error: data.error});
             }
 
-            const errors = data.data?.errors
+            const newErrors = data.data?.errors;
 
             if (
-                errors &&
-                Object.keys(errors).length >= 0 &&
-                // TODO fix types on redux
-                checkIfErrorsMatchElements(errors as any, elements)
+                newErrors &&
+                Object.keys(newErrors).length >= 0 &&
+                checkIfErrorsMatchElements(newErrors as any, elements) // TODO fix types on redux
             ) {
                 hasErrors = true;
-                this.setState({errors: errors});
+                this.setState({errors: newErrors});
             }
         }
 
@@ -181,7 +180,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     onChange = (name: string, value: any) => {
         this.setState((state) => {
             const values = {...state.values, [name]: value};
-            return {values}
+            return {values};
         });
     };
 
@@ -190,7 +189,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
             elements,
             introductionText,
         } = this.props;
-        
+
         return (
             <Modal
                 id='interactiveDialogModal'
@@ -269,13 +268,13 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                 />
             );
         }
-        
+
         return (
             <React.Fragment>
                 {icon}
                 {title}
             </React.Fragment>
-        )
+        );
     }
 
     renderElements() {
@@ -303,7 +302,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                     options={e.options}
                     value={this.state.values[e.name]}
                     onChange={this.onChange}
-                    listComponent={isEmbedded? SuggestionList : ModalSuggestionList}
+                    listComponent={isEmbedded ? SuggestionList : ModalSuggestionList}
                 />
             );
         }));
@@ -345,7 +344,6 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
             submitText = submitLabel;
         }
 
-
         return (
             <React.Fragment>
                 {this.state.error && (
@@ -376,10 +374,10 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                     {submitText}
                 </SpinnerButton>
             </React.Fragment>
-        )
+        );
     }
 
     render() {
-        return this.props.isEmbedded? this.renderEmbedded() : this.renderModal();
+        return this.props.isEmbedded ? this.renderEmbedded() : this.renderModal();
     }
 }

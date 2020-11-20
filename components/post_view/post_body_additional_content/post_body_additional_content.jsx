@@ -161,7 +161,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                         }}
                         postID={this.props.post.id}
                         isEmbedded={true}
-                        onHide={() => {}}
+                        onHide={() => { /* Do nothing */ }}
                     />
                 </React.Fragment>
             );

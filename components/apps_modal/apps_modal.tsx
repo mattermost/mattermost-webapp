@@ -34,6 +34,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
     }
 
     const submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse<any>}> => {
+        //TODO use FormResponseData instead of Any
         if (!props.modal) {
             return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.modal is not defined'}};
         }
@@ -46,9 +47,9 @@ const AppsModal: React.FC<Props> = (props: Props) => {
                 app_id: props.modal.call.context.app_id,
                 location_id: props.postID ? AppBindings.APPS_BINDINGS_IN_POST : props.modal.call.context.location_id,
                 post_id: props.postID,
-                team_id: props.postID? props.teamID : props.modal.call.context.team_id,
-                channel_id: props.postID? props.channelID : props.modal.call.context.channel_id,
-            }
+                team_id: props.postID ? props.teamID : props.modal.call.context.team_id,
+                channel_id: props.postID ? props.channelID : props.modal.call.context.channel_id,
+            },
         };
 
         try {
