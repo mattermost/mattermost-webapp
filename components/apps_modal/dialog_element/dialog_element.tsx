@@ -18,6 +18,7 @@ import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
+import ButtonSelector from 'components/button_selector';
 import Provider from 'components/suggestion/provider';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
@@ -42,6 +43,7 @@ export type Props = {
     value: string | boolean | number | null;
     onChange: (name: string, value: any) => void;
     autoFocus?: boolean;
+    listComponent?: React.ComponentClass,
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
@@ -54,6 +56,10 @@ type State = {
 
 export default class DialogElement extends React.PureComponent<Props, State> {
     private provider?: Provider;
+
+    static defaultProps = {
+        listComponent: ModalSuggestionList,
+    };
 
     constructor(props: Props) {
         super(props);
@@ -128,6 +134,7 @@ export default class DialogElement extends React.PureComponent<Props, State> {
             errorText,
             optional,
             options,
+            listComponent,
         } = this.props;
 
         let {type, maxLength} = this.props;
@@ -196,19 +203,46 @@ export default class DialogElement extends React.PureComponent<Props, State> {
                 />
             );
         } else if (type === 'select') {
-            return (
-                <AutocompleteSelector
-                    id={name}
-                    providers={[this.getProvider()]}
-                    onSelected={this.handleSelected}
-                    label={displayNameContent}
-                    helpText={helpTextContent}
-                    placeholder={placeholder}
-                    value={this.state.value}
-                    listComponent={ModalSuggestionList}
-                    listStyle='bottom'
-                />
-            );
+            switch (subtype) {
+            case 'button':
+                return (
+                    <ButtonSelector
+                        id={name}
+                        options={this.props.options}
+                        onChange={onChange}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        value={value || ''}
+                        shouldSubmit={false}
+                    />
+                );
+            case 'submit':
+                return (
+                    <ButtonSelector
+                        id={name}
+                        options={this.props.options}
+                        onChange={onChange}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        value={value || ''}
+                        shouldSubmit={true}
+                    />
+                );
+            default:
+                return (
+                    <AutocompleteSelector
+                        id={name}
+                        providers={[this.getProvider()]}
+                        onSelected={this.handleSelected}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        placeholder={placeholder}
+                        value={this.state.value}
+                        listComponent={listComponent}
+                        listStyle='bottom'
+                    />
+                );
+            }
         } else if (type === 'bool') {
             const boolValue = value as boolean;
             return (

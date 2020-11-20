@@ -5,9 +5,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {
-    checkDialogElementForError,
+    checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppCallResponseTypes, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
 import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integrations';
 
 import SpinnerButton from 'components/spinner_button';
@@ -17,6 +17,8 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import DialogElement from './dialog_element';
 import DialogIntroductionText from './dialog_introduction_text';
+import SuggestionList from 'components/suggestion/suggestion_list';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 export type Props = {
     modal: AppModalState;
@@ -36,9 +38,16 @@ export type Props = {
             values: {
                 [name: string]: string;
             };
-        }) => Promise<{data: AppCallResponse}>;
+        }) => Promise<{data: AppCallResponse<FormResponseData>}>;
     },
     emojiMap: EmojiMap;
+    isEmbedded?: boolean;
+}
+
+type FormResponseData = {
+    errors: {
+        [field: string]: string
+    }
 }
 
 type State = {
@@ -77,11 +86,11 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
         return values;
     }
 
-    handleSubmit = async (e: {preventDefault: ()=>void}) => {
+    handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const {elements} = this.props;
-        const values = this.state.values;
+        let values = this.state.values;
         const errors: {[name: string]: React.ReactNode} = {};
         if (elements) {
             elements.forEach((elem) => {
@@ -113,9 +122,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submit(
-            dialog,
-        );
+        const {data} = await this.props.actions.submit(dialog);
 
         this.setState({submitting: false});
 
@@ -126,20 +133,23 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
         let hasErrors = false;
 
-        if (data) {
+        if (data && data.type === AppCallResponseTypes.Error) {
             if (data.error) {
                 hasErrors = true;
                 this.setState({error: data.error});
             }
 
-            // if (
-            //     data.errors &&
-            //     Object.keys(data.errors).length >= 0 &&
-            //     checkIfErrorsMatchElements(data.errors, elements)
-            // ) {
-            //     hasErrors = true;
-            //     this.setState({errors: data.errors});
-            // }
+            const errors = data.data?.errors
+
+            if (
+                errors &&
+                Object.keys(errors).length >= 0 &&
+                // TODO fix types on redux
+                checkIfErrorsMatchElements(errors as any, elements)
+            ) {
+                hasErrors = true;
+                this.setState({errors: errors});
+            }
         }
 
         if (!hasErrors) {
@@ -173,39 +183,12 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
         this.setState({values});
     };
 
-    render() {
+    renderModal() {
         const {
-            title,
-            introductionText,
-            iconUrl,
-            submitLabel,
             elements,
+            introductionText,
         } = this.props;
-
-        let submitText: React.ReactNode = (
-            <FormattedMessage
-                id='interactive_dialog.submit'
-                defaultMessage='Submit'
-            />
-        );
-        if (submitLabel) {
-            submitText = submitLabel;
-        }
-
-        let icon;
-        if (iconUrl) {
-            icon = (
-                <img
-                    id='interactiveDialogIconUrl'
-                    alt={'modal title icon'}
-                    className='more-modal__image'
-                    width='36'
-                    height='36'
-                    src={iconUrl}
-                />
-            );
-        }
-
+        
         return (
             <Modal
                 id='interactiveDialogModal'
@@ -226,77 +209,175 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                             componentClass='h1'
                             id='interactiveDialogModalLabel'
                         >
-                            {icon}
-                            {title}
+                            {this.renderHeader()}
                         </Modal.Title>
                     </Modal.Header>
                     {(elements || introductionText) && (
                         <Modal.Body>
-                            {introductionText && (
-                                <DialogIntroductionText
-                                    id='interactiveDialogModalIntroductionText'
-                                    value={introductionText}
-                                    emojiMap={this.props.emojiMap}
-                                />
-                            )}
-                            {elements &&
-                            elements.map((e, index) => {
-                                const field = this.props.modal.form.fields.find((f) => f.name === e.name) as AppField & {key?: string};
-                                return (
-                                    <DialogElement
-                                        field={field}
-                                        key={field.key || field.name}
-                                        autoFocus={index === 0}
-                                        displayName={e.display_name}
-                                        name={e.name}
-                                        type={e.type}
-                                        subtype={e.subtype}
-                                        helpText={e.help_text}
-                                        errorText={this.state.errors[e.name]}
-                                        placeholder={e.placeholder}
-                                        minLength={e.min_length}
-                                        maxLength={e.max_length}
-                                        dataSource={e.data_source}
-                                        optional={e.optional}
-                                        options={e.options}
-                                        value={this.state.values[e.name]}
-                                        onChange={this.onChange}
-                                    />
-                                );
-                            })}
+                            {this.renderBody()}
                         </Modal.Body>
                     )}
                     <Modal.Footer>
-                        {this.state.error && (
-                            <div className='error-text'>{this.state.error}</div>
-                        )}
-                        <button
-                            id='interactiveDialogCancel'
-                            type='button'
-                            className='btn btn-link cancel-button'
-                            onClick={this.onHide}
-                        >
-                            <FormattedMessage
-                                id='interactive_dialog.cancel'
-                                defaultMessage='Cancel'
-                            />
-                        </button>
-                        <SpinnerButton
-                            id='interactiveDialogSubmit'
-                            type='submit'
-                            autoFocus={!elements || elements.length === 0}
-                            className='btn btn-primary save-button'
-                            spinning={this.state.submitting}
-                            spinningText={localizeMessage(
-                                'interactive_dialog.submitting',
-                                'Submitting...',
-                            )}
-                        >
-                            {submitText}
-                        </SpinnerButton>
+                        {this.renderFooter()}
                     </Modal.Footer>
                 </form>
             </Modal>
         );
+    }
+
+    renderEmbedded() {
+        const {
+            elements,
+            introductionText,
+        } = this.props;
+
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <div>
+                    {this.renderHeader()}
+                </div>
+                {(elements || introductionText) && (
+                    <div>
+                        {this.renderBody()}
+                    </div>
+                )}
+                <div>
+                    {this.renderFooter()}
+                </div>
+            </form>
+        );
+    }
+
+    renderHeader() {
+        const {
+            title,
+            iconUrl,
+        } = this.props;
+
+        let icon;
+        if (iconUrl) {
+            icon = (
+                <img
+                    id='interactiveDialogIconUrl'
+                    alt={'modal title icon'}
+                    className='more-modal__image'
+                    width='36'
+                    height='36'
+                    src={iconUrl}
+                />
+            );
+        }
+        
+        return (
+            <React.Fragment>
+                {icon}
+                {title}
+            </React.Fragment>
+        )
+    }
+
+    renderElements() {
+        const {elements, isEmbedded} = this.props;
+
+        return (elements &&
+        elements.map((e, index) => {
+            const field = this.props.modal.form.fields.find((f) => f.name === e.name) as AppField & {key?: string};
+            return (
+                <DialogElement
+                    field={field}
+                    key={field.key || field.name}
+                    autoFocus={index === 0}
+                    displayName={e.display_name}
+                    name={e.name}
+                    type={e.type}
+                    subtype={e.subtype}
+                    helpText={e.help_text}
+                    errorText={this.state.errors[e.name]}
+                    placeholder={e.placeholder}
+                    minLength={e.min_length}
+                    maxLength={e.max_length}
+                    dataSource={e.data_source}
+                    optional={e.optional}
+                    options={e.options}
+                    value={this.state.values[e.name]}
+                    onChange={this.onChange}
+                    listComponent={isEmbedded? SuggestionList : ModalSuggestionList}
+                />
+            );
+        }));
+    }
+
+    renderBody() {
+        const {
+            introductionText,
+            elements,
+        } = this.props;
+
+        return (elements || introductionText) && (
+            <React.Fragment>
+                {introductionText && (
+                    <DialogIntroductionText
+                        id='interactiveDialogModalIntroductionText'
+                        value={introductionText}
+                        emojiMap={this.props.emojiMap}
+                    />
+                )}
+                {this.renderElements()}
+            </React.Fragment>
+        );
+    }
+
+    renderFooter() {
+        const {
+            elements,
+            submitLabel,
+        } = this.props;
+
+        let submitText: React.ReactNode = (
+            <FormattedMessage
+                id='interactive_dialog.submit'
+                defaultMessage='Submit'
+            />
+        );
+        if (submitLabel) {
+            submitText = submitLabel;
+        }
+
+
+        return (
+            <React.Fragment>
+                {this.state.error && (
+                    <div className='error-text'>{this.state.error}</div>
+                )}
+                <button
+                    id='interactiveDialogCancel'
+                    type='button'
+                    className='btn btn-link cancel-button'
+                    onClick={this.onHide}
+                >
+                    <FormattedMessage
+                        id='interactive_dialog.cancel'
+                        defaultMessage='Cancel'
+                    />
+                </button>
+                <SpinnerButton
+                    id='interactiveDialogSubmit'
+                    type='submit'
+                    autoFocus={!elements || elements.length === 0}
+                    className='btn btn-primary save-button'
+                    spinning={this.state.submitting}
+                    spinningText={localizeMessage(
+                        'interactive_dialog.submitting',
+                        'Submitting...',
+                    )}
+                >
+                    {submitText}
+                </SpinnerButton>
+            </React.Fragment>
+        )
+    }
+
+    render() {
+        return this.props.isEmbedded? this.renderEmbedded() : this.renderModal();
     }
 }

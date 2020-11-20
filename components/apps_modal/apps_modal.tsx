@@ -5,6 +5,7 @@ import React from 'react';
 
 import {AppCall, AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
 import {InteractiveDialogConfig, DialogElement} from 'mattermost-redux/types/integrations';
+import AppBindings from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -21,6 +22,10 @@ type Props = {
         doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>;
     };
     emojiMap: EmojiMap;
+    postID?: string;
+    channelID?: string;
+    teamID?: string;
+    isEmbedded?: boolean;
 };
 
 const AppsModal: React.FC<Props> = (props: Props) => {
@@ -28,7 +33,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
         return null;
     }
 
-    const submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse}> => {
+    const submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse<any>}> => {
         if (!props.modal) {
             return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.modal is not defined'}};
         }
@@ -37,6 +42,13 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             ...props.modal.call,
             type: '',
             values: submission.values,
+            context: {
+                app_id: props.modal.call.context.app_id,
+                location_id: props.postID ? AppBindings.APPS_BINDINGS_IN_POST : props.modal.call.context.location_id,
+                post_id: props.postID,
+                team_id: props.postID? props.teamID : props.modal.call.context.team_id,
+                channel_id: props.postID? props.channelID : props.modal.call.context.channel_id,
+            }
         };
 
         try {
@@ -69,6 +81,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             actions={{
                 submit: submitDialog,
             }}
+            isEmbedded={props.isEmbedded}
         />
     );
 };

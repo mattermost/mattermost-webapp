@@ -53,7 +53,7 @@ describe('components/apps_modal/InteractiveDialog', () => {
             };
             const wrapper = shallow<InteractiveDialog>(<InteractiveDialog {...props}/>);
 
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             const expected = (
                 <div className='error-text'>
@@ -65,7 +65,7 @@ describe('components/apps_modal/InteractiveDialog', () => {
 
         test('should not appear when submit does not return an error', async () => {
             const wrapper = shallow<InteractiveDialog>(<InteractiveDialog {...baseProps}/>);
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
         });

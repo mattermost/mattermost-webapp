@@ -148,7 +148,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
             ...binding.call,
             context: {
                 app_id: binding.app_id,
-                location_id: binding.location_id,
+                location_id: binding.location,
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
@@ -205,7 +205,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                             url: binding.call!.url,
                             context: {
                                 app_id: binding.app_id,
-                                location_id: binding.location_id,
+                                location_id: binding.location,
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },

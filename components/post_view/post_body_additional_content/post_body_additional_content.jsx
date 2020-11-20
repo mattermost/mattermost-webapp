@@ -10,7 +10,7 @@ import MessageAttachmentList from 'components/post_view/message_attachments/mess
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
-import EmbeddedForm from 'components/embedded_form';
+import AppsModal from 'components/apps_modal';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -149,14 +149,19 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     render() {
         const embed = this.getEmbed();
 
-        if (this.props.post.props.dialog) {
+        if (hasValidEmbeddedForm(this.props.post.props)) {
+            // TODO Put some log / message if the form is not valid?
             return (
                 <React.Fragment>
                     {this.props.children}
-                    <EmbeddedForm
-                        dialog={this.props.post.props.dialog}
+                    <AppsModal
+                        modal={{
+                            form: this.props.post.props.form,
+                            call: this.props.post.props.call,
+                        }}
                         postID={this.props.post.id}
-                        appID={this.props.post.props.appID}
+                        isEmbedded={true}
+                        onHide={() => {}}
                     />
                 </React.Fragment>
             );
@@ -178,4 +183,24 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
         return this.props.children;
     }
+}
+
+function hasValidEmbeddedForm(props) {
+    if (!props.form) {
+        return false;
+    }
+
+    if (!props.call) {
+        return false;
+    }
+
+    if (!props.call.context) {
+        return false;
+    }
+
+    if (!props.call.context.app_id) {
+        return false;
+    }
+
+    return true;
 }
