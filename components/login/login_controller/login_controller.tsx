@@ -274,7 +274,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         this.submit(loginId, password, '');
     }
 
-    submit = (loginId: string, password: string, token: string) => {
+    submit = (loginId: string, password: string, token: string): void => {
         this.setState({serverError: <div/>, loading: true});
 
         this.props.actions.login(loginId, password, token).then(async ({error}: { error: ServerError }) => {
@@ -336,7 +336,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         });
     }
 
-    finishSignin = (team?: Team) => {
+    finishSignin = (team?: Team): void => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const query = new URLSearchParams(this.props.location!.search);
         const redirectTo = query.get('redirect_to');
@@ -357,23 +357,23 @@ export class LoginController extends React.PureComponent<Props, State> {
         }
     }
 
-    handleLoginIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleLoginIdChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             loginId: e.target.value,
         });
     }
 
-    handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({
             password: e.target.value,
         });
     }
 
-    handleBrandImageError = () => {
+    handleBrandImageError = (): void => {
         this.setState({brandImageError: true});
     }
 
-    createCustomLogin = () => {
+    createCustomLogin = (): JSX.Element | null => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
             const brandImageUrl = Client4.getBrandImageUrl('0');
@@ -400,7 +400,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         return null;
     }
 
-    createLoginPlaceholder = () => {
+    createLoginPlaceholder = (): any => {
         const ldapEnabled = this.state.ldapEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -433,7 +433,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         return '';
     }
 
-    checkSignUpEnabled = () => {
+    checkSignUpEnabled = (): boolean => {
         return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
@@ -442,12 +442,12 @@ export class LoginController extends React.PureComponent<Props, State> {
             this.props.enableSaml;
     }
 
-    onDismissSessionExpired = () => {
+    onDismissSessionExpired = (): void => {
         LocalStorageStore.setWasLoggedIn(false);
         this.setState({sessionExpired: false});
     }
 
-    createExtraText = () => {
+    createExtraText = (): JSX.Element| null => {
         const extraParam = (new URLSearchParams(this.props.location!.search)).get('extra');
 
         if (this.state.sessionExpired) {
@@ -544,7 +544,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         return null;
     }
 
-    createLoginOptions = () => {
+    createLoginOptions = (): JSX.Element => {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
@@ -789,11 +789,11 @@ export class LoginController extends React.PureComponent<Props, State> {
         );
     }
 
-    hideMfa = () => {
+    hideMfa = (): void => {
         this.setState({showMfa: false});
     }
 
-    render() {
+    render(): JSX.Element {
         const {
             customDescriptionText,
             siteName,
