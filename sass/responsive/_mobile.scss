@@ -301,7 +301,8 @@
         margin: 0 0 30px;
     }
 
-    .channel-header {
+    .channel-header,
+    .GlobalThreads .Header  {
         .channel-header__icon {
             display: none;
         }

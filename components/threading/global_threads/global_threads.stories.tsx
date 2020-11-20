@@ -12,7 +12,7 @@ import StoryBox from 'storybook/story_box';
 
 import ThreadItem from './thread_item';
 import ThreadList from './thread_list';
-import ThreadHeader from './thread_header';
+import ThreadPane from './thread_pane';
 
 const users = [
     {
@@ -141,10 +141,10 @@ storiesOf('Features/Threading/Global Threads', module).
             </StoryBox>
         );
     }).
-    add('ThreadHeader', () => {
+    add('ThreadPane', () => {
         return (
             <StoryBox containerStyle={{width: 600}}>
-                <ThreadHeader
+                <ThreadPane
                     channelName={text('channelName', 'Enterprise Team')}
 
                     hasUnreads={boolean('has unreads', false)}

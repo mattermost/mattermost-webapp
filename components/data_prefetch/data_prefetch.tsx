@@ -12,7 +12,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 const queue = new PQueue({concurrency: 2});
 
 type Props = {
-    currentChannel: Channel;
+    currentChannel?: Channel;
     prefetchQueueObj: Record<string, string[]>;
     prefetchRequestStatus: Dictionary<string>;
     unreadChannels: Channel[];

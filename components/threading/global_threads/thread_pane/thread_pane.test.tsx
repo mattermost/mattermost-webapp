@@ -8,10 +8,10 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import FollowButton from 'components/threading/common/follow_button';
 import ThreadMenu from 'components/threading/global_threads/thread_menu';
 
-import ThreadHeader from './thread_header';
+import ThreadPane from './thread_pane';
 
 describe('components/threading/global_threads/thread_header', () => {
-    let props: ComponentProps<typeof ThreadHeader>;
+    let props: ComponentProps<typeof ThreadPane>;
 
     beforeEach(() => {
         props = {
@@ -34,14 +34,14 @@ describe('components/threading/global_threads/thread_header', () => {
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
-            <ThreadHeader {...props}/>,
+            <ThreadPane {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should support follow', () => {
         const wrapper = mountWithIntl(
-            <ThreadHeader {...props}/>,
+            <ThreadPane {...props}/>,
         );
 
         wrapper.find(FollowButton).find('button').simulate('click');
@@ -50,7 +50,7 @@ describe('components/threading/global_threads/thread_header', () => {
     test('should support unfollow', () => {
         props.isFollowing = true;
         const wrapper = mountWithIntl(
-            <ThreadHeader {...props}/>,
+            <ThreadPane {...props}/>,
         );
 
         wrapper.find(FollowButton).find('button').simulate('click');
@@ -60,7 +60,7 @@ describe('components/threading/global_threads/thread_header', () => {
     test('should support openInChannel', () => {
         props.isFollowing = true;
         const wrapper = mountWithIntl(
-            <ThreadHeader {...props}/>,
+            <ThreadPane {...props}/>,
         );
 
         wrapper.find('h3 button').simulate('click');
@@ -69,7 +69,7 @@ describe('components/threading/global_threads/thread_header', () => {
 
     test('should pass required props to ThreadMenu', () => {
         const wrapper = mountWithIntl(
-            <ThreadHeader
+            <ThreadPane
                 {...props}
             />,
         );

@@ -65,7 +65,7 @@ export const getChannelsInCategoryOrder = (() => {
                         const filterByUnread = (channelId: string) => channel.id === channelId;
                         const isUnread = unreadChannelIds.some(filterByUnread);
 
-                        return isUnread || currentChannel.id === channel.id;
+                        return isUnread || currentChannel?.id === channel.id;
                     };
                     return channels.filter(filter);
                 }
@@ -89,14 +89,14 @@ export const getUnreadChannels = (() => {
                 const channel = allChannels[channelId];
 
                 // Only include an archived channel if it's the current channel
-                if (channel.delete_at > 0 && channel.id !== currentChannel.id) {
+                if (channel.delete_at > 0 && channel.id !== currentChannel?.id) {
                     continue;
                 }
 
                 unreadChannels.push(channel);
             }
 
-            if (unreadChannels.findIndex((channel) => channel.id === currentChannel.id) === -1) {
+            if (unreadChannels.findIndex((channel) => channel.id === currentChannel?.id) === -1) {
                 unreadChannels.push(allChannels[currentChannel.id]);
             }
 

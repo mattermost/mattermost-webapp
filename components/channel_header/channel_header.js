@@ -18,20 +18,17 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
 import PopoverListMembers from 'components/popover_list_members';
-import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon';
-import FlagIcon from 'components/widgets/icons/flag_icon';
-import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import PinIcon from 'components/widgets/icons/pin_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Popover from 'components/widgets/popover';
+import RHSNavigation from 'components/rhs_navigation';
+
 import {
     Constants,
     ModalIdentifiers,
@@ -44,12 +41,9 @@ import * as Utils from 'utils/utils';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
-import UserGuideDropdown from './components/user_guide_dropdown';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
-
-const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 class ChannelHeader extends React.PureComponent {
     static propTypes = {
@@ -98,7 +92,7 @@ class ChannelHeader extends React.PureComponent {
         this.headerPopoverTextMeasurerRef = React.createRef();
         this.headerOverlayRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
+        this.state = {popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -110,15 +104,6 @@ class ChannelHeader extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
-        document.addEventListener('keydown', this.handleShortcut);
-        document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
-        window.addEventListener('resize', this.handleResize);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleShortcut);
-        document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
-        window.removeEventListener('resize', this.handleResize);
     }
 
     componentDidUpdate(prevProps) {
@@ -128,18 +113,6 @@ class ChannelHeader extends React.PureComponent {
             this.props.actions.getCustomEmojisInText(header);
         }
     }
-
-    static getDerivedStateFromProps(nextProps) {
-        return {showSearchBar: ChannelHeader.getShowSearchBar(nextProps)};
-    }
-
-    static getShowSearchBar(props) {
-        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
-    }
-
-    handleResize = () => {
-        this.setState({showSearchBar: ChannelHeader.getShowSearchBar(this.props)});
-    };
 
     handleClose = () => {
         this.props.actions.goToLastViewedChannel();
@@ -176,15 +149,6 @@ class ChannelHeader extends React.PureComponent {
         actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
     };
 
-    searchMentions = (e) => {
-        e.preventDefault();
-        if (this.props.rhsState === RHSStates.MENTION) {
-            this.props.actions.closeRightHandSide();
-        } else {
-            this.props.actions.showMentions();
-        }
-    };
-
     showPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
@@ -193,56 +157,6 @@ class ChannelHeader extends React.PureComponent {
             this.props.actions.showPinnedPosts();
         }
     };
-
-    getFlagged = (e) => {
-        e.preventDefault();
-        if (this.props.rhsState === RHSStates.FLAG) {
-            this.props.actions.closeRightHandSide();
-        } else {
-            this.props.actions.showFlaggedPosts();
-        }
-    };
-
-    searchButtonClick = (e) => {
-        e.preventDefault();
-
-        this.props.actions.openRHSSearch();
-    };
-
-    handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
-                e.preventDefault();
-                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
-                this.searchMentions(e);
-            }
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-                // just close the modal if it's open, but let someone else handle the shortcut
-                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
-            }
-        }
-    };
-
-    handleQuickSwitchKeyPress = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-            if (!e.altKey) {
-                e.preventDefault();
-                this.toggleQuickSwitchModal();
-            }
-        }
-    }
-
-    toggleQuickSwitchModal = () => {
-        const {isQuickSwitcherOpen} = this.props;
-        if (isQuickSwitcherOpen) {
-            this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
-        } else {
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.QUICK_SWITCH,
-                dialogType: QuickSwitchModal,
-            });
-        }
-    }
 
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
@@ -639,15 +553,6 @@ class ChannelHeader extends React.PureComponent {
             pinnedIconClass += ' channel-header__icon--active';
         }
 
-        let mentionsIconClass = 'channel-header__icon';
-        if (rhsState === RHSStates.MENTION) {
-            mentionsIconClass += ' channel-header__icon--active';
-        }
-
-        let flaggedIconClass = 'channel-header__icon';
-        if (rhsState === RHSStates.FLAG) {
-            flaggedIconClass += ' channel-header__icon--active';
-        }
         const pinnedIcon = (this.props.pinnedPostsCount ?
             (<React.Fragment>
                 <PinIcon
@@ -750,6 +655,7 @@ class ChannelHeader extends React.PureComponent {
                             {headerTextContainer}
                         </div>
                     </div>
+
                     <div className='flex-child'>
                         {popoverListMembers}
                     </div>
@@ -765,55 +671,7 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-
-                    {this.state.showSearchBar ? (
-                        <div
-                            id='searchbarContainer'
-                            className='flex-child search-bar__container'
-                        >
-                            <SearchBar
-                                showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
-                            />
-                        </div>
-                    ) : (
-                        <HeaderIconWrapper
-                            iconComponent={
-                                <SearchIcon
-                                    className='icon icon--standard'
-                                    aria-hidden='true'
-                                />
-                            }
-                            ariaLabel={true}
-                            buttonId={'channelHeaderSearchButton'}
-                            onClick={this.searchButtonClick}
-                            tooltipKey={'search'}
-                        />
-                    )}
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <MentionsIcon
-                                className='icon icon--standard'
-                                aria-hidden='true'
-                            />
-                        }
-                        ariaLabel={true}
-                        buttonClass={mentionsIconClass}
-                        buttonId={'channelHeaderMentionButton'}
-                        onClick={this.searchMentions}
-                        tooltipKey={'recentMentions'}
-                    />
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <FlagIcon className='icon icon__flag'/>
-                        }
-                        ariaLabel={true}
-                        buttonClass={flaggedIconClass}
-                        buttonId={'channelHeaderFlagButton'}
-                        onClick={this.getFlagged}
-                        tooltipKey={'flaggedPosts'}
-                    />
-                    <UserGuideDropdown/>
+                    <RHSNavigation/>
                 </div>
             </div>
         );

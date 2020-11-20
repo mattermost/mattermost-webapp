@@ -1,0 +1,80 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.GlobalThreads {
+    --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
+
+    display: grid;
+    grid-template-columns: minmax(350px, 450px) minmax(500px, auto);
+    grid-template-rows: 63px auto;
+    grid-template-areas:
+        "header header"
+        "list pane";
+
+    @media screen and (max-width: 1020px) {
+        grid-template-columns: auto;
+        grid-template-areas:
+            "header header"
+            "main main";
+    }
+
+    .GlobalThreads___header {
+        grid-area: header;
+        border-bottom: var(--border);
+    }
+
+    .channel-header__icon,
+    .search__form {
+        margin-top: 1px;
+    }
+
+    .ThreadList {
+        grid-area: list;
+        border-right: var(--border);
+        /* @media screen and (min-width: 1021px) {
+            width: 400px;
+        }
+        @media screen and (min-width: 1680px) {
+            width: 500px;
+        } */
+    }
+    .ThreadList + .no-results__holder {
+        grid-area: pane;
+    }
+
+    .no-results__holder {
+        grid-area: list/list/pane/pane;
+        @media screen and (max-width: 1020px) {
+            grid-area: main;
+        }
+        display: grid;
+    }
+    .no-results__wrapper img {
+        margin-bottom: 20px;
+    }
+    .no-results__subtitle {
+        max-width: 378px;
+    }
+
+    .no-results__holder,
+    .ThreadPane {
+        transition: padding-right .25s ease-in;
+    }
+}
+
+.sidebar--right.move--left {
+    ~ .inner-wrap {
+        --rhs-width: 400px;
+        @media screen and (min-width: 1680px) {
+            --rhs-width: 500px;
+        }
+
+        #app-content.GlobalThreads {
+            .no-results__holder,
+            .ThreadPane {
+
+                padding-right: var(--rhs-width);
+            }
+        }
+    }
+}

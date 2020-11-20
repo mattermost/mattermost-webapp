@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
+import GlobalThreads from 'components/threading/global_threads';
 
 type Props = {
     match: {
@@ -76,8 +77,18 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                             )}
                         />
                         <Route
-                            path={['/:team/:path(channels|messages)/:identifier/:postid', '/:team/:path(channels|messages)/:identifier']}
+                            path={[
+                                '/:team/:path(channels|messages)/:identifier/:postid',
+                                '/:team/:path(channels|messages)/:identifier',
+                            ]}
                             component={ChannelIdentifierRouter}
+                        />
+                        <Route
+                            path={[
+                                '/:team/threads/',
+                                '/:team/threads/:identifier',
+                            ]}
+                            component={GlobalThreads}
                         />
                         <Redirect to={lastChannelPath}/>
                     </Switch>

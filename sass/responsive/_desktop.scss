@@ -9,7 +9,8 @@
         }
     }
 
-    .channel-header {
+    .channel-header,
+    .GlobalThreads .Header {
         .search-bar__container {
             .search__form--focused {
                 width: 374px;
@@ -132,7 +133,8 @@
 
 @media (max-width: 1024px) {
     .inner-wrap:not(.move--left) {
-        .channel-header {
+        .channel-header,
+        .GlobalThreads .Header {
             .search-bar__container {
                 .search__form {
                     width: 150px;

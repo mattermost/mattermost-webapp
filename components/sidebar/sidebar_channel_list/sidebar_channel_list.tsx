@@ -50,7 +50,7 @@ export function renderThumbVertical(props: any) {
 
 type Props = {
     currentTeam: Team;
-    currentChannel: Channel;
+    currentChannel?: Channel;
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
@@ -167,7 +167,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         }
 
         return channelIds.find((channelId) => {
-            return channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId);
+            return channelId !== this.props.currentChannel?.id && this.props.unreadChannelIds.includes(channelId);
         });
     }
 
@@ -283,7 +283,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
-            const curChannelId = this.props.currentChannel.id;
+            const curChannelId = this.props.currentChannel?.id;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -318,7 +318,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             }
 
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentChannel.id,
+                this.props.currentChannel?.id,
                 allChannelIds,
                 this.props.unreadChannelIds,
                 direction,

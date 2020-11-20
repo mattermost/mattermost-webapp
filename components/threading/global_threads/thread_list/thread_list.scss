@@ -1,21 +1,14 @@
 .ThreadList {
-    --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
-    .header {
-        position: relative;
-        padding: 12px;
-        padding-right: 50px;
+    .Header {
+        height: 56px;
+        padding-left: 14px;
+        padding-right: 12px;
         border-bottom: var(--border);
         color: rgba(var(--center-channel-color-rgb), .56);
 
         .Button + .Button {
             margin-left: 4px;
         }
-    }
-    .right-anchor {
-        position: absolute;
-        right: 0;
-        top: 10px;
-        padding-right: 12px;
     }
 
     .ThreadItem {

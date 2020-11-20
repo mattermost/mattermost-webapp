@@ -1,0 +1,35 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+
+
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1;
+        margin: 0;
+    }
+
+    h2 {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(var(--center-channel-color-rgb), 1);
+    }
+
+    > div p {
+
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+        margin: 6px 0 0;
+        color: rgba(var(--center-channel-color-rgb), .56);
+    }
+
+    > .spacer {
+        flex: 1;
+    }
+}

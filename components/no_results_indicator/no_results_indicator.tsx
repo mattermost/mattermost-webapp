@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, CSSProperties} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
@@ -15,15 +15,23 @@ import SearchIcon from 'components/widgets/icons/search_icon';
 import {NoResultsVariant} from './types';
 
 interface Props {
-    variant: NoResultsVariant;
+    iconGraphic?: ReactNode;
+    title?: ReactNode;
+    subtitle?: ReactNode;
+
+    variant?: NoResultsVariant;
     titleValues?: Dictionary<ReactNode>;
+
     subtitleValues?: Dictionary<ReactNode>
+
+    style?: CSSProperties;
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.ChannelSearch]: <SearchIcon className='no-results__icon'/>,
     [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
     [NoResultsVariant.FlaggedPosts]: <FlagIcon className='no-results__icon'/>,
+    [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
     [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
 };
 
@@ -57,28 +65,43 @@ const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     },
 };
 
-const NoResultsIndicator = (props: Props) => {
+const NoResultsIndicator = ({
+    iconGraphic,
+    title,
+    subtitle,
+    variant,
+    titleValues,
+    subtitleValues,
+    style,
+}: Props) => {
     return (
         <div
             className='no-results__wrapper'
+            style={style}
         >
-            <div className='no-results__variant-wrapper'>
-                {iconMap[props.variant]}
-            </div>
+
+            {iconGraphic ?? (variant && (
+                <div className='no-results__variant-wrapper'>
+                    {iconMap[variant]}
+                </div>
+            ))}
             <div className='no-results__title'>
-                <FormattedMessage
-                    {...{
-                        ...titleMap[props.variant],
-                        values: props.titleValues,
-                    }}
-                />
+                {title ?? (variant && (
+                    <FormattedMessage
+                        {...titleMap[variant]}
+                        values={titleValues}
+                    />
+                ))}
             </div>
-            <FormattedMessage
-                {...{
-                    ...subtitleMap[props.variant],
-                    values: props.subtitleValues,
-                }}
-            />
+            <div className='no-results__subtitle'>
+                {subtitle ?? (variant && (
+                    <FormattedMessage
+                        {...subtitleMap[variant]}
+                        values={subtitleValues}
+                    />
+                ))}
+            </div>
+
         </div>
     );
 };
