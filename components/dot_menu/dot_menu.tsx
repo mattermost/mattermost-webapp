@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -26,84 +27,90 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
+type Props = {
+    post: Post;
+    teamId?: string;
+    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
+    commentCount?: number;
+    isFlagged?: boolean;
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleDropdownOpened?: (open: boolean) => void;
+    handleAddReactionClick?: () => void;
+    isMenuOpen?: boolean,
+    isReadOnly: boolean | null,
+    pluginMenuItems?: any[];
+    isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
+    enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    channelIsArchived?: boolean, // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string, // TechDebt: Made non-mandatory while converting to typescript
 
-export default class DotMenu extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-        teamId: PropTypes.string,
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]), // TechDebt: Made non-mandatory while converting to typescript
-        commentCount: PropTypes.number,
-        isFlagged: PropTypes.bool,
-        handleCommentClick: PropTypes.func,
-        handleDropdownOpened: PropTypes.func,
-        handleAddReactionClick: PropTypes.func,
-        isMenuOpen: PropTypes.bool,
-        isReadOnly: PropTypes.bool,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isLicensed: PropTypes.bool, // TechDebt: Made non-mandatory while converting to typescript
-        postEditTimeLimit: PropTypes.string, // TechDebt: Made non-mandatory while converting to typescript
-        enableEmojiPicker: PropTypes.bool.isRequired,
-        channelIsArchived: PropTypes.bool, // TechDebt: Made non-mandatory while converting to typescript
-        currentTeamUrl: PropTypes.string, // TechDebt: Made non-mandatory while converting to typescript
+    /**
+     * Components for overriding provided by plugins
+     */
+    components?: any, // TechDebt: Made non-mandatory while converting to typescript
 
-        /*
-         * Components for overriding provided by plugins
+    actions?: {
+
+        /**
+         * Function flag the post
          */
-        components: PropTypes.object, // TechDebt: Made non-mandatory while converting to typescript
+        flagPost: (postId: string) => void;
 
-        actions: PropTypes.shape({
+        /**
+         * Function to unflag the post
+         */
+        unflagPost: (postId: string) => void;
 
-            /**
-             * Function flag the post
-             */
-            flagPost: PropTypes.func.isRequired,
+        /**
+         * Function to set the editing post
+         */
+        setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
-            /**
-             * Function to unflag the post
-             */
-            unflagPost: PropTypes.func.isRequired,
+        /**
+         * Function to pin the post
+         */
+        pinPost: (postId: string) => void;
 
-            /**
-             * Function to set the editing post
-             */
-            setEditingPost: PropTypes.func.isRequired,
+        /**
+         * Function to unpin the post
+         */
+        unpinPost: (postId: string) => void;
 
-            /**
-             * Function to pin the post
-             */
-            pinPost: PropTypes.func.isRequired,
+        /**
+         * Function to open a modal
+         */
+        openModal: (postId: any) => void;
 
-            /**
-             * Function to unpin the post
-             */
-            unpinPost: PropTypes.func.isRequired,
+        /**
+         * Function to set the unread mark at given post
+         */
+        markPostAsUnread: (post: Post) => void;
+    }; // TechDebt: Made non-mandatory while converting to typescript
 
-            /**
-             * Function to open a modal
-             */
-            openModal: PropTypes.func.isRequired,
+    canEdit: boolean;
+    canDelete: boolean;
+}
 
-            /*
-             * Function to set the unread mark at given post
-             */
-            markPostAsUnread: PropTypes.func.isRequired,
-        }), // TechDebt: Made non-mandatory while converting to typescript
+type State = {
+    openUp: boolean;
+    width?: number;
+    canEdit: boolean;
+    canDelete: boolean;
+}
 
-        canEdit: PropTypes.bool, // TechDebt: Made non-mandatory while converting to typescript
-        canDelete: PropTypes.bool, // TechDebt: Made non-mandatory while converting to typescript
-    }
-
+export default class DotMenu extends React.PureComponent<Props, State> {
     static defaultProps = {
-        post: {},
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
-        pluginMenuItems: [],
         location: Locations.CENTER,
-        enableEmojiPicker: false,
+        pluginMenuItems: [],
     }
+    private editDisableAction: DelayedAction;
+    private buttonRef: React.RefObject<HTMLButtonElement>;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
@@ -112,9 +119,10 @@ export default class DotMenu extends React.PureComponent {
             openUp: false,
             width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
+            canDelete: props.canDelete,
         };
 
-        this.buttonRef = React.createRef();
+        this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
     disableCanEditPostByTime() {
@@ -124,7 +132,7 @@ export default class DotMenu extends React.PureComponent {
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (Number(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -136,7 +144,7 @@ export default class DotMenu extends React.PureComponent {
         this.disableCanEditPostByTime();
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: Props) {
         return {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
@@ -153,14 +161,14 @@ export default class DotMenu extends React.PureComponent {
 
     handleFlagMenuItemActivated = () => {
         if (this.props.isFlagged) {
-            this.props.actions.unflagPost(this.props.post.id);
+            this.props.actions?.unflagPost(this.props.post.id);
         } else {
-            this.props.actions.flagPost(this.props.post.id);
+            this.props.actions?.flagPost(this.props.post.id);
         }
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e) => {
+    handleAddReactionMenuItemActivated = (e: Event) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -175,18 +183,18 @@ export default class DotMenu extends React.PureComponent {
 
     handlePinMenuItemActivated = () => {
         if (this.props.post.is_pinned) {
-            this.props.actions.unpinPost(this.props.post.id);
+            this.props.actions?.unpinPost(this.props.post.id);
         } else {
-            this.props.actions.pinPost(this.props.post.id);
+            this.props.actions?.pinPost(this.props.post.id);
         }
     }
 
-    handleUnreadMenuItemActivated = (e) => {
+    handleUnreadMenuItemActivated = (e: Event) => {
         e.preventDefault();
-        this.props.actions.markPostAsUnread(this.props.post);
+        this.props.actions?.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e) => {
+    handleDeleteMenuItemActivated = (e: Event) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -199,11 +207,11 @@ export default class DotMenu extends React.PureComponent {
             },
         };
 
-        this.props.actions.openModal(deletePostModalData);
+        this.props.actions?.openModal(deletePostModalData);
     }
 
     handleEditMenuItemActivated = () => {
-        this.props.actions.setEditingPost(
+        this.props.actions?.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
@@ -224,11 +232,15 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (menuRef) => {
+    refCallback = (menuRef: Menu) => {
         if (menuRef) {
-            const rect = menuRef.rect();
-            const buttonRect = this.buttonRef.current.getBoundingClientRect();
-            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
+            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+            let y;
+            if (typeof buttonRect?.y === 'undefined') {
+                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+            } else {
+                y = buttonRect?.y;
+            }
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
@@ -237,12 +249,12 @@ export default class DotMenu extends React.PureComponent {
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
-                width: rect.width,
+                width: menuRef.rect()?.width,
             });
         }
     }
 
-    renderDivider = (suffix) => {
+    renderDivider = (suffix: string) => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}
@@ -256,7 +268,7 @@ export default class DotMenu extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        const pluginItems = this.props.pluginMenuItems.
+        const pluginItems = this.props.pluginMenuItems?.
             filter((item) => {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
@@ -288,7 +300,7 @@ export default class DotMenu extends React.PureComponent {
                 );
             });
 
-        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -385,7 +397,7 @@ export default class DotMenu extends React.PureComponent {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {((typeof pluginItems !== 'undefined' && pluginItems.length > 0) || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
