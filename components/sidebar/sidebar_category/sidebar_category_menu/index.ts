@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
+import {setCategoryMuted} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -26,12 +27,14 @@ type Actions = {
     openModal: (modalData: {modalId: string; dialogType: React.Component; dialogProps?: any}) => Promise<{
         data: boolean;
     }>;
+    setCategoryMuted: (categoryId: string, muted: boolean) => Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             openModal,
+            setCategoryMuted,
         }, dispatch),
     };
 }

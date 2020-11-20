@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
-import DotMenu from 'components/dot_menu/dot_menu.jsx';
+import DotMenu from 'components/dot_menu/dot_menu';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/utils', () => {
     return {
-        isMobile: jest.fn(() => false),
-        localizeMessage: jest.fn().mockReturnValue(''),
+        isMobile: jest.fn(() => true),
+        localizeMessage: jest.fn(),
     };
 });
 
@@ -21,10 +22,10 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/dot_menu/DotMenu returning empty ("")', () => {
-    test('should match snapshot, return empty ("") on Center', () => {
+describe('components/dot_menu/DotMenu on mobile view', () => {
+    test('should match snapshot', () => {
         const baseProps = {
-            post: {id: 'post_id_1'},
+            post: TestHelper.getPostMock({id: 'post_id_1'}),
             isLicensed: false,
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
@@ -44,7 +45,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             canDelete: false,
         };
 
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
 

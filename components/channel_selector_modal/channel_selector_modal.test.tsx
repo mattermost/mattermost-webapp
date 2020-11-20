@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelSelectorModal from 'components/channel_selector_modal/channel_selector_modal.jsx';
+import ChannelSelectorModal from 'components/channel_selector_modal/channel_selector_modal';
 
 describe('components/ChannelSelectorModal', () => {
     const defaultProps = {
@@ -47,9 +47,9 @@ describe('components/ChannelSelectorModal', () => {
         groupID: '',
         actions: {
             loadChannels: jest.fn(() => Promise.resolve({data: []})),
-            setModalSearchTerm: jest.fn(() => Promise.resolve()),
-            searchChannels: jest.fn(() => Promise.resolve({})),
-            searchAllChannels: jest.fn(() => Promise.resolve({})),
+            setModalSearchTerm: jest.fn(),
+            searchChannels: jest.fn(() => Promise.resolve({data: []})),
+            searchAllChannels: jest.fn(() => Promise.resolve({data: []})),
         },
     };
 
