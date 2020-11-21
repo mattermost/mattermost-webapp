@@ -80,11 +80,6 @@
     "serialize-error": "6.0.0",
     "shallow-equals": "1.0.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run check && npm run tsc"
-    }
-  },
   "jest-junit": {
     "output": "build/test-results.xml"
   },
@@ -111,7 +106,6 @@
     "eslint-plugin-header": "3.0.0",
     "eslint-plugin-import": "2.20.2",
     "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#070ce792d105482ffb2b27cfc0b7e78b3d20acee",
-    "husky": "4.2.5",
     "jest": "25.2.7",
     "jest-junit": "10.0.0",
     "mock-socket": "9.0.3",
