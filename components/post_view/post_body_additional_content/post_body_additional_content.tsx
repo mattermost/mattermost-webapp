@@ -93,6 +93,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
 
                 return (
                     <YoutubeVideo
+                        postId={this.props.post.id}
                         link={embed.url}
                         show={this.props.isEmbedVisible}
                     />
