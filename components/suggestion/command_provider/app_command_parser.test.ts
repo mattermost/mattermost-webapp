@@ -6,19 +6,15 @@ import configureStore from 'redux-mock-store';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {AppBinding, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding, AppForm, AutocompleteSuggestion} from 'mattermost-redux/types/apps';
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
-import {
-    AutocompleteSuggestion,
-    AppCommandParser,
-    AutocompleteSuggestionWithComplete,
-} from './app_command_parser';
+import {AppCommandParser} from './app_command_parser';
 import {reduxTestState} from './test_data';
 
 const mockStore = configureStore([thunk]);
 
-const viewCommand = {
+const viewCommand: AppBinding = {
     app_id: 'jira',
     label: 'view',
     description: 'View details of a Jira issue',
@@ -26,7 +22,7 @@ const viewCommand = {
         fields: [
             {
                 name: 'project',
-                autocomplete_label: 'project',
+                label: 'project',
                 description: 'The Jira project description',
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 // flag_name: 'project',
@@ -37,7 +33,7 @@ const viewCommand = {
             },
             {
                 name: 'issue',
-                autocomplete_label: 'issue',
+                label: 'issue',
                 description: 'The Jira issue key',
                 type: AppFieldTypes.TEXT,
                 // flag_name: 'issue',
@@ -48,7 +44,7 @@ const viewCommand = {
     } as AppForm,
 };
 
-const createCommand = {
+const createCommand: AppBinding = {
     app_id: 'jira',
     label: 'create',
     description: 'Create a new Jira issue',
@@ -71,7 +67,7 @@ const createCommand = {
             },
             {
                 name: 'epic',
-                autocomplete_label: 'epic',
+                label: 'epic',
                 description: 'The Jira epic',
                 type: AppFieldTypes.STATIC_SELECT,
                 hint: 'The thing is working great!',
@@ -94,6 +90,7 @@ const definitions: AppBinding[] = [
     {
         app_id: 'jira',
         location: '/command',
+        label: 'jira',
         bindings: [{
             app_id: 'jira',
             label: 'issue',
@@ -115,7 +112,7 @@ const definitions: AppBinding[] = [
             form: {
                 fields: [{
                     name: 'summary',
-                    autocomplete_label: 'summary',
+                    label: 'summary',
                     description: 'The Jira issue summary',
                     type: AppFieldTypes.TEXT,
                     hint: 'The thing is working great!',
@@ -223,14 +220,14 @@ describe('AppCommandParser', () => {
 
         test('should return child after space', () => {
             let res;
-            res = parser.matchBinding('/jira issue ');
+            res = parser.matchBinding('/jira issue ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.label).toEqual('issue');
         });
 
         test('should return nested child', () => {
             let res;
-            res = parser.matchBinding('/jira issue view ');
+            res = parser.matchBinding('/jira issue view ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.label).toEqual('view');
         });
@@ -239,7 +236,7 @@ describe('AppCommandParser', () => {
     describe('getSuggestionsForCursorPosition', () => {
         test('choosing subcommand 1', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -261,7 +258,7 @@ describe('AppCommandParser', () => {
 
         test('choosing subcommand 2', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -289,7 +286,7 @@ describe('AppCommandParser', () => {
 
         test('choosing subcommand 3', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -312,7 +309,7 @@ describe('AppCommandParser', () => {
 
         test('typing flag', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -339,7 +336,7 @@ describe('AppCommandParser', () => {
 
         test('show flag args', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -355,7 +352,7 @@ describe('AppCommandParser', () => {
 
         test('show positional arg for project value', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -384,7 +381,7 @@ describe('AppCommandParser', () => {
 
         test('show positional arg for issue view project value', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -410,7 +407,7 @@ describe('AppCommandParser', () => {
 
         test('works with random spaces', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',
@@ -439,7 +436,7 @@ describe('AppCommandParser', () => {
 
         test('static options', async () => {
             let cmdStr = '';
-            let res: AutocompleteSuggestionWithComplete[] = [];
+            let res: AutocompleteSuggestion[] = [];
 
             cmdStr = [
                 '/jira',

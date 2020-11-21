@@ -11,8 +11,8 @@ import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
-import {EXECUTE_CURRENT_COMMAND_ITEM_ID} from './command_provider/command_provider';
 const KeyCodes = Constants.KeyCodes;
+const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
 export default class SuggestionBox extends React.PureComponent {
     static propTypes = {

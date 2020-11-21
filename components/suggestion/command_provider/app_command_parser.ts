@@ -16,16 +16,16 @@ import {
     AppContext,
     AppForm,
     AutocompleteSuggestion,
-    AutocompleteSuggestionWithComplete,
     AutocompleteElement,
     AutocompleteDynamicSelect,
     AutocompleteStaticSelect,
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
+    AutocompleteSuggestionWithComplete,
 } from 'mattermost-redux/types/apps';
 
 import {doAppCall} from 'actions/apps';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -34,6 +34,7 @@ import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
 export type Store = {
@@ -52,9 +53,9 @@ export class AppCommandParser {
         this.rootPostID = rootPostID;
     }
 
-    decorateSuggestionComplete = (pretext: string, choice: AutocompleteSuggestionWithComplete): AutocompleteSuggestionWithComplete => {
-        if (choice.complete?.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
-            return choice;
+    decorateSuggestionComplete = (pretext: string, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
+        if (choice.complete && choice.complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+            return choice as AutocompleteSuggestionWithComplete;
         }
 
         // AutocompleteSuggestion.complete is required to be all text leading up to the current suggestion
@@ -64,15 +65,10 @@ export class AppCommandParser {
 
         choice.hint = choice.hint || '';
 
-        if (!words.length) {
-            // base command
-            return choice;
-        }
-
         return {
             ...choice,
             suggestion: '/' + choice.suggestion,
-            complete: before + choice.complete || choice.suggestion,
+            complete: before + (choice.complete || choice.suggestion),
         };
     }
 
@@ -179,9 +175,9 @@ export class AppCommandParser {
     }
 
     displayError = (err: Error): void => {
-        sendEphemeralPost(err + ' displayError');
+        sendEphemeralPost(err + ' displayError', '');
 
-        // display error under the command line
+        // TODO display error under the command line
     }
 
     getAppCommand = (name: string): AppBinding | void => {
@@ -196,7 +192,7 @@ export class AppCommandParser {
 
         const binding = await this.getBindingWithForm(pretext);
         if (!binding) {
-            return [{suggestion: 'Can\'t find binding 1'}];
+            return [this.decorateSuggestionComplete(pretext, {suggestion: 'Error finding binding'})];
         }
 
         const suggestions = await this.getSuggestionsForCursorPosition(pretext);
@@ -229,13 +225,13 @@ export class AppCommandParser {
         return result;
     }
 
-    getSuggestionsForCursorPosition = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
+    getSuggestionsForCursorPosition = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
         const binding = await this.getBindingWithForm(pretext);
         if (!binding) {
             return [];
         }
 
-        let suggestions: AutocompleteSuggestionWithComplete[] = [];
+        let suggestions: AutocompleteSuggestion[] = [];
         if (binding.bindings && binding.bindings.length) {
             return this.getSuggestionsForBinding(pretext, binding);
         }
@@ -524,12 +520,12 @@ export class AppCommandParser {
         });
     };
 
-    getSuggestionsForBinding = (cmdStr: string, binding: AppBinding): AutocompleteSuggestionWithComplete[] => {
+    getSuggestionsForBinding = (cmdStr: string, binding: AppBinding): AutocompleteSuggestion[] => {
         if (!binding.bindings || !binding.bindings.length) {
             return [];
         }
 
-        const result: AutocompleteSuggestionWithComplete[] = [];
+        const result: AutocompleteSuggestion[] = [];
 
         const fullPretext = this.getFullPretextForBinding(binding);
         cmdStr = cmdStr.substring((fullPretext + ' ').length).toLowerCase().trim();

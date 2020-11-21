@@ -6,6 +6,8 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {AutocompleteSuggestion, AutocompleteSuggestionWithComplete} from 'mattermost-redux/types/apps';
+import {ServerAutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
 
 import globalStore from 'stores/redux_store.jsx';
@@ -21,7 +23,7 @@ const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_C
 import Suggestion from '../suggestion.jsx';
 import Provider from '../provider.jsx';
 
-import {AppCommandParser, AutocompleteSuggestion, AutocompleteSuggestionWithComplete, Store} from './app_command_parser';
+import {AppCommandParser, Store} from './app_command_parser';
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -142,7 +144,7 @@ export default class CommandProvider extends Provider {
 
     handleMobile(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
-        Client4.getCommandsList(getCurrentTeamId(store.getState())).then(
+        Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
                 const appCommandSuggestions = this.parser.getAppSuggestionsForBindings(pretext);
@@ -188,8 +190,8 @@ export default class CommandProvider extends Provider {
 
     handleWebapp(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
-        const teamId = getCurrentTeamId(store.getState());
-        const selectedPost = getSelectedPost(store.getState());
+        const teamId = getCurrentTeamId(this.store.getState());
+        const selectedPost = getSelectedPost(this.store.getState());
         let rootId;
         if (this.isInRHS && selectedPost) {
             rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
@@ -257,7 +259,7 @@ export default class CommandProvider extends Provider {
         );
     }
 
-    shouldAddExecuteItem(data, pretext) {
+    shouldAddExecuteItem(data: ServerAutocompleteSuggestion[], pretext: string) {
         if (data.length === 0) {
             return false;
         }
@@ -269,7 +271,7 @@ export default class CommandProvider extends Provider {
         return data.findIndex((item) => item.Suggestion === '') !== -1;
     }
 
-    contains(matches, complete) {
+    contains(matches: AutocompleteSuggestionWithComplete[], complete: string) {
         return matches.findIndex((match) => match.complete === complete) !== -1;
     }
 }
