@@ -11,7 +11,7 @@ import {getCurrentUser, makeGetProfilesByIdsAndUsernames} from 'mattermost-redux
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import CombinedSystemMessage, {Props} from './combined_system_message.jsx';
+import CombinedSystemMessage, {Props} from './combined_system_message';
 
 function makeMapStateToProps() {
     const getProfilesByIdsAndUsernames = makeGetProfilesByIdsAndUsernames();
