@@ -10,18 +10,21 @@
 
 // Stage: @prod
 // Group: @channel @channel_settings
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channel Settings', () => {
+    let testTeam;
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
-            cy.apiCreateChannel(team.id, 'channel', 'Private Channel', 'P').then(({channel}) => {
+            testTeam = team;
+            cy.apiCreateChannel(testTeam.id, 'channel', 'Private Channel', 'P').then(({channel}) => {
                 cy.apiAddUserToChannel(channel.id, user.id);
             });
 
             cy.apiLogin(user);
 
             // # Visit town-square channel
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -50,6 +53,34 @@ describe('Channel Settings', () => {
 
             // check for the close button
             cy.get('@channel').find('span.btn-close').should('exist');
+        });
+    });
+
+    it('MM-T882 Channel settings / Channel URL validation works properly', () => {
+        // # Login as admin and create new channel
+        cy.apiAdminLogin();
+        cy.apiCreateChannel(testTeam.id, 'coolest-channel', 'coolest channel').then(({channel}) => {
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            // # Go to channel dropdown > Rename channel
+            cy.get('#channelHeaderDropdownIcon').click();
+            cy.findByText('Rename Channel').click();
+
+            // # Try to enter existing URL and save
+            cy.get('#channel_name').clear().type('town-square');
+            cy.get('#save-button').click();
+
+            // # Error is displayed and URL is unchanged
+            // expect('.control-label').to.be.visible.and.to.eq('');
+            cy.url().should('include', `/${testTeam.name}/channels/${channel.name}`);
+
+            // # Enter a new URL and save
+            cy.get('#channel_name').clear().type('another-town-square');
+            cy.get('#save-button').click();
+
+            // URL is updated and no errors are displayed
+            cy.url().should('include', `/${testTeam.name}/channels/another-town-square`);
         });
     });
 });
