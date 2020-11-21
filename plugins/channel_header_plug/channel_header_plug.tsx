@@ -158,7 +158,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
     createAppBindingButton = (binding: AppBinding) => {
         return (
             <HeaderIconWrapper
-                key={'channelHeaderButton' + binding.location}
+                key={`channelHeaderButton_${binding.app_id}_${binding.location}`}
                 buttonClass='channel-header__icon style--none'
                 iconComponent={(
                     <img

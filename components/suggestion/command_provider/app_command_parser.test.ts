@@ -224,7 +224,7 @@ describe('AppCommandParser', () => {
         parser = new AppCommandParser(store, '');
     });
 
-    describe('getForm', () => {
+    describe('getFormValues', () => {
         test('filled out form', () => {
             const msg = '/jira issue view dynamic-value --issue  MM-32343';
             const res = parser.getFormValues(msg, viewCommand);
@@ -234,36 +234,46 @@ describe('AppCommandParser', () => {
                 project: 'dynamic-value',
             });
         });
+
+        test('with quoted arg', () => {
+            const msg = '/jira issue create --project PROJ --summary "My problem"';
+            const res = parser.getFormValues(msg, createCommand);
+            expect(res).toBeTruthy();
+            expect(res).toEqual({
+                summary: 'My problem',
+                project: 'PROJ',
+            });
+        });
     });
 
     describe('getAppSuggestionsForBindings', () => {
         test('string matches 1', () => {
-            const res = parser.getAppSuggestionsForBindings('/');
+            const res = parser.getSuggestionsForBaseCommands('/');
             expect(res).toHaveLength(2);
         });
 
         test('string matches 2', () => {
-            const res = parser.getAppSuggestionsForBindings('/ji');
+            const res = parser.getSuggestionsForBaseCommands('/ji');
             expect(res).toHaveLength(1);
         });
 
         test('string matches 3', () => {
-            const res = parser.getAppSuggestionsForBindings('/jira');
+            const res = parser.getSuggestionsForBaseCommands('/jira');
             expect(res).toHaveLength(1);
         });
 
         test('string is past base command', () => {
-            const res = parser.getAppSuggestionsForBindings('/jira ');
+            const res = parser.getSuggestionsForBaseCommands('/jira ');
             expect(res).toHaveLength(0);
         });
 
         test('other command matches', () => {
-            const res = parser.getAppSuggestionsForBindings('/other');
+            const res = parser.getSuggestionsForBaseCommands('/other');
             expect(res).toHaveLength(1);
         });
 
         test('string does not match', () => {
-            const res = parser.getAppSuggestionsForBindings('/wrong');
+            const res = parser.getSuggestionsForBaseCommands('/wrong');
             expect(res).toHaveLength(0);
         });
     });

@@ -174,8 +174,12 @@ export class AppCommandParser {
         return null;
     }
 
-    displayError = (err: Error): void => {
-        sendEphemeralPost(err + ' displayError', '');
+    displayError = (err: any): void => {
+        let errStr = err as string;
+        if (err.message) {
+            errStr = err.message;
+        }
+        sendEphemeralPost(errStr, '');
 
         // TODO display error under the command line
     }
@@ -199,7 +203,8 @@ export class AppCommandParser {
         return suggestions.map((suggestion) => this.decorateSuggestionComplete(pretext, suggestion));
     }
 
-    getAppSuggestionsForBindings = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+    // getSuggestionsForBaseCommands returns results for base commands synchronously
+    getSuggestionsForBaseCommands = (pretext: string): AutocompleteSuggestionWithComplete[] => {
         const result: AutocompleteSuggestionWithComplete[] = [];
 
         const bindings = this.getCommandBindings();
@@ -213,12 +218,12 @@ export class AppCommandParser {
                 base = '/' + base;
             }
             if (base.startsWith(pretext)) {
-                result.push(this.decorateSuggestionComplete(pretext, {
-                    complete: base,
+                result.push({
                     suggestion: base,
+                    complete: base,
                     description: binding.description,
                     hint: binding.hint || '',
-                }));
+                });
             }
         }
 
@@ -244,8 +249,8 @@ export class AppCommandParser {
             // Add "Execute Current Command" suggestion
             // TODO get full text from SuggestionBox
             const fullText = pretext;
-            const formIsComplete = this.checkIfRequiredFieldsAreSatisfied(fullText, binding);
-            if (formIsComplete) {
+            const missing = this.getMissingFields(fullText, binding);
+            if (missing.length > 0) {
                 const execute = this.getSuggestionForExecute(pretext);
                 suggestions = [execute, ...suggestions];
             }
@@ -254,20 +259,22 @@ export class AppCommandParser {
         return suggestions;
     };
 
-    checkIfRequiredFieldsAreSatisfied = (fullText: string, binding: AppBinding): boolean => {
+    getMissingFields = (fullText: string, binding: AppBinding): AppField[] => {
         const form = this.getFormFromBinding(binding);
         if (!form) {
-            return true;
+            return [];
         }
+
+        const missing: AppField[] = [];
 
         const values = this.getFormValues(fullText, binding);
         for (const field of form.fields) {
             if (field.is_required && !values[field.name]) {
-                return false;
+                missing.push(field);
             }
         }
 
-        return true;
+        return missing;
     };
 
     composeCallFromCommandStr = async (cmdStr: string): Promise<AppCall | null> => {
@@ -276,11 +283,14 @@ export class AppCommandParser {
             return null;
         }
 
-        const formValues = this.getFormValues(cmdStr, binding);
-        const values = {
-            ...binding.call.values,
-            ...formValues,
-        };
+        const missing = this.getMissingFields(cmdStr, binding);
+        if (missing.length > 0) {
+            const missingStr = missing.map((f) => f.label).join(', ');
+            this.displayError('Required fields missing: ' + missingStr);
+            return null;
+        }
+
+        const values = this.getFormValues(cmdStr, binding);
 
         const payload: AppCall = {
             ...binding.call,
@@ -296,7 +306,7 @@ export class AppCommandParser {
 
     getFormValues = (text: string, binding: AppBinding): {[name: string]: string} => {
         if (!binding) {
-            return {error: 'no command'};
+            this.displayError(new Error('No binding found'));
         }
 
         const form = this.getFormFromBinding(binding);
@@ -313,7 +323,7 @@ export class AppCommandParser {
 
         const resolvedTokens = this.resolveNamedArguments(tokens);
 
-        const res: {[name: string]: any} = {};
+        const values: {[name: string]: any} = {};
         resolvedTokens.forEach((token, i) => {
             let name = token.name || '';
             const positionalArg = form.fields.find((field) => field.position === i + 1);
@@ -330,10 +340,13 @@ export class AppCommandParser {
                 return;
             }
 
-            res[arg.name] = token.value;
+            values[arg.name] = token.value;
         });
 
-        return res;
+        return {
+            ...binding?.call?.values,
+            ...values,
+        };
     };
 
     getSuggestionForExecute = (pretext: string): AutocompleteSuggestion => {
@@ -523,8 +536,8 @@ export class AppCommandParser {
                 suffix = ' ~';
             }
             return {
-                complete: '--' + flag.name + suffix,
-                suggestion: '--' + flag.name,
+                complete: '--' + flag.label + suffix,
+                suggestion: '--' + flag.label,
                 description: flag.description,
                 hint: flag.hint,
             };
@@ -704,16 +717,12 @@ export class AppCommandParser {
 
             if (quotedArg.length) {
                 quotedArg += ` ${word}`;
-                if (index === words.length - 1) {
-                    tokens.push(makePositionalArgumentToken('', word));
-                    return;
-                }
                 if (word.endsWith('"')) {
                     const trimmed = quotedArg.substring(1, quotedArg.length - 1);
                     tokens.push(makePositionalArgumentToken('', trimmed));
                     quotedArg = '';
                 } else if (index === words.length - 1) {
-                    tokens.push(makePositionalArgumentToken('', word));
+                    tokens.push(makePositionalArgumentToken('', quotedArg));
                 }
                 return;
             }
