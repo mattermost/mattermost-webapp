@@ -3,11 +3,10 @@
 
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
-import LastUsers, {LastUsers as LastUsersType} from 'components/post_view/combined_system_message/last_users.jsx';
-
-import {ShallowWrapper} from 'enzyme';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
+import LastUsers from './last_users';
 
 describe('components/post_view/combined_system_message/LastUsers', () => {
     const formatOptions = {
@@ -44,12 +43,13 @@ describe('components/post_view/combined_system_message/LastUsers', () => {
     });
 
     test('should match state on handleOnClick', () => {
-        const wrapper = shallowWithIntl<LastUsersType>(
+        const wrapper = shallowWithIntl(
             <LastUsers {...baseProps}/>,
         );
 
         wrapper.setState({expand: false});
-        wrapper.instance().handleOnClick({preventDefault: jest.fn()});
+        const e = {preventDefault: jest.fn()};
+        wrapper.find('a').simulate('click', e);
         expect(wrapper.state('expand')).toBe(true);
     });
 });

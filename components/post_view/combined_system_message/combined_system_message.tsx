@@ -7,9 +7,10 @@ import {Posts} from 'mattermost-redux/constants';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
 import {t} from 'utils/i18n';
 import Markdown from 'components/markdown';
-import {ActionFunc} from '../../../types/actions';
 
 import LastUsers from './last_users';
 
@@ -171,7 +172,11 @@ export type Props = {
     currentUserId: string;
     currentUsername: string;
     intl: IntlShape;
-    messageData: Array<string>;
+    messageData: Array<{
+        actorId: string;
+        postType: string;
+        userIds: Array<string>
+    }>;
     showJoinLeave: boolean;
     userProfiles: Array<UserProfile>;
     actions: {
@@ -180,17 +185,17 @@ export type Props = {
     }
 }
 
-class CombinedSystemMessage extends React.PureComponent<Props> {
+export class CombinedSystemMessage extends React.PureComponent<Props> {
     static defaultProps = {
         allUserIds: [],
         allUsernames: [],
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props): void {
         const {allUserIds, allUsernames} = this.props;
         if (allUserIds !== prevProps.allUserIds || allUsernames !== prevProps.allUsernames) {
             this.loadUserProfiles(allUserIds, allUsernames);
@@ -207,7 +212,7 @@ class CombinedSystemMessage extends React.PureComponent<Props> {
         }
     }
 
-    getAllUsernames = () => {
+    getAllUsernames = ():{[p: string]: string} => {
         const {
             allUserIds,
             allUsernames,
@@ -290,7 +295,7 @@ class CombinedSystemMessage extends React.PureComponent<Props> {
             );
         }
 
-        let localeHolder: MessageDescriptor;
+        let localeHolder: MessageDescriptor = {};
         if (numOthers === 0) {
             localeHolder = postTypeMessage[postType].one;
 
@@ -314,7 +319,7 @@ class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
-    renderMessage(postType: string, userIds: Array<string>, actorId: string) {
+    renderMessage(postType: string, userIds: Array<string>, actorId: string): JSX.Element {
         return (
             <React.Fragment key={postType + actorId}>
                 {this.renderFormattedMessage(postType, userIds, actorId)}
@@ -323,7 +328,7 @@ class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
-    render() {
+    render(): JSX.Element {
         const {
             currentUserId,
             messageData,

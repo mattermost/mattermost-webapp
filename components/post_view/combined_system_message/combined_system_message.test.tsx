@@ -5,9 +5,13 @@ import React from 'react';
 
 import {General, Posts} from 'mattermost-redux/constants';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import CombinedSystemMessage from 'components/post_view/combined_system_message/combined_system_message.jsx';
+import CombinedSystemMessage, {CombinedSystemMessage as CombinedSystemMessageType} from './combined_system_message';
 
 describe('components/post_view/CombinedSystemMessage', () => {
     function emptyFunc() {} // eslint-disable-line no-empty-function
@@ -20,7 +24,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         {id: 'other_user_id', username: 'other_username'},
         {id: 'user_id_1', username: 'User1'},
         {id: 'user_id_2', username: 'User2'},
-    ];
+    ] as unknown as Array<UserProfile>;
 
     const baseProps = {
         currentUserId: 'current_user_id',
@@ -44,8 +48,8 @@ describe('components/post_view/CombinedSystemMessage', () => {
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         userProfiles,
         actions: {
-            getMissingProfilesByIds: emptyFunc,
-            getMissingProfilesByUsernames: emptyFunc,
+            getMissingProfilesByIds: emptyFunc as unknown as (userIds: Array<string>) => ActionFunc,
+            getMissingProfilesByUsernames: emptyFunc as unknown as (usernames: Array<string>) => ActionFunc,
         },
     };
 
@@ -109,6 +113,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
     test('should match snapshot, when current user is removed from then rejoined the channel', () => {
         const allUserIds = ['current_user_id', 'other_user_id_1', 'removed_user_id_1', 'removed_user_id_2'];
         const messageData = [{
+            actorId: '',
             postType: Posts.POST_TYPES.JOIN_CHANNEL,
             userIds: ['current_user_id'],
         }, {
@@ -142,16 +147,18 @@ describe('components/post_view/CombinedSystemMessage', () => {
             <CombinedSystemMessage {...props}/>,
         );
 
-        wrapper.instance().loadUserProfiles([], []);
+        const instance = wrapper.instance() as CombinedSystemMessageType;
+
+        instance.loadUserProfiles([], []);
         expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(0);
         expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(0);
 
-        wrapper.instance().loadUserProfiles(['user_id_1'], []);
+        instance.loadUserProfiles(['user_id_1'], []);
         expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
         expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledWith(['user_id_1']);
         expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(0);
 
-        wrapper.instance().loadUserProfiles(['user_id_1', 'user_id_2'], ['user1']);
+        instance.loadUserProfiles(['user_id_1', 'user_id_2'], ['user1']);
         expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(2);
         expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledWith(['user_id_1', 'user_id_2']);
         expect(props.actions.getMissingProfilesByUsernames).toHaveBeenCalledTimes(1);
