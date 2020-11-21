@@ -2,28 +2,31 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {localizeMessage} from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
 
-export default class ToggleFavoriteChannel extends React.PureComponent {
-    static propTypes = {
-        show: PropTypes.bool.isRequired,
-        channel: PropTypes.object.isRequired,
-        isFavorite: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            favoriteChannel: PropTypes.func.isRequired,
-            unfavoriteChannel: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type Action = {
+    favoriteChannel: (channelId: string) => void,
+    unfavoriteChannel: (channelId: string) => void,
+}
 
+type Props = {
+    show: boolean,
+    channel: Channel,
+    isFavorite: boolean,
+    actions: Action
+}
+
+export default class ToggleFavoriteChannel extends React.PureComponent<Props> {
     static defaultProps = {
         show: true,
     }
 
-    toggleFavoriteChannel = (channelId) => {
+    toggleFavoriteChannel = (channelId: string) => {
         const {
             isFavorite,
             actions: {
@@ -33,9 +36,9 @@ export default class ToggleFavoriteChannel extends React.PureComponent {
         } = this.props;
 
         return isFavorite ? unfavoriteChannel(channelId) : favoriteChannel(channelId);
-    }
+    };
 
-    handleClick = (e) => {
+    handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         this.toggleFavoriteChannel(this.props.channel.id);
     }
