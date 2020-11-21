@@ -6,7 +6,8 @@ import configureStore from 'redux-mock-store';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {AppBinding, AppFieldTypes, AppForm} from 'mattermost-redux/types/apps';
+import {AppBinding, AppForm} from 'mattermost-redux/types/apps';
+import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
     AutocompleteSuggestion,
@@ -17,95 +18,109 @@ import {reduxTestState} from './test_data';
 
 const mockStore = configureStore([thunk]);
 
+const viewCommand = {
+    app_id: 'jira',
+    label: 'view',
+    description: 'View details of a Jira issue',
+    form: {
+        fields: [
+            {
+                name: 'project',
+                autocomplete_label: 'project',
+                description: 'The Jira project description',
+                type: AppFieldTypes.DYNAMIC_SELECT,
+                // flag_name: 'project',
+                hint: 'The Jira project hint',
+                // role_id: 'system_user',
+                position: 1,
+                source_url: '/projects',
+            },
+            {
+                name: 'issue',
+                autocomplete_label: 'issue',
+                description: 'The Jira issue key',
+                type: AppFieldTypes.TEXT,
+                // flag_name: 'issue',
+                hint: 'MM-11343',
+                // role_id: 'system_user',
+            },
+        ],
+    } as AppForm,
+};
+
+const createCommand = {
+    app_id: 'jira',
+    label: 'create',
+    description: 'Create a new Jira issue',
+    form: {
+        fields: [
+            {
+                name: 'project',
+                autocomplete_label: 'project',
+                description: 'The Jira project description',
+                type: AppFieldTypes.DYNAMIC_SELECT,
+                hint: 'The Jira project hint',
+                source_url: '/projects',
+            },
+            {
+                name: 'summary',
+                autocomplete_label: 'summary',
+                description: 'The Jira issue summary',
+                type: AppFieldTypes.TEXT,
+                hint: 'The thing is working great!',
+            },
+            {
+                name: 'epic',
+                autocomplete_label: 'epic',
+                description: 'The Jira epic',
+                type: AppFieldTypes.STATIC_SELECT,
+                hint: 'The thing is working great!',
+                options: [
+                    {
+                        label: 'Dylan Epic',
+                        value: 'epic1',
+                    },
+                    {
+                        label: 'Michael Epic',
+                        value: 'epic2',
+                    },
+                ],
+            },
+        ],
+    } as AppForm,
+};
+
 const definitions: AppBinding[] = [
     {
         app_id: 'jira',
-        location_id: '/command',
-        label: 'jira',
+        location: '/command',
         bindings: [{
             app_id: 'jira',
             label: 'issue',
             description: 'Interact with Jira issues',
             bindings: [
-                {
-                    app_id: 'jira',
-                    label: 'view',
-                    description: 'View details of a Jira issue',
-                    func: {
-                        data: {
-                            form: {
-                                fields: [
-                                    {
-                                        name: 'project',
-                                        autocomplete_label: 'project',
-                                        description: 'The Jira project description',
-                                        type: AppFieldTypes.DYNAMIC_SELECT,
-                                        // flag_name: 'project',
-                                        hint: 'The Jira project hint',
-                                        // role_id: 'system_user',
-                                        position: 1,
-                                        source_url: '/projects',
-                                    },
-                                    {
-                                        name: 'issue',
-                                        autocomplete_label: 'issue',
-                                        description: 'The Jira issue key',
-                                        type: AppFieldTypes.TEXT,
-                                        // flag_name: 'issue',
-                                        hint: 'MM-11343',
-                                        // role_id: 'system_user',
-                                    },
-                                ],
-                            } as AppForm,
-                        },
-                    },
-                },
-                {
-                    app_id: 'jira',
-                    label: 'create',
-                    description: 'Create a new Jira issue',
-                    func: {
-                        data: {
-                            form: {
-                                fields: [
-                                    {
-                                        name: 'project',
-                                        autocomplete_label: 'project',
-                                        description: 'The Jira project description',
-                                        type: AppFieldTypes.DYNAMIC_SELECT,
-                                        hint: 'The Jira project hint',
-                                        source_url: '/projects',
-                                    },
-                                    {
-                                        name: 'summary',
-                                        autocomplete_label: 'summary',
-                                        description: 'The Jira issue summary',
-                                        type: AppFieldTypes.TEXT,
-                                        hint: 'The thing is working great!',
-                                    },
-                                    {
-                                        name: 'epic',
-                                        autocomplete_label: 'epic',
-                                        description: 'The Jira epic',
-                                        type: AppFieldTypes.STATIC_SELECT,
-                                        hint: 'The thing is working great!',
-                                        options: [
-                                            {
-                                                label: 'Dylan Epic',
-                                                value: 'epic1',
-                                            },
-                                            {
-                                                label: 'Michael Epic',
-                                                value: 'epic2',
-                                            },
-                                        ],
-                                    },
-                                ],
-                            } as AppForm,
-                        },
-                    },
-                },
+                viewCommand,
+                createCommand,
             ],
+        }],
+    },
+    {
+        app_id: 'other',
+        location: '/command',
+        label: 'other',
+        bindings: [{
+            app_id: 'other',
+            label: 'sub1',
+            description: 'Some Description',
+            form: {
+                fields: [{
+                    name: 'summary',
+                    autocomplete_label: 'summary',
+                    description: 'The Jira issue summary',
+                    type: AppFieldTypes.TEXT,
+                    hint: 'The thing is working great!',
+                }],
+            },
         }],
     },
 ];
@@ -127,27 +142,13 @@ describe('AppCommandParser', () => {
     let parser: AppCommandParser;
     beforeEach(async () => {
         const store = await makeStore(definitions);
-        parser = new AppCommandParser(store.dispatch, store.getState, '');
-    });
-
-    describe('flattenCommandList', () => {
-        test('should parse', () => {
-            const bindings = parser.flattenCommandList(definitions, '');
-            expect(bindings).toHaveLength(4);
-            expect(bindings.map((b) => b.fullPretext)).toEqual([
-                'jira',
-                'jira issue',
-                'jira issue view',
-                'jira issue create',
-            ]);
-        });
+        parser = new AppCommandParser(store, '');
     });
 
     describe('getForm', () => {
         test('filled out form', () => {
             const msg = '/jira issue view dynamic-value --issue  MM-32343';
-            const flattened = parser.flattenCommandList(definitions);
-            const res = parser.getForm(msg, flattened[2]);
+            const res = parser.getFormValues(msg, viewCommand);
             expect(res).toBeTruthy();
             expect(res).toEqual({
                 issue: 'MM-32343',
@@ -198,23 +199,26 @@ describe('AppCommandParser', () => {
 
         test('should return parent', () => {
             let res;
-            res = parser.matchBinding('/jira ');
+            res = parser.matchBinding('/jira ') as AppBinding;
             expect(res).toBeTruthy();
-            expect(res.label).toEqual(definitions[0].label);
+            expect(res.app_id).toEqual('jira');
+            expect(res.label).toEqual('jira');
         });
 
         test('should return parent while typing 1', () => {
             let res;
-            res = parser.matchBinding('/jira iss');
+            res = parser.matchBinding('/jira iss') as AppBinding;
             expect(res).toBeTruthy();
-            expect(res.label).toEqual(definitions[0].label);
+            expect(res.app_id).toEqual('jira');
+            expect(res.label).toEqual('jira');
         });
 
         test('should return parent while typing 2', () => {
             let res;
-            res = parser.matchBinding('/jira issue');
+            res = parser.matchBinding('/jira issue') as AppBinding;
             expect(res).toBeTruthy();
-            expect(res.label).toEqual(definitions[0].label);
+            expect(res.app_id).toEqual('jira');
+            expect(res.label).toEqual('jira');
         });
 
         test('should return child after space', () => {
@@ -249,6 +253,7 @@ describe('AppCommandParser', () => {
                 {
                     suggestion: 'issue',
                     complete: 'issue',
+                    hint: '',
                     description: 'Interact with Jira issues',
                 },
             ]);
@@ -270,11 +275,13 @@ describe('AppCommandParser', () => {
                 {
                     suggestion: 'view',
                     complete: 'view',
+                    hint: '',
                     description: 'View details of a Jira issue',
                 },
                 {
                     suggestion: 'create',
                     complete: 'create',
+                    hint: '',
                     description: 'Create a new Jira issue',
                 },
             ]);
@@ -297,6 +304,7 @@ describe('AppCommandParser', () => {
                 {
                     suggestion: 'create',
                     complete: 'create',
+                    hint: '',
                     description: 'Create a new Jira issue',
                 },
             ]);
@@ -453,11 +461,13 @@ describe('AppCommandParser', () => {
                 {
                     suggestion: 'Dylan Epic',
                     complete: 'Dylan Epic',
+                    hint: '',
                     description: '',
                 },
                 {
                     suggestion: 'Michael Epic',
                     complete: 'Michael Epic',
+                    hint: '',
                     description: '',
                 },
             ]);
@@ -481,6 +491,7 @@ describe('AppCommandParser', () => {
             expect(sug).toEqual({
                 suggestion: 'Michael Epic',
                 complete: 'Michael Epic',
+                hint: '',
                 description: '',
             });
 

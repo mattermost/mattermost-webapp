@@ -8,6 +8,7 @@ import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} fro
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
+import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
@@ -21,6 +22,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
+
 import {doAppCall} from './apps';
 
 export function executeCommand(message, args) {
@@ -95,9 +97,14 @@ export function executeCommand(message, args) {
             dispatch(PostActions.resetEmbedVisibility());
         }
 
-        const parser = new AppCommandParser(dispatch, getState, args.root_id);
+        const parser = new AppCommandParser({dispatch, getState}, args.root_id);
         if (parser.isAppCommand(msg)) {
             const payload = await parser.composeCallFromCommandStr(message);
+            if (!payload) {
+                return {error: new Error('Error submitting command')};
+            }
+
+            payload.type = AppCallTypes.SUBMIT;
             try {
                 await dispatch(doAppCall(payload));
                 return {data: true};

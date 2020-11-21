@@ -3,6 +3,8 @@
 
 import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
 
+import {AppsBindings, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
+
 import * as Utils from 'utils/utils.jsx';
 
 import {
@@ -10,11 +12,16 @@ import {
     AppBinding,
     AppField,
     AppSelectOption,
-    AppFieldTypes,
     AppCallResponse,
-    AppFunction,
     AppContext,
     AppForm,
+    AutocompleteSuggestion,
+    AutocompleteSuggestionWithComplete,
+    AutocompleteElement,
+    AutocompleteDynamicSelect,
+    AutocompleteStaticSelect,
+    AutocompleteUserSelect,
+    AutocompleteChannelSelect,
 } from 'mattermost-redux/types/apps';
 
 import {doAppCall} from 'actions/apps';
@@ -24,54 +31,24 @@ import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {Constants} from 'utils/constants';
+import {GlobalState} from 'types/store';
+import {sendEphemeralPost} from 'actions/global_actions';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
-
-export type AutocompleteSuggestion = {
-    suggestion: string;
-    complete?: string;
-    description?: string;
-    hint?: string;
-    iconData?: string;
-}
-
-export type AutocompleteSuggestionWithComplete = AutocompleteSuggestion & {
-    complete: string;
-}
-
-type BindingWithFullPretext = AppBinding & {fullPretext: string}
-
-const extractBaseCommand = (pretext: string) => {
-    return pretext.substring(1).split(' ')[0];
-}
-
-const getFormFromBinding = (binding: AppBinding): AppForm => {
-    return binding.form;
-}
-
-type AutocompleteElement = {};
-type AutocompleteStaticSelect = {
-    options: {
-        label: string;
-        value: string;
-        hint?: string;
-    }[];
-};
-
-type AutocompleteDynamicSelect = {};
 
 export type Store = {
     dispatch: DispatchFunc;
-    getState: GetStateFunc;
+    getState: () => GlobalState;
 }
 
 export class AppCommandParser {
     private store: Store;
     private rootPostID: string;
 
-    fullCommands: AppBinding[] = [];
+    fetchedForms: {[fullPretext: string]: AppForm} = {};
 
-    constructor(dispatch: DispatchFunc, getState: GetStateFunc, rootPostID: string = '') {
-        this.store = {dispatch, getState};
+    constructor(store: Store, rootPostID = '') {
+        this.store = store;
         this.rootPostID = rootPostID;
     }
 
@@ -95,12 +72,28 @@ export class AppCommandParser {
         return {
             ...choice,
             suggestion: '/' + choice.suggestion,
-            complete: before + choice.suggestion,
+            complete: before + choice.complete || choice.suggestion,
         };
     }
 
     getCommandBindings = (): AppBinding[] => {
-        return getAppsBindings(this.store.getState(), '/command')
+        const bindings =  getAppsBindings(this.store.getState(), AppsBindings.COMMAND);
+        const grouped: {[appID: string]: AppBinding} = {};
+
+        for (const b of bindings) {
+            grouped[b.app_id] = grouped[b.app_id] || {
+                app_id: b.app_id,
+                label: b.app_id,
+                location: AppsBindings.COMMAND,
+                bindings: [],
+            }
+
+            const group = grouped[b.app_id];
+            group.bindings = group.bindings || [];
+            group.bindings.push(b);
+        }
+
+        return Object.values(grouped);
     }
 
     getChannel = (): Channel | void => {
@@ -119,16 +112,16 @@ export class AppCommandParser {
 
     isAppCommand = (pretext: string): boolean => {
         for (const binding of this.getCommandBindings()) {
-            let label = binding.label;
-            if (!label) {
+            let base = binding.app_id;
+            if (!base) {
                 continue;
             }
 
-            if (label[0] !== '/') {
-                label = '/' + label;
+            if (base[0] !== '/') {
+                base = '/' + base;
             }
 
-            if (pretext.startsWith(label + ' ')) {
+            if (pretext.startsWith(base + ' ')) {
                 return true;
             }
         }
@@ -141,47 +134,58 @@ export class AppCommandParser {
             return;
         }
 
+        const teamID = channel.team_id || getCurrentTeamId(this.store.getState());
+
         return {
             channel_id: channel.id,
-            team_id: channel.team_id,
+            team_id: teamID,
             root_id: this.rootPostID,
-        }
+            location: AppsBindings.COMMAND,
+        };
     }
 
-    fetchAppCommand = async (binding: AppBinding): Promise<AppBinding | undefined> => {
+    fetchAppForm = async (binding: AppBinding): Promise<AppForm | null> => {
         if (!binding.call) {
-            return;
+            return null;
         }
 
         const payload: AppCall = {
             ...binding.call,
-            as_modal: true,
+            type: AppCallTypes.FORM,
             context: {
                 ...this.getAppContext(),
                 app_id: binding.app_id,
             },
         };
 
-        let res: AppCallResponse<AppFunction> | undefined;
+        let callResponse: AppCallResponse | undefined;
         try {
-            res = await this.store.dispatch(doAppCall<void, AppFunction>(payload));
+            const res = await this.store.dispatch(doAppCall(payload)) as {data?: AppCallResponse, error?: Error};
+            if (res.error) {
+                this.displayError(res.error);
+                return null;
+            }
+            callResponse = res.data;
         } catch (e) {
-            console.error(e);
-            return;
+            this.displayError(e);
+            return null;
         }
 
-        if (res && res.data) {
-            const b = {
-                ...binding,
-                form: res.data.form,
-            }
-            this.fullCommands.push(b);
-            return b;
+        if (callResponse && callResponse.form) {
+            return callResponse.form;
         }
+
+        return null;
+    }
+
+    displayError = (err: Error): void => {
+        sendEphemeralPost(err + ' displayError');
+
+        // display error under the command line
     }
 
     getAppCommand = (name: string): AppBinding | void => {
-        return this.fullCommands.find((c) => c.label === name);
+        return this.getCommandBindings().find((b) => b.label === name);
     }
 
     getAppCommandSuggestions = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
@@ -190,38 +194,34 @@ export class AppCommandParser {
             return [];
         }
 
-        const base = extractBaseCommand(pretext);
-        let binding = this.getAppCommand(base);
+        const binding = await this.getBindingWithForm(pretext);
         if (!binding) {
-            binding = this.getCommandBindings().find((b) => b.label === base);
-            if (!binding) {
-                return [];
-            }
-            if (binding.call) {
-                binding = await this.fetchAppCommand(binding);
-            }
+            return [{suggestion: 'Can\'t find binding 1'}];
         }
 
-        if (!binding) {
-            return [{suggestion: 'oh no'}]
-        }
         const suggestions = await this.getSuggestionsForCursorPosition(pretext);
         return suggestions.map((suggestion) => this.decorateSuggestionComplete(pretext, suggestion));
     }
 
     getAppSuggestionsForBindings = (pretext: string): AutocompleteSuggestionWithComplete[] => {
         const result: AutocompleteSuggestionWithComplete[] = [];
-        for (const binding of this.getCommandBindings()) {
-            let label = binding.label;
-            if (label[0] !== '/') {
-                label = '/' + label;
+
+        const bindings = this.getCommandBindings();
+        for (const binding of bindings) {
+            let base = binding.app_id;
+            if (!base) {
+                continue;
             }
-            if (label.startsWith(pretext)) {
+
+            if (base[0] !== '/') {
+                base = '/' + base;
+            }
+            if (base.startsWith(pretext)) {
                 result.push(this.decorateSuggestionComplete(pretext, {
-                    complete: label,
-                    suggestion: label,
+                    complete: base,
+                    suggestion: base,
                     description: binding.description,
-                    hint: binding.hint,
+                    hint: binding.hint || '',
                 }));
             }
         }
@@ -230,11 +230,7 @@ export class AppCommandParser {
     }
 
     getSuggestionsForCursorPosition = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
-        if (!pretext.length) {
-        }
-
-        let binding = this.matchBinding(pretext);
-
+        const binding = await this.getBindingWithForm(pretext);
         if (!binding) {
             return [];
         }
@@ -244,11 +240,7 @@ export class AppCommandParser {
             return this.getSuggestionsForBinding(pretext, binding);
         }
 
-        if (binding.call && !getFormFromBinding(binding)) {
-            binding = await this.fetchAppCommand(binding);
-        }
-
-        const form = getFormFromBinding(binding);
+        const form = this.getFormFromBinding(binding);
         if (form) {
             const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
             suggestions = suggestions.concat(argSuggestions);
@@ -270,22 +262,20 @@ export class AppCommandParser {
         return true;
     };
 
-    composeCallFromCommandStr = async (cmdStr: string): Promise<AppCall | void> => {
-        let binding = this.matchBinding(cmdStr);
+    composeCallFromCommandStr = async (cmdStr: string): Promise<AppCall | null> => {
+        const binding = await this.getBindingWithForm(cmdStr);
         if (!binding || !binding.call) {
-            return;
+            return null;
         }
 
-        const call = binding.call;
-        if (call && !getFormFromBinding(binding)) {
-            binding = await this.fetchAppCommand(binding);
+        const formValues = this.getFormValues(cmdStr, binding);
+        const values = {
+            ...binding.call.values,
+            ...formValues,
         }
-
-        const values = this.getForm(cmdStr, binding);
 
         const payload: AppCall = {
-            ...call,
-            as_modal: false,
+            ...binding.call,
             context: {
                 ...this.getAppContext(),
                 app_id: binding.app_id,
@@ -296,18 +286,20 @@ export class AppCommandParser {
         return payload;
     };
 
-    getForm = (cmdStr: string, cmd: AppBinding): {[name: string]: string} => {
+    getFormValues = (cmdStr: string, cmd: AppBinding): {[name: string]: string} => {
         if (!cmd) {
             return {error: 'no command'};
         }
 
-        const form = getFormFromBinding(cmd);
+        const form = this.getFormFromBinding(cmd);
         if (!form) {
             return {};
         }
 
         cmdStr = cmdStr.substring(1);
-        cmdStr = cmdStr.substring(cmd.fullPretext.length).trim();
+
+        const fullPretext = this.getFullPretextForBinding(cmd);
+        cmdStr = cmdStr.substring(fullPretext.length).trim();
 
         const tokens = this.getTokens(cmdStr);
 
@@ -352,14 +344,15 @@ export class AppCommandParser {
     }
 
     getSuggestionsForArguments = async (pretext: string, binding: AppBinding): Promise<AutocompleteSuggestion[]> => {
-        const form = getFormFromBinding(binding) as AppForm;
+        const form = this.getFormFromBinding(binding) as AppForm;
         if (!form) {
             return [];
         }
 
         let tokens = this.getTokens(pretext);
 
-        tokens = tokens.slice(binding.fullPretext?.split(' ').length);
+        const fullPretext = this.getFullPretextForBinding(binding);
+        tokens = tokens.slice(fullPretext.split(' ').length);
         const lastToken = tokens.pop();
 
         const position = tokens.length;
@@ -367,7 +360,7 @@ export class AppCommandParser {
             return [{suggestion: 'Could not find last token'}];
         }
 
-        const field = form.fields.find((f) =>  f.position === position + 1);
+        const field = form.fields.find((f) => f.position === position + 1);
         if (field) {
             return this.getSuggestionsForField(field, lastToken.value, pretext);
         }
@@ -404,6 +397,10 @@ export class AppCommandParser {
 
     getSuggestionsForField = async (field: AutocompleteElement, userInput: string, pretext: string): Promise<AutocompleteSuggestion[]> => {
         switch (field.type) {
+            case AppFieldTypes.USER:
+                return this.getUserSuggestions(field as AutocompleteUserSelect, userInput);
+            case AppFieldTypes.CHANNEL:
+                return this.getChannelSuggestions(field as AutocompleteChannelSelect, userInput);
             case AppFieldTypes.BOOL:
                 return this.getBooleanSuggestions(userInput);
             case AppFieldTypes.DYNAMIC_SELECT:
@@ -414,7 +411,7 @@ export class AppCommandParser {
 
         return [{
             complete: '',
-            suggestion: userInput,
+            suggestion: '',
             description: field.description,
             hint: field.hint,
         }];
@@ -425,15 +422,18 @@ export class AppCommandParser {
         return opts.map((opt) => ({
             complete: opt.label,
             suggestion: opt.label,
-            hint: opt.hint,
+            hint: '',
             description: '',
         }));
     }
 
     getDynamicSelectSuggestions = async (field: AppField, userInput: string, cmdStr: string): Promise<AutocompleteSuggestion[]> => {
-        const values = this.getForm(cmdStr, this.getCommandBindings());
+        const binding = await this.getBindingWithForm(cmdStr);
+        if (!binding) {
+            return [];
+        }
 
-        const binding = this.matchBinding(cmdStr);
+        const values = this.getFormValues(cmdStr, binding);
 
         const payload: AppCall = {
             url: field.source_url || '',
@@ -445,9 +445,9 @@ export class AppCommandParser {
             raw_command: cmdStr,
         };
 
-        let res: AppCallResponse<AppSelectOption[]> | undefined;
+        let res: {data?: AppCallResponse<AppSelectOption[]>, error?: any};
         try {
-            res = await this.store.dispatch(doAppCall<{}, AppSelectOption[]>(payload));
+            res = await this.store.dispatch(doAppCall<AppSelectOption[]>(payload));
         } catch (e) {
             console.error(e);
             return [{suggestion: `Error: ${e.message}`}];
@@ -463,6 +463,30 @@ export class AppCommandParser {
             hint: '',
             iconData: icon_data,
         }));
+    }
+
+    getUserSuggestions = (field: AutocompleteUserSelect, userInput: string): AutocompleteSuggestion[] => {
+        if (userInput.trim().length === 0) {
+            return [{
+                suggestion: '@',
+                description: field.description || '',
+                hint: field.hint || '',
+            }];
+        }
+
+        return [];
+    }
+
+    getChannelSuggestions = (field: AutocompleteChannelSelect, userInput: string): AutocompleteSuggestion[] => {
+        if (userInput.trim().length === 0) {
+            return [{
+                suggestion: '~',
+                description: field.description || '',
+                hint: field.hint || '',
+            }];
+        }
+
+        return [];
     }
 
     getBooleanSuggestions = (userInput: string): AutocompleteSuggestion[] => {
@@ -484,12 +508,20 @@ export class AppCommandParser {
     }
 
     getSuggestionsFromFlags = (flags: AutocompleteElement[]): AutocompleteSuggestion[] => {
-        return flags.map((flag) => ({
-            complete: '--' + flag.name,
-            suggestion: '--' + flag.name,
-            description: flag.description,
-            hint: flag.hint,
-        }));
+        return flags.map((flag) => {
+            let suffix = '';
+            if (flag.type === AppFieldTypes.USER) {
+                suffix = ' @';
+            } else if (flag.type === AppFieldTypes.CHANNEL) {
+                suffix = ' ~';
+            }
+            return {
+                complete: '--' + flag.name + suffix,
+                suggestion: '--' + flag.name,
+                description: flag.description,
+                hint: flag.hint,
+            };
+        });
     };
 
     getSuggestionsForBinding = (cmdStr: string, binding: AppBinding): AutocompleteSuggestionWithComplete[] => {
@@ -499,14 +531,15 @@ export class AppCommandParser {
 
         const result: AutocompleteSuggestionWithComplete[] = [];
 
-        cmdStr = cmdStr.substring((binding.fullPretext + ' ').length).toLowerCase().trim();
+        const fullPretext = this.getFullPretextForBinding(binding);
+        cmdStr = cmdStr.substring((fullPretext + ' ').length).toLowerCase().trim();
         for (const sub of binding.bindings) {
             if (sub.label.toLowerCase().startsWith(cmdStr)) {
                 result.push({
                     complete: sub.label,
                     suggestion: sub.label,
                     description: sub.description,
-                    hint: sub.hint,
+                    hint: sub.hint || '',
                 });
             }
         }
@@ -514,7 +547,46 @@ export class AppCommandParser {
         return result;
     }
 
-    matchBinding = (cmdStr: string): AppBinding => {
+    getBindingWithForm = async (pretext: string): Promise<AppBinding | null> => {
+        const binding = this.matchBinding(pretext);
+        if (!binding) {
+            return null;
+        }
+
+        if (this.getFormFromBinding(binding)) {
+            return binding;
+        }
+        if (!binding.call) {
+            return binding;
+        }
+
+        const form = await this.fetchAppForm(binding);
+
+        if (form) {
+            this.storeForm(binding, form)
+        }
+        return binding;
+    }
+
+    storeForm = (binding: AppBinding, form: AppForm) => {
+        const fullPretext = this.getFullPretextForBinding(binding);
+        this.fetchedForms[fullPretext] = form;
+    }
+
+    getFormFromBinding = (binding: AppBinding): AppForm | void => {
+        if (binding.form) {
+            return binding.form;
+        }
+
+        const fullPretext = this.getFullPretextForBinding(binding);
+        if (this.fetchedForms[fullPretext]) {
+            // also check for channel id
+            return this.fetchedForms[fullPretext];
+        }
+    }
+
+    // matchBinding finds the appropriate nested subcommand
+    matchBinding = (cmdStr: string): AppBinding| null => {
         const endsInSpace = cmdStr[cmdStr.length - 1] === ' ';
         cmdStr = cmdStr.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
         if (endsInSpace) {
@@ -522,39 +594,66 @@ export class AppCommandParser {
         }
         cmdStr = cmdStr.substring(1);
 
-        const flattened = this.flattenCommandList(this.getCommandBindings(), '');
-        return flattened.reduce((prev, current) => {
-            if (!cmdStr.startsWith(current.fullPretext + ' ')) {
-                return prev;
+        const words = cmdStr.split(' ');
+        const base = words[0];
+        const bindings = this.getCommandBindings();
+        const baseCommand = bindings.find((b) => b.app_id === base);
+        if (!baseCommand || words.length < 2) {
+            return null;
+        }
+
+        const searchThroughBindings = (binding: AppBinding, pretext: string): AppBinding => {
+            if (!binding.bindings || !binding.bindings.length) {
+                return binding;
             }
-            if (!prev) {
-                return current;
+
+            const remaining = pretext.split(' ').slice(1);
+            const next = remaining[0];
+            if (!next) {
+                return binding;
             }
-            if (prev.fullPretext.length > current.fullPretext.length) {
-                return prev;
+
+            for (const b of binding.bindings) {
+                if (b.label === next && remaining.length > 1) {
+                    const b2 = searchThroughBindings(b, remaining.join(' '));
+                    if (b2) {
+                        return b2;
+                    }
+                }
             }
-            return current;
-        }, null);
+
+            return binding;
+        }
+
+       return searchThroughBindings(baseCommand, cmdStr);
     };
 
-    flattenCommandList = (bindings: AppBinding[], label = ''): BindingWithFullPretext[] => {
-        let result: BindingWithFullPretext[] = [];
-        for (const binding of bindings) {
-            const newPretext = label + binding.label;
-            result.push({
-                ...binding,
-                fullPretext: newPretext,
-            });
-            if (binding.bindings && binding.bindings.length) {
-                const children = this.flattenCommandList(binding.bindings, newPretext + ' ');
-                result = result.concat(children);
+    // getFullPretextForBinding computes the pretext for a given subcommand
+    // For instance, `/jira issue view` would be the full pretext for the view command
+    getFullPretextForBinding = (binding: AppBinding): string => {
+        let result = '';
+
+        const search = (bindings: AppBinding[], pretext: string) => {
+            for (const b of bindings) {
+                if (b.app_id === binding.app_id && b.label === binding.label) {
+                    result = pretext + b.label;
+                    return pretext + b.label;
+                }
+
+                if (b.bindings) {
+                    search(b.bindings, pretext + b.label + ' ');
+                }
             }
         }
+
+        const bindings = this.getCommandBindings();
+        search(bindings, '');
 
         return result;
     }
 
-    resolveNamedArguments = (tokens: Token[]) => {
+    // resolveNamedArguments takes a list of tokens and
+    resolveNamedArguments = (tokens: Token[]): Token[] => {
         const result = [];
 
         let namedArg = '';
@@ -633,7 +732,7 @@ type Token = {
     value: string;
 }
 
-const makeNamedFlagToken = (name: string, value: string) => {
+const makeNamedFlagToken = (name: string, value: string): Token => {
     return {
         type: 'flag',
         name,
@@ -641,7 +740,7 @@ const makeNamedFlagToken = (name: string, value: string) => {
     };
 }
 
-const makeNamedArgumentToken = (name: string, value: string) => {
+const makeNamedArgumentToken = (name: string, value: string): Token => {
     return {
         type: 'named',
         name,
@@ -649,7 +748,7 @@ const makeNamedArgumentToken = (name: string, value: string) => {
     };
 }
 
-const makePositionalArgumentToken = (name: string, value: string) => {
+const makePositionalArgumentToken = (name: string, value: string): Token => {
     return {
         type: 'positional',
         name,

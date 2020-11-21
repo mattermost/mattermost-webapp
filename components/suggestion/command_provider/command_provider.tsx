@@ -103,13 +103,15 @@ export default class CommandProvider extends Provider {
             }
         }
 
-        this.parser = new AppCommandParser(this.store.dispatch, this.store.getState, rootId);
+        this.parser = new AppCommandParser(this.store, rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
         if (!pretext.startsWith('/')) {
             return false;
         }
+
+        console.log('handlePretextChanged');
 
         const command = pretext.toLowerCase();
         if (this.parser.isAppCommand(command)) {
@@ -134,6 +136,7 @@ export default class CommandProvider extends Provider {
     }
 
     handleCompleteWord(term: string, pretext: string, callback: (s: string)=>void) {
+        console.log('handleCompleteWord');
         callback(term + ' ');
     }
 

@@ -9,7 +9,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
-import AppsBindings from 'mattermost-redux/constants/apps';
+import {AppsBindings} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -53,7 +53,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appsBindings = getAppsBindings(state, AppsBindings.APPS_BINDINGS_POST_MENU_ITEM);
+    const appsBindings = getAppsBindings(state, AppsBindings.POST_MENU_ITEM);
 
     let postEditTimeLimit;
     if (config.PostEditTimeLimit) {
