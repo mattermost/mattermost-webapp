@@ -5,8 +5,6 @@ import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
 
 import {AppsBindings, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
-import * as Utils from 'utils/utils.jsx';
-
 import {
     AppCall,
     AppBinding,
@@ -24,16 +22,18 @@ import {
     AutocompleteSuggestionWithComplete,
 } from 'mattermost-redux/types/apps';
 
-import {doAppCall} from 'actions/apps';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
 
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {doAppCall} from 'actions/apps';
+import * as Utils from 'utils/utils.jsx';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -73,7 +73,7 @@ export class AppCommandParser {
     }
 
     getCommandBindings = (): AppBinding[] => {
-        const bindings =  getAppsBindings(this.store.getState(), AppsBindings.COMMAND);
+        const bindings = getAppsBindings(this.store.getState(), AppsBindings.COMMAND);
         const grouped: {[appID: string]: AppBinding} = {};
 
         for (const b of bindings) {
@@ -82,7 +82,7 @@ export class AppCommandParser {
                 label: b.app_id,
                 location: AppsBindings.COMMAND,
                 bindings: [],
-            }
+            };
 
             const group = grouped[b.app_id];
             group.bindings = group.bindings || [];
@@ -92,7 +92,7 @@ export class AppCommandParser {
         return Object.values(grouped);
     }
 
-    getChannel = (): Channel | void => {
+    getChannel = (): Channel | null => {
         const state = this.store.getState();
         if (!this.rootPostID) {
             return getCurrentChannel(state);
@@ -100,7 +100,7 @@ export class AppCommandParser {
 
         const post = getPost(state, this.rootPostID);
         if (!post) {
-            return;
+            return null;
         }
 
         return getChannel(state, post.channel_id);
@@ -124,10 +124,10 @@ export class AppCommandParser {
         return false;
     }
 
-    getAppContext = (): Partial<AppContext> | void => {
+    getAppContext = (): Partial<AppContext> | null => {
         const channel = this.getChannel();
         if (!channel) {
-            return;
+            return null;
         }
 
         const teamID = channel.team_id || getCurrentTeamId(this.store.getState());
@@ -244,7 +244,7 @@ export class AppCommandParser {
             // Add "Execute Current Command" suggestion
             // TODO get full text from SuggestionBox
             const fullText = pretext;
-            const formIsComplete = this.checkIfRequiredsAreSatisfied(fullText, binding);
+            const formIsComplete = this.checkIfRequiredFieldsAreSatisfied(fullText, binding);
             if (formIsComplete) {
                 const execute = this.getSuggestionForExecute(pretext);
                 suggestions = [execute, ...suggestions];
@@ -254,7 +254,19 @@ export class AppCommandParser {
         return suggestions;
     };
 
-    checkIfRequiredsAreSatisfied = (fullText: string, binding: AppBinding): boolean => {
+    checkIfRequiredFieldsAreSatisfied = (fullText: string, binding: AppBinding): boolean => {
+        const form = this.getFormFromBinding(binding);
+        if (!form) {
+            return true;
+        }
+
+        const values = this.getFormValues(fullText, binding);
+        for (const field of form.fields) {
+            if (field.is_required && !values[field.name]) {
+                return false;
+            }
+        }
+
         return true;
     };
 
@@ -268,7 +280,7 @@ export class AppCommandParser {
         const values = {
             ...binding.call.values,
             ...formValues,
-        }
+        };
 
         const payload: AppCall = {
             ...binding.call,
@@ -282,19 +294,19 @@ export class AppCommandParser {
         return payload;
     };
 
-    getFormValues = (cmdStr: string, cmd: AppBinding): {[name: string]: string} => {
-        if (!cmd) {
+    getFormValues = (text: string, binding: AppBinding): {[name: string]: string} => {
+        if (!binding) {
             return {error: 'no command'};
         }
 
-        const form = this.getFormFromBinding(cmd);
+        const form = this.getFormFromBinding(binding);
         if (!form) {
             return {};
         }
 
-        cmdStr = cmdStr.substring(1);
+        let cmdStr = text.substring(1);
 
-        const fullPretext = this.getFullPretextForBinding(cmd);
+        const fullPretext = this.getFullPretextForBinding(binding);
         cmdStr = cmdStr.substring(fullPretext.length).trim();
 
         const tokens = this.getTokens(cmdStr);
@@ -313,7 +325,7 @@ export class AppCommandParser {
                 return;
             }
 
-            const arg = form.fields.find((arg) => arg.name === name);
+            const arg = form.fields.find((a) => a.name === name);
             if (!arg) {
                 return;
             }
@@ -336,7 +348,7 @@ export class AppCommandParser {
             hint: '',
             description: 'Select this option or use ' + key + '+Enter to execute the current command.',
             iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
-        }
+        };
     }
 
     getSuggestionsForArguments = async (pretext: string, binding: AppBinding): Promise<AutocompleteSuggestion[]> => {
@@ -356,16 +368,16 @@ export class AppCommandParser {
             return [{suggestion: 'Could not find last token'}];
         }
 
-        const field = form.fields.find((f) => f.position === position + 1);
-        if (field) {
-            return this.getSuggestionsForField(field, lastToken.value, pretext);
+        const positionalField = form.fields.find((f) => f.position === position + 1);
+        if (positionalField) {
+            return this.getSuggestionsForField(positionalField, lastToken.value, pretext);
         }
 
         const previousToken = tokens[position - 1];
         if (previousToken && previousToken.type === 'flag') {
-            const field = form.fields.find((arg) => arg.name === previousToken.name);
-            if (field) {
-                return this.getSuggestionsForField(field, lastToken.value, pretext);
+            const flagField = form.fields.find((a) => a.name === previousToken.name);
+            if (flagField) {
+                return this.getSuggestionsForField(flagField, lastToken.value, pretext);
             }
             return [];
         }
@@ -373,7 +385,7 @@ export class AppCommandParser {
         // '', '-', or '--' (show named args)
         if ('--'.startsWith(lastToken.value.trim())) {
             const available = form.fields.filter((arg) => {
-                if (Boolean(arg.position)) {
+                if (arg.position) {
                     return false;
                 }
                 if (tokens.find((t) => t.type === 'flag' && t.name === arg.name)) {
@@ -393,16 +405,16 @@ export class AppCommandParser {
 
     getSuggestionsForField = async (field: AutocompleteElement, userInput: string, pretext: string): Promise<AutocompleteSuggestion[]> => {
         switch (field.type) {
-            case AppFieldTypes.USER:
-                return this.getUserSuggestions(field as AutocompleteUserSelect, userInput);
-            case AppFieldTypes.CHANNEL:
-                return this.getChannelSuggestions(field as AutocompleteChannelSelect, userInput);
-            case AppFieldTypes.BOOL:
-                return this.getBooleanSuggestions(userInput);
-            case AppFieldTypes.DYNAMIC_SELECT:
-                return this.getDynamicSelectSuggestions(field as AutocompleteDynamicSelect, userInput, pretext)
-            case AppFieldTypes.STATIC_SELECT:
-                return this.getStaticSelectSuggestions(field as AutocompleteStaticSelect, userInput)
+        case AppFieldTypes.USER:
+            return this.getUserSuggestions(field as AutocompleteUserSelect, userInput);
+        case AppFieldTypes.CHANNEL:
+            return this.getChannelSuggestions(field as AutocompleteChannelSelect, userInput);
+        case AppFieldTypes.BOOL:
+            return this.getBooleanSuggestions(userInput);
+        case AppFieldTypes.DYNAMIC_SELECT:
+            return this.getDynamicSelectSuggestions(field as AutocompleteDynamicSelect, userInput, pretext);
+        case AppFieldTypes.STATIC_SELECT:
+            return this.getStaticSelectSuggestions(field as AutocompleteStaticSelect, userInput);
         }
 
         return [{
@@ -445,7 +457,6 @@ export class AppCommandParser {
         try {
             res = await this.store.dispatch(doAppCall<AppSelectOption[]>(payload));
         } catch (e) {
-            console.error(e);
             return [{suggestion: `Error: ${e.message}`}];
         }
 
@@ -453,11 +464,11 @@ export class AppCommandParser {
             return [{suggestion: 'Received no data for dynamic suggestions'}];
         }
 
-        return res.data.data.map(({label, value, icon_data}): AutocompleteSuggestion => ({
-            description: label,
-            suggestion: value,
+        return res.data.data.map((s): AutocompleteSuggestion => ({
+            description: s.label,
+            suggestion: s.value,
             hint: '',
-            iconData: icon_data,
+            iconData: s.icon_data,
         }));
     }
 
@@ -528,9 +539,9 @@ export class AppCommandParser {
         const result: AutocompleteSuggestion[] = [];
 
         const fullPretext = this.getFullPretextForBinding(binding);
-        cmdStr = cmdStr.substring((fullPretext + ' ').length).toLowerCase().trim();
+        const rest = cmdStr.substring((fullPretext + ' ').length).toLowerCase().trim();
         for (const sub of binding.bindings) {
-            if (sub.label.toLowerCase().startsWith(cmdStr)) {
+            if (sub.label.toLowerCase().startsWith(rest)) {
                 result.push({
                     complete: sub.label,
                     suggestion: sub.label,
@@ -559,7 +570,7 @@ export class AppCommandParser {
         const form = await this.fetchAppForm(binding);
 
         if (form) {
-            this.storeForm(binding, form)
+            this.storeForm(binding, form);
         }
         return binding;
     }
@@ -569,22 +580,26 @@ export class AppCommandParser {
         this.fetchedForms[fullPretext] = form;
     }
 
-    getFormFromBinding = (binding: AppBinding): AppForm | void => {
+    getFormFromBinding = (binding: AppBinding): AppForm | null => {
         if (binding.form) {
             return binding.form;
         }
 
         const fullPretext = this.getFullPretextForBinding(binding);
         if (this.fetchedForms[fullPretext]) {
-            // also check for channel id
+            // TODO make sure the form is correct for the given channel id
             return this.fetchedForms[fullPretext];
         }
+
+        return null;
     }
 
     // matchBinding finds the appropriate nested subcommand
-    matchBinding = (cmdStr: string): AppBinding| null => {
-        const endsInSpace = cmdStr[cmdStr.length - 1] === ' ';
-        cmdStr = cmdStr.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
+    matchBinding = (text: string): AppBinding| null => {
+        const endsInSpace = text[text.length - 1] === ' ';
+
+        // Get rid of all whitespace between subcommand words
+        let cmdStr = text.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
         if (endsInSpace) {
             cmdStr += ' ';
         }
@@ -619,9 +634,9 @@ export class AppCommandParser {
             }
 
             return binding;
-        }
+        };
 
-       return searchThroughBindings(baseCommand, cmdStr);
+        return searchThroughBindings(baseCommand, cmdStr);
     };
 
     // getFullPretextForBinding computes the pretext for a given subcommand
@@ -633,14 +648,13 @@ export class AppCommandParser {
             for (const b of bindings) {
                 if (b.app_id === binding.app_id && b.label === binding.label) {
                     result = pretext + b.label;
-                    return pretext + b.label;
                 }
 
                 if (b.bindings) {
                     search(b.bindings, pretext + b.label + ' ');
                 }
             }
-        }
+        };
 
         const bindings = this.getCommandBindings();
         search(bindings, '');
@@ -734,7 +748,7 @@ const makeNamedFlagToken = (name: string, value: string): Token => {
         name,
         value,
     };
-}
+};
 
 const makeNamedArgumentToken = (name: string, value: string): Token => {
     return {
@@ -742,7 +756,7 @@ const makeNamedArgumentToken = (name: string, value: string): Token => {
         name,
         value,
     };
-}
+};
 
 const makePositionalArgumentToken = (name: string, value: string): Token => {
     return {
@@ -750,4 +764,4 @@ const makePositionalArgumentToken = (name: string, value: string): Token => {
         name,
         value,
     };
-}
+};

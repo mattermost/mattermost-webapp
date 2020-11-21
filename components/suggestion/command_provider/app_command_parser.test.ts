@@ -10,9 +10,95 @@ import {AppBinding, AppForm, AutocompleteSuggestion} from 'mattermost-redux/type
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {AppCommandParser} from './app_command_parser';
-import {reduxTestState} from './test_data';
 
 const mockStore = configureStore([thunk]);
+
+const reduxTestState = {
+    entities: {
+        channels: {
+            currentChannelId: 'current_channel_id',
+            myMembers: {
+                current_channel_id: {
+                    channel_id: 'current_channel_id',
+                    user_id: 'current_user_id',
+                    roles: 'channel_role',
+                    mention_count: 1,
+                    msg_count: 9,
+                },
+            },
+            channels: {
+                current_channel_id: {
+                    id: 'current_channel_id',
+                    name: 'default-name',
+                    display_name: 'Default',
+                    delete_at: 0,
+                    type: 'O',
+                    total_msg_count: 10,
+                    team_id: 'team_id',
+                },
+                current_user_id__existingId: {
+                    id: 'current_user_id__existingId',
+                    name: 'current_user_id__existingId',
+                    display_name: 'Default',
+                    delete_at: 0,
+                    type: '0',
+                    total_msg_count: 0,
+                    team_id: 'team_id',
+                },
+            },
+            channelsInTeam: {
+                'team-id': ['current_channel_id'],
+            },
+        },
+        teams: {
+            currentTeamId: 'team-id',
+            teams: {
+                'team-id': {
+                    id: 'team_id',
+                    name: 'team-1',
+                    displayName: 'Team 1',
+                },
+            },
+            myMembers: {
+                'team-id': {roles: 'team_role'},
+            },
+        },
+        users: {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_role'},
+            },
+        },
+        preferences: {
+            myPreferences: {
+                'display_settings--name_format': {
+                    category: 'display_settings',
+                    name: 'name_format',
+                    user_id: 'current_user_id',
+                    value: 'username',
+                },
+            },
+        },
+        roles: {
+            roles: {
+                system_role: {
+                    permissions: [],
+                },
+                team_role: {
+                    permissions: [],
+                },
+                channel_role: {
+                    permissions: [],
+                },
+            },
+        },
+        general: {
+            license: {IsLicensed: 'false'},
+            serverVersion: '5.4.0',
+            config: {PostEditTimeLimit: -1},
+        },
+    },
+};
 
 const viewCommand: AppBinding = {
     app_id: 'jira',
@@ -25,9 +111,7 @@ const viewCommand: AppBinding = {
                 label: 'project',
                 description: 'The Jira project description',
                 type: AppFieldTypes.DYNAMIC_SELECT,
-                // flag_name: 'project',
                 hint: 'The Jira project hint',
-                // role_id: 'system_user',
                 position: 1,
                 source_url: '/projects',
             },
@@ -36,9 +120,7 @@ const viewCommand: AppBinding = {
                 label: 'issue',
                 description: 'The Jira issue key',
                 type: AppFieldTypes.TEXT,
-                // flag_name: 'issue',
                 hint: 'MM-11343',
-                // role_id: 'system_user',
             },
         ],
     } as AppForm,
@@ -134,7 +216,7 @@ describe('AppCommandParser', () => {
         const testStore = await mockStore(initialState);
 
         return testStore;
-    }
+    };
 
     let parser: AppCommandParser;
     beforeEach(async () => {
@@ -157,7 +239,7 @@ describe('AppCommandParser', () => {
     describe('getAppSuggestionsForBindings', () => {
         test('string matches 1', () => {
             const res = parser.getAppSuggestionsForBindings('/');
-            expect(res).toHaveLength(1);
+            expect(res).toHaveLength(2);
         });
 
         test('string matches 2', () => {
@@ -175,59 +257,57 @@ describe('AppCommandParser', () => {
             expect(res).toHaveLength(0);
         });
 
-        test('string does not match', () => {
+        test('other command matches', () => {
             const res = parser.getAppSuggestionsForBindings('/other');
+            expect(res).toHaveLength(1);
+        });
+
+        test('string does not match', () => {
+            const res = parser.getAppSuggestionsForBindings('/wrong');
             expect(res).toHaveLength(0);
         });
     });
 
     describe('matchBinding', () => {
         test('should return null if no command matches', () => {
-            let res;
-            res = parser.matchBinding('/hey');
+            const res = parser.matchBinding('/hey');
             expect(res).toBeNull();
         });
 
         test('should return null if theres no space after', () => {
-            let res;
-            res = parser.matchBinding('/jira');
+            const res = parser.matchBinding('/jira');
             expect(res).toBeNull();
         });
 
         test('should return parent', () => {
-            let res;
-            res = parser.matchBinding('/jira ') as AppBinding;
+            const res = parser.matchBinding('/jira ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.app_id).toEqual('jira');
             expect(res.label).toEqual('jira');
         });
 
         test('should return parent while typing 1', () => {
-            let res;
-            res = parser.matchBinding('/jira iss') as AppBinding;
+            const res = parser.matchBinding('/jira iss') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.app_id).toEqual('jira');
             expect(res.label).toEqual('jira');
         });
 
         test('should return parent while typing 2', () => {
-            let res;
-            res = parser.matchBinding('/jira issue') as AppBinding;
+            const res = parser.matchBinding('/jira issue') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.app_id).toEqual('jira');
             expect(res.label).toEqual('jira');
         });
 
         test('should return child after space', () => {
-            let res;
-            res = parser.matchBinding('/jira issue ') as AppBinding;
+            const res = parser.matchBinding('/jira issue ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.label).toEqual('issue');
         });
 
         test('should return nested child', () => {
-            let res;
-            res = parser.matchBinding('/jira issue view ') as AppBinding;
+            const res = parser.matchBinding('/jira issue view ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.label).toEqual('view');
         });
@@ -291,7 +371,7 @@ describe('AppCommandParser', () => {
             cmdStr = [
                 '/jira',
                 'issue',
-                'c'
+                'c',
             ].join(' ');
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
@@ -361,7 +441,7 @@ describe('AppCommandParser', () => {
                 '',
             ].join(' ');
 
-            const f = Client4.executeAppCall
+            const f = Client4.executeAppCall;
             Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: [{label: 'special-label', value: 'special-value'}]}));
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
@@ -447,7 +527,7 @@ describe('AppCommandParser', () => {
                 '--summary',
                 '"The feature is great!"',
                 '--epic',
-                ''
+                '',
             ].join(' ');
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
@@ -478,7 +558,7 @@ describe('AppCommandParser', () => {
                 '--summary',
                 '"The feature is great!"',
                 '--epic',
-                'M'
+                'M',
             ].join(' ');
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
@@ -501,13 +581,13 @@ describe('AppCommandParser', () => {
                 '--summary',
                 '"The feature is great!"',
                 '--epic',
-                'Nope'
+                'Nope',
             ].join(' ');
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
 
             expect(res).toHaveLength(1);
-            expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)])
+            expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)]);
         });
     });
 });

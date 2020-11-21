@@ -113,8 +113,6 @@ export default class CommandProvider extends Provider {
             return false;
         }
 
-        console.log('handlePretextChanged');
-
         const command = pretext.toLowerCase();
         if (this.parser.isAppCommand(command)) {
             this.parser.getAppCommandSuggestions(command).then((matches) => {
@@ -138,7 +136,6 @@ export default class CommandProvider extends Provider {
     }
 
     handleCompleteWord(term: string, pretext: string, callback: (s: string)=>void) {
-        console.log('handleCompleteWord');
         callback(term + ' ');
     }
 
@@ -204,7 +201,7 @@ export default class CommandProvider extends Provider {
         };
 
         Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
-            (data => {
+            ((data: ServerAutocompleteSuggestion[]) => {
                 let matches: AutocompleteSuggestionWithComplete[] = [];
 
                 let cmd = 'Ctrl';
@@ -255,7 +252,7 @@ export default class CommandProvider extends Provider {
                     items: matches,
                     component: CommandSuggestion,
                 });
-            })
+            }),
         );
     }
 

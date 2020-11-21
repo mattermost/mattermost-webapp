@@ -53,7 +53,7 @@ describe('CommandProvider', () => {
         const testStore = await mockStore(initialState);
 
         return testStore;
-    }
+    };
 
     describe('constructor', () => {
         test('should set passed in store', async () => {
