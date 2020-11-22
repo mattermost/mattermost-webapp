@@ -24,6 +24,7 @@ import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
+import StatusIcon from 'components/status_icon';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -293,6 +294,7 @@ class ProfilePopover extends React.PureComponent {
                         className='overflow--ellipsis text-nowrap'
                     >
                         <strong>{fullname}</strong>
+                        <StatusIcon status={this.props.status}/>
                     </div>
                 </OverlayTrigger>,
             );
@@ -347,6 +349,7 @@ class ProfilePopover extends React.PureComponent {
                         className='text-nowrap text-lowercase user-popover__email pb-1'
                     >
                         {email}
+                        {fullname ? null : <StatusIcon status={this.props.status}/>}
                     </a>
                 </div>,
             );
