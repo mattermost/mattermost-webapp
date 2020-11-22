@@ -15,7 +15,9 @@ import {Preferences} from 'utils/constants';
 
 import PostAttachmentOpenGraph, {Props} from './post_attachment_opengraph';
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+type OwnProps = Pick<Props, 'postId' | 'link'>;
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
 
     return {
