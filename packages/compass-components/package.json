@@ -11,6 +11,8 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules dist",
+    "start": "tsc --watch",
+    "prebuild": "rm -rf dist",
     "build": "tsc",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "lint:fix": "npm run lint -- --fix"
