@@ -47,8 +47,8 @@ export function getDiff(
     unit: Unit,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): number {
-    const momentA = moment.utc(a.getTime());
-    const momentB = moment.utc(b.getTime());
+    const momentA = moment(a);
+    const momentB = moment(b);
 
     if (timeZone) {
         momentA.tz(timeZone);
