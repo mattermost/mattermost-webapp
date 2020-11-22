@@ -12,6 +12,7 @@ mattermost-webapp.iml
 junit.xml
 coverage
 lerna-debug.log
+tsconfig.tsbuildinfo
 
 # Environment variables
 .env*
