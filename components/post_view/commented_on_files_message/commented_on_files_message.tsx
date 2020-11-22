@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 type Props = {
 
@@ -14,7 +15,7 @@ type Props = {
     /*
      * An array of file metadata for the parent post
      */
-    fileInfos?: Array<any>
+    fileInfos?: Array<FileInfo>
 }
 
 export default class CommentedOnFilesMessage extends React.PureComponent<Props> {
