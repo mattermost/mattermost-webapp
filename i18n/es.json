@@ -680,7 +680,6 @@
   "admin.experimental.clientSideCertEnable.title": "Habilitar inicio de sesión con un certificado del lado del Cliente:",
   "admin.experimental.closeUnusedDirectMessages.desc": "Cuando es verdadero, las conversaciones en mensajes directos que no tienen actividad en un período de 7 días serán escondidas de la barra lateral. Cuando es falso, las conversaciones permanecerán en la barra lateral hasta que se cierren de forma manual.",
   "admin.experimental.closeUnusedDirectMessages.title": "Cerrar mensajes directos en la barra lateral de forma automática:",
-  "admin.experimental.cloudBilling.desc": "Mostrar la nueva vista de facturación para Cloud",
   "admin.experimental.cloudBilling.title": "Facturación en la nube:",
   "admin.experimental.defaultTheme.desc": "Establece un tema predeterminado que será aplicado a todos los usuarios nuevos del sistema.",
   "admin.experimental.defaultTheme.title": "Tema Predeterminado:",

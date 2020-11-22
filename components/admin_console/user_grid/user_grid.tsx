@@ -27,7 +27,7 @@ type Props = {
     includeUsers: { [userId: string]: UserProfile };
 
     loadPage: (page: number) => void;
-    search: (term: string) => void;
+    onSearch: (term: string) => void;
     removeUser: (user: UserProfile) => void;
     updateMembership: (membership: BaseMembership) => void;
 
@@ -79,8 +79,8 @@ export default class UserGrid extends React.PureComponent<Props, State> {
         this.loadPage(this.state.page - 1);
     }
 
-    private search = async (term: string) => {
-        this.props.search(term);
+    private onSearch = async (term: string) => {
+        this.props.onSearch(term);
         this.setState({page: 0});
     }
 
@@ -296,7 +296,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                 startCount={startCount}
                 endCount={endCount}
                 total={total}
-                search={this.search}
+                onSearch={this.onSearch}
                 term={this.props.term || ''}
                 placeholderEmpty={placeholderEmpty}
                 rowsContainerStyles={rowsContainerStyles}

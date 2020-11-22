@@ -12,7 +12,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 const queue = new PQueue({concurrency: 2});
 
 type Props = {
-    currentChannel?: Channel;
+    currentChannelId: string;
     prefetchQueueObj: Record<string, string[]>;
     prefetchRequestStatus: Dictionary<string>;
     unreadChannels: Channel[];
@@ -47,9 +47,9 @@ export default class DataPrefetch extends React.PureComponent<Props> {
     private prefetchTimeout?: number;
 
     async componentDidUpdate(prevProps: Props) {
-        const {currentChannel, prefetchQueueObj} = this.props;
-        if (!prevProps.currentChannel?.id && currentChannel?.id) {
-            queue.add(async () => this.prefetchPosts(currentChannel.id));
+        const {currentChannelId, prefetchQueueObj} = this.props;
+        if (!prevProps.currentChannelId && currentChannelId) {
+            queue.add(async () => this.prefetchPosts(currentChannelId));
             await loadProfilesForSidebar();
             this.prefetchData();
             this.props.actions.trackDMGMOpenChannels();
