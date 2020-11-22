@@ -17,6 +17,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
 
         "outDir": "./dist",
         "rootDir": "./src",
