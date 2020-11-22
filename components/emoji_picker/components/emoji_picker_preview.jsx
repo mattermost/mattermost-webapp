@@ -18,13 +18,11 @@ export default class EmojiPickerPreview extends React.PureComponent {
 
         if (emoji) {
             let name;
-            let aliases;
             let previewImage;
 
             if (emoji.aliases && emoji.category && emoji.batch) {
                 // This is a system emoji which only has a list of aliases
                 name = emoji.aliases[0];
-                aliases = emoji.aliases;
 
                 previewImage = (
                     <span className='sprite-preview'>
@@ -39,7 +37,6 @@ export default class EmojiPickerPreview extends React.PureComponent {
             } else {
                 // This is a custom emoji that matches the model on the server
                 name = emoji.name;
-                aliases = [emoji.name];
                 previewImage = (
                     <img
                         id='emojiPickerSpritePreview'
@@ -57,12 +54,6 @@ export default class EmojiPickerPreview extends React.PureComponent {
                     </div>
                     <div className='emoji-picker__preview-image-label-box'>
                         <span className='emoji-picker__preview-name'>{name}</span>
-                        <span
-                            id='emojiPickerAliasesPreview'
-                            className='emoji-picker__preview-aliases'
-                        >
-                            {':' + aliases.join(': :') + ':'}
-                        </span>
                     </div>
                 </div>
             );
