@@ -64,7 +64,11 @@
 
 .sidebar--right.move--left {
     ~ .inner-wrap {
-        --rhs-width: 400px;
+        --rhs-width: 0;
+
+        @media screen and (min-width: 1267px) {
+            --rhs-width: 400px;
+        }
         @media screen and (min-width: 1680px) {
             --rhs-width: 500px;
         }

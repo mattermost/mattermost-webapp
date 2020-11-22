@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import React, {UIEvent} from 'react';
@@ -19,7 +18,6 @@ import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import RhsComment from 'components/rhs_comment';
-import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {FakePost} from 'types/store/rhs';
@@ -421,18 +419,12 @@ export default class RhsThread extends React.Component<Props, State> {
                     postId={this.state.topRhsPostId}
                     isRhsPost={true}
                 />
-                <RhsHeaderPost
-                    rootPostId={selected.id}
-                    channel={this.props.channel}
-                    previousRhsState={this.props.previousRhsState}
-                />
                 <Scrollbars
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
-                    autoHeight={true}
                     autoHeightMax={this.state.postsContainerHeight}
                     renderView={renderView}
                     onScroll={this.handleScroll}
@@ -469,11 +461,10 @@ export default class RhsThread extends React.Component<Props, State> {
                                 {commentsLists}
                             </div>
                         </div>
+                        {createComment}
                     </div>
                 </Scrollbars>
-                {createComment}
             </div>
         );
     }
 }
-/* eslint-enable react/no-string-refs */
