@@ -440,6 +440,7 @@ type State = BaseState & {
     removing: string | null;
 }
 export default class PluginManagement extends AdminSettings<Props, State> {
+    private fileInput: React.RefObject<HTMLInputElement>;
     constructor(props: Props) {
         super(props);
 
@@ -459,6 +460,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
             showRemoveModal: false,
             resolveRemoveModal: null,
         });
+        this.fileInput = React.createRef();
     }
     getConfigFromState = (config: Props['config']) => {
         if (config && config.PluginSettings) {
@@ -500,7 +502,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
     handleUpload = () => {
         this.setState({lastMessage: null, serverError: null});
-        const element = this.refs.fileInput as HTMLInputElement;
+        const element = this.fileInput.current as HTMLInputElement;
         if (element.files && element.files.length > 0) {
             this.setState({fileSelected: true, file: element.files[0]});
         }
@@ -553,7 +555,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     handleSubmitUpload = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const element = this.refs.fileInput as HTMLInputElement;
+        const element = this.fileInput.current as HTMLInputElement;
         if (element.files?.length === 0) {
             return;
         }
@@ -1070,6 +1072,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                     <div className='col-sm-8'>
                                         <div className='file__upload'>
                                             <button
+                                                type='button'
                                                 className={classNames(['btn', {'btn-primary': enableUploads}])}
                                                 disabled={!enableUploadButton || this.props.isDisabled}
                                             >
@@ -1079,7 +1082,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                                 />
                                             </button>
                                             <input
-                                                ref='fileInput'
+                                                ref={this.fileInput}
                                                 type='file'
                                                 accept='.gz'
                                                 onChange={this.handleUpload}

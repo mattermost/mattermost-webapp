@@ -5,7 +5,7 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants from 'utils/constants';
+import Constants, {ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
 import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
@@ -365,6 +365,54 @@ describe('Utils.isValidPassword', () => {
         ]) {
             const {valid} = Utils.isValidPassword(data.password, data.config);
             expect(data.valid).toEqual(valid);
+        }
+    });
+});
+
+describe('Utils.isValidUsername', () => {
+    const tests = [
+        {
+            testUserName: 'sonic.the.hedgehog',
+            expectedError: undefined,
+        }, {
+            testUserName: null,
+            expectedError: ValidationErrors.USERNAME_REQUIRED,
+        }, {
+            testUserName: 'sanic.the.speedy.errored.hedgehog@10_10-10',
+            expectedError: ValidationErrors.INVALID_LENGTH,
+        }, {
+            testUserName: 'sanic⭑',
+            expectedError: ValidationErrors.INVALID_CHARACTERS,
+        }, {
+            testUserName: '.sanic',
+            expectedError: ValidationErrors.INVALID_FIRST_CHARACTER,
+        }, {
+            testUserName: 'valet',
+            expectedError: ValidationErrors.RESERVED_NAME,
+        },
+    ];
+    test('Validate username', () => {
+        for (const test of tests) {
+            const testError = Utils.isValidUsername(test.testUserName);
+            if (testError) {
+                expect(testError.id).toEqual(test.expectedError);
+            } else {
+                expect(testError).toBe(undefined);
+            }
+        }
+    });
+    test('Validate bot username', () => {
+        tests.push({
+            testUserName: 'sanic.the.hedgehog.',
+            expectedError: ValidationErrors.INVALID_LAST_CHARACTER,
+        });
+        for (const test of tests) {
+            const testError = Utils.isValidUsername(test.testUserName);
+            if (testError) {
+                expect(testError.id).toEqual(test.expectedError);
+            } else {
+                expect(testError).toBe(undefined);
+            }
         }
     });
 });

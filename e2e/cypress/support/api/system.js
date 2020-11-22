@@ -18,8 +18,11 @@ Cypress.Commands.add('apiGetClientLicense', () => {
 });
 
 Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
+    Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${key}__.`});
+
     return uploadLicenseIfNotExist().then(({license}) => {
-        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
+        const hasLicenseMessage = `Server ${license.IsLicensed === 'true' ? 'has' : 'has no'} EE license.`;
+        expect(license.IsLicensed, hasLicenseMessage).to.equal('true');
 
         let hasLicenseKey = false;
         for (const [k, v] of Object.entries(license)) {
@@ -29,15 +32,19 @@ Cypress.Commands.add('apiRequireLicenseForFeature', (key = '') => {
             }
         }
 
-        expect(hasLicenseKey, `No license for feature: ${key}`).to.equal(true);
+        const hasLicenseKeyMessage = `Server ${hasLicenseKey ? 'has' : 'has no'} EE license for feature: __${key}__`;
+        expect(hasLicenseKey, hasLicenseKeyMessage).to.equal(true);
 
         return cy.wrap({license});
     });
 });
 
 Cypress.Commands.add('apiRequireLicense', () => {
+    Cypress.log({name: 'EE License', message: 'Checking if server has license.'});
+
     return uploadLicenseIfNotExist().then(({license}) => {
-        expect(license.IsLicensed, 'Server has no Enterprise license.').to.equal('true');
+        const hasLicenseMessage = `Server ${license.IsLicensed === 'true' ? 'has' : 'has no'} EE license.`;
+        expect(license.IsLicensed, hasLicenseMessage).to.equal('true');
 
         return cy.wrap({license});
     });
@@ -45,6 +52,22 @@ Cypress.Commands.add('apiRequireLicense', () => {
 
 Cypress.Commands.add('apiUploadLicense', (filePath) => {
     cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200});
+});
+
+Cypress.Commands.add('apiInstallTrialLicense', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/trial-license',
+        method: 'POST',
+        body: {
+            trialreceive_emails_accepted: true,
+            terms_accepted: true,
+            users: Cypress.env('numberOfTrialUsers'),
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
 });
 
 Cypress.Commands.add('apiDeleteLicense', () => {
@@ -139,16 +162,8 @@ function uploadLicenseIfNotExist() {
             return cy.wrap({license});
         }
 
-        const filename = 'mattermost-license.txt';
-
-        return cy.task('fileExist', filename).then((exist) => {
-            if (!exist) {
-                return cy.wrap({license});
-            }
-
-            return cy.apiUploadLicense(filename).then(() => {
-                return cy.apiGetClientLicense();
-            });
+        return cy.apiInstallTrialLicense().then(() => {
+            return cy.apiGetClientLicense();
         });
     });
 }

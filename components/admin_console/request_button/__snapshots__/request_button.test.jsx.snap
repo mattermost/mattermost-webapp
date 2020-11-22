@@ -13,6 +13,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
         className="btn btn-default"
         disabled={false}
         onClick={[Function]}
+        type="button"
       >
         <LoadingWrapper
           loading={false}
@@ -97,6 +98,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           className="btn btn-default"
           disabled={false}
           onClick={[Function]}
+          type="button"
         >
           <LoadingWrapper
             loading={false}
@@ -235,6 +237,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           className="btn btn-default"
           disabled={false}
           onClick={[Function]}
+          type="button"
         >
           <LoadingWrapper
             loading={false}
@@ -365,6 +368,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           className="btn btn-default"
           disabled={false}
           onClick={[Function]}
+          type="button"
         >
           <LoadingWrapper
             loading={false}
@@ -496,6 +500,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           className="btn btn-default"
           disabled={false}
           onClick={[Function]}
+          type="button"
         >
           <LoadingWrapper
             loading={false}
