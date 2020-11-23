@@ -11,6 +11,7 @@
 // Group: @channel
 
 import {getRandomId} from '../../utils';
+import * as MESSAGES from '../../fixtures/messages';
 
 describe('Leave an archived channel', () => {
     let testTeam;
@@ -43,25 +44,34 @@ describe('Leave an archived channel', () => {
 
     it('should leave recently archived channel', () => {
         cy.apiLogin(testUser);
-
-        // # Archive the channel
-        cy.uiArchiveChannel();
-
-        // # Switch to another channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
-        // # Switch back to the archived channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-        // # Leave the channel
-        cy.get('#channelHeaderDropdownIcon').click();
-        cy.get('#channelLeaveChannel').click();
+        // # Archive the channel
+        createArchivedChannel({prefix: 'archive-to-be-left-'}, ['Leaving this channel']).then(({channelName}) => {
+            // # Switch to another channel
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.contains('#channelHeaderTitle', 'Town Square').should('be.visible');
 
-        // * Verify sure that we have switched channels
-        cy.get('#channelHeaderTitle').should('not.contain', testChannel.display_name);
+            // # Switch back to the archived channel
+            cy.visit(`/${testTeam.name}/channels/${channelName}`);
+            cy.contains('#channelHeaderTitle', channelName).should('be.visible');
+
+            // # Leave the channel
+            cy.get('#channelHeaderDropdownIcon').click();
+            cy.get('#channelLeaveChannel').click();
+
+            // * Verify sure that we have switched channels
+            cy.contains('#channelHeaderTitle', 'Town Square').should('be.visible');
+        });
     });
 
     it('MM-T1670 Can view channel info for an archived channel', () => {
+        // # archive channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.uiArchiveChannel();
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
         // # Visit archived channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
@@ -256,25 +266,119 @@ describe('Leave an archived channel', () => {
             cy.get('#quickSwitchModalLabel button.close').click();
         });
     });
+
+    // it('MM-T1677 Archived channels are not shown as unread in channel switcher', () => {
+    //     // # As the test user join a public channel then open any other channel in the drawer
+    //     cy.uiCreateChannel({prefix: 'archived-not-read'}).then(({name}) => {
+    //         cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+    //         // # As another user post in the channel from step 1. then archive it
+    //         cy.apiLogout();
+    //         cy.apiLogin(otherUser);
+    //         cy.visit(`/${testTeam.name}/channels/${name}`);
+    //         cy.postMessage('this is an message not read by the test user');
+    //         cy.uiArchiveChannel().then(() => {
+    //             cy.apiLogout();
+    //             cy.apiLogin(testUser);
+    //             cy.visit(`/${testTeam.name}/channels/off-topic`);
+    //             cy.contains('#channelHeaderTitle', 'Off-Topic');
+
+    //             // # As the test user hit CTRL/CMD+K (or ⌘+k) and locate the channel
+    //             cy.typeCmdOrCtrl().type('K', {release: true});
+    //             cy.get('#quickSwitchInput').type('archived-');
+
+    //             // * Channel does not appear at the top with other unread channels
+    //             cy.get('#suggestionList').should('be.visible');
+    //             cy.findByTestId(name).should('be.visible');
+    //             cy.contains('div.suggestion-list__divider', 'Unread Channels').should('not.be.visible');
+    //             cy.contains('div.suggestion-list__divider', 'Archived Channels').should('be.visible');
+
+    //             cy.get('#quickSwitchModalLabel button.close').click();
+    //         });
+    //     });
+    // });
+
+    it('MM-T1678 Open an archived channel using CTRL/CMD+K', () => {
+        // # Select CTRL/CMD+K (or ⌘+K) to open the channel switcher
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        // # Start typing the name of a public or private channel on this team that has been archived
+        cy.get('#quickSwitchInput').type(testChannel.display_name);
+
+        // # Select an archived channel from the list
+        cy.get('#suggestionList').should('be.visible');
+        cy.findByTestId(testChannel.name).should('be.visible');
+        cy.findByTestId(testChannel.name).click();
+
+        // * Channel name visible in header
+        cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
+
+        // * Archived icon is visible in header
+        cy.get('#channelHeaderInfo .icon__archive').should('be.visible');
+
+        // * Channel is listed In drawer
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
+        cy.get(`#sidebarItem_${testChannel.name} .icon__archive`).should('be.visible');
+
+        // * footer shows you are viewing an archived channel
+        cy.get('#channelArchivedMessage').should('be.visible');
+    });
+
+    it('MM-T1679 Open an archived channel using jump from search results', () => {
+        // # Create or locate post in an archived channel where the test user had permissions to edit channel details
+        // generate a sufficiently large set of messages to make the toast appear
+        const messageList = Array.from({length: 40}, (_, i) => `${i}. ${MESSAGES.SMALL} - ${getRandomId()}`);
+        createArchivedChannel({prefix: 'archived-search-for'}, messageList).then(({channelName}) => {
+            // # Locate the post in a search
+            cy.get('#searchBox').focus().clear();
+            cy.get('#searchBox').should('be.visible').type(`${messageList[1]}{enter}`);
+
+            // # Click jump to open an archive post in permalink view
+            cy.get('#searchContainer').should('be.visible');
+            cy.get('a.search-item__jump').first().click();
+
+            // * Archived channel is opened in permalink view
+            cy.get('.post--highlight').should('be.visible');
+
+            // # Click on You are viewing an archived channel.
+            cy.get('.toast__jump').should('be.visible').click();
+
+            // * Channel is listed In drawer
+            // * Channel name visible in header
+            cy.get(`#sidebarItem_${channelName}`).should('be.visible');
+            cy.get(`#sidebarItem_${channelName} .icon__archive`).should('be.visible');
+
+            // * Archived icon is visible in header
+            cy.get('#channelHeaderInfo .icon__archive').should('be.visible');
+
+            // * Footer shows "You are viewing an archived channel. New messages cannot be posted. Close Channel"
+            cy.get('#channelArchivedMessage').should('be.visible');
+        });
+    });
 });
 
-function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    let channelName;
-    cy.uiCreateChannel(channelOptions).then((newChannel) => {
-        channelName = newChannel.name;
-        if (memberUsernames) {
-            cy.uiAddUsersToCurrentChannel(memberUsernames);
-        }
-        if (messages) {
-            let messageList = messages;
-            if (!Array.isArray(messages)) {
-                messageList = [messages];
+async function createArchivedChannel(channelOptions, messages, memberUsernames) {
+    const channelName = await new Promise((resolve) => {
+        cy.uiCreateChannel(channelOptions).then((newChannel) => {
+            if (memberUsernames) {
+                cy.uiAddUsersToCurrentChannel(memberUsernames);
             }
-            messageList.forEach((message) => {
-                cy.postMessage(message);
-            });
-        }
-        return cy.uiArchiveChannel();
+            if (messages) {
+                let messageList = messages;
+                if (!Array.isArray(messages)) {
+                    messageList = [messages];
+                }
+                messageList.forEach((message) => {
+                    cy.postMessage(message);
+                });
+            }
+            cy.uiArchiveChannel();
+            resolve(newChannel.name);
+        });
     });
+
+    cy.get('#channelArchivedMessage').should('be.visible');
     return cy.wrap({channelName});
 }
