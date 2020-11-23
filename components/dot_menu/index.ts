@@ -53,7 +53,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appsBindings = getAppsBindings(state, AppsBindings.POST_MENU_ITEM);
+    const appBindings = getAppsBindings(state, AppsBindings.POST_MENU_ITEM);
 
     let postEditTimeLimit;
     if (config.PostEditTimeLimit) {

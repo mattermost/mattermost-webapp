@@ -255,8 +255,8 @@ export class AppCommandParser {
         return suggestions;
     }
 
-     // composeCallFromCommandString creates the form submission call
-     public composeCallFromCommandString = async (cmdStr: string): Promise<AppCall | null> => {
+    // composeCallFromCommandString creates the form submission call
+    public composeCallFromCommandString = async (cmdStr: string): Promise<AppCall | null> => {
         const binding = await this.getBindingWithForm(cmdStr);
         if (!binding || !binding.call) {
             return null;
