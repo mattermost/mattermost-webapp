@@ -11,6 +11,7 @@ stages:
   - ee-s3-onprem-rc
   - ee-build-onprem # rudder-live, stripe-test
   - ee-s3-onprem
+  - create-vars
   - trigger
 
 variables:
