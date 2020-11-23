@@ -11,6 +11,12 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
+// # Goes to the System Scheme page as System Admin
+const goToAdminConsole = () => {
+    cy.apiAdminLogin();
+    cy.visit('/admin_console');
+};
+
 describe('System Console > Team Statistics', () => {
     before(() => {
         // # Create team.
@@ -51,5 +57,26 @@ describe('System Console > Team Statistics', () => {
         // * Check that the generated tables are not empty.
         cy.get('.recent-active-users').find('table').eq(0).should('not.empty');
         cy.get('.recent-active-users').find('table').eq(1).should('not.empty');
+    });
+
+    it('MM-T907 - Reporting ➜ Team Statistics - teams listed in alphabetical order', () => {
+        goToAdminConsole();
+        cy.get('#reporting\\/team_statistics').click();
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        // * Verify Teams are listed in alphabetical order, regardless of who created the team
+        cy.findByTestId('teamFilter').then((el) => {
+            // # Get the options and append them to a unsorted array (assume unsorted)
+            const unsortedOptionsText = [];
+            el[0].childNodes.forEach((child) => unsortedOptionsText.push(child.innerText));
+
+            // # Make a copy of the above array and then we sort them
+            const sortedOptionsText = [...unsortedOptionsText].sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+
+            // * Compare the unsorted array and sorted array and if it initially was sorted, these should match
+            for (let i = 0; i < unsortedOptionsText.length; i++) {
+                expect(unsortedOptionsText[i]).equal(sortedOptionsText[i]);
+            }
+        });
     });
 });

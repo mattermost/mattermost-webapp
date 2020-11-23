@@ -384,70 +384,6 @@
         outline-style: none;
     }
 
-    .nav-pills__unread-indicator {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        margin-left: 50%;
-        width: 188px;
-        font-size: 14px;
-        line-height: 28px;
-        text-align: center;
-        @include border-radius(14px);
-        z-index: 2;
-        cursor: pointer;
-        transform: translateX(-50%);
-        opacity: 0;
-        visibility: hidden;
-        background: var(--mention-bg);
-        color: var(--mention-color);
-
-        .icon {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: 5px;
-        }
-
-        body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in, step-end);
-        }
-
-        svg {
-            fill: var(--mention-color);
-        }
-    }
-
-    .nav-pills__unread-indicator-top {
-        top: 32px;
-
-        .icon {
-            svg {
-                @include transform(rotate(180deg));
-            }
-        }
-    }
-
-    .nav-pills__unread-indicator-bottom {
-        bottom: 16px;
-    }
-
-    .nav-pills__unread-indicator--visible {
-        opacity: 1;
-        visibility: visible;
-
-        body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
-        }
-    }
-
     .SidebarNavContainer {
         flex: 1 1 auto;
         position: relative;
@@ -600,50 +536,56 @@
             display: none;
         }
 
-        &.draggingOverHeader:hover {
-            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-            border-radius: 4px;
-
-            .SidebarChannelGroupHeader_groupButton {
-                background-color: inherit;
-            }
+        &.SidebarChannelGroupHeader--sticky {
+            position: sticky;
         }
 
+        &.muted {
+            .icon-chevron-down, .SidebarChannelGroupHeader_text {
+                opacity: 0.4;
+            }
+        }
     }
-    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+
+    .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
+        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
+        border-radius: 4px;
+
+        .SidebarChannelGroupHeader_groupButton {
+            background-color: inherit;
+        }
+    }
+
+    .SidebarChannelGroupHeader_groupButton {
         height: 32px;
         padding: 0;
         font-size: 12px;
         font-family: 'Open Sans', sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-        overflow: hidden;
-        text-overflow: ellipsis;
         white-space: nowrap;
         text-align: left;
         border: none;
         color: rgba(var(--sidebar-text-rgb), 0.6);
         background-color: var(--sidebar-bg);
-        position: sticky;
         top: 0;
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
-        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
         align-items: center;
 
         .emoji {
             color: var(--sidebar-text);
         }
 
-        > div:not(.SidebarCategory_newLabel) {
+        .SidebarChannelGroupHeader_text {
             flex: 0 1 auto;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            cursor: pointer;
         }
 
         &.dragging {
@@ -659,6 +601,15 @@
                 visibility: hidden;
             }
         }
+    }
+
+    .SidebarChannelGroupHeader--static {
+        margin-left: 16px;
+    }
+
+    button.SidebarChannelGroupHeader_groupButton > div {
+        // This overrides react-beautiful-dnd's grab cursor
+        cursor: pointer;
     }
 
     .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
@@ -724,7 +675,7 @@
         animation-timing-function: linear;
     }
 
-    .SidebarChannelGroup .draggingOverDMCategory {
+    .SidebarChannelGroup.dmCategory .draggingOver {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
@@ -732,6 +683,7 @@
             background-color: inherit;
         }
     }
+
     .SidebarChannelGroup.capture .SidebarChannelGroup_content {
         margin-bottom: 0;
         padding-bottom: 14px;
@@ -841,6 +793,11 @@
             transform: none !important;
         }
 
+        &.selectedDragging {
+            opacity: 0.25;
+            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+        }
+
         .btn-close {
             @include opacity(0);
             visibility: hidden;
@@ -862,6 +819,25 @@
         .SidebarMenu_menuButton {
             height: 28px;
             width: 28px;
+        }
+
+        .SidebarChannel__selectedCount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            height: 25px;
+            background: var(--center-channel-color);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            border-radius: 20px;
+            padding: 2px 9px 7px 9px;
+
+
+            > span {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 11px;
+                color: var(--center-channel-bg);
+            }
         }
     }
 
@@ -957,6 +933,23 @@
             color: var(--sidebar-text);
         }
 
+        &.selected {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+
+            &:hover {
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+            }
+        }
+
+    }
+
+    .SidebarLink.selected {
+        background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+        color: rgba(var(--sidebar-text-rgb), 1);
+
+        &:hover {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        }
     }
 
     .SidebarChannel.active .SidebarLink::before {

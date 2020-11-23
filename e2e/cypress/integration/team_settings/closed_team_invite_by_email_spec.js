@@ -106,9 +106,8 @@ describe('Team Settings', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to: Mattermost' message is visible
-        cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
-        cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
+        // * Check that the 'Welcome to Mattermost' message is visible
+        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
     });
 
     function verifyEmailInvite(response, teamName, teamDisplayName, invitedUserEmail, messageSeparator) {

@@ -11,15 +11,16 @@
 
 describe('Channel Switcher', () => {
     let testTeam;
+    const channelNamePrefix = 'achannel';
+    const channelDisplayNamePrefix = 'ASwitchChannel';
 
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, user}) => {
             testTeam = team;
 
             // # Add some channels
-            cy.apiCreateChannel(testTeam.id, 'channel-a', 'SwitchChannel A', 'O');
-            cy.apiCreateChannel(testTeam.id, 'channel-b', 'SwitchChannel B', 'O');
-            cy.apiCreateChannel(testTeam.id, 'channel-c', 'SwitchChannel C', 'O');
+            cy.apiCreateChannel(testTeam.id, `${channelNamePrefix}-b`, `${channelDisplayNamePrefix} B`, 'O');
+            cy.apiCreateChannel(testTeam.id, `${channelNamePrefix}-c`, `${channelDisplayNamePrefix} C`, 'O');
 
             // # Login as test user and go to town square
             cy.apiLogin(user);
@@ -34,15 +35,15 @@ describe('Channel Switcher', () => {
         // # Start typing channel name in the "Switch Channels" modal message box
         // # Use up/down arrow keys to highlight second channel
         // # Press ENTER
-        cy.get('#quickSwitchInput').type('SwitchChannel ').type('{downarrow}').type('{downarrow}').type('{enter}');
+        cy.get('#quickSwitchInput').type(`${channelDisplayNamePrefix} `).type('{downarrow}').type('{downarrow}').type('{enter}');
 
         // * Expect channel title to match title
         cy.get('#channelHeaderTitle').
             should('be.visible').
-            and('contain.text', 'SwitchChannel B');
+            and('contain.text', `${channelDisplayNamePrefix} B`);
 
         // * Expect url to match url
-        cy.url().should('contain', 'channel-b');
+        cy.url().should('contain', `${channelNamePrefix}-b`);
     });
 
     it('MM-T2031_2 - should switch channels by mouse', () => {
@@ -50,17 +51,17 @@ describe('Channel Switcher', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing channel name in the "Switch Channels" modal message box
-        cy.get('#quickSwitchInput').type('SwitchChannel ');
+        cy.get('#quickSwitchInput').type(`${channelDisplayNamePrefix} `);
 
-        cy.get('[data-testid^=channel-c] > span').click();
+        cy.get(`[data-testid^=${channelNamePrefix}-c] > span`).click();
 
         // * Expect channel title to match title
         cy.get('#channelHeaderTitle').
             should('be.visible').
-            and('contain.text', 'SwitchChannel C');
+            and('contain.text', `${channelDisplayNamePrefix} C`);
 
         // * Expect url to match url
-        cy.url().should('contain', 'channel-c');
+        cy.url().should('contain', `${channelNamePrefix}-c`);
     });
 
     it('MM-T2031_3 - should show empty result', () => {

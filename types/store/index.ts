@@ -47,7 +47,7 @@ export type GlobalState = BaseGlobalState & {
             };
             focusedPostId: string;
             mobileView: boolean;
-            keepChannelIdAsUnread: Channel | null;
+            lastUnreadChannel: (Channel & {hadMentions: boolean}) | null; // Actually only an object with {id: string, hadMentions: boolean}
             lastGetPosts: {
                 [channelId: string]: number;
             };
@@ -140,6 +140,8 @@ export type GlobalState = BaseGlobalState & {
             unreadFilterEnabled: boolean;
             draggingState: DraggingState;
             newCategoryIds: string[];
+            multiSelectedChannelIds: string[];
+            lastSelectedChannel: string;
         };
 
         nextSteps: {

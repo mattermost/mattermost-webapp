@@ -16,7 +16,9 @@
         "enableVisualTest": false,
         "ldapServer": "localhost",
         "ldapPort": 389,
+        "numberOfTrialUsers": 100,
         "runLDAPSync": true,
+        "runWithEELicense": false,
         "resetBeforeTest": false,
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000"

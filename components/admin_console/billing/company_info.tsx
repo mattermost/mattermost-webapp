@@ -1,17 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
+
+import {pageVisited} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import BlockableLink from 'components/admin_console/blockable_link';
+
+import CompanyInfoDisplay from './company_info_display';
 
 type Props = {
 
 };
 
 const CompanyInfo: React.FC<Props> = () => {
+    const dispatch = useDispatch<DispatchFunc>();
+
+    useEffect(() => {
+        dispatch(getCloudCustomer());
+
+        pageVisited('cloud_admin', 'pageview_billing_company_info');
+    }, []);
+
     return (
         <div className='wrapper--fixed CompanyInfo'>
             <FormattedAdminHeader
@@ -20,20 +33,12 @@ const CompanyInfo: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <div style={{border: '1px solid #000', width: '100%', height: '432px'}}>
-                        {'Company Details Card'}
-                        <BlockableLink
-                            to='/admin_console/billing/company_info_edit'
-                        >
-                            <FormattedMessage
-                                id='admin.billing.company_info.add'
-                                defaultMessage='Add Company Information'
-                            />
-                        </BlockableLink>
-                    </div>
-                    <div style={{border: '1px solid #000', width: '100%', height: '194px', marginTop: '20px'}}>
+                    <CompanyInfoDisplay/>
+                    { /* Billing Admins section
+                        <div style={{border: '1px solid #000', width: '100%', height: '194px', marginTop: '20px'}}>
                         {'Billing Admins Card'}
-                    </div>
+                        </div>
+                    */}
                 </div>
             </div>
         </div>
