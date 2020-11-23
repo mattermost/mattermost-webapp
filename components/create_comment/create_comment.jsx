@@ -718,7 +718,7 @@ class CreateComment extends React.PureComponent {
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
-
+        
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             this.setState({
@@ -755,7 +755,10 @@ class CreateComment extends React.PureComponent {
             }
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
+
+        if (ctrlKeyCombo) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexBack();
@@ -766,6 +769,10 @@ class CreateComment extends React.PureComponent {
                        Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 this.applyHotkeyMarkdown(e);
             }
+        }
+
+        if (ctrlAltCombo && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+                this.applyHotkeyMarkdown(e);
         }
 
         if (lastMessageReactionKeyCombo) {

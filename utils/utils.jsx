@@ -1820,9 +1820,10 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
 
 const BOLD_MD = '**';
 const ITALIC_MD = '*';
-
+const LINK_MD_START = '[';
+const LINK_MD_END = ']()';
 /**
- * Applies bold/italic markdown on textbox associated with event and returns
+ * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
 export function applyHotkeyMarkdown(e) {
@@ -1838,16 +1839,25 @@ export function applyHotkeyMarkdown(e) {
 
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
-    let delimiter = '';
+    let isLink = false;
+    let delimiterStart = '';
+    let delimiterEnd = '';
+
     if (e.keyCode === Constants.KeyCodes.B[1]) {
-        delimiter = BOLD_MD;
+        delimiterStart = BOLD_MD;
+        delimiterEnd = BOLD_MD;
     } else if (e.keyCode === Constants.KeyCodes.I[1]) {
-        delimiter = ITALIC_MD;
+        delimiterStart = ITALIC_MD;
+        delimiterEnd = ITALIC_MD;
         isItalicFollowedByBold = prefix.endsWith(BOLD_MD) && suffix.startsWith(BOLD_MD);
+    } else if (e.keyCode === Constants.KeyCodes.K[1]) {
+        delimiterStart = LINK_MD_START;
+        delimiterEnd = LINK_MD_END;
+        isLink = true;
     }
 
     // Does the selection have current hotkey's markdown?
-    const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
+    const hasCurrentMarkdown = prefix.endsWith(delimiterStart) && suffix.startsWith(delimiterEnd);
 
     // Does current selection have both of the markdown around it? i.e. ***haha***
     const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
@@ -1857,55 +1867,15 @@ export function applyHotkeyMarkdown(e) {
     let newEnd = 0;
     if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
         // message already has the markdown; remove it
-        newValue = prefix.substring(0, prefix.length - delimiter.length) + selection + suffix.substring(delimiter.length);
-        newStart = selectionStart - delimiter.length;
-        newEnd = selectionEnd - delimiter.length;
+        newValue = prefix.substring(0, prefix.length - delimiterStart.length) + selection + suffix.substring(delimiterEnd.length);
+        newStart = selectionStart - delimiterStart.length;
+        newEnd = selectionEnd - delimiterStart.length;
     } else {
-        newValue = prefix + delimiter + selection + delimiter + suffix;
-        newStart = selectionStart + delimiter.length;
-        newEnd = selectionEnd + delimiter.length;
+        newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
+        newStart = isLink ? (selectionEnd + 3) : (selectionStart + delimiterStart.length);
+        newEnd = isLink ? newStart : (selectionEnd + delimiterEnd.length);
     }
-
-    return {
-        message: newValue,
-        selectionStart: newStart,
-        selectionEnd: newEnd,
-    };
-}
-
-/**
- * Applies Link markdown on textbox associated with event and returns
- * modified text alongwith modified cursor position.
- */
-export function applyLinkKeyMarkdown(e) {
-    e.preventDefault();
-
-    const el = e.target;
-    const {selectionEnd, selectionStart, value} = el;
-
-    // <prefix> <selection> <suffix>
-    const prefix = value.substring(0, selectionStart);
-    const selection = value.substring(selectionStart, selectionEnd);
-    const suffix = value.substring(selectionEnd);
-
-    let isLink = false;
-
-    isLink = prefix.endsWith("[") && suffix.startsWith("]()");
-
-    let newValue = '';
-    let newStart = 0;
-    let newEnd = 0;
-
-    if(isLink){
-        newValue = prefix.substring(0,selectionStart-1) + selection + suffix.substring(3) ;
-        newStart = selectionStart-1;
-        newEnd = selectionEnd-1;
-    } else {
-        newValue = prefix + "[" + selection + "]()" + suffix ;
-        newStart = selectionEnd + 3;
-        newEnd = newStart;
-    }
-
+    
     return {
         message: newValue,
         selectionStart: newStart,

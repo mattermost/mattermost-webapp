@@ -28,11 +28,12 @@ export function makeSelectionEvent(input, start, end) {
     };
 }
 
-function makeMarkdownHotkeyEvent(input, start, end, keycode) {
+function makeMarkdownHotkeyEvent(input, start, end, keycode, altKey = false) {
     return {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn(),
         ctrlKey: true,
+        altKey: altKey,
         key: keycode[0],
         keyCode: keycode[1],
         target: {
@@ -61,6 +62,10 @@ export function makeBoldHotkeyEvent(input, start, end) {
  */
 export function makeItalicHotkeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.I);
+}
+
+export function makeLinkHotKeyeyEvent(input, start, end) {
+    return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.K, true);
 }
 
 /**
@@ -128,6 +133,36 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
 
         find(instance).props().onKeyDown(e);
         expect(getValue(instance)).toBe('Jalebi **Fafda & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+    });
+
+    test('component adds link markdown', () => {
+        // "Fafda" is selected with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyeyEvent(input, 7, 12);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        const setSelectionRange = jest.fn();
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda]() & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+    });
+
+    test('component removes link markdown', () => {
+        // "Fafda" is selected with ctrl + alt + K hotkey
+        const input = 'Jalebi [Fafda]() & Sambharo';
+        const e = makeLinkHotKeyeyEvent(input, 8, 13);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        const setSelectionRange = jest.fn();
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi Fafda & Sambharo');
         expect(setSelectionRange).toHaveBeenCalled();
     });
 }
