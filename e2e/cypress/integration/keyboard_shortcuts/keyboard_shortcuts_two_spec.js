@@ -36,8 +36,10 @@ describe('Keyboard Shortcuts', () => {
     beforeEach(() => {
         // # Login as admin and visit town-square
         cy.apiAdminLogin();
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.HALF_SEC);
     });
+
+    //Note: Missing MM-T1258, MM-T1259
 
     it('MM-T1239 - CTRL+/ and CMD+/ and /shortcuts', () => {
         // # Type CTRL/CMD+/
@@ -46,7 +48,7 @@ describe('Keyboard Shortcuts', () => {
         // # Verify that the 'Keyboard Shortcuts' modal is open
         cy.get('#shortcutsModalLabel').should('be.visible');
 
-        // # Verify that the 'Keyboard Shortcuts' modal displays ths CTRL+U shortcut
+        // # Verify that the 'Keyboard Shortcuts' modal displays ths CTRL/CMD+U shortcut
         cy.get('.section').eq(2).within(() => {
             cy.findByText('Files').should('be.visible');
             cy.get('.shortcut-line').within(() => {
@@ -67,96 +69,56 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').clear().type('/shortcuts{enter}');
         cy.get('#shortcutsModalLabel').should('be.visible');
 
-        // # Close the 'Keyboard Shortcuts' modal using the x
+        // # Close the 'Keyboard Shortcuts' modal using the x button
         cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close').click();
         cy.get('#shortcutsModalLabel').should('not.be.visible');
 
         // # Type /shortcuts
         cy.get('#post_textbox').clear().type('/shortcuts{enter}');
 
-        // # Close the 'Keyboard Shortcuts' modal by pressing ESC
+        // # Close the 'Keyboard Shortcuts' modal by pressing ESC key
         cy.get('body').type('{esc}');
         cy.get('#shortcutsModalLabel').should('not.be.visible');
     });
 
     it('MM-T1254 - CTRL/CMD+UP; CTRL/CMD+DOWN', () => {
+        const messagePrefix = 'hello from current user: ';
         let message;
         const count = 5;
 
-        // # Post 5 messages
+        // # Post messages to the center channel
         for (let index = 0; index < count; index++) {
-            message = 'hello from current user: ' + index;
+            message = messagePrefix + index;
             cy.postMessage(message);
         }
 
         for (let index = 0; index < count; index++) {
-            // # Type CTRL/CMD + UP
+            // # Type CTRL/CMD+UP
             cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
-            message = 'hello from current user: ' + (4 - index);
+
+            // # Verify that the previous message is displayed
+            message = messagePrefix + (4 - index);
             cy.get('#post_textbox').contains(message);
         }
 
-        // # One exta CTRL/CMD + UP does not change the displayed message
+        // # One exta CTRL/CMD+UP does not change the displayed message
         cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
-        message = 'hello from current user: 0';
+        message = messagePrefix + '0';
         cy.get('#post_textbox').contains(message);
 
         for (let index = 1; index < count; index++) {
-            // # Type CTRL/CMD + DOWN
+            // # Type CTRL/CMD+DOWN
             cy.get('#post_textbox').cmdOrCtrlShortcut('{downarrow}');
-            message = 'hello from current user: ' + index;
+
+            // # Verify that the next message is displayed
+            message = messagePrefix + index;
             cy.get('#post_textbox').contains(message);
         }
     });
 
-    // // CANNOT BE DONE(?)
-    // it('MM-T1258 - CTRL/CMD+U', () => {
-    //     // # Type CTRL/CMD+U
-    //     cy.get('body').cmdOrCtrlShortcut('U');
-    //     cy.get('input').attachFile('mattermost-icon.png');
-
-    //     cy.getLastPostId().then((postId) => {
-    //         cy.get(`#${postId}_message`).findByTestId('fileAttachmentList').children().should('have.length', '1');
-    //     });
-    // });
-
-    // // CANNOT BE DONE(?)
-    // it('MM-T1259 - BROWSER BACK: ALT+LEFT or RIGHT / CMD+[ or ]', () => {
-    //     // # Visit initially the 'Off Topic' channel
-    //     cy.visit(`/${testTeam.name}/channels/off-topic`);
-
-    //     // # Navigate to the 'Town Square' channel
-    //     cy.visit(`/${testTeam.name}/channels/town-square`);
-
-    //     //cy.get('#sidebarItem_town-square').scrollIntoView().click();
-    //     cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-    //     cy.get('#headerInfo button').focus();
-
-    //     // # Type CTRL/CMD+[ (Mac) or ALT+LEFT (Windows)
-    //     if (cy.isMac()) {
-    //         cy.get('#post_textbox').type('{cmd}', {release: false, delay: 1000}).type('[', {delay: 1000}).type('{cmd}', {release: true}).wait(TIMEOUTS.HALF_SEC);
-    //     } else {
-    //         cy.get('#post_textbox').type('{alt}', {release: false, delay: 1000}).type('{leftarrow}').type('{alt}', {release: true}).wait(TIMEOUTS.HALF_SEC);
-    //     }
-
-    //     // # Verify that we are back to 'Off Topic' channel
-    //     cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
-    //     cy.get('#headerInfo button').focus();
-
-    //     // # Type CTRL/CMD+] (Mac) or ALT+RIGHT (Windows)
-    //     if (cy.isMac()) {
-    //         cy.get('#post_textbox').type('{cmd}', {release: false}).type(']').type('{cmd}', {release: true}).wait(TIMEOUTS.HALF_SEC);
-    //     } else {
-    //         cy.get('#post_textbox').type('{alt}', {release: false}).type('{rightarrow}').type('{alt}', {release: true}).wait(TIMEOUTS.HALF_SEC);
-    //     }
-
-    //     // # Verify that we are back to 'Town Square' channel
-    //     cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
-    // });
-
     it('MM-T1260 - UP arrow', () => {
         const message = 'Test';
-        const message1 = 'Reply';
+        const editMessage = 'Edit Test';
 
         // # Post message text
         cy.get('#post_textbox').clear().type(message).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -168,24 +130,31 @@ describe('Keyboard Shortcuts', () => {
             // * Edit post modal should appear
             cy.get('#editPostModal').should('be.visible');
 
-            // * Reply to the post message and type ENTER
-            cy.get('#edit_textbox').invoke('val', '').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
+            // * Edit to the post message and type ENTER
+            cy.get('#edit_textbox').invoke('val', '').clear().type(editMessage).type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        });
+
+        cy.getLastPostId().then((postId) => {
+            // * Post should have (edited)
+            cy.get(`#postEdited_${postId}`).
+                should('be.visible').
+                should('contain', '(edited)');
         });
     });
 
     it('MM-T1273 - @[character]+TAB', () => {
-        const userName = `@${testUser.username}`;
+        const userName = `${testUser.username}`;
 
         // # Enter the first characters of a user name
-        cy.get('#post_textbox').should('be.visible').clear().type(userName.substring(0, 5)).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox').should('be.visible').clear().type('@' + userName.substring(0, 5)).wait(TIMEOUTS.HALF_SEC);
 
-        // # Select the selected user from the list using TAB
+        // # Select the focused on user from the list using TAB
         cy.get('#suggestionList').should('be.visible').within(() => {
             cy.focused().tab();
         });
 
-        // # Verify that the correct selection has been made
-        cy.get('#post_textbox').should('be.visible').should('contain', `${testUser.username}`);
+        // # Verify that the correct user name has been selected
+        cy.get('#post_textbox').should('be.visible').should('contain', userName);
 
         // # Clear the message box
         cy.get('#post_textbox').clear();
@@ -215,11 +184,14 @@ describe('Keyboard Shortcuts', () => {
     it('MM-T1275 - SHIFT+UP', () => {
         const message = `hello${Date.now()}`;
 
-        // # Post message
+        // # Post message to center channel
         cy.postMessage(message);
 
+        // # Press SHIFT+UP
         cy.get('#post_textbox').type('{shift}{uparrow}');
-        cy.get('#reply_textbox').type('{shift}{uparrow}').should('be.focused');
+
+        // # Verify that the RHS reply box is focused
+        cy.get('#reply_textbox').should('be.focused');
 
         // * Verify that the recently posted message is shown in the RHS
         cy.getLastPostId().then((postId) => {
@@ -229,8 +201,10 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1279 - Keyboard shortcuts menu item', () => {
         cy.get('#channel-header').should('be.visible').then(() => {
+            // # Click hamburger main menu
             cy.get('#channelHeaderUserGuideButton').click();
             cy.get('.dropdown-menu').should('be.visible').then(() => {
+                // # Select 'Keyboard Shortcuts'
                 cy.get('#keyboardShortcuts').should('be.visible');
                 cy.get('#keyboardShortcuts button').click();
                 cy.get('#shortcutsModalLabel').should('be.visible');
@@ -239,7 +213,7 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1575 - Ability to Switch Teams', () => {
-        const count = 5;
+        const count = 10;
         const teamNames = [];
         const teamDisplayNames = [];
         const channelNames = [];
@@ -274,7 +248,7 @@ describe('Keyboard Shortcuts', () => {
             // # Verify that we've switched to the correct channel
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[count - index - 1]);
 
-            // # Press ctrl + shift + up
+            // # Press CTRL/CMD+SHIFT+UP
             if (cy.isMac()) {
                 cy.get('body').type('{cmd}{option}', {release: false}).type('{uparrow}').type('{cmd}{option}', {release: true});
             } else {
@@ -282,7 +256,7 @@ describe('Keyboard Shortcuts', () => {
             }
         }
 
-        // Step #2 - not clear what are the "new shortcuts"
+        // Step #2 - not clear what are the "new shortcuts" - verifying that 'Keyboard Shortcuts' show
         cy.get('#channel-header').should('be.visible').then(() => {
             cy.get('#channelHeaderUserGuideButton').click();
             cy.get('.dropdown-menu').should('be.visible').then(() => {
