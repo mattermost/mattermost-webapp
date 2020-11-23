@@ -100,6 +100,16 @@ const reduxTestState = {
             serverVersion: '5.4.0',
             config: {PostEditTimeLimit: -1},
         },
+        posts: {
+            posts: {
+                'aaa': {},
+            },
+        },
+    },
+    views: {
+        rhs: {
+            selectedPostId: 'aaa',
+        },
     },
 };
 

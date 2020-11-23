@@ -101,7 +101,7 @@ export default class CommandProvider extends Provider {
         if (this.isInRHS) {
             const selectedPost = getSelectedPost(this.store.getState()) as Post;
             if (selectedPost) {
-                rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
+                rootId = selectedPost?.root_id ? selectedPost.root_id : selectedPost.id;
             }
         }
 
