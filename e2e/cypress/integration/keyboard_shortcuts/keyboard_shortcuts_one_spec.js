@@ -18,7 +18,6 @@ describe('Keyboard Shortcuts', () => {
     let otherUser;
 
     before(() => {
-        // # Login as admin and visit town-square
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
             testChannel = channel;
@@ -31,23 +30,20 @@ describe('Keyboard Shortcuts', () => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
                 });
             });
-
-            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     beforeEach(() => {
+        // # Login as admin and visit town-square
         cy.apiAdminLogin();
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1224 - CTRL/CMD+K - Open DM using mouse', () => {
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
-        let tempUser;
-        cy.apiCreateUser({prefix: 'taemp-'}).then(({user: user1}) => {
-            tempUser = user1;
-
+        cy.apiCreateUser({prefix: 'taemp-'}).then(({user: tempUser}) => {
             cy.apiAddUserToTeam(testTeam.id, tempUser.id).then(() => {
                 cy.apiAddUserToChannel(testChannel.id, tempUser.id);
             });
@@ -57,7 +53,7 @@ describe('Keyboard Shortcuts', () => {
 
             // # Verify that the list of users and channels suggestions is present
             cy.get('#suggestionList').should('be.visible').within(() => {
-                // * Newly added username should be there in the search list; click it
+                // * Newly created username should be there in the search list; click it
                 cy.findByTestId(`${tempUser.username}`).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
             });
 
@@ -81,12 +77,11 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
-        let tempUser;
-        cy.apiCreateUser({prefix: 'temp-'}).then(({user: user1}) => {
-            tempUser = user1;
+        cy.apiCreateUser({prefix: 'temp-'}).then(({user: tempUser}) => {
+            // # Add user to team but not to test channel
             cy.apiAddUserToTeam(testTeam.id, tempUser.id);
 
-            // # In the "Switch Channels" modal type the first chars of the test channel
+            // # In the "Switch Channels" modal type the first chars of the test channel name
             cy.get('#quickSwitchInput').should('be.focused').type(testChannel.name.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
 
             // # Verify that the list of users and channels suggestions is present
@@ -95,7 +90,7 @@ describe('Keyboard Shortcuts', () => {
                 cy.findByTestId(`${testChannel.name}`).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
             });
 
-            // # Verify that we are in the right channel
+            // # Verify that we are in the test channel
             cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testChannel.display_name}`).should('be.visible');
 
             // # Verify that the right channel is displayed in LHS
@@ -142,6 +137,7 @@ describe('Keyboard Shortcuts', () => {
                 cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
+            // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
                 cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
@@ -193,21 +189,21 @@ describe('Keyboard Shortcuts', () => {
             const favPublicChannels = [];
             const favDMChannels = [];
 
-            // # Set up public Favorite channel
+            // # Set up public favorite channel
             cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
                 favPublicChannels.push(channel);
                 cy.apiAddUserToChannel(channel.id, otherUser.id);
                 markAsFavorite(channel.name);
             });
 
-            // # Set up private Favorite channel
+            // # Set up private favorite channel
             cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
                 favPrivateChannels.push(channel);
                 cy.apiAddUserToChannel(channel.id, otherUser.id);
                 markAsFavorite(channel.name);
             });
 
-            // # Set up DM Favorite channel
+            // # Set up DM favorite channel
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 favDMChannels.push(channel);
                 cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
@@ -215,6 +211,7 @@ describe('Keyboard Shortcuts', () => {
                 markAsFavorite(channel.name);
             });
 
+            // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
                 cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
@@ -299,6 +296,7 @@ describe('Keyboard Shortcuts', () => {
                 cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
+            // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
                 cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
@@ -350,21 +348,21 @@ describe('Keyboard Shortcuts', () => {
             const favPublicChannels = [];
             const favDMChannels = [];
 
-            // # Set up public Favorite channel
+            // # Set up public favorite channel
             cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
                 favPublicChannels.push(channel);
                 cy.apiAddUserToChannel(channel.id, otherUser.id);
                 markAsFavorite(channel.name);
             });
 
-            // # Set up private Favorite channel
+            // # Set up private favorite channel
             cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
                 favPrivateChannels.push(channel);
                 cy.apiAddUserToChannel(channel.id, otherUser.id);
                 markAsFavorite(channel.name);
             });
 
-            // # Set up DM Favorite channel
+            // # Set up DM favorite channel
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 favDMChannels.push(channel);
                 cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
@@ -372,6 +370,7 @@ describe('Keyboard Shortcuts', () => {
                 markAsFavorite(channel.name);
             });
 
+            // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
                 cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
@@ -421,14 +420,14 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1240 - CTRL/CMD+K: Open and close', () => {
-        // # Type CTRL+K to open 'Switch Channels' modal
+        // # Type CTRL/CMD+K to open 'Switch Channels' modal
         cy.get('#post_textbox').cmdOrCtrlShortcut('K').then(() => {
-            // * Channel switcher hint should be visible
+            // * Channel switcher hint should be visible and focused on
             cy.get('#quickSwitchHint').should('be.visible');
             cy.get('#quickSwitchInput').should('be.focused');
         });
 
-        // # Type CTRL+K to close 'Switch Channels' modal
+        // # Type CTRL/CMD+K to close 'Switch Channels' modal
         cy.get('body').cmdOrCtrlShortcut('K');
         cy.get('#quickSwitchHint').should('not.be.visible');
     });
@@ -441,7 +440,7 @@ describe('Keyboard Shortcuts', () => {
         const otherUserId = otherUser.id;
         const otherUserMention = `@${otherUser.username}`;
 
-        // # Post messages as testUser
+        // # Post messages as testUser to first team channels
         cy.apiLogout();
         cy.apiLogin(testUser);
         cy.apiCreateTeam('team1', 'Team1').then(({team}) => {
@@ -469,6 +468,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#post_textbox').type('message ' + otherUserMention).type('{enter}');
         });
 
+        // # Post messages as testUser to second team channels
         cy.apiCreateTeam('team2', 'Team2').then(({team}) => {
             const channelName = 'channel2';
             const channelDisplayName = 'Channel2';
@@ -507,6 +507,7 @@ describe('Keyboard Shortcuts', () => {
             // # Type CTRL/CMD+K
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
+            // # Verify that the mentions in the channels of this team are displayed
             cy.get('#suggestionList').should('exist').children().should('have.length', count);
 
             cy.get('#suggestionList').find('.mentions__name').eq(0).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[0].display_name);
@@ -529,8 +530,7 @@ describe('Keyboard Shortcuts', () => {
 
             cy.get('#quickSwitchInput').type(team1Channels[1].display_name).wait(TIMEOUTS.HALF_SEC);
 
-            // * Should open up suggestion list for channels
-            // * Should match each channel item and group label
+            // # Verify that the channels of this team are displayed
             cy.get('#suggestionList').should('be.visible').children().within((el) => {
                 cy.wrap(el).should('contain', team1Channels[1].display_name);
             });
@@ -540,7 +540,7 @@ describe('Keyboard Shortcuts', () => {
     it('MM-T1248 - CTRL/CMD+SHIFT+L - Set focus to center channel message box', () => {
         // # Open search box to change focus
         cy.get('#searchBox').focus().should('be.focused').then(() => {
-            // # Type CTRL+SHIFT+L
+            // # Type CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
             cy.get('#post_textbox').should('be.focused');
         });
@@ -553,74 +553,84 @@ describe('Keyboard Shortcuts', () => {
             cy.clickPostCommentIcon(postId);
             cy.get('#reply_textbox').focus().should('be.focused');
         }).then(() => {
-            // # Type CTRL+SHIFT+L
+            // # Type CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
             cy.get('#post_textbox').should('be.focused');
         });
     });
 
     it('MM-T1252 - CTRL/CMD+SHIFT+A', () => {
-        // # Type CTRL+SHIFT+A to open Account Settings modal
+        // # Type CTRL/CMD+SHIFT+A to open 'Account Settings' modal
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
         cy.get('#accountSettingsHeader').should('be.visible');
 
-        // # Type CTRL+SHIFT+A to close Account Settings modal
+        // # Type CTRL/CMD+SHIFT+A to close 'Account Settings' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}A');
         cy.get('#accountSettingsHeader').should('not.be.visible');
     });
 
     //Note: Test description mentions " or any word in "words that trigger mentions" is returned on search". The shortcut searches for the current username - it does not return the posts that mention @here, @all or @channel.
     it('MM-T1253 - CTRL/CMD+SHIFT+M', () => {
-        const messagePrefix = `mention @${testUser.username}`;
         const message1 = ' from DM channel';
         const message2 = ' from channel';
         const message3 = ' using suggestion';
 
-        // # Login as testUser
-        cy.apiLogout();
-        cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.apiCreateUser({prefix: 'temp'}).then(({user: tempUser}) => {
+            const messagePrefix = `mention @${tempUser.username}`;
 
-        // # Create DM channel with a user
-        cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
-            // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            // # Login as tempUser
+            cy.apiLogout();
+            cy.apiLogin(tempUser);
 
-            // # Post in DM channel
-            cy.postMessage(messagePrefix + message1);
-        });
+            cy.apiCreateTeam('team', 'Team').then(({team}) => {
+                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                    cy.visit(`/${team.name}/channels/town-square`);
 
-        // # Post user name mention in test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        cy.postMessage(messagePrefix + message2);
+                    // # Create DM channel with the second user
+                    cy.apiCreateDirectChannel([tempUser.id, otherUser.id]).then(() => {
+                        // # Visit the channel using the channel name
+                        cy.visit(`/${team.name}/channels/${tempUser.id}__${otherUser.id}`);
 
-        // # Type user name mention and post it to the channel
-        cy.get('#post_textbox').clear().type(messagePrefix + message3).type('{enter}{enter}');
+                        // # Post in DM channel
+                        cy.postMessage(messagePrefix + message1);
+                    });
 
-        // # Type "words that trigger mentions"
-        cy.postMessage('mention @here');
-        cy.postMessage('mention @all');
-        cy.postMessage('mention @channel');
+                    // # Post user name mention in this channel
+                    cy.visit(`/${team.name}/channels/${channel.name}`);
+                    cy.postMessage(messagePrefix + message2);
 
-        // # Open search box
-        cy.get('body').cmdOrCtrlShortcut('{shift}M');
+                    // # Type user name mention and post it to the channel
+                    cy.get('#post_textbox').clear().type(messagePrefix + message3).type('{enter}{enter}');
 
-        // * Search box should appear
-        cy.get('#searchBox').should('have.attr', 'value', `@${testUser.username} `);
-        cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
-        cy.get('#search-items-container').should('be.visible').children().should('have.length', 3);
-        cy.get('#search-items-container').within(() => {
-            // * Ensure that the mentions are visible in the RHS
-            cy.findAllByText(`@${testUser.username}`).should('be.visible');
+                    // # Type "words that trigger mentions"
+                    cy.postMessage('mention @here');
+                    cy.postMessage('mention @all');
+                    cy.postMessage('mention @channel');
+
+                    // # Type CTRL/CMD+SHIFT+M to open search
+                    cy.get('body').cmdOrCtrlShortcut('{shift}M');
+
+                    // * Search box should appear with the current user name pre-populated
+                    cy.get('#searchBox').should('have.attr', 'value', `@${tempUser.username} `);
+                    cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
+
+                    // # Verify that the correct number of mentions are returned
+                    cy.get('#search-items-container').should('be.visible').children().should('have.length', 3);
+                    cy.get('#search-items-container').within(() => {
+                        // * Ensure that the mentions are visible in the RHS
+                        cy.findAllByText(`@${tempUser.username}`).should('be.visible');
+                    });
+                });
+            });
         });
     });
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {
-        // # Type CTRL+SHIFT+K to open Direct Messages modal
+        // # Type CTRL/CMD+SHIFT+K to open 'Direct Messages' modal
         cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}K');
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
 
-        // # Type CTRL+SHIFT+K to close Direct Messages modal
+        // # Type CTRL/CMD+SHIFT+K to close 'Direct Messages' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}K');
         cy.get('#moreDmModal').should('not.be.visible');
     });
@@ -638,7 +648,7 @@ describe('Keyboard Shortcuts', () => {
             }
         });
 
-        // # mark it as Favorite
+        // # Mark it as Favorite
         cy.get('#toggleFavorite').click();
     }
 });
