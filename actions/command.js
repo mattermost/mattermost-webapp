@@ -99,7 +99,7 @@ export function executeCommand(message, args) {
 
         const parser = new AppCommandParser({dispatch, getState}, args.root_id);
         if (parser.isAppCommand(msg)) {
-            const payload = await parser.composeCallFromCommandStr(message);
+            const payload = await parser.composeCallFromCommandString(message);
             if (!payload) {
                 return {error: new Error('Error submitting command')};
             }

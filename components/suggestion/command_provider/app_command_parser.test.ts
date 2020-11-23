@@ -246,7 +246,7 @@ describe('AppCommandParser', () => {
         });
     });
 
-    describe('getAppSuggestionsForBindings', () => {
+    describe('getSuggestionsForBaseCommands', () => {
         test('string matches 1', () => {
             const res = parser.getSuggestionsForBaseCommands('/');
             expect(res).toHaveLength(2);
@@ -278,46 +278,46 @@ describe('AppCommandParser', () => {
         });
     });
 
-    describe('matchBinding', () => {
+    describe('matchSubCommand', () => {
         test('should return null if no command matches', () => {
-            const res = parser.matchBinding('/hey');
+            const res = parser.matchSubCommand('/hey');
             expect(res).toBeNull();
         });
 
         test('should return null if theres no space after', () => {
-            const res = parser.matchBinding('/jira');
+            const res = parser.matchSubCommand('/jira');
             expect(res).toBeNull();
         });
 
         test('should return parent', () => {
-            const res = parser.matchBinding('/jira ') as AppBinding;
+            const res = parser.matchSubCommand('/jira ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.app_id).toEqual('jira');
             expect(res.label).toEqual('jira');
         });
 
         test('should return parent while typing 1', () => {
-            const res = parser.matchBinding('/jira iss') as AppBinding;
+            const res = parser.matchSubCommand('/jira iss') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.app_id).toEqual('jira');
             expect(res.label).toEqual('jira');
         });
 
         test('should return parent while typing 2', () => {
-            const res = parser.matchBinding('/jira issue') as AppBinding;
+            const res = parser.matchSubCommand('/jira issue') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.app_id).toEqual('jira');
             expect(res.label).toEqual('jira');
         });
 
         test('should return child after space', () => {
-            const res = parser.matchBinding('/jira issue ') as AppBinding;
+            const res = parser.matchSubCommand('/jira issue ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.label).toEqual('issue');
         });
 
         test('should return nested child', () => {
-            const res = parser.matchBinding('/jira issue view ') as AppBinding;
+            const res = parser.matchSubCommand('/jira issue view ') as AppBinding;
             expect(res).toBeTruthy();
             expect(res.label).toEqual('view');
         });
@@ -595,7 +595,27 @@ describe('AppCommandParser', () => {
             ].join(' ');
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
+            expect(res).toHaveLength(1);
+            expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)]);
+        });
 
+        test('form is filled out, show execute command suggestion', async () => {
+            let cmdStr = '';
+            let res: AutocompleteSuggestion[] = [];
+
+            cmdStr = [
+                '/jira',
+                'issue',
+                'create',
+                '--project',
+                'KT',
+                '--summary',
+                '"The feature is great!"',
+                '--epic',
+                'the_epic',
+            ].join(' ');
+
+            res = await parser.getSuggestionsForCursorPosition(cmdStr);
             expect(res).toHaveLength(1);
             expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)]);
         });

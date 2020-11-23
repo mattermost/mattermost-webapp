@@ -115,7 +115,7 @@ export default class CommandProvider extends Provider {
 
         const command = pretext.toLowerCase();
         if (this.parser.isAppCommand(command)) {
-            this.parser.getAppCommandSuggestions(command).then((matches) => {
+            this.parser.getSuggestionsForSubCommandsAndArguments(command).then((matches) => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,
