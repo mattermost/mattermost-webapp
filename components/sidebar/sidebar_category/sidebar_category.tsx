@@ -376,6 +376,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 isCollapsible={isCollapsible}
                                                 isDragging={snapshot.isDragging}
                                                 isDraggingOver={droppableSnapshot.isDraggingOver}
+                                                muted={category.muted}
                                                 onClick={this.handleCollapse}
                                             >
                                                 {newLabel}
