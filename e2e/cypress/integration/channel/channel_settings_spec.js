@@ -10,7 +10,6 @@
 
 // Stage: @prod
 // Group: @channel @channel_settings
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channel Settings', () => {
     let testTeam;
