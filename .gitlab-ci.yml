@@ -20,7 +20,7 @@ variables:
 
 include:
   - project: mattermost/ci/mattermost-webapp
-    ref: master
+    ref: add-onprem-stages
     file: private.yml
   - local: .gitlab-ci/check.gitlab-ci.yml
 
