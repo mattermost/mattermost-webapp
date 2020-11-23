@@ -16,14 +16,8 @@ describe('Keyboard Shortcuts', () => {
     let testChannel;
     let testUser;
     let otherUser;
-    let thirdUser;
-    let sysadmin;
 
     before(() => {
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
-        });
-
         // # Login as admin and visit town-square
         cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
@@ -38,16 +32,12 @@ describe('Keyboard Shortcuts', () => {
                 });
             });
 
-            cy.apiCreateUser({prefix: 'third'}).then(({user: user1}) => {
-                thirdUser = user1;
-
-                cy.apiAddUserToTeam(testTeam.id, thirdUser.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, thirdUser.id);
-                });
-            });
-
             cy.visit(`/${team.name}/channels/town-square`);
         });
+    });
+
+    beforeEach(() => {
+        cy.apiAdminLogin();
     });
 
     it('MM-T1224 - CTRL/CMD+K - Open DM using mouse', () => {
@@ -65,7 +55,7 @@ describe('Keyboard Shortcuts', () => {
             // # In the "Switch Channels" modal type the first character of the username
             cy.get('#quickSwitchInput').should('be.focused').type(tempUser.username.substring(0, 1)).wait(TIMEOUTS.HALF_SEC);
 
-            // # verify that the list of users and channels suggestions is present
+            // # Verify that the list of users and channels suggestions is present
             cy.get('#suggestionList').should('be.visible').within(() => {
                 // * Newly added username should be there in the search list; click it
                 cy.findByTestId(`${tempUser.username}`).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
@@ -99,7 +89,7 @@ describe('Keyboard Shortcuts', () => {
             // # In the "Switch Channels" modal type the first chars of the test channel
             cy.get('#quickSwitchInput').should('be.focused').type(testChannel.name.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
 
-            // # verify that the list of users and channels suggestions is present
+            // # Verify that the list of users and channels suggestions is present
             cy.get('#suggestionList').should('be.visible').within(() => {
                 // * The channel the current user is not a member of should be there in the search list; click it
                 cy.findByTestId(`${testChannel.name}`).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
@@ -117,102 +107,317 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1231 - ALT+SHIFT+UP', () => {
-        let privateChannel1;
-        let privateChannel2;
-        let publicChannel1;
-        let publicChannel2;
-        let dmChannel1;
-
-        let favPublicChannel1;
-        let favPrivateChannel1;
-        let favDMChannel1;
-
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
-        // # Create two private channels
-        cy.apiCreateChannel(testTeam.id, 'private', 'private', 'P').then(({channel}) => {
-            privateChannel1 = channel;
-            cy.apiAddUserToChannel(privateChannel1.id, otherUser.id);
-        });
-
-        cy.apiCreateChannel(testTeam.id, 'private', 'private', 'P').then(({channel}) => {
-            privateChannel2 = channel;
-            cy.apiAddUserToChannel(privateChannel2.id, otherUser.id);
-        });
-
-        // # Create two public channels
-        cy.apiCreateChannel(testTeam.id, 'public', 'public').then(({channel}) => {
-            publicChannel1 = channel;
-            cy.apiAddUserToChannel(publicChannel1.id, otherUser.id);
-        });
-
-        cy.apiCreateChannel(testTeam.id, 'public', 'public').then(({channel}) => {
-            publicChannel2 = channel;
-            cy.apiAddUserToChannel(publicChannel2.id, otherUser.id);
-        });
-
-        // # Open a DM with other user
-        cy.apiCreateDirectChannel([sysadmin.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
-            cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
-            dmChannel1 = channel;
-        });
-
-        // # Set up FAVORITE channels
-        cy.apiCreateChannel(testTeam.id, 'public', 'public').then(({channel}) => {
-            favPublicChannel1 = channel;
-            cy.apiAddUserToChannel(favPublicChannel1.id, otherUser.id);
-            markAsFavorite(channel.name);
-        });
-
-        cy.apiCreateChannel(testTeam.id, 'private', 'private', 'P').then(({channel}) => {
-            favPrivateChannel1 = channel;
-            cy.apiAddUserToChannel(favPrivateChannel1.id, otherUser.id);
-            markAsFavorite(channel.name);
-        });
-
-        // # Add a DM to Favorites
-        cy.apiCreateDirectChannel([sysadmin.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
-            console.log(JSON.stringify(channel));
-            cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
-            favDMChannel1 = channel;
-            markAsFavorite(channel.name);
-        });
-
         cy.apiLogout();
-        cy.apiLogin(otherUser).then(() => {
-            cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+        cy.apiLogin(testUser);
 
-            markAsFavorite(favPublicChannel1.name);
-            markAsFavorite(favPrivateChannel1.name);
-            markAsFavorite(favDMChannel1.name);
+        cy.apiCreateTeam('team1', 'Team1').then(({team}) => {
+            const privateChannels = [];
+            const publicChannels = [];
+            const dmChannels = [];
 
-            //post messages
-            cy.get('#publicChannelList').find('a.sidebar-item').each(($el) => {
-                cy.wrap($el).as('channel');
-                console.log($el[0]);
+            // # Create two public channels
+            for (let index = 0; index < 2; index++) {
+                const otherUserId = otherUser.id;
+                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                    publicChannels.push(channel);
+                    cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
+                        cy.apiAddUserToChannel(channel.id, otherUserId);
+                    });
+                });
+            }
+
+            // # Create two private channels
+            for (let index = 0; index < 2; index++) {
+                const otherUserId = otherUser.id;
+                cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                    privateChannels.push(channel);
+                    cy.apiAddUserToChannel(channel.id, otherUserId);
+                });
+            }
+
+            // # Set up DM channel
+            cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
+                dmChannels.push(channel);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
-            cy.get('#privateChannelList').find('a.sidebar-item').each(($el) => {
-                cy.wrap($el).as('channel');
-                console.log($el[0]);
+            cy.apiLogout();
+            cy.apiLogin(otherUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + privateChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + dmChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
             });
 
-            // click on all the messages to make sure there are none left unread
-            cy.get('#directChannelList').find('a.sidebar-item').each(($el) => {
-                cy.wrap($el).as('channel');
-                console.log($el[0]);
+            cy.apiLogout();
+            cy.apiLogin(testUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                // # Verify that the channels are unread
+                cy.get(`#sidebarItem_${publicChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${privateChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${dmChannels[0].name}`).should('have.class', 'unread-title');
+
+                // # Navigate to the bottom of the list of channels
+                cy.get('#sidebarItem_' + dmChannels[0].name).scrollIntoView().click();
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + dmChannels[0].name).should('exist');
+                });
+
+                // # Press alt + shift + up
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + privateChannels[0].name).should('exist');
+                });
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + publicChannels[0].name).should('exist');
+                });
+
+                // # No navigation - stay in place
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + publicChannels[0].name).should('exist');
+                });
+            });
+
+            // # Handle favorite channels
+            const favPrivateChannels = [];
+            const favPublicChannels = [];
+            const favDMChannels = [];
+
+            // # Set up public Favorite channel
+            cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                favPublicChannels.push(channel);
+                cy.apiAddUserToChannel(channel.id, otherUser.id);
+                markAsFavorite(channel.name);
+            });
+
+            // # Set up private Favorite channel
+            cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                favPrivateChannels.push(channel);
+                cy.apiAddUserToChannel(channel.id, otherUser.id);
+                markAsFavorite(channel.name);
+            });
+
+            // # Set up DM Favorite channel
+            cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
+                favDMChannels.push(channel);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+                markAsFavorite(channel.name);
+            });
+
+            cy.apiLogout();
+            cy.apiLogin(otherUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                cy.get('#sidebarItem_' + favPublicChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + favDMChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+            });
+
+            cy.apiLogout();
+            cy.apiLogin(testUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                // # Verify that the channels are unread - in the Favorites tab the unread channels are ordered alphabetically
+                cy.get(`#sidebarItem_${favDMChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${favPrivateChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${favPublicChannels[0].name}`).should('have.class', 'unread-title');
+
+                // # Navigate to the middle of the list of unread favorite channels
+                cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favPrivateChannels[0].name).should('exist');
+                });
+
+                // # Press alt + shift + up
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favDMChannels[0].name).should('exist');
+                });
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favPublicChannels[0].name).should('exist');
+                });
+
+                // # No navigation - stay in place
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favPublicChannels[0].name).should('exist');
+                });
             });
         });
-
-        // # Type CTRL+K to open 'Switch Channels' modal
-        // cy.get('#post_textbox').type('{alt}shift}{up}').then( () => {
-        //     // * Channel switcher hint should be visible
-        //     cy.get('#quickSwitchHint').should('be.visible');
-        //     cy.get('#quickSwitchInput').should('be.focused');
-        // });
     });
 
     it('MM-T1232 - ALT+SHIFT+DOWN', () => {
+        cy.apiLogout();
+        cy.apiLogin(testUser);
+
+        cy.apiCreateTeam('team2', 'Team2').then(({team}) => {
+            const privateChannels = [];
+            const publicChannels = [];
+            const dmChannels = [];
+
+            // # Create two public channels
+            for (let index = 0; index < 2; index++) {
+                const otherUserId = otherUser.id;
+                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                    publicChannels.push(channel);
+                    cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
+                        cy.apiAddUserToChannel(channel.id, otherUserId);
+                    });
+                });
+            }
+
+            // # Create two private channels
+            for (let index = 0; index < 2; index++) {
+                const otherUserId = otherUser.id;
+                cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                    privateChannels.push(channel);
+                    cy.apiAddUserToChannel(channel.id, otherUserId);
+                });
+            }
+
+            // # Set up DM channel
+            cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
+                dmChannels.push(channel);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+            });
+
+            cy.apiLogout();
+            cy.apiLogin(otherUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + privateChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + dmChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+            });
+
+            cy.apiLogout();
+            cy.apiLogin(testUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                // # Verify that the channels are unread
+                cy.get(`#sidebarItem_${publicChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${privateChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${dmChannels[0].name}`).should('have.class', 'unread-title');
+
+                // # Navigate to the top of the list of channels
+                cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + publicChannels[0].name).should('exist');
+                });
+
+                // # Press alt + shift + down
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + privateChannels[0].name).should('exist');
+                });
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + dmChannels[0].name).should('exist');
+                });
+
+                // # No navigation - stay in place
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + dmChannels[0].name).should('exist');
+                });
+            });
+
+            // # Handle favorite channels
+            const favPrivateChannels = [];
+            const favPublicChannels = [];
+            const favDMChannels = [];
+
+            // # Set up public Favorite channel
+            cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                favPublicChannels.push(channel);
+                cy.apiAddUserToChannel(channel.id, otherUser.id);
+                markAsFavorite(channel.name);
+            });
+
+            // # Set up private Favorite channel
+            cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                favPrivateChannels.push(channel);
+                cy.apiAddUserToChannel(channel.id, otherUser.id);
+                markAsFavorite(channel.name);
+            });
+
+            // # Set up DM Favorite channel
+            cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
+                favDMChannels.push(channel);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+                markAsFavorite(channel.name);
+            });
+
+            cy.apiLogout();
+            cy.apiLogin(otherUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                cy.get('#sidebarItem_' + favPublicChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+
+                cy.get('#sidebarItem_' + favDMChannels[0].name).scrollIntoView().click();
+                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+            });
+
+            cy.apiLogout();
+            cy.apiLogin(testUser).then(() => {
+                cy.visit(`/${team.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+
+                // # Verify that the channels are unread - in the Favorites tab the unread channels are ordered alphabetically
+                cy.get(`#sidebarItem_${favDMChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${favPrivateChannels[0].name}`).should('have.class', 'unread-title');
+                cy.get(`#sidebarItem_${favPublicChannels[0].name}`).should('have.class', 'unread-title');
+
+                // # Navigate to the middle of the list of unread favorite channels
+                cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favPrivateChannels[0].name).should('exist');
+                });
+
+                // # Press alt + shift + down
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favPublicChannels[0].name).should('exist');
+                });
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favDMChannels[0].name).should('exist');
+                });
+
+                // # No navigation - stay in place
+                cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
+                cy.get('.active').within(() => {
+                    cy.get('#sidebarItem_' + favDMChannels[0].name).should('exist');
+                });
+            });
+        });
     });
 
     it('MM-T1240 - CTRL/CMD+K: Open and close', () => {
@@ -229,10 +434,111 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1241 - CTRL/CMD+K: Unreads', () => {
+        const count = 3;
+        const team1Channels = [];
+        const team2Channels = [];
+
+        const otherUserId = otherUser.id;
+        const otherUserMention = `@${otherUser.username}`;
+
+        // # Post messages as testUser
+        cy.apiLogout();
+        cy.apiLogin(testUser);
+        cy.apiCreateTeam('team1', 'Team1').then(({team}) => {
+            const channelName = 'channel1';
+            const channelDisplayName = 'Channel1';
+
+            for (let index = 0; index < count; index++) {
+                cy.apiCreateChannel(team.id, channelName + index, channelDisplayName + index).then(({channel}) => {
+                    team1Channels.push(channel);
+                    cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
+                        cy.apiAddUserToChannel(channel.id, otherUserId);
+                    });
+                });
+            }
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.wrap(team).as('team1');
+        }).then(() => {
+            cy.get('#sidebarItem_' + team1Channels[0].name).scrollIntoView().click();
+            cy.get('#post_textbox').type('message ' + otherUserMention).type('{enter}');
+
+            cy.get('#sidebarItem_' + team1Channels[1].name).scrollIntoView().click();
+            cy.get('#post_textbox').type('message ').type('{enter}');
+
+            cy.get('#sidebarItem_' + team1Channels[2].name).scrollIntoView().click();
+            cy.get('#post_textbox').type('message ' + otherUserMention).type('{enter}');
+        });
+
+        cy.apiCreateTeam('team2', 'Team2').then(({team}) => {
+            const channelName = 'channel2';
+            const channelDisplayName = 'Channel2';
+
+            for (let index = 0; index < count; index++) {
+                cy.apiCreateChannel(team.id, channelName + index, channelDisplayName + index).then(({channel}) => {
+                    team2Channels.push(channel);
+                    cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
+                        cy.apiAddUserToChannel(channel.id, otherUserId);
+                    });
+                });
+            }
+            cy.visit(`/${team.name}/channels/town-square`);
+            cy.wrap(team).as('team2');
+        }).then(() => {
+            cy.get('#sidebarItem_' + team2Channels[0].name).scrollIntoView().click();
+            cy.get('#post_textbox').type('message').type('{enter}');
+
+            cy.get('#sidebarItem_' + team2Channels[1].name).scrollIntoView().click();
+            cy.get('#post_textbox').type('message ' + otherUserMention).type('{enter}');
+
+            cy.get('#sidebarItem_' + team2Channels[2].name).scrollIntoView().click();
+            cy.get('#post_textbox').type('message ' + otherUserMention).type('{enter}');
+        });
+
+        // # Login as otherUser
+        cy.apiLogout();
+        cy.apiLogin(otherUser);
+
+        const baseCount = 1;
+        const noMentions = 1;
+
+        cy.get('@team1').then((team1) => {
+            cy.visit(`/${team1.name}/channels/town-square`);
+
+            // # Type CTRL/CMD+K
+            cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+
+            cy.get('#suggestionList').should('exist').children().should('have.length', count);
+
+            cy.get('#suggestionList').find('.mentions__name').eq(0).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[0].display_name);
+            cy.get('#suggestionList').find('.mentions__name').eq(0).within(() => {
+                cy.get('.badge').should('be.visible').and('have.text', baseCount + noMentions);
+            });
+            cy.get('#quickSwitchInput').type('{downarrow}');
+
+            cy.get('#suggestionList').find('.mentions__name').eq(1).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[1].display_name);
+            cy.get('#suggestionList').find('.mentions__name').eq(1).within(() => {
+                cy.get('.badge').should('be.visible').and('have.text', baseCount);
+            });
+            cy.get('#quickSwitchInput').type('{downarrow}');
+
+            cy.get('#suggestionList').find('.mentions__name').eq(2).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[2].display_name);
+            cy.get('#suggestionList').find('.mentions__name').eq(2).within(() => {
+                cy.get('.badge').should('be.visible').and('have.text', baseCount + noMentions);
+            });
+            cy.get('#quickSwitchInput').type('{downarrow}');
+
+            cy.get('#quickSwitchInput').type(team1Channels[1].display_name).wait(TIMEOUTS.HALF_SEC);
+
+            // * Should open up suggestion list for channels
+            // * Should match each channel item and group label
+            cy.get('#suggestionList').should('be.visible').children().within((el) => {
+                cy.wrap(el).should('contain', team1Channels[1].display_name);
+            });
+        });
     });
 
     it('MM-T1248 - CTRL/CMD+SHIFT+L - Set focus to center channel message box', () => {
-        // open search box to change focus
+        // # Open search box to change focus
         cy.get('#searchBox').focus().should('be.focused').then(() => {
             // # Type CTRL+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
@@ -263,28 +569,50 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#accountSettingsHeader').should('not.be.visible');
     });
 
+    //Note: Test description mentions " or any word in "words that trigger mentions" is returned on search". The shortcut searches for the current username - it does not return the posts that mention @here, @all or @channel.
     it('MM-T1253 - CTRL/CMD+SHIFT+M', () => {
+        const messagePrefix = `mention @${testUser.username}`;
+        const message1 = ' from DM channel';
+        const message2 = ' from channel';
+        const message3 = ' using suggestion';
+
+        // # Login as testUser
         cy.apiLogout();
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Trigger DM with a user
-        cy.get('#addDirectChannel').click();
-        cy.get('.more-modal__row.clickable').first().click();
-        cy.get('#saveItems').click();
+        // # Create DM channel with a user
+        cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
+            // # Visit the channel using the channel name
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
 
-        // post in current channel
-        cy.postMessage(`mention ${testUser.username} from DM`);
+            // # Post in DM channel
+            cy.postMessage(messagePrefix + message1);
+        });
 
+        // # Post user name mention in test channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-        cy.postMessage(`mention ${testUser.username} from channel`);
+        cy.postMessage(messagePrefix + message2);
 
-        //TODO - post the message using the suggestion list
+        // # Type user name mention and post it to the channel
+        cy.get('#post_textbox').clear().type(messagePrefix + message3).type('{enter}{enter}');
 
-        // open search box
+        // # Type "words that trigger mentions"
+        cy.postMessage('mention @here');
+        cy.postMessage('mention @all');
+        cy.postMessage('mention @channel');
+
+        // # Open search box
         cy.get('body').cmdOrCtrlShortcut('{shift}M');
 
-        //TODO - check that the right mentions show up in the search box
+        // * Search box should appear
+        cy.get('#searchBox').should('have.attr', 'value', `@${testUser.username} `);
+        cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
+        cy.get('#search-items-container').should('be.visible').children().should('have.length', 3);
+        cy.get('#search-items-container').within(() => {
+            // * Ensure that the mentions are visible in the RHS
+            cy.findAllByText(`@${testUser.username}`).should('be.visible');
+        });
     });
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {
@@ -296,15 +624,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').cmdOrCtrlShortcut('{shift}K');
         cy.get('#moreDmModal').should('not.be.visible');
     });
-
-    function openDM(username) {
-        cy.get('#addDirectChannel').click();
-        cy.get('#selectItems').type(`${username}`);
-        cy.wait(TIMEOUTS.ONE_SEC);
-        cy.get('#multiSelectList').findByText(`@${username}`).scrollIntoView().click();
-        cy.get('#selectItems').findByText(`${username}`).scrollIntoView().should('be.visible');
-        cy.findByText('Go').click();
-    }
 
     function markAsFavorite(channelName) {
         // # Visit the channel
