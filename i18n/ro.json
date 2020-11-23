@@ -627,7 +627,6 @@
   "admin.experimental.clientSideCertEnable.title": "Activați certificarea de partea clientului:",
   "admin.experimental.closeUnusedDirectMessages.desc": "Când este adevărat, conversațiile de mesaje directe fără nicio activitate timp de 7 zile vor fi ascunse din bara laterală. Când sunt false, conversațiile rămân în bara laterală până când sunt închise manual.",
   "admin.experimental.closeUnusedDirectMessages.title": "Inchide automat mesajele directe în bara laterală:",
-  "admin.experimental.cloudBilling.title": "Facturare în cloud:",
   "admin.experimental.defaultTheme.desc": "Setați o temă implicită care se aplică tuturor utilizatorilor noi din sistem.",
   "admin.experimental.defaultTheme.title": "Tema implicită:",
   "admin.experimental.emailBatchingBufferSize.desc": "Specificați numărul maxim de notificări incluse într-un singur e-mail.",
