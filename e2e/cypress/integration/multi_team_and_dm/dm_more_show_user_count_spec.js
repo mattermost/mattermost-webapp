@@ -16,7 +16,6 @@ describe('Multi Team and DM', () => {
     let testTeam;
     let testUser;
 
-    // const common = 'common';
     const unique = `${getRandomId(4)}`;
 
     before(() => {
