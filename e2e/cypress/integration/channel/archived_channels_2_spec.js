@@ -107,4 +107,53 @@ describe('Leave an archived channel', () => {
             });
         });
     });
+
+    it('MM-T1688 archived channels only appear in search results as long as the user does not leave them', () => {
+        // # Create a new channel
+        cy.uiCreateChannel({isNewSidebar: true}).as('channel');
+
+        // # Make a post
+        const archivedPostText = `archived${getRandomId()}`;
+        cy.postMessage(archivedPostText);
+        cy.getLastPostId().as('archivedPostId');
+
+        // # Archive the newly created channel
+        cy.uiArchiveChannel();
+
+        // # Switch away from the archived channel
+        cy.get('#sidebarItem_town-square').click();
+
+        // * Verify that the channel is no longer in the sidebar
+        cy.get('@channel').then((channel) => {
+            cy.get(`#sidebarItem_${channel.name}`).should('not.be.visible');
+        });
+
+        // # Search for the post
+        cy.uiSearchPosts(archivedPostText);
+
+        cy.get('@archivedPostId').then((archivedPostId) => {
+            // * Verify that the post is shown in the search results
+            cy.get(`#searchResult_${archivedPostId}`).should('be.visible');
+
+            // # Switch back to the archived channel through the permalink
+            cy.uiJumpToSearchResult(archivedPostId);
+        });
+
+        // * Wait for the permalink URL to disappear
+        cy.get('@channel').then((channel) => {
+            cy.url().should('include', `/${testTeam.name}/channels/${channel.name}`);
+        });
+
+        // # Leave the channel
+        cy.uiLeaveChannel();
+
+        // # Search for the post again
+        cy.uiSearchPosts(archivedPostText);
+
+        cy.get('@archivedPostId').then((archivedPostId) => {
+            // * Verify that the post is no longer shown in the search results
+            cy.get(`#searchResult_${archivedPostId}`).should('not.exist');
+            cy.get('#search-items-container .no-results__wrapper').should('be.visible');
+        });
+    });
 });
