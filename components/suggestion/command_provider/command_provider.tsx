@@ -188,12 +188,12 @@ export default class CommandProvider extends Provider {
     handleWebapp(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
         const teamId = getCurrentTeamId(this.store.getState());
-        const selectedPost = getSelectedPost(this.store.getState());
+        const selectedPost = getSelectedPost(this.store.getState()) as Post | undefined;
         let rootId;
         if (this.isInRHS && selectedPost) {
             rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
         }
-        const channel = this.isInRHS && selectedPost.channel_id ? getChannel(this.store.getState(), selectedPost.channel_id) : getCurrentChannel(this.store.getState());
+        const channel = this.isInRHS && selectedPost?.channel_id ? getChannel(this.store.getState(), selectedPost.channel_id) : getCurrentChannel(this.store.getState());
 
         const args = {
             channel_id: channel?.id,
