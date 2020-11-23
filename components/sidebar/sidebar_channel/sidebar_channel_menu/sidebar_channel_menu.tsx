@@ -34,6 +34,8 @@ type Props = {
     isCollapsed: boolean;
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;
+    multiSelectedChannelIds: string[];
+    displayedChannels: Channel[];
     actions: {
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
@@ -41,7 +43,7 @@ type Props = {
         muteChannel: (userId: string, channelId: string) => void;
         unmuteChannel: (userId: string, channelId: string) => void;
         openModal: (modalData: any) => void;
-        addChannelToCategory: (categoryId: string, channelId: string) => void;
+        addChannelsInSidebar: (categoryId: string, channelId: string) => void;
     };
 };
 
@@ -89,7 +91,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
     moveToCategory = (categoryId: string) => {
         return () => {
-            this.props.actions.addChannelToCategory(categoryId, this.props.channel.id);
+            this.props.actions.addChannelsInSidebar(categoryId, this.props.channel.id);
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         };
     }
@@ -136,7 +138,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = () => {
-        const {intl, isUnread, isFavorite, isMuted, channel, categories} = this.props;
+        const {intl, isUnread, isFavorite, isMuted, channel, categories, displayedChannels, multiSelectedChannelIds} = this.props;
 
         if (!categories) {
             return null;
@@ -209,16 +211,15 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 return false;
             }
 
-            switch (channel.type) {
-            case Constants.OPEN_CHANNEL:
-            case Constants.PRIVATE_CHANNEL:
-                return category.type !== CategoryTypes.DIRECT_MESSAGES;
-            case Constants.DM_CHANNEL:
-            case Constants.GM_CHANNEL:
+            const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
+
+            if (selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL)) {
                 return category.type !== CategoryTypes.CHANNELS;
-            default:
-                return true;
+            } else if (selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL)) {
+                return category.type !== CategoryTypes.DIRECT_MESSAGES;
             }
+
+            return true;
         }).map((category) => {
             return {
                 id: `moveToCategory-${channel.id}-${category.id}`,
