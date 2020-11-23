@@ -9,7 +9,7 @@ import ViewImageModal from 'components/view_image';
 
 type Props = {
     imageMetadata: {
-        format: string
+        format?: string
     },
     link: string,
     post: any,
@@ -64,6 +64,8 @@ export default class PostImage extends React.PureComponent<Props, State> {
                                     link: safeLink,
                                     extension: this.props.imageMetadata.format,
                                 }]}
+                                canDownloadFiles={false}
+                                enablePublicLink={false}
                             />
                         </React.Fragment>
                     )}
