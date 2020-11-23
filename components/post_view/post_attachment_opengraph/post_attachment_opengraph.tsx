@@ -29,8 +29,8 @@ export type Props = {
     currentUserId?: string;
     post: Post;
     openGraphData?: OpenGraphMetadata;
-    enableLinkPreviews: boolean;
-    previewEnabled: boolean;
+    enableLinkPreviews?: boolean;
+    previewEnabled?: boolean;
     isEmbedVisible?: boolean;
     toggleEmbedVisibility: () => void;
     actions: {
