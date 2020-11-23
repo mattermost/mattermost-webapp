@@ -109,7 +109,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
     });
 
-    it('Clear the nickname', () => {
+    it('MM-T2062 Clear nickname and save', () => {
         cy.get('#generalButton').should('be.visible').click();
 
         cy.get('#nicknameEdit').click();
@@ -117,6 +117,28 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#saveSetting').click();
 
         cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
+
+        // * Check if element is present and it does not contain any nickname
+        cy.get('#nickname').should('be.visible').should('contain', '');
+        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+    });
+
+    it('MM-T2061 Nickname should reset on cancel of edit', () => {
+        cy.get('#generalButton').should('be.visible').click();
+
+        // # Add the nickname to textfield contents
+        cy.get('#nicknameEdit').click();
+        cy.get('#nickname').clear().type('nickname_edit');
+
+        // # Cancel the edit of nickname
+        cy.get('#cancelSetting').click();
+
+        // # Click edit of nickname
+        cy.get('#nicknameEdit').click();
+
+        // * Check if element is present and contains old nickname
+        cy.get('#nickname').should('be.visible').should('contain', '');
+
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
