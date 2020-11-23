@@ -35,14 +35,14 @@ describe('Message permalink', () => {
 
     it('MM-T2825 - Selecting and copying multiple posts', () => {
         const testUserMessageText = 'Hello';
-        const otherUserMessageText = 'Hello';
-
+        const editMessageText = 'Edit';
+        const otherUserMessageText = 'Hello from other user';
         const replyMessageText = 'Test reply';
 
         cy.visit(`/${testTeam.name}/channels/${testChannel.id}`);
 
-        // # Post a message by first user
-        cy.postMessageAs({sender: testUser, message: testUserMessageText, channelId: testChannel.id});
+        // # Post a message by the test user
+        cy.postMessage(testUserMessageText);
 
         // * Edit message
         cy.getLastPostId().then((postId) => {
@@ -54,11 +54,11 @@ describe('Message permalink', () => {
 
             // * Edit post modal should appear, and edit the post
             cy.get('#editPostModal').should('be.visible');
-            cy.get('#edit_textbox').should('have.text', testUserMessageText).type(' Another new message{enter}');
+            cy.get('#edit_textbox').should('have.text', testUserMessageText).type(editMessageText).type('{enter}');
             cy.get('#editPostModal').should('be.not.visible');
 
             // * Check the second post and verify that it contains new edited message.
-            cy.get(postText).should('have.text', `${testUserMessageText} Another new message`);
+            cy.get(postText).should('have.text', `${testUserMessageText}${editMessageText}`);
         });
 
         // # Post a message by second user
@@ -71,8 +71,6 @@ describe('Message permalink', () => {
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
             cy.get('#rhsContainer').should('be.visible');
-
-            // # Post a reply
             cy.get('#reply_textbox').should('be.visible').clear().type(replyMessageText).type('{enter}');
         });
 
