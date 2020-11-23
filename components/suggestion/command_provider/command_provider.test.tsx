@@ -13,7 +13,6 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import globalStore from 'stores/redux_store';
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
-import {reduxTestState} from './test_data';
 
 const mockStore = configureStore([thunk]);
 

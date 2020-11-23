@@ -221,7 +221,7 @@ describe('AppCommandParser', () => {
     let parser: AppCommandParser;
     beforeEach(async () => {
         const store = await makeStore(definitions);
-        parser = new AppCommandParser(store, '');
+        parser = new AppCommandParser(store as any, '');
     });
 
     describe('getFormValues', () => {
