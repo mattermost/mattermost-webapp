@@ -15,8 +15,8 @@ stages:
   - trigger
 
 variables:
-  ONLY_BUILD: "yes"
-  ONLY_TEST: "no"
+  ONLY_BUILD: "yes" # options: yes, no
+  ONLY_TEST: "no" # options: yes, no
 
 include:
   - project: mattermost/ci/mattermost-webapp
