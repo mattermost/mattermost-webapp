@@ -91,7 +91,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 
 type ChannelHeaderPlugProps = {
     components?: PluginComponent[];
-    appBindings?: AppBinding[];
+    appBindings: AppBinding[];
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;

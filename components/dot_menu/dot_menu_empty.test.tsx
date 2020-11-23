@@ -47,7 +47,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             },
             canEdit: false,
             canDelete: false,
-            appsBindings: [],
+            appBindings: [],
             pluginMenuItems: [],
         } as Props;
 

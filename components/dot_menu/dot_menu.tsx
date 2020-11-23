@@ -53,7 +53,7 @@ export type Props = {
     enableEmojiPicker: boolean;
     channelIsArchived: boolean;
     currentTeamUrl: string;
-    appsBindings: AppBinding[];
+    appBindings: AppBinding[];
     canEdit: boolean;
     canDelete: boolean;
 
@@ -337,7 +337,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 );
             }) || [];
 
-        const appsBindings = this.props.appsBindings.map((item) => {
+        const appBindings = this.props.appBindings.map((item) => {
             let icon: JSX.Element | undefined;
             if (item.icon) {
                 icon = (<img src={item.icon}/>);
@@ -449,9 +449,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || appsBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {(pluginItems.length > 0 || appBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
-                    {appsBindings}
+                    {appBindings}
                     <Pluggable
                         postId={this.props.post.id}
                         pluggableName={PLUGGABLE_COMPONENT}

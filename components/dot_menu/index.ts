@@ -70,7 +70,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
-        appsBindings,
+        appBindings,
         ...ownProps,
     };
 }
