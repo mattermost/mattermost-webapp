@@ -1822,6 +1822,7 @@ const BOLD_MD = '**';
 const ITALIC_MD = '*';
 const LINK_MD_START = '[';
 const LINK_MD_END = ']()';
+
 /**
  * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
@@ -1875,7 +1876,7 @@ export function applyHotkeyMarkdown(e) {
         newStart = isLink ? (selectionEnd + 3) : (selectionStart + delimiterStart.length);
         newEnd = isLink ? newStart : (selectionEnd + delimiterEnd.length);
     }
-    
+
     return {
         message: newValue,
         selectionStart: newStart,
