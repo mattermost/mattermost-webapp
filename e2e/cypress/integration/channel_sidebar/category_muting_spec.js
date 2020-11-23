@@ -86,7 +86,7 @@ describe('Category muting', () => {
         });
     });
 
-    it('M-T3489_2 being added to a new channel should not mute it, even if the Channels category is muted', () => {
+    it('MM-T3489_2 being added to a new channel should not mute it, even if the Channels category is muted', () => {
         // * Verify that the Channels category starts unmuted
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').should('not.have.class', 'muted');
 
