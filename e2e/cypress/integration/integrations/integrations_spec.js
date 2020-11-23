@@ -247,7 +247,7 @@ describe('Integrations page', () => {
         // # Hit save to save the custom slash command
         cy.findByText('Save').should('exist').scrollIntoView().click();
 
-        // * Verify we are at setup successfull URL
+        // * Verify we are at setup successful URL
         cy.url().should('include', '/integrations/commands/confirm');
 
         // * Verify slash was successfully created
@@ -325,7 +325,7 @@ describe('Integrations page', () => {
         // # Hit save to save the custom slash command
         cy.findByText('Save').should('exist').scrollIntoView().click();
 
-        // * Verify we are at setup successfull URL
+        // * Verify we are at setup successful URL
         cy.url().should('include', '/integrations/commands/confirm');
 
         // * Verify slash was successfully created
@@ -359,7 +359,7 @@ describe('Integrations page', () => {
 
         // * Verify that confirm modal is displayed to save the changes
         cy.get('#confirmModal').should('exist').and('be.visible').within(() => {
-            // * Confirn that caution text is visible
+            // * Confirm that caution text is visible
             cy.findByText('Your changes may break the existing slash command. Are you sure you would like to update it?').
                 should('exist').and('be.visible');
 
@@ -441,8 +441,9 @@ describe('Integrations page', () => {
         // * Verify our created command is in the list
         cy.findByText(commandTitle).should('exist').and('be.visible').scrollIntoView();
 
-        // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
+        cy.uiCloseAnnouncementBar().then(() => {
+            cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
+        });
 
         const first2LettersOfCommandTrigger = commandTrigger.slice(0, 2);
 
