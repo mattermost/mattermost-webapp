@@ -114,13 +114,14 @@ export function adjustTargetIndexForMove(state: GlobalState, categoryId: string,
     // When dragging multiple channels, we don't actually remove all of them from the list as react-beautiful-dnd doesn't support that
     // Account for channels removed above the insert point, except the one currently being dragged which is already accounted for by react-beautiful-dnd
     const removedChannelsAboveInsert = filteredChannelIds.filter((channel, index) => channel !== draggableChannelId && channelIds.indexOf(channel) !== -1 && index <= targetIndex);
+    const shiftedIndex = targetIndex - removedChannelsAboveInsert.length;
 
     if (category.channel_ids.length === filteredChannels.length) {
-        // There are no archived channels in the category, so the targetIndex from react-beautiful-dnd will be correct
-        return targetIndex - removedChannelsAboveInsert.length;
+        // There are no archived channels in the category, so the shiftedIndex will be correct
+        return shiftedIndex;
     }
 
-    const updatedChannelIds = insertMultipleWithoutDuplicates(filteredChannelIds, channelIds, targetIndex - removedChannelsAboveInsert.length);
+    const updatedChannelIds = insertMultipleWithoutDuplicates(filteredChannelIds, channelIds, shiftedIndex);
 
     // After "moving" the channel in the sidebar, find what channel comes above it
     const previousChannelId = updatedChannelIds[updatedChannelIds.indexOf(channelIds[0]) - 1];
