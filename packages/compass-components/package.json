@@ -12,12 +12,14 @@
   "scripts": {
     "clean": "rm -rf node_modules dist",
     "start": "tsc --watch",
+    "start:storybook": "start-storybook -p 6006",
     "prebuild": "rm -rf dist",
     "build": "tsc",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
-    "lint:fix": "npm run lint -- --fix",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build:storybook": "build-storybook",
+    "check": "run-s check:lint check:types",
+    "check:lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "check:types": "tsc --noEmit",
+    "fix": "npm run check:lint -- --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.12.7",
@@ -36,6 +38,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "npm-run-all": "^4.5.1",
     "prettier": "^2.2.0",
     "typescript": "^4.1.2"
   },
