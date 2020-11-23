@@ -22,7 +22,6 @@ import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import PinIcon from 'components/widgets/icons/pin_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -444,9 +443,9 @@ class ChannelHeader extends React.PureComponent {
         }
         const pinnedIcon = (this.props.pinnedPostsCount ?
             (<React.Fragment>
-                <PinIcon
-                    className='icon icon--standard'
+                <i
                     aria-hidden='true'
+                    className='icon icon-pin-outline channel-header__pin'
                 />
                 <span
                     id='channelPinnedPostCountText'
@@ -455,9 +454,9 @@ class ChannelHeader extends React.PureComponent {
                     {this.props.pinnedPostsCount}
                 </span>
             </React.Fragment>) : (
-                <PinIcon
-                    className='icon icon--standard'
+                <i
                     aria-hidden='true'
+                    className='icon icon-pin-outline channel-header__pin'
                 />));
 
         let headerTextContainer;

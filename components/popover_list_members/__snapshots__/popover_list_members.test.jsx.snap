@@ -37,10 +37,9 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       <div
         className="d-flex align-items-center"
       >
-        <MemberIcon
+        <i
           aria-hidden="true"
-          className="icon icon--standard"
-          id="channelMemberIcon"
+          className="icon icon-account-outline channel-header__members"
         />
         <span
           className="icon__text"
@@ -148,10 +147,9 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       <div
         className="d-flex align-items-center"
       >
-        <MemberIcon
+        <i
           aria-hidden="true"
-          className="icon icon--standard"
-          id="channelMemberIcon"
+          className="icon icon-account-outline channel-header__members"
         />
         <span
           className="icon__text"
@@ -259,10 +257,9 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       <div
         className="d-flex align-items-center"
       >
-        <MemberIcon
+        <i
           aria-hidden="true"
-          className="icon icon--standard"
-          id="channelMemberIcon"
+          className="icon icon-account-outline channel-header__members"
         />
         <span
           className="icon__text"

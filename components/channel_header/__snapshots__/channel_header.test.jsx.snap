@@ -111,9 +111,9 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -316,9 +316,9 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -521,9 +521,9 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left channel-header__icon--active"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -694,9 +694,9 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -908,9 +908,9 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -1119,9 +1119,9 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -1299,9 +1299,9 @@ exports[`components/ChannelHeader should render properly when populated with cha
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
             iconComponent={
-              <PinIcon
+              <i
                 aria-hidden="true"
-                className="icon icon--standard"
+                className="icon icon-pin-outline channel-header__pin"
               />
             }
             onClick={[Function]}
@@ -1571,9 +1571,9 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             buttonId="channelHeaderPinButton"
             iconComponent={
               <React.Fragment>
-                <PinIcon
+                <i
                   aria-hidden="true"
-                  className="icon icon--standard"
+                  className="icon icon-pin-outline channel-header__pin"
                 />
                 <span
                   className="icon__text"

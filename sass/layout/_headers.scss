@@ -18,7 +18,8 @@
         display: flex;
         flex: 1 1 0;
         min-width: 0;
-        padding: 4px 6px;
+        padding: 4px 4px;
+        height: 24px;
         @include border-radius(4px);
 
         &:hover {
@@ -38,6 +39,10 @@
         }
     }
 
+    .icon::before {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
     .channel-header__favorites {
         float: left;
@@ -51,6 +56,9 @@
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
+            i {
+                @include opacity(.72);
+            }
         }
 
         &.inactive {
@@ -67,8 +75,8 @@
         }
 
         i {
-            @include opacity(.5);
-            font-size: 16px;
+            @include opacity(.56);
+            font-size: 18px;
             position: relative;
             top: -1px;
         }
@@ -86,6 +94,9 @@
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
+            i {
+                @include opacity(.72);
+            }
         }
 
         &.inactive {
@@ -102,10 +113,20 @@
         }
 
         i {
-            @include opacity(.5);
+            @include opacity(.56);
             font-size: 16px;
             position: relative;
-            top: -1px;
+            top: -2px;
+        }
+    }
+
+    .channel-header__icon {
+        .channel-header__members {
+            font-size: 14.4px;
+        }
+
+        .channel-header__pin {
+            font-size: 14.4px;
         }
     }
 
@@ -191,9 +212,9 @@
     }
 
     .heading {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 16px;
-        margin: 0 0 0 4px;
+        margin: 0 0 0 2px;
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -367,7 +388,7 @@
             overflow: visible;
 
             button {
-                color: v(center-channel-color-64);
+                color: v(center-channel-color-56);
 
                 .edit-icon {
                     display: none;
@@ -376,6 +397,7 @@
                 &:focus,
                 &:hover {
                     text-decoration: none;
+                    color: v(center-channel-color-72);
                 }
 
                 &:hover {

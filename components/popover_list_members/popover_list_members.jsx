@@ -12,7 +12,6 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelMembersModal from 'components/channel_members_modal';
 import OverlayTrigger from 'components/overlay_trigger';
-import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 
 import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
@@ -187,10 +186,9 @@ export default class PopoverListMembers extends React.PureComponent {
                         onClick={this.handleGetProfilesInChannel}
                     >
                         <div className='d-flex align-items-center'>
-                            <MemberIcon
-                                id='channelMemberIcon'
-                                className='icon icon--standard'
+                            <i
                                 aria-hidden='true'
+                                className='icon icon-account-outline channel-header__members'
                             />
                             <span
                                 id='channelMemberCountText'
