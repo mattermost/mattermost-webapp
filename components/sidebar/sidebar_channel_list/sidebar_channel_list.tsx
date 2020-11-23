@@ -40,6 +40,14 @@ export function renderThumbHorizontal(props: any) {
         />);
 }
 
+export function renderTrackVertical(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--verticalTrack'
+        />);
+}
+
 export function renderThumbVertical(props: any) {
     return (
         <div
@@ -495,6 +503,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     autoHideDuration={500}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
+                    renderTrackVertical={renderTrackVertical}
                     renderView={renderView}
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
