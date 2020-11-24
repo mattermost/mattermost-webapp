@@ -266,7 +266,7 @@ describe('Teams Suite', () => {
         cy.get('body').type('{esc}', {force: true});
     });
 
-    it('MM-T2318/MM-T2320 Team setting / Allow anyone to join this team', () => {
+    it('MM-T2318 Allow anyone to join this team', () => {
         // # UI
 
         cy.visit(`/${testTeam.name}/channels/town-square`);
