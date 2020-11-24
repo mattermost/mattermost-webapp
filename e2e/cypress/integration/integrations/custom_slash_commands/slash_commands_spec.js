@@ -182,7 +182,7 @@ describe('Slash commands page', () => {
     });
 });
 
-function addNewCommand(team, trigger, url) {
+export function addNewCommand(team, trigger, url) {
     // # Add new command
     cy.get('#addSlashCommand').click();
 
