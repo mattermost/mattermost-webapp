@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
+import * as rudderAnalytics from 'rudder-sdk-js';
 
 import {Client4} from 'mattermost-redux/client';
-import {rudderAnalytics} from 'mattermost-redux/client/rudder';
 
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions.jsx';
