@@ -133,7 +133,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
         let hasErrors = false;
 
-        if (data && data.type === AppCallResponseTypes.Error) {
+        if (data && data.type === AppCallResponseTypes.ERROR) {
             if (data.error) {
                 hasErrors = true;
                 this.setState({error: data.error});

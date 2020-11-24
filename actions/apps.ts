@@ -31,11 +31,6 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
             }
             return {data: res};
         case AppCallResponseTypes.ERROR:
-            if (res.error) {
-                ephemeral(res.error, call);
-                throw new Error(res.error);
-            }
-
             return {data: res};
         case AppCallResponseTypes.FORM:
             if (!res.form) {
