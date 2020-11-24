@@ -4,20 +4,18 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import NavigationRow from './navigation_row';
+import {Theme} from 'mattermost-redux/types/preferences';
+
+import NavigationRow, {NavigationRowProps} from './navigation_row';
 
 describe('components/marketplace/navigation_row', () => {
-    const actions = {
-        onNextPageButtonClick: jest.fn(),
-        onPreviousPageButtonClick: jest.fn(),
-    };
-    const baseProps = {
+    const baseProps:NavigationRowProps = {
         page: 0,
         total: 32,
         maximumPerPage: 15,
-        onNextPageButtonClick: jest.spyOn(actions, 'onNextPageButtonClick'),
-        onPreviousPageButtonClick: jest.spyOn(actions, 'onPreviousPageButtonClick'),
-        theme: {centerChannelColor: '#fff'},
+        onNextPageButtonClick: jest.fn(),
+        onPreviousPageButtonClick: jest.fn(),
+        theme: {centerChannelColor: '#fff'} as Theme,
     };
 
     it('should render only next button', () => {
@@ -30,8 +28,8 @@ describe('components/marketplace/navigation_row', () => {
 
         wrapper.find('NavigationButton').simulate('click', {preventDefault: jest.fn});
 
-        expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(0);
+        expect((wrapper.instance() as NavigationRow).props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
+        expect((wrapper.instance() as NavigationRow).props.onPreviousPageButtonClick).toHaveBeenCalledTimes(0);
     });
 
     it('should render next and previous buttons', () => {
@@ -46,8 +44,8 @@ describe('components/marketplace/navigation_row', () => {
         wrapper.find('NavigationButton').at(0).simulate('click', {preventDefault: jest.fn});
         wrapper.find('NavigationButton').at(1).simulate('click', {preventDefault: jest.fn});
 
-        expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
+        expect((wrapper.instance() as NavigationRow).props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
+        expect((wrapper.instance() as NavigationRow).props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
     });
 
     it('should render only previous button', () => {
@@ -60,8 +58,8 @@ describe('components/marketplace/navigation_row', () => {
 
         wrapper.find('NavigationButton').simulate('click', {preventDefault: jest.fn});
 
-        expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(0);
-        expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
+        expect((wrapper.instance() as NavigationRow).props.onNextPageButtonClick).toHaveBeenCalledTimes(0);
+        expect((wrapper.instance() as NavigationRow).props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
     });
 
     it('should not render any buttons', () => {

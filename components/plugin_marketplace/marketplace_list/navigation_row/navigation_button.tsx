@@ -2,22 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-export default class NavigationButton extends React.PureComponent {
-    static propTypes = {
-        onClick: PropTypes.func.isRequired,
-        messageId: PropTypes.string.isRequired,
-        defaultMessage: PropTypes.string.isRequired,
+type NavigationButtonProps = {
+    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    messageId: string,
+    defaultMessage: string,
+};
+
+export default class NavigationButton extends React.PureComponent <NavigationButtonProps> {
+    onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
+        event.preventDefault();
+        this.props.onClick(event);
     };
 
-    onClick = (e) => {
-        e.preventDefault();
-        this.props.onClick();
-    };
-
-    render() {
+    render():JSX.Element {
         const {onClick, messageId, defaultMessage} = this.props;
         return (
             <button
