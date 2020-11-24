@@ -37,6 +37,11 @@ describe('Teams Suite', () => {
             testTeam = team;
             testUser = user;
         });
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'true',
+            },
+        });
     });
 
     it('MM-T393 Cancel out of leaving team', () => {
@@ -306,20 +311,17 @@ describe('Teams Suite', () => {
         // * Verify if the user is redirected to the Select Team page
         cy.url().should('include', '/select_team');
         cy.get('#teamsYouCanJoinContent').should('be.visible');
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Select test team name
-        cy.get(`#${testTeam.name.charAt(0).toUpperCase() + testTeam.name.slice(1)}`).click();
-        cy.wait(TIMEOUTS.THREE_SEC);
+        cy.findByText(testTeam.display_name, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+        ignoreUncaughtException();
 
         // # Verify Town square is visible
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
-        cy.findByText('Town Square').should('be.visible');
+        cy.findByText('Beginning of Town Square').should('be.visible');
     });
 
-    it('MM-T2322 Do not allow anyone to join this team', () => {
-        // # UI
-
+    it('MM-T2322 Do not allow anyone to join this team: UI', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
@@ -339,26 +341,15 @@ describe('Teams Suite', () => {
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
+    });
 
-        // # Functionality
-
-        cy.apiLogout();
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        cy.visit('/login');
+    it('MM-T2322 Do not allow anyone to join this team: Functionality', () => {
         cy.apiLogin(newUser);
-
-        // * Verify if the user is redirected to the Select Team page
-        cy.url().should('include', '/select_team');
-        cy.get('#teamsYouCanJoinContent').should('be.visible');
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.wait(TIMEOUTS.ONE_SEC);
-
-        // * Verify the user can login to a team
-        cy.get('.signup-team-dir').children().first().click();
-        ignoreUncaughtException();
 
         // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
+        cy.get('#teamIconInitial').should('be.visible').click();
 
         // # Click on Join another team menu item
         cy.findByText('Join Another Team').should('be.visible').click();
