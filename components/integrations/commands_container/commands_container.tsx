@@ -10,6 +10,8 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
+import {Command} from 'mattermost-redux/types/integrations';
+
 import InstalledCommands from 'components/integrations/installed_commands';
 import AddCommand from 'components/integrations/add_command';
 import EditCommand from 'components/integrations/edit_command';
@@ -17,7 +19,13 @@ import ConfirmIntegration from 'components/integrations/confirm_integration';
 
 interface IProps {
     component: any;
-    extraProps: any;
+    extraProps: {
+        loading: boolean;
+        commands: Command[];
+        users?: RelationOneToOne<UserProfile, UserProfile>;
+        team?: Team;
+        user?: UserProfile;
+    };
     path: string;
 }
 
@@ -53,7 +61,7 @@ type Props = {
     /**
      * Installed slash commands to display
      */
-    commands: any[];
+    commands: Command[];
 
     /**
      * Object from react-router
@@ -67,7 +75,7 @@ type Props = {
         /**
          * The function to call to fetch team commands
          */
-        loadCommandsAndProfilesForTeam: (teamId: string | undefined) => any;
+        loadCommandsAndProfilesForTeam: (teamId?: string) => any;
     };
 
     /**
