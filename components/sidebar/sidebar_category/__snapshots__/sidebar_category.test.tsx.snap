@@ -30,6 +30,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <Connect(injectIntl(SidebarCategoryMenu))
@@ -40,7 +41,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           ],
           "display_name": "custom_category_1",
           "id": "category1",
-          "muted": true,
+          "muted": false,
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
@@ -104,6 +105,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <Connect(injectIntl(SidebarCategoryMenu))
@@ -114,7 +116,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           ],
           "display_name": "custom_category_1",
           "id": "category1",
-          "muted": true,
+          "muted": false,
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
@@ -178,6 +180,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <div
@@ -194,7 +197,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
           "channel_ids": Array [],
           "display_name": "custom_category_1",
           "id": "category1",
-          "muted": true,
+          "muted": false,
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
@@ -270,6 +273,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <Connect(injectIntl(SidebarCategorySortingMenu))
@@ -377,6 +381,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     isCollapsible={false}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <Connect(injectIntl(SidebarCategorySortingMenu))

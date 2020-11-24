@@ -2,20 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {incrementAnnouncementBarCount, decrementAnnouncementBarCount} from 'actions/views/announcement_bar';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 
-import AnnouncementBar from './announcement_bar.jsx';
+import AnnouncementBar from './announcement_bar';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         announcementBarCount: getAnnouncementBarCount(state),
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch:Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             incrementAnnouncementBarCount,

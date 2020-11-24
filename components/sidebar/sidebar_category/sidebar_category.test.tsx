@@ -20,7 +20,7 @@ describe('components/sidebar/sidebar_category', () => {
             display_name: 'custom_category_1',
             channel_ids: ['channel_id'],
             sorting: CategorySorting.Alphabetical,
-            muted: true,
+            muted: false,
         },
         channels: [
             {
@@ -53,6 +53,7 @@ describe('components/sidebar/sidebar_category', () => {
         limitVisibleDMsGMs: Infinity,
         actions: {
             setCategoryCollapsed: jest.fn(),
+            setCategoryMuted: jest.fn(),
             setCategorySorting: jest.fn(),
         },
     };
