@@ -35,7 +35,7 @@ describe('components/MarketplaceItem', () => {
             it('when installed version matches available version', () => {
                 const props = {
                     ...baseProps,
-                    installedVersion: baseProps.installedVersion,
+                    installedVersion: baseProps.version,
                 };
                 const wrapper = mount(
                     <UpdateDetails {...props}/>,
