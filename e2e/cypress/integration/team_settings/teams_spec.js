@@ -363,7 +363,7 @@ describe('Teams Suite', () => {
         cy.get('.signup-team-dir').children().should('not.contain', `#${testTeam.name.charAt(0).toUpperCase() + testTeam.name.slice(1)}`);
     });
 
-    it('MM-T2328 Team setting / Member can view and search for members', () => {
+    it('MM-T2328 Member can view and search for members', () => {
         cy.apiLogout();
         cy.wait(TIMEOUTS.ONE_SEC);
 
