@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -24,13 +25,9 @@ describe('Onboarding', () => {
     const emailThree = `${usernameThree}@sample.mattermost.com`;
     const password = 'passwd';
 
-    let isLicensed;
-
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
-        });
+        // # Delete license
+        cy.apiDeleteLicense();
 
         // # Disable LDAP and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});
@@ -44,7 +41,7 @@ describe('Onboarding', () => {
 
     it('MM-T399 Invalidate Pending Email Invitations', () => {
         // # As sysadmin, invite the first user and logout
-        inviteUserByEmail(emailOne, isLicensed);
+        inviteUserByEmail(emailOne);
         cy.apiLogout();
 
         // # Get the email sent to the first user, verify the email and go to the provided link
@@ -97,10 +94,6 @@ describe('Onboarding', () => {
     });
 
     function inviteNewUser(email) {
-        if (isLicensed) {
-            // # Click "Invite members"
-            cy.findByTestId('inviteMembersLink').should('be.visible').click();
-        }
         cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
         cy.get('#inviteMembersButton').click();
     }

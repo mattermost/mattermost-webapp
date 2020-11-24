@@ -13,9 +13,6 @@ import {GlobalState} from 'types/store';
 
 import './company_info_display.scss';
 
-// To be removed once add company info is complete.
-const supportAddCompanyInfo = false;
-
 const addInfoButton = (
     <div className='CompanyInfoDisplay__addInfo'>
         <BlockableLink
@@ -44,18 +41,16 @@ const noCompanyInfoSection = (
                 defaultMessage='There is currently no company information on file.'
             />
         </div>
-        {supportAddCompanyInfo &&
-            <BlockableLink
-                to='/admin_console/billing/company_info_edit'
-                className='CompanyInfoDisplay__noCompanyInfo-link'
-                onClick={() => trackEvent('cloud_admin', 'click_add_company_info')}
-            >
-                <FormattedMessage
-                    id='admin.billing.company_info.add'
-                    defaultMessage='Add Company Information'
-                />
-            </BlockableLink>
-        }
+        <BlockableLink
+            to='/admin_console/billing/company_info_edit'
+            className='CompanyInfoDisplay__noCompanyInfo-link'
+            onClick={() => trackEvent('cloud_admin', 'click_add_company_info')}
+        >
+            <FormattedMessage
+                id='admin.billing.company_info.add'
+                defaultMessage='Add Company Information'
+            />
+        </BlockableLink>
     </div>
 );
 
@@ -67,22 +62,22 @@ const CompanyInfoDisplay: React.FC = () => {
     }
 
     let body = noCompanyInfoSection;
-    const address = companyInfo.company_address?.line1 ? companyInfo.company_address : companyInfo.billing_address;
+    const address = companyInfo?.company_address?.line1 ? companyInfo.company_address : companyInfo?.billing_address;
     if (address?.line1) {
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
                     <div className='CompanyInfoDisplay__companyInfo-name'>
-                        {companyInfo.name}
+                        {companyInfo?.name}
                     </div>
-                    {supportAddCompanyInfo &&
-                    <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
-                        <FormattedMarkdownMessage
-                            id='admin.billing.company_info.employees'
-                            defaultMessage='{employees} employees'
-                            values={{employees: companyInfo.num_employees}}
-                        />
-                    </div>
+                    {Boolean(companyInfo.num_employees) &&
+                        <div className='CompanyInfoDisplay__companyInfo-numEmployees'>
+                            <FormattedMarkdownMessage
+                                id='admin.billing.company_info.employees'
+                                defaultMessage='{employees} employees'
+                                values={{employees: companyInfo.num_employees}}
+                            />
+                        </div>
                     }
                     <div className='CompanyInfoDisplay__companyInfo-addressTitle'>
                         <FormattedMessage
@@ -97,7 +92,6 @@ const CompanyInfoDisplay: React.FC = () => {
                         <div>{address.country}</div>
                     </div>
                 </div>
-                {supportAddCompanyInfo &&
                 <div className='CompanyInfoDisplay__companyInfo-edit'>
                     <BlockableLink
                         to='/admin_console/billing/company_info_edit'
@@ -107,7 +101,6 @@ const CompanyInfoDisplay: React.FC = () => {
                         <i className='icon icon-pencil-outline'/>
                     </BlockableLink>
                 </div>
-                }
             </div>
         );
     }
@@ -129,7 +122,7 @@ const CompanyInfoDisplay: React.FC = () => {
                         />
                     </div>
                 </div>
-                {!companyInfo && supportAddCompanyInfo && addInfoButton}
+                {!address?.line1 && addInfoButton}
             </div>
             <div className='CompanyInfoDisplay__body'>
                 {body}

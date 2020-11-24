@@ -41,7 +41,7 @@ class UserSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <Avatar
-                    size='xs'
+                    size='xxs'
                     username={username}
                     url={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                 />

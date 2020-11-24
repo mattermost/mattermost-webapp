@@ -293,6 +293,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
                     ref={this.ref}
                 >
                     <button
+                        type='button'
                         className='TeamFilterDropdownButton'
                         onClick={this.togglePopover}
                     >

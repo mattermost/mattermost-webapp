@@ -8,12 +8,11 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @guest_account
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Verify Guest Access UI', () => {
     beforeEach(() => {
@@ -105,23 +104,5 @@ describe('Guest Account - Verify Guest Access UI', () => {
         // * Verify that an option to Invite via Guest should not be available
         cy.findByTestId('inviteGuestLink').should('not.exist');
         cy.findByTestId('inputPlaceholder').should('be.visible');
-    });
-
-    it('MM-T1411 Update Guest Users in User Management when Guest feature is disabled', () => {
-        cy.apiCreateGuestUser().then(({guest}) => {
-            // # Disable Guest Access and save
-            cy.findByTestId('GuestAccountsSettings.Enablefalse').click();
-            cy.get('#saveSetting').should('be.visible').click();
-            cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.THREE_SEC);
-
-            // # Visit the User Management Users page
-            cy.visit('/admin_console/user_management/users');
-
-            // # Search for the guest user
-            cy.get('#searchUsers').should('be.visible').type(guest.username);
-            cy.findByTestId('userListRow').within(() => {
-                cy.findByText('Inactive').should('be.visible');
-            });
-        });
     });
 });

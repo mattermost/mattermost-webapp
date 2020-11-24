@@ -96,6 +96,7 @@ class ChannelHeader extends React.PureComponent {
         this.toggleFavoriteRef = React.createRef();
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
+        this.headerOverlayRef = React.createRef();
 
         this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
 
@@ -249,8 +250,8 @@ class ChannelHeader extends React.PureComponent {
     }
 
     showEditChannelHeaderModal = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
+        if (this.headerOverlayRef.current) {
+            this.headerOverlayRef.current.hide();
         }
 
         const {actions, channel} = this.props;
@@ -487,7 +488,7 @@ class ChannelHeader extends React.PureComponent {
                             placement='bottom'
                             rootClose={true}
                             target={this.headerDescriptionRef.current}
-                            ref='headerOverlay'
+                            ref={this.headerOverlayRef}
                             onEnter={this.setPopoverOverlayWidth}
                             onHide={() => this.setState({showChannelHeaderPopover: false})}
                         >{popoverContent}</Overlay>

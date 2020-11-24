@@ -14,6 +14,17 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       <MenuItemAction
         icon={
           <i
+            className="icon-bell-outline"
+          />
+        }
+        id="mute-category1"
+        onClick={[Function]}
+        show={true}
+        text="Mute Category"
+      />
+      <MenuItemAction
+        icon={
+          <i
             className="icon-pencil-outline"
           />
         }
@@ -62,7 +73,19 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     onToggleMenu={[Function]}
     tooltipText="Category options"
   >
-    <MenuGroup />
+    <MenuGroup>
+      <MenuItemAction
+        icon={
+          <i
+            className="icon-bell-outline"
+          />
+        }
+        id="mute-category1"
+        onClick={[Function]}
+        show={true}
+        text="Mute Category"
+      />
+    </MenuGroup>
     <MenuGroup>
       <MenuItemAction
         icon={
