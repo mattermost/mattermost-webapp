@@ -263,7 +263,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         return usernames;
     }
 
-    renderFormattedMessage(postType: string, userIds:Array<string>, actorId: string): JSX.Element {
+    renderFormattedMessage(postType: string, userIds: Array<string>, actorId: string): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
