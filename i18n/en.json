@@ -1225,7 +1225,7 @@
   "admin.openid.discovery.placeholder": "https://id.mydomain.com/.well-known/openid-configuration",
   "admin.openid.discoveryEndpointDesc": "Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.",
   "admin.openid.discoveryEndpointTitle": "Discovery Endpoint:",
-  "admin.openid.EnableMarkdownDesc": "Follow provider directions for creating an OpenId Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)",
+  "admin.openid.EnableMarkdownDesc": "Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)",
   "admin.openid.gitlab": "GitLab",
   "admin.openid.google": "Google Apps",
   "admin.openid.off": "Do not allow sign-in via an OpenID provider.",

@@ -4484,7 +4484,7 @@ const AdminDefinition = {
                                 display_name_default: 'OpenID Connect (Other)',
                                 isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
-                                help_text_default: 'Follow provider directions for creating an OpenId Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
+                                help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
                                 help_text_markdown: true,
                             },
                         ],
