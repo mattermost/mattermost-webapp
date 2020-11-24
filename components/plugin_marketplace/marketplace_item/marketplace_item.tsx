@@ -47,7 +47,6 @@ export const UpdateVersion = ({version, releaseNotesUrl}: UpdateVersionProps): J
     );
 };
 
-
 // Label renders a tag showing a name and a description in a tooltip.
 // If a URL is provided, clicking on the tag will open the URL in a new tab.
 export const Label = ({name, description, url, color}: MarketplaceLabel): JSX.Element => {
