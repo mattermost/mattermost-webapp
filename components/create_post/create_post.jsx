@@ -1039,7 +1039,7 @@ class CreatePost extends React.PureComponent {
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
-        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e,true) && e.altKey;
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character

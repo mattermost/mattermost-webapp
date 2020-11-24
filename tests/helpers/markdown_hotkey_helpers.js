@@ -33,7 +33,7 @@ function makeMarkdownHotkeyEvent(input, start, end, keycode, altKey = false) {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn(),
         ctrlKey: true,
-        altKey: altKey,
+        altKey,
         key: keycode[0],
         keyCode: keycode[1],
         target: {

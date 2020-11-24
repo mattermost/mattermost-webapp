@@ -772,7 +772,7 @@ class CreateComment extends React.PureComponent {
         }
 
         if (ctrlAltCombo && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
-                this.applyHotkeyMarkdown(e);
+            this.applyHotkeyMarkdown(e);
         }
 
         if (lastMessageReactionKeyCombo) {
