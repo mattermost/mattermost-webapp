@@ -336,8 +336,6 @@ describe('Teams Suite', () => {
 
         // # Functionality
 
-        // # Require license and login new user
-        cy.apiRequireLicenseForFeature('GuestAccounts');
         cy.apiLogout();
         cy.wait(TIMEOUTS.ONE_SEC);
 
