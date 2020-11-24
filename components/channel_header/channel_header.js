@@ -489,6 +489,8 @@ class ChannelHeader extends React.PureComponent {
                     id='channelHeaderDescription'
                     className='channel-header__description'
                 >
+                    {dmHeaderIconStatus}
+                    {dmHeaderTextStatus}
                     {popoverListMembers}
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
@@ -498,8 +500,6 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {dmHeaderIconStatus}
-                    {dmHeaderTextStatus}
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -598,6 +598,8 @@ class ChannelHeader extends React.PureComponent {
                     id='channelHeaderDescription'
                     className='channel-header__description light'
                 >
+                    {dmHeaderIconStatus}
+                    {dmHeaderTextStatus}
                     {popoverListMembers}
                     <HeaderIconWrapper
                         iconComponent={pinnedIcon}
@@ -607,8 +609,6 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {dmHeaderIconStatus}
-                    {dmHeaderTextStatus}
                     {hasGuestsText}
                     {editMessage}
                 </div>
@@ -734,7 +734,7 @@ class ChannelHeader extends React.PureComponent {
             title = (
                 <div
                     id='channelHeaderDropdownButton'
-                    className='channel-header__top'
+                    className='channel-header__top channel-header__bot'
                 >
                     <strong
                         role='heading'

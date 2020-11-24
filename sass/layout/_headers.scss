@@ -262,6 +262,10 @@
     min-width: 0;
 }
 
+.channel-header__bot {
+    margin-left: 4px;
+}
+
 .channel-header__info {
     margin-top: 8px;
     white-space: nowrap;
@@ -346,15 +350,21 @@
             overflow: hidden;
             align-items: center;
             margin-left: 4px;
+            line-height: 16px;
             span {
                 overflow: hidden;
                 text-overflow: ellipsis;
+            }
+            .icon {
+                margin-left: 4px;
             }
         }
 
         .header-description__text {
             overflow: hidden;
-            display: block;
+            display: flex;
+            margin-left: 4px;
+            line-height: 16px;
 
             ul {
                 &:first-child {
@@ -415,6 +425,10 @@
         .edit-icon {
             font-size: 14px;
         }
+
+        .status {
+            margin-left: 6px;
+        }
     }
 
     .has-guest-header {
@@ -429,18 +443,12 @@
     }
 
     .header-status__text {
-        margin-right: 3px;
-
-        &:after {
-            content: '\2022';
-            margin: 0 2px 0 5px;
-            position: relative;
-            top: 1px;
-        }
+        margin-right: 7px;
+        line-height: 16px;
     }
 
     .status {
-        margin: -1px 4px 0 0;
+        margin: 0 4px 0 0;
         width: auto;
 
         svg {
