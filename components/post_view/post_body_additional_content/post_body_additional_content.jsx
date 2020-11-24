@@ -76,62 +76,62 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         switch (embed.type) {
-        case 'image':
-            if (!this.props.isEmbedVisible) {
-                return null;
-            }
-
-            return (
-                <PostImage
-                    imageMetadata={this.props.post.metadata.images[embed.url]}
-                    link={embed.url}
-                    post={this.props.post}
-                />
-            );
-
-        case 'message_attachment': {
-            let attachments = [];
-            if (this.props.post.props && this.props.post.props.attachments) {
-                attachments = this.props.post.props.attachments;
-            }
-
-            return (
-                <MessageAttachmentList
-                    attachments={attachments}
-                    postId={this.props.post.id}
-                    options={this.props.options}
-                    imagesMetadata={this.props.post.metadata.images}
-                />
-            );
-        }
-
-        case 'opengraph':
-            if (YoutubeVideo.isYoutubeLink(embed.url)) {
+            case 'image':
                 if (!this.props.isEmbedVisible) {
                     return null;
                 }
 
                 return (
-                    <YoutubeVideo
-                        postId={this.props.post.id}
+                    <PostImage
+                        imageMetadata={this.props.post.metadata.images[embed.url]}
                         link={embed.url}
-                        show={this.props.isEmbedVisible}
+                        post={this.props.post}
+                    />
+                );
+
+            case 'message_attachment': {
+                let attachments = [];
+                if (this.props.post.props && this.props.post.props.attachments) {
+                    attachments = this.props.post.props.attachments;
+                }
+
+                return (
+                    <MessageAttachmentList
+                        attachments={attachments}
+                        postId={this.props.post.id}
+                        options={this.props.options}
+                        imagesMetadata={this.props.post.metadata.images}
                     />
                 );
             }
 
-            return (
-                <PostAttachmentOpenGraph
-                    postId={this.props.post.id}
-                    link={embed.url}
-                    isEmbedVisible={this.props.isEmbedVisible}
-                    post={this.props.post}
-                    toggleEmbedVisibility={this.toggleEmbedVisibility}
-                />
-            );
+            case 'opengraph':
+                if (YoutubeVideo.isYoutubeLink(embed.url)) {
+                    if (!this.props.isEmbedVisible) {
+                        return null;
+                    }
 
-        default:
-            return null;
+                    return (
+                        <YoutubeVideo
+                            postId={this.props.post.id}
+                            link={embed.url}
+                            show={this.props.isEmbedVisible}
+                        />
+                    );
+                }
+
+                return (
+                    <PostAttachmentOpenGraph
+                        postId={this.props.post.id}
+                        link={embed.url}
+                        isEmbedVisible={this.props.isEmbedVisible}
+                        post={this.props.post}
+                        toggleEmbedVisibility={this.toggleEmbedVisibility}
+                    />
+                );
+
+            default:
+                return null;
         }
     }
 
