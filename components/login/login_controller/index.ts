@@ -15,7 +15,7 @@ import {Team} from 'mattermost-redux/types/teams';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
 import {login} from 'actions/views/login';
 
-import LoginController from './login_controller.jsx';
+import LoginController from './login_controller';
 
 interface State extends GlobalState {
     storage: {
