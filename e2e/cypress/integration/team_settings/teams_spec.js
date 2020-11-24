@@ -311,7 +311,7 @@ describe('Teams Suite', () => {
         cy.findByText('Town Square').should('be.visible');
     });
 
-    it('MM-T2322/MM-T2323 Team setting / Do not allow anyone to join this team', () => {
+    it('MM-T2322 Do not allow anyone to join this team', () => {
         // # UI
 
         cy.visit(`/${testTeam.name}/channels/town-square`);
