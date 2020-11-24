@@ -10,6 +10,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
+import {MarketplaceLabel} from 'mattermost-redux/types/plugins';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -45,16 +47,10 @@ export const UpdateVersion = ({version, releaseNotesUrl}: UpdateVersionProps): J
     );
 };
 
-type Label = {
-    name: string,
-    description?: string,
-    url?: string,
-    color?: string,
-}
 
 // Label renders a tag showing a name and a description in a tooltip.
 // If a URL is provided, clicking on the tag will open the URL in a new tab.
-export const Label = ({name, description, url, color} : Label): JSX.Element => {
+export const Label = ({name, description, url, color}: MarketplaceLabel): JSX.Element => {
     const tag = (
         <span
             className='tag'
@@ -274,7 +270,7 @@ export type MarketplaceItemProps = {
     version: string,
     homepageUrl?: string,
     releaseNotesUrl?: string,
-    labels?: Label[],
+    labels?: MarketplaceLabel[],
     iconData?: string,
     installedVersion: string,
     installing: boolean,
