@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 type Props = {
@@ -17,18 +16,19 @@ type Props = {
     shouldSubmit?: boolean;
     options?: {text: string; value: string}[] | null;
 }
+
 const defaultProps: Partial<Props> = {
     value: '',
     labelClassName: '',
     inputClassName: '',
-}
+};
 
-const ButtonSelector: React.FC<Props> = (props) => {
+const ButtonSelector: React.FC<Props> = (props: Props) => {
     const onClick = (value: string) => {
         if (props.onChange) {
             props.onChange(props.id, value);
         }
-    }
+    };
 
     const {
         footer,
@@ -97,7 +97,7 @@ const ButtonSelector: React.FC<Props> = (props) => {
             </div>
         </div>
     );
-}
+};
 
 ButtonSelector.defaultProps = defaultProps;
 
