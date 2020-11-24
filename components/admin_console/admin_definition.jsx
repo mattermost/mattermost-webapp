@@ -222,7 +222,11 @@ const AdminDefinition = {
         icon: 'fa-credit-card', // TODO: Need compass icon
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
-        isHidden: it.not(it.userHasReadPermissionOnResource('billing')),
+        isHidden: it.any(
+            it.not(it.licensedForFeature('Cloud')),
+            it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
+            it.not(it.userHasReadPermissionOnResource('billing')),
+        ),
         subscription: {
             url: 'billing/subscription',
             title: t('admin.sidebar.subscription'),
