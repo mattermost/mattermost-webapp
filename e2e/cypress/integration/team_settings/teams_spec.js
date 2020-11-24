@@ -291,8 +291,6 @@ describe('Teams Suite', () => {
 
         // # Functionality
 
-        // # Require license and create new user
-        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         cy.visit('/login');
         cy.apiLogin(newUser);
