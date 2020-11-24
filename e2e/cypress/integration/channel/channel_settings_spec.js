@@ -55,7 +55,7 @@ describe('Channel Settings', () => {
         });
     });
 
-    it('MM-T882 Channel settings / Channel URL validation works properly', () => {
+    it('MM-T882 Channel URL validation works properly', () => {
         // # Login as admin and create new channel
         cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'coolest-channel', 'coolest channel').then(({channel}) => {

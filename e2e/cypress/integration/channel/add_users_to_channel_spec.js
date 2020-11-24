@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel @channel_settings @smoke
 
 function verifyMentionedUserAndProfilePopover(postId) {
@@ -124,19 +123,20 @@ describe('CS15445 Join/leave messages', () => {
         cy.get('#channelHeaderTitle').click();
         cy.get('#channelAddMembers').click();
 
-        // # First add one user in order to see them dissapearing from the list
+        // # First add one user in order to see them disappearing from the list
         cy.get('#multiSelectList > div').first().then((el) => {
             const childNodes = Array.from(el[0].childNodes);
             childNodes.map((child) => usernames.push(child.innerText));
 
-            // # Click to add the first user
-            el.click();
-
             // # Get username from text for comparison
-            username = usernames.toString().match(/@\w+/g);
+            username = usernames.toString().match(/@\w+/g)[0];
+            cy.get('#multiSelectList').should('contain', username);
+
+            // # Click to add the first user
+            cy.wrap(el).click();
 
             // # Verify username does not exist in the users list
-            cy.get('#multiSelectList > div > div > div > span').invoke('text').should('not.contain', username);
+            cy.get('#multiSelectList').should('not.contain', username);
 
             // # Save and exit modal
             cy.get('#saveItems').click();
@@ -178,8 +178,5 @@ describe('CS15445 Join/leave messages', () => {
         // # Verify users list does not exist
         cy.get('#multiSelectList').should('not.exist');
         cy.get('body').type('{esc}');
-
-        // # Leave the channel
-        cy.uiLeaveChannel();
     });
 });

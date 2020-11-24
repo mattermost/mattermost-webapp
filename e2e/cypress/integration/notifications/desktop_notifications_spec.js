@@ -226,13 +226,13 @@ describe('Desktop notifications', () => {
 
             // Visit town-square.
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            spyNotificationAs('withNotification', 'granted');
 
             // # Ensure notifications are set up to fire a desktop notification
             changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
 
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
-                const messageWIthNotification = `random message with mention @${user.username}`;
+                const messageWithNotification = `random message with mention @${user.username}`;
+                const expected = `@${testUser.username}: ${messageWithNotification}`;
 
                 // # Go to Off topic
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
@@ -246,6 +246,7 @@ describe('Desktop notifications', () => {
 
                 // # Visit Town square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
+                spyNotificationAs('withNotification', 'granted');
 
                 // Have another user send a post with no mention
                 cy.postMessageAs({sender: testUser, message: 'random message no mention', channelId: channel.id});
@@ -254,13 +255,13 @@ describe('Desktop notifications', () => {
                 cy.get('@withNotification').should('not.have.been.called');
 
                 // Have another user send a post with a mention
-                cy.postMessageAs({sender: testUser, message: messageWIthNotification, channelId: channel.id});
+                cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
 
                 cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Desktop notification is received
                 cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
-                    expect(args.body, `Notification body: "${args.body}" should match: "${messageWIthNotification}"`).to.equal(messageWIthNotification);
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
                     return true;
                 });
 
