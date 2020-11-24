@@ -35,6 +35,11 @@ const sectionsList: SystemSection[] = [
         subsections: [],
     },
     {
+        name: 'billing',
+        hasDescription: true,
+        subsections: [],
+    },
+    {
         name: 'reporting',
         hasDescription: true,
         subsections: [],
