@@ -147,13 +147,17 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
         "metadata": Object {
           "embeds": Array [
             Object {
+              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
           ],
+          "emojis": Array [],
+          "files": Array [],
           "images": Object {
             "https://example.com/image.png": Object {},
           },
+          "reactions": Array [],
         },
         "root_id": "root_id",
       }
@@ -186,13 +190,17 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
         "metadata": Object {
           "embeds": Array [
             Object {
+              "data": Object {},
               "type": "image",
               "url": "https://example.com/image.png",
             },
           ],
+          "emojis": Array [],
+          "files": Array [],
           "images": Object {
             "https://example.com/image.png": Object {},
           },
+          "reactions": Array [],
         },
         "root_id": "root_id",
       }
