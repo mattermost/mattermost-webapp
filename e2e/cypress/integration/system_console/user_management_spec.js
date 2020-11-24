@@ -3,6 +3,8 @@
 
 import {getEmailUrl, getEmailMessageSeparator, getRandomId} from '../../utils';
 
+import {getAdminAccount} from '../../support/env';
+
 const TIMEOUTS = require('../../fixtures/timeouts');
 
 // ***************************************************************
@@ -146,6 +148,57 @@ describe('User Management', () => {
             },
         });
     });
+
+    it('MM-T938 Users - Revoke a user\'s session', () => {
+        // # Create an active session for the user we're going to revoke.
+        apiLogin(testUser.username, testUser.password);
+
+        revokeSessionByEmailAndRole(testUser.email, 'Member');
+
+        // # Ensure the user has no session.
+        checkNoSessionsForUser(testUser.id);
+    });
+
+    it('MM-T938 Users - Revoke own session', () => {
+        const adminEmail = 'sysadmin@sample.mattermost.com';
+        cy.apiGetUserByEmail(adminEmail).then(({user: adminUser}) => {
+            revokeSessionByEmailAndRole(adminUser.email, 'System Admin');
+            cy.location('pathname').should('eq', '/login');
+        });
+    });
+
+    function checkNoSessionsForUser(userID) {
+        const admin = getAdminAccount();
+        const baseUrl = Cypress.config('baseUrl');
+        cy.externalRequest({user: admin, method: 'get', baseUrl, path: `users/${userID}/sessions`}).then((response) => {
+            assert.equal(response.status, 200);
+            cy.wrap(response.data).should('be.empty');
+        });
+    }
+
+    function revokeSessionByEmailAndRole(email, role) {
+        cy.apiAdminLogin();
+
+        // # Go to the user management page in the system console.
+        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+
+        // # Search for a test user.
+        cy.get('#searchUsers').clear().type(email).wait(TIMEOUTS.HALF_SEC);
+
+        cy.findByTestId('userListRow').first().within(() => {
+            // # Open the actions menu of a member in the users list.
+            cy.findByText(role).click().wait(TIMEOUTS.HALF_SEC);
+
+            // # Click 'Revoke Sessions' menu option.
+            cy.findByLabelText('User Actions Menu').findByText('Revoke Sessions').click().wait(TIMEOUTS.TWO_SEC);
+        });
+
+        // # Verify the modal opened.
+        cy.get('#confirmModal').should('exist');
+
+        // # Click 'Revoke'.
+        cy.findByText('Revoke').click().wait(TIMEOUTS.ONE_SEC);
+    }
 
     function resetUserEmail(oldEmail, newEmail, errorMsg) {
         // # Search for the user.
