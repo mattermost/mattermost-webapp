@@ -3,7 +3,6 @@
 
 import {shallow} from 'enzyme';
 import React from 'react';
-import * as rudderAnalytics from 'rudder-sdk-js';
 
 import {Client4} from 'mattermost-redux/client';
 
@@ -199,7 +198,7 @@ describe('components/Root', () => {
             },
         };
 
-        test('should not send events to telemetry after onConfigLoaded is called if Rudder is not configured', () => {
+        test('should not set a TelemetryHandler when onConfigLoaded is called if Rudder is not configured', () => {
             const wrapper = shallow(<Root {...props}/>);
 
             wrapper.instance().onConfigLoaded();
@@ -207,12 +206,11 @@ describe('components/Root', () => {
             Client4.trackEvent('category', 'event');
 
             expect(Client4.telemetryHandler).not.toBeDefined();
-            expect(rudderAnalytics.track).not.toHaveBeenCalled();
 
             wrapper.unmount();
         });
 
-        test('should send events to telemetry after onConfigLoaded is called if Rudder is configured', () => {
+        test('should set a TelemetryHandler when onConfigLoaded is called if Rudder is configured', () => {
             Constants.TELEMETRY_RUDDER_KEY = 'testKey';
             Constants.TELEMETRY_RUDDER_DATAPLANE_URL = 'url';
 
@@ -223,7 +221,6 @@ describe('components/Root', () => {
             Client4.trackEvent('category', 'event');
 
             expect(Client4.telemetryHandler).toBeDefined();
-            expect(rudderAnalytics.track).toHaveBeenCalled();
 
             wrapper.unmount();
         });
