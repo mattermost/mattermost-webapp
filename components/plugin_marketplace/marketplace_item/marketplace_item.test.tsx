@@ -7,16 +7,15 @@ import {shallow} from 'enzyme';
 import ConfirmModal from 'components/confirm_modal';
 import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper';
 
-import MarketplaceItem, {UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
+import MarketplaceItem, {UpdateDetails, UpdateDetailsProps, UpdateConfirmationModal, UpdateConfirmationModalProps, MarketplaceItemProps} from './marketplace_item';
 
 describe('components/MarketplaceItem', () => {
     describe('UpdateDetails', () => {
-        const baseProps = {
+        const baseProps:UpdateDetailsProps = {
             version: '0.0.2',
             releaseNotesUrl: 'http://example.com/release',
             installedVersion: '0.0.1',
             isInstalling: false,
-            isDefaultMarketplace: true,
             onUpdate: () => {},
         };
 
@@ -36,7 +35,7 @@ describe('components/MarketplaceItem', () => {
             it('when installed version matches available version', () => {
                 const props = {
                     ...baseProps,
-                    installedVersion: baseProps.availableVersion,
+                    installedVersion: baseProps.installedVersion,
                 };
                 const wrapper = mount(
                     <UpdateDetails {...props}/>,
@@ -93,7 +92,7 @@ describe('components/MarketplaceItem', () => {
     });
 
     describe('UpdateConfirmationModal', () => {
-        const baseProps = {
+        const baseProps:UpdateConfirmationModalProps = {
             show: true,
             name: 'pluginName',
             version: '0.0.2',
@@ -195,16 +194,13 @@ describe('components/MarketplaceItem', () => {
     });
 
     describe('MarketplaceItem', () => {
-        const baseProps = {
+        const baseProps:MarketplaceItemProps = {
             id: 'id',
             name: 'name',
             description: 'test plugin',
             version: '1.0.0',
-            downloadUrl: 'http://example.com/download',
-            signatureUrl: 'http://example.com/signature',
             homepageUrl: 'http://example.com',
             installedVersion: '',
-            iconUrl: '',
             iconData: 'icon',
             installing: false,
             isDefaultMarketplace: true,
@@ -353,19 +349,6 @@ describe('components/MarketplaceItem', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should render when not from the marketplace', () => {
-            const props = {
-                ...baseProps,
-                downloadUrl: '',
-            };
-
-            const wrapper = shallow(
-                <MarketplaceItem {...props}/>,
-            );
-
-            expect(wrapper).toMatchSnapshot();
-        });
-
         describe('should track detailed event with default marketplace', () => {
             test('on install', () => {
                 const props = {
@@ -377,7 +360,7 @@ describe('components/MarketplaceItem', () => {
                     <MarketplaceItem {...props}/>,
                 );
 
-                wrapper.instance().onInstall();
+                (wrapper.instance() as MarketplaceItem).onInstall();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download', {
                     plugin_id: 'id',
                     version: '1.0.0',
@@ -397,7 +380,7 @@ describe('components/MarketplaceItem', () => {
                     <MarketplaceItem {...props}/>,
                 );
 
-                wrapper.instance().onUpdate();
+                (wrapper.instance() as MarketplaceItem).onUpdate();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update', {
                     plugin_id: 'id',
                     version: '2.0.0',
@@ -417,7 +400,7 @@ describe('components/MarketplaceItem', () => {
                     <MarketplaceItem {...props}/>,
                 );
 
-                wrapper.instance().onConfigure();
+                (wrapper.instance() as MarketplaceItem).onConfigure();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_configure');
             });
         });
@@ -433,7 +416,7 @@ describe('components/MarketplaceItem', () => {
                     <MarketplaceItem {...props}/>,
                 );
 
-                wrapper.instance().onInstall();
+                (wrapper.instance() as MarketplaceItem).onInstall();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download');
             });
 
@@ -449,7 +432,7 @@ describe('components/MarketplaceItem', () => {
                     <MarketplaceItem {...props}/>,
                 );
 
-                wrapper.instance().onUpdate();
+                (wrapper.instance() as MarketplaceItem).onUpdate();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update');
             });
 
@@ -465,7 +448,7 @@ describe('components/MarketplaceItem', () => {
                     <MarketplaceItem {...props}/>,
                 );
 
-                wrapper.instance().onConfigure();
+                (wrapper.instance() as MarketplaceItem).onConfigure();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_configure');
             });
         });

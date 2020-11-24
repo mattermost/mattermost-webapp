@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import semver from 'semver';
@@ -14,16 +13,25 @@ import {Link} from 'react-router-dom';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 import OverlayTrigger from 'components/overlay_trigger';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
 import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 
+type UpdateVersionProps = {
+    version: string,
+    releaseNotesUrl?: string,
+}
+
 // UpdateVersion renders the version text in the update details, linking out to release notes if available.
-export const UpdateVersion = ({version, releaseNotesUrl}) => {
+export const UpdateVersion = ({version, releaseNotesUrl}: UpdateVersionProps): JSX.Element => {
     if (!releaseNotesUrl) {
-        return version;
+        return (
+            <span>
+                {version}
+            </span>
+        );
     }
 
     return (
@@ -37,14 +45,16 @@ export const UpdateVersion = ({version, releaseNotesUrl}) => {
     );
 };
 
-UpdateVersion.propTypes = {
-    version: PropTypes.string.isRequired,
-    releaseNotesUrl: PropTypes.string,
-};
+type Label = {
+    name: string,
+    description?: string,
+    url?: string,
+    color?: string,
+}
 
 // Label renders a tag showing a name and a description in a tooltip.
 // If a URL is provided, clicking on the tag will open the URL in a new tab.
-export const Label = ({name, description, url, color}) => {
+export const Label = ({name, description, url, color} : Label): JSX.Element => {
     const tag = (
         <span
             className='tag'
@@ -90,20 +100,21 @@ export const Label = ({name, description, url, color}) => {
     return label;
 };
 
-Label.propTypes = {
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    url: PropTypes.string,
-    color: PropTypes.string,
-};
+export type UpdateDetailsProps = {
+    version: string,
+    releaseNotesUrl?: string,
+    installedVersion?: string,
+    isInstalling: boolean,
+    onUpdate: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void,
+}
 
 // UpdateDetails renders an inline update prompt for plugins, when available.
-export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isInstalling, onUpdate}) => {
+export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isInstalling, onUpdate}: UpdateDetailsProps): JSX.Element | null => {
     if (!installedVersion || isInstalling) {
         return null;
     }
 
-    var isUpdate = false;
+    let isUpdate = false;
     try {
         isUpdate = semver.gt(version, installedVersion);
     } catch (e) {
@@ -138,21 +149,23 @@ export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isIns
     );
 };
 
-UpdateDetails.propTypes = {
-    version: PropTypes.string.isRequired,
-    releaseNotesUrl: PropTypes.string,
-    installedVersion: PropTypes.string,
-    isInstalling: PropTypes.bool.isRequired,
-    onUpdate: PropTypes.func.isRequired,
-};
+export type UpdateConfirmationModalProps = {
+    show: boolean,
+    name: string,
+    version: string,
+    releaseNotesUrl?: string,
+    installedVersion?: string,
+    onUpdate: (checked: boolean) => void,
+    onCancel: (checked: boolean) => void,
+}
 
 // UpdateConfirmationModal prompts before allowing upgrade, specially handling major version changes.
-export const UpdateConfirmationModal = ({show, name, version, installedVersion, releaseNotesUrl, onUpdate, onCancel}) => {
+export const UpdateConfirmationModal = ({show, name, version, installedVersion, releaseNotesUrl, onUpdate, onCancel}: UpdateConfirmationModalProps): JSX.Element | null => {
     if (!installedVersion) {
         return null;
     }
 
-    var isUpdate = false;
+    let isUpdate = false;
     try {
         isUpdate = semver.gt(version, installedVersion);
     } catch (e) {
@@ -254,46 +267,41 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
     );
 };
 
-UpdateConfirmationModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
-    version: PropTypes.string.isRequired,
-    releaseNotesUrl: PropTypes.string,
-    installedVersion: PropTypes.string,
-    onUpdate: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
+export type MarketplaceItemProps = {
+    id: string,
+    name: string,
+    description: string,
+    version: string,
+    homepageUrl?: string,
+    releaseNotesUrl?: string,
+    labels?: Label[],
+    iconData?: string,
+    installedVersion: string,
+    installing: boolean,
+    error?: string
+    isDefaultMarketplace: boolean,
+    trackEvent: (category: string, event: string, props?: any) => void
+
+    actions: {
+        installPlugin: (category: string, event: string) => void,
+        closeMarketplaceModal: () => void,
+    },
+}
+
+type MarketplaceItemState = {
+    showUpdateConfirmationModal: boolean;
 };
 
-export default class MarketplaceItem extends React.PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        version: PropTypes.string.isRequired,
-        homepageUrl: PropTypes.string,
-        releaseNotesUrl: PropTypes.string,
-        labels: PropTypes.array,
-        iconData: PropTypes.string,
-        installedVersion: PropTypes.string.isRequired,
-        installing: PropTypes.bool.isRequired,
-        error: PropTypes.string,
-        isDefaultMarketplace: PropTypes.bool.isRequired,
-        trackEvent: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
-            installPlugin: PropTypes.func.isRequired,
-            closeMarketplaceModal: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    constructor() {
-        super();
+export default class MarketplaceItem extends React.PureComponent <MarketplaceItemProps, MarketplaceItemState> {
+    constructor(props: MarketplaceItemProps) {
+        super(props);
 
         this.state = {
             showUpdateConfirmationModal: false,
         };
     }
 
-    trackEvent = (eventName, allowDetail = true) => {
+    trackEvent = (eventName:string, allowDetail = true):void => {
         if (this.props.isDefaultMarketplace && allowDetail) {
             this.props.trackEvent('plugins', eventName, {
                 plugin_id: this.props.id,
@@ -305,33 +313,33 @@ export default class MarketplaceItem extends React.PureComponent {
         }
     }
 
-    onInstall = () => {
+    onInstall = ():void => {
         this.trackEvent('ui_marketplace_download');
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
-    showUpdateConfirmationModal = () => {
+    showUpdateConfirmationModal = ():void => {
         this.setState({showUpdateConfirmationModal: true});
     }
 
-    hideUpdateConfirmationModal = () => {
+    hideUpdateConfirmationModal = ():void => {
         this.setState({showUpdateConfirmationModal: false});
     }
 
-    onUpdate = () => {
+    onUpdate = ():void => {
         this.trackEvent('ui_marketplace_download_update');
 
         this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
-    onConfigure = () => {
+    onConfigure = ():void => {
         this.trackEvent('ui_marketplace_configure', false);
 
         this.props.actions.closeMarketplaceModal();
     }
 
-    getItemButton() {
+    getItemButton():JSX.Element {
         let actionButton = (
             <FormattedMessage
                 id='marketplace_modal.list.Install'
@@ -384,7 +392,7 @@ export default class MarketplaceItem extends React.PureComponent {
         return button;
     }
 
-    render() {
+    render():JSX.Element {
         let versionLabel = `(${this.props.version})`;
         if (this.props.installedVersion !== '') {
             versionLabel = `(${this.props.installedVersion})`;

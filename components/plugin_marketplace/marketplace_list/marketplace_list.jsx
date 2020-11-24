@@ -58,7 +58,6 @@ export default class MarketplaceList extends React.PureComponent {
                         description={p.manifest.description}
                         version={p.manifest.version}
                         isPrepackaged={false}
-                        downloadUrl={p.download_url}
                         homepageUrl={p.homepage_url}
                         releaseNotesUrl={p.release_notes_url}
                         labels={p.labels}
