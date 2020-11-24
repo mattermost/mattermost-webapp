@@ -41,7 +41,7 @@ describe('Message permalink', () => {
 
         cy.visit(`/${testTeam.name}/channels/${testChannel.id}`);
 
-        // # Post a message by the test user
+        // # Post a message to central channel
         cy.postMessage(testUserMessageText);
 
         // * Edit message
@@ -59,6 +59,11 @@ describe('Message permalink', () => {
 
             // * Check the second post and verify that it contains new edited message.
             cy.get(postText).should('have.text', `${testUserMessageText}${editMessageText}`);
+
+            // # Post should have '(edited)' label
+            cy.get(`#postEdited_${postId}`).
+                should('be.visible').
+                should('contain', '(edited)');
         });
 
         // # Post a message by second user
@@ -77,6 +82,7 @@ describe('Message permalink', () => {
         let document;
         let text;
 
+        // # Select the list items
         cy.get('#post-list').trigger('mousedown').then(($el) => {
             const el = $el[0];
             document = el.ownerDocument;
