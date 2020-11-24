@@ -29,6 +29,11 @@ const initialState = {
                 ExperimentalViewArchivedChannels: 'false',
             },
         },
+        posts: {
+            posts: {
+                root_id: {id: 'root_id', channel_id: '123'},
+            },
+        },
         channels: {
             currentChannelId,
             channels: {
@@ -215,7 +220,7 @@ describe('executeCommand', () => {
             const mocked = jest.fn().mockResolvedValue(Promise.resolve({markdown: 'Success'}));
             Client4.executeAppCall = mocked;
 
-            const result = await store.dispatch(executeCommand('/appid custom value1 --second value2', {channel_id: '123', root_id: 'root_id'}));
+            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
             Client4.executeAppCall = f;
 
             expect(mocked).toHaveBeenCalledWith({
@@ -223,7 +228,7 @@ describe('executeCommand', () => {
                     app_id: 'appid',
                     channel_id: '123',
                     location: '/command',
-                    root_id: '',
+                    root_id: 'root_id',
                     team_id: '456',
                 },
                 raw_command: '/appid custom value1 --key2 value2',
