@@ -20,6 +20,7 @@ export type GlobalState = BaseGlobalState & {
     plugins: PluginsState;
     storage: {
         storage: Dictionary<any>;
+        initialized: boolean;
     };
 
     views: {

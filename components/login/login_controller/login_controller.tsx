@@ -35,8 +35,8 @@ interface Props extends RouteProps {
     isLicensed: boolean;
     currentUser?: UserProfile;
     customBrandText?: string;
-    customDescriptionText?: string
-    enableCustomBrand: boolean
+    customDescriptionText?: string;
+    enableCustomBrand: boolean;
     enableLdap: boolean;
     enableOpenServer: boolean;
     enableSaml: boolean;
@@ -54,7 +54,7 @@ interface Props extends RouteProps {
     actions: {
         login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean, error: ServerError }>;
         addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team, error: ServerError }>
-    }
+    };
 }
 
 type State = {
@@ -68,7 +68,7 @@ type State = {
     loading: boolean;
     sessionExpired: boolean;
     brandImageError: boolean;
-    serverError: JSX.Element;
+    serverError: React.ReactNode;
 }
 
 export class LoginController extends React.PureComponent<Props, State> {
@@ -95,14 +95,14 @@ export class LoginController extends React.PureComponent<Props, State> {
             loading: false,
             sessionExpired: false,
             brandImageError: false,
-            serverError: <div/>,
+            serverError: undefined,
         };
 
         this.loginIdInput = React.createRef();
         this.passwordInput = React.createRef();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.configureTitle();
 
         if (this.props.currentUser) {
@@ -400,7 +400,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         return null;
     }
 
-    createLoginPlaceholder = (): any => {
+    createLoginPlaceholder = (): string => {
         const ldapEnabled = this.state.ldapEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -447,7 +447,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         this.setState({sessionExpired: false});
     }
 
-    createExtraText = (): JSX.Element| null => {
+    createExtraText = (): JSX.Element | null => {
         const extraParam = (new URLSearchParams(this.props.location!.search)).get('extra');
 
         if (this.state.sessionExpired) {
