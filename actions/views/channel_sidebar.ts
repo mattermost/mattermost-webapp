@@ -88,7 +88,7 @@ export function moveChannelsInSidebar(categoryId: string, targetIndex: number, d
             channelsToMove = multiSelectedChannelIds.filter((channelId) => {
                 const selectedChannel = displayedChannels.find((channel) => channelId === channel.id);
                 const isDMGM = selectedChannel?.type === General.DM_CHANNEL || selectedChannel?.type === General.GM_CHANNEL;
-                return targetCategory?.type === CategoryTypes.CUSTOM || (isDMGM && targetCategory?.type === CategoryTypes.DIRECT_MESSAGES) || (!isDMGM && targetCategory?.type !== CategoryTypes.DIRECT_MESSAGES);
+                return targetCategory?.type === CategoryTypes.CUSTOM || targetCategory?.type === CategoryTypes.FAVORITES || (isDMGM && targetCategory?.type === CategoryTypes.DIRECT_MESSAGES) || (!isDMGM && targetCategory?.type !== CategoryTypes.DIRECT_MESSAGES);
             });
 
             // Reorder such that the channels move in the order that they appear in the sidebar
