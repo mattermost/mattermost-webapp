@@ -102,7 +102,7 @@ const reduxTestState = {
         },
         posts: {
             posts: {
-                'aaa': {},
+                aaa: {},
             },
         },
     },

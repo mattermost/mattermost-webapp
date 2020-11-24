@@ -106,8 +106,7 @@ export function executeCommand(message, args) {
 
             payload.type = AppCallTypes.SUBMIT;
             try {
-                await dispatch(doAppCall(payload));
-                return {data: true};
+                return dispatch(doAppCall(payload));
             } catch (err) {
                 return {error: err};
             }

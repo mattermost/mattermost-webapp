@@ -32,7 +32,7 @@ const initialState = {
         channels: {
             currentChannelId,
             channels: {
-                '123': {id: '123', team_id: '456'},
+                123: {id: '123', team_id: '456'},
             },
         },
         preferences: {
@@ -80,7 +80,7 @@ const initialState = {
                         ],
                     },
                 }],
-            },],
+            }],
         },
     },
     views: {
