@@ -7,28 +7,28 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @account_setting
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings > General > Position', () => {
     let testTeam;
     let testUser;
+    const position = 'Master hacker';
 
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             testUser = user;
+
+            cy.apiLogin(testUser);
+
+            // # Visit town square
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    it('MM-T2063 Position / Can enter position', () => {
-        cy.apiLogin(testUser);
-
-        // # Visit town square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
+    it('MM-T2063 Position', () => {
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
 
@@ -37,7 +37,7 @@ describe('Account Settings > General > Position', () => {
 
         // # Fill-in the position field
         cy.findByText('Position').should('be.visible').click();
-        cy.get('#position').type('Master hacker');
+        cy.get('#position').type(position);
         cy.get('#saveSetting').click();
 
         // # Exit the modal
@@ -57,12 +57,7 @@ describe('Account Settings > General > Position', () => {
     });
 
     it('MM-T2064 Position / 128 characters', () => {
-        const position = 'masterhackermasterhackermasterhackermasterhackermasterhackermasterhackermasterhackermasterhackermasterhackermasterhackermasterha';
-
-        cy.apiLogin(testUser);
-
-        // # Visit town square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        const longPosition = 'Master Hacker II'.repeat(8);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -72,7 +67,7 @@ describe('Account Settings > General > Position', () => {
 
         // # Fill-in the position field with a value of 128 characters
         cy.findByText('Position').should('be.visible').click();
-        cy.get('#position').type(position);
+        cy.get('#position').type(longPosition);
         cy.get('#saveSetting').click();
 
         cy.get('#position').invoke('val').then((val) => {
@@ -87,7 +82,7 @@ describe('Account Settings > General > Position', () => {
         cy.get('#position').focus().type('random');
         cy.get('#position').invoke('val').then((val) => {
             // # Verify that the position hasn't changed
-            expect(val).to.equal(position);
+            expect(val).to.equal(longPosition);
         });
 
         // # Save position
