@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @team_settings
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -239,6 +238,12 @@ describe('Teams Suite', () => {
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
+        // Team display name shows as "Testing Team" at top of main menu
+        cy.get('#headerTeamName').invoke('text').should('eq', 'Test team');
+
+        // Team initials show in the team icon in the sidebar
+        cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().should('have.attr', 'aria-label', 'test team team');
+
         // # Verify url has original team name
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
     });
@@ -258,12 +263,16 @@ describe('Teams Suite', () => {
 
         // # Change team description in the input
         cy.get('#teamDescription').should('be.visible').clear().type('This is the best team');
+        cy.get('#teamDescription').should('have.value', 'This is the best team');
 
         // Save new team description
         cy.get('#saveSetting').click();
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
+
+        // Team tooltip should show description
+        verifyToolTip('#headerTeamName', 'This is the best team');
     });
 
     it('MM-T2318 Allow anyone to join this team', () => {
@@ -290,7 +299,6 @@ describe('Teams Suite', () => {
         cy.get('body').type('{esc}', {force: true});
 
         // # Functionality
-
 
         cy.visit('/login');
         cy.apiLogin(newUser);
@@ -384,4 +392,12 @@ describe('Teams Suite', () => {
         cy.get('#searchUsersInput').type('sysadmin');
         cy.get('.more-modal__list').should('be.visible').children().should('have.length', 1);
     });
+
+    function verifyToolTip(targetElement, label) {
+        cy.get(targetElement).trigger('mouseover', {force: true});
+        cy.findByText(label).should('be.visible');
+
+        cy.get(targetElement).trigger('mouseout', {force: true});
+        cy.findByText(label).should('not.be.visible');
+    }
 });
