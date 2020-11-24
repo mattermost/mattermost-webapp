@@ -212,7 +212,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         }
     }
 
-    getAllUsernames = ():{[p: string]: string} => {
+    getAllUsernames = (): {[p: string]: string} => {
         const {
             allUserIds,
             allUsernames,

@@ -16,7 +16,7 @@ import CombinedSystemMessage, {Props} from './combined_system_message';
 function makeMapStateToProps() {
     const getProfilesByIdsAndUsernames = makeGetProfilesByIdsAndUsernames();
 
-    return (state:GlobalState, ownProps: Props) => {
+    return (state: GlobalState, ownProps: Props) => {
         const currentUser = getCurrentUser(state);
         const {allUserIds, allUsernames} = ownProps;
 
