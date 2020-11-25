@@ -84,6 +84,7 @@ body {
     @include clearfix;
     height: 100%;
     position: relative;
+    background: var(--center-channel-bg);
 }
 
 img {
