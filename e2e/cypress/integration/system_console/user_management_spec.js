@@ -153,6 +153,9 @@ describe('User Management', () => {
         // # Create an active session for the user we're going to revoke.
         apiLogin(testUser.username, testUser.password);
 
+        // # Login to the UI as system_admin.
+        cy.apiAdminLogin();
+
         revokeSessionByEmailAndRole(testUser.email, 'Member');
 
         // # Ensure the user has no session.
@@ -160,11 +163,20 @@ describe('User Management', () => {
     });
 
     it('MM-T938 Users - Revoke own session', () => {
-        const adminEmail = 'sysadmin@sample.mattermost.com';
-        cy.apiGetUserByEmail(adminEmail).then(({user: adminUser}) => {
-            revokeSessionByEmailAndRole(adminUser.email, 'System Admin');
-            cy.location('pathname').should('eq', '/login');
-        });
+        const admin = getAdminAccount();
+
+        // # Promote the test user to system_admin.
+        cy.externalRequest({user: admin, method: 'put', path: `users/${testUser.id}/roles`, data: {roles: 'system_user system_admin'}});
+
+        apiLogin(testUser.username, testUser.password);
+
+        revokeSessionByEmailAndRole(testUser.email, 'System Admin');
+
+        // # Ensure current user is redirected back to the login screen.
+        cy.location('pathname').should('eq', '/login');
+
+        // # Ensure the user has no session.
+        checkNoSessionsForUser(testUser.id);
     });
 
     function checkNoSessionsForUser(userID) {
@@ -177,8 +189,6 @@ describe('User Management', () => {
     }
 
     function revokeSessionByEmailAndRole(email, role) {
-        cy.apiAdminLogin();
-
         // # Go to the user management page in the system console.
         cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
 
