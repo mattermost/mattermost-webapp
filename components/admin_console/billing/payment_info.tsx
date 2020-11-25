@@ -23,15 +23,19 @@ type Props = {
 
 const PaymentInfo: React.FC<Props> = () => {
     const dispatch = useDispatch<DispatchFunc>();
-    const customer = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
-    const isCreditCardAboutToExpire = () => {
+    const isCardAboutToExpire = useSelector((state: GlobalState) => {
+        const {customer} = state.entities.cloud;
         if (!customer) {
             return false;
         }
 
-        // Will developers ever learn? :D
-        const expiryYear = customer.payment_method.exp_year + 2000;
+        const expiryYear = customer.payment_method.exp_year;
+
+        // If not expiry year, or its 0, it's not expired (because it probably isn't set)
+        if (!expiryYear) {
+            return false;
+        }
 
         // This works because we store the expiry month as the actual 1-12 base month, but Date uses a 0-11 base month
         // But credit cards expire at the end of their expiry month, so we can just use that number.
@@ -39,9 +43,9 @@ const PaymentInfo: React.FC<Props> = () => {
         const currentDatePlus10Days = new Date();
         currentDatePlus10Days.setDate(currentDatePlus10Days.getDate() + 10);
         return lastExpiryDate <= currentDatePlus10Days;
-    };
+    });
 
-    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCreditCardAboutToExpire());
+    const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
     useEffect(() => {
         dispatch(getCloudCustomer());
@@ -57,7 +61,7 @@ const PaymentInfo: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {showCreditCardBanner && (
+                    {showCreditCardBanner && isCardAboutToExpire && (
                         <AlertBanner
                             mode='info'
                             title={
