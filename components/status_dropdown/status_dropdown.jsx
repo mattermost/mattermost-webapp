@@ -17,6 +17,8 @@ import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
+import DndDateTimePickerModal from 'components/dnd_custom_time_picker_modal/dnd_custom_time_picker_modal';
+import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal/dnd_custom_time_picker_modal';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -107,6 +109,15 @@ export default class StatusDropdown extends React.PureComponent {
         this.setStatus(UserStatuses.DND, dnd_end_time);
     }
 
+    setCustomTimedDnd = () => {
+        const dndCustomTimePicker = {
+            ModalId: ModalIdentifiers.DND_CUSTOM_TIME_PICKER,
+            dialogType: DndCustomTimePicker,
+        };
+
+        this.props.actions.openModal(dndCustomTimePicker);
+    }
+
     showStatusChangeConfirmation = (status) => {
         const resetStatusModalData = {
             ModalId: ModalIdentifiers.RESET_STATUS,
@@ -162,8 +173,17 @@ export default class StatusDropdown extends React.PureComponent {
         const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
+        const setCustomTimedDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setCustomTimedDnd;
 
         const dndSubMenuItems = this.dndTimes.map((time, index) => {
+            if (index === 5) {
+                return {
+                    id: `dndTime-${time}`,
+                    direction: 'right',
+                    text: time,
+                    action: () => setCustomTimedDnd(),
+                };
+            }
             return {
                 id: `dndTime-${time}`,
                 direction: 'right',
