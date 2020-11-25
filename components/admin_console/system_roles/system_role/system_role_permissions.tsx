@@ -136,7 +136,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
     }
 
     getRows = (permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSections: Record<string, boolean>) => {
-        const { isLicensedForCloud } = this.props;
+        const {isLicensedForCloud} = this.props;
         let editedSectionsByRole = {
             ...SECTIONS_BY_ROLES,
         };
