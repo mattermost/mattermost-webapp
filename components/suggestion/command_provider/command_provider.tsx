@@ -18,12 +18,13 @@ import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 import {Constants} from 'utils/constants';
-const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
 import Suggestion from '../suggestion.jsx';
 import Provider from '../provider.jsx';
 
 import {AppCommandParser, Store} from './app_command_parser';
+
+const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
 export class CommandSuggestion extends Suggestion {
     render() {
