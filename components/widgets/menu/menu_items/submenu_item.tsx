@@ -46,7 +46,7 @@ export type Props = {
     show?: boolean;
     direction?: 'left' | 'right';
     openUp?: boolean;
-    categorySortingMenu?: boolean;
+    styleSelectableItem?: boolean;
 }
 
 type State = {
@@ -144,7 +144,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, root, icon, filter, xOffset, ariaLabel, direction, categorySortingMenu} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, root, icon, filter, xOffset, ariaLabel, direction, styleSelectableItem} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -155,7 +155,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         if (icon) {
             textProp = (
                 <React.Fragment>
-                    <span className={classNames(['icon', {'sorting-menu-icon': categorySortingMenu}])}>{icon}</span>
+                    <span className={classNames(['icon', {'sorting-menu-icon': styleSelectableItem}])}>{icon}</span>
                     {text}
                 </React.Fragment>
             );
@@ -182,7 +182,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         if (!isMobile) {
             subMenuContent = (
                 <ul
-                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {categorySortingMenu}])}
+                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {styleSelectableItem}])}
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
@@ -218,13 +218,13 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
 
         return (
             <li
-                className={classNames(['SubMenuItem MenuItem', {categorySortingMenu}])}
+                className={classNames(['SubMenuItem MenuItem', {styleSelectableItem}])}
                 role='menuitem'
                 id={id + '_menuitem'}
                 ref={this.node}
             >
                 <div
-                    className={classNames([{categorySortingMenuDiv: categorySortingMenu}])}
+                    className={classNames([{styleSelectableItemDiv: styleSelectableItem}])}
                     id={id}
                     aria-label={ariaLabel}
                     onMouseEnter={this.show}
@@ -236,7 +236,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {id !== 'SidebarChannelMenu-moveToDivider' &&
                         <span
                             id={'channelHeaderDropdownIconLeft_' + id}
-                            className={classNames([`fa fa-angle-left SubMenu__icon-left${hasSubmenu && !isMobile && (direction === 'left') ? '' : '-empty'}`, {'sorting-menu-dropdown-icon': categorySortingMenu, mobile: isMobile}])}
+                            className={classNames([`fa fa-angle-left SubMenu__icon-left${hasSubmenu && !isMobile && (direction === 'left') ? '' : '-empty'}`, {mobile: isMobile}])}
                             aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                         />}
                     {textProp}
@@ -244,7 +244,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {id !== 'SidebarChannelMenu-moveToDivider' &&
                         <span
                             id={'channelHeaderDropdownIconRight_' + id}
-                            className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu && !isMobile && (direction === 'right') ? '' : '-empty'}`, {'sorting-menu-dropdown-icon': categorySortingMenu, mobile: isMobile}])}
+                            className={classNames([`fa fa-angle-right SubMenu__icon-right${hasSubmenu && !isMobile && (direction === 'right') ? '' : '-empty'}`, {mobile: isMobile}])}
                             aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                         />}
                     {subMenuContent}

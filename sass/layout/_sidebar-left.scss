@@ -359,24 +359,24 @@
             }
         }
 
-        .dropdown-menu .SidebarCategorySortingMenu__ActionItem {
-            padding: 0 15px 0 12px;
-
-            .MenuItem__primary-text {
-                span.icon {
-                    width: 100%;
-                    padding-right: 5px;
-                }
-            }
-        }
-        .categorySortingMenu {
+        .styleSelectableItem {
             text-transform: capitalize;
 
             .MenuItem {
                 width: 100%;
+                
+                div:hover,
+                div:focus {
+                    background: none !important;
+                }
+            }
+            
+            .SubMenu__icon-right {
+                margin-right: 0;
+                padding: 0 9px 0 8px; 
             }
 
-            .categorySortingMenuDiv {
+            .styleSelectableItemDiv {
                 display: flex;
                 padding: 0 15px;
                 margin: 0;
@@ -384,40 +384,28 @@
                 align-items: center;
             }
 
-            .sorting-menu-dropdown-icon { 
-                padding: 0;
-                margin: 0;
-                font-size: 18px;
-            }
-
-            .sorting-menu-icon {
-                padding-left: 0 ;
-                width: 0;
-            }
-            
             .sorting-menu-checkbox {
                 padding-right: 30px;
                 width: 0;
+
+                i {
+                    color: var(--button-bg);
+                }
             }    
-            
-            .MenuGroup.menu-divider {
-                margin: 5px -32px 5px 0;
-            }
 
             .SubMenuItemContainer:not(.hasDivider) {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-            }
-
-            .sorting-menu-checkbox i {
-                color: var(--button-bg);
+                &:hover {
+                    background: rgba(0, 0, 0, 0.08);
+                }
             }
 
             .selected {
                 text-transform: none;
                 font-size: 12px;
-                color: var(--center-channel-color-56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
                 width: 50%;
                 text-align: right;
             }

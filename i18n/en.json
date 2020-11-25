@@ -4315,6 +4315,7 @@
   "user.settings.sidebar.never": "Never",
   "user.settings.sidebar.off": "Off",
   "user.settings.sidebar.on": "On",
+  "user.settings.sidebar.recent": "Recent activity",
   "user.settings.sidebar.sortAlpha": "Alphabetically",
   "user.settings.sidebar.sortAlphaShort": "sorted alphabetically",
   "user.settings.sidebar.sortChannelsTitle": "Channel sorting",

@@ -119,7 +119,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         const browseDirectMessages = (
             <Menu.Group>
                 <Menu.ItemAction
-                    additionalClass=' SidebarCategorySortingMenu__ActionItem'
                     id={'browseDirectMessages'}
                     onClick={this.props.handleOpenDirectMessagesModal}
                     icon={<i className='icon-account-plus-outline'/>}
@@ -135,23 +134,23 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         id={'sortDirectMessages'}
                         subMenu={sortMenuItems}
                         text={intl.formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
-                        selectedValueText={selectedCategorySort === CategorySorting.Alphabetical ? 'Alphabetically' : 'Recent Activity'}
+                        selectedValueText={selectedCategorySort === CategorySorting.Alphabetical ? intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}) : intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'})}
                         icon={selectedCategorySort === CategorySorting.Alphabetical ? <i className='icon-sort-alphabetical-ascending'/> : <i className='icon-clock-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
                         xOffset={this.state.width}
-                        categorySortingMenu={true}
+                        styleSelectableItem={true}
                     />
                     <Menu.ItemSubMenu
                         id={'showMessageCount'}
                         subMenu={categoryMenuItems}
                         text={intl.formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
-                        selectedValueText={selectedDmNumber === Infinity ? 'All' : selectedDmNumber}
+                        selectedValueText={selectedDmNumber === Infinity ? intl.formatMessage({id: 'channel_notifications.levels.all', defaultMessage: 'All'}) : selectedDmNumber}
                         icon={<i className='icon-account-multiple-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
                         xOffset={this.state.width}
-                        categorySortingMenu={true}
+                        styleSelectableItem={true}
                     />
                 </Menu.Group>
                 {browseDirectMessages}
