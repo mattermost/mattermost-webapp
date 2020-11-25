@@ -447,6 +447,140 @@ describe('Upload Files', () => {
             });
         });
     });
+
+    it('MM-T2261 Upload SVG and post', () => {
+        const filename = 'svg.svg';
+        const aspectRatio = 1;
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Attach file
+        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#create_post').find('.file-preview').within(() => {
+            // * Filename is correct
+            cy.get('.post-image__name').should('contain.text', filename);
+
+            // * Type is correct
+            cy.get('.post-image__type').should('contain.text', 'SVG');
+
+            // * Size is correct
+            cy.get('.post-image__size').should('contain.text', '6KB');
+
+            // * Img thumbnail exist
+            cy.get('.post-image__thumbnail > img').should('exist');
+        });
+
+        // # Post message
+        cy.postMessage('');
+
+        cy.getLastPost().within(() => {
+            // * Click to open preview
+            cy.get('.file-preview__button').click();
+        });
+
+        cy.get('.modal-body').within(() => {
+            cy.get('.modal-image__content').get('img').should('exist').and((img) => {
+                // * Image aspect ratio is maintained
+                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
+            });
+
+            // # Hover over the image
+            cy.get('.modal-image__content').trigger('mouseover');
+
+            // * Download button should exist
+            cy.findByText('Download').should('exist').parent().then((downloadLink) => {
+                expect(downloadLink.attr('download')).to.equal(filename);
+
+                const fileAttachmentURL = downloadLink.attr('href');
+
+                // * Verify that download link has correct name
+                downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
+            });
+
+            // # Close modal
+            cy.get('.modal-close').click();
+        });
+    });
+
+    it('MM-T2265 Multiple File Upload - 5 is successful (image, video, code, pdf, audio, other)', () => {
+        const attachmentFilesList = [
+            {
+                filename: 'word-file.doc',
+                extensions: 'DOC',
+                type: 'document',
+            },
+            {
+                filename: 'wordx-file.docx',
+                extensions: 'DOCX',
+                type: 'document',
+            },
+            {
+                filename: 'powerpoint-file.ppt',
+                extensions: 'PPT',
+                type: 'document',
+            },
+            {
+                filename: 'powerpointx-file.pptx',
+                extensions: 'PPTX',
+                type: 'document',
+            },
+            {
+                filename: 'jpg-image-file.jpg',
+                extensions: 'JPG',
+                type: 'image',
+            },
+        ];
+        const minimumSeparation = 5;
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Upload files
+        cy.get('#centerChannelFooter').find('#fileUploadInput').
+            attachFile(attachmentFilesList[0].filename).
+            attachFile(attachmentFilesList[1].filename).
+            attachFile(attachmentFilesList[2].filename).
+            attachFile(attachmentFilesList[3].filename).
+            attachFile(attachmentFilesList[4].filename);
+
+        // # Wait for files to finish uploading
+        cy.wait(TIMEOUTS.THREE_SEC);
+
+        // # Post message
+        cy.postMessage('test');
+        cy.findByTestId('fileAttachmentList').within(() => {
+            for (let i = 1; i < 5; i++) {
+                // * Elements should have space between them
+                cy.get(`:nth-child(${i}) > .post-image__details`).then((firstAttachment) => {
+                    cy.get(`:nth-child(${i + 1}) > .post-image__thumbnail`).then((secondAttachment) => {
+                        expect(firstAttachment[0].getBoundingClientRect().right + minimumSeparation < secondAttachment[0].getBoundingClientRect().left ||
+                        firstAttachment[0].getBoundingClientRect().bottom + minimumSeparation < secondAttachment[0].getBoundingClientRect().top).to.be.true;
+                    });
+                });
+            }
+
+            // # Click on one element
+            cy.get(':nth-child(1)').first().click();
+        });
+        cy.get('.modal-body').within(() => {
+            // * File information should be OK
+            cy.get('.file-details__name').should('contain.text', attachmentFilesList[0].filename);
+            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[0].extensions}`);
+
+            // # Move to the next element using arrows
+            cy.get('.modal-image__content').type('{rightarrow}');
+
+            // * Next file information should be OK
+            cy.get('.file-details__name').should('contain.text', attachmentFilesList[1].filename);
+            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[1].extensions}`);
+
+            // # Move back to the previous element using arrows
+            cy.get('.modal-image__content').type('{leftarrow}');
+
+            // * First element information should be still OK
+            cy.get('.file-details__name').should('contain.text', attachmentFilesList[0].filename);
+            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[0].extensions}`);
+        });
+    });
 });
 
 function downloadAttachmentAndVerifyItsProperties(fileURL, filename, httpContext) {
