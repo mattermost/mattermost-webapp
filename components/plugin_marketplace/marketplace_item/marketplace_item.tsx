@@ -271,7 +271,7 @@ export type MarketplaceItemProps = {
     releaseNotesUrl?: string,
     labels?: MarketplaceLabel[],
     iconData?: string,
-    installedVersion: string,
+    installedVersion?: string,
     installing: boolean,
     error?: string
     isDefaultMarketplace: boolean,
