@@ -95,7 +95,7 @@ export class LoginController extends React.PureComponent<Props, State> {
             loading: false,
             sessionExpired: false,
             brandImageError: false,
-            serverError: undefined,
+            serverError: null,
         };
 
         this.loginIdInput = React.createRef();
@@ -275,7 +275,7 @@ export class LoginController extends React.PureComponent<Props, State> {
     }
 
     submit = (loginId: string, password: string, token: string): void => {
-        this.setState({serverError: <div/>, loading: true});
+        this.setState({serverError: undefined, loading: true});
 
         this.props.actions.login(loginId, password, token).then(async ({error}: { error: ServerError }) => {
             if (error) {
