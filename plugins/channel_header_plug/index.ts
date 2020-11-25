@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
-import AppBindings from 'mattermost-redux/constants/apps';
+import {AppsBindings} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {doAppCall} from 'actions/apps';
@@ -17,7 +17,7 @@ import ChannelHeaderPlug from './channel_header_plug';
 function mapStateToProps(state: GlobalState) {
     return {
         components: state.plugins.components.ChannelHeaderButton,
-        appBindings: getAppsBindings(state, AppBindings.APPS_BINDINGS_CHANNEL_HEADER_ICON),
+        appBindings: getAppsBindings(state, AppsBindings.CHANNEL_HEADER_ICON),
         theme: getTheme(state),
     };
 }

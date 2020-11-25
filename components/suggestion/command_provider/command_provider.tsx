@@ -6,17 +6,25 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {AutocompleteSuggestion, AutocompleteSuggestionWithComplete} from 'mattermost-redux/types/apps';
+import {ServerAutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+import {Post} from 'mattermost-redux/types/posts';
 
-import store from 'stores/redux_store.jsx';
+import globalStore from 'stores/redux_store.jsx';
+
+import {getSelectedPost} from 'selectors/rhs';
 
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
-import {getSelectedPost} from 'selectors/rhs';
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import {Constants} from 'utils/constants';
 
-export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
+import Suggestion from '../suggestion.jsx';
+import Provider from '../provider.jsx';
+
+import {AppCommandParser, Store} from './app_command_parser';
+
+const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -31,7 +39,7 @@ export class CommandSuggestion extends Suggestion {
             symbolSpan = <span className='block mt-1'>{'↵'}</span>;
         }
         let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
-        if (item.iconData !== '' && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+        if (item.iconData && item.iconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -62,32 +70,84 @@ export class CommandSuggestion extends Suggestion {
     }
 }
 
+type Props = {
+    isInRHS: boolean;
+}
+
+export type Results = {
+    matchedPretext: string;
+    terms: string[];
+    items: AutocompleteSuggestion[];
+    component: React.ElementType;
+}
+
+type ResultsCallback = (results: Results) => void;
+
 export default class CommandProvider extends Provider {
-    constructor({isInRHS}) {
+    private isInRHS: boolean;
+
+    private parser: AppCommandParser;
+    store: Store;
+
+    constructor(props: Props, store?: Store) {
         super();
 
-        this.isInRHS = isInRHS;
+        this.store = globalStore;
+        if (store && store.getState && store.dispatch) {
+            this.store = store;
+        }
+
+        this.isInRHS = props.isInRHS;
+        let rootId;
+        if (this.isInRHS) {
+            const selectedPost = getSelectedPost(this.store.getState()) as Post;
+            if (selectedPost) {
+                rootId = selectedPost?.root_id ? selectedPost.root_id : selectedPost.id;
+            }
+        }
+
+        this.parser = new AppCommandParser(this.store, rootId);
     }
 
-    handlePretextChanged(pretext, resultCallback) {
+    handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
         if (!pretext.startsWith('/')) {
             return false;
         }
-        if (UserAgent.isMobile()) {
-            return this.handleMobile(pretext, resultCallback);
+
+        const command = pretext.toLowerCase();
+        if (this.parser.isAppCommand(command)) {
+            this.parser.getSuggestionsForSubCommandsAndArguments(command).then((matches) => {
+                const terms = matches.map((suggestion) => suggestion.complete);
+                resultCallback({
+                    matchedPretext: command,
+                    terms,
+                    items: matches,
+                    component: CommandSuggestion,
+                });
+            });
+            return true;
         }
-        return this.handleWebapp(pretext, resultCallback);
+
+        if (UserAgent.isMobile()) {
+            this.handleMobile(pretext, resultCallback);
+        } else {
+            this.handleWebapp(pretext, resultCallback);
+        }
+        return true;
     }
 
-    handleCompleteWord(term, pretext, callback) {
+    handleCompleteWord(term: string, pretext: string, callback: (s: string)=>void) {
         callback(term + ' ');
     }
 
-    handleMobile(pretext, resultCallback) {
+    handleMobile(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
-        Client4.getCommandsList(getCurrentTeamId(store.getState())).then(
+        Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
             (data) => {
-                let matches = [];
+                let matches: AutocompleteSuggestion[] = [];
+                const appCommandSuggestions = this.parser.getSuggestionsForBaseCommands(pretext);
+                matches = matches.concat(appCommandSuggestions);
+
                 data.forEach((cmd) => {
                     if (!cmd.auto_complete) {
                         return;
@@ -124,19 +184,17 @@ export default class CommandProvider extends Provider {
         ).catch(
             () => {}, //eslint-disable-line no-empty-function
         );
-
-        return true;
     }
 
-    handleWebapp(pretext, resultCallback) {
+    handleWebapp(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
-        const teamId = getCurrentTeamId(store.getState());
-        const selectedPost = getSelectedPost(store.getState());
+        const teamId = getCurrentTeamId(this.store.getState());
+        const selectedPost = getSelectedPost(this.store.getState()) as Post | undefined;
         let rootId;
-        if (this.isInRHS) {
+        if (this.isInRHS && selectedPost) {
             rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
         }
-        const channel = this.isInRHS && selectedPost.channel_id ? getChannel(store.getState(), selectedPost.channel_id) : getCurrentChannel(store.getState());
+        const channel = this.isInRHS && selectedPost?.channel_id ? getChannel(this.store.getState(), selectedPost.channel_id) : getCurrentChannel(this.store.getState());
 
         const args = {
             channel_id: channel?.id,
@@ -144,14 +202,40 @@ export default class CommandProvider extends Provider {
         };
 
         Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
-            (data) => {
-                const matches = [];
+            ((data: ServerAutocompleteSuggestion[]) => {
+                let matches: AutocompleteSuggestionWithComplete[] = [];
+
                 let cmd = 'Ctrl';
                 if (Utils.isMac()) {
                     cmd = '⌘';
                 }
+
+                const appCommandSuggestions = this.parser.getSuggestionsForBaseCommands(pretext);
+                matches = matches.concat(appCommandSuggestions);
+
+                data.forEach((s) => {
+                    if (!this.contains(matches, '/' + s.Complete)) {
+                        matches.push({
+                            complete: '/' + s.Complete,
+                            suggestion: '/' + s.Suggestion,
+                            hint: s.Hint,
+                            description: s.Description,
+                            iconData: s.IconData,
+                        });
+                    }
+                });
+
+                matches.sort((a, b) => {
+                    if (a.suggestion.toLowerCase() > b.suggestion.toLowerCase()) {
+                        return 1;
+                    } else if (a.suggestion.toLowerCase() < b.suggestion.toLowerCase()) {
+                        return -1;
+                    }
+                    return 0;
+                });
+
                 if (this.shouldAddExecuteItem(data, pretext)) {
-                    matches.push({
+                    matches.unshift({
                         complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
                         suggestion: '/Execute Current Command',
                         hint: '',
@@ -159,17 +243,6 @@ export default class CommandProvider extends Provider {
                         iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
                     });
                 }
-                data.forEach((sug) => {
-                    if (!this.contains(matches, '/' + sug.Complete)) {
-                        matches.push({
-                            complete: '/' + sug.Complete,
-                            suggestion: '/' + sug.Suggestion,
-                            hint: sug.Hint,
-                            description: sug.Description,
-                            iconData: sug.IconData,
-                        });
-                    }
-                });
 
                 // pull out the suggested commands from the returned data
                 const terms = matches.map((suggestion) => suggestion.complete);
@@ -180,15 +253,11 @@ export default class CommandProvider extends Provider {
                     items: matches,
                     component: CommandSuggestion,
                 });
-            },
-        ).catch(
-            () => {}, //eslint-disable-line no-empty-function
+            }),
         );
-
-        return true;
     }
 
-    shouldAddExecuteItem(data, pretext) {
+    shouldAddExecuteItem(data: ServerAutocompleteSuggestion[], pretext: string) {
         if (data.length === 0) {
             return false;
         }
@@ -200,7 +269,7 @@ export default class CommandProvider extends Provider {
         return data.findIndex((item) => item.Suggestion === '') !== -1;
     }
 
-    contains(matches, complete) {
+    contains(matches: AutocompleteSuggestionWithComplete[], complete: string) {
         return matches.findIndex((match) => match.complete === complete) !== -1;
     }
 }
