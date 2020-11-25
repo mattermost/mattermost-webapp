@@ -235,7 +235,7 @@ export const fieldToDialogElement = (field: AppField): DialogElement => {
         optional: !field.is_required,
         min_length: field.min_length || 0,
         max_length: field.max_length || 0,
-        help_text: field.description,
+        help_text: field.description || '',
     };
 
     return element;
