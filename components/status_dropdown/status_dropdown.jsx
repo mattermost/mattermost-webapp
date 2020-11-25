@@ -145,11 +145,10 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
-    refCallback = (ref) => {
-        if (ref) {
+    refCallback = (menuRef: Menu) => {
+        if (menuRef) {
             this.setState({
-                openUp: ref.state.openUp,
-                width: ref.state.width,
+                width: menuRef.rect()?.width - 12,
             });
         }
     }
@@ -178,7 +177,6 @@ export default class StatusDropdown extends React.PureComponent {
                 onToggle={this.onToggle}
                 style={this.props.style}
                 className={'status-dropdown-menu'}
-                refCallback={this.refCallback}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
@@ -198,11 +196,12 @@ export default class StatusDropdown extends React.PureComponent {
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
+                    ref={this.refCallback}
                 >
                     <Menu.Header>
                         <FormattedMessage
                             id='status_dropdown.set_your_status'
-                            defaultMessage='Status'
+                            defaultMessage='Set your status'
                         />
                     </Menu.Header>
                     <Menu.Group>
@@ -231,6 +230,7 @@ export default class StatusDropdown extends React.PureComponent {
                         />
                         <Menu.ItemSubMenu
                             subMenu={dndSubMenuItems}
+                            subMenuClass={'px-6'}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                             extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}

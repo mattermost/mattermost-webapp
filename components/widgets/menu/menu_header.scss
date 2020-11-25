@@ -6,7 +6,7 @@
         clear: both;
         color: inherit;
         cursor: default;
-        display: block;
+        display: flex;
         font-weight: normal;
         padding: 0 32px 0 24px;
         text-align: left;
@@ -14,7 +14,7 @@
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
-        line-height: 28px;
         font-weight: $font-weight--semibold;
+        height: 36px;
     }
 }

@@ -29,6 +29,18 @@ $positions: 't'top,
     .p-#{$i} {
         padding: #{$i*4}px !important;
     }
+
+    .px-#{$i} {
+        padding: 0 #{$i*4}px 0 #{$i*4}px !important;
+    }
+
+    .py-#{$i} {
+        padding: #{$i*4}px 0 #{$i*4}px 0 !important;
+    }
+
+    .h-#{$i} {
+        height: #{$i*4}px !important;
+    }
 }
 
 .d-block {

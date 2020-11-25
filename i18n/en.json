@@ -3867,7 +3867,7 @@
   "status_dropdown.set_online": "Online",
   "status_dropdown.set_ooo": "Out of Office",
   "status_dropdown.set_ooo.extra": "Automatic Replies are enabled",
-  "status_dropdown.set_your_status": "Status",
+  "status_dropdown.set_your_status": "Set your status",
   "string.id": "default message",
   "suggestion_list.no_matches": "No items match __{value}__",
   "suggestion.archive": "Archived Channels",

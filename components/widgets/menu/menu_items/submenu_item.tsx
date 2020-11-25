@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
@@ -35,6 +36,7 @@ type Props = {
     postId?: string;
     text: React.ReactNode;
     subMenu?: Props[];
+    subMenuClass?: string;
     icon?: React.ReactNode;
     action?: (id?: string) => void;
     filter?: (id?: string) => boolean;
@@ -56,6 +58,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     public static defaultProps = {
         show: true,
         direction: 'left',
+        subMenuClass: 'pl-4',
     };
 
     public constructor(props: Props) {
@@ -141,7 +144,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
+        const {id, subMenuClass, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -151,10 +154,10 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         let textProp = text;
         if (icon) {
             textProp = (
-                <React.Fragment>
+                <div className='d-flex align-items-center'>
                     <span className='icon'>{icon}</span>
                     {text}
-                </React.Fragment>
+                </div>
             );
         }
 
@@ -212,6 +215,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 ref={this.node}
             >
                 <div
+                    className={classNames(subMenuClass, 'justify-content-between')}
                     id={id}
                     aria-label={ariaLabel}
                     onMouseEnter={this.show}

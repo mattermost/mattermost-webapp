@@ -553,6 +553,13 @@
             overflow: auto;
         }
 
+        .status-dropdown-menu {
+            .dropdown-menu {
+                overflow: visible;
+                min-width: 256px;
+            }
+        }
+
         .sidebar-header-dropdown,
         .admin-navbar-dropdown {
             font-size: .85em;
