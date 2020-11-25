@@ -74,11 +74,10 @@ describe('Integrations', () => {
             cy.findByLabelText('file thumbnail').should('be.visible').and('have.attr', 'src', encodedUrl);
 
             // * Assert that the Show More button is visible
-            cy.findByText('Show more').should('be.visible').and('have.text', 'Show more').click().then(() => {
-                // * Assert that the Show less button is visible after Show more is clicked
-                cy.get('#post-list');
-                cy.findByText('Show less').scrollIntoView().should('have.text', 'Show less');
-            });
+            cy.findByText('Show more').should('be.visible').click();
+
+            // * Assert that the Show less button is visible
+            cy.findByText('Show less').scrollIntoView().should('be.visible');
         });
     });
 });
