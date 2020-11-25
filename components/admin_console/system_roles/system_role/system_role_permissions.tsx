@@ -21,6 +21,7 @@ type Props = {
     permissionsToUpdate: PermissionsToUpdate;
     updatePermissions: (permissions: PermissionToUpdate[]) => void;
     readOnly?: boolean;
+    isLicensedForCloud: boolean;
 }
 
 type State = {
@@ -135,6 +136,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
     }
 
     getRows = (permissionsMap: Record<string, boolean>, permissionsToUpdate: PermissionsToUpdate, visibleSections: Record<string, boolean>) => {
+        const { isLicensedForCloud } = this.props;
         let editedSectionsByRole = {
             ...SECTIONS_BY_ROLES,
         };
@@ -157,6 +159,11 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
                     ...permissionsToShow,
                 },
             };
+        }
+
+        if (!isLicensedForCloud) {
+            // Remove the billing section if it's not licensed for cloud
+            sectionsList.splice(1, 1);
         }
 
         return getSectionsListForRole(sectionsList, this.props.role.name, editedSectionsByRole).map((section: SystemSection) => {

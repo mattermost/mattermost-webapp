@@ -29,6 +29,7 @@ import {PermissionToUpdate, PermissionsToUpdate, writeAccess} from './types';
 type Props = {
     role: Role;
     isDisabled?: boolean;
+    isLicensedForCloud: boolean;
 
     actions: {
         editRole(role: Role): Promise<ActionResult>;
@@ -241,7 +242,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
     render() {
         const {usersToAdd, usersToRemove, saving, saveNeeded, serverError, permissionsToUpdate, saveKey} = this.state;
-        const {role, isDisabled} = this.props;
+        const {role, isDisabled, isLicensedForCloud} = this.props;
         const defaultName = role.name.split('').map((r) => r.charAt(0).toUpperCase() + r.slice(1)).join(' ');
         return (
             <div className='wrapper--fixed'>
@@ -261,6 +262,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
                     <div className='admin-console__content'>
                         <SystemRolePermissions
                             role={role}
+                            isLicensedForCloud={isLicensedForCloud}
                             permissionsToUpdate={permissionsToUpdate}
                             updatePermissions={this.updatePermissions}
                             readOnly={isDisabled || role.name === Constants.PERMISSIONS_SYSTEM_ADMIN}
