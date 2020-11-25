@@ -206,16 +206,18 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
+        const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
+        const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
+        const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
+
         const categoryMenuItems = categories.filter((category) => {
             if (category.id === this.props.currentCategory?.id) {
                 return false;
             }
 
-            const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
-
-            if (selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL)) {
+            if (allChannelsAreDMs) {
                 return category.type !== CategoryTypes.CHANNELS;
-            } else if (selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL)) {
+            } else if (allChannelsAreNotDMs) {
                 return category.type !== CategoryTypes.DIRECT_MESSAGES;
             }
 
