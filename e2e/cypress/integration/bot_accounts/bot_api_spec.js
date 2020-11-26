@@ -350,7 +350,7 @@ describe('Bot accounts ownership and API', () => {
         });
     });
 
-    it('MM-T1875 Bots cannot create another bot', () => {
+    it('MM-T1875 A bot cannot create another bot', () => {
         // # Create token for the bot
         cy.apiAccessToken(newBot.user_id, 'some text').then(({token}) => {
             // # Logout to allow posting as bot
