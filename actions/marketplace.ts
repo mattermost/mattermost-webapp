@@ -3,12 +3,14 @@
 
 import {Client4} from 'mattermost-redux/client';
 
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+
 import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 
 // fetchPlugins fetches the latest marketplace plugins, subject to any existing search filter.
-export function fetchPlugins(localOnly = false) {
-    return async (dispatch, getState) => {
+export function fetchPlugins(localOnly = false): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const filter = getFilter(state);
 
@@ -20,7 +22,7 @@ export function fetchPlugins(localOnly = false) {
                 plugins,
             });
 
-            return {plugins};
+            return {data: plugins};
         } catch (error) {
             // If the marketplace server is unreachable, try to get the local plugins only.
             if (error.server_error_id === 'app.plugin.marketplace_client.failed_to_fetch' && !localOnly) {
@@ -34,8 +36,8 @@ export function fetchPlugins(localOnly = false) {
 // installPlugin installs the latest version of the given plugin from the marketplace.
 //
 // On success, it also requests the current state of the plugins to reflect the newly installed plugin.
-export function installPlugin(id, version) {
-    return async (dispatch, getState) => {
+export function installPlugin(id: string, version: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({
             type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
             id,
@@ -73,8 +75,8 @@ export function installPlugin(id, version) {
 }
 
 // filterPlugins sets a search filter for marketplace plugins, fetching the latest data.
-export function filterPlugins(filter) {
-    return async (dispatch) => {
+export function filterPlugins(filter:string): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
         dispatch({
             type: ActionTypes.FILTER_MARKETPLACE_PLUGINS,
             filter,
