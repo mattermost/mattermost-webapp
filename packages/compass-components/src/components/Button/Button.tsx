@@ -68,7 +68,7 @@ const ButtonBase: React.FC<ButtonProps> = ({
 };
 
 const Button = styled(ButtonBase)`
-    --button-background-color: var(${(props) => (props.destructive ? '--dnd-indicator-rgb' : '--button-bg-rgb')});
+    --button-background-color: var(--button-bg-rgb);
     --button-text-color: var(--button-color-rgb);
     --button-variation-color: var(--center-channel-color-rgb);
 
@@ -153,9 +153,6 @@ const Button = styled(ButtonBase)`
         }
         &:focus,
         &.focus {
-            &::before {
-                opacity: 0;
-            }
             &::after {
                 border-color: rgba(255, 255, 255, 0.32);
                 border-width: 2px;
@@ -217,9 +214,6 @@ const Button = styled(ButtonBase)`
         }
         &:focus,
         &.focus {
-            &::before {
-                opacity: 0;
-            }
             &:after {
                 border-width: 2px;
             }
@@ -282,6 +276,35 @@ const Button = styled(ButtonBase)`
             &.active {
                 &::after {
                     border-color: transparent;
+                }
+            }
+        }
+    }
+
+    // variations
+    &.Button__destructive:not([disabled]):not(.disabled) {
+        &.Button__primary {
+            background: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+        }
+        &.Button__secondary,
+        &.Button__tertiary {
+            color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+
+            &::before {
+                background: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+            }
+            &::after {
+                border-color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+            }
+        }
+        &.Button__tertiary {
+            &::after {
+                border-color: transparent;
+            }
+            &:focus,
+            &.focus {
+                &::after {
+                    border-color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
                 }
             }
         }

@@ -9,6 +9,7 @@ export default {
 } as Meta;
 
 
-export const Default: Story<IconButtonProps> = (args) => <IconButton {...args} />;
+export const Default: Story<IconButtonProps> = (args) => <><IconButton {...args} /><IconButton label="425" {...args} /></>;
 Default.args = {
+  iconGlyph: 'icon-alien-outline'
 };

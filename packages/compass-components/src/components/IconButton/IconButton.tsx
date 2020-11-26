@@ -2,9 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
+import { rgbFromCSSVar } from 'utilities/styleUtilities';
 import Icon, { IconSize } from 'components/Icon/Icon';
+import Text, { TextSize } from 'components/Text/Text';
+import { ANIMATION_SPEEDS } from 'constants/styleConstants';
 
-export type IconButtonSize = 'xsmall' | 'small' | 'small-compact' | 'medium' | 'large';
+export type IconButtonSize = 'xsmall' | 'small-compact' | 'small' | 'medium' | 'large';
 
 export interface IconButtonProps {
     className?: string;
@@ -13,6 +16,7 @@ export interface IconButtonProps {
     iconGlyph: string;
     disabled?: boolean;
     destructive?: boolean;
+    label?: string;
     onClick?: () => void;
 }
 
@@ -23,37 +27,45 @@ const IconButtonBase: React.FC<IconButtonProps> = ({
     iconGlyph,
     disabled = false,
     destructive = false,
+    label,
     ...props
 }) => {
-    let iconSize: IconSize = 20;
+    let textSize: TextSize = "medium"; // medium, default
+    let iconSize: IconSize = 20; // medium, default
     switch (size) {
         case 'xsmall': {
+            textSize = "small";
             iconSize = 12;
             break;
         }
-        case 'small':
-        case 'small-compact': {
+        case 'small-compact':
+        case 'small': {
+            textSize = "small";
             iconSize = 16;
             break;
         }
         case 'large': {
+            textSize = "large";
             iconSize = 28;
             break;
         }
     }
+    const buttonLabel = label ? <Text className="IconButton_label" size={textSize} bold={true} animate={true}>{label}</Text> : null;
     return (
         <button
-            className={classnames('IconButton', 'IconButton___standard')}
+            className={classnames('IconButton', `IconButton__${size}`, { IconButton__destructive: destructive }, className)}
             aria-label={ariaLabel}
+            disabled={disabled}
             {...props}
         >
             <Icon className="IconButton_icon" glyph={iconGlyph} size={iconSize} />
+            {buttonLabel}
         </button>
     );
 };
 
 const IconButton = styled(IconButtonBase)`
-    --button-background-color: var(${props => props.destructive ? '--dnd-indicator-rgb': '--button-bg-rgb'});
+    --button-background-color: var(${(props) => (props.destructive ? '--dnd-indicator-rgb' : '--button-bg-rgb')});
     --button-text-color: var(--button-color-rgb);
     --button-variation-color: var(--center-channel-color-rgb);
 
@@ -61,59 +73,76 @@ const IconButton = styled(IconButtonBase)`
     justify-content: center;
     align-items: center;
     position: relative;
-    padding: 10px;
-    width: 40px;
+    padding: 0 10px;
+    min-width: 40px;
     height: 40px;
-    font-size: 14/10*1rem;
-    line-height: 1;
-    color: color(--center-channel-color-rgb, 0.56);
     border-radius: 4px;
     border: none;
     outline: none;
-    background: color(--center-channel-color-rgb, 0);
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    background: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     overflow: hidden;
     cursor: pointer;
 
-    // elements
-    .IconButton_icon {
-        color: color(--center-channel-color-rgb, 0.56);
+    // sub elements
+    .IconButton_icon,
+    .IconButton_label {
+        color: ${rgbFromCSSVar('--center-channel-color-rgb', 0.56)};
+    }
+    .IconButton_icon + .IconButton_label {
+        margin-left: 6px;
     }
 
-    // states
-    // - ::before used for inside border
-    &::before{
-        content: "";
+    // - (::before for fill, ::after for border)
+    &::before,
+    &::after {
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
         bottom: 0;
         right: 0;
         border-radius: 4px;
-        border: solid 2px transparent;
+        border: none;
+        background: transparent;
         z-index: 0;
+        pointer-events: none;
+    }
+    &::before {
+        opacity: 0;
+        background: ${rgbFromCSSVar('--center-channel-color-rgb', 0.08)};
+    }
+    &::after {
+        opacity: 0;
+        border: solid 2px ${rgbFromCSSVar('--button-bg-rgb')};
     }
 
+    // states
     &:hover,
     &.hover {
-        background: color(--center-channel-color-rgb, 0.08);
-
-        .IconButton_icon {
-            color: color(--center-channel-color-rgb, 0.72);
+        .IconButton_icon,
+        .IconButton_label {
+            color: ${rgbFromCSSVar('--center-channel-color-rgb', 0.72)};
+        }
+        &::before {
+            opacity: 1;
         }
     }
     &:focus,
     &.focus {
-        &::before {
-            border-color: color(--button-bg-rgb);
+        &::after {
+            opacity: 1;
         }
     }
     &:active,
     &.active {
-        background: color(--button-bg-rgb, 0.08);
-
-        .IconButton_icon {
-            color: color(--button-bg-rgb);
+        .IconButton_icon,
+        .IconButton_label {
+            color: ${rgbFromCSSVar('--button-bg-rgb')};
+        }
+        &::before {
+            background: ${rgbFromCSSVar('--button-bg-rgb', 0.08)};
+            opacity: 1;
         }
     }
     &[disabled],
@@ -127,52 +156,86 @@ const IconButton = styled(IconButtonBase)`
         &.focus,
         &:active,
         &.active {
-            background: transparent;
-
-            .IconButton_icon {
-                color: color(--center-channel-color-rgb, 0.32);
+            .IconButton_icon,
+            .IconButton_label {
+                color: ${rgbFromCSSVar('--center-channel-color-rgb', 0.32)};
             }
 
-            &::before {
-                border-color: transparent;
+            &::before,
+            &::after {
+                opacity: 0;
             }
         }
     }
 
-    // sizes (compact, small, large)
-    &___compact {
-        padding: 6px;
-        width: 28px;
-        height: 28px;
+    // variations
+    &.IconButton__destructive:not([disabled]):not(.disabled) {
+        .IconButton_icon,
+        .IconButton_label {
+            color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+        }
+
+        &::after {
+            border: solid 2px ${rgbFromCSSVar('--dnd-indicator-rgb')};
+        }
+
+        &:active,
+        &.active {
+            &::before {
+                background: ${rgbFromCSSVar('--dnd-indicator-rgb', 0.08)};
+            }
+        }
     }
-    &___small {
-        padding: 8px;
-        width: 32px;
+
+    // sizes (xsmall, small, small-compact, medium, large)
+    &.IconButton__xsmall {
+        padding: 0 6px;
+        min-width: 24px;
+        height: 24px;
+
+        .IconButton_icon + .IconButton_label {
+            margin-left: 4px;
+        }
+    }
+    &.IconButton__small {
+        padding: 0 8px;
+        min-width: 32px;
         height: 32px;
+
+        .IconButton_icon + .IconButton_label {
+            margin-left: 4px;
+        }
     }
-    &___large {
-        padding: 10px;
-        width: 48px;
+    &.IconButton__small-compact {
+        padding: 0 6px;
+        min-width: 28px;
+        height: 28px;
+
+        .IconButton_icon + .IconButton_label {
+            margin-left: 4px;
+        }
+    }
+    &.IconButton__medium {
+        // medium is the default, including for consistency
+    }
+    &.IconButton__large {
+        padding: 0 10px;
+        min-width: 48px;
         height: 48px;
 
-        // the large IconButton uses a non-standard icon size
-        .IconButton_icon {
-            padding: 4px;
-            width: 28px;
-            height: 28px;
-
-            &::before {
-                font-size: 24/10*1rem;
-            }
+        .IconButton_icon + .IconButton_label {
+            margin-left: 6px;
         }
     }
 
     // animation
     .enable-animations & {
-        transition: background-color $animation-speed-shorter 0s ease-in-out;
-
         &::before {
-            transition: border-color $animation-speed-shorter 0s ease-in-out;
+            transition: opacity ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out,
+                background-color ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;
+        }
+        &::after {
+            transition: opacity ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;
         }
     }
 `;
