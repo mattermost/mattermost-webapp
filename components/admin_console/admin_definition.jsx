@@ -5321,6 +5321,18 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Cloud')),
                     },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.EnableSharedChannels',
+                        label: t('admin.experimental.shared_channels.title'),
+                        label_default: 'Shared Channels:',
+                        help_text: t('admin.experimental.shared_channels.desc'),
+                        help_text_default: 'Toggles Shared Channels',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.licensed),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+
                 ],
             },
         },
