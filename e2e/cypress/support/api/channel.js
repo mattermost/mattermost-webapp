@@ -156,3 +156,14 @@ Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
         return cy.wrap({member: response.body});
     });
 });
+
+Cypress.Commands.add('apiRemoveUserFromChannel', (channelId, userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/' + channelId + '/members/' + userId,
+        method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap({member: response.body});
+    });
+});
