@@ -1,13 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link, useRouteMatch, useHistory} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
+
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import {useStickyState} from 'stores/hooks';
+
+import {GlobalState} from 'types/store';
 
 import RHSNavigation from 'components/rhs_navigation';
 
@@ -15,6 +23,8 @@ import Header from 'components/widgets/header';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 
 import ChatIllustration from '../common/chat_illustration.svg';
+
+import ThreadViewer from './thread_viewer';
 
 const ChatIllustrationImg = (
     <img
@@ -29,20 +39,8 @@ import ThreadItem from './thread_item';
 
 import './global_threads.scss';
 
-type Thread = {
-    id: string;
-    reply_count: number;
-    unreadReplies: number;
-    unreadMentions: number;
-    last_reply_at: number;
-    last_viewed_at: number;
-    participants: UserProfile[];
-    post: Post;
-}
-
 type Props = {
     threads?: Thread[];
-    selectedThread?: Thread;
     numUnread: number;
     actions: {
 
@@ -52,21 +50,25 @@ type Props = {
 const GlobalThreads = ({
     threads,
     numUnread = 1,
-    selectedThread,
     actions = {},
 }: Props) => {
     const {formatMessage} = useIntl();
-    const match = useRouteMatch();
+    const {url, params: {team, threadIdentifier}} = useRouteMatch<{team: string, threadIdentifier?: string}>();
+    const history = useHistory();
+    const [filter, setFilter] = useStickyState('', 'globalThreads_filter');
+    const currentUserId = useSelector(getCurrentUserId);
+    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier ?? ''));
+
     return (
         <div
             id='app-content'
             className='GlobalThreads app__content'
         >
             <Header
+                level={2}
                 className={'GlobalThreads___header'}
                 heading={formatMessage({id: 'globalThreads.heading', defaultMessage: 'Followed threads'})}
-                level={2}
-                subtitle={formatMessage({id: 'globalThreads.subtitle', defaultMessage: 'Threads you’re participating will automatically show here'})}
+                subtitle={formatMessage({id: 'globalThreads.subtitle', defaultMessage: 'Threads you’re participating in will automatically show here'})}
                 right={<RHSNavigation/>}
             />
             {isEmpty(threads) ? (
@@ -81,8 +83,8 @@ const GlobalThreads = ({
                 <>
                     <ThreadList
                         someUnread={false}
-                        currentFilter={''}
-                        actions={actions}
+                        currentFilter={filter}
+                        actions={{...actions, setFilter}}
                     >
                         {threads?.map(({
                             id,
@@ -95,12 +97,13 @@ const GlobalThreads = ({
                                 root_id: rootId,
                                 channel_id: channelId,
                                 message,
+                                user_id: userId,
                             },
                         }) => (
                             <ThreadItem
                                 key={rootId}
-                                name={'Name here'}
-                                channelName={'Channel here'}
+                                rootPostUserId={userId}
+                                channelId={channelId}
                                 previewText={message}
                                 participants={participants.map((participant) => ({
                                     username: participant.username,
@@ -111,22 +114,32 @@ const GlobalThreads = ({
                                 newReplies={unreadReplies}
                                 newMentions={unreadMentions}
                                 lastReplyAt={lastReplyAt}
-
                                 isFollowing={true}
                                 isSaved={false}
-                                isSelected={selectedThread?.id === id}
-                                actions={actions}
+                                isSelected={threadIdentifier === id}
+                                actions={{
+                                    ...actions,
+                                    select: () => {
+                                        history.replace(`/${team}/threads/${id}`);
+                                    },
+                                }}
                             />
                         ))}
                     </ThreadList>
-                    {selectedThread ? (
+                    {selectedPost ? (
                         <ThreadPane
-                            channelName={'Enterprise Team'}
+                            post={selectedPost}
                             hasUnreads={false}
                             isFollowing={true}
                             isSaved={false}
                             actions={actions}
-                        />
+                        >
+                            <ThreadViewer
+                                currentUserId={currentUserId}
+                                rootPostId={selectedPost.id}
+                                useRelativeTimestamp={true}
+                            />
+                        </ThreadPane>
                     ) : (
                         <div className='no-results__holder'>
                             <NoResultsIndicator
@@ -151,7 +164,14 @@ const GlobalThreads = ({
                                     `,
                                 }, {
                                     numUnread,
-                                    link: (...chunks) => <Link to={match?.url}>{chunks}</Link>,
+                                    link: (...chunks) => (
+                                        <Link
+                                            key='single'
+                                            to={url}
+                                        >
+                                            {chunks}
+                                        </Link>
+                                    ),
                                 })}
                             />
                         </div>

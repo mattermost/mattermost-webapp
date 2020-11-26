@@ -80,6 +80,7 @@ class RhsComment extends React.PureComponent {
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
         emojiMap: PropTypes.object.isRequired,
+        timestampProps: PropTypes.object,
     };
 
     constructor(props) {
@@ -191,6 +192,7 @@ class RhsComment extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.RHS_COMMENT}
+                timestampProps={{...this.props.timestampProps, style: this.props.isConsecutivePost ? 'narrow' : undefined}}
             />
         );
     };

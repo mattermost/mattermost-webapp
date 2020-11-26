@@ -91,28 +91,31 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                     <div className='navbar-header'>
                         <CollapseLhsButton/>
                         {channel && (
-                            <React.Fragment>
-                                <div className='navbar-brand'>
-                                    <MobileChannelHeaderDropdown/>
-                                    {isMuted && (
-                                        <UnmuteChannelButton
-                                            user={user}
-                                            channel={channel}
-                                        />
-                                    )}
-                                </div>
-                                <ChannelInfoButton
-                                    channel={channel}
-                                    isReadOnly={isReadOnly}
-                                    isRHSOpen={isRHSOpen}
-                                    currentRelativeTeamUrl={currentRelativeTeamUrl}
-                                />
-                                <ShowSearchButton/>
-                                <MobileChannelHeaderPlug
-                                    channel={channel}
-                                    isDropdown={false}
-                                />
-                            </React.Fragment>
+                            <div className='navbar-brand'>
+                                <MobileChannelHeaderDropdown/>
+                                {isMuted && (
+                                    <UnmuteChannelButton
+                                        user={user}
+                                        channel={channel}
+                                    />
+                                )}
+                            </div>
+                        )}
+                        <div className='spacer'/>
+                        {channel && (
+                            <ChannelInfoButton
+                                channel={channel}
+                                isReadOnly={isReadOnly}
+                                isRHSOpen={isRHSOpen}
+                                currentRelativeTeamUrl={currentRelativeTeamUrl}
+                            />
+                        )}
+                        <ShowSearchButton/>
+                        {channel && (
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={false}
+                            />
                         )}
                         <CollapseRhsButton/>
                     </div>

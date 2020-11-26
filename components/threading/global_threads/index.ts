@@ -16,8 +16,8 @@ const mapStateToProps = (state: GlobalState): ComponentProps<typeof GlobalThread
                 reply_count: 5,
                 unreadReplies: 3,
                 unreadMentions: 1,
-                last_reply_at: 12452736687,
-                last_viewed_at: 1234895164,
+                last_reply_at: 1606243938243,
+                last_viewed_at: 1606243938243,
                 participants: [
                     {id: '4wcwm9k3qi8t9836bodcxn5ufa', first_name: 'Lisa', last_name: 'Gilbert', username: 'lisa.gilbert'},
                 ],

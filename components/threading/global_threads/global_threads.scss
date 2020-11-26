@@ -60,6 +60,11 @@
     .ThreadPane {
         transition: padding-right .25s ease-in;
     }
+
+
+    .ThreadViewer {
+        height: 100%;
+    }
 }
 
 .sidebar--right.move--left {

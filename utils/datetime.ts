@@ -43,7 +43,7 @@ export function isEqual(
 export function getDiff(
     a: Date,
     b: Date,
-    timeZone: string | undefined,
+    timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
     unit: Unit,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): number {

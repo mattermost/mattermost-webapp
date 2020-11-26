@@ -21,7 +21,20 @@ import RhsComment from 'components/rhs_comment';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {FakePost} from 'types/store/rhs';
+import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common/options';
 
+const THREADING_TIME: typeof BASE_THREADING_TIME = {
+    ...BASE_THREADING_TIME,
+    units: [
+        'now',
+        'minute',
+        'hour',
+        'day',
+        'week',
+        'month',
+        'year',
+    ],
+};
 export function renderView(props: Record<string, any>) {
     return (
         <div
@@ -57,6 +70,7 @@ type Props = {
         getPostThread: (rootId: string, root?: boolean) => void;
     };
     directTeammate: UserProfile;
+    useRelativeTimestamp?: boolean;
 }
 
 type State = {
@@ -72,7 +86,7 @@ type State = {
     userScrolledToBottom: boolean;
 }
 
-export default class RhsThread extends React.Component<Props, State> {
+export default class ThreadViewer extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
@@ -299,7 +313,7 @@ export default class RhsThread extends React.Component<Props, State> {
     public render(): JSX.Element {
         if (this.props.posts == null || this.props.selected == null || !this.props.channel) {
             return (
-                <div/>
+                <span/>
             );
         }
 
@@ -329,14 +343,16 @@ export default class RhsThread extends React.Component<Props, State> {
             const comPost = postsArray[i];
             const previousPostId = i > 0 ? postsArray[i - 1].id : '';
 
-            const currentPostDay = Utils.getDateForUnixTicks(comPost.create_at);
-            if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
-                previousPostDay = currentPostDay;
-                commentsLists.push(
-                    <DateSeparator
-                        key={currentPostDay.toString()}
-                        date={currentPostDay}
-                    />);
+            if (!this.props.useRelativeTimestamp) {
+                const currentPostDay = Utils.getDateForUnixTicks(comPost.create_at);
+                if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
+                    previousPostDay = currentPostDay;
+                    commentsLists.push(
+                        <DateSeparator
+                            key={currentPostDay.toString()}
+                            date={currentPostDay}
+                        />);
+                }
             }
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
@@ -356,6 +372,7 @@ export default class RhsThread extends React.Component<Props, State> {
                     handleCardClick={this.handleCardClickPost}
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
+                    timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
                 />,
             );
         }
@@ -409,16 +426,17 @@ export default class RhsThread extends React.Component<Props, State> {
 
         return (
             <div
-                id='rhsContainer'
-                className='sidebar-right__body'
+                className='ThreadViewer'
                 ref={this.containerRef}
             >
-                <FloatingTimestamp
-                    isScrolling={this.state.isScrolling}
-                    isMobile={Utils.isMobile()}
-                    postId={this.state.topRhsPostId}
-                    isRhsPost={true}
-                />
+                {!this.props.useRelativeTimestamp && (
+                    <FloatingTimestamp
+                        isScrolling={this.state.isScrolling}
+                        isMobile={Utils.isMobile()}
+                        postId={this.state.topRhsPostId}
+                        isRhsPost={true}
+                    />
+                )}
                 <Scrollbars
                     autoHide={true}
                     autoHideTimeout={500}
@@ -439,7 +457,7 @@ export default class RhsThread extends React.Component<Props, State> {
                             data-a11y-focus-child={true}
                             data-a11y-order-reversed={true}
                         >
-                            {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                            {!this.props.useRelativeTimestamp && !isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                             <RhsRootPost
                                 ref={selected.id}
                                 post={selected}
@@ -451,8 +469,9 @@ export default class RhsThread extends React.Component<Props, State> {
                                 isBusy={this.state.isBusy}
                                 handleCardClick={this.handleCardClick}
                                 isLastPost={isRhsRootLastPost}
+                                timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
                             />
-                            {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
+                            {!this.props.useRelativeTimestamp && isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div
                                 ref={this.rhspostlistRef}
                                 className='post-right-comments-container'

@@ -1233,6 +1233,10 @@
                 }
             }
 
+            .spacer {
+                flex: 1;
+            }
+
             .Menu {
                 @include single-transition(all, .35s, ease);
                 background: alpha-color($black, .9);

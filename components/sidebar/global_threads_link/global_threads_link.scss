@@ -1,0 +1,13 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.SidebarLink.SidebarGlobalThreads {
+    .icon {
+        padding: 3px;
+        margin-right: 5px;
+        svg {
+            fill: rgba(var(--sidebar-text-rgb), 0.6);
+            vertical-align: middle;
+        }
+    }
+}

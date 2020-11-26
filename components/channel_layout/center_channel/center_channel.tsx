@@ -85,8 +85,8 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         />
                         <Route
                             path={[
+                                '/:team/threads/:threadIdentifier',
                                 '/:team/threads/',
-                                '/:team/threads/:identifier',
                             ]}
                             component={GlobalThreads}
                         />

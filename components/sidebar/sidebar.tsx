@@ -21,6 +21,7 @@ import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 import SidebarWhatsNewModal from './sidebar_whats_new_modal';
+import GlobalThreadsLink from './global_threads_link';
 
 type Props = {
     teamId: string;
@@ -177,6 +178,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
+                <GlobalThreadsLink/>
                 <SidebarChannelList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}

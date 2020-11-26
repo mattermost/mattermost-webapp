@@ -40,6 +40,7 @@ export default class PostTime extends React.PureComponent {
          */
         postId: PropTypes.string,
         teamUrl: PropTypes.string,
+        timestampProps: PropTypes.object,
     };
 
     static defaultProps = {
@@ -60,6 +61,7 @@ export default class PostTime extends React.PureComponent {
             location,
             postId,
             teamUrl,
+            timestampProps = {},
         } = this.props;
 
         const postTime = (
@@ -67,6 +69,7 @@ export default class PostTime extends React.PureComponent {
                 value={eventTime}
                 className='post__time'
                 useDate={false}
+                {...timestampProps}
             />
         );
 

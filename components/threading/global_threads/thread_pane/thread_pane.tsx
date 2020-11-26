@@ -3,11 +3,16 @@
 
 import React, {memo, ComponentProps, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {Post} from 'mattermost-redux/types/posts';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {t} from 'utils/i18n';
 
 import './thread_pane.scss';
 
+import {GlobalState} from 'types/store';
 import ThreadMenu from '../thread_menu';
 import Button from '../../common/button';
 import FollowButton from '../../common/follow_button';
@@ -15,7 +20,7 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Header from 'components/widgets/header';
 
 type Props = {
-    channelName: string;
+    post: Post;
     isFollowing: boolean;
     isSaved: boolean;
     children: ReactNode;
@@ -26,8 +31,8 @@ type Props = {
     };
 } & Omit<ComponentProps<typeof ThreadMenu>, 'children'>;
 
-const ThreadHeader = ({
-    channelName,
+const ThreadPane = ({
+    post,
     isFollowing,
     isSaved,
     hasUnreads,
@@ -35,6 +40,8 @@ const ThreadHeader = ({
     actions,
 }: Props) => {
     const {formatMessage} = useIntl();
+    const channel = useSelector((state: GlobalState) => getChannel(state, post.channel_id));
+
     return (
         <div className='ThreadPane'>
             <Header
@@ -51,7 +58,7 @@ const ThreadHeader = ({
                             className='separated'
                             onClick={useCallback(actions.openInChannel, [actions.openInChannel])}
                         >
-                            {channelName}
+                            {channel.display_name}
                         </Button>
                     </h3>
                 )}
@@ -88,4 +95,4 @@ const ThreadHeader = ({
     );
 };
 
-export default memo(ThreadHeader);
+export default memo(ThreadPane);

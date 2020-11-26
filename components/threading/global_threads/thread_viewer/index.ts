@@ -3,7 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
+
+import {makeGetPostsForThread, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -12,21 +14,22 @@ import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate} from 'utils/utils.jsx';
-import {getSelectedChannel, getSelectedPost} from 'selectors/rhs';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
 import {GlobalState} from 'types/store';
 
-import ThreadRenderer from './thread_renderer';
+import ThreadViewer from './thread_viewer';
+
+type OwnProps = {
+    rootPostId: string;
+};
 
 function makeMapStateToProps() {
     const getPostsForThread = makeGetPostsForThread();
-
-    return function mapStateToProps(state: GlobalState) {
-        const selected = getSelectedPost(state);
+    return function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+        const selected = getPost(state, rootPostId);
+        const channel = getChannel(state, selected.channel_id);
         const socketStatus = getSocketStatus(state);
-
-        const channel = getSelectedChannel(state);
         let posts: Post[] = [];
         if (selected) {
             posts = getPostsForThread(state, {rootId: selected.id});
@@ -50,10 +53,10 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             removePost,
-            selectPostCard,
             getPostThread,
+            selectPostCard,
         }, dispatch),
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(ThreadRenderer);
+export default connect(makeMapStateToProps, mapDispatchToProps)(ThreadViewer);

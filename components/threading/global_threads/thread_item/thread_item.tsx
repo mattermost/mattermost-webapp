@@ -4,6 +4,10 @@
 import React, {memo, ComponentProps, useCallback, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {useSelector} from 'react-redux';
+
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import './thread_item.scss';
 
@@ -16,12 +20,13 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import ThreadMenu from '../thread_menu';
 
 import {THREADING_TIME} from '../../common/options';
+import {GlobalState} from 'types/store';
 
 type Props = {
+    rootPostUserId: string;
+    channelId: string;
     participants: ComponentProps<typeof Avatars>['users'],
     totalParticipants?: number;
-    name: string,
-    channelName: string,
     previewText: string,
 
     lastReplyAt: ComponentProps<typeof Timestamp>['value'],
@@ -42,8 +47,8 @@ type Props = {
 const ThreadItem = ({
     participants,
     totalParticipants,
-    name,
-    channelName,
+    rootPostUserId,
+    channelId,
     previewText,
 
     lastReplyAt,
@@ -58,6 +63,9 @@ const ThreadItem = ({
     actions,
 
 }: Props) => {
+    const channel = useSelector((state: GlobalState) => getChannel(state, channelId));
+    const rootPostUser = useSelector((state: GlobalState) => getUser(state, rootPostUserId));
+
     return (
         <article
             className={classNames('ThreadItem', {
@@ -80,15 +88,15 @@ const ThreadItem = ({
                         )}
                     </div>
                 )}
-                {name || participants[0].name}
-                {Boolean(channelName) && (
+                {`${rootPostUser.first_name} ${rootPostUser.last_name}`}
+                {Boolean(channel) && (
                     <Badge
                         onClick={useCallback((e: MouseEvent) => {
                             e.stopPropagation();
                             actions.openInChannel();
                         }, [])}
                     >
-                        {channelName}
+                        {channel.display_name}
                     </Badge>
                 )}
                 <Timestamp
