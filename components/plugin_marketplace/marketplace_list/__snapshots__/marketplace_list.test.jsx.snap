@@ -6,7 +6,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
 >
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -17,7 +16,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -28,7 +26,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -39,7 +36,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -50,7 +46,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -61,7 +56,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -72,7 +66,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -83,7 +76,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -94,7 +86,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -105,7 +96,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -116,7 +106,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -127,7 +116,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -138,7 +126,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -149,7 +136,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
@@ -160,7 +146,6 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
   />
   <Connect(MarketplaceItem)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
-    downloadUrl="https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
