@@ -15,7 +15,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import MarketplaceItem, {MarketplaceItemProps} from './marketplace_item';
 
-function mapStateToProps(state:GlobalState, props: MarketplaceItemProps) {
+function mapStateToProps(state: GlobalState, props: MarketplaceItemProps) {
     const installing = getInstalling(state, props.id);
     const error = getError(state, props.id);
     const isDefaultMarketplace = getConfig(state).IsDefaultMarketplace === 'true';

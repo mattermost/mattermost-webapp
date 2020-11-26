@@ -22,9 +22,9 @@ import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 
 type UpdateVersionProps = {
-    version: string,
-    releaseNotesUrl?: string,
-}
+    version: string;
+    releaseNotesUrl?: string;
+};
 
 // UpdateVersion renders the version text in the update details, linking out to release notes if available.
 export const UpdateVersion = ({version, releaseNotesUrl}: UpdateVersionProps): JSX.Element => {
@@ -96,12 +96,12 @@ export const Label = ({name, description, url, color}: MarketplaceLabel): JSX.El
 };
 
 export type UpdateDetailsProps = {
-    version: string,
-    releaseNotesUrl?: string,
-    installedVersion?: string,
-    isInstalling: boolean,
-    onUpdate: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void,
-}
+    version: string;
+    releaseNotesUrl?: string;
+    installedVersion?: string;
+    isInstalling: boolean;
+    onUpdate: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+};
 
 // UpdateDetails renders an inline update prompt for plugins, when available.
 export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isInstalling, onUpdate}: UpdateDetailsProps): JSX.Element | null => {
@@ -145,14 +145,14 @@ export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isIns
 };
 
 export type UpdateConfirmationModalProps = {
-    show: boolean,
-    name: string,
-    version: string,
-    releaseNotesUrl?: string,
-    installedVersion?: string,
-    onUpdate: (checked: boolean) => void,
-    onCancel: (checked: boolean) => void,
-}
+    show: boolean;
+    name: string;
+    version: string;
+    releaseNotesUrl?: string;
+    installedVersion?: string;
+    onUpdate: (checked: boolean) => void;
+    onCancel: (checked: boolean) => void;
+};
 
 // UpdateConfirmationModal prompts before allowing upgrade, specially handling major version changes.
 export const UpdateConfirmationModal = ({show, name, version, installedVersion, releaseNotesUrl, onUpdate, onCancel}: UpdateConfirmationModalProps): JSX.Element | null => {
@@ -263,25 +263,25 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
 };
 
 export type MarketplaceItemProps = {
-    id: string,
-    name: string,
-    description: string,
-    version: string,
-    homepageUrl?: string,
-    releaseNotesUrl?: string,
-    labels?: MarketplaceLabel[],
-    iconData?: string,
-    installedVersion?: string,
-    installing: boolean,
-    error?: string
-    isDefaultMarketplace: boolean,
-    trackEvent: (category: string, event: string, props?: any) => void
+    id: string;
+    name: string;
+    description: string;
+    version: string;
+    homepageUrl?: string;
+    releaseNotesUrl?: string;
+    labels?: MarketplaceLabel[];
+    iconData?: string;
+    installedVersion?: string;
+    installing: boolean;
+    error?: string;
+    isDefaultMarketplace: boolean;
+    trackEvent: (category: string, event: string, props?: any) => void;
 
     actions: {
-        installPlugin: (category: string, event: string) => void,
-        closeMarketplaceModal: () => void,
-    },
-}
+        installPlugin: (category: string, event: string) => void;
+        closeMarketplaceModal: () => void;
+    };
+};
 
 type MarketplaceItemState = {
     showUpdateConfirmationModal: boolean;
@@ -296,7 +296,7 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
         };
     }
 
-    trackEvent = (eventName:string, allowDetail = true):void => {
+    trackEvent = (eventName: string, allowDetail = true): void => {
         if (this.props.isDefaultMarketplace && allowDetail) {
             this.props.trackEvent('plugins', eventName, {
                 plugin_id: this.props.id,
@@ -308,33 +308,33 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
         }
     }
 
-    onInstall = ():void => {
+    onInstall = (): void => {
         this.trackEvent('ui_marketplace_download');
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
-    showUpdateConfirmationModal = ():void => {
+    showUpdateConfirmationModal = (): void => {
         this.setState({showUpdateConfirmationModal: true});
     }
 
-    hideUpdateConfirmationModal = ():void => {
+    hideUpdateConfirmationModal = (): void => {
         this.setState({showUpdateConfirmationModal: false});
     }
 
-    onUpdate = ():void => {
+    onUpdate = (): void => {
         this.trackEvent('ui_marketplace_download_update');
 
         this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
-    onConfigure = ():void => {
+    onConfigure = (): void => {
         this.trackEvent('ui_marketplace_configure', false);
 
         this.props.actions.closeMarketplaceModal();
     }
 
-    getItemButton():JSX.Element {
+    getItemButton(): JSX.Element {
         let actionButton = (
             <FormattedMessage
                 id='marketplace_modal.list.Install'
@@ -387,7 +387,7 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
         return button;
     }
 
-    render():JSX.Element {
+    render(): JSX.Element {
         let versionLabel = `(${this.props.version})`;
         if (this.props.installedVersion !== '') {
             versionLabel = `(${this.props.installedVersion})`;

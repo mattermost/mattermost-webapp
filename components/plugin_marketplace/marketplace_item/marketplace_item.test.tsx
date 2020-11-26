@@ -11,7 +11,7 @@ import MarketplaceItem, {UpdateDetails, UpdateDetailsProps, UpdateConfirmationMo
 
 describe('components/MarketplaceItem', () => {
     describe('UpdateDetails', () => {
-        const baseProps:UpdateDetailsProps = {
+        const baseProps: UpdateDetailsProps = {
             version: '0.0.2',
             releaseNotesUrl: 'http://example.com/release',
             installedVersion: '0.0.1',
@@ -92,7 +92,7 @@ describe('components/MarketplaceItem', () => {
     });
 
     describe('UpdateConfirmationModal', () => {
-        const baseProps:UpdateConfirmationModalProps = {
+        const baseProps: UpdateConfirmationModalProps = {
             show: true,
             name: 'pluginName',
             version: '0.0.2',
@@ -194,7 +194,7 @@ describe('components/MarketplaceItem', () => {
     });
 
     describe('MarketplaceItem', () => {
-        const baseProps:MarketplaceItemProps = {
+        const baseProps: MarketplaceItemProps = {
             id: 'id',
             name: 'name',
             description: 'test plugin',
@@ -212,7 +212,7 @@ describe('components/MarketplaceItem', () => {
         };
 
         test('should render', () => {
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...baseProps}/>,
             );
 
@@ -223,7 +223,7 @@ describe('components/MarketplaceItem', () => {
             const props = {...baseProps};
             delete props.iconData;
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -234,7 +234,7 @@ describe('components/MarketplaceItem', () => {
             const props = {...baseProps};
             delete props.homepageUrl;
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -247,7 +247,7 @@ describe('components/MarketplaceItem', () => {
                 error: 'An error occurred.',
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -260,7 +260,7 @@ describe('components/MarketplaceItem', () => {
                 installedVersion: '1.0.0',
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -273,7 +273,7 @@ describe('components/MarketplaceItem', () => {
                 installedVersion: '0.9.9',
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -287,7 +287,7 @@ describe('components/MarketplaceItem', () => {
                 releaseNotesUrl: 'http://example.com/release',
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -300,7 +300,7 @@ describe('components/MarketplaceItem', () => {
                 labels: [],
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -319,7 +319,7 @@ describe('components/MarketplaceItem', () => {
                 ],
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -342,7 +342,7 @@ describe('components/MarketplaceItem', () => {
                 ],
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceItem>(
                 <MarketplaceItem {...props}/>,
             );
 
@@ -356,11 +356,11 @@ describe('components/MarketplaceItem', () => {
                     isDefaultMarketplace: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<MarketplaceItem>(
                     <MarketplaceItem {...props}/>,
                 );
 
-                (wrapper.instance() as MarketplaceItem).onInstall();
+                wrapper.instance().onInstall();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download', {
                     plugin_id: 'id',
                     version: '1.0.0',
@@ -376,11 +376,11 @@ describe('components/MarketplaceItem', () => {
                     isDefaultMarketplace: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<MarketplaceItem>(
                     <MarketplaceItem {...props}/>,
                 );
 
-                (wrapper.instance() as MarketplaceItem).onUpdate();
+                wrapper.instance().onUpdate();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update', {
                     plugin_id: 'id',
                     version: '2.0.0',
@@ -396,11 +396,11 @@ describe('components/MarketplaceItem', () => {
                     isDefaultMarketplace: true,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<MarketplaceItem>(
                     <MarketplaceItem {...props}/>,
                 );
 
-                (wrapper.instance() as MarketplaceItem).onConfigure();
+                wrapper.instance().onConfigure();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_configure');
             });
         });
@@ -412,11 +412,11 @@ describe('components/MarketplaceItem', () => {
                     isDefaultMarketplace: false,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<MarketplaceItem>(
                     <MarketplaceItem {...props}/>,
                 );
 
-                (wrapper.instance() as MarketplaceItem).onInstall();
+                wrapper.instance().onInstall();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download');
             });
 
@@ -428,11 +428,11 @@ describe('components/MarketplaceItem', () => {
                     isDefaultMarketplace: false,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<MarketplaceItem>(
                     <MarketplaceItem {...props}/>,
                 );
 
-                (wrapper.instance() as MarketplaceItem).onUpdate();
+                wrapper.instance().onUpdate();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update');
             });
 
@@ -444,11 +444,11 @@ describe('components/MarketplaceItem', () => {
                     isDefaultMarketplace: false,
                 };
 
-                const wrapper = shallow(
+                const wrapper = shallow<MarketplaceItem>(
                     <MarketplaceItem {...props}/>,
                 );
 
-                (wrapper.instance() as MarketplaceItem).onConfigure();
+                wrapper.instance().onConfigure();
                 expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_configure');
             });
         });
