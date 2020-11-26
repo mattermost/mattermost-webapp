@@ -5,18 +5,18 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type NavigationButtonProps = {
-    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    messageId: string,
-    defaultMessage: string,
+    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    messageId: string;
+    defaultMessage: string;
 };
 
 export default class NavigationButton extends React.PureComponent <NavigationButtonProps> {
-    onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
+    onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         event.preventDefault();
         this.props.onClick(event);
     };
 
-    render():JSX.Element {
+    render(): JSX.Element {
         const {onClick, messageId, defaultMessage} = this.props;
         return (
             <button

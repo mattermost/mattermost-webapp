@@ -9,7 +9,7 @@ import {Theme} from 'mattermost-redux/types/preferences';
 import NavigationRow, {NavigationRowProps} from './navigation_row';
 
 describe('components/marketplace/navigation_row', () => {
-    const baseProps:NavigationRowProps = {
+    const baseProps: NavigationRowProps = {
         page: 0,
         total: 32,
         maximumPerPage: 15,
@@ -19,7 +19,7 @@ describe('components/marketplace/navigation_row', () => {
     };
 
     it('should render only next button', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<NavigationRow>(
             <NavigationRow {...baseProps}/>,
         );
 
@@ -28,14 +28,14 @@ describe('components/marketplace/navigation_row', () => {
 
         wrapper.find('NavigationButton').simulate('click', {preventDefault: jest.fn});
 
-        expect((wrapper.instance() as NavigationRow).props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
-        expect((wrapper.instance() as NavigationRow).props.onPreviousPageButtonClick).toHaveBeenCalledTimes(0);
+        expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(0);
     });
 
     it('should render next and previous buttons', () => {
         const props = {...baseProps, page: 1};
-        const wrapper = shallow(
-            <NavigationRow {...props}/>,
+        const wrapper = shallow<NavigationRow>(
+            <NavigationRow{...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -44,28 +44,28 @@ describe('components/marketplace/navigation_row', () => {
         wrapper.find('NavigationButton').at(0).simulate('click', {preventDefault: jest.fn});
         wrapper.find('NavigationButton').at(1).simulate('click', {preventDefault: jest.fn});
 
-        expect((wrapper.instance() as NavigationRow).props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
-        expect((wrapper.instance() as NavigationRow).props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
     });
 
     it('should render only previous button', () => {
         const props = {...baseProps, page: 2};
-        const wrapper = shallow(
-            <NavigationRow {...props}/>,
+        const wrapper = shallow<NavigationRow>(
+            <NavigationRow{...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('NavigationButton')).toHaveLength(1);
 
         wrapper.find('NavigationButton').simulate('click', {preventDefault: jest.fn});
 
-        expect((wrapper.instance() as NavigationRow).props.onNextPageButtonClick).toHaveBeenCalledTimes(0);
-        expect((wrapper.instance() as NavigationRow).props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
+        expect(wrapper.instance().props.onNextPageButtonClick).toHaveBeenCalledTimes(0);
+        expect(wrapper.instance().props.onPreviousPageButtonClick).toHaveBeenCalledTimes(1);
     });
 
     it('should not render any buttons', () => {
         const props = {...baseProps, page: 0, total: 15};
-        const wrapper = shallow(
-            <NavigationRow {...props}/>,
+        const wrapper = shallow<NavigationRow>(
+            <NavigationRow{...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('NavigationButton')).toHaveLength(0);

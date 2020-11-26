@@ -7,7 +7,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import NavigationRow from './navigation_row';
 
-function mapStateToProps(state:GlobalState) {
+function mapStateToProps(state: GlobalState) {
     return {
         theme: getTheme(state),
     };

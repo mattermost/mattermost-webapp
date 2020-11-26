@@ -9,23 +9,23 @@ import {Theme} from 'mattermost-redux/types/preferences';
 import NavigationButton from './navigation_button';
 
 export type NavigationRowProps = {
-    page: number,
-    total: number,
-    maximumPerPage: number,
-    onNextPageButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    onPreviousPageButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    theme: Theme,
-}
+    page: number;
+    total: number;
+    maximumPerPage: number;
+    onNextPageButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onPreviousPageButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    theme: Theme;
+};
 
 export default class NavigationRow extends React.PureComponent <NavigationRowProps> {
-    canShowNextButton = ():boolean => {
+    canShowNextButton = (): boolean => {
         const {page, maximumPerPage, total} = this.props;
         const totalPages = Math.trunc((total - 1) / maximumPerPage);
 
         return totalPages > page;
     };
 
-    renderCount = ():JSX.Element => {
+    renderCount = (): JSX.Element => {
         const {page, total, maximumPerPage} = this.props;
         const startCount = page * maximumPerPage;
         const endCount = Math.min(startCount + maximumPerPage, total);
@@ -43,7 +43,7 @@ export default class NavigationRow extends React.PureComponent <NavigationRowPro
         );
     };
 
-    render():JSX.Element {
+    render(): JSX.Element {
         const style = getStyle(this.props.theme);
 
         return (
