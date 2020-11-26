@@ -5340,16 +5340,6 @@ const AdminDefinition = {
                     // },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ExperimentalSettings.CloudBilling',
-                        label: t('admin.experimental.cloudBilling.title'),
-                        label_default: 'Cloud Billing:',
-                        help_text: t('admin.experimental.cloudBilling.desc'),
-                        help_text_default: 'Show the new billing view for Cloud',
-                        help_text_markdown: false,
-                        isHidden: it.not(it.licensedForFeature('Cloud')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ExperimentalSettings.EnableSharedChannels',
                         label: t('admin.experimental.shared_channels.title'),
                         label_default: 'Shared Channels:',
