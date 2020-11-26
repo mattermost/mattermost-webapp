@@ -373,7 +373,10 @@
             
             .SubMenu__icon-right {
                 margin-right: 0;
-                padding: 0 9px 0 8px; 
+                padding: 0 9px 0 8px;
+                &.mobile {
+                    padding: 0 4px 0 9px;
+                }
             }
 
             .styleSelectableItemDiv {
@@ -406,7 +409,7 @@
                 text-transform: none;
                 font-size: 12px;
                 color: rgba(var(--center-channel-color-rgb), 0.56);
-                width: 50%;
+                width: 55%;
                 text-align: right;
             }
         }
