@@ -6,6 +6,20 @@ import IconButton, { IconButtonProps } from './IconButton';
 export default {
   title: 'Components/IconButton',
   component: IconButton,
+  argTypes: {
+    size: {
+      control: {
+        type: 'select',
+        options: [
+          'xsmall',
+          'small-compact',
+          'small',
+          'medium',
+          'large',
+        ]
+      }
+    },
+  }
 } as Meta;
 
 

@@ -5,20 +5,31 @@ import classnames from 'classnames';
 import { calculateRelativeSize } from 'utilities/styleUtilities';
 import { ANIMATION_SPEEDS } from 'constants/styleConstants';
 
-export type TextSize = 'small' | 'medium' | 'large';
+export type TextSize = 12 | 14 | 16 | 18 | 20 | 24 | 28 | 32;
 
 export interface TextProps {
     className?: string;
     size?: TextSize;
     bold?: boolean;
+    italic?: boolean;
     wrap?: boolean;
     animate?: boolean;
 }
 
-const TextBase: React.FC<React.PropsWithChildren<TextProps>> = ({ className, size = 'medium', bold = false, wrap = false, animate = false, children, ...props }): React.ReactElement => {
+const TextBase: React.FC<React.PropsWithChildren<TextProps>> = ({
+    className,
+    size = 14,
+    bold = false,
+    italic = false,
+    wrap = false,
+    animate = false,
+    children,
+    ...props
+}): React.ReactElement => {
     return (
         <span
-            className={classnames('Text', `Text__${size}`, { Text__wrap: wrap, Text__bold: bold }, className)}
+            className={classnames('Text', { Text__wrap: wrap, Text__bold: bold, Text__italics: italic }, className)}
+            data-size={size}
             data-animate={animate}
             {...props}
         >
@@ -27,13 +38,22 @@ const TextBase: React.FC<React.PropsWithChildren<TextProps>> = ({ className, siz
     );
 };
 
+function generateSizeStyles(size: TextSize, lineHeight: number): string {
+    return `
+        &[data-size="${size}"] {
+            font-size: ${calculateRelativeSize(size, 10, 'rem')};
+            line-height: ${calculateRelativeSize(lineHeight, size)};
+        }
+    `;
+}
+
 const Text = styled(TextBase)`
     display: inline-block;
     position: relative;
     max-width: 100%;
     font-family: 'Open Sans', sans-serif;
     font-size: ${calculateRelativeSize(14, 10, 'rem')};
-    line-height: ${calculateRelativeSize(18, 14)};
+    line-height: ${calculateRelativeSize(20, 14)};
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -42,17 +62,26 @@ const Text = styled(TextBase)`
     &.Text__bold {
         font-weight: 600;
     }
+    &.Text__italics {
+        font-style: italic;
+    }
 
     // sizes
-    &.Text__small {
-        font-size: ${calculateRelativeSize(12, 10, 'rem')};
-        line-height: ${calculateRelativeSize(16, 12)};
-    }
+    ${generateSizeStyles(12, 16)}
 
-    &.Text__large {
-        font-size: ${calculateRelativeSize(16, 10, 'rem')};
-        line-height: ${calculateRelativeSize(20, 16)};
-    }
+    ${generateSizeStyles(14, 20)}
+
+    ${generateSizeStyles(16, 24)}
+
+    ${generateSizeStyles(18, 24)}
+
+    ${generateSizeStyles(20, 28)}
+
+    ${generateSizeStyles(24, 32)}
+
+    ${generateSizeStyles(28, 36)}
+
+    ${generateSizeStyles(32, 40)}
 
     &.Text__wrap {
         white-space: normal;

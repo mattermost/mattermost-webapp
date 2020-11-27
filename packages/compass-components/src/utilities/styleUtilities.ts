@@ -1,4 +1,4 @@
-export const rgbFromCSSVar = (cssVar: string, opacity?: number): string | undefined => {
+export const rgbWithCSSVar = (cssVar: string, opacity?: number): string | undefined => {
     if (typeof opacity === 'number' && (opacity < 0 || opacity > 1)) {
         return;
     } else if (typeof opacity === 'number') {

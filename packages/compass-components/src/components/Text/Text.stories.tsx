@@ -24,5 +24,4 @@ const Template: Story<StoryTextProps> = ({label = 'Default text', ...args}) => <
 
 export const Default = Template.bind({});
 Default.args = {
-  size: 'medium',
 };

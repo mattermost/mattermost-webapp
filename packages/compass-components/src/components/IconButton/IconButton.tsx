@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
-import { rgbFromCSSVar } from 'utilities/styleUtilities';
+import { rgbWithCSSVar } from 'utilities/styleUtilities';
 import Icon, { IconSize } from 'components/Icon/Icon';
 import Text, { TextSize } from 'components/Text/Text';
 import { ANIMATION_SPEEDS } from 'constants/styleConstants';
@@ -30,22 +30,22 @@ const IconButtonBase: React.FC<IconButtonProps> = ({
     label,
     ...props
 }) => {
-    let textSize: TextSize = "medium"; // medium, default
+    let textSize: TextSize = 16; // medium, default
     let iconSize: IconSize = 20; // medium, default
     switch (size) {
         case 'xsmall': {
-            textSize = "small";
+            textSize = 12;
             iconSize = 12;
             break;
         }
         case 'small-compact':
         case 'small': {
-            textSize = "small";
+            textSize = 14;
             iconSize = 16;
             break;
         }
         case 'large': {
-            textSize = "large";
+            textSize = 18;
             iconSize = 28;
             break;
         }
@@ -63,6 +63,20 @@ const IconButtonBase: React.FC<IconButtonProps> = ({
         </button>
     );
 };
+
+function generateSizeStyles(sizeLabel: IconButtonSize, size: number, padding: number, spacing: number): string {
+    return `
+        &.IconButton__${sizeLabel} {
+            padding: 0 ${padding}px;
+            min-width: ${size}px;
+            height: ${size}px;
+
+            .IconButton_icon + .IconButton_label {
+                margin-left: ${spacing}px;
+            }
+        }
+    `
+}
 
 const IconButton = styled(IconButtonBase)`
     --button-background-color: var(${(props) => (props.destructive ? '--dnd-indicator-rgb' : '--button-bg-rgb')});
@@ -87,7 +101,7 @@ const IconButton = styled(IconButtonBase)`
     // sub elements
     .IconButton_icon,
     .IconButton_label {
-        color: ${rgbFromCSSVar('--center-channel-color-rgb', 0.56)};
+        color: ${rgbWithCSSVar('--center-channel-color-rgb', 0.56)};
     }
     .IconButton_icon + .IconButton_label {
         margin-left: 6px;
@@ -110,11 +124,11 @@ const IconButton = styled(IconButtonBase)`
     }
     &::before {
         opacity: 0;
-        background: ${rgbFromCSSVar('--center-channel-color-rgb', 0.08)};
+        background: ${rgbWithCSSVar('--center-channel-color-rgb', 0.08)};
     }
     &::after {
         opacity: 0;
-        border: solid 2px ${rgbFromCSSVar('--button-bg-rgb')};
+        border: solid 2px ${rgbWithCSSVar('--button-bg-rgb')};
     }
 
     // states
@@ -122,7 +136,7 @@ const IconButton = styled(IconButtonBase)`
     &.hover {
         .IconButton_icon,
         .IconButton_label {
-            color: ${rgbFromCSSVar('--center-channel-color-rgb', 0.72)};
+            color: ${rgbWithCSSVar('--center-channel-color-rgb', 0.72)};
         }
         &::before {
             opacity: 1;
@@ -138,10 +152,10 @@ const IconButton = styled(IconButtonBase)`
     &.active {
         .IconButton_icon,
         .IconButton_label {
-            color: ${rgbFromCSSVar('--button-bg-rgb')};
+            color: ${rgbWithCSSVar('--button-bg-rgb')};
         }
         &::before {
-            background: ${rgbFromCSSVar('--button-bg-rgb', 0.08)};
+            background: ${rgbWithCSSVar('--button-bg-rgb', 0.08)};
             opacity: 1;
         }
     }
@@ -158,7 +172,7 @@ const IconButton = styled(IconButtonBase)`
         &.active {
             .IconButton_icon,
             .IconButton_label {
-                color: ${rgbFromCSSVar('--center-channel-color-rgb', 0.32)};
+                color: ${rgbWithCSSVar('--center-channel-color-rgb', 0.32)};
             }
 
             &::before,
@@ -172,61 +186,31 @@ const IconButton = styled(IconButtonBase)`
     &.IconButton__destructive:not([disabled]):not(.disabled) {
         .IconButton_icon,
         .IconButton_label {
-            color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+            color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
         }
 
         &::after {
-            border: solid 2px ${rgbFromCSSVar('--dnd-indicator-rgb')};
+            border: solid 2px ${rgbWithCSSVar('--dnd-indicator-rgb')};
         }
 
         &:active,
         &.active {
             &::before {
-                background: ${rgbFromCSSVar('--dnd-indicator-rgb', 0.08)};
+                background: ${rgbWithCSSVar('--dnd-indicator-rgb', 0.08)};
             }
         }
     }
 
     // sizes (xsmall, small, small-compact, medium, large)
-    &.IconButton__xsmall {
-        padding: 0 6px;
-        min-width: 24px;
-        height: 24px;
+    ${generateSizeStyles('xsmall', 24, 6, 4)}
 
-        .IconButton_icon + .IconButton_label {
-            margin-left: 4px;
-        }
-    }
-    &.IconButton__small {
-        padding: 0 8px;
-        min-width: 32px;
-        height: 32px;
+    ${generateSizeStyles('small', 32, 8, 4)}
 
-        .IconButton_icon + .IconButton_label {
-            margin-left: 4px;
-        }
-    }
-    &.IconButton__small-compact {
-        padding: 0 6px;
-        min-width: 28px;
-        height: 28px;
+    ${generateSizeStyles('small-compact', 28, 6, 4)}
 
-        .IconButton_icon + .IconButton_label {
-            margin-left: 4px;
-        }
-    }
-    &.IconButton__medium {
-        // medium is the default, including for consistency
-    }
-    &.IconButton__large {
-        padding: 0 10px;
-        min-width: 48px;
-        height: 48px;
+    ${generateSizeStyles('medium', 40, 10, 6)}
 
-        .IconButton_icon + .IconButton_label {
-            margin-left: 6px;
-        }
-    }
+    ${generateSizeStyles('large', 48, 10, 6)}
 
     // animation
     .enable-animations & {

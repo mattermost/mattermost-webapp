@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import classnames from 'classnames';
 
 import Icon, { IconSize } from 'components/Icon/Icon';
-import Text from 'components/Text/Text';
-import { rgbFromCSSVar, calculateRelativeSize } from 'utilities/styleUtilities';
+import Text, { TextSize } from 'components/Text/Text';
+import { rgbWithCSSVar, calculateRelativeSize } from 'utilities/styleUtilities';
 import { ANIMATION_SPEEDS } from 'constants/styleConstants';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -38,30 +38,43 @@ const ButtonBase: React.FC<ButtonProps> = ({
     destructive = false,
     ...props
 }) => {
-    let iconSize: IconSize = 16;
+    let textSize: TextSize = 14; // default, medium
+    let iconSize: IconSize = 16; // default, medium
     if (size === 'small') {
+        textSize = 12;
         iconSize = 12;
     } else if (size === 'large') {
+        textSize = 16;
         iconSize = 20;
     }
     const leadingIcon =
-        iconGlyph && iconPosition === 'leading' ? <Icon className="Button_icon" glyph={iconGlyph} size={iconSize} /> : '';
+        iconGlyph && iconPosition === 'leading' ? (
+            <Icon className="Button_icon" glyph={iconGlyph} size={iconSize} />
+        ) : (
+            ''
+        );
     const trailingIcon =
-        iconGlyph && iconPosition === 'trailing' ? <Icon className="Button_icon" glyph={iconGlyph} size={iconSize} /> : '';
+        iconGlyph && iconPosition === 'trailing' ? (
+            <Icon className="Button_icon" glyph={iconGlyph} size={iconSize} />
+        ) : (
+            ''
+        );
     return (
         <button
             className={classnames(
                 'Button',
                 `Button__${type}`,
-                `Button__${size}`,
                 { Button__fullWidth: fullWidth, Button__destructive: destructive },
                 className
             )}
+            data-size={size}
             disabled={disabled}
             {...props}
         >
             {leadingIcon}
-            <Text className="Button_label" size={size}>{label}</Text>
+            <Text className="Button_label" size={textSize}>
+                {label}
+            </Text>
             {trailingIcon}
         </button>
     );
@@ -82,12 +95,12 @@ const Button = styled(ButtonBase)`
     font-size: ${calculateRelativeSize(14, 10, 'rem')};
     font-weight: 600;
     line-height: ${calculateRelativeSize(18, 14)};
-    color: ${rgbFromCSSVar('--button-variation-color')};
+    color: ${rgbWithCSSVar('--button-variation-color')};
     text-decoration: none;
     border-radius: 4px;
     border: none;
     outline: none;
-    background: ${rgbFromCSSVar('--button-variation-color', 0)};
+    background: ${rgbWithCSSVar('--button-variation-color', 0)};
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     overflow: hidden;
     cursor: pointer;
@@ -95,7 +108,7 @@ const Button = styled(ButtonBase)`
 
     // sub elements (icons, label, fill, border)
     .Button_icon {
-        color: ${rgbFromCSSVar('--button-variation-color')};
+        color: ${rgbWithCSSVar('--button-variation-color')};
         pointer-events: none;
     }
 
@@ -142,8 +155,8 @@ const Button = styled(ButtonBase)`
 
     // types (primary, secondary, tertiary)
     &.Button__primary {
-        color: ${rgbFromCSSVar('--button-text-color')};
-        background: ${rgbFromCSSVar('--button-background-color')};
+        color: ${rgbWithCSSVar('--button-text-color')};
+        background: ${rgbWithCSSVar('--button-background-color')};
 
         &:hover,
         &.hover {
@@ -151,8 +164,22 @@ const Button = styled(ButtonBase)`
                 opacity: 0.16;
             }
         }
+        // target keyboard only focus (workaround to support non-supporting browsers)
+        // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
         &:focus,
         &.focus {
+            &::after {
+                border-color: rgba(255, 255, 255, 0.32);
+                border-width: 2px;
+            }
+        }
+        &:focus:not(:focus-visible) {
+            &::after {
+                border-color: transparent;
+                border-width: 1px;
+            }
+        }
+        &:focus-visible {
             &::after {
                 border-color: rgba(255, 255, 255, 0.32);
                 border-width: 2px;
@@ -172,14 +199,15 @@ const Button = styled(ButtonBase)`
             &:hover,
             &.hover,
             &:focus,
+            &:focus-visible,
             &.focus,
             &:active,
             &.active {
-                background: ${rgbFromCSSVar('--button-variation-color', 0.08)};
+                background: ${rgbWithCSSVar('--button-variation-color', 0.08)};
 
                 .Button_icon,
                 .Button_label {
-                    color: ${rgbFromCSSVar('--button-variation-color', 0.32)};
+                    color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
                 }
 
                 &::before,
@@ -190,20 +218,20 @@ const Button = styled(ButtonBase)`
         }
 
         .Button_icon {
-            color: ${rgbFromCSSVar('--button-text-color')};
+            color: ${rgbWithCSSVar('--button-text-color')};
         }
     }
 
     &.Button__secondary,
     &.Button__tertiary {
-        color: ${rgbFromCSSVar('--button-background-color')};
+        color: ${rgbWithCSSVar('--button-background-color')};
         background: transparent;
 
         &::before {
-            background: ${rgbFromCSSVar('--button-background-color')};
+            background: ${rgbWithCSSVar('--button-background-color')};
         }
         &::after {
-            border-color: ${rgbFromCSSVar('--button-background-color')};
+            border-color: ${rgbWithCSSVar('--button-background-color')};
         }
 
         &:hover,
@@ -212,15 +240,27 @@ const Button = styled(ButtonBase)`
                 opacity: 0.04;
             }
         }
+        // target keyboard only focus (workaround to support non-supporting browsers)
+        // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
         &:focus,
         &.focus {
-            &:after {
+            &::after {
+                border-width: 2px;
+            }
+        }
+        &:focus:not(:focus-visible) {
+            &::after {
+                border-width: 1px;
+            }
+        }
+        &:focus-visible {
+            &::after {
                 border-width: 2px;
             }
         }
         &:active,
         &.active {
-            &:before {
+            &::before {
                 opacity: 0.08;
             }
         }
@@ -232,12 +272,13 @@ const Button = styled(ButtonBase)`
             &:hover,
             &.hover,
             &:focus,
+            &:focus-visible,
             &.focus,
             &:active,
             &.active {
                 .Button_icon,
                 .Button_label {
-                    color: ${rgbFromCSSVar('--button-variation-color', 0.32)};
+                    color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
                 }
 
                 &::before {
@@ -245,13 +286,13 @@ const Button = styled(ButtonBase)`
                 }
 
                 &::after {
-                    border-color: ${rgbFromCSSVar('--button-variation-color', 0.32)};
+                    border-color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
                 }
             }
         }
 
         .Button_icon {
-            color: ${rgbFromCSSVar('--button-background-color')};
+            color: ${rgbWithCSSVar('--button-background-color')};
         }
     }
 
@@ -259,10 +300,22 @@ const Button = styled(ButtonBase)`
         &::after {
             border-color: transparent;
         }
+        // target keyboard only focus (workaround to support non-supporting browsers)
+        // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
         &:focus,
         &.focus {
             &::after {
-                border-color: ${rgbFromCSSVar('--button-background-color')};
+                border-color: ${rgbWithCSSVar('--button-background-color')};
+            }
+        }
+        &:focus:not(:focus-visible) {
+            &::after {
+                border-color: transparent;
+            }
+        }
+        &:focus-visible {
+            &::after {
+                border-color: ${rgbWithCSSVar('--button-background-color')};
             }
         }
         &[disabled],
@@ -271,6 +324,7 @@ const Button = styled(ButtonBase)`
             &:hover,
             &.hover,
             &:focus,
+            &:focus-visible,
             &.focus,
             &:active,
             &.active {
@@ -284,40 +338,58 @@ const Button = styled(ButtonBase)`
     // variations
     &.Button__destructive:not([disabled]):not(.disabled) {
         &.Button__primary {
-            background: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+            background: ${rgbWithCSSVar('--dnd-indicator-rgb')};
         }
         &.Button__secondary,
         &.Button__tertiary {
-            color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+            color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
 
             &::before {
-                background: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+                background: ${rgbWithCSSVar('--dnd-indicator-rgb')};
             }
             &::after {
-                border-color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+                border-color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
             }
         }
         &.Button__tertiary {
             &::after {
                 border-color: transparent;
             }
+            // target keyboard only focus (workaround to support non-supporting browsers)
+            // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
             &:focus,
             &.focus {
                 &::after {
-                    border-color: ${rgbFromCSSVar('--dnd-indicator-rgb')};
+                    border-color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
+                }
+            }
+            &:focus:not(:focus-visible) {
+                &::after {
+                    border-color: transparent;
+                }
+            }
+            &:focus-visible {
+                &::after {
+                    border-color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
                 }
             }
         }
     }
 
-    // sizes (small, large, full width)
-    &.Button__small {
+    // sizes (small, medium, large, full width)
+    &[data-size="small"] {
         padding: 0 16px;
         height: 32px;
         font-size: ${calculateRelativeSize(12, 10, 'rem')};
         line-height: ${calculateRelativeSize(16, 12)};
     }
-    &.Button__large {
+    &[data-size="medium"] {
+        padding: 0 20px;
+        height: 40px;
+        font-size: ${calculateRelativeSize(14, 10, 'rem')};
+        line-height: ${calculateRelativeSize(18, 14)};
+    }
+    &[data-size="large"] {
         padding: 0 24px;
         height: 48px;
         font-size: ${calculateRelativeSize(16, 10, 'rem')};
