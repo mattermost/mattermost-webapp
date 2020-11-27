@@ -15,6 +15,12 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
+import {
+    enablePermission,
+    goToSystemScheme,
+    saveConfigForScheme,
+} from '../../enterprise/system_console/channel_moderation/helpers';
+
 import {addNewCommand} from './slash_commands_spec';
 
 describe('Slash commands', () => {
@@ -50,18 +56,9 @@ describe('Slash commands', () => {
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
 
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
-
-        // # Click manage slash commands checkbox and confirm
-        cy.findByTestId('all_users-integrations-manage_slash_commands-checkbox').then((el) => {
-            if (!el.hasClass('checked')) {
-                el.click();
-            }
-        });
-        cy.get('#saveSetting').click();
-        cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-            return el[0].innerText === 'Save';
-        }));
+        goToSystemScheme();
+        enablePermission('all_users-integrations-manage_slash_commands-checkbox');
+        saveConfigForScheme();
 
         // # Login as another user
         cy.apiLogin(user2);
@@ -119,6 +116,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Update username
+        // # click on last added command's(first child) edit action
         cy.get(':nth-child(1) > .item-details > .d-flex > .item-actions > a > span').click();
         cy.get('#username').type('newname');
         cy.get('#saveCommand').click();
@@ -128,7 +126,7 @@ describe('Slash commands', () => {
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
+        cy.postMessage(`/${trigger}`);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that last post is by newname
@@ -157,6 +155,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Update icon URL
+        // # click on last added command's(first child) edit action
         cy.get(':nth-child(1) > .item-details > .d-flex > .item-actions > a > span').click();
         const iconURL = 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png';
         cy.get('#iconUrl').type(iconURL);
@@ -167,7 +166,7 @@ describe('Slash commands', () => {
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
+        cy.postMessage(`/${trigger}`);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that last post has correct icon
@@ -192,6 +191,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Update autocomplete
+        // # click on last added command's(first child) edit action
         cy.get(':nth-child(1) > .item-details > .d-flex > .item-actions > a > span').click();
         cy.get('#autocomplete').click();
         const hint = '[test-hint]';
@@ -223,6 +223,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Remove autocomplete
+        // # click on last added command's(first child) edit action
         cy.get(':nth-child(1) > .item-details > .d-flex > .item-actions > a > span').click();
         cy.get('#autocomplete').click();
         cy.get('#saveCommand').click();
@@ -248,7 +249,10 @@ function deleteCommand(team, trigger) {
     cy.visit(`/${team.name}/integrations/commands/installed`);
 
     // # Delete slash command
+    // * Verify that last added command's(first child) details contains `/trigger`
     cy.get(':nth-child(1) > .item-details > .d-flex > :nth-child(1) > .item-details__trigger').contains(`/${trigger}`);
+
+    // # click on last added command's(first child) delete action(third item in actions)
     cy.get(':nth-child(1) > .item-details > .d-flex > .item-actions > :nth-child(3) > .color--link > span').click();
     cy.get('#confirmModalButton').click();
 
