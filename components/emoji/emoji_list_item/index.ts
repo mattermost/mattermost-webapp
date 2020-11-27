@@ -11,7 +11,7 @@ import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 
 import {GlobalState} from '../../../types/store';
 
