@@ -20,7 +20,7 @@ variables:
 
 include:
   - project: mattermost/ci/mattermost-webapp
-    ref: release-5.25
+    ref: release-5.27
     file: private.yml
   - local: .gitlab-ci/check.gitlab-ci.yml
 
