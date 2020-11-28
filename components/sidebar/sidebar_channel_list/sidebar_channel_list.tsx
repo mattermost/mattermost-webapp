@@ -15,13 +15,13 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import SidebarCategory from '../sidebar_category';
+import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 export function renderView(props: any) {
@@ -57,19 +57,22 @@ type Props = {
     displayedChannels: Channel[];
     newCategoryIds: string[];
     draggingState: DraggingState;
+    multiSelectedChannelIds: string[];
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
     onDragEnd: (result: DropResult) => void;
 
     actions: {
-        moveChannelInSidebar: (categoryId: string, channelId: string, newIndex: number) => void;
+        moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
         expandCategory: (categoryId: string) => void;
+        clearChannelSelection: () => void;
+        multiSelectChannelAdd: (channelId: string) => void;
     };
 };
 
@@ -362,6 +365,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
         droppable[0].style.height = `${droppable[0].scrollHeight}px`;
 
+        if (!this.props.multiSelectedChannelIds.find((id) => before.draggableId === id)) {
+            this.props.actions.clearChannelSelection();
+        }
+
         const draggingState: DraggingState = {
             state: DraggingStates.CAPTURE,
             id: before.draggableId,
@@ -370,8 +377,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (this.props.categories.some((category) => category.id === before.draggableId)) {
             draggingState.type = DraggingStateTypes.CATEGORY;
         } else {
-            const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === before.draggableId);
-            draggingState.type = (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) ? DraggingStateTypes.DM : DraggingStateTypes.CHANNEL;
+            const draggingChannels = this.props.displayedChannels.filter((channel) => this.props.multiSelectedChannelIds.indexOf(channel.id) !== -1 || channel.id === before.draggableId);
+            if (draggingChannels.every((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.DM;
+            } else if (draggingChannels.every((channel) => channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.CHANNEL;
+            } else {
+                draggingState.type = DraggingStateTypes.MIXED_CHANNELS;
+            }
         }
 
         this.props.actions.setDraggingState(draggingState);
@@ -396,7 +409,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
-                this.props.actions.moveChannelInSidebar(result.destination.droppableId, result.draggableId, result.destination.index);
+                this.props.actions.moveChannelsInSidebar(result.destination.droppableId, result.destination.index, result.draggableId);
                 trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);

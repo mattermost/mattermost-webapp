@@ -1,0 +1,12 @@
+.check:
+  stage: test
+  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20200829_node-10.22
+  cache:
+    key:
+      files:
+        - package.json
+      prefix: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+      - node_modules/
+    policy: pull
