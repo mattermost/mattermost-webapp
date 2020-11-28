@@ -36,6 +36,7 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "3.2.3",
     "@formatjs/intl-relativetimeformat": "6.2.3",
+    "@mattermost/compass-components": "0.1.0",
     "@mattermost/compass-icons": "0.1.0",
     "@mattermost/redux": "5.3.1",
     "@stripe/react-stripe-js": "1.1.2",
