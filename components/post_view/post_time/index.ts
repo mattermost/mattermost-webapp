@@ -14,4 +14,4 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps)(PostTime as any);
+export default connect(mapStateToProps)(PostTime);

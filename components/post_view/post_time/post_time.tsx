@@ -31,7 +31,7 @@ type Props = {
      */
     eventTime: number;
 
-    location: typeof Locations;
+    location: string;
 
     /*
      * The post id of posting being rendered
@@ -41,7 +41,7 @@ type Props = {
 }
 
 export default class PostTime extends React.PureComponent<Props> {
-    static defaultProps = {
+    static defaultProps: Partial<Props> = {
         eventTime: 0,
         location: Locations.CENTER,
     };
