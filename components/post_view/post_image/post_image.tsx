@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {Post} from 'mattermost-redux/types/posts';
 
 import React from 'react';
 
@@ -14,7 +15,7 @@ type Props = {
         format?: string
     },
     link: string,
-    post: any,
+    post: Post,
 }
 
 type State = {
