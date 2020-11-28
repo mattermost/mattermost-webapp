@@ -22,7 +22,21 @@ describe('components/CommentedOnFilesMessage', () => {
     test('should match snapshot for single file', () => {
         const props = {
             ...baseProps,
-            fileInfos: [{id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1}],
+            fileInfos: [{
+                id: 'file_id_1',
+                name: 'image_1.png',
+                extension: 'png',
+                create_at: 1,
+                user_id: '',
+                update_at: 1,
+                delete_at: 1,
+                size: 1,
+                mime_type: '',
+                width: 100,
+                height: 100,
+                has_preview_image: false,
+                clientId: '',
+            }],
         };
 
         const wrapper = shallow(
@@ -34,9 +48,51 @@ describe('components/CommentedOnFilesMessage', () => {
 
     test('should match snapshot for multiple files', () => {
         const fileInfos = [
-            {id: 'file_id_3', name: 'image_3.png', extension: 'png', create_at: 3},
-            {id: 'file_id_2', name: 'image_2.png', extension: 'png', create_at: 2},
-            {id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1},
+            {
+                id: 'file_id_3',
+                name: 'image_3.png',
+                extension: 'png',
+                create_at: 3,
+                user_id: '',
+                update_at: 3,
+                delete_at: 3,
+                size: 1,
+                mime_type: '',
+                width: 100,
+                height: 100,
+                has_preview_image: false,
+                clientId: '',
+            },
+            {
+                id: 'file_id_2',
+                name: 'image_2.png',
+                extension: 'png',
+                create_at: 2,
+                user_id: '',
+                update_at: 2,
+                delete_at: 2,
+                size: 1,
+                mime_type: '',
+                width: 100,
+                height: 100,
+                has_preview_image: false,
+                clientId: '',
+            },
+            {
+                id: 'file_id_3',
+                name: 'image_3.png',
+                extension: 'png',
+                create_at: 3,
+                user_id: '',
+                update_at: 3,
+                delete_at: 3,
+                size: 1,
+                mime_type: '',
+                width: 100,
+                height: 100,
+                has_preview_image: false,
+                clientId: '',
+            },
         ];
 
         const props = {
