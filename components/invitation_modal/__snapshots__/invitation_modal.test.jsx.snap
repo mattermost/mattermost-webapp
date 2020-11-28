@@ -85,7 +85,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           />
         }
       />
-      <InvitationModalGuestsStep
+      <Connect(InvitationModalGuestsStep)
         currentTeamId="test"
         defaultChannels={Array []}
         defaultMessage=""

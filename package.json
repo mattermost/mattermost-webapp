@@ -8,10 +8,14 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "3.2.3",
     "@formatjs/intl-relativetimeformat": "6.2.3",
+    "@stripe/react-stripe-js": "1.1.2",
+    "@stripe/stripe-js": "1.9.0",
+    "@types/country-list": "2.1.0",
     "bootstrap": "3.4.1",
     "chart.js": "2.9.3",
     "compass-mixins": "0.12.10",
     "core-js": "3.6.5",
+    "country-list": "2.2.0",
     "css-vars-ponyfill": "2.3.2",
     "custom-protocol-detection": "github:ismailhabib/custom-protocol-detection",
     "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#119db968c96643c7106d4d2c965f05b2e251bc83",
@@ -33,7 +37,7 @@
     "localforage-observable": "2.0.1",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#87769262aa02e1784570f61f4f962050e07cc335",
-    "mattermost-redux": "github:mattermost/mattermost-redux#7a241e2a4f56217320ae79facca5a3a3fb83e95d",
+    "mattermost-redux": "github:mattermost/mattermost-redux#0e4c1e624d57a744fe28a91e7cf45696d8b6e1c1",
     "moment-timezone": "0.5.31",
     "p-queue": "6.6.1",
     "pdfjs-dist": "2.1.266",
@@ -151,6 +155,7 @@
     "jest-canvas-mock": "2.2.0",
     "jest-cli": "26.1.0",
     "jest-junit": "11.0.1",
+    "jest-watch-typeahead": "0.6.1",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.9.0",
     "mmjstool": "github:mattermost/mattermost-utilities#519b99a4e51e6c67a0dbd46a6efdff27dc835aaa",
@@ -222,7 +227,11 @@
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.js"
     ],
-    "testURL": "http://localhost:8065"
+    "testURL": "http://localhost:8065",
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ]
   },
   "jest-junit": {
     "outputDirectory": "build",
@@ -233,7 +242,7 @@
     "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
-    "dev-server": "webpack-dev-server",
+    "dev-server": "webpack-dev-server -d",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --maxWorkers=50%",
     "test-ci": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --ci --maxWorkers=8",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",

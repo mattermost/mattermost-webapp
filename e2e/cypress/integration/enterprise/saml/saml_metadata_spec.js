@@ -44,37 +44,40 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
     });
 
     it('fail to fetch metadata from Idp Metadata Url', () => {
-        //verify that the metadata Url textbox is enabled and empty
+        // * Verify that the metadata Url textbox is enabled and empty
         cy.findByTestId('SamlSettings.IdpMetadataUrlinput').
             scrollIntoView().should('be.visible').and('be.enabled').and('have.text', '');
 
-        //verify that the Get Metadata Url fetch button is disabled
+        // * Verify that the Get Metadata Url fetch button is disabled
         cy.get('#getSamlMetadataFromIDPButton').find('button').should('be.visible').and('be.disabled');
 
-        //type in the metadata Url in the metadata Url textbox
+        // # Type in the metadata Url in the metadata Url textbox
         cy.findByTestId('SamlSettings.IdpMetadataUrlinput').
             scrollIntoView().should('be.visible').
-            focus().type(testSamlMetadataUrl + '{enter}', {force: true});
+            focus().type(testSamlMetadataUrl);
 
-        //verify that we get the right error message
+        // # Click on the Get SAML Metadata Button
+        cy.get('#getSamlMetadataFromIDPButton button').click();
+
+        // * Verify that we get the right error message
         cy.get('#getSamlMetadataFromIDPButton').should('be.visible').contains(getSamlMetadataErrorMessage);
 
-        //verify that the IdpUrl textbox content has not been updated
+        // * Verify that the IdpUrl textbox content has not been updated
         cy.findByTestId('SamlSettings.IdpUrlinput').then((elem) => {
             Cypress.$(elem).val() === config.SamlSettings.IdpUrl;
         });
 
-        //verify that the IdpDescriptorUrl textbox content has not been updated
+        // * Verify that the IdpDescriptorUrl textbox content has not been updated
         cy.findByTestId('SamlSettings.IdpDescriptorUrl').then((elem) => {
             Cypress.$(elem).val() === config.SamlSettings.IdpDescriptorUrl;
         });
 
-        //verify that the IdpDescriptorUrl textbox content has been updated
+        // * Verify that the IdpDescriptorUrl textbox content has been updated
         cy.findByTestId('SamlSettings.ServiceProviderIdentifier').then((elem) => {
             Cypress.$(elem).val() === config.SamlSettings.ServiceProviderIdentifier;
         });
 
-        //verify that we can successfully save the settings (we have not affected previous state)
+        // * Verify that we can successfully save the settings (we have not affected previous state)
         cy.get('#saveSetting').click();
     });
 });

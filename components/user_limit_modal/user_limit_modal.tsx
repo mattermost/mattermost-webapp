@@ -1,9 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import {trackEvent, pageVisited} from 'actions/telemetry_actions';
+
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import PurchaseModal from 'components/purchase_modal';
 
 import UpgradeUserLimitModalSvg from './user_limit_upgrade_svg';
 import './user_limit_modal.scss';
@@ -12,16 +17,35 @@ type Props = {
     show: boolean;
     actions: {
         closeModal: () => void;
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
     };
 };
 
 export default function UserLimitModal(props: Props) {
+    useEffect(() => {
+        pageVisited(
+            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+            'pageview_modal_user_limit_reached',
+        );
+    }, []);
+
     const onSubmit = () => {
-        // This does nothing until implementation of the upgrade tier page is complete
-        // Eventually, we will dispatch props.actions.openModal here
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+            'click_modal_user_limit_upgrade',
+        );
+        props.actions.closeModal();
+        props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
     };
 
     const close = () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+            'click_modal_user_limit_not_now',
+        );
         props.actions.closeModal();
     };
 

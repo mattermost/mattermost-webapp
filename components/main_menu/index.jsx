@@ -4,7 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {
+    getConfig,
+    getLicense,
+} from 'mattermost-redux/selectors/entities/general';
 import {
     getMyTeams,
     getJoinableTeamIds,
@@ -14,6 +17,7 @@ import {
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {isAdmin} from 'utils/utils.jsx';
 
@@ -103,6 +107,8 @@ function mapStateToProps(state) {
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
         showNextSteps: showNextSteps(state),
+        subscription: state.entities.cloud.subscription,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 
@@ -115,6 +121,7 @@ function mapDispatchToProps(dispatch) {
             closeRightHandSide,
             closeRhsMenu,
             unhideNextSteps,
+            getCloudSubscription,
         }, dispatch),
     };
 }

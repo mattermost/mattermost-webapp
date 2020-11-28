@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Overlay, Tooltip} from 'react-bootstrap';
@@ -39,6 +38,7 @@ type ClientErrorPlaceholder = {
 }
 
 export default abstract class AdminSettings <Props extends BaseProps, State extends BaseState> extends React.Component<Props, State> {
+    private errorMessageRef: React.RefObject<HTMLDivElement>;
     public constructor(props: Props) {
         super(props);
         const stateInit = {
@@ -52,6 +52,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         } else {
             this.state = stateInit as Readonly<State>;
         }
+        this.errorMessageRef = React.createRef();
     }
 
     protected abstract getStateFromConfig(config: DeepPartial<AdminConfig>): Partial<State>;
@@ -96,7 +97,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         this.doSubmit();
     }
 
-    private doSubmit = async (callback?: () => void) => {
+    protected doSubmit = async (callback?: () => void) => {
         this.setState({
             saving: true,
             serverError: null,
@@ -185,7 +186,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
         return n;
     };
 
-    private parseIntNonZero = (str: string, defaultValue?: number, minimumValue = 1) => {
+    protected parseIntNonZero = (str: string, defaultValue?: number, minimumValue = 1) => {
         const n = parseInt(str, 10);
 
         if (isNaN(n) || n < minimumValue) {
@@ -256,7 +257,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                         />
                         <div
                             className='error-message'
-                            ref='errorMessage'
+                            ref={this.errorMessageRef}
                             onMouseOver={this.openTooltip}
                             onMouseOut={this.closeTooltip}
                         >
@@ -265,7 +266,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                         <Overlay
                             show={this.state.errorTooltip}
                             placement='top'
-                            target={this.refs.errorMessage}
+                            target={this.errorMessageRef.current as HTMLElement}
                         >
                             <Tooltip id='error-tooltip' >
                                 {this.state.serverError}
@@ -278,4 +279,3 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
     }
 }
 
-/* eslint-enable react/no-string-refs */

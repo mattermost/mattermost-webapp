@@ -15,6 +15,7 @@ import addContext from 'mochawesome/addContext';
 
 import './api';
 import './api_commands'; // soon to deprecate
+import './client';
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';
@@ -103,6 +104,14 @@ before(() => {
             cy.apiCreateAdmin().then(({sysadmin}) => {
                 cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
+        }
+
+        // * Verify that the server database matches with the DB client and config at "cypress.json"
+        cy.apiRequireServerDBToMatch();
+
+        if (Cypress.env('runWithEELicense')) {
+            // * Verify that the server is loaded with license when running tests for EE
+            cy.apiRequireLicense();
         }
     });
 });

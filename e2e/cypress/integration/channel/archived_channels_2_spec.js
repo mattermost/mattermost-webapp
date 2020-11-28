@@ -35,8 +35,7 @@ describe('Leave an archived channel', () => {
         cy.visit(`/${testTeam.name}`);
 
         // # Create a new channel
-        const archivedChannel = `channel${getRandomId()}`;
-        cy.uiCreateChannel({displayName: archivedChannel});
+        cy.uiCreateChannel({isNewSidebar: true});
 
         // # Make a post
         const archivedPostText = `archived${getRandomId()}`;

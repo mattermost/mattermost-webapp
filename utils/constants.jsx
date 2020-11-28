@@ -100,6 +100,7 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
 export const ActionTypes = keyMirror({
@@ -205,6 +206,10 @@ export const ActionTypes = keyMirror({
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
     ADD_NEW_CATEGORY_ID: null,
+    MULTISELECT_CHANNEL: null,
+    MULTISELECT_CHANNEL_ADD: null,
+    MULTISELECT_CHANNEL_TO: null,
+    MULTISELECT_CHANNEL_CLEAR: null,
 
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
@@ -273,6 +278,7 @@ export const ModalIdentifiers = {
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
+    CLOUD_PURCHASE: 'cloud_purchase',
 };
 
 export const UserStatuses = {
@@ -379,6 +385,8 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
     SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
+    USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
+    CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
 };
 
 export const TutorialSteps = {
@@ -401,6 +409,11 @@ export const RecommendedNextSteps = {
 
 export const CloudBanners = {
     HIDE: 'hide',
+};
+
+export const TELEMETRY_CATEGORIES = {
+    CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_ADMIN: 'cloud_admin',
 };
 
 export const PostTypes = {
@@ -662,11 +675,16 @@ export const DraggingStateTypes = {
     CATEGORY: 'category',
     CHANNEL: 'channel',
     DM: 'DM',
+    MIXED_CHANNELS: 'mixed_channels',
 };
 
 export const AboutLinks = {
     TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
     PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+};
+
+export const CloudLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
 };
 
 export const PermissionsScope = {
@@ -737,6 +755,8 @@ export const PermissionsScope = {
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
+    [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
+    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -850,6 +870,13 @@ export const exportFormats = {
     EXPORT_FORMAT_CSV: 'csv',
     EXPORT_FORMAT_ACTIANCE: 'actiance',
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
+};
+
+export const ZoomSettings = {
+    DEFAULT_SCALE: 1,
+    SCALE_DELTA: 0.25,
+    MIN_SCALE: 0.25,
+    MAX_SCALE: 3.0,
 };
 
 export const Constants = {
@@ -1503,6 +1530,9 @@ export const Constants = {
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_READ_ONLY_ADMIN: 'system_read_only_admin',
+    PERMISSIONS_SYSTEM_USER_MANAGER: 'system_user_manager',
+    PERMISSIONS_SYSTEM_MANAGER: 'system_manager',
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
@@ -1538,6 +1568,15 @@ export const Constants = {
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
 };
 
+export const ValidationErrors = {
+    USERNAME_REQUIRED: 'USERNAME_REQUIRED',
+    INVALID_LENGTH: 'INVALID_LENGTH',
+    INVALID_CHARACTERS: 'INVALID_CHARACTERS',
+    INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
+    RESERVED_NAME: 'RESERVED_NAME',
+    INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
+};
+
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
 export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_list_option.from'), defaultMessage: 'Messages from a user'}},
@@ -1560,3 +1599,4 @@ t('suggestion.archive');
 t('suggestion.mention.groups');
 
 export default Constants;
+

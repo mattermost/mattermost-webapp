@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -27,6 +26,8 @@ export default class NavbarInfoButton extends React.PureComponent {
         }).isRequired,
     };
 
+    headerOverlayRef = React.createRef();
+
     componentDidUpdate(prevProps) {
         const RHSChanged = !prevProps.isRHSOpen && this.props.isRHSOpen;
         const channelChanged = prevProps.channel?.id !== this.props.channel?.id;
@@ -49,8 +50,8 @@ export default class NavbarInfoButton extends React.PureComponent {
     }
 
     hide = () => {
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
+        if (this.headerOverlayRef.current) {
+            this.headerOverlayRef.current.hide();
         }
     }
 
@@ -128,7 +129,7 @@ export default class NavbarInfoButton extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                ref='headerOverlay'
+                ref={this.headerOverlayRef}
                 trigger='click'
                 placement='bottom'
                 overlay={popover}
@@ -148,4 +149,3 @@ export default class NavbarInfoButton extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

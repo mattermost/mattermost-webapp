@@ -19,6 +19,7 @@ describe('components/AdminConsole', () => {
         },
         adminDefinition: AdminDefinition,
         license: {},
+        cloud: {},
         buildEnterpriseReady: true,
         match: {
             url: '',
