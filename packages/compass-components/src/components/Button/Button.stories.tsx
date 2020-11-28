@@ -8,7 +8,15 @@ export default {
   component: Button,
 } as Meta;
 
-export const Default: Story<ButtonProps> = (args) => <Button {...args} />;
+export const Default: Story<ButtonProps> = (args) => {
+  return (
+    <>
+      <Button {...args} />
+      <Button {...args} iconGlyph="icon-alien-outline" />
+      <Button {...args} iconGlyph="icon-alien-outline" iconPosition="trailing" />
+    </>
+  )
+};
 Default.args = {
   label: 'Default Button',
 };

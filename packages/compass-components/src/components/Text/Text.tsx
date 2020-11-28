@@ -13,7 +13,6 @@ export interface TextProps {
     bold?: boolean;
     italic?: boolean;
     wrap?: boolean;
-    animate?: boolean;
 }
 
 const TextBase: React.FC<React.PropsWithChildren<TextProps>> = ({
@@ -22,7 +21,6 @@ const TextBase: React.FC<React.PropsWithChildren<TextProps>> = ({
     bold = false,
     italic = false,
     wrap = false,
-    animate = false,
     children,
     ...props
 }): React.ReactElement => {
@@ -30,7 +28,6 @@ const TextBase: React.FC<React.PropsWithChildren<TextProps>> = ({
         <span
             className={classnames('Text', { Text__wrap: wrap, Text__bold: bold, Text__italics: italic }, className)}
             data-size={size}
-            data-animate={animate}
             {...props}
         >
             {children}
@@ -89,9 +86,7 @@ const Text = styled(TextBase)`
 
     // animation
     .enable-animations & {
-        &[data-animate] {
-            transition: color ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;
-        }
+        transition: color ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;
     }
 `;
 

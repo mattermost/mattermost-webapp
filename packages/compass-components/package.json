@@ -9,6 +9,21 @@
   "bugs": {
     "url": "https://github.com/mattermost/mattermost-webapp/issues"
   },
+  "files": [
+    "./dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "browser": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./components": "./dist/components/index.js",
+    "./components/*": "./dist/components/*.js",
+    "./constants": "./dist/constants/index.js",
+    "./constants/*": "./dist/constants/*.js",
+    "./utilities": "./dist/utilities/index.js",
+    "./utilities/*": "./dist/utilities/*.js"
+  },
   "scripts": {
     "clean": "rm -rf node_modules dist",
     "start": "tsc --watch",

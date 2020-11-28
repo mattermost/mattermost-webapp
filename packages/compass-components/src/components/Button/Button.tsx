@@ -108,6 +108,7 @@ const Button = styled(ButtonBase)`
 
     // sub elements (icons, label, fill, border)
     .Button_icon {
+        flex-shrink: 1;
         color: ${rgbWithCSSVar('--button-variation-color')};
         pointer-events: none;
     }
@@ -154,20 +155,17 @@ const Button = styled(ButtonBase)`
     }
 
     // types (primary, secondary, tertiary)
-    &.Button__primary {
+    &.Button__primary:not([disabled]) {
         color: ${rgbWithCSSVar('--button-text-color')};
         background: ${rgbWithCSSVar('--button-background-color')};
 
-        &:hover,
-        &.hover {
+        &:hover {
             &::before {
                 opacity: 0.16;
             }
         }
-        // target keyboard only focus (workaround to support non-supporting browsers)
-        // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
-        &:focus,
-        &.focus {
+        // focus selector sequence's enable visual focus indicator only for keyboard navigation
+        &:focus {
             &::after {
                 border-color: rgba(255, 255, 255, 0.32);
                 border-width: 2px;
@@ -185,35 +183,9 @@ const Button = styled(ButtonBase)`
                 border-width: 2px;
             }
         }
-        &:active,
-        &.active {
+        &:active {
             &::before {
                 opacity: 0.32;
-            }
-        }
-        &[disabled],
-        &.disabled {
-            cursor: not-allowed;
-
-            &,
-            &:hover,
-            &.hover,
-            &:focus,
-            &:focus-visible,
-            &.focus,
-            &:active,
-            &.active {
-                background: ${rgbWithCSSVar('--button-variation-color', 0.08)};
-
-                .Button_icon,
-                .Button_label {
-                    color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
-                }
-
-                &::before,
-                &::after {
-                    opacity: 0;
-                }
             }
         }
 
@@ -222,8 +194,8 @@ const Button = styled(ButtonBase)`
         }
     }
 
-    &.Button__secondary,
-    &.Button__tertiary {
+    &.Button__secondary:not([disabled]),
+    &.Button__tertiary:not([disabled]) {
         color: ${rgbWithCSSVar('--button-background-color')};
         background: transparent;
 
@@ -234,16 +206,13 @@ const Button = styled(ButtonBase)`
             border-color: ${rgbWithCSSVar('--button-background-color')};
         }
 
-        &:hover,
-        &.hover {
+        &:hover {
             &:before {
                 opacity: 0.04;
             }
         }
-        // target keyboard only focus (workaround to support non-supporting browsers)
-        // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
-        &:focus,
-        &.focus {
+        // focus selector sequence's enable visual focus indicator only for keyboard navigation
+        &:focus {
             &::after {
                 border-width: 2px;
             }
@@ -258,36 +227,9 @@ const Button = styled(ButtonBase)`
                 border-width: 2px;
             }
         }
-        &:active,
-        &.active {
+        &:active {
             &::before {
                 opacity: 0.08;
-            }
-        }
-        &[disabled],
-        &.disabled {
-            cursor: not-allowed;
-
-            &,
-            &:hover,
-            &.hover,
-            &:focus,
-            &:focus-visible,
-            &.focus,
-            &:active,
-            &.active {
-                .Button_icon,
-                .Button_label {
-                    color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
-                }
-
-                &::before {
-                    opacity: 0;
-                }
-
-                &::after {
-                    border-color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
-                }
             }
         }
 
@@ -296,14 +238,12 @@ const Button = styled(ButtonBase)`
         }
     }
 
-    &.Button__tertiary {
+    &.Button__tertiary:not([disabled]) {
         &::after {
             border-color: transparent;
         }
-        // target keyboard only focus (workaround to support non-supporting browsers)
-        // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
-        &:focus,
-        &.focus {
+        // focus selector sequence's enable visual focus indicator only for keyboard navigation
+        &:focus {
             &::after {
                 border-color: ${rgbWithCSSVar('--button-background-color')};
             }
@@ -318,25 +258,10 @@ const Button = styled(ButtonBase)`
                 border-color: ${rgbWithCSSVar('--button-background-color')};
             }
         }
-        &[disabled],
-        &.disabled {
-            &,
-            &:hover,
-            &.hover,
-            &:focus,
-            &:focus-visible,
-            &.focus,
-            &:active,
-            &.active {
-                &::after {
-                    border-color: transparent;
-                }
-            }
-        }
     }
 
     // variations
-    &.Button__destructive:not([disabled]):not(.disabled) {
+    &.Button__destructive:not([disabled]) {
         &.Button__primary {
             background: ${rgbWithCSSVar('--dnd-indicator-rgb')};
         }
@@ -350,15 +275,17 @@ const Button = styled(ButtonBase)`
             &::after {
                 border-color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
             }
+
+            .Button_icon {
+                color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
+            }
         }
         &.Button__tertiary {
             &::after {
                 border-color: transparent;
             }
-            // target keyboard only focus (workaround to support non-supporting browsers)
-            // - set general focus, clear general when focus-visible is supported, re-apply for focus-visible
-            &:focus,
-            &.focus {
+            // focus selector sequence's enable visual focus indicator only for keyboard navigation
+            &:focus {
                 &::after {
                     border-color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
                 }
@@ -372,6 +299,43 @@ const Button = styled(ButtonBase)`
                 &::after {
                     border-color: ${rgbWithCSSVar('--dnd-indicator-rgb')};
                 }
+            }
+        }
+    }
+    &[disabled] {
+        cursor: not-allowed;
+
+        &.Button__primary {
+            background: ${rgbWithCSSVar('--button-variation-color', 0.08)};
+
+            .Button_icon,
+            .Button_label {
+                color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
+            }
+
+            &::before,
+            &::after {
+                opacity: 0;
+            }
+        }
+        &.Button__secondary,
+        &.Button__tertiary {
+            .Button_icon,
+            .Button_label {
+                color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
+            }
+
+            &::before {
+                opacity: 0;
+            }
+
+            &::after {
+                border-color: ${rgbWithCSSVar('--button-variation-color', 0.32)};
+            }
+        }
+        &.Button__tertiary {
+            &::after {
+                border-color: transparent;
             }
         }
     }
@@ -399,13 +363,6 @@ const Button = styled(ButtonBase)`
         min-width: 100%;
         margin: 0;
 
-        .Button_icon {
-            flex-shrink: 1;
-        }
-        .Button_label {
-            flex-grow: 1;
-        }
-
         & + .Button {
             margin-left: 0px;
             margin-top: 8px;
@@ -415,10 +372,6 @@ const Button = styled(ButtonBase)`
     // animation
     .enable-animations & {
         transition: background-color ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;
-
-        .Button_label {
-            transition: color ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;
-        }
 
         &::before {
             transition: opacity ${ANIMATION_SPEEDS.SHORTER} 0s ease-in-out;

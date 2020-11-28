@@ -1,7 +1,9 @@
-function scream(text: string) {
-    [1, 2].includes(1);
-    const transformedText = text.toUpperCase();
-    return `${transformedText}!!!!`;
-}
+import * as components from "./components";
+import * as constants from "./constants";
+import * as utilities from "./utilities";
 
-export default scream;
+export {
+    components,
+    constants,
+    utilities,
+}

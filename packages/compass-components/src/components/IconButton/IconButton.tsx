@@ -50,7 +50,7 @@ const IconButtonBase: React.FC<IconButtonProps> = ({
             break;
         }
     }
-    const buttonLabel = label ? <Text className="IconButton_label" size={textSize} bold={true} animate={true}>{label}</Text> : null;
+    const buttonLabel = label ? <Text className="IconButton_label" size={textSize} bold={true}>{label}</Text> : null;
     return (
         <button
             className={classnames('IconButton', `IconButton__${size}`, { IconButton__destructive: destructive }, className)}
@@ -107,7 +107,7 @@ const IconButton = styled(IconButtonBase)`
         margin-left: 6px;
     }
 
-    // - (::before for fill, ::after for border)
+    // - ::before for fill, ::after for border
     &::before,
     &::after {
         content: '';
@@ -132,8 +132,7 @@ const IconButton = styled(IconButtonBase)`
     }
 
     // states
-    &:hover,
-    &.hover {
+    &:hover {
         .IconButton_icon,
         .IconButton_label {
             color: ${rgbWithCSSVar('--center-channel-color-rgb', 0.72)};
@@ -142,14 +141,22 @@ const IconButton = styled(IconButtonBase)`
             opacity: 1;
         }
     }
-    &:focus,
-    &.focus {
+    &:focus {
         &::after {
             opacity: 1;
         }
     }
-    &:active,
-    &.active {
+    &:focus:not(:focus-visible) {
+        &::after {
+            opacity: 0;
+        }
+    }
+    &:focus-visible {
+        &::after {
+            opacity: 1;
+        }
+    }
+    &:active {
         .IconButton_icon,
         .IconButton_label {
             color: ${rgbWithCSSVar('--button-bg-rgb')};
@@ -157,28 +164,6 @@ const IconButton = styled(IconButtonBase)`
         &::before {
             background: ${rgbWithCSSVar('--button-bg-rgb', 0.08)};
             opacity: 1;
-        }
-    }
-    &[disabled],
-    .disabled {
-        cursor: not-allowed;
-
-        &,
-        &:hover,
-        &.hover,
-        &:focus,
-        &.focus,
-        &:active,
-        &.active {
-            .IconButton_icon,
-            .IconButton_label {
-                color: ${rgbWithCSSVar('--center-channel-color-rgb', 0.32)};
-            }
-
-            &::before,
-            &::after {
-                opacity: 0;
-            }
         }
     }
 
@@ -193,10 +178,29 @@ const IconButton = styled(IconButtonBase)`
             border: solid 2px ${rgbWithCSSVar('--dnd-indicator-rgb')};
         }
 
-        &:active,
-        &.active {
+        &:active {
             &::before {
                 background: ${rgbWithCSSVar('--dnd-indicator-rgb', 0.08)};
+            }
+        }
+    }
+    &[disabled],
+    .disabled {
+        cursor: not-allowed;
+
+        &,
+        &:hover,
+        &:focus,
+        &:focus-visible,
+        &:active {
+            .IconButton_icon,
+            .IconButton_label {
+                color: ${rgbWithCSSVar('--center-channel-color-rgb', 0.32)};
+            }
+
+            &::before,
+            &::after {
+                opacity: 0;
             }
         }
     }
