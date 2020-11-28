@@ -189,47 +189,17 @@ describe('User Management', () => {
     it('MM-T941 Users - Revoke all sessions for unreachable users', () => {
         // # Login as a system user - User
         cy.apiLogin(testUser);
-        cy.getCookies().then((cookies) => {
-            const userCookies = cookies;
 
-            // # Turn off the Mobile device (or) activate the Airplane mode on that mobile phone.
-            // Not logging out from testUser so that we can emulate the going offline immediately.
-            cy.apiAdminLogin();
+        // Visit the test channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
 
-            // # Navigate to System Console -> Users Page
-            cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        // # Revoke all sessions for the user
+        cy.externalRequest({user: sysadmin, method: 'post', path: `users/${testUser.id}/sessions/revoke/all`});
 
-            // # Search for the user.
-            cy.get('#searchUsers').clear().type(testUser.email).wait(TIMEOUTS.HALF_SEC);
+        cy.visit('/').wait(TIMEOUTS.HALF_MIN);
 
-            cy.findByTestId('userListRow').within(() => {
-                // # Open the actions menu.
-                cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
-
-                // # Click on the 'Revoke All Sessions' button.
-                cy.findByLabelText('User Actions Menu').findByText('Revoke Sessions').click();
-            });
-
-            // # Verify the modal opened.
-            cy.get('#confirmModal').should('exist');
-
-            // # Confirm by clicking the "Revoke" button.
-            cy.get('#confirmModalButton').click();
-
-            // # Logout with admin user.
-            cy.apiLogout();
-
-            // * If a user is not online when the Revoke Sessions option was chosen,
-            // then the user's session should be deactivated next time, when the user
-            // goes online and accesses the Mattermost application
-            userCookies.forEach((cookie) => {
-                cy.setCookie(cookie.name, cookie.value);
-            });
-            cy.visit('/');
-
-            // # Check if user's session is automatically logged out and the user is redirected to the login page.
-            cy.url().should('contain', '/login');
-        });
+        // # Check if user's session is automatically logged out and the user is redirected to the login page
+        cy.url().should('contain', '/login');
     });
 
     it('MM-T942 Users - Deactivated user not in drop-down, auto-logged out', () => {
@@ -246,16 +216,15 @@ describe('User Management', () => {
         activateUser(otherUser, false);
         cy.apiLogout();
 
-        // * Verify that user is deactivated
-        cy.request({
-            url: '/api/v4/users/login',
-            method: 'POST',
-            failOnStatusCode: false,
-            body: {login_id: otherUser.username, password: otherUser.password},
-        }).then((response) => {
-            expect(response.status).to.equal(401);
-            expect(response.body.message).to.contain('your account has been deactivated');
-        });
+        cy.visit('/login').wait(TIMEOUTS.HALF_SEC);
+
+        // # Login as otherUser
+        cy.get('#loginId').should('be.visible').type(otherUser.username);
+        cy.get('#loginPassword').should('be.visible').type(otherUser.password);
+        cy.get('#loginButton').should('be.visible').click();
+
+        // * Verify appropriate error message is displayed for deactivated user
+        cy.findByText('Login failed because your account has been deactivated. Please contact an administrator.').should('exist').and('be.visible');
 
         cy.apiLogin(testUser);
 
