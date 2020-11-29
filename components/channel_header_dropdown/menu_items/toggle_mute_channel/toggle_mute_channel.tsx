@@ -17,7 +17,7 @@ export type Actions = {
     updateChannelNotifyProps(userId: string, channelId: string, props: Partial<ChannelNotifyProps>): ActionFunc
 }
 
-export type Props = {
+type Props = {
 
     /**
      * Object with info about the current user
