@@ -9,16 +9,19 @@
 
 // Group: @account_setting
 
+import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings > Sidebar > General > Edit', () => {
     let testTeam;
+    let testUser;
     let testChannel;
     let otherUser;
 
     before(() => {
         // # Login as admin and visit town-square
-        cy.apiInitSetup().then(({team, channel}) => {
+        cy.apiInitSetup().then(({user, team, channel}) => {
+            testUser = user;
             testTeam = team;
             testChannel = channel;
 
@@ -201,5 +204,68 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
         // # Click "x" button to close Account Settings modal
         cy.get('#accountSettingsHeader > .close').click();
+    });
+
+    it('MM-T2056 Username changes when viewed by other user', () => {
+        cy.apiLogout();
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Post a message in town-square
+        cy.postMessage('Testing username update');
+        cy.apiLogout();
+
+        // # Login as other user
+        cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # get last post in town-square for verifying username
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#post_${postId}`).within(() => {
+                // # Open profile popover
+                cy.get('.user-popover').click();
+            });
+
+            // * Verify username in profile popover
+            cy.get('#user-profile-popover').within(() => {
+                cy.get('.user-popover__username').should('be.visible').and('contain', `${testUser.username}`);
+            });
+        });
+
+        cy.apiLogout();
+
+        // # Login as test user
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # Open account settings modal
+        cy.toAccountSettingsModal();
+
+        // # Open Full Name section
+        cy.get('#usernameDesc').click();
+
+        const randomId = getRandomId();
+
+        // # Save username with a randomId
+        cy.get('#username').clear().type(`${otherUser.username}-${randomId}`);
+
+        // # save form
+        cy.get('#saveSetting').click();
+
+        cy.apiLogout();
+        cy.apiLogin(otherUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+
+        // # get last post in town-square for verifying username
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#post_${postId}`).within(() => {
+                cy.get('.user-popover').click();
+            });
+
+            // * Verify that new username is in profile popover
+            cy.get('#user-profile-popover').within(() => {
+                cy.get('.user-popover__username').should('be.visible').and('contain', `${otherUser.username}-${randomId}`);
+            });
+        });
     });
 });

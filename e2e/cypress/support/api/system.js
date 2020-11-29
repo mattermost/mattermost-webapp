@@ -54,6 +54,22 @@ Cypress.Commands.add('apiUploadLicense', (filePath) => {
     cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200});
 });
 
+Cypress.Commands.add('apiInstallTrialLicense', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/trial-license',
+        method: 'POST',
+        body: {
+            trialreceive_emails_accepted: true,
+            terms_accepted: true,
+            users: Cypress.env('numberOfTrialUsers'),
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
+});
+
 Cypress.Commands.add('apiDeleteLicense', () => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -146,16 +162,8 @@ function uploadLicenseIfNotExist() {
             return cy.wrap({license});
         }
 
-        const filename = 'mattermost-license.txt';
-
-        return cy.task('fileExist', filename).then((exist) => {
-            if (!exist) {
-                return cy.wrap({license});
-            }
-
-            return cy.apiUploadLicense(filename).then(() => {
-                return cy.apiGetClientLicense();
-            });
+        return cy.apiInstallTrialLicense().then(() => {
+            return cy.apiGetClientLicense();
         });
     });
 }
