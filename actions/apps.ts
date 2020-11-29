@@ -3,7 +3,8 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponseTypes, AppCallResponse, AppCall, AppForm} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppCall, AppForm} from 'mattermost-redux/types/apps';
+import {AppsBindings, AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';
@@ -31,11 +32,20 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
             }
             return {data: res};
         case AppCallResponseTypes.ERROR:
+            if (res.error) {
+                ephemeral(res.error, call);
+                return {error: new Error(res.error)};
+            }
+
             return {data: res};
         case AppCallResponseTypes.FORM:
             if (!res.form) {
                 const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `form`, but no form was included in response.';
                 ephemeral(errMsg, call);
+                return {data: res};
+            }
+
+            if (call.context.location === AppsBindings.COMMAND && call.type === AppCallTypes.FORM) {
                 return {data: res};
             }
 

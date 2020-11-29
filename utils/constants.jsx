@@ -1464,6 +1464,7 @@ export const Constants = {
     },
     Integrations: {
         COMMAND: 'commands',
+        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         PAGE_SIZE: '10000',
         START_PAGE_NUM: 0,
         INCOMING_WEBHOOK: 'incoming_webhooks',
