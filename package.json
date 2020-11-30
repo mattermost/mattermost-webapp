@@ -37,7 +37,7 @@
     "localforage-observable": "2.0.1",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#87769262aa02e1784570f61f4f962050e07cc335",
-    "mattermost-redux": "github:mattermost/mattermost-redux#5f2f131e4660a9f58851835085fbe62d2f3419d5",
+    "mattermost-redux": "github:mattermost/mattermost-redux#0e4c1e624d57a744fe28a91e7cf45696d8b6e1c1",
     "moment-timezone": "0.5.31",
     "p-queue": "6.6.1",
     "pdfjs-dist": "2.1.266",
@@ -155,6 +155,7 @@
     "jest-canvas-mock": "2.2.0",
     "jest-cli": "26.1.0",
     "jest-junit": "11.0.1",
+    "jest-watch-typeahead": "0.6.1",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.9.0",
     "mmjstool": "github:mattermost/mattermost-utilities#519b99a4e51e6c67a0dbd46a6efdff27dc835aaa",
@@ -226,7 +227,11 @@
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.js"
     ],
-    "testURL": "http://localhost:8065"
+    "testURL": "http://localhost:8065",
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ]
   },
   "jest-junit": {
     "outputDirectory": "build",

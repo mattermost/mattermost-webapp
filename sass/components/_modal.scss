@@ -28,7 +28,7 @@
     .modal {
         .modal-content {
             background: v(center-channel-bg);
-            border-color: v(center-channel-color-16);
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
     }
@@ -336,12 +336,41 @@
             width: 100%;
         }
 
-        .modal-image__content {
+        // provides a background for the scrollbar
+        .modal-image__background {
             background: #F3F3F3;
+        }
+
+        .modal-image__content {
             max-height: 91.5vh;
             max-width: 96vw;
+            min-width: 440px;
             overflow-x: hidden;
             overflow-y: visible;
+
+            &.modal-auto__content {
+                width: 96vw;
+                overflow: auto;
+
+                &::-webkit-scrollbar-thumb {
+                    background: #aaa;
+                }
+
+                .view-image__loading {
+                    width: 96vw;
+                }
+            }
+
+            .pdf {
+                margin: 0 auto;
+                width: max-content;
+                height: 91.5vh;
+
+                .post-code {
+                    width: max-content;
+                }
+            }
+
         }
 
         .post-code__container {
@@ -371,6 +400,8 @@
 
                 code {
                     margin: 0;
+                    padding: 5px 0;
+                    width: 100%;
                 }
             }
 
@@ -385,10 +416,15 @@
                 margin: 0 auto;
             }
 
+            // override canvas for PDF zooming
+            canvas {
+                max-height: 100%;
+            }
+
             .modal-close {
                 @include single-transition(opacity, .6s);
                 @include background-size(100% 100%);
-                @include opacity(0);
+                @include opacity(1);
                 background-image: url('../images/close.png');
                 cursor: pointer;
                 height: 37px;
@@ -398,11 +434,23 @@
                 transition: opacity .6s;
                 width: 37px;
                 z-index: 9999;
-
-                &.modal-close--show {
-                    @include opacity(1);
-                }
             }
+
+            .modal-zoom-btn {
+                margin-left: 6px;
+                margin-right: 6px;
+            }
+
+            a {
+                color: white;
+                text-decoration: none;
+            }
+
+                .btn-inactive {
+                    color: gray;
+                    margin-left: 6px;
+                    margin-right: 6px;
+                }
 
             >div {
                 display: inline-block;
@@ -486,18 +534,20 @@
         }
 
         .modal-button-bar {
+            display: flex;
+            justify-content: center;
             overflow: hidden;
             background-color: $black;
             line-height: 40px;
             max-width: 100%;
             padding: 0 10px;
 
-            .image-links {
+            .modal-bar-file-count {
+                float: left;
+            }
 
-                a,
-                span {
-                    float: right;
-                }
+            .modal-bar-links {
+                float: right;
             }
 
             .text {
@@ -506,9 +556,8 @@
                 margin-left: 5px;
                 vertical-align: middle;
             }
-
-            .public-link {
-                margin-right: 5px;
+            .modal-column {
+                flex: 1;
             }
         }
     }
@@ -542,6 +591,11 @@
 }
 
 .more-modal {
+    .loading-screen{
+        padding: 1.9em 1em;
+        font-size: 1.25em;
+        height: auto;
+    }
     .Select-input {
         >input {
             padding: 8px 0;
@@ -813,7 +867,7 @@
         }
 
         &.more-modal__row--selected {
-            background: v(center-channel-color-08);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
 
             .more-modal__actions--round {
                 opacity: .5;
@@ -874,7 +928,6 @@
     >div {
         flex: 1 1 auto;
     }
-
     .multi-select__wrapper {
         display: flex;
         flex-direction: column;

@@ -12,6 +12,8 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+import {createPrivateChannel} from '../enterprise/elasticsearch_autocomplete/helpers';
+
 describe('Channels', () => {
     let testUser;
     let otherUser;
@@ -140,6 +142,88 @@ describe('Channels', () => {
 
         // * Assert that archived channel doesn't show up in LHS list
         cy.get('#publicChannelList').should('not.contain', testChannel.display_name);
+    });
+
+    it('MM-T1702 Search works when changing public/archived options in the dropdown', () => {
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: true,
+            },
+        });
+        let newChannel;
+        let testArchivedChannel;
+        let testPrivateArchivedChannel;
+
+        cy.apiCreateChannel(testTeam.id, 'not-archived-channel', 'Not Archived Channel').then(({channel}) => {
+            newChannel = channel;
+            cy.visit(`/${testTeam.name}/channels/${newChannel.name}`);
+
+            // # Leave the channel
+            cy.uiLeaveChannel();
+
+            // * Verify that we've switched to Town Square
+            cy.url().should('include', '/channels/town-square');
+        });
+
+        cy.apiCreateChannel(testTeam.id, 'archived-channel', 'Archived Channel').then(({channel}) => {
+            testArchivedChannel = channel;
+
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${testArchivedChannel.name}`);
+
+            // # Archive the channel
+            cy.uiArchiveChannel();
+
+            // # Leave the channel
+            cy.uiLeaveChannel();
+
+            // * Verify that we've switched to Town Square
+            cy.url().should('include', '/channels/town-square');
+        });
+
+        createPrivateChannel(testTeam.id).then((channel) => {
+            testPrivateArchivedChannel = channel;
+
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${testPrivateArchivedChannel.name}`);
+
+            // # Archive the channel
+            cy.uiArchiveChannel();
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+        });
+
+        // # Go to LHS and click "More..." under Public Channels group
+        cy.get('#publicChannelList').should('be.visible').within(() => {
+            cy.findByText('More...').scrollIntoView().should('be.visible').click();
+        });
+
+        // * Dropdown should be visible, defaulting to "Public Channels"
+        cy.get('#channelsMoreDropdown').should('be.visible').within((el) => {
+            cy.wrap(el).should('contain', 'Show: Public Channels');
+        });
+
+        // * Users should be able to type and search
+        cy.get('#searchChannelsTextbox').should('be.visible').type('iv').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#moreChannelsList').should('be.visible').children().should('have.length', 1).within(() => {
+            cy.findByText(newChannel.display_name).should('be.visible');
+        });
+
+        cy.get('#moreChannelsModal').should('be.visible').within(() => {
+            // * Users should be able to switch to "Archived Channels" list
+            cy.get('#channelsMoreDropdown').should('be.visible').and('contain', 'Show: Public Channels').click().within((el) => {
+                // # Click on archived channels item
+                cy.findByText('Archived Channels').should('be.visible').click();
+
+                // * Modal should show the archived channels list
+                cy.wrap(el).should('contain', 'Show: Archived Channels');
+            }).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#moreChannelsList').should('be.visible').children().should('have.length', 2);
+            cy.get('#moreChannelsList').within(() => {
+                cy.findByText(testArchivedChannel.display_name).should('be.visible');
+                cy.findByText(testPrivateArchivedChannel.display_name).should('be.visible');
+            });
+        });
     });
 });
 

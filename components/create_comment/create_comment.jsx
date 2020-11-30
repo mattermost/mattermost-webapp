@@ -229,6 +229,7 @@ class CreateComment extends React.PureComponent {
         getChannelMemberCountsByGroup: PropTypes.func.isRequired,
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
+        onHeightChange: PropTypes.func,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -697,7 +698,9 @@ class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft, serverError});
+        this.setState({draft: updatedDraft, serverError}, () => {
+            this.scrollToBottom();
+        });
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
@@ -969,6 +972,10 @@ class CreateComment extends React.PureComponent {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
             }
         });
+
+        if (this.props.onHeightChange) {
+            this.props.onHeightChange();
+        }
     }
 
     render() {

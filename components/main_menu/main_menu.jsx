@@ -6,6 +6,8 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 
+import {isEmpty} from 'lodash';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
@@ -66,6 +68,8 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
+        subscription: PropTypes.object,
+        isCloud: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -73,6 +77,7 @@ class MainMenu extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func,
         }).isRequired,
     };
 
@@ -87,8 +92,11 @@ class MainMenu extends React.PureComponent {
         GlobalActions.toggleShortcutsModal();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
+        if (isEmpty(this.props.subscription)) {
+            await this.props.actions.getCloudSubscription();
+        }
     }
 
     componentWillUnmount() {
@@ -123,7 +131,11 @@ class MainMenu extends React.PureComponent {
     }
 
     shouldShowUpgradeModal = () => {
-        return (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+        if (this.props.subscription?.is_paid_tier === 'true') { // eslint-disable-line camelcase
+            return false;
+        }
+
+        return this.props.isCloud && (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
     }
 
     render() {

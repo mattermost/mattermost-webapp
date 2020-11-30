@@ -60,6 +60,14 @@ Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => 
 
 // Type Cmd or Ctrl depending on OS
 Cypress.Commands.add('typeCmdOrCtrl', () => {
+    typeCmdOrCtrlInt('#post_textbox');
+});
+
+Cypress.Commands.add('typeCmdOrCtrlForEdit', () => {
+    typeCmdOrCtrlInt('#edit_textbox');
+});
+
+function typeCmdOrCtrlInt(textboxSelector) {
     let cmdOrCtrl;
     if (isMac()) {
         cmdOrCtrl = '{cmd}';
@@ -67,12 +75,16 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
         cmdOrCtrl = '{ctrl}';
     }
 
-    cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
-});
+    cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
+}
 
 Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
+});
+
+Cypress.Commands.add('isMac', () => {
+    isMac();
 });
 
 function isMac() {
