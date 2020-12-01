@@ -10,9 +10,7 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
-describe('MM-T2146 Remove all text from a post (no attachment)', () => {
+describe('MM-T2197 Ephemeral message disappears in center after refresh', () => {
     let townsquareLink;
 
     before(() => {
@@ -23,38 +21,29 @@ describe('MM-T2146 Remove all text from a post (no attachment)', () => {
         });
     });
 
-    it('Delete the post on text clear', () => {
+    it('Hide ephemeral message on refresh', () => {
         // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
         cy.url().should('include', townsquareLink);
 
-        // # Type 'This is sample text' and submit
-        cy.postMessage('This is sample text');
+        // # Set initial status to online
+        cy.apiUpdateUserStatus('online');
+
+        // # Cause an ephemeral message to appear
+        cy.postMessage('/offline');
 
         // # Get last post ID
         cy.getLastPostId().then((postID) => {
-            // # click  dot menu button
-            cy.clickPostDotMenu();
+            // * Assert message presence
+            cy.get(`#postMessageText_${postID}`).should('have.text', 'You are now offline');
 
-            // # click edit post
-            cy.get(`#edit_post_${postID}`).click();
+            // # Refresh the page
+            cy.reload();
+            cy.visit(townsquareLink);
 
-            // # Edit message to 'This is sample add text'
-            cy.get('#edit_textbox').
-                should('be.visible').
-                and('be.focused').
-                wait(TIMEOUTS.HALF_SEC).
-                clear();
-
-            // # Click button Edit
-            cy.get('#editButton').click();
-
-            // # Press Enter to confirm
-            cy.focused().click(); // pressing Enter on buttons is not supported in Cypress, so we use click instead
-
-            // * Assert post message disappears
+            // * Assert message disappearing
             cy.get(`#postMessageText_${postID}`).should('not.exist');
         });
     });
