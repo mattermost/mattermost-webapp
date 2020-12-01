@@ -5346,7 +5346,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.shared_channels.desc'),
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensedForFeature("SharedChannels")),
+                        isHidden: it.not(it.licensedForFeature('SharedChannels')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                 ],
