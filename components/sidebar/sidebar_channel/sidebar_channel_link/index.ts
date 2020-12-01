@@ -14,6 +14,8 @@ import {NotificationLevels, StoragePrefixes} from 'utils/constants';
 import {getPostDraft} from 'selectors/rhs';
 import {hasDraft} from 'utils/channel_utils';
 import {GlobalState} from 'types/store';
+import {multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
+import {isChannelSelected} from 'selectors/views/channel_sidebar';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -54,12 +56,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         showUnreadForMsgs,
         isMuted: isChannelMuted(member),
         hasDraft: isDraft,
+        isChannelSelected: isChannelSelected(state, ownProps.channel.id),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            multiSelectChannelTo,
+            multiSelectChannelAdd,
         }, dispatch),
     };
 }

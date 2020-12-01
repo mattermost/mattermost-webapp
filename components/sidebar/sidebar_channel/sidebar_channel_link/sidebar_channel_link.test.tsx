@@ -37,6 +37,12 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         isMuted: false,
         isCollapsed: false,
         hasDraft: false,
+        isChannelSelected: false,
+        actions: {
+            multiSelectChannel: jest.fn(),
+            multiSelectChannelAdd: jest.fn(),
+            multiSelectChannelTo: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

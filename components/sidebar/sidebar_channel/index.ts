@@ -7,8 +7,8 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {getDraggingState} from 'selectors/views/channel_sidebar';
 import {getPostDraft} from 'selectors/rhs';
+import {getDraggingState, isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {NotificationLevels, StoragePrefixes} from 'utils/constants';
 import {hasDraft} from 'utils/channel_utils';
@@ -55,6 +55,8 @@ function makeMapStateToProps() {
             showUnreadForMsgs,
             draggingState: getDraggingState(state),
             hasDraft: hasDraft(draft),
+            isChannelSelected: isChannelSelected(state, ownProps.channelId),
+            multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
         };
     };
 }
