@@ -42,7 +42,7 @@ type Props = {
     currentUser?: {
         id: string;
     };
-    currentChannel?: Channel;
+    currentChannelId?: string;
     currentTeamId?: string;
     useLegacyLHS: boolean;
     actions: {
@@ -188,8 +188,8 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     handleFocus = () => {
-        if (this.props.currentChannel) {
-            this.props.actions.markChannelAsReadOnFocus(this.props.currentChannel.id);
+        if (this.props.currentChannelId) {
+            this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
             window.isActive = true;
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {

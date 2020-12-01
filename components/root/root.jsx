@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {rudderAnalytics, Client4} from 'mattermost-redux/client';
+import {Client4} from 'mattermost-redux/client';
+import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import PropTypes from 'prop-types';
 import React from 'react';
 import FastClick from 'fastclick';
@@ -148,7 +149,8 @@ export default class Root extends React.PureComponent {
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
-            Client4.enableRudderEvents();
+            Client4.setTelemetryHandler(new RudderTelemetryHandler());
+
             rudderAnalytics.load(rudderKey, rudderUrl);
 
             rudderAnalytics.identify(telemetryId, {}, {

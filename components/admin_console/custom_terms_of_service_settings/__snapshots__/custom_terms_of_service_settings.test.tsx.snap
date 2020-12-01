@@ -51,6 +51,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -114,6 +115,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -177,6 +179,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -240,6 +243,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"

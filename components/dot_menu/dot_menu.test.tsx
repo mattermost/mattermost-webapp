@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
+import {PostType} from 'mattermost-redux/types/posts';
 import React from 'react';
 
-import {Post} from 'mattermost-redux/types/posts';
-
 import {Locations, PostTypes} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 
-import DotMenu, {Props, PLUGGABLE_COMPONENT} from './dot_menu';
+import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -20,17 +20,15 @@ jest.mock('utils/utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: {id: 'post_id_1', is_pinned: false} as Post,
+        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         isLicensed: false,
-        isReadOnly: false,
-        postEditTimeLimit: -1,
+        postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         enableEmojiPicker: true,
         components: {},
         channelIsArchived: false,
         currentTeamUrl: '',
-        location: Locations.CENTER,
         actions: {
             flagPost: jest.fn(),
             unflagPost: jest.fn(),
@@ -42,15 +40,14 @@ describe('components/dot_menu/DotMenu', () => {
         },
         canEdit: false,
         canDelete: false,
-        pluginMenuItems: [],
-    } as Props;
+    };
 
     test('should match snapshot, on Center', () => {
         const props = {
             ...baseProps,
             canEdit: true,
         };
-        const wrapper = shallow<DotMenu>(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -69,7 +66,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -82,7 +79,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -100,12 +97,12 @@ describe('components/dot_menu/DotMenu', () => {
     test('should not have divider when able to edit or delete a system message', () => {
         const props = {
             ...baseProps,
-            post: {
+            post: TestHelper.getPostMock({
                 ...baseProps.post,
-                type: PostTypes.JOIN_CHANNEL,
-            },
-        } as Props;
-        const wrapper = shallow(
+                type: PostTypes.JOIN_CHANNEL as PostType,
+            }),
+        };
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -113,7 +110,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when plugin menu item exists', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
@@ -127,7 +124,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when pluggable menu item exists', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
@@ -141,7 +138,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should show mark as unread when channel is not archived', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...baseProps}/>,
         );
 
@@ -153,7 +150,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             channelIsArchived: true,
         };
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 
@@ -164,8 +161,8 @@ describe('components/dot_menu/DotMenu', () => {
         const props = {
             ...baseProps,
             location: Locations.SEARCH,
-        } as Props;
-        const wrapper = shallow(
+        };
+        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
             <DotMenu {...props}/>,
         );
 

@@ -8,8 +8,12 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {Post} from 'mattermost-redux/types/posts';
+
+import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
 import {
@@ -20,47 +24,41 @@ import {
     setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
-import {GlobalState} from 'types/store';
 import * as PostUtils from 'utils/post_utils.jsx';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import DotMenu, {Location} from './dot_menu';
+import DotMenu from './dot_menu';
 
-type OwnProps = {
+type Props = {
     post: Post;
     commentCount?: number;
     isFlagged?: boolean;
-    handleCommentClick?: React.EventHandler<React.MouseEvent>;
-    handleDropdownOpened?: (open: boolean) => void;
-    handleAddReactionClick?: () => void;
-    isMenuOpen?: boolean;
+    handleCommentClick: React.EventHandler<React.MouseEvent>;
+    handleCardClick?: (post: Post) => void;
+    handleDropdownOpened: (open: boolean) => void;
+    handleAddReactionClick: () => void;
+    isMenuOpen: boolean;
     isReadOnly: boolean | null;
-    enableEmojiPicker: boolean;
-    location: Location,
-}
+    enableEmojiPicker?: boolean;
+};
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
     const license = getLicense(state);
     const config = getConfig(state);
     const userId = getCurrentUserId(state);
-    const channel = getChannel(state, ownProps.post.channel_id);
+    const channel = getChannel(state, post.channel_id);
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
-
-    let postEditTimeLimit;
-    if (config.PostEditTimeLimit) {
-        postEditTimeLimit = parseInt(config.PostEditTimeLimit, 10);
-    }
 
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit,
-        isLicensed: getLicense(state).IsLicensed === 'true',
+        postEditTimeLimit: config.PostEditTimeLimit,
+        isLicensed: license.IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),

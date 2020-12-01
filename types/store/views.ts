@@ -128,6 +128,8 @@ export type ViewsState = {
         unreadFilterEnabled: boolean;
         draggingState: DraggingState;
         newCategoryIds: string[];
+        multiSelectedChannelIds: string[];
+        lastSelectedChannel: string;
     };
 
     nextSteps: {
