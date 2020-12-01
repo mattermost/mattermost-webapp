@@ -184,6 +184,12 @@ declare namespace Cypress {
         apiCreateAdmin(options: Record<string, any>): Chainable<UserProfile>;
 
         /**
+         * Create a randomly named admin account
+         * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
+         */
+        apiCreateCustomAdmin(): Chainable<{sysadmin:UserProfile}>;
+
+        /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
@@ -236,6 +242,16 @@ declare namespace Cypress {
          *   });
          */
         apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
+
+        /**
+         * Reactivate a user account.
+         * @param {string} userId - User ID
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiActivateUser('user-id');
+         */
+        apiActivateUser(userId: string): Chainable<Response>;
 
         /**
          * Deactivate a user account.
@@ -293,5 +309,24 @@ declare namespace Cypress {
          *   cy.apiActivateUserMFA('user-id', activate: false);
          */
         apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
+
+        /**
+         * Create a user access token
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1tokens/post
+         * @param {String} userId - ID of user for whom to generate token
+         * @param {String} description - The description of the token usage
+         * @example
+         *   cy.apiAccessToken('user-id', 'token for cypress tests');
+         */
+        apiAccessToken(userId: string, description: string): Chainable<UserAccessToken>;
+
+        /**
+         * Revoke a user access token
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1tokens~1revoke/post
+         * @param {String} tokenId - The id of the token to revoke
+         * @example
+         *   cy.apiRevokeAccessToken('token-id')
+         */
+        apiRevokeAccessToken(tokenId: string): Chainable<Response>;
     }
 }
