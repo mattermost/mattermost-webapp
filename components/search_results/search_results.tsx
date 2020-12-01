@@ -258,11 +258,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 SearchResults.defaultProps = defaultProps;
 
 export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
-    // eslint-disable-next-line no-console
-    console.log('#### props: ', props);
-    // eslint-disable-next-line no-console
-    console.log('#### nextProps: ', nextProps);
-
     // Shallow compare for all props except 'results'
     for (const key in nextProps) {
         if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'results') {

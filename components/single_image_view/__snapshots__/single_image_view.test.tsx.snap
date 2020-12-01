@@ -155,34 +155,7 @@ exports[`components/SingleImageView should match snapshot 2`] = `
         ]
       }
       onModalDismissed={[Function]}
-      post={
-        Object {
-          "channel_id": "",
-          "create_at": 0,
-          "delete_at": 0,
-          "edit_at": 0,
-          "hashtags": "",
-          "id": "original_post_id",
-          "is_pinned": false,
-          "message": "post message",
-          "metadata": Object {
-            "embeds": Array [],
-            "emojis": Array [],
-            "files": Array [],
-            "images": Object {},
-            "reactions": Array [],
-          },
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "reply_count": 0,
-          "root_id": "",
-          "type": "system_add_remove",
-          "update_at": 0,
-          "user_id": "user_id",
-        }
-      }
+      postId="original_post_id"
       show={false}
     />
   </div>
@@ -352,34 +325,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
         ]
       }
       onModalDismissed={[Function]}
-      post={
-        Object {
-          "channel_id": "",
-          "create_at": 0,
-          "delete_at": 0,
-          "edit_at": 0,
-          "hashtags": "",
-          "id": "original_post_id",
-          "is_pinned": false,
-          "message": "post message",
-          "metadata": Object {
-            "embeds": Array [],
-            "emojis": Array [],
-            "files": Array [],
-            "images": Object {},
-            "reactions": Array [],
-          },
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "reply_count": 0,
-          "root_id": "",
-          "type": "system_add_remove",
-          "update_at": 0,
-          "user_id": "user_id",
-        }
-      }
+      postId="original_post_id"
       show={false}
     />
   </div>
@@ -472,34 +418,7 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
         ]
       }
       onModalDismissed={[Function]}
-      post={
-        Object {
-          "channel_id": "",
-          "create_at": 0,
-          "delete_at": 0,
-          "edit_at": 0,
-          "hashtags": "",
-          "id": "original_post_id",
-          "is_pinned": false,
-          "message": "post message",
-          "metadata": Object {
-            "embeds": Array [],
-            "emojis": Array [],
-            "files": Array [],
-            "images": Object {},
-            "reactions": Array [],
-          },
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "reply_count": 0,
-          "root_id": "",
-          "type": "system_add_remove",
-          "update_at": 0,
-          "user_id": "user_id",
-        }
-      }
+      postId="original_post_id"
       show={false}
     />
   </div>
