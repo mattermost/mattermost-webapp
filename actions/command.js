@@ -8,6 +8,7 @@ import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} fro
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
+import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
@@ -20,6 +21,9 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
+
+import {doAppCall} from './apps';
 
 export function executeCommand(message, args) {
     return async (dispatch, getState) => {
@@ -47,7 +51,7 @@ export function executeCommand(message, args) {
             GlobalActions.toggleShortcutsModal();
             return {data: true};
         case '/leave': {
-        // /leave command not supported in reply threads.
+            // /leave command not supported in reply threads.
             if (args.channel_id && (args.root_id || args.parent_id)) {
                 GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id);
                 return {data: true};
@@ -91,6 +95,21 @@ export function executeCommand(message, args) {
         case '/collapse':
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
+        }
+
+        const parser = new AppCommandParser({dispatch, getState}, args.root_id);
+        if (parser.isAppCommand(msg)) {
+            const call = await parser.composeCallFromCommandString(message);
+            if (!call) {
+                return {error: new Error('Error submitting command')};
+            }
+
+            call.type = AppCallTypes.SUBMIT;
+            try {
+                return dispatch(doAppCall(call));
+            } catch (err) {
+                return {error: err};
+            }
         }
 
         let data;

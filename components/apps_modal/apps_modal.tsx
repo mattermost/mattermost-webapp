@@ -5,7 +5,7 @@ import React from 'react';
 
 import {AppCall, AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
 import {InteractiveDialogConfig, DialogElement} from 'mattermost-redux/types/integrations';
-import AppBindings from 'mattermost-redux/constants/apps';
+import {AppsBindings} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -45,7 +45,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             values: submission.values,
             context: {
                 app_id: props.modal.call.context.app_id,
-                location_id: props.postID ? AppBindings.APPS_BINDINGS_IN_POST : props.modal.call.context.location_id,
+                location: props.postID ? AppsBindings.IN_POST : props.modal.call.context.location,
                 post_id: props.postID,
                 team_id: props.postID ? props.teamID : props.modal.call.context.team_id,
                 channel_id: props.postID ? props.channelID : props.modal.call.context.channel_id,
@@ -249,7 +249,7 @@ export const fieldToDialogElement = (field: AppField): DialogElement => {
         optional: !field.is_required,
         min_length: field.min_length || 0,
         max_length: field.max_length || 0,
-        help_text: field.description,
+        help_text: field.description || '',
     };
 
     return element;

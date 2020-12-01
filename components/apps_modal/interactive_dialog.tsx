@@ -7,8 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppCallResponseTypes, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
 import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integrations';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';

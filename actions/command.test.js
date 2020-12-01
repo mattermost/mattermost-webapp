@@ -29,8 +29,16 @@ const initialState = {
                 ExperimentalViewArchivedChannels: 'false',
             },
         },
+        posts: {
+            posts: {
+                root_id: {id: 'root_id', channel_id: '123'},
+            },
+        },
         channels: {
             currentChannelId,
+            channels: {
+                123: {id: '123', team_id: '456'},
+            },
         },
         preferences: {
             myPreferences: {},
@@ -49,6 +57,35 @@ const initialState = {
                     },
                 },
             },
+        },
+        apps: {
+            bindings: [{
+                app_id: 'appid',
+                location: '/command',
+                bindings: [{
+                    app_id: 'appid',
+                    label: 'custom',
+                    description: 'Run the command.',
+                    call: {
+                        url: 'https://someserver.com/command',
+                    },
+                    form: {
+                        fields: [
+                            {
+                                name: 'key1',
+                                label: 'key1',
+                                type: 'text',
+                                position: 1,
+                            },
+                            {
+                                name: 'key2',
+                                label: 'key2',
+                                type: 'static_select',
+                            },
+                        ],
+                    },
+                }],
+            }],
         },
     },
     views: {
@@ -174,6 +211,35 @@ describe('executeCommand', () => {
             expect(store.getActions()[0].data).toEqual([{category: 'group_channel_show', name: 'channelId', user_id: 'user123', value: 'false'}]);
 
             expect(result).toEqual({data: true});
+        });
+    });
+
+    describe('app command', () => {
+        test('should call executeAppCall', async () => {
+            const f = Client4.executeAppCall;
+            const mocked = jest.fn().mockResolvedValue(Promise.resolve({markdown: 'Success'}));
+            Client4.executeAppCall = mocked;
+
+            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
+            Client4.executeAppCall = f;
+
+            expect(mocked).toHaveBeenCalledWith({
+                context: {
+                    app_id: 'appid',
+                    channel_id: '123',
+                    location: '/command',
+                    root_id: 'root_id',
+                    team_id: '456',
+                },
+                raw_command: '/appid custom value1 --key2 value2',
+                type: '',
+                url: 'https://someserver.com/command',
+                values: {
+                    key1: 'value1',
+                    key2: 'value2',
+                },
+            });
+            expect(result).toEqual({data: {markdown: 'Success'}});
         });
     });
 });
