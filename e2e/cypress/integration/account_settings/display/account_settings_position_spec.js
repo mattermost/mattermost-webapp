@@ -39,6 +39,7 @@ describe('Account Settings > General > Position', () => {
         cy.findByText('Position').should('be.visible').click();
         cy.get('#position').type(position);
         cy.get('#saveSetting').click();
+        cy.get('#position').should('not.be.visible');
 
         // # Exit the modal
         cy.get('body').type('{esc}', {force: true});
@@ -49,11 +50,8 @@ describe('Account Settings > General > Position', () => {
         // # Click on the profile image
         cy.get('.profile-icon > img').as('profileIconForPopover').click();
 
-        // # Verify that the popover is visible
-        cy.get('#user-profile-popover').should('be.visible').within(() => {
-            // * and contains the entered position
-            cy.findByText('Master hacker').should('be.visible');
-        });
+        // # Verify that the popover is visible and contains position
+        cy.contains('#user-profile-popover', 'Master hacker').should('be.visible');
     });
 
     it('MM-T2064 Position / 128 characters', () => {
@@ -69,6 +67,7 @@ describe('Account Settings > General > Position', () => {
         cy.findByText('Position').should('be.visible').click();
         cy.get('#position').type(longPosition);
         cy.get('#saveSetting').click();
+        cy.get('#position').should('not.be.visible');
 
         cy.get('#position').invoke('val').then((val) => {
             // # Verify that the input value is 128 characters
@@ -79,7 +78,7 @@ describe('Account Settings > General > Position', () => {
         cy.findByText('Position').click();
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        cy.get('#position').focus().type('random');
+        cy.get('#position').should('be.visible').focus().type('random');
         cy.get('#position').invoke('val').then((val) => {
             // # Verify that the position hasn't changed
             expect(val).to.equal(longPosition);
