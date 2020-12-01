@@ -22,7 +22,6 @@ const SAVE_BUTTON_NAME = 'Save';
 const CONVERT_NAME = 'Convert to OpenID Connect';
 const OAUTH2_NAME = 'OAuth 2.0deprecated';
 
-
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
@@ -32,7 +31,7 @@ const goToAdminConsole = () => {
 const verifyOAuthLogin = (id, text, color, href) => {
     cy.apiLogout();
 
-    cy.findByRole('link',{name: `${text}`}).then((btn) =>{
+    cy.findByRole('link', {name: `${text}`}).then((btn) => {
         expect(btn[0].href).equal(href);
         if (color) {
             const rbgArr = hexToRgbArray(color);
@@ -50,7 +49,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
+        cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -65,7 +64,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('OpenIdId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('OpenIdSecret');
 
-        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button', {name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -81,7 +80,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
+        cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -91,7 +90,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GoogleId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('GoogleSecret');
 
-        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button', {name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -107,7 +106,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
+        cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -117,7 +116,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GitlabId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('GitlabSecret');
 
-        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button', {name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -133,7 +132,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
+        cy.findByRole('link', {name: OPENID_LINK_NAME}).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -143,7 +142,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('Office365Id');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('Office365Secret');
 
-        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button', {name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -192,22 +191,22 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         goToAdminConsole();
 
         // OAuth button should be visible
-        cy.findByRole('link', { name: OAUTH2_NAME }).click();
+        cy.findByRole('link', {name: OAUTH2_NAME}).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // OpenId Convert should be visible
-        cy.findByRole('button', { name: CONVERT_NAME }).click();
+        cy.findByRole('button', {name: CONVERT_NAME}).click();
 
         // OAuth should no longer be visible
-        cy.findByRole('link', { name: OAUTH2_NAME }).should('be.not.visible');
+        cy.findByRole('link', {name: OAUTH2_NAME}).should('be.not.visible');
 
         // OAuth should no longer be visible
-        cy.findByRole('link', { name: OPENID_LINK_NAME }).click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('link', {name: OPENID_LINK_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('button', { name: CONVERT_NAME }).should('be.not.visible');
+        cy.findByRole('button', {name: CONVERT_NAME}).should('be.not.visible');
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
