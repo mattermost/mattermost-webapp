@@ -8,6 +8,8 @@ import {v4 as uuidv4} from 'uuid';
 import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
+import Constants from './constants';
+
 /**
  * @param {Number} length - length on random string to return, e.g. 7 (default)
  * @return {String} random string
@@ -76,3 +78,7 @@ export function stubClipboard() {
 
     return cy.wrap(clipboard);
 }
+
+export {
+    Constants,
+};
