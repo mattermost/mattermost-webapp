@@ -308,6 +308,7 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Numărul de locuri depășit",
   "admin.billing.subscription.planDetails.startDate": "Data de început: ",
   "admin.billing.subscription.planDetails.tiers.free": "Gratuit",
+  "admin.billing.subscription.planDetails.upToXUsers": "",
   "admin.billing.subscription.planDetails.userCount": "{userCount} utilizatori",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} utilizatori",
   "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Optimizați-vă procesele cu VPC Peering, un cont AWS dedicat și asistență premium.",
