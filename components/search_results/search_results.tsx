@@ -277,8 +277,6 @@ export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
     // Here we do a slightly deeper compare on 'results' because it is frequently a new
     // array but without any actual changes
     const {results} = props;
-    // eslint-disable-next-line no-console
-    console.log('#### results: ', results);
     const {results: nextResults} = nextProps;
 
     if (results.length !== nextResults.length) {
