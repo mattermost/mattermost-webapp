@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import classnames from 'classnames';
 import '@mattermost/compass-icons';
 
-import { calculateRelativeSize } from 'utilities/styleUtilities';
-import { ANIMATION_SPEEDS } from 'constants/styleConstants';
+import { calculateRelativeSize } from '../../utilities/styleUtilities';
+import { ANIMATION_SPEEDS } from '../../constants/styleConstants';
 
 export type IconSize = 10 | 12 | 16 | 20 | 28 | 32 | 40 | 52 | 64 | 104;
 

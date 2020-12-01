@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
-import { calculateRelativeSize } from 'utilities/styleUtilities';
-import { ANIMATION_SPEEDS } from 'constants/styleConstants';
+import { calculateRelativeSize } from '../../utilities/styleUtilities';
+import { ANIMATION_SPEEDS } from '../../constants/styleConstants';
 
 export type TextSize = 12 | 14 | 16 | 18 | 20 | 24 | 28 | 32;
 

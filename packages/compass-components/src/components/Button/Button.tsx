@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
-import Icon, { IconSize } from 'components/Icon/Icon';
-import Text, { TextSize } from 'components/Text/Text';
-import { rgbWithCSSVar, calculateRelativeSize } from 'utilities/styleUtilities';
-import { ANIMATION_SPEEDS } from 'constants/styleConstants';
+import Icon, { IconSize } from '../Icon/Icon';
+import Text, { TextSize } from '../Text/Text';
+import { rgbWithCSSVar, calculateRelativeSize } from '../../utilities/styleUtilities';
+import { ANIMATION_SPEEDS } from '../../constants/styleConstants';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -26,7 +26,7 @@ export interface ButtonProps {
     onClick?: () => void;
 }
 
-const ButtonBase: React.FC<ButtonProps> = ({
+const ButtonBase: React.FC<ButtonProps & React.ComponentPropsWithoutRef<"button">> = ({
     className,
     label,
     type = 'primary',
@@ -36,6 +36,7 @@ const ButtonBase: React.FC<ButtonProps> = ({
     disabled = false,
     fullWidth = false,
     destructive = false,
+    onClick,
     ...props
 }) => {
     let textSize: TextSize = 14; // default, medium
@@ -69,6 +70,7 @@ const ButtonBase: React.FC<ButtonProps> = ({
             )}
             data-size={size}
             disabled={disabled}
+            onClick={onClick}
             {...props}
         >
             {leadingIcon}

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
-import { rgbWithCSSVar } from 'utilities/styleUtilities';
-import Icon, { IconSize } from 'components/Icon/Icon';
-import Text, { TextSize } from 'components/Text/Text';
-import { ANIMATION_SPEEDS } from 'constants/styleConstants';
+import { rgbWithCSSVar } from '../../utilities/styleUtilities';
+import Icon, { IconSize } from '../Icon/Icon';
+import Text, { TextSize } from '../Text/Text';
+import { ANIMATION_SPEEDS } from '../../constants/styleConstants';
 
 export type IconButtonSize = 'xsmall' | 'small-compact' | 'small' | 'medium' | 'large';
 
@@ -20,14 +20,15 @@ export interface IconButtonProps {
     onClick?: () => void;
 }
 
-const IconButtonBase: React.FC<IconButtonProps> = ({
+const IconButtonBase: React.FC<IconButtonProps & React.ComponentPropsWithoutRef<"button">> = ({
     className,
+    label,
     ariaLabel,
     size = 'medium',
     iconGlyph,
     disabled = false,
     destructive = false,
-    label,
+    onClick,
     ...props
 }) => {
     let textSize: TextSize = 16; // medium, default
@@ -56,6 +57,7 @@ const IconButtonBase: React.FC<IconButtonProps> = ({
             className={classnames('IconButton', `IconButton__${size}`, { IconButton__destructive: destructive }, className)}
             aria-label={ariaLabel}
             disabled={disabled}
+            onClick={onClick}
             {...props}
         >
             <Icon className="IconButton_icon" glyph={iconGlyph} size={iconSize} />

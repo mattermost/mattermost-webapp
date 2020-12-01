@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import IconButton from '@mattermost/compass-components/dist/components/IconButton/IconButton';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -179,27 +180,12 @@ export default class PopoverListMembers extends React.PureComponent {
                     disabled={this.state.showPopover}
                     overlay={channelMembersTooltip}
                 >
-                    <button
-                        id='member_popover'
-                        aria-label={ariaLabel}
-                        className={'member-popover__trigger channel-header__icon channel-header__icon--wide ' + (this.state.showPopover ? 'channel-header__icon--active' : '')}
-                        ref='member_popover_target'
-                        onClick={this.handleGetProfilesInChannel}
-                    >
-                        <div className='d-flex align-items-center'>
-                            <MemberIcon
-                                id='channelMemberIcon'
-                                className='icon icon--standard'
-                                aria-hidden='true'
-                            />
-                            <span
-                                id='channelMemberCountText'
-                                className='icon__text'
-                            >
-                                {countText}
-                            </span>
-                        </div>
-                    </button>
+                    <IconButton
+                        id="member_popover"
+                        label={countText}
+                        size="medium"
+                        iconGlyph="icon-account-outline"
+                    />
                 </OverlayTrigger>
                 <Overlay
                     rootClose={true}
