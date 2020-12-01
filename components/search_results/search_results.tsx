@@ -106,9 +106,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
-    /* eslint-disable */
-    console.log('####### results: ', results)
-    console.log('####### isSearchingTerm: ', isSearchingTerm)
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
     const showLoadMore = !isSearchAtEnd && !isFlaggedPosts && !isPinnedPosts;
 
@@ -260,4 +257,42 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
 SearchResults.defaultProps = defaultProps;
 
-export default SearchResults;
+export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
+    // eslint-disable-next-line no-console
+    console.log('#### props: ', props);
+    // eslint-disable-next-line no-console
+    console.log('#### nextProps: ', nextProps);
+
+    // Shallow compare for all props except 'results'
+    for (const key in nextProps) {
+        if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'results') {
+            continue;
+        }
+
+        if (nextProps[key] !== props[key]) {
+            return false;
+        }
+    }
+
+    // Here we do a slightly deeper compare on 'results' because it is frequently a new
+    // array but without any actual changes
+    const {results} = props;
+    // eslint-disable-next-line no-console
+    console.log('#### results: ', results);
+    const {results: nextResults} = nextProps;
+
+    if (results.length !== nextResults.length) {
+        return false;
+    }
+
+    for (let i = 0; i < results.length; i++) {
+        // Only need a shallow compare on each post
+        if (results[i] !== nextResults[i]) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+export default React.memo(SearchResults, arePropsEqual);
