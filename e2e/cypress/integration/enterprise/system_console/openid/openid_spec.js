@@ -13,7 +13,7 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 const FAKE_SETTING = '********************************';
-const SERVICE_PROIVDER_LABEL = 'Select Service Provider:';
+const SERVICE_PROIVDER_LABEL = 'Select service provider:';
 const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
 const CLIENT_ID_LABEL = 'Client ID:';
 const CLIENT_SECRET_LABEL = 'Client Secret:';
