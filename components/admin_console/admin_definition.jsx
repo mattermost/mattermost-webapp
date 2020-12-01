@@ -2483,6 +2483,7 @@ const AdminDefinition = {
                         help_text: t('admin.notices.enableAdminNoticesDescription'),
                         help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2492,6 +2493,7 @@ const AdminDefinition = {
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
                         help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
