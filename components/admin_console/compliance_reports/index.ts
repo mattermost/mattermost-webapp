@@ -2,20 +2,31 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {createSelector} from 'reselect';
 
 import {createComplianceReport, getComplianceReports} from 'mattermost-redux/actions/admin';
 import {getComplianceReports as selectComplianceReports, getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import ComplianceReports from './compliance_reports.jsx';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {Compliance} from 'mattermost-redux/types/compliance';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
+import ComplianceReports from './compliance_reports';
+
+type Actions = {
+    getComplianceReports: () => Promise<{data: Compliance[]}>;
+    createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance, error?: Error}>;
+}
 
 const getUsersForReports = createSelector(
-    (state) => state.entities.users.profiles,
-    (state) => state.entities.admin.complianceReports,
+    (state: GlobalState) => state.entities.users.profiles,
+    (state: GlobalState) => state.entities.admin.complianceReports,
     (users, reports) => {
-        const usersMap = {};
+        const usersMap: Dictionary<UserProfile> = {};
         Object.values(reports).forEach((r) => {
             const u = users[r.user_id];
             if (u) {
@@ -26,7 +37,7 @@ const getUsersForReports = createSelector(
     },
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
 
@@ -36,7 +47,7 @@ function mapStateToProps(state) {
         enabled = config.ComplianceSettings.Enable;
     }
 
-    let serverError;
+    let serverError: string | undefined;
     const error = state.requests.admin.createCompliance.error;
     if (error) {
         serverError = error.message;
@@ -55,9 +66,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getComplianceReports,
             createComplianceReport,
         }, dispatch),
