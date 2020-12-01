@@ -11,7 +11,10 @@ class E2EClient extends Client4 {
             method,
         } = this.getOptions(options);
 
-        const data = JSON.parse(body);
+        let data;
+        if (body) {
+            data = JSON.parse(body);
+        }
 
         return new Promise((resolve) => {
             cy.task('clientRequest', {
