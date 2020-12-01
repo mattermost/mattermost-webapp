@@ -182,6 +182,23 @@ const makeStaticSelectField: SubDialogMaker = (field) => {
     };
 };
 
+const makeButtonSelectField: SubDialogMaker = (field) => {
+    let options: {text: string; value: string}[] = [];
+    if (field.options) {
+        options = field.options?.map((opt) => ({
+            text: opt.label,
+            value: opt.value,
+        }));
+    }
+
+    return {
+        type: 'select',
+        subtype: field.subtype || 'button',
+        options,
+        data_source: '',
+    };
+};
+
 const makeDynamicSelectField: SubDialogMaker = (field) => {
     return {
         type: 'select',
@@ -216,6 +233,7 @@ enum FieldType {
     bool = 'bool',
     user = 'user',
     channel = 'channel',
+    button = 'button',
 }
 
 const makeSubDialogField: SubDialogMaker = (field) => {
@@ -232,6 +250,8 @@ const makeSubDialogField: SubDialogMaker = (field) => {
         return makeUserSelectField(field);
     case FieldType.channel:
         return makeChannelSelectField(field);
+    case FieldType.button:
+        return makeButtonSelectField(field);
     default:
         return makeTextField(field);
     }
