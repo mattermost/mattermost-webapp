@@ -4051,14 +4051,11 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: (config) => config.FeatureFlags.OpenIdConnect === 'on',
+                shouldDisplay: () => true,
             },
             isHidden: it.any(
                 it.not(it.licensed),
-                it.all(
-                    it.configContains('FeatureFlags', 'OpenIdConnect', 'on'),
-                    it.not(usesLegacyOauth),
-                ),
+                it.not(usesLegacyOauth),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4113,7 +4110,6 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(it.licensedForFeature('GoogleOAuth')),
                             it.not(it.licensedForFeature('Office365OAuth')),
-                            it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
@@ -4367,10 +4363,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.any(
-                it.not(it.licensedForFeature('OpenId')),
-                it.configContains('FeatureFlags', 'OpenIdConnect', 'off'),
-            ),
+            isHidden: it.not(it.licensedForFeature('OpenId')),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),

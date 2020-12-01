@@ -31,9 +31,6 @@ describe('components/AdminSidebar', () => {
                 Enable: true,
                 EnableUploads: true,
             },
-            FeatureFlags: {
-                OpenIdConnect: 'on',
-            },
         },
         adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
@@ -287,9 +284,6 @@ describe('components/AdminSidebar', () => {
                     Secret: 'office365Secret',
                     Scope: 'scope',
                 },
-                FeatureFlags: {
-                    OpenIdConnect: 'on',
-                },
             },
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
@@ -445,9 +439,6 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
-                FeatureFlags: {
-                    OpenIdConnect: 'on',
                 },
             },
             adminDefinition: AdminDefinition,
