@@ -106,7 +106,7 @@ function makeDialogProps(data: InteractiveDialogConfig) {
 
 export function appFormToInteractiveDialog(form: AppForm & {app_id: string; url: string}): InteractiveDialogConfig {
     const fields = form.fields || [];
-    const elements = fields.map(fieldToDialogElement);
+    const elements = fields.map((e) => fieldToDialogElement(e, form.submit_buttons));
     const config: InteractiveDialogConfig = {
         app_id: form.app_id,
         url: form.url,
@@ -132,7 +132,7 @@ type SubDialogElement = {
     data_source: string;
 }
 
-type SubDialogMaker = (field: AppField) => SubDialogElement;
+type SubDialogMaker = (field: AppField, submitField?: string) => SubDialogElement;
 
 const makeTextField: SubDialogMaker = (field) => {
     let type = 'text';
@@ -165,7 +165,7 @@ const makeBooleanField: SubDialogMaker = () => {
 //     };
 // };
 
-const makeStaticSelectField: SubDialogMaker = (field) => {
+const makeStaticSelectField: SubDialogMaker = (field, submitField?: string) => {
     let options: {text: string; value: string}[] = [];
     if (field.options) {
         options = field.options?.map((opt) => ({
@@ -174,26 +174,14 @@ const makeStaticSelectField: SubDialogMaker = (field) => {
         }));
     }
 
-    return {
-        type: 'select',
-        subtype: '',
-        options,
-        data_source: '',
-    };
-};
-
-const makeButtonSelectField: SubDialogMaker = (field) => {
-    let options: {text: string; value: string}[] = [];
-    if (field.options) {
-        options = field.options?.map((opt) => ({
-            text: opt.label,
-            value: opt.value,
-        }));
+    let subtype = field.subtype || '';
+    if (submitField == field.name) {
+        subtype = 'submit';
     }
 
     return {
         type: 'select',
-        subtype: field.subtype || 'button',
+        subtype: subtype,
         options,
         data_source: '',
     };
@@ -233,32 +221,29 @@ enum FieldType {
     bool = 'bool',
     user = 'user',
     channel = 'channel',
-    button = 'button',
 }
 
-const makeSubDialogField: SubDialogMaker = (field) => {
+const makeSubDialogField: SubDialogMaker = (field, submitField) => {
     switch (field.type) {
     case FieldType.text:
         return makeTextField(field);
     case FieldType.bool:
         return makeBooleanField(field);
     case FieldType.static_select:
-        return makeStaticSelectField(field);
+        return makeStaticSelectField(field, submitField);
     case FieldType.dynamic_select:
         return makeDynamicSelectField(field);
     case FieldType.user:
         return makeUserSelectField(field);
     case FieldType.channel:
         return makeChannelSelectField(field);
-    case FieldType.button:
-        return makeButtonSelectField(field);
     default:
         return makeTextField(field);
     }
 };
 
-export const fieldToDialogElement = (field: AppField): DialogElement => {
-    const subField = makeSubDialogField(field);
+export const fieldToDialogElement = (field: AppField, submitField?: string): DialogElement => {
+    const subField = makeSubDialogField(field, submitField);
 
     const element: DialogElement = {
         ...subField,
