@@ -4121,8 +4121,8 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'oauthType',
-                        label: t('admin.oauth.select'),
-                        label_default: 'Select OAuth 2.0 Service Provider:',
+                        label: t('admin.openid.select'),
+                        label_default: 'Select service provider:',
                         options: [
                             {
                                 value: 'off',
@@ -4444,7 +4444,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'openidType',
                         label: t('admin.openid.select'),
-                        label_default: 'Select Service Provider:',
+                        label_default: 'Select service provider:',
                         options: [
                             {
                                 value: 'off',
@@ -4507,8 +4507,8 @@ const AdminDefinition = {
                         key: 'GitLabSettings.DiscoveryEndpoint',
                         label: t('admin.openid.discoveryEndpointTitle'),
                         label_default: 'Discovery Endpoint:',
-                        help_text: t('admin.openid.discoveryEndpointDesc'),
-                        help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
+                        help_text: t('admin.gitlab.discoveryEndpointDesc'),
+                        help_text_default: 'The URL of the discovery document for OpenID Connect with GitLab.',
                         help_text_markdown: false,
                         dynamic_value: (value, config, state) => {
                             if (state['GitLabSettings.Url']) {
@@ -4548,8 +4548,8 @@ const AdminDefinition = {
                         key: 'GoogleSettings.DiscoveryEndpoint',
                         label: t('admin.openid.discoveryEndpointTitle'),
                         label_default: 'Discovery Endpoint:',
-                        help_text: t('admin.openid.discoveryEndpointDesc'),
-                        help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
+                        help_text: t('admin.google.discoveryEndpointDesc'),
+                        help_text_default: 'The URL of the discovery document for OpenID Connect with Google.',
                         help_text_markdown: false,
                         dynamic_value: () => 'https://accounts.google.com/.well-known/openid-configuration',
                         isDisabled: true,
@@ -4596,8 +4596,8 @@ const AdminDefinition = {
                         key: 'Office365Settings.DiscoveryEndpoint',
                         label: t('admin.openid.discoveryEndpointTitle'),
                         label_default: 'Discovery Endpoint:',
-                        help_text: t('admin.openid.discoveryEndpointDesc'),
-                        help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
+                        help_text: t('admin.office365.discoveryEndpointDesc'),
+                        help_text_default: 'The URL of the discovery document for OpenID Connect with Office 365.',
                         help_text_markdown: false,
                         dynamic_value: (value, config, state) => {
                             if (state['Office365Settings.DirectoryId']) {
@@ -4651,7 +4651,7 @@ const AdminDefinition = {
                         label: t('admin.openid.buttonColorTitle'),
                         label_default: 'Button Color:',
                         help_text: t('admin.openid.buttonColorDesc'),
-                        help_text_default: 'Specify the color of the OpenId login button for white labeling purposes. Use a hex code with a #-sign before the code.',
+                        help_text_default: 'Specify the color of the OpenID login button for white labeling purposes. Use a hex code with a #-sign before the code.',
                         help_text_markdown: false,
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
