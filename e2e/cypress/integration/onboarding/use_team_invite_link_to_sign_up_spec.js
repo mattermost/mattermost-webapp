@@ -10,7 +10,7 @@
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import {getEmailUrl, reUrl} from '../../utils';
 import {generateRandomUser} from '../../support/api/user';
 
 describe('Onboarding', () => {
@@ -80,11 +80,9 @@ describe('Onboarding', () => {
         });
 
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
+            verifyEmailInvite(response, email);
 
-            verifyEmailInvite(response, email, messageSeparator);
-
-            const bodyText = response.data.body.text.split('\n');
+            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
             const permalink = bodyText[6].match(reUrl)[0];
 
             // * Check that URL in address bar does not have an `undefined` team name appended
@@ -113,7 +111,7 @@ describe('Onboarding', () => {
         cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
     });
 
-    function verifyEmailInvite(response, userEmail, messageSeparator) {
+    function verifyEmailInvite(response, userEmail) {
         const isoDate = new Date().toISOString().substring(0, 10);
         const {data, status} = response;
 
@@ -131,7 +129,7 @@ describe('Onboarding', () => {
         expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split(messageSeparator);
+        const bodyText = data.body.text.split('\n').map((d) => d.trim());
         expect(bodyText.length).to.equal(23);
         expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
         expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');

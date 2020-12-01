@@ -18,20 +18,10 @@ export function getRandomId(length = 7) {
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
 }
 
-export function getEmailUrl(baseUrl) {
-    if (baseUrl === 'http://localhost:8065') {
-        return 'http://localhost:10080/api/v1/mailbox';
-    }
+export function getEmailUrl() {
+    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:10080';
 
-    return `${baseUrl}/mail`;
-}
-
-export function getEmailMessageSeparator(baseUrl) {
-    if (baseUrl === 'http://localhost:8065') {
-        return '\r\n';
-    }
-
-    return '\n';
+    return `${smtpUrl}/api/v1/mailbox`;
 }
 
 export function getMessageMenusPayload({dataSource, options, prefix = Date.now()} = {}) {

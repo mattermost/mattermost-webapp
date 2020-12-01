@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {generateRandomUser} from '../../../../support/api/user';
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../../../utils';
+import {getEmailUrl, reUrl} from '../../../../utils';
 
 describe('Onboarding', () => {
     let testTeam;
@@ -101,10 +101,9 @@ describe('Onboarding', () => {
     // eslint-disable-next-line no-shadow
     function getEmail(username, email) {
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            verifyEmailVerification(response, testTeam.name, testTeam.display_name, email, messageSeparator);
+            verifyEmailVerification(response, email);
 
-            const bodyText = response.data.body.text.split('\n');
+            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
@@ -112,7 +111,7 @@ describe('Onboarding', () => {
         });
     }
 
-    function verifyEmailVerification(response, teamName, teamDisplayName, userEmail, messageSeparator) {
+    function verifyEmailVerification(response, userEmail) {
         const isoDate = new Date().toISOString().substring(0, 10);
         const {data, status} = response;
 
@@ -130,7 +129,7 @@ describe('Onboarding', () => {
         expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split(messageSeparator);
+        const bodyText = data.body.text.split('\n').map((d) => d.trim());
         expect(bodyText.length).to.equal(23);
         expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
         expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');

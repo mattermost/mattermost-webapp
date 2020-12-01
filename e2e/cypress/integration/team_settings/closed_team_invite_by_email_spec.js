@@ -10,7 +10,7 @@
 // Group: @team_settings
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl, getRandomId} from '../../utils';
+import {getEmailUrl, reUrl, getRandomId} from '../../utils';
 
 describe('Team Settings', () => {
     let testTeam;
@@ -79,10 +79,9 @@ describe('Team Settings', () => {
 
         // # Invite a new user (with the email declared in the parent scope)
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            verifyEmailInvite(response, testTeam.name, testTeam.display_name, email, messageSeparator);
+            verifyEmailInvite(response, testTeam.name, testTeam.display_name, email);
 
-            const bodyText = response.data.body.text.split('\n');
+            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
@@ -110,7 +109,7 @@ describe('Team Settings', () => {
         cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
     });
 
-    function verifyEmailInvite(response, teamName, teamDisplayName, invitedUserEmail, messageSeparator) {
+    function verifyEmailInvite(response, teamName, teamDisplayName, invitedUserEmail) {
         const isoDate = new Date().toISOString().substring(0, 10);
         const {data, status} = response;
 
@@ -128,7 +127,7 @@ describe('Team Settings', () => {
         expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split(messageSeparator);
+        const bodyText = data.body.text.split('\n').map((d) => d.trim());
         expect(bodyText.length).to.equal(17);
         expect(bodyText[1]).to.equal('You\'ve been invited');
         expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);
