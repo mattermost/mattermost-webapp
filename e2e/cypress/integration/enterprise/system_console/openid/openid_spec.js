@@ -17,6 +17,11 @@ const SERVICE_PROIVDER_LABEL = 'Select Service Provider:';
 const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
 const CLIENT_ID_LABEL = 'Client ID:';
 const CLIENT_SECRET_LABEL = 'Client Secret:';
+const OPENID_LINK_NAME = 'OpenID Connect';
+const SAVE_BUTTON_NAME = 'Save';
+const CONVERT_NAME = 'Convert to OpenID Connect';
+const OAUTH2_NAME = 'OAuth 2.0deprecated';
+
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
@@ -27,15 +32,7 @@ const goToAdminConsole = () => {
 const verifyOAuthLogin = (id, text, color, href) => {
     cy.apiLogout();
 
-    // cy.findByLabelText(`${text}`).then((btn) =>{
-    //     expect(btn[0].href).equal(href);
-    //     if (color) {
-    //         const rbgArr = hexToRgbArray(color);
-    //         expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
-    //     }
-    // });
-    cy.get(`#${id}`).then((btn) => {
-        expect(btn[0].innerText).equal(`${text}`);
+    cy.findByRole('link',{name: `${text}`}).then((btn) =>{
         expect(btn[0].href).equal(href);
         if (color) {
             const rbgArr = hexToRgbArray(color);
@@ -48,17 +45,12 @@ describe('MM-27688 - System console-OpenId Connect', () => {
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
-        cy.apiUpdateConfig({
-            FeatureFlags: {
-                OpenIdConnect: 'on',
-            },
-        });
     });
     it('MM-27688 - Set to Generic OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByTestId('authentication.openid').click();
+        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -73,7 +65,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('OpenIdId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('OpenIdSecret');
 
-        cy.findByTestId('saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -89,7 +81,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByTestId('authentication.openid').click();
+        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -99,7 +91,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GoogleId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('GoogleSecret');
 
-        cy.findByTestId('saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -115,7 +107,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByTestId('authentication.openid').click();
+        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -125,7 +117,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GitlabId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('GitlabSecret');
 
-        cy.findByTestId('saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -141,7 +133,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
-        cy.findByTestId('authentication.openid').click();
+        cy.findByRole('link', { name: OPENID_LINK_NAME }).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
@@ -151,7 +143,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('Office365Id');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('Office365Secret');
 
-        cy.findByTestId('saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button',{name: SAVE_BUTTON_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
@@ -200,22 +192,22 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         goToAdminConsole();
 
         // OAuth button should be visible
-        cy.findByTestId('authentication.oauth').click();
+        cy.findByRole('link', { name: OAUTH2_NAME }).click();
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // OpenId Convert should be visible
-        cy.findByTestId('openid_convert').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('button', { name: CONVERT_NAME }).click();
 
         // OAuth should no longer be visible
-        cy.findByTestId('authentication.oauth').should('be.not.visible');
+        cy.findByRole('link', { name: OAUTH2_NAME }).should('be.not.visible');
 
         // OAuth should no longer be visible
-        cy.findByTestId('authentication.openid').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('link', { name: OPENID_LINK_NAME }).click().wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
-        cy.findByTestId('openid_convert').should('be.not.visible');
+        cy.findByRole('button', { name: CONVERT_NAME }).should('be.not.visible');
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {
