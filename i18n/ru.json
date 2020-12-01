@@ -2268,7 +2268,7 @@
   "channel_modal.purposeEx": "Например: \"Канал для ошибок и пожеланий\"",
   "channel_modal.type": "Тип",
   "channel_notifications.allActivity": "При любой активности",
-  "channel_notifications.globalDefault": "По умолчанию глобально ({notifyLevel})",
+  "channel_notifications.globalDefault": "По умолчанию ({notifyLevel})",
   "channel_notifications.ignoreChannelMentions": "Игнорировать упоминания для @channel, @here и @all",
   "channel_notifications.ignoreChannelMentions.help": "Когда включено, @channel, @here и @all не вызывают упоминания или уведомления об упоминаниях на этом канале.",
   "channel_notifications.ignoreChannelMentions.off.title": "Выкл",

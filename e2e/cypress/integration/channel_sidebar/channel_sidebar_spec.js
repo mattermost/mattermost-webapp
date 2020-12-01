@@ -99,7 +99,7 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannel:contains(Off-Topic)').should('not.exist');
     });
 
-    it('MM-23239 should remove channel from sidebar after deleting it', () => {
+    it('MM-T1684 should remove channel from sidebar after deleting it', () => {
         // # Start with a new team
         const teamName = `team-${getRandomId()}`;
         cy.createNewTeam(teamName, teamName);
@@ -113,7 +113,7 @@ describe('Channel sidebar', () => {
         // # Wait for the channel to change
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', 'Off-Topic');
 
-        // # Click on the channel menu and select Leave Channel
+        // # Click on the channel menu and select Archive Channel
         cy.get('#channelHeaderTitle').click();
         cy.get('#channelArchiveChannel').should('be.visible').click();
         cy.get('#deleteChannelModalDeleteButton').should('be.visible').click();
