@@ -88,37 +88,37 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                 <div className='OpenIdConvert_copyWrapper'>
                     <div className='OpenIdConvert__heading'>
                         <FormattedMessage
-                            id='admin.openidconvert.heading'
+                            id='admin.openIdConvert.heading'
                             defaultMessage='OAuth 2.0 is being deprecated and replace by OpenID Connect.'
                         />
                     </div>
                     <p>
                         <FormattedMessage
-                            id='admin.openidconvert.message'
+                            id='admin.openIdConvert.message'
                             defaultMessage='Convert your OAuth 2.0 configuration to the new OpenID Connect standard.'
                         />
                     </p>
                     <div className='OpenIdConvert_actionWrapper'>
                         <button
                             className='btn'
-                            data-testid='openid_convert'
+                            data-testid='openIdConvert'
                             disabled={this.props.disabled}
                             onClick={this.upgradeConfig}
                         >
                             <FormattedMessage
-                                id='admin.openidconvert.text'
+                                id='admin.openIdConvert.text'
                                 defaultMessage='Convert to OpenID Connect'
                             />
                         </button>
                         <a
                             className='btn-secondary'
                             href='https://docs.mattermost.com/deployment/sso-gitlab.html'
-                            data-testid='openid_learn_more'
+                            data-testid='openIdLearnMore'
                             target='_blank'
                             rel='noopener noreferrer'
                         >
                             <FormattedMessage
-                                id='admin.openidconvert.help'
+                                id='admin.openIdConvert.help'
                                 defaultMessage='Learn more'
                             />
                         </a>

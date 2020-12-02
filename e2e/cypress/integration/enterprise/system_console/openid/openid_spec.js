@@ -13,7 +13,7 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 const FAKE_SETTING = '********************************';
-const SERVICE_PROIVDER_LABEL = 'Select service provider:';
+const SERVICE_PROVIDER_LABEL = 'Select service provider:';
 const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
 const CLIENT_ID_LABEL = 'Client ID:';
 const CLIENT_SECRET_LABEL = 'Client Secret:';
@@ -45,7 +45,8 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // * Check if server has license
         cy.apiRequireLicense();
     });
-    it('MM-27688 - Set to Generic OpenId', () => {
+    
+    it('MM-T3623 - Set to Generic OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -54,7 +55,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
-        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('openid').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROVIDER_LABEL).select('openid').wait(TIMEOUTS.ONE_SEC);
 
         cy.findByLabelText('Button Name:').clear().type('TestButtonTest');
 
@@ -73,10 +74,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.OpenIdSettings.DiscoveryEndpoint).to.equal('http://test.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', 'http://localhost:8065/oauth/openid/login?extra=expired');
+        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') +'/oauth/openid/login?extra=expired');
     });
 
-    it('MM-27688 - Set to Google OpenId', () => {
+    it('MM-T3620 - Set to Google OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -85,7 +86,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
 
-        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('google').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROVIDER_LABEL).select('google').wait(TIMEOUTS.ONE_SEC);
 
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GoogleId');
         cy.findByLabelText(CLIENT_SECRET_LABEL).clear().type('GoogleSecret');
@@ -99,10 +100,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GoogleButton', 'Google Apps', '', 'http://localhost:8065/oauth/google/login?extra=expired');
+        verifyOAuthLogin('GoogleButton', 'Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login?extra=expired');
     });
 
-    it('MM-27688- Set to Gitlab OpenId', () => {
+    it('MM-T3621 - Set to Gitlab OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -110,7 +111,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
-        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('gitlab').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROVIDER_LABEL).select('gitlab').wait(TIMEOUTS.ONE_SEC);
 
         cy.findByLabelText('GitLab Site URL:').clear().type('https://gitlab.com');
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('GitlabId');
@@ -125,10 +126,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GitLabButton', 'GitLab', '', 'http://localhost:8065/oauth/gitlab/login?extra=expired');
+        verifyOAuthLogin('GitLabButton', 'GitLab', '', Cypress.config('baseUrl') + '/oauth/gitlab/login?extra=expired');
     });
 
-    it('MM-27688 - Set to Exchange OpenId', () => {
+    it('MM-T3622 - Set to Exchange OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
 
@@ -136,7 +137,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
 
         // # Click the OpenId header dropdown
         cy.wait(TIMEOUTS.FIVE_SEC);
-        cy.findByLabelText(SERVICE_PROIVDER_LABEL).select('office365').wait(TIMEOUTS.ONE_SEC);
+        cy.findByLabelText(SERVICE_PROVIDER_LABEL).select('office365').wait(TIMEOUTS.ONE_SEC);
 
         cy.findByLabelText('Directory (tenant) ID:').clear().type('common');
         cy.findByLabelText(CLIENT_ID_LABEL).clear().type('Office365Id');
@@ -150,10 +151,10 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.Office365Settings.Id).to.equal('Office365Id');
             expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
         });
-        verifyOAuthLogin('Office365Button', 'Office 365', '', 'http://localhost:8065/oauth/office365/login?extra=expired');
+        verifyOAuthLogin('Office365Button', 'Office 365', '', Cypress.config('baseUrl') + '/oauth/office365/login?extra=expired');
     });
 
-    it('MM-27688 - Test Migrate from OAuth', () => {
+    it('MM-T3501 - Test Migrate from OAuth', () => {
         cy.apiAdminLogin();
 
         cy.apiUpdateConfig({
