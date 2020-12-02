@@ -17,12 +17,16 @@ describe('Message Reply', () => {
     let rootId;
 
     before(() => {
-        // # Create and visit new channel
+        // # Create main channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             mainChannel = channel;
+
+            // # Create other channel
             cy.apiCreateChannel(team.id, 'other', 'other').then(({newChannel}) => {
                 otherChannel = newChannel;
             });
+
+            // # Visit main channel
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
@@ -97,7 +101,7 @@ describe('Message Reply', () => {
     });
 
     it('MM-T2135 - Can open reply thread from reply count arrow and reply', () => {
-    // # Click reply icon
+        // # Click reply icon
         cy.get(`#CENTER_commentIcon_${rootId}`).click().wait(TIMEOUTS.HALF_SEC);
 
         const msg = 'reply2';
@@ -125,7 +129,7 @@ describe('Message Reply', () => {
     });
 
     it('MM-T2136 - Reply in RHS with different channel open in center', () => {
-    // # Click on the `...` menu icon and click on `Reply`
+        // # Click on the `...` menu icon and click on `Reply`
         cy.uiClickPostDropdownMenu(rootId, 'Reply', 'CENTER');
 
         // # Switch to a different channel
