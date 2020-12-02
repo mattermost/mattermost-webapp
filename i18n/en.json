@@ -776,6 +776,8 @@
   "admin.experimental.samlSettingsLoginButtonColor.title": "SAML Login Button Color:",
   "admin.experimental.samlSettingsLoginButtonTextColor.desc": "Specify the color of the SAML login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.",
   "admin.experimental.samlSettingsLoginButtonTextColor.title": "SAML login Button Text Color:",
+  "admin.experimental.enableSharedChannels.title": "Enable Shared Channels:",
+  "admin.experimental.enableSharedChannels.desc": "When true, users who have permission to manage shared channels can configure another Mattermost server to synchronize and share a channel. Disabling shared channels stops synchronizing the channel with the other Mattermost server, however the channel continues to function for local users per normal channel behavior.",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.desc": "The number of milliseconds to wait between emitting user typing websocket events.",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.example": "E.g.: \"5000\"",
   "admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.title": "User Typing Timeout:",

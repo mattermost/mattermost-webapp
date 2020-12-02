@@ -5341,9 +5341,9 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ExperimentalSettings.EnableSharedChannels',
-                        label: t('admin.experimental.shared_channels.title'),
-                        label_default: 'Shared Channels:',
-                        help_text: t('admin.experimental.shared_channels.desc'),
+                        label: t('admin.experimental.enableSharedChannels.title'),
+                        label_default: 'Enable Shared Channels:',
+                        help_text: t('admin.experimental.enableSharedChannels.desc'),
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SharedChannels')),
