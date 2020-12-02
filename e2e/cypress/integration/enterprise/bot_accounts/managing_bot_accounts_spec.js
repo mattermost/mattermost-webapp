@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @bot_accounts
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';

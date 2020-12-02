@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
-import {getCurrentChannel, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -13,9 +13,11 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {switchToChannelById} from 'actions/views/channel';
 import {
     expandCategory,
-    moveChannelInSidebar,
+    moveChannelsInSidebar,
     setDraggingState,
     stopDragging,
+    clearChannelSelection,
+    multiSelectChannelAdd,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
 import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
@@ -31,13 +33,14 @@ function makeMapStateToProps() {
 
         return {
             currentTeam,
-            currentChannel: getCurrentChannel(state),
+            currentChannelId: getCurrentChannelId(state),
             categories: getCategoriesForTeam(state, currentTeam.id),
             isUnreadFilterEnabled: isUnreadFilterEnabled(state),
             unreadChannelIds: getUnreadChannelIds(state),
             displayedChannels: getDisplayedChannels(state),
             draggingState: getDraggingState(state),
             newCategoryIds: state.views.channelSidebar.newCategoryIds,
+            multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
         };
     };
 }
@@ -47,11 +50,13 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
-            moveChannelInSidebar,
+            moveChannelsInSidebar,
             moveCategory,
             setDraggingState,
             stopDragging,
             expandCategory,
+            clearChannelSelection,
+            multiSelectChannelAdd,
         }, dispatch),
     };
 }

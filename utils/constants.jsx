@@ -206,6 +206,10 @@ export const ActionTypes = keyMirror({
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
     ADD_NEW_CATEGORY_ID: null,
+    MULTISELECT_CHANNEL: null,
+    MULTISELECT_CHANNEL_ADD: null,
+    MULTISELECT_CHANNEL_TO: null,
+    MULTISELECT_CHANNEL_CLEAR: null,
 
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
@@ -671,6 +675,7 @@ export const DraggingStateTypes = {
     CATEGORY: 'category',
     CHANNEL: 'channel',
     DM: 'DM',
+    MIXED_CHANNELS: 'mixed_channels',
 };
 
 export const AboutLinks = {
@@ -751,6 +756,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
+    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
