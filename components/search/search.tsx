@@ -82,7 +82,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     useEffect((): void => {
         setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
-        if (focussed && keepInputFocussed) {
+        if (Utils.isMobile() && focussed && keepInputFocussed) {
             setKeepInputFocussed(false);
         }
     }, [searchTerms]);
