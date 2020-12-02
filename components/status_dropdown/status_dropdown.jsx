@@ -17,7 +17,6 @@ import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
-import DndDateTimePickerModal from 'components/dnd_custom_time_picker_modal/dnd_custom_time_picker_modal';
 import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal/dnd_custom_time_picker_modal';
 
 export default class StatusDropdown extends React.PureComponent {
