@@ -14,9 +14,9 @@ import EmojiMap from 'utils/emoji_map';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import InteractiveDialog, {Props as DialogProps} from './interactive_dialog';
+import InteractiveDialog, {Props as DialogProps} from './apps_form';
 
-describe('components/apps_modal/InteractiveDialog', () => {
+describe('components/apps_form/AppsForm', () => {
     const baseProps: DialogProps = {
         modal: {
             form: {} as AppForm,

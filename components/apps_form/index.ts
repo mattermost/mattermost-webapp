@@ -13,7 +13,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {doAppCall} from 'actions/apps';
 import {getEmojiMap} from 'selectors/emojis';
 
-import AppsModal from './apps_modal';
+import AppsModal from './apps_form_container';
 
 type Actions = {
     doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>

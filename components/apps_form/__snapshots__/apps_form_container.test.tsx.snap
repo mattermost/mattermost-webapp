@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AppsFormHeader should match snapshot 1`] = `
+<AppsForm
+  actions={
+    Object {
+      "performLookupCall": [Function],
+      "submit": [Function],
+    }
+  }
+  callbackId=""
+  emojiMap={
+    EmojiMap {
+      "customEmojis": Map {},
+      "customEmojisArray": Array [],
+    }
+  }
+  introductionText="Form Header"
+  isEmbedded={false}
+  modal={
+    Object {
+      "call": Object {
+        "context": Object {
+          "app_id": "app",
+          "channel_id": "channel",
+          "post_id": "post",
+          "team_id": "team",
+        },
+        "url": "/submit_url",
+      },
+      "form": Object {
+        "fields": Array [
+          Object {
+            "name": "field1",
+            "source_url": "/dynamic_url",
+            "type": "text",
+            "value": "initial_value_1",
+          },
+        ],
+        "header": "Form Header",
+        "title": "Form Title",
+      },
+    }
+  }
+  onHide={[Function]}
+  refreshNonce=""
+  state=""
+  submitLabel=""
+  title="Form Title"
+  url="/submit_url"
+/>
+`;

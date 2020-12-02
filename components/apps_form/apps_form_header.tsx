@@ -13,7 +13,7 @@ type Props = {
     emojiMap: EmojiMap;
 };
 
-const DialogIntroductionText: React.FC<Props> = (props: Props) => {
+const AppsFormHeader: React.FC<Props> = (props: Props) => {
     const formattedMessage = Markdown.format(
         props.value,
         {
@@ -33,4 +33,4 @@ const DialogIntroductionText: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default DialogIntroductionText;
+export default AppsFormHeader;

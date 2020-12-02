@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppCallResponseTypes, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
-import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integrations';
+import {AppCallResponse, AppField, AppForm, AppModalState, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';
@@ -17,31 +17,29 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 import EmojiMap from 'utils/emoji_map';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import DialogElement from './dialog_element';
-import DialogIntroductionText from './dialog_introduction_text';
+import AppsFormField from './apps_form_field';
+import AppsFormHeader from './apps_form_header';
+import {FormValues} from './apps_form_field/apps_form_select_field';
 
 export type Props = {
     modal: AppModalState;
-    appID?: string;
-    url: string;
-    callbackId?: string;
-    elements: DialogElementProps[],
+    isEmbedded?: boolean;
     title: string;
     introductionText?: string;
     iconUrl?: string;
     submitLabel?: string;
     notifyOnCancel?: boolean;
     state?: string;
-    onHide: () => void,
+    onHide: () => void;
     actions: {
         submit: (dialog: {
             values: {
                 [name: string]: string;
             };
         }) => Promise<{data: AppCallResponse<FormResponseData>}>;
-    },
+        performLookupCall: (field: AppField, values: FormValues, userInput: string) => Promise<AppSelectOption[]>;
+    };
     emojiMap: EmojiMap;
-    isEmbedded?: boolean;
 }
 
 type FormResponseData = {
@@ -58,7 +56,7 @@ type State = {
     submitting: boolean;
 }
 
-export default class InteractiveDialog extends React.PureComponent<Props, State> {
+export default class AppsForm extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -75,6 +73,12 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
         };
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.modal !== this.props.modal) {
+            this.setState({values: this.initFormValues(this.props.modal.form)});
+        }
+    }
+
     initFormValues = (form: AppForm): {[name: string]: string} => {
         const values: {[name: string]: any} = {};
         if (form && form.fields) {
@@ -89,17 +93,17 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const {elements} = this.props;
+        const {fields} = this.props.modal.form;
         const values = this.state.values;
         const errors: {[name: string]: React.ReactNode} = {};
-        if (elements) {
-            elements.forEach((elem) => {
+        if (fields) {
+            fields.forEach((field) => {
                 const error = checkDialogElementForError(
-                    elem,
-                    values[elem.name],
+                    field,
+                    values[field.name],
                 );
                 if (error) {
-                    errors[elem.name] = (
+                    errors[field.name] = (
                         <FormattedMessage
                             id={error.id}
                             defaultMessage={error.defaultMessage}
@@ -141,6 +145,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
             const newErrors = data.data?.errors;
 
+            const elements = fields.map((field) => ({name: field.name}));
             if (
                 newErrors &&
                 Object.keys(newErrors).length >= 0 &&
@@ -155,6 +160,15 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
             this.handleHide(true);
         }
     };
+
+    performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
+        const field = this.props.modal.form.fields.find((f) => f.name === name);
+        if (!field || !field.source_url) {
+            return [];
+        }
+
+        return this.props.actions.performLookupCall(field, this.state.values, userInput);
+    }
 
     onHide = () => {
         this.handleHide(false);
@@ -186,9 +200,10 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
     renderModal() {
         const {
-            elements,
             introductionText,
         } = this.props;
+
+        const {fields} = this.props.modal.form;
 
         return (
             <Modal
@@ -204,7 +219,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                 <form onSubmit={this.handleSubmit}>
                     <Modal.Header
                         closeButton={true}
-                        style={{borderBottom: elements && elements.length ? '' : '0px'}}
+                        style={{borderBottom: fields && fields.length ? '' : '0px'}}
                     >
                         <Modal.Title
                             componentClass='h1'
@@ -213,7 +228,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                             {this.renderHeader()}
                         </Modal.Title>
                     </Modal.Header>
-                    {(elements || introductionText) && (
+                    {(fields || introductionText) && (
                         <Modal.Body>
                             {this.renderBody()}
                         </Modal.Body>
@@ -228,16 +243,17 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
     renderEmbedded() {
         const {
-            elements,
             introductionText,
         } = this.props;
+
+        const {fields} = this.props.modal.form;
 
         return (
             <form onSubmit={this.handleSubmit}>
                 <div>
                     {this.renderHeader()}
                 </div>
-                {(elements || introductionText) && (
+                {(fields || introductionText) && (
                     <div>
                         {this.renderBody()}
                     </div>
@@ -278,29 +294,21 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     }
 
     renderElements() {
-        const {elements, isEmbedded} = this.props;
+        const {isEmbedded} = this.props;
 
-        return (elements &&
-        elements.map((e, index) => {
-            const field = this.props.modal.form.fields.find((f) => f.name === e.name) as AppField & {key?: string};
+        const {fields} = this.props.modal.form;
+
+        return (fields &&
+        fields.map((field, index) => {
             return (
-                <DialogElement
+                <AppsFormField
                     field={field}
+                    performLookup={this.performLookup}
                     key={field.key || field.name}
                     autoFocus={index === 0}
-                    displayName={e.display_name}
-                    name={e.name}
-                    type={e.type}
-                    subtype={e.subtype}
-                    helpText={e.help_text}
-                    errorText={this.state.errors[e.name]}
-                    placeholder={e.placeholder}
-                    minLength={e.min_length}
-                    maxLength={e.max_length}
-                    dataSource={e.data_source}
-                    optional={e.optional}
-                    options={e.options}
-                    value={this.state.values[e.name]}
+                    name={field.name}
+                    errorText={this.state.errors[field.name]}
+                    value={this.state.values[field.name]}
                     onChange={this.onChange}
                     listComponent={isEmbedded ? SuggestionList : ModalSuggestionList}
                 />
@@ -311,13 +319,14 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     renderBody() {
         const {
             introductionText,
-            elements,
         } = this.props;
 
-        return (elements || introductionText) && (
+        const {fields} = this.props.modal.form;
+
+        return (fields || introductionText) && (
             <React.Fragment>
                 {introductionText && (
-                    <DialogIntroductionText
+                    <AppsFormHeader
                         id='interactiveDialogModalIntroductionText'
                         value={introductionText}
                         emojiMap={this.props.emojiMap}
@@ -330,9 +339,10 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
     renderFooter() {
         const {
-            elements,
             submitLabel,
         } = this.props;
+
+        const {fields} = this.props.modal.form;
 
         let submitText: React.ReactNode = (
             <FormattedMessage
@@ -363,7 +373,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                 <SpinnerButton
                     id='interactiveDialogSubmit'
                     type='submit'
-                    autoFocus={!elements || elements.length === 0}
+                    autoFocus={!fields || fields.length === 0}
                     className='btn btn-primary save-button'
                     spinning={this.state.submitting}
                     spinningText={localizeMessage(

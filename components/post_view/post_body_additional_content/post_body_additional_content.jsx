@@ -10,7 +10,7 @@ import MessageAttachmentList from 'components/post_view/message_attachments/mess
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
-import AppsModal from 'components/apps_modal';
+import AppsForm from 'components/apps_form';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -154,7 +154,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return (
                 <React.Fragment>
                     {this.props.children}
-                    <AppsModal
+                    <AppsForm
                         modal={{
                             form: this.props.post.props.form,
                             call: this.props.post.props.call,

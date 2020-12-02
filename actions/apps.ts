@@ -9,7 +9,7 @@ import {AppsBindings, AppCallTypes, AppCallResponseTypes} from 'mattermost-redux
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';
 
-import AppsModal from 'components/apps_modal';
+import AppsForm from 'components/apps_form';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -60,7 +60,7 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
 export function openAppsModal(form: AppForm, call: AppCall): Action {
     return openModal({
         modalId: ModalIdentifiers.APPS_MODAL,
-        dialogType: AppsModal,
+        dialogType: AppsForm,
         dialogProps: {
             modal: {
                 form,

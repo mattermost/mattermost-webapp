@@ -9,9 +9,9 @@ import {AppField} from 'mattermost-redux/types/apps';
 import TextSetting from 'components/widgets/settings/text_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 
-import DialogElement, {Props} from './dialog_element';
+import AppsFormField, {Props} from './apps_form_field';
 
-describe('components/apps_modal/DialogElement', () => {
+describe('components/apps_form/apps_form_field/AppsFormField', () => {
     const baseDialogProps: Props = {
         displayName: 'Testing',
         name: 'testing',
@@ -41,7 +41,7 @@ describe('components/apps_modal/DialogElement', () => {
     };
     it('subtype blank', () => {
         const wrapper = shallow(
-            <DialogElement
+            <AppsFormField
                 {...baseDialogProps}
                 subtype=''
             />,
@@ -56,7 +56,7 @@ describe('components/apps_modal/DialogElement', () => {
 
     it('subtype email', () => {
         const wrapper = shallow(
-            <DialogElement
+            <AppsFormField
                 {...baseDialogProps}
                 subtype='email'
             />,
@@ -71,7 +71,7 @@ describe('components/apps_modal/DialogElement', () => {
 
     it('subtype invalid', () => {
         const wrapper = shallow(
-            <DialogElement
+            <AppsFormField
                 {...baseDialogProps}
                 subtype='invalid'
             />,
@@ -86,7 +86,7 @@ describe('components/apps_modal/DialogElement', () => {
 
     it('subtype password', () => {
         const wrapper = shallow(
-            <DialogElement
+            <AppsFormField
                 {...baseDialogProps}
                 subtype='password'
             />,
@@ -107,7 +107,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('RadioSetting is rendered when type is radio', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
@@ -120,7 +120,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('RadioSetting is rendered when options are null', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={null}
@@ -133,7 +133,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('RadioSetting is rendered when options are null and value is null', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={null}
@@ -147,7 +147,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('RadioSetting is rendered when options are null and value is not null', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={null}
@@ -161,7 +161,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('RadioSetting is rendered when value is not one of the options', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
@@ -175,7 +175,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('No default value is selected from the radio button list', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
@@ -187,7 +187,7 @@ describe('components/apps_modal/DialogElement', () => {
 
         test('The default value can be specified from the list', () => {
             const wrapper = shallow(
-                <DialogElement
+                <AppsFormField
                     {...baseDialogProps}
                     type='radio'
                     options={radioOptions}
