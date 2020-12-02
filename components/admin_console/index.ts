@@ -31,6 +31,7 @@ import AdminConsole from './admin_console';
 function mapStateToProps(state: GlobalState) {
     const generalConfig = getGeneralConfig(state);
     const buildEnterpriseReady = generalConfig.BuildEnterpriseReady === 'true';
+    const featureFlags = generalConfig.FeatureFlags;
     const adminDefinition = getAdminDefinition(state);
     const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
     const team = getTeam(state, teamId || '');
@@ -42,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
         environmentConfig: Selectors.getEnvironmentConfig(state),
         license: getLicense(state),
         buildEnterpriseReady,
+        featureFlags,
         unauthorizedRoute,
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state),

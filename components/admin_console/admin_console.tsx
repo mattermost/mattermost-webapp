@@ -31,6 +31,7 @@ type Props = {
     license: ClientLicense;
     unauthorizedRoute: string;
     buildEnterpriseReady: boolean;
+    featureFlags?: Record<string, string>;
     roles: Dictionary<Role>;
     match: {url: string};
     showNavigationPrompt: boolean;
@@ -69,8 +70,8 @@ type ExtraProps = {
 }
 
 type Item = {
-    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState) => boolean;
-    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState) => boolean;
+    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, featureFlags?: Record<string, string>) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, featureFlags?: Record<string, string>) => boolean;
     schema: Record<string, any>;
     url: string;
 }
