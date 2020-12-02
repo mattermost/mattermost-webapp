@@ -43,7 +43,7 @@ describe('Keyboard Shortcuts', () => {
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
-        cy.apiCreateUser({prefix: 'taemp-'}).then(({user: tempUser}) => {
+        cy.apiCreateUser({prefix: 'temp-'}).then(({user: tempUser}) => {
             cy.apiAddUserToTeam(testTeam.id, tempUser.id).then(() => {
                 cy.apiAddUserToChannel(testChannel.id, tempUser.id);
             });
