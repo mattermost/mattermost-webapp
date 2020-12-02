@@ -163,7 +163,8 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
         if (!isLicensedForCloud) {
             // Remove the billing section if it's not licensed for cloud
-            sectionsList.splice(1, 1);
+            const billingSectionIndex = sectionsList.findIndex((section) => section.name === 'billing');
+            sectionsList.splice(billingSectionIndex, 1);
         }
 
         return getSectionsListForRole(sectionsList, this.props.role.name, editedSectionsByRole).map((section: SystemSection) => {
