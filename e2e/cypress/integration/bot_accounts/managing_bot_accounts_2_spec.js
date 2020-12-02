@@ -8,12 +8,16 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @bot_accounts @not_cloud
+// Group: @not_cloud @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Managing bot accounts', () => {
     let newTeam;
+
+    before(() => {
+        cy.shouldNotRunOnCloudEdition();
+    });
 
     beforeEach(() => {
         cy.apiAdminLogin();

@@ -8,7 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @team_settings @te_only
+// Group: @te_only @team_settings
 
 import {generateRandomUser} from '../../support/api/user';
 

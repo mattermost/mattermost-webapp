@@ -14,7 +14,7 @@ describe('Integrations', () => {
     const pluginIdJira = 'jira';
 
     before(() => {
-        cy.shouldRunOnTeamEdition();
+        cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
         // # Initialize setup and visit town-square

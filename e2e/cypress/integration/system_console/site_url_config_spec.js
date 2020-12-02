@@ -8,11 +8,11 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console @not_cloud
+// Group: @not_cloud @system_console
 
 describe('Site URL', () => {
     before(() => {
-        cy.shouldRunOnTeamEdition();
+        cy.shouldNotRunOnCloudEdition();
     });
 
     it('MM-T3279 - Don\'t allow clearing site URL in System Console', () => {

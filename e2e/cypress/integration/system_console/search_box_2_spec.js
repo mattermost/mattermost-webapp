@@ -20,7 +20,7 @@ const goToAdminConsole = () => {
 
 describe('System console', () => {
     before(() => {
-        cy.shouldRunOnTeamEdition();
+        cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
     });
 

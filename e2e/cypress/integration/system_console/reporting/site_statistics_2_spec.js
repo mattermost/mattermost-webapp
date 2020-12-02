@@ -7,7 +7,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console @te_only
+// Group: @te_only @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 

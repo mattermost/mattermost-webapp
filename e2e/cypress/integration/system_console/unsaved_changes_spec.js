@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console @not_cloud
+// Group: @not_cloud @system_console
 
 describe('Unsaved Changes', () => {
     before(() => {

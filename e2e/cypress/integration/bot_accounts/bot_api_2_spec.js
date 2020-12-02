@@ -7,14 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @bot_accounts @not_cloud
+// Group: @not_cloud @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Bot accounts ownership and API', () => {
     let newTeam;
 
-    beforeEach(() => {
+    before(() => {
         cy.shouldNotRunOnCloudEdition();
         cy.apiAdminLogin();
 

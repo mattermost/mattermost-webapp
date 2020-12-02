@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @bot_accounts @not_cloud
+// Group: @not_cloud @bot_accounts
 
 import {getRandomId} from '../../utils';
 
