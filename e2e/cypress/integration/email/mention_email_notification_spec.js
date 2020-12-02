@@ -12,7 +12,12 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getEmailUrl, reUrl, Constants} from '../../utils';
+import {
+    Constants,
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
 describe('Email notification', () => {
     let config;
@@ -58,7 +63,7 @@ describe('Email notification', () => {
         cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
             verifyEmailNotification(response, config.TeamSettings.SiteName, testTeam.display_name, 'Town Square', mentionedUser, testUser, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
 
-            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
+            const bodyText = splitEmailBodyText(response.data.body.text);
 
             const permalink = bodyText[9].match(reUrl)[0];
             const permalinkPostId = permalink.split('/')[6];
@@ -99,7 +104,7 @@ function verifyEmailNotification(response, siteName, teamDisplayName, channelDis
     expect(data.subject).to.contain(`[${siteName}] Notification in ${teamDisplayName}`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split('\n').map((d) => d.trim());
+    const bodyText = splitEmailBodyText(data.body.text);
     expect(bodyText.length).to.equal(16);
     expect(bodyText[1]).to.equal('You have a new notification.');
     expect(bodyText[4]).to.equal(`Channel: ${channelDisplayName}`);

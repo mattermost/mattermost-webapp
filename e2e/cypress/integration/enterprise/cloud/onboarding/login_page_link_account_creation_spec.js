@@ -12,7 +12,11 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {generateRandomUser} from '../../../../support/api/user';
-import {getEmailUrl, reUrl} from '../../../../utils';
+import {
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../../../utils';
 
 describe('Onboarding', () => {
     let testTeam;
@@ -103,7 +107,7 @@ describe('Onboarding', () => {
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
             verifyEmailVerification(response, email);
 
-            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
+            const bodyText = splitEmailBodyText(response.data.body.text);
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
@@ -129,7 +133,7 @@ describe('Onboarding', () => {
         expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split('\n').map((d) => d.trim());
+        const bodyText = splitEmailBodyText(data.body.text);
         expect(bodyText.length).to.equal(23);
         expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
         expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');

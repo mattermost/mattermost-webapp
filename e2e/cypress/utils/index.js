@@ -26,6 +26,10 @@ export function getEmailUrl() {
     return `${smtpUrl}/api/v1/mailbox`;
 }
 
+export function splitEmailBodyText(text) {
+    return text.split('\n').map((d) => d.trim());
+}
+
 export function getMessageMenusPayload({dataSource, options, prefix = Date.now()} = {}) {
     let data;
     if (dataSource) {
