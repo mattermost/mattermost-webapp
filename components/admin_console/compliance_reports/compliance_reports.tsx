@@ -1,57 +1,70 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {Compliance} from 'mattermost-redux/types/compliance';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import LoadingScreen from 'components/loading_screen';
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import {t} from 'utils/i18n.jsx';
 
-export default class ComplianceReports extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /*
+        * Set if compliance reports are licensed
+        */
+    isLicensed: boolean;
+
+    /*
+        * Set if compliance reports are enabled in the config
+        */
+    enabled: boolean;
+
+    /*
+        * Array of reports to render
+        */
+    reports: Compliance[];
+    users: Dictionary<UserProfile>;
+
+    /*
+        * Error message to display
+        */
+    serverError?: string;
+
+    readOnly?: boolean;
+
+    actions: {
 
         /*
-         * Set if compliance reports are licensed
-         */
-        isLicensed: PropTypes.bool.isRequired,
+            * Function to get compliance reports
+            */
+        getComplianceReports: () => Promise<{data: Compliance[]}>;
 
         /*
-         * Set if compliance reports are enabled in the config
-         */
-        enabled: PropTypes.bool.isRequired,
+            * Function to save compliance reports
+            */
+        createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance, error?: Error}>;
+    };
+}
 
-        /*
-         * Array of reports to render
-         */
-        reports: PropTypes.arrayOf(PropTypes.object).isRequired,
-        users: PropTypes.object.isRequired,
+type State = {
+    loadingReports: boolean;
+    runningReport?: boolean;
+}
 
-        /*
-         * Error message to display
-         */
-        serverError: PropTypes.string,
+export default class ComplianceReports extends React.PureComponent<Props, State> {
+    private descInput: React.RefObject<HTMLInputElement>;
+    private emailsInput: React.RefObject<HTMLInputElement>;
+    private fromInput: React.RefObject<HTMLInputElement>;
+    private keywordsInput: React.RefObject<HTMLInputElement>;
+    private toInput: React.RefObject<HTMLInputElement>;
 
-        readOnly: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /*
-             * Function to get compliance reports
-             */
-            getComplianceReports: PropTypes.func.isRequired,
-
-            /*
-             * Function to save compliance reports
-             */
-            createComplianceReport: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -83,26 +96,36 @@ export default class ComplianceReports extends React.PureComponent {
         );
     }
 
-    runReport = (e) => {
+    runReport = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         this.setState({runningReport: true});
 
-        const job = {};
-        job.desc = this.descInput.current.value;
-        job.emails = this.emailsInput.current.value;
-        job.keywords = this.keywordsInput.current.value;
-        job.start_at = Date.parse(this.fromInput.current.value);
-        job.end_at = Date.parse(this.toInput.current.value);
+        const job: Partial<Compliance> = {};
+        job.desc = this.descInput.current?.value;
+        job.emails = this.emailsInput.current?.value;
+        job.keywords = this.keywordsInput.current?.value;
+        job.start_at = this.fromInput.current ? Date.parse(this.fromInput.current.value) : undefined;
+        job.end_at = this.toInput.current ? Date.parse(this.toInput.current.value) : undefined;
 
         this.props.actions.createComplianceReport(job).then(
             ({data}) => {
                 if (data) {
-                    this.emailsInput.current.value = '';
-                    this.keywordsInput.current.value = '';
-                    this.descInput.current.value = '';
-                    this.fromInput.current.value = '';
-                    this.toInput.current.value = '';
+                    if (this.emailsInput.current) {
+                        this.emailsInput.current.value = '';
+                    }
+                    if (this.keywordsInput.current) {
+                        this.keywordsInput.current.value = '';
+                    }
+                    if (this.descInput.current) {
+                        this.descInput.current.value = '';
+                    }
+                    if (this.fromInput.current) {
+                        this.fromInput.current.value = '';
+                    }
+                    if (this.toInput.current) {
+                        this.toInput.current.value = '';
+                    }
                 }
                 this.setState({runningReport: false});
                 this.props.actions.getComplianceReports();
@@ -110,7 +133,7 @@ export default class ComplianceReports extends React.PureComponent {
         );
     }
 
-    getDateTime(millis) {
+    getDateTime(millis: number) {
         const date = new Date(millis);
         return (
             <span style={style.date}>
@@ -139,12 +162,12 @@ export default class ComplianceReports extends React.PureComponent {
         if (this.state.loadingReports) {
             content = <LoadingScreen/>;
         } else {
-            var list = [];
+            const list = [];
 
-            for (var i = 0; i < this.props.reports.length; i++) {
+            for (let i = 0; i < this.props.reports.length; i++) {
                 const report = this.props.reports[i];
 
-                let params = '';
+                let params: string | JSX.Element = '';
                 if (report.type === 'adhoc') {
                     params = (
                         <span>
@@ -169,8 +192,8 @@ export default class ComplianceReports extends React.PureComponent {
                             />{' '}{report.keywords}
                         </span>);
                 }
-                let download = '';
-                let status = '';
+                let download: string | JSX.Element = '';
+                let status: string | JSX.Element = '';
                 if (report.status === 'finished') {
                     download = (
                         <a href={`${Client4.getBaseRoute()}/compliance/reports/${report.id}/download`}>
@@ -292,7 +315,7 @@ export default class ComplianceReports extends React.PureComponent {
             );
         }
 
-        let serverError = '';
+        let serverError: string | JSX.Element = '';
         if (this.props.serverError) {
             serverError = (
                 <div
@@ -433,7 +456,7 @@ export default class ComplianceReports extends React.PureComponent {
     }
 }
 
-const style = {
+const style: Dictionary<React.CSSProperties> = {
     content: {margin: 10},
     greenStatus: {color: 'green'},
     redStatus: {color: 'red'},
