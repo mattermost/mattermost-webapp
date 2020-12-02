@@ -2,19 +2,35 @@
 // See LICENSE.txt for license information.
 
 import {shallow} from 'enzyme';
-import React from 'react';
 
-import * as postUtils from 'mattermost-redux/utils/post_utils';
+import {
+    Post,
+    PostEmbed,
+    PostImage,
+    PostMetadata,
+} from 'mattermost-redux/types/posts';
+
+import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
+
+import React from 'react';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
-import PostImage from 'components/post_view/post_image';
+import PostImageComponent from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
 
-import PostBodyAdditionalContent from './post_body_additional_content';
+import PostBodyAdditionalContent, {Props} from './post_body_additional_content';
+
+jest.mock('mattermost-redux/utils/post_utils', () => {
+    const actual = jest.requireActual('mattermost-redux/utils/post_utils');
+    return {
+        ...actual,
+        getEmbedFromMetadata: jest.fn(actual.getEmbedFromMetadata),
+    };
+});
 
 describe('PostBodyAdditionalContent', () => {
-    const baseProps = {
+    const baseProps: Props = {
         children: <span>{'some children'}</span>,
         post: {
             id: 'post_id_1',
@@ -22,8 +38,8 @@ describe('PostBodyAdditionalContent', () => {
             channel_id: 'channel_id',
             create_at: 1,
             message: '',
-            metadata: {},
-        },
+            metadata: {} as PostMetadata,
+        } as Post,
         isEmbedVisible: true,
         actions: {
             toggleEmbedVisibility: jest.fn(),
@@ -32,7 +48,7 @@ describe('PostBodyAdditionalContent', () => {
 
     describe('with an image preview', () => {
         const imageUrl = 'https://example.com/image.png';
-        const imageMetadata = {}; // This can be empty since we're checking equality with ===
+        const imageMetadata = {} as PostImage; // This can be empty since we're checking equality with ===
 
         const imageBaseProps = {
             ...baseProps,
@@ -43,11 +59,15 @@ describe('PostBodyAdditionalContent', () => {
                     embeds: [{
                         type: 'image',
                         url: imageUrl,
+                        data: {},
                     }],
                     images: {
                         [imageUrl]: imageMetadata,
                     },
-                },
+                    emojis: [],
+                    files: [],
+                    reactions: [],
+                } as PostMetadata,
             },
         };
 
@@ -55,8 +75,8 @@ describe('PostBodyAdditionalContent', () => {
             const wrapper = shallow(<PostBodyAdditionalContent {...imageBaseProps}/>);
 
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(PostImage).exists()).toBe(true);
-            expect(wrapper.find(PostImage).prop('imageMetadata')).toBe(imageMetadata);
+            expect(wrapper.find(PostImageComponent).exists()).toBe(true);
+            expect(wrapper.find(PostImageComponent).prop('imageMetadata')).toBe(imageMetadata);
         });
 
         test('should render the toggle after a message containing more than just a link', () => {
@@ -81,12 +101,12 @@ describe('PostBodyAdditionalContent', () => {
 
             const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
 
-            expect(wrapper.find(PostImage).exists()).toBe(false);
+            expect(wrapper.find(PostImageComponent).exists()).toBe(false);
         });
     });
 
     describe('with a message attachment', () => {
-        const attachments = []; // This can be empty since we're checking equality with ===
+        const attachments: any[] = []; // This can be empty since we're checking equality with ===
 
         const messageAttachmentBaseProps = {
             ...baseProps,
@@ -96,7 +116,7 @@ describe('PostBodyAdditionalContent', () => {
                     embeds: [{
                         type: 'message_attachment',
                     }],
-                },
+                } as PostMetadata,
                 props: {
                     attachments,
                 },
@@ -136,7 +156,7 @@ describe('PostBodyAdditionalContent', () => {
                         type: 'opengraph',
                         url: ogUrl,
                     }],
-                },
+                } as PostMetadata,
             },
         };
 
@@ -186,7 +206,7 @@ describe('PostBodyAdditionalContent', () => {
                         type: 'opengraph',
                         url: youtubeUrl,
                     }],
-                },
+                } as PostMetadata,
             },
         };
 
@@ -227,7 +247,7 @@ describe('PostBodyAdditionalContent', () => {
     describe('with a normal link', () => {
         const mp3Url = 'https://example.com/song.mp3';
 
-        const EmbedMP3 = ({embed}) => (embed);
+        const EmbedMP3 = () => <></>;
 
         const linkBaseProps = {
             ...baseProps,
@@ -239,7 +259,7 @@ describe('PostBodyAdditionalContent', () => {
                         type: 'link',
                         url: mp3Url,
                     }],
-                },
+                } as PostMetadata,
             },
         };
 
@@ -248,6 +268,8 @@ describe('PostBodyAdditionalContent', () => {
                 ...linkBaseProps,
                 pluginPostWillRenderEmbedComponents: [
                     {
+                        id: '',
+                        pluginId: '',
                         match: () => false,
                         toggleable: true,
                         component: EmbedMP3,
@@ -265,7 +287,9 @@ describe('PostBodyAdditionalContent', () => {
                 ...linkBaseProps,
                 pluginPostWillRenderEmbedComponents: [
                     {
-                        match: ({url}) => url === mp3Url,
+                        id: '',
+                        pluginId: '',
+                        match: ({url}: PostEmbed) => url === mp3Url,
                         toggleable: true,
                         component: EmbedMP3,
                     },
@@ -283,7 +307,9 @@ describe('PostBodyAdditionalContent', () => {
                 ...linkBaseProps,
                 pluginPostWillRenderEmbedComponents: [
                     {
-                        match: ({url}) => url === mp3Url,
+                        id: '',
+                        pluginId: '',
+                        match: ({url}: PostEmbed) => url === mp3Url,
                         toggleable: false,
                         component: EmbedMP3,
                     },
@@ -301,7 +327,9 @@ describe('PostBodyAdditionalContent', () => {
                 ...linkBaseProps,
                 pluginPostWillRenderEmbedComponents: [
                     {
-                        match: ({url}) => url === mp3Url,
+                        id: '',
+                        pluginId: '',
+                        match: ({url}: PostEmbed) => url === mp3Url,
                         toggleable: false,
                         component: EmbedMP3,
                     },
@@ -316,7 +344,7 @@ describe('PostBodyAdditionalContent', () => {
     });
 
     test('should call toggleEmbedVisibility with post id', () => {
-        const wrapper = shallow(<PostBodyAdditionalContent {...baseProps}/>);
+        const wrapper = shallow<PostBodyAdditionalContent>(<PostBodyAdditionalContent {...baseProps}/>);
 
         wrapper.instance().toggleEmbedVisibility();
 
@@ -329,7 +357,7 @@ describe('PostBodyAdditionalContent', () => {
             embeds: [{
                 type: 'message_attachment',
             }],
-        };
+        } as PostMetadata;
         const props = {
             ...baseProps,
             post: {
@@ -338,10 +366,9 @@ describe('PostBodyAdditionalContent', () => {
             },
         };
 
-        const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
-        postUtils.getEmbedFromMetadata = jest.fn().mockReturnValue({});
+        const wrapper = shallow<PostBodyAdditionalContent>(<PostBodyAdditionalContent {...props}/>);
         wrapper.instance().getEmbed();
 
-        expect(postUtils.getEmbedFromMetadata).toHaveBeenCalledWith(metadata);
+        expect(getEmbedFromMetadata).toHaveBeenCalledWith(metadata);
     });
 });
