@@ -402,6 +402,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -815,6 +816,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"

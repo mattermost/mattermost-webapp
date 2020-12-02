@@ -42,11 +42,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     >
       <LoadingScreen
         position="relative"
-        style={
-          Object {
-            "marginTop": "50%",
-          }
-        }
+        style={Object {}}
       />
     </div>
   </div>
