@@ -34,7 +34,6 @@ describe('Authentication', () => {
             cy.apiCreateUser().then(({user: newUser}) => {
                 mentionedUser = newUser;
             });
-
         });
 
         // # Log in as a team admin.
@@ -88,13 +87,12 @@ describe('Authentication', () => {
         cy.findByTestId('emailVerifyResend').should('be.visible').click();
         cy.findByTestId('emailVerifySentMessage').should('be.visible');
         cy.findByTestId('emailVerifyAlmost').should('include.text', 'Mattermost: You are almost done');
-        cy.findByTestId('emailVerifyNotVerifiedBody').should('include.text','Please verify your email address. Check your inbox for an email.');
+        cy.findByTestId('emailVerifyNotVerifiedBody').should('include.text', 'Please verify your email address. Check your inbox for an email.');
 
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
 
         cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
-
             const bodyText = response.data.body.text.split('\n');
 
             const permalink = bodyText[6].match(reUrl)[0];
@@ -124,61 +122,59 @@ describe('Authentication', () => {
                 Uppercase: null,
                 Symbol: null,
             },
-            ServiceSettings : {
-                MaximumLoginAttempts: null
+            ServiceSettings: {
+                MaximumLoginAttempts: null,
             },
         });
 
-
         // * Ensure password has a minimum lenght of 10, all password requirements are checked, and the maximum login attempts is set to 10
-        cy.apiGetConfig().then(({config: { PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
+        cy.apiGetConfig().then(({config: {PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
             expect(PasswordSettings.MinimumLength).equal(10);
             expect(PasswordSettings.Lowercase).equal(true);
             expect(PasswordSettings.Number).equal(true);
             expect(PasswordSettings.Uppercase).equal(true);
             expect(PasswordSettings.Symbol).equal(true);
             expect(MaximumLoginAttempts).equal(10);
-
         });
     });
 
     it('MM-T1778 - MFA - Enforced', () => {
         cy.apiAdminLogin();
 
-         // # Navigate to System Console -> Authentication -> MFA Page.
-         cy.visit('/admin_console/authentication/mfa');
+        // # Navigate to System Console -> Authentication -> MFA Page.
+        cy.visit('/admin_console/authentication/mfa');
 
-         // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
-         cy.findByTestId('ServiceSettings.EnableMultifactorAuthenticationtrue').check();
- 
-         // # Also ensure that this MFA setting is enforced.
-         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
- 
-         // # Click "Save".
-         cy.get('#saveSetting').scrollIntoView().click();
- 
-         cy.url().then((url) => {
-             if (url.includes('mfa/setup')) {
-                 // # Complete MFA setup if we are on token setup page /mfa/setup
-                 cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
-                     const secretp = p.text();
-                     adminMFASecret = secretp.split(' ')[1];
- 
-                     const token = authenticator.generateToken(adminMFASecret);
-                     cy.get('#mfa').find('.form-control').type(token);
-                     cy.get('#mfa').find('.btn.btn-primary').click();
- 
-                     cy.wait(TIMEOUTS.HALF_SEC);
-                     cy.get('#mfa').find('.btn.btn-primary').click();
-                 });
-             } else {
-                 // # If the sysadmin already has MFA enabled, reset the secret.
-                 cy.apiGenerateMfaSecret(sysadmin.id).then((res) => {
-                     adminMFASecret = res.code.secret;
-                 });
-             }
-         });
-         
+        // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
+        cy.findByTestId('ServiceSettings.EnableMultifactorAuthenticationtrue').check();
+
+        // # Also ensure that this MFA setting is enforced.
+        cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
+
+        // # Click "Save".
+        cy.get('#saveSetting').scrollIntoView().click();
+
+        cy.url().then((url) => {
+            if (url.includes('mfa/setup')) {
+                // # Complete MFA setup if we are on token setup page /mfa/setup
+                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
+                    const secretp = p.text();
+                    adminMFASecret = secretp.split(' ')[1];
+
+                    const token = authenticator.generateToken(adminMFASecret);
+                    cy.get('#mfa').find('.form-control').type(token);
+                    cy.get('#mfa').find('.btn.btn-primary').click();
+
+                    cy.wait(TIMEOUTS.HALF_SEC);
+                    cy.get('#mfa').find('.btn.btn-primary').click();
+                });
+            } else {
+                // # If the sysadmin already has MFA enabled, reset the secret.
+                cy.apiGenerateMfaSecret(sysadmin.id).then((res) => {
+                    adminMFASecret = res.code.secret;
+                });
+            }
+        });
+
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
         cy.get('#searchUsers').type(`${testUser.email}`);
@@ -188,21 +184,19 @@ describe('Authentication', () => {
         cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
         cy.findByText('Remove MFA').should('not.be.visible');
 
-
-        // # Login as test user 
+        // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('');
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('.signup-team__container').should('be.visible');
     });
 
-
     // This test relies on the previous test for having MFA enabled (MM-T1778)
     it('MM-T1781 - MFA - Admin removes another users MFA', () => {
-       // # Login as test user 
-       cy.apiLogin(testUser);
-       cy.visit('');
-       cy.wait(TIMEOUTS.ONE_SEC);
+        // # Login as test user
+        cy.apiLogin(testUser);
+        cy.visit('');
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         cy.url().then((url) => {
             if (url.includes('mfa/setup')) {
@@ -220,11 +214,10 @@ describe('Authentication', () => {
                 });
             }
         });
-        
+
         // # Login back as admin.
         const token = authenticator.generateToken(adminMFASecret);
         cy.apiAdminLoginWithMFA(token);
-
 
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
@@ -235,7 +228,6 @@ describe('Authentication', () => {
         cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
         cy.findByText('Remove MFA').should('be.visible').click();
 
-
         // # Navigate to System Console -> Authentication -> MFA Page.
         cy.visit('/admin_console/authentication/mfa');
 
@@ -245,20 +237,19 @@ describe('Authentication', () => {
         // # Click "Save".
         cy.get('#saveSetting').scrollIntoView().click();
 
-
-        // # Login as test user 
+        // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('');
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('.signup-team__container').should('not.be.visible');
-   });
+    });
 
     // This test relies on the previous test for having MFA enabled (MM-T1781)
     it('MM-T1782 - MFA - Removing MFA option hidden for users without MFA set up', () => {
         // # Login back as admin.
         const token = authenticator.generateToken(adminMFASecret);
         cy.apiAdminLoginWithMFA(token);
-    
+
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
         cy.get('#searchUsers').type(`${testUser.email}`);
@@ -286,7 +277,7 @@ describe('Authentication', () => {
                 EnableOpenServer: true,
             },
         });
-        
+
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
@@ -303,7 +294,6 @@ describe('Authentication', () => {
         });
     });
 
-
     it('MM-T1752 - Enable account creation - true', () => {
         cy.apiAdminLogin();
 
@@ -314,13 +304,13 @@ describe('Authentication', () => {
                 EnableOpenServer: true,
             },
         });
-        
+
         // # Go to front page
         cy.visit('/login');
 
         // * Assert that create account ubtton is visible
         cy.get('#signup').should('be.visible');
-        
+
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
@@ -335,7 +325,6 @@ describe('Authentication', () => {
         // * Make sure account was created successfully and we are on the team joining page
         cy.get('#teamsYouCanJoinContent').should('be.visible');
     });
-
 
     it('MM-T1753 - Enable account creation - false', () => {
         cy.apiAdminLogin();
@@ -383,7 +372,7 @@ describe('Authentication', () => {
             },
         });
 
-            cy.apiLogout();
+        cy.apiLogout();
 
         // # Go to front page
         cy.visit('/login');
@@ -419,7 +408,7 @@ describe('Authentication', () => {
         });
 
         cy.visit('/');
-        
+
         // * Verify the side bar is visible
         cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
@@ -441,16 +430,13 @@ describe('Authentication', () => {
         cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Input email, press enter
-        cy.findByTestId('inputPlaceholder').type('{enter}{enter}');  
+        cy.findByTestId('inputPlaceholder').type('{enter}{enter}');
 
         // # Click invite memebers button
         cy.get('#inviteMembersButton').click();
 
         // * Verify message is what you expect it to be
-        cy.get('.reason').should('include.text', 'The following email addresses do not belong to an accepted domain:')
-
+        cy.get('.reason').should('include.text', 'The following email addresses do not belong to an accepted domain:');
     });
-
-
 });
 
