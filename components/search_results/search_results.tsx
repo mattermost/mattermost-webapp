@@ -103,6 +103,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         isMentionSearch,
         isOpened,
         updateSearchTerms,
+        handleSearchHintSelection,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
@@ -154,6 +155,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
     const formattedTitle = intl.formatMessage(titleDescriptor);
 
+    const handleOptionSelection = (term: string): void => {
+        handleSearchHintSelection();
+        updateSearchTerms(term);
+    };
+
     switch (true) {
     case isLoading:
         contentItems = (
@@ -168,7 +174,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         contentItems = (
             <div className='sidebar--right__subheader search__hints a11y__section'>
                 <SearchHint
-                    onOptionSelected={updateSearchTerms}
+                    onOptionSelected={handleOptionSelection}
                     options={searchHintOptions}
                 />
             </div>

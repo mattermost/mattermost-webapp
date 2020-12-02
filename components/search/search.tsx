@@ -82,7 +82,18 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     useEffect((): void => {
         setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
+        if (focussed && keepInputFocussed) {
+            setKeepInputFocussed(false);
+        }
     }, [searchTerms]);
+
+    useEffect((): void => {
+        if (props.isFocus) {
+            handleFocus();
+        } else {
+            handleBlur();
+        }
+    }, [props.isRhsOpen]);
 
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
@@ -108,7 +119,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     const handleSearchHintSelection = (): void => {
-        setKeepInputFocussed(true);
+        if (focussed) {
+            setKeepInputFocussed(true);
+        } else {
+            setFocussed(true);
+        }
     };
 
     const handleAddSearchTerm = (term: string): void => {
@@ -367,6 +382,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     channelDisplayName={props.channelDisplayName}
                     isOpened={props.isSideBarRightOpen}
                     updateSearchTerms={handleAddSearchTerm}
+                    handleSearchHintSelection={handleSearchHintSelection}
                     isSideBarExpanded={props.isRhsExpanded}
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
                 />
@@ -385,4 +401,4 @@ const defaultProps: Partial<Props> = {
 
 Search.defaultProps = defaultProps;
 
-export default Search;
+export default React.memo(Search);

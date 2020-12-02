@@ -134,7 +134,7 @@ class ChannelHeader extends React.PureComponent {
     }
 
     static getShowSearchBar(props) {
-        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
+        return !Utils.isMobile() && (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE || props.rhsOpen);
     }
 
     handleResize = () => {

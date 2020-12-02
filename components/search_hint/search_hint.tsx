@@ -41,12 +41,14 @@ const SearchHint = (props: Props) => {
                 role='list'
                 className='search-hint__suggestions-list'
                 onMouseDown={props.onMouseDown}
+                onTouchEnd={props.onMouseDown}
             >
                 {props.options.map((option, optionIndex) => (
                     <li
                         className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
                         key={option.searchTerm}
                         onMouseDown={() => props.onOptionSelected(option.searchTerm)}
+                        onTouchEnd={() => props.onOptionSelected(option.searchTerm)}
                         onMouseOver={() => handleOnOptionHover(optionIndex)}
                     >
                         <div className='search-hint__suggestion-list__flex-wrap'>
