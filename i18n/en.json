@@ -3749,6 +3749,7 @@
   "sidebar_left.sidebar_channel_menu.unfavoriteChannel": "Unfavorite",
   "sidebar_left.sidebar_channel_menu.unmuteChannel": "Unmute Channel",
   "sidebar_left.sidebar_channel_menu.unmuteConversation": "Unmute Conversation",
+  "sidebar_left.sidebar_channel.selectedCount": "{count} selected",
   "sidebar_next_steps.gettingStarted": "Getting Started",
   "sidebar_next_steps.otherAreasToExplore": "A few other areas to explore",
   "sidebar_next_steps.stepsComplete": "{complete} / {total} steps complete",
