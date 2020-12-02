@@ -16,13 +16,6 @@ import {getEmailUrl, reUrl} from '../../../utils';
 
 const authenticator = require('authenticator');
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
-
 describe('Authentication', () => {
     let sysadmin;
     let testUser;
@@ -50,104 +43,108 @@ describe('Authentication', () => {
         });
     });
 
-    // it('MM-T1764 - Security - Signup: Email verification required (after having created account when verification was not required)', () => {
-    //     // # Update Configs
-    //     cy.apiUpdateConfig({
-    //         TeamSettings: {
-    //             EnableOpenServer: true,
-    //         },
-    //         EmailSettings: {
-    //             RequireEmailVerification: false,
-    //         },
-    //     });
+    it('MM-T1764 - Security - Signup: Email verification required (after having created account when verification was not required)', () => {
+        // # Update Configs
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                EnableOpenServer: true,
+            },
+            EmailSettings: {
+                RequireEmailVerification: false,
+            },
+        });
 
-    //     // # Login as test user and make sure it goes to team selection
-    //     cy.apiLogin(mentionedUser);
-    //     cy.visit('');
-    //     cy.wait(TIMEOUTS.THREE_SEC);
-    //     cy.get('#teamsYouCanJoinContent', {timeouts: TIMEOUTS.FIVE_SEC}).should('be.visible');
+        // # Login as test user and make sure it goes to team selection
+        cy.apiLogin(mentionedUser);
+        cy.visit('');
+        cy.wait(TIMEOUTS.THREE_SEC);
+        cy.get('#teamsYouCanJoinContent', {timeouts: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
-    //     cy.apiAdminLogin();
+        cy.apiAdminLogin();
 
-    //     // # Update Configs
-    //     cy.apiUpdateConfig({
-    //         EmailSettings: {
-    //             RequireEmailVerification: true,
-    //         },
-    //     });
+        // # Update Configs
+        cy.apiUpdateConfig({
+            EmailSettings: {
+                RequireEmailVerification: true,
+            },
+        });
 
-    //     cy.apiLogout();
+        cy.apiLogout();
 
-    //     // # Login as test user and make sure it goes to team selection
-    //     cy.visit('/login');
+        // # Login as test user and make sure it goes to team selection
+        cy.visit('/login');
 
-    //     // # Clear email/username field and type username
-    //     cy.get('#loginId').clear().type(mentionedUser.username);
+        // # Clear email/username field and type username
+        cy.get('#loginId').clear().type(mentionedUser.username);
 
-    //     // # Clear password field and type password
-    //     cy.get('#loginPassword').clear().type(mentionedUser.password);
+        // # Clear password field and type password
+        cy.get('#loginPassword').clear().type(mentionedUser.password);
 
-    //     // # Hit enter to login
-    //     cy.get('#loginButton').click();
+        // # Hit enter to login
+        cy.get('#loginButton').click();
 
-    //     cy.wait(TIMEOUTS.THREE_SEC);
+        cy.wait(TIMEOUTS.THREE_SEC);
 
-    //     cy.findByTestId('emailVerifyResend').should('be.visible').click();
-    //     cy.findByTestId('emailVerifySentMessage').should('be.visible');
-    //     cy.findByTestId('emailVerifyAlmost').should('include.text', 'Mattermost: You are almost done');
-    //     cy.findByTestId('emailVerifyNotVerifiedBody').should('include.text','Please verify your email address. Check your inbox for an email.');
+        cy.findByTestId('emailVerifyResend').should('be.visible').click();
+        cy.findByTestId('emailVerifySentMessage').should('be.visible');
+        cy.findByTestId('emailVerifyAlmost').should('include.text', 'Mattermost: You are almost done');
+        cy.findByTestId('emailVerifyNotVerifiedBody').should('include.text','Please verify your email address. Check your inbox for an email.');
 
-    //     const baseUrl = Cypress.config('baseUrl');
-    //     const mailUrl = getEmailUrl(baseUrl);
+        const baseUrl = Cypress.config('baseUrl');
+        const mailUrl = getEmailUrl(baseUrl);
 
-    //     cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
+        cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
 
-    //         const bodyText = response.data.body.text.split('\n');
+            const bodyText = response.data.body.text.split('\n');
 
-    //         const permalink = bodyText[6].match(reUrl)[0];
+            const permalink = bodyText[6].match(reUrl)[0];
 
-    //         // # Visit permalink (e.g. click on email link), view in browser to proceed
-    //         cy.visit(permalink);
+            // # Visit permalink (e.g. click on email link), view in browser to proceed
+            cy.visit(permalink);
 
-    //         // # Clear password field
-    //         cy.get('#loginPassword').clear().type(mentionedUser.password);
+            // # Clear password field
+            cy.get('#loginPassword').clear().type(mentionedUser.password);
 
-    //         // # Hit enter to login
-    //         cy.get('#loginButton').click();
+            // # Hit enter to login
+            cy.get('#loginButton').click();
 
-    //         // * Should show the join team stuff
-    //         cy.get('#teamsYouCanJoinContent').should('be.visible');
-    //     });
-    // });
+            // * Should show the join team stuff
+            cy.get('#teamsYouCanJoinContent').should('be.visible');
+        });
+    });
 
-    // it('MM-T1770 - Default password settings', () => {
-    //     cy.apiUpdateConfig({
-    //         PasswordSettings: {
-    //             MinimumLength: null,
-    //             Lowercase: null,
-    //             Number: null,
-    //             Uppercase: null,
-    //             Symbol: null,
-    //         },
-    //         ServiceSettings : {
-    //             MaximumLoginAttempts: null
-    //         },
-    //     });
+    it('MM-T1770 - Default password settings', () => {
+        cy.apiAdminLogin();
+
+        cy.apiUpdateConfig({
+            PasswordSettings: {
+                MinimumLength: null,
+                Lowercase: null,
+                Number: null,
+                Uppercase: null,
+                Symbol: null,
+            },
+            ServiceSettings : {
+                MaximumLoginAttempts: null
+            },
+        });
 
 
-    //     // * Ensure password has a minimum lenght of 10, all password requirements are checked, and the maximum login attempts is set to 10
-    //     cy.apiGetConfig().then(({config: { PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
-    //         expect(PasswordSettings.MinimumLength).equal(10);
-    //         expect(PasswordSettings.Lowercase).equal(true);
-    //         expect(PasswordSettings.Number).equal(true);
-    //         expect(PasswordSettings.Uppercase).equal(true);
-    //         expect(PasswordSettings.Symbol).equal(true);
-    //         expect(MaximumLoginAttempts).equal(10);
+        // * Ensure password has a minimum lenght of 10, all password requirements are checked, and the maximum login attempts is set to 10
+        cy.apiGetConfig().then(({config: { PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
+            expect(PasswordSettings.MinimumLength).equal(10);
+            expect(PasswordSettings.Lowercase).equal(true);
+            expect(PasswordSettings.Number).equal(true);
+            expect(PasswordSettings.Uppercase).equal(true);
+            expect(PasswordSettings.Symbol).equal(true);
+            expect(MaximumLoginAttempts).equal(10);
 
-    //     });
-    // });
+        });
+    });
 
     it('MM-T1778 - MFA - Enforced', () => {
+        cy.apiAdminLogin();
+
          // # Navigate to System Console -> Authentication -> MFA Page.
          cy.visit('/admin_console/authentication/mfa');
 
@@ -279,6 +276,181 @@ describe('Authentication', () => {
             },
         });
     });
+
+    it('MM-T1783 - Username validation shows errors for various username requirements', () => {
+        cy.apiAdminLogin();
+
+        // # Enable open server
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                EnableOpenServer: true,
+            },
+        });
+        
+        // # Go to sign up with email page
+        cy.visit('/signup_email');
+
+        cy.get('#email').type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
+
+        cy.get('#password').type('Test123456!');
+
+        ['1user', 'te', 'user#1', 'user!1'].forEach((option) => {
+            cy.get('#name').clear().type(option);
+            cy.get('#createAccountButton').click();
+
+            // * Assert the error is what is expected;
+            cy.findByText('Usernames have to begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.').should('be.visible');
+        });
+    });
+
+
+    it('MM-T1752 - Enable account creation - true', () => {
+        cy.apiAdminLogin();
+
+        // # Enable open server
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                EnableUserCreation: true,
+                EnableOpenServer: true,
+            },
+        });
+        
+        // # Go to front page
+        cy.visit('/login');
+
+        // * Assert that create account ubtton is visible
+        cy.get('#signup').should('be.visible');
+        
+        // # Go to sign up with email page
+        cy.visit('/signup_email');
+
+        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${Math.random() * 1000}@BestInTheWorld.com`);
+
+        cy.get('#password').type('Test123456!');
+
+        cy.get('#name').clear().type(`HosseinIs2Cool4School${Math.random() * 1000}`);
+
+        cy.get('#createAccountButton').click();
+
+        // * Make sure account was created successfully and we are on the team joining page
+        cy.get('#teamsYouCanJoinContent').should('be.visible');
+    });
+
+
+    it('MM-T1753 - Enable account creation - false', () => {
+        cy.apiAdminLogin();
+
+        // # Enable open server and turn off user account creation
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                EnableUserCreation: false,
+                EnableOpenServer: true,
+            },
+        });
+
+        cy.apiLogout();
+
+        // # Go to front page
+        cy.visit('/login');
+
+        // * Assert that create account ubtton is visible
+        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+        // # Go to sign up with email page
+        cy.visit('/signup_email');
+
+        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${Math.random() * 1000000}@BestInTheWorld.com`);
+
+        cy.get('#password').type('Test123456!');
+
+        cy.get('#name').clear().type(`HosseinIs2Cool4School${Math.random() * 1000000}`);
+
+        cy.get('#createAccountButton').click();
+
+        // * Make sure account was not created successfully and we are on the team joining page
+        cy.get('#existingEmailErrorContainer').should('have.text', 'User sign-up with email is disabled.');
+    });
+
+    it('MM-T1754 - Restrict Domains - Account creation link on signin page', () => {
+        cy.apiAdminLogin();
+
+        // # Enable open server and turn off user account creation
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                RestrictCreationToDomains: 'test.com',
+                EnableUserCreation: true,
+                EnableOpenServer: true,
+            },
+        });
+
+            cy.apiLogout();
+
+        // # Go to front page
+        cy.visit('/login');
+
+        // * Assert that create account ubtton is visible
+        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+        // # Go to sign up with email page
+        cy.visit('/signup_email');
+
+        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${Math.random() * 1000000}@BestInTheWorld.com`);
+
+        cy.get('#password').type('Test123456!');
+
+        cy.get('#name').clear().type(`HosseinIs2Cool4School${Math.random() * 1000000}`);
+
+        cy.get('#createAccountButton').click();
+
+        // * Make sure account was not created successfully
+        cy.get('#existingEmailErrorContainer').should('have.text', 'The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.');
+    });
+
+    it('MM-T1755 - Restrict Domains - Email invite', () => {
+        cy.apiAdminLogin();
+
+        // # Enable open server and turn off user account creation
+        cy.apiUpdateConfig({
+            TeamSettings: {
+                RestrictCreationToDomains: 'test.com',
+                EnableUserCreation: true,
+                EnableOpenServer: true,
+            },
+        });
+
+        cy.visit('/');
+        
+        // * Verify the side bar is visible
+        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+        // # Click on the side bar
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // * Verify Invite People button is visible
+        cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People');
+
+        // # Click on the Invite People button
+        cy.get('#invitePeople').click();
+
+        // # Click invite members
+        cy.findByTestId('invitationModal').click();
+
+        // # Input email, select member
+        cy.findByTestId('inputPlaceholder').type('HosseinTheBestProgrammer@Mattermost.com');
+
+        cy.wait(TIMEOUTS.ONE_SEC);
+
+        // # Input email, press enter
+        cy.findByTestId('inputPlaceholder').type('{enter}{enter}');  
+
+        // # Click invite memebers button
+        cy.get('#inviteMembersButton').click();
+
+        // * Verify message is what you expect it to be
+        cy.get('.reason').should('include.text', 'The following email addresses do not belong to an accepted domain:')
+
+    });
+
 
 });
 
