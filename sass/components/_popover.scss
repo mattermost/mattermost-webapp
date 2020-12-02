@@ -81,6 +81,28 @@
 
     &.bottom {
         margin-top: 10px;
+
+        > .arrow {
+            border-bottom-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
+    }
+
+    &.right {
+        > .arrow {
+            border-right-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
+    }
+
+    &.top {
+        > .arrow {
+            border-top-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
+    }
+
+    &.left {
+        > .arrow {
+            border-left-color: rgba(var(--center-channel-color-rgb), 0.25);
+        }
     }
 
     ul + p,
