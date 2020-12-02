@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @not_cloud @system_console
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -19,11 +19,9 @@ const goToAdminConsole = () => {
 };
 
 describe('System console', () => {
-    it('MM-T897_2 - System Console menu footer should not cut off at the bottom', () => {
-        goToAdminConsole();
-
-        // * Scroll to the last item of the page and ensure it can be clicked
-        cy.findByTestId('experimental.bleve').scrollIntoView().click();
+    before(() => {
+        cy.shouldRunOnTeamEdition();
+        cy.shouldHavePluginUploadEnabled();
     });
 
     it('MM-T898 - Individual plugins can be searched for via the System Console search box', () => {
@@ -86,15 +84,5 @@ describe('System console', () => {
         });
 
         uninstallAllPlugins();
-    });
-
-    it('MM-T1634 - Search box should remain visible / in the header as you scroll down the settings list in the left-hand-side', () => {
-        goToAdminConsole();
-
-        // * Scroll to bottom of left hand side
-        cy.findByTestId('experimental.bleve').scrollIntoView().click();
-
-        // * To check if the sidebar is in view, try to click it
-        cy.get('#adminSidebarFilter').should('be.visible').click();
     });
 });

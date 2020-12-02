@@ -8,9 +8,13 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @system_console @not_cloud
 
 describe('Site URL', () => {
+    before(() => {
+        cy.shouldRunOnTeamEdition();
+    });
+
     it('MM-T3279 - Don\'t allow clearing site URL in System Console', () => {
         // # Navigate to System Console -> Environment -> Web Server
         cy.visit('/admin_console/environment/web_server');

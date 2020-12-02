@@ -7,13 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @system_console
+// Group: @system_console @te_only
 
 describe('Feature discovery', () => {
     before(() => {
-        // # Remove license
-        cy.apiDeleteLicense();
+        cy.shouldRunOnTeamEdition();
 
         // # Visit admin console
         cy.visit('/admin_console');

@@ -23,8 +23,8 @@ describe('Onboarding', () => {
     let isLicensed;
 
     before(() => {
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
+        cy.apiGetClientLicense().then((data) => {
+            ({isLicensed} = data);
         });
 
         // # Do email test if setup properly
