@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
-
-import {Constants} from 'utils/constants';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import Menu from 'components/widgets/menu/menu';
+
+import {TestHelper} from 'utils/test_helper';
 
 import LeaveChannel from './leave_channel';
 
@@ -16,10 +16,10 @@ jest.mock('actions/global_actions', () => ({
 
 describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
     const baseProps = {
-        channel: {
+        channel: TestHelper.getChannelMock({
             id: 'channel_id',
-            type: Constants.OPEN_CHANNEL,
-        },
+            type: 'O',
+        }),
         isDefault: false,
         actions: {
             leaveChannel: jest.fn(),
@@ -27,7 +27,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<LeaveChannel {...baseProps}/>);
+        const wrapper: ShallowWrapper<any, any, LeaveChannel> = shallow(<LeaveChannel {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -36,7 +36,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             ...baseProps,
             isDefault: true,
         };
-        const wrapper = shallow(<LeaveChannel {...props}/>);
+        const wrapper: ShallowWrapper<any, any, LeaveChannel> = shallow(<LeaveChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -47,10 +47,10 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         };
         const makeWrapper = () => shallow(<LeaveChannel {...props}/>);
 
-        props.channel.type = Constants.DM_CHANNEL;
+        props.channel.type = 'D';
         expect(makeWrapper()).toMatchSnapshot();
 
-        props.channel.type = Constants.GM_CHANNEL;
+        props.channel.type = 'G';
         expect(makeWrapper()).toMatchSnapshot();
     });
 
@@ -61,7 +61,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             actions: {...baseProps.actions},
         };
         const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
-        const wrapper = shallow(<LeaveChannel {...props}/>);
+        const wrapper: ShallowWrapper<any, any, LeaveChannel> = shallow(<LeaveChannel {...props}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
@@ -69,7 +69,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         expect(props.actions.leaveChannel).toHaveBeenCalledWith(props.channel.id);
         expect(showLeavePrivateChannelModal).not.toHaveBeenCalled();
 
-        props.channel.type = Constants.PRIVATE_CHANNEL;
+        props.channel.type = 'P';
         props.actions.leaveChannel = jest.fn();
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
