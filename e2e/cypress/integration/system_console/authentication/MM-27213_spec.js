@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @notification
+// Group: @Authentication
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -20,16 +19,14 @@ describe('Authentication', () => {
     let sysadmin;
     let testUser;
     let mentionedUser;
-    let testTeam;
     let adminMFASecret;
 
     before(() => {
         // # Do email test if setup properly
         cy.apiEmailTest();
 
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup().then(({user}) => {
             testUser = user;
-            testTeam = team;
 
             cy.apiCreateUser().then(({user: newUser}) => {
                 mentionedUser = newUser;
