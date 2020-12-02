@@ -13,6 +13,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
+import {clickCategoryMenuItem} from './helpers';
+
 describe('Channel sidebar', () => {
     before(() => {
         // # Enable channel sidebar organization
@@ -39,10 +41,7 @@ describe('Channel sidebar', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # Create new category from category menu
-        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-            cy.findByText('Create New Category').click();
-        });
+        clickCategoryMenuItem(categoryName, 'Create New Category');
 
         const newCategoryName = `category-${getRandomId()}`;
         cy.get('#editCategoryModal input').type(newCategoryName).type('{enter}');
@@ -79,10 +78,7 @@ describe('Channel sidebar', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # Rename category from category menu
-        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-            cy.findByText('Rename Category').click();
-        });
+        clickCategoryMenuItem(categoryName, 'Rename Category');
 
         const renameCategory = `category-${getRandomId()}`;
 
@@ -100,10 +96,7 @@ describe('Channel sidebar', () => {
         const categoryName = createCategoryFromSidebarMenu();
 
         // # Delete category from category menu
-        cy.findByLabelText(categoryName).should('be.visible').parents('.SidebarChannelGroup').within(() => {
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-            cy.findByText('Delete Category').click();
-        });
+        clickCategoryMenuItem(categoryName, 'Delete Category');
 
         // # Click on delete button
         cy.get('.GenericModal__button.delete').click();
