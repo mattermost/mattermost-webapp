@@ -190,14 +190,13 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 
         const respose = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
         const data = respose.data;
-
         if (data) {
             return {
                 ...respose,
                 data: {
                     ...data,
-                    users: addLastViewAtToProfiles(state, data.users),
-                    out_of_channel: addLastViewAtToProfiles(state, data.out_of_channel),
+                    users: addLastViewAtToProfiles(state, data.users || []),
+                    out_of_channel: addLastViewAtToProfiles(state, data.out_of_channel || []),
                 },
             };
         }

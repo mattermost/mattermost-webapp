@@ -19,6 +19,7 @@ describe('components/sidebar', () => {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
             openModal: jest.fn(),
+            clearChannelSelection: jest.fn(),
         },
     };
 
