@@ -166,9 +166,6 @@
     .popover__row {
         margin: 0 -15px 0;
         padding: 9px 15px 0;
-        .app__body & {
-            border-color: rgba(var(--center-channel-color-rgb), 0.2);
-        }
 
         &.first {
             border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
