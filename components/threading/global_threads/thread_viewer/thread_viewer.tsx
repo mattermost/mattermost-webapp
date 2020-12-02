@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import React, {UIEvent} from 'react';
+import React, {HTMLAttributes} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import classNames from 'classnames';
+
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
@@ -55,6 +57,8 @@ export function renderThumbVertical(props: Record<string, any>) {
         />);
 }
 
+type Attrs = 'className' | 'id';
+
 type Props = {
     posts: Post[];
     channel: Channel | null;
@@ -71,7 +75,7 @@ type Props = {
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
-}
+} & Pick<HTMLAttributes<HTMLDivElement>, Attrs>;
 
 type State = {
     selected?: Record<string, any>;
@@ -360,7 +364,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
             commentsLists.push(
                 <RhsComment
                     key={keyPrefix + 'commentKey'}
-                    ref={comPost.id}
                     post={comPost}
                     previousPostId={previousPostId}
                     teamId={this.props.channel!.team_id}
@@ -426,7 +429,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         return (
             <div
-                className='ThreadViewer'
+                className={classNames('ThreadViewer', this.props.className)}
                 ref={this.containerRef}
             >
                 {!this.props.useRelativeTimestamp && (
@@ -459,7 +462,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
                         >
                             {!this.props.useRelativeTimestamp && !isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
                             <RhsRootPost
-                                ref={selected.id}
                                 post={selected}
                                 commentCount={postsLength}
                                 teamId={this.props.channel!.team_id}
