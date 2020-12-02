@@ -12,6 +12,7 @@ type Props = {
     helpText?: React.ReactNode;
     placeholder: string;
     value: boolean;
+    disabled?: boolean;
     inputClassName: string;
     onChange(name: string, value: any): void; // value is any since onChange is a common func for inputs and checkboxes
     autoFocus?: boolean;
@@ -40,6 +41,7 @@ export default class BoolSetting extends React.PureComponent<Props> {
                     <label>
                         <input
                             id={this.props.id}
+                            disabled={this.props.disabled}
                             autoFocus={this.props.autoFocus}
                             type='checkbox'
                             checked={this.props.value}

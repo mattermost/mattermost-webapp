@@ -187,6 +187,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
                     field={field}
                     label={displayNameContent}
                     onChange={this.handleSelected}
+                    value={this.props.value as AppSelectOption | null}
                 />
             );
         } else if (field.type === 'bool') {

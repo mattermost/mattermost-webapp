@@ -12,19 +12,23 @@ import RadioSetting from 'components/widgets/settings/radio_setting';
 import AppsFormField, {Props} from './apps_form_field';
 
 describe('components/apps_form/apps_form_field/AppsFormField', () => {
-    const baseDialogProps: Props = {
-        displayName: 'Testing',
-        name: 'testing',
+    const field: AppField = {
+        name: 'field1',
         type: 'text',
-        maxLength: 100,
+        max_length: 100,
+        modal_label: 'The Field',
+    };
+
+    const baseDialogProps: Props = {
+        name: 'testing',
         actions: {
             autocompleteChannels: jest.fn(),
             autocompleteUsers: jest.fn(),
         },
-        field: {} as AppField,
-        options: null,
+        field,
         value: '',
         onChange: () => {},
+        performLookup: jest.fn(),
     };
 
     const baseTextSettingProps = {
@@ -34,7 +38,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         value: '',
         label: (
             <React.Fragment>
-                {baseDialogProps.displayName}
+                {baseDialogProps.field.modal_label}
                 <span className='error-text'>{' *'}</span>
             </React.Fragment>
         ),
@@ -43,7 +47,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         const wrapper = shallow(
             <AppsFormField
                 {...baseDialogProps}
-                subtype=''
             />,
         );
         expect(wrapper.matchesElement(
@@ -58,7 +61,10 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         const wrapper = shallow(
             <AppsFormField
                 {...baseDialogProps}
-                subtype='email'
+                field={{
+                    ...field,
+                    subtype: 'email',
+                }}
             />,
         );
         expect(wrapper.matchesElement(
@@ -73,7 +79,10 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         const wrapper = shallow(
             <AppsFormField
                 {...baseDialogProps}
-                subtype='invalid'
+                field={{
+                    ...field,
+                    subtype: 'invalid',
+                }}
             />,
         );
         expect(wrapper.matchesElement(
@@ -88,7 +97,10 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         const wrapper = shallow(
             <AppsFormField
                 {...baseDialogProps}
-                subtype='password'
+                field={{
+                    ...field,
+                    subtype: 'password',
+                }}
             />,
         );
         expect(wrapper.matchesElement(
@@ -101,16 +113,20 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
 
     describe('radioSetting', () => {
         const radioOptions = [
-            {value: 'foo', text: 'foo-text'},
-            {value: 'bar', text: 'bar-text'},
+            {value: 'foo', label: 'foo-text'},
+            {value: 'bar', label: 'bar-text'},
         ];
 
         test('RadioSetting is rendered when type is radio', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={radioOptions}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: radioOptions,
+                    }}
                     onChange={jest.fn()}
                 />,
             );
@@ -118,12 +134,16 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
         });
 
-        test('RadioSetting is rendered when options are null', () => {
+        test('RadioSetting is rendered when options are undefined', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={null}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: undefined,
+                    }}
                     onChange={jest.fn()}
                 />,
             );
@@ -135,8 +155,12 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={null}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: undefined,
+                    }}
                     value={null}
                     onChange={jest.fn()}
                 />,
@@ -149,8 +173,12 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={null}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: undefined,
+                    }}
                     value={'a'}
                     onChange={jest.fn()}
                 />,
@@ -163,8 +191,12 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={radioOptions}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: radioOptions,
+                    }}
                     value={'a'}
                     onChange={jest.fn()}
                 />,
@@ -177,8 +209,12 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={radioOptions}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: radioOptions,
+                    }}
                     onChange={jest.fn()}
                 />,
             );
@@ -189,8 +225,12 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogProps}
-                    type='radio'
-                    options={radioOptions}
+                    field={{
+                        ...field,
+                        type: 'static_select',
+                        subtype: 'radio',
+                        options: radioOptions,
+                    }}
                     value={radioOptions[1].value}
                     onChange={jest.fn()}
                 />,

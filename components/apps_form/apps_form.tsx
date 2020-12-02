@@ -139,7 +139,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
         this.setState({submitting: false});
 
         if (data?.type === 'form' && data.form) {
-            this.setState({values: this.initFormValues(data.form)});
+            this.setState({values: initFormValues(data.form)});
             return;
         }
 
@@ -321,7 +321,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
                 <AppsFormField
                     field={field}
                     performLookup={this.performLookup}
-                    key={field.key || field.name}
+                    key={field.name}
                     autoFocus={index === 0}
                     name={field.name}
                     errorText={this.state.errors[field.name]}

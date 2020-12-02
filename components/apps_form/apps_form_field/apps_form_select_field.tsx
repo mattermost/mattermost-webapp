@@ -13,8 +13,8 @@ export type FormValues = {[name: string]: FormValue};
 export type Props = {
     field: AppField;
     label: React.ReactNode;
-    value?: AppSelectOption;
-    onChange: (name: string, value: any) => void;
+    value: AppSelectOption | null;
+    onChange: (value: AppSelectOption) => void;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
 };
 

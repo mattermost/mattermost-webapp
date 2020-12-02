@@ -8,8 +8,17 @@ import {AppsBindings, AppCallResponseTypes} from 'mattermost-redux/constants/app
 
 import EmojiMap from 'utils/emoji_map';
 
-import InteractiveDialog from './apps_form';
 import {FormValue} from './apps_form_field/apps_form_select_field';
+import AppsForm from './apps_form';
+
+const makeError = (errMessage: string) => {
+    return {
+        data: {
+            type: 'error',
+            error: 'There has been an error submitting the dialog. Contact the app developer. Details: ' + errMessage,
+        },
+    };
+}
 
 type FormValues = {
     [name: string]: any;
@@ -38,14 +47,19 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         //TODO use FormResponseData instead of Any
         const {form, call} = this.props;
         if (!form || !call) {
-            return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.form or props.call is not defined'}};
+            return makeError('submitDialog props.form or props.call is not defined');
+        }
+
+        const context = this.getContext();
+        if (!context) {
+            return makeError('submitDialog context is not defined');
         }
 
         const outCall: AppCall = {
             ...call,
             type: '',
             values: submission.values,
-            context: this.getContext(),
+            context,
         };
 
         try {
@@ -59,7 +73,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
     refreshOnSelect = async (field: AppField, values: FormValues, value: FormValue): Promise<{data: AppCallResponse<any>}> => {
         const {form, call} = this.props;
         if (!form || !call) {
-            return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.form or props.call is not defined'}};
+            return makeError('refreshOnSelect props.form or props.call is not defined');
         }
 
         if (!field.refresh_url) {
@@ -71,6 +85,11 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
             };
         }
 
+        const context = this.getContext();
+        if (!context) {
+            return makeError('refreshOnSelect context is not defined');
+        }
+
         const outCall: AppCall = {
             ...call,
             url: field.refresh_url,
@@ -79,7 +98,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
                 values,
                 value,
             },
-            context: this.getContext(),
+            context,
         };
 
         try {
@@ -100,9 +119,13 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
             return [];
         }
 
+        const context = this.getContext();
+        if (!context) {
+            return [];
+        }
+
         const res = await this.props.actions.doAppCall({
             ...call,
-            context: this.getContext(),
             url: field.source_url,
             type: 'lookup',
             values: {
@@ -110,6 +133,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
                 values,
                 form,
             },
+            context,
         });
 
         if (res.data.type === AppCallResponseTypes.ERROR) {
@@ -152,9 +176,8 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
 
         const dialogProps = {
             url: call.url,
-            callbackId: '',
-            title: form.title,
-            introductionText: form.header,
+            title: form.title || '',
+            introductionText: form.header || '',
             iconUrl: form.icon,
             submitLabel: '',
             notifyOnCancel: form.submit_on_cancel,
@@ -162,7 +185,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         };
 
         return (
-            <InteractiveDialog
+            <AppsForm
                 {...dialogProps}
                 form={form}
                 call={call}

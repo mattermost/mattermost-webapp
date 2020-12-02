@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AppContext} from 'mattermost-redux/types/apps';
+import {AppContext, AppForm} from 'mattermost-redux/types/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -125,11 +125,11 @@ describe('components/apps_model/AppsFormContainer', () => {
                 },
             };
 
-            // field: AppField, values: FormValues, userInput: string
+            const form = props.form as AppForm;
 
             const wrapper = shallow<AppsFormContainer>(<AppsFormContainer {...props}/>);
             const result = await wrapper.instance().performLookupCall(
-                props.modal?.form.fields[0],
+                form.fields[0],
                 {
                     field1: 'value1',
                     field2: [{label: 'label2', value: 'value2'}],
