@@ -12,8 +12,8 @@
 
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import { getEmailUrl } from '../../utils';
-import { spyNotificationAs,ignoreUncaughtException } from '../../support/notification';
+import {getEmailUrl} from '../../utils';
+import {spyNotificationAs, ignoreUncaughtException} from '../../support/notification';
 
 describe('Desktop notifications', () => {
     let testTeam;
@@ -21,7 +21,7 @@ describe('Desktop notifications', () => {
 
     before(() => {
         // Initialise a user.
-        cy.apiInitSetup({}).then(({ team, user }) => {
+        cy.apiInitSetup({}).then(({team, user}) => {
             testUser = user;
             testTeam = team;
         });
@@ -32,13 +32,13 @@ describe('Desktop notifications', () => {
     });
 
     it('Check Desktop Notification mocking works', () => {
-        cy.apiCreateUser({}).then(({ user }) => {
+        cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
-            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({ channel }) => {
+            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
                 // Ensure notifications are set up to fire a desktop notification if you receive a DM
-                cy.apiPatchUser(user.id, { notify_props: { ...user.notify_props, desktop: 'all' } });
+                cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
                 cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -48,7 +48,7 @@ describe('Desktop notifications', () => {
                 cy.get('#post_textbox').clear().type('/online{enter}');
 
                 // Have another user send you a DM to trigger a Desktop Notification.
-                cy.postMessageAs({ sender: testUser, message: MESSAGES.TINY, channelId: channel.id });
+                cy.postMessageAs({sender: testUser, message: MESSAGES.TINY, channelId: channel.id});
 
                 // Desktop notification should be received.
                 cy.wait(TIMEOUTS.HALF_SEC);
@@ -58,7 +58,7 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T482 Desktop Notifications - (at) here not rec\'d when logged off', () => {
-        cy.apiCreateUser().then(({ user }) => {
+        cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
@@ -69,12 +69,12 @@ describe('Desktop notifications', () => {
             // # Ensure notifications are set up to fire a desktop notification if are mentioned.
             changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
 
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({ channel }) => {
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 // # Logout the user.
                 cy.apiLogout().wait(TIMEOUTS.TEN_SEC);
 
                 // Have another user send a post.
-                cy.postMessageAs({ sender: testUser, message: '@here', channelId: channel.id });
+                cy.postMessageAs({sender: testUser, message: '@here', channelId: channel.id});
             });
 
             // # Login with the user.
@@ -112,8 +112,8 @@ describe('Desktop notifications', () => {
             const mailUrl = getEmailUrl(baseUrl);
 
             // * Verify no email notification received for the mention.
-            cy.task('getRecentEmail', { username: user.username, mailUrl }).then((response) => {
-                const { data, status } = response;
+            cy.task('getRecentEmail', {username: user.username, mailUrl}).then((response) => {
+                const {data, status} = response;
 
                 // # Should return success status.
                 expect(status).to.equal(200);
@@ -129,7 +129,7 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T487 Desktop Notifications - For all activity with apostrophe, emoji, and markdown in notification', () => {
-        cy.apiCreateUser().then(({ user }) => {
+        cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
@@ -143,9 +143,9 @@ describe('Desktop notifications', () => {
             // # Ensure notifications are set up to fire a desktop notification if are mentioned.
             changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
 
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({ channel }) => {
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 // # Have another user send a post.
-                cy.postMessageAs({ sender: testUser, message: actualMsg, channelId: channel.id });
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
 
                 // * Desktop notification should be received with expected body.
                 cy.wait(TIMEOUTS.HALF_SEC);
@@ -158,13 +158,13 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T495 Desktop Notifications - Can set to DND and no notification fires on DM', () => {
-        cy.apiCreateUser({}).then(({ user }) => {
+        cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
-            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({ channel }) => {
+            cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
                 // # Ensure notifications are set up to fire a desktop notification if you receive a DM
-                cy.apiPatchUser(user.id, { notify_props: { ...user.notify_props, desktop: 'all' } });
+                cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
                 cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -174,7 +174,7 @@ describe('Desktop notifications', () => {
                 cy.get('#post_textbox').clear().type('/dnd{enter}');
 
                 // # Have another user send you a DM
-                cy.postMessageAs({ sender: testUser, message: MESSAGES.TINY, channelId: channel.id });
+                cy.postMessageAs({sender: testUser, message: MESSAGES.TINY, channelId: channel.id});
 
                 // * Desktop notification is not received
                 cy.wait(TIMEOUTS.HALF_SEC);
@@ -188,7 +188,7 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T497 Desktop Notifications for empty string without mention badge', () => {
-        cy.apiCreateUser({}).then(({ user }) => {
+        cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
@@ -202,9 +202,9 @@ describe('Desktop notifications', () => {
             // # Ensure notifications are set up to fire a desktop notification for all activity.
             changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
 
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({ channel }) => {
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 // # Have another user send a post.
-                cy.postMessageAs({ sender: testUser, message: actualMsg, channelId: channel.id });
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
 
                 // * Desktop notification should be received with expected body.
                 cy.wait(TIMEOUTS.HALF_SEC);
@@ -222,7 +222,7 @@ describe('Desktop notifications', () => {
     it('MM-T488 Desktop Notifications - Teammate name display set to username', () => {
         ignoreUncaughtException();
 
-        cy.apiCreateUser({}).then(({ user }) => {
+        cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
@@ -238,9 +238,9 @@ describe('Desktop notifications', () => {
             const actualMsg = `@${user.username} How are things?`
             const expected = `@${testUser.username}: @${user.username} How are things?`
 
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({ channel }) => {
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 // # Have another user send a post.
-                cy.postMessageAs({ sender: testUser, message: actualMsg, channelId: channel.id });
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
 
                 // * Desktop notification should be received with expected body.
                 cy.wait(TIMEOUTS.HALF_SEC);
