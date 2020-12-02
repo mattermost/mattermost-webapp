@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
@@ -14,6 +14,7 @@ describe('ExternalImage', () => {
         enableSVGs: true,
         imageMetadata: {
             format: 'png',
+            frameCount: 20,
             height: 300,
             width: 200,
         },
@@ -22,7 +23,7 @@ describe('ExternalImage', () => {
     };
 
     test('should render an image', () => {
-        const wrapper = shallow(<ExternalImage {...baseProps}/>);
+        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...baseProps}/>);
 
         expect(baseProps.children).toHaveBeenCalledWith(baseProps.src);
         expect(wrapper.find('img').exists()).toBe(true);
@@ -34,7 +35,7 @@ describe('ExternalImage', () => {
             imageMetadata: undefined,
         };
 
-        const wrapper = shallow(<ExternalImage {...props}/>);
+        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
 
         expect(baseProps.children).toHaveBeenCalledWith(baseProps.src);
         expect(wrapper.find('img').exists()).toBe(true);
@@ -45,13 +46,14 @@ describe('ExternalImage', () => {
             ...baseProps,
             imageMetadata: {
                 format: 'svg',
+                frameCount: 20,
                 height: 0,
                 width: 0,
             },
             src: 'https://example.com/logo.svg',
         };
 
-        const wrapper = shallow(<ExternalImage {...props}/>);
+        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
 
         expect(props.children).toHaveBeenCalledWith(props.src);
         expect(wrapper.find('img').exists()).toBe(true);
@@ -63,13 +65,14 @@ describe('ExternalImage', () => {
             enableSVGs: false,
             imageMetadata: {
                 format: 'svg',
+                frameCount: 20,
                 height: 0,
                 width: 0,
             },
             src: 'https://example.com/logo.svg',
         };
 
-        const wrapper = shallow(<ExternalImage {...props}/>);
+        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
 
         expect(props.children).toHaveBeenCalledWith('');
         expect(wrapper.find('img').exists()).toBe(true);
@@ -81,7 +84,7 @@ describe('ExternalImage', () => {
             hasImageProxy: true,
         };
 
-        const wrapper = shallow(<ExternalImage {...props}/>);
+        const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
 
         expect(props.children).toHaveBeenCalledWith(Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(props.src));
         expect(wrapper.find('img').exists()).toBe(true);
@@ -92,37 +95,37 @@ describe('ExternalImage', () => {
             {
                 name: 'no metadata, no extension',
                 src: 'https://example.com/image.png',
-                imageMetadata: null,
+                imageMetadata: undefined,
                 expected: false,
             },
             {
                 name: 'no metadata, svg extension',
                 src: 'https://example.com/image.svg',
-                imageMetadata: null,
+                imageMetadata: undefined,
                 expected: true,
             },
             {
                 name: 'no metadata, svg extension with query parameter',
                 src: 'https://example.com/image.svg?a=1',
-                imageMetadata: null,
+                imageMetadata: undefined,
                 expected: true,
             },
             {
                 name: 'no metadata, svg extension with hash',
                 src: 'https://example.com/image.svg#abc',
-                imageMetadata: null,
+                imageMetadata: undefined,
                 expected: true,
             },
             {
                 name: 'no metadata, proxied image',
                 src: 'https://mattermost.example.com/api/v4/image?url=' + encodeURIComponent('https://example.com/image.png'),
-                imageMetadata: null,
+                imageMetadata: undefined,
                 expected: false,
             },
             {
                 name: 'no metadata, proxied svg image',
                 src: 'https://mattermost.example.com/api/v4/image?url=' + encodeURIComponent('https://example.com/image.svg'),
-                imageMetadata: null,
+                imageMetadata: undefined,
                 expected: true,
             },
             {
@@ -130,6 +133,7 @@ describe('ExternalImage', () => {
                 src: 'https://example.com/image.png',
                 imageMetadata: {
                     format: 'png',
+                    frameCount: 40,
                     width: 100,
                     height: 200,
                 },
@@ -140,6 +144,9 @@ describe('ExternalImage', () => {
                 src: 'https://example.com/image.svg',
                 imageMetadata: {
                     format: 'svg',
+                    frameCount: 30,
+                    width: 10,
+                    height: 20,
                 },
                 expected: true,
             },
@@ -151,7 +158,7 @@ describe('ExternalImage', () => {
                     imageMetadata: testCase.imageMetadata,
                 };
 
-                const wrapper = shallow(<ExternalImage {...props}/>);
+                const wrapper: ShallowWrapper<any, any, ExternalImage> = shallow(<ExternalImage {...props}/>);
 
                 expect(wrapper.instance().isSVGImage()).toBe(testCase.expected);
             });
