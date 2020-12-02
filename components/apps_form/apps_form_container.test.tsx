@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {AppContext} from 'mattermost-redux/types/apps';
 
@@ -22,23 +22,21 @@ describe('components/apps_model/AppsFormContainer', () => {
 
     const baseProps: Props = {
         emojiMap,
-        modal: {
-            form: {
-                title: 'Form Title',
-                header: 'Form Header',
-                fields: [
-                    {
-                        type: 'text',
-                        name: 'field1',
-                        value: 'initial_value_1',
-                        source_url: '/dynamic_url',
-                    },
-                ],
-            },
-            call: {
-                context,
-                url: '/submit_url',
-            },
+        form: {
+            title: 'Form Title',
+            header: 'Form Header',
+            fields: [
+                {
+                    type: 'text',
+                    name: 'field1',
+                    value: 'initial_value_1',
+                    source_url: '/dynamic_url',
+                },
+            ],
+        },
+        call: {
+            context,
+            url: '/submit_url',
         },
         actions: {
             doAppCall: jest.fn().mockResolvedValue({}),

@@ -5,19 +5,44 @@ import React from 'react';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 
-import {AppField, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 
 export type FormValue = string | AppSelectOption | null;
 export type FormValues = {[name: string]: FormValue};
 
 export type Props = {
     field: AppField;
+    label: React.ReactNode;
     value?: AppSelectOption;
     onChange: (name: string, value: any) => void;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
 };
 
-export default class AppsFormSelectField extends React.PureComponent<Props> {
+export type State = {
+    refreshNonce: string;
+    field: AppField;
+}
+
+export default class AppsFormSelectField extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            field: props.field,
+            refreshNonce: Math.random().toString(),
+        };
+    }
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+        if (nextProps.field !== prevState.field) {
+            return {
+                field: nextProps.field,
+                refreshNonce: Math.random().toString(),
+            };
+        }
+
+        return null;
+    }
+
     onChange = (selectedOption: AppSelectOption) => {
         this.props.onChange(selectedOption);
     }
@@ -97,7 +122,11 @@ export default class AppsFormSelectField extends React.PureComponent<Props> {
                 <p>
                     {label}
                 </p>
-                {selectComponent}
+                {[
+                    <React.Fragment key={this.state.refreshNonce}>
+                        {selectComponent}
+                    </React.Fragment>,
+                ]}
             </div>
         );
     }

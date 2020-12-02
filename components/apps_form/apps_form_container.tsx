@@ -3,19 +3,21 @@
 
 import React from 'react';
 
-import {AppCall, AppCallResponse, AppField, AppForm, AppModalState, AppSelectOption} from 'mattermost-redux/types/apps';
-import {AppsBindings} from 'mattermost-redux/constants/apps';
+import {AppCall, AppCallResponse, AppField, AppForm, AppSelectOption, AppContext} from 'mattermost-redux/types/apps';
+import {AppsBindings, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
 import InteractiveDialog from './apps_form';
+import {FormValue} from './apps_form_field/apps_form_select_field';
 
 type FormValues = {
     [name: string]: any;
 };
 
 export type Props = {
-    modal?: AppModalState;
+    form?: AppForm;
+    call?: AppCall;
     onHide: () => void;
     actions: {
         doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>;
@@ -34,26 +36,54 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
 
     submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse<any>}> => {
         //TODO use FormResponseData instead of Any
-        const {modal, postID, teamID, channelID} = this.props;
-        if (!modal) {
-            return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.modal is not defined'}};
+        const {form, call} = this.props;
+        if (!form || !call) {
+            return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.form or props.call is not defined'}};
         }
 
-        const call: AppCall = {
-            ...modal.call,
+        const outCall: AppCall = {
+            ...call,
             type: '',
             values: submission.values,
-            context: {
-                app_id: modal.call.context.app_id,
-                location: postID ? AppsBindings.IN_POST : modal.call.context.location,
-                post_id: postID,
-                team_id: postID ? teamID : modal.call.context.team_id,
-                channel_id: postID ? channelID : modal.call.context.channel_id,
-            },
+            context: this.getContext(),
         };
 
         try {
-            const res = await this.props.actions.doAppCall(call);
+            const res = await this.props.actions.doAppCall(outCall);
+            return res;
+        } catch (e) {
+            return {data: {type: 'error', error: e.message}};
+        }
+    };
+
+    refreshOnSelect = async (field: AppField, values: FormValues, value: FormValue): Promise<{data: AppCallResponse<any>}> => {
+        const {form, call} = this.props;
+        if (!form || !call) {
+            return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.form or props.call is not defined'}};
+        }
+
+        if (!field.refresh_url) {
+            return {
+                data: {
+                    type: '',
+                    data: {},
+                },
+            };
+        }
+
+        const outCall: AppCall = {
+            ...call,
+            url: field.refresh_url,
+            type: 'form',
+            values: {
+                values,
+                value,
+            },
+            context: this.getContext(),
+        };
+
+        try {
+            const res = await this.props.actions.doAppCall(outCall);
             return res;
         } catch (e) {
             return {data: {type: 'error', error: e.message}};
@@ -65,34 +95,49 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
             return [];
         }
 
-        const {postID, channelID, teamID} = this.props;
-
-        const call: AppCall = this.props.modal.call;
+        const {call, form} = this.props;
+        if (!call) {
+            return [];
+        }
 
         const res = await this.props.actions.doAppCall({
             ...call,
-            context: {
-                app_id: call.context.app_id,
-                location: postID ? AppsBindings.IN_POST : call.context.location,
-                post_id: postID,
-                team_id: postID ? teamID : call.context.team_id,
-                channel_id: postID ? channelID : call.context.channel_id,
-            },
+            context: this.getContext(),
             url: field.source_url,
             type: 'lookup',
             values: {
                 user_input: userInput,
                 values,
-                form: this.props.modal.form,
+                form,
             },
         });
 
-        const items = res?.data?.data?.items;
-        if (items && items.length) {
-            return items;
+        if (res.data.type === AppCallResponseTypes.ERROR) {
+            return [];
+        }
+
+        const data = res.data.data as {items: AppSelectOption[]};
+        if (data.items && data.items.length) {
+            return data.items;
         }
 
         return [];
+    }
+
+    getContext = (): AppContext | null => {
+        const {call, postID, channelID, teamID} = this.props;
+
+        if (!call) {
+            return null;
+        }
+
+        return {
+            app_id: call.context.app_id,
+            location: postID ? AppsBindings.IN_POST : call.context.location,
+            post_id: postID,
+            team_id: postID ? teamID : call.context.team_id,
+            channel_id: postID ? channelID : call.context.channel_id,
+        };
     }
 
     onHide = () => {
@@ -100,11 +145,10 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
     };
 
     render() {
-        if (!this.props.modal) {
+        const {form, call} = this.props;
+        if (!form || !call) {
             return null;
         }
-
-        const {form, call} = this.props.modal;
 
         const dialogProps = {
             url: call.url,
@@ -120,13 +164,14 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         return (
             <InteractiveDialog
                 {...dialogProps}
-                refreshNonce={this.state.refreshNonce}
-                modal={this.props.modal}
+                form={form}
+                call={call}
                 onHide={this.onHide}
                 emojiMap={this.props.emojiMap}
                 actions={{
                     submit: this.submitDialog,
                     performLookupCall: this.performLookupCall,
+                    refreshOnSelect: this.refreshOnSelect,
                 }}
                 isEmbedded={this.props.isEmbedded}
             />

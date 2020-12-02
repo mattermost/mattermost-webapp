@@ -22,8 +22,6 @@ import AppsFormSelectField from './apps_form_select_field';
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
-type StaticOption = {text: string; value: string};
-
 export type Props = {
     field: AppField;
     name: string;
@@ -64,7 +62,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
         };
     }
 
-    handleSelected = (selected: StaticOption | UserProfile | Channel) => {
+    handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
         const {name, field, onChange} = this.props;
 
         if (field.type === 'user') {
@@ -76,7 +74,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
             onChange(name, channel.id);
             this.setState({userInput: channel.display_name});
         } else {
-            const option = selected as StaticOption;
+            const option = selected as AppSelectOption;
             onChange(name, option);
         }
     }

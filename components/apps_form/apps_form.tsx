@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppModalState, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppField, AppForm, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import SpinnerButton from 'components/spinner_button';
@@ -19,10 +19,11 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
-import {FormValues} from './apps_form_field/apps_form_select_field';
+import {FormValues, FormValue} from './apps_form_field/apps_form_select_field';
 
 export type Props = {
-    modal: AppModalState;
+    call: AppCall;
+    form: AppForm;
     isEmbedded?: boolean;
     title: string;
     introductionText?: string;
@@ -38,6 +39,7 @@ export type Props = {
             };
         }) => Promise<{data: AppCallResponse<FormResponseData>}>;
         performLookupCall: (field: AppField, values: FormValues, userInput: string) => Promise<AppSelectOption[]>;
+        refreshOnSelect: (field: AppField, values: FormValues, value: FormValue) => Promise<{data: AppCallResponse<any>}>;
     };
     emojiMap: EmojiMap;
 }
@@ -54,15 +56,26 @@ type State = {
     error: string | null;
     errors: {[name: string]: React.ReactNode};
     submitting: boolean;
+    form: AppForm;
 }
+
+const initFormValues = (form: AppForm): {[name: string]: string} => {
+    const values: {[name: string]: any} = {};
+    if (form && form.fields) {
+        form.fields.forEach((f) => {
+            values[f.name] = f.value || null;
+        });
+    }
+
+    return values;
+};
 
 export default class AppsForm extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        const {form} = props.modal;
-
-        const values = this.initFormValues(form);
+        const {form} = props;
+        const values = initFormValues(form);
 
         this.state = {
             show: true,
@@ -70,30 +83,25 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             error: null,
             errors: {},
             submitting: false,
+            form,
         };
     }
 
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.modal !== this.props.modal) {
-            this.setState({values: this.initFormValues(this.props.modal.form)});
-        }
-    }
-
-    initFormValues = (form: AppForm): {[name: string]: string} => {
-        const values: {[name: string]: any} = {};
-        if (form && form.fields) {
-            form.fields.forEach((f) => {
-                values[f.name] = f.value || null;
-            });
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+        if (nextProps.form !== prevState.form) {
+            return {
+                values: initFormValues(nextProps.form),
+                form: nextProps.form,
+            };
         }
 
-        return values;
+        return null;
     }
 
     handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const {fields} = this.props.modal.form;
+        const {fields} = this.props.form;
         const values = this.state.values;
         const errors: {[name: string]: React.ReactNode} = {};
         if (fields) {
@@ -162,7 +170,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
-        const field = this.props.modal.form.fields.find((f) => f.name === name);
+        const field = this.props.form.fields.find((f) => f.name === name);
         if (!field || !field.source_url) {
             return [];
         }
@@ -192,6 +200,15 @@ export default class AppsForm extends React.PureComponent<Props, State> {
     };
 
     onChange = (name: string, value: any) => {
+        const field = this.props.form.fields.find((f) => f.name === name);
+        if (!field) {
+            return;
+        }
+
+        if (field.refresh_url) {
+            this.props.actions.refreshOnSelect(field, this.state.values, value);
+        }
+
         this.setState((state) => {
             const values = {...state.values, [name]: value};
             return {values};
@@ -203,7 +220,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             introductionText,
         } = this.props;
 
-        const {fields} = this.props.modal.form;
+        const {fields} = this.props.form;
 
         return (
             <Modal
@@ -246,7 +263,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             introductionText,
         } = this.props;
 
-        const {fields} = this.props.modal.form;
+        const {fields} = this.props.form;
 
         return (
             <form onSubmit={this.handleSubmit}>
@@ -296,7 +313,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
     renderElements() {
         const {isEmbedded} = this.props;
 
-        const {fields} = this.props.modal.form;
+        const {fields} = this.props.form;
 
         return (fields &&
         fields.map((field, index) => {
@@ -321,7 +338,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             introductionText,
         } = this.props;
 
-        const {fields} = this.props.modal.form;
+        const {fields} = this.props.form;
 
         return (fields || introductionText) && (
             <React.Fragment>
@@ -342,7 +359,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             submitLabel,
         } = this.props;
 
-        const {fields} = this.props.modal.form;
+        const {fields} = this.props.form;
 
         let submitText: React.ReactNode = (
             <FormattedMessage

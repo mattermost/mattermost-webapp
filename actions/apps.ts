@@ -62,10 +62,8 @@ export function openAppsModal(form: AppForm, call: AppCall): Action {
         modalId: ModalIdentifiers.APPS_MODAL,
         dialogType: AppsForm,
         dialogProps: {
-            modal: {
-                form,
-                call,
-            },
+            form,
+            call,
         },
     });
 }
