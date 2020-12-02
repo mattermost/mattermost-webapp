@@ -167,6 +167,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                     {schemes.length > 0 && schemes}
                     {schemes.length === (PAGE_SIZE * (this.state.page + 1)) &&
                         <button
+                            type='button'
                             className='more-schemes theme style--none color--link'
                             onClick={this.loadMoreSchemes}
                             disabled={this.props.isDisabled || this.state.loadingMore}
@@ -370,3 +371,9 @@ t('admin.permissions.roles.system_admin.name');
 t('admin.permissions.roles.system_user.name');
 t('admin.permissions.roles.team_admin.name');
 t('admin.permissions.roles.team_user.name');
+t('admin.permissions.group.manage_shared_channels.name');
+t('admin.permissions.group.manage_shared_channels.description');
+t('admin.permissions.permission.manage_shared_channels.name');
+t('admin.permissions.permission.manage_shared_channels.description');
+t('admin.permissions.permission.manage_remote_clusters.name');
+t('admin.permissions.permission.manage_remote_clusters.description');

@@ -4,38 +4,38 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
 <div
   className="SidebarFilters"
 >
-  <a
-    aria-label="Filter by unread"
-    className="SidebarFilters_filterButton"
-    href="#"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="new-group-tooltip"
+        placement="right"
+      >
+        Filter by unread
+      </Tooltip>
+    }
+    placement="right"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          Filter by unread
-        </Tooltip>
-      }
-      placement="right"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <a
+      aria-label="Filter by unread"
+      className="SidebarFilters_filterButton"
+      href="#"
+      onClick={[Function]}
     >
       <i
         className="icon icon-filter-variant"
       />
-    </OverlayTrigger>
-  </a>
+    </a>
+  </OverlayTrigger>
   <div>
     <div
       className="SidebarFilters_filterTitle"
@@ -61,38 +61,38 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
 <div
   className="SidebarFilters"
 >
-  <a
-    aria-label="Show all channels"
-    className="SidebarFilters_filterButton active"
-    href="#"
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="new-group-tooltip"
+        placement="right"
+      >
+        Show all channels
+      </Tooltip>
+    }
+    placement="right"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          Show all channels
-        </Tooltip>
-      }
-      placement="right"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <a
+      aria-label="Show all channels"
+      className="SidebarFilters_filterButton active"
+      href="#"
+      onClick={[Function]}
     >
       <i
         className="icon icon-filter-variant"
       />
-    </OverlayTrigger>
-  </a>
+    </a>
+  </OverlayTrigger>
   <div>
     <div
       className="SidebarFilters_filterTitle"

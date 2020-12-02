@@ -8,7 +8,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult, GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {filterProfilesMatchingTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
+import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
 import {filterProfiles} from 'mattermost-redux/selectors/entities/users';
 import {getMembersInTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -43,7 +43,7 @@ function makeMapStateToProps() {
     const searchUsers = memoizeResult((users: UserProfile[], term: string, filters: Filters, memberships: Memberships) => {
         let profiles = users;
         if (term !== '') {
-            profiles = filterProfilesMatchingTerm(users, term);
+            profiles = filterProfilesStartingWithTerm(users, term);
         }
 
         if (Object.keys(filters).length > 0) {

@@ -16,7 +16,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants} from 'utils/constants';
+import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -204,11 +204,14 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
         const {formatMessage} = this.props.intl;
         const usernameError = Utils.isValidUsername(username);
-        if (usernameError === 'Cannot use a reserved word as a username.') {
-            this.setState({clientError: formatMessage(holders.usernameReserved), serverError: ''});
-            return;
-        } else if (usernameError) {
-            this.setState({clientError: formatMessage(holders.usernameRestrictions, {min: Constants.MIN_USERNAME_LENGTH, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''});
+        if (usernameError) {
+            let errObj;
+            if (usernameError.id === ValidationErrors.RESERVED_NAME) {
+                errObj = {clientError: formatMessage(holders.usernameReserved), serverError: ''};
+            } else {
+                errObj = {clientError: formatMessage(holders.usernameRestrictions, {min: Constants.MIN_USERNAME_LENGTH, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''};
+            }
+            this.setState(errObj);
             return;
         }
 

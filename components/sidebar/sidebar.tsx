@@ -11,14 +11,14 @@ import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
 import NewChannelFlow from 'components/new_channel_flow';
 import Pluggable from 'plugins/pluggable';
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import AddChannelDropdown from './add_channel_dropdown';
-import SidebarHeader from './sidebar_header';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
-import SidebarCategoryList from './sidebar_category_list';
+import SidebarChannelList from './sidebar_channel_list';
+import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
@@ -28,7 +28,6 @@ type Props = {
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
-    isDataPrefechEnabled: boolean;
     hasSeenModal: boolean;
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
@@ -36,6 +35,7 @@ type Props = {
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
             data: boolean;
         }>;
+        clearChannelSelection: () => void;
     };
     isCloud: boolean;
 };
@@ -65,11 +65,33 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 dialogType: SidebarWhatsNewModal,
             });
         }
+
+        window.addEventListener('click', this.handleClickClearChannelSelection);
+        window.addEventListener('keydown', this.handleKeyDownClearChannelSelection);
     }
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('click', this.handleClickClearChannelSelection);
+        window.removeEventListener('keydown', this.handleKeyDownClearChannelSelection);
+    }
+
+    handleClickClearChannelSelection = (event: MouseEvent) => {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        this.props.actions.clearChannelSelection();
+    }
+
+    handleKeyDownClearChannelSelection = (event: KeyboardEvent) => {
+        if (Utils.isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
+            this.props.actions.clearChannelSelection();
         }
     }
 
@@ -177,12 +199,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     </div>
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
-                <SidebarCategoryList
+                <SidebarChannelList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />
-                {this.props.isDataPrefechEnabled && <DataPrefetch/>}
+                <DataPrefetch/>
                 {this.props.isCloud && <SidebarNextSteps/>}
                 {this.renderModals()}
             </div>

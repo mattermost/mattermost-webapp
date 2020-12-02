@@ -210,6 +210,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -219,6 +220,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -438,6 +440,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -447,6 +450,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -666,6 +670,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -675,6 +680,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -854,6 +860,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev "
       disabled={false}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -863,6 +870,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -1082,6 +1090,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -1091,6 +1100,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}
@@ -1352,6 +1362,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link prev disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <PreviousIcon
         additionalClassName={null}
@@ -1361,6 +1372,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
       className="btn btn-link next disabled"
       disabled={true}
       onClick={[Function]}
+      type="button"
     >
       <NextIcon
         additionalClassName={null}

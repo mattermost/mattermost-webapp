@@ -55,6 +55,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               <button
                 className="btn btn-primary"
                 id="add_team_or_channel"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -207,6 +208,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               <button
                 className="btn btn-primary"
                 id="add_team_or_channel"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -358,6 +360,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               <button
                 className="btn btn-primary"
                 id="add_team_or_channel"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
@@ -498,6 +501,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
               <button
                 className="btn btn-primary"
                 id="add_team_or_channel"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Add Team or Channel"
