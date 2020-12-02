@@ -197,6 +197,8 @@ describe('Slash commands', () => {
         const hint = '[test-hint]';
         cy.get('#autocompleteHint').type(hint);
         const desc = 'Auto description';
+
+        // since there are two selectors with the same id 'description' we pick one which is the 10-th child
         cy.get(':nth-child(10) > .col-md-5 > #description').type(desc);
         cy.get('#saveCommand').click();
 
