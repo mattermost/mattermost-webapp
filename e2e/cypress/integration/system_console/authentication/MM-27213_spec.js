@@ -14,6 +14,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {getEmailUrl, reUrl} from '../../../utils';
 
+const authenticator = require('authenticator');
+
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
@@ -22,9 +24,11 @@ const goToAdminConsole = () => {
 
 
 describe('Authentication', () => {
+    let sysadmin;
     let testUser;
     let mentionedUser;
     let testTeam;
+    let adminMFASecret;
 
     before(() => {
         // # Do email test if setup properly
@@ -38,6 +42,11 @@ describe('Authentication', () => {
                 mentionedUser = newUser;
             });
 
+        });
+
+        // # Log in as a team admin.
+        cy.apiAdminLogin().then((res) => {
+            sysadmin = res.user;
         });
     });
 
@@ -81,7 +90,7 @@ describe('Authentication', () => {
     //     // # Hit enter to login
     //     cy.get('#loginButton').click();
 
-    //     cy.wait(TIMEOUTS.ONE_SEC);
+    //     cy.wait(TIMEOUTS.THREE_SEC);
 
     //     cy.findByTestId('emailVerifyResend').should('be.visible').click();
     //     cy.findByTestId('emailVerifySentMessage').should('be.visible');
@@ -111,37 +120,165 @@ describe('Authentication', () => {
     //     });
     // });
 
-    it('MM-T1770 - Default password settings', () => {
-        cy.apiUpdateConfig({
-            PasswordSettings: {
-                MinimumLength: null,
-                Lowercase: null,
-                Number: null,
-                Uppercase: null,
-                Symbol: null,
-            },
-            ServiceSettings : {
-                MaximumLoginAttempts: null
-            },
-        });
+    // it('MM-T1770 - Default password settings', () => {
+    //     cy.apiUpdateConfig({
+    //         PasswordSettings: {
+    //             MinimumLength: null,
+    //             Lowercase: null,
+    //             Number: null,
+    //             Uppercase: null,
+    //             Symbol: null,
+    //         },
+    //         ServiceSettings : {
+    //             MaximumLoginAttempts: null
+    //         },
+    //     });
 
 
-        // * Ensure password has a minimum lenght of 10, all password requirements are checked, and the maximum login attempts is set to 10
-        cy.apiGetConfig().then(({config: { PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
-            expect(PasswordSettings.MinimumLength).equal(10);
-            expect(PasswordSettings.Lowercase).equal(true);
-            expect(PasswordSettings.Number).equal(true);
-            expect(PasswordSettings.Uppercase).equal(true);
-            expect(PasswordSettings.Symbol).equal(true);
-            expect(MaximumLoginAttempts).equal(10);
+    //     // * Ensure password has a minimum lenght of 10, all password requirements are checked, and the maximum login attempts is set to 10
+    //     cy.apiGetConfig().then(({config: { PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
+    //         expect(PasswordSettings.MinimumLength).equal(10);
+    //         expect(PasswordSettings.Lowercase).equal(true);
+    //         expect(PasswordSettings.Number).equal(true);
+    //         expect(PasswordSettings.Uppercase).equal(true);
+    //         expect(PasswordSettings.Symbol).equal(true);
+    //         expect(MaximumLoginAttempts).equal(10);
 
-        });
-    });
-
-    // it('MM-T1778 - MFA - Enforced', () => {
-
+    //     });
     // });
 
+    it('MM-T1778 - MFA - Enforced', () => {
+         // # Navigate to System Console -> Authentication -> MFA Page.
+         cy.visit('/admin_console/authentication/mfa');
+
+         // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
+         cy.findByTestId('ServiceSettings.EnableMultifactorAuthenticationtrue').check();
+ 
+         // # Also ensure that this MFA setting is enforced.
+         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
+ 
+         // # Click "Save".
+         cy.get('#saveSetting').scrollIntoView().click();
+ 
+         cy.url().then((url) => {
+             if (url.includes('mfa/setup')) {
+                 // # Complete MFA setup if we are on token setup page /mfa/setup
+                 cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
+                     const secretp = p.text();
+                     adminMFASecret = secretp.split(' ')[1];
+ 
+                     const token = authenticator.generateToken(adminMFASecret);
+                     cy.get('#mfa').find('.form-control').type(token);
+                     cy.get('#mfa').find('.btn.btn-primary').click();
+ 
+                     cy.wait(TIMEOUTS.HALF_SEC);
+                     cy.get('#mfa').find('.btn.btn-primary').click();
+                 });
+             } else {
+                 // # If the sysadmin already has MFA enabled, reset the secret.
+                 cy.apiGenerateMfaSecret(sysadmin.id).then((res) => {
+                     adminMFASecret = res.code.secret;
+                 });
+             }
+         });
+         
+        // # Navigate to System Console -> User Management -> Users
+        cy.visit('/admin_console/user_management/users');
+        cy.get('#searchUsers').type(`${testUser.email}`);
+
+        // * Remove MFA option not available for the user
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.findByText('Remove MFA').should('not.be.visible');
+
+
+        // # Login as test user 
+        cy.apiLogin(testUser);
+        cy.visit('');
+        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.get('.signup-team__container').should('be.visible');
+    });
+
+
+    // This test relies on the previous test for having MFA enabled (MM-T1778)
+    it('MM-T1781 - MFA - Admin removes another users MFA', () => {
+       // # Login as test user 
+       cy.apiLogin(testUser);
+       cy.visit('');
+       cy.wait(TIMEOUTS.ONE_SEC);
+
+        cy.url().then((url) => {
+            if (url.includes('mfa/setup')) {
+                // # Complete MFA setup if we are on token setup page /mfa/setup
+                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
+                    const secretp = p.text();
+                    const testUserMFASecret = secretp.split(' ')[1];
+
+                    const token = authenticator.generateToken(testUserMFASecret);
+                    cy.get('#mfa').find('.form-control').type(token);
+                    cy.get('#mfa').find('.btn.btn-primary').click();
+
+                    cy.wait(TIMEOUTS.HALF_SEC);
+                    cy.get('#mfa').find('.btn.btn-primary').click();
+                });
+            }
+        });
+        
+        // # Login back as admin.
+        const token = authenticator.generateToken(adminMFASecret);
+        cy.apiAdminLoginWithMFA(token);
+
+
+        // # Navigate to System Console -> User Management -> Users
+        cy.visit('/admin_console/user_management/users');
+        cy.get('#searchUsers').type(`${testUser.email}`);
+
+        // * Remove MFA option available for the user and click it
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.findByText('Remove MFA').should('be.visible').click();
+
+
+        // # Navigate to System Console -> Authentication -> MFA Page.
+        cy.visit('/admin_console/authentication/mfa');
+
+        // # Also ensure that this MFA setting is enforced.
+        cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationfalse').check();
+
+        // # Click "Save".
+        cy.get('#saveSetting').scrollIntoView().click();
+
+
+        // # Login as test user 
+        cy.apiLogin(testUser);
+        cy.visit('');
+        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.get('.signup-team__container').should('not.be.visible');
+   });
+
+    // This test relies on the previous test for having MFA enabled (MM-T1781)
+    it('MM-T1782 - MFA - Removing MFA option hidden for users without MFA set up', () => {
+        // # Login back as admin.
+        const token = authenticator.generateToken(adminMFASecret);
+        cy.apiAdminLoginWithMFA(token);
+    
+        // # Navigate to System Console -> User Management -> Users
+        cy.visit('/admin_console/user_management/users');
+        cy.get('#searchUsers').type(`${testUser.email}`);
+
+        // * Remove MFA option available for the user and click it
+        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+        cy.findByText('Remove MFA').should('not.be.visible');
+
+        // # Done with that MFA stuff so we disable it all
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableMultifactorAuthentication: false,
+                EnforceMultifactorAuthentication: false,
+            },
+        });
+    });
 
 });
 
