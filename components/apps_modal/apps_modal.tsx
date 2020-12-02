@@ -122,12 +122,14 @@ type SubDialogMaker = (field: AppField) => SubDialogElement;
 
 const makeTextField: SubDialogMaker = (field) => {
     let type = 'text';
+    let subtype = field.subtype || '';
     if (field.subtype === 'textarea') {
         type = 'textarea';
+        subtype = '';
     }
     return {
         type,
-        subtype: '',
+        subtype: subtype,
         options: [],
         data_source: '',
     };
