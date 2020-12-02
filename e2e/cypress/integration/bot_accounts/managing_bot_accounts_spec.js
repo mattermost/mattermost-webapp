@@ -7,11 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-import {generateRandomUser} from '../../support/api/user';
 
 describe('Managing bot accounts', () => {
     let newTeam;
@@ -206,7 +205,7 @@ describe('Managing bot accounts', () => {
         cy.findByTestId('saveSetting').should('be.enabled').click();
 
         // # Create another admin account
-        createCustomAdmin().then(({sysadmin}) => {
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             // # Login as the new admin
             cy.apiLogin(sysadmin);
 
@@ -247,7 +246,7 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1860 Bot is disabled when owner is deactivated', () => {
         // # Create another admin account
-        createCustomAdmin().then(({sysadmin}) => {
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             // # Login as the new admin
             cy.apiLogin(sysadmin);
 
@@ -285,13 +284,3 @@ describe('Managing bot accounts', () => {
         });
     });
 });
-
-function createCustomAdmin() {
-    const sysadminUser = generateRandomUser('other-admin');
-
-    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
-        return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
-            return cy.wrap({sysadmin: user});
-        });
-    });
-}
