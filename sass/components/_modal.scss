@@ -588,6 +588,11 @@
         bottom: 0;
         position: absolute;
     }
+
+    .suggestion-list__content--bottom {
+        top: 0;
+        position: absolute;
+    }
 }
 
 .more-modal {
