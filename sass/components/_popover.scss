@@ -241,7 +241,7 @@
         margin: 0 -15px 0;
 
         &.first {
-            border-top: 1px solid transparent;
+            border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
             margin-top: 4px;
         }
 
