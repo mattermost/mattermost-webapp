@@ -50,7 +50,7 @@ describe('components/sidebar/sidebar_category', () => {
         isNewCategory: false,
         isCollapsed: false,
         isDisabled: false,
-        limitVisibleDMsGMs: Infinity,
+        limitVisibleDMsGMs: 10000,
         actions: {
             setCategoryCollapsed: jest.fn(),
             setCategoryMuted: jest.fn(),

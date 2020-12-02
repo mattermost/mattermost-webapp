@@ -340,7 +340,7 @@
                 padding-top: 2px;
                 padding-bottom: 2px;
 
-                @media screen and (min-width: 768px) {
+                @media screen and (max-width: 768px) {
                     margin-left: 4px;
                 }
             }

@@ -107,7 +107,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 id: 'showAllDms',
                 direction: 'right' as any,
                 text: intl.formatMessage({id: 'sidebar.allDirectMessages', defaultMessage: 'All direct messages'}),
-                action: () => this.handlelimitVisibleDMsGMs(Infinity),
+                action: () => this.handlelimitVisibleDMsGMs(10000),
             },
             {
                 id: 'SidebarChannelMenu-moveToDivider',
@@ -145,7 +145,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         id={'showMessageCount'}
                         subMenu={categoryMenuItems}
                         text={intl.formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
-                        selectedValueText={selectedDmNumber === Infinity ? intl.formatMessage({id: 'channel_notifications.levels.all', defaultMessage: 'All'}) : selectedDmNumber}
+                        selectedValueText={selectedDmNumber === 10000 ? intl.formatMessage({id: 'channel_notifications.levels.all', defaultMessage: 'All'}) : selectedDmNumber}
                         icon={<i className='icon-account-multiple-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
