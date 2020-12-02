@@ -176,9 +176,9 @@ Cypress.Commands.add('apiReloadConfig', () => {
     });
 });
 
-Cypress.Commands.add('apiGetConfig', () => {
+Cypress.Commands.add('apiGetConfig', (old = false) => {
     // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
+    return cy.request(`/api/v4/config${old ? '/client?format=old' : ''}`).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({config: response.body});
     });

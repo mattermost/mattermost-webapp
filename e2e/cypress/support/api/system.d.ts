@@ -113,6 +113,7 @@ declare namespace Cypress {
         /**
          * Get configuration.
          * See https://api.mattermost.com/#tag/system/paths/~1config/get
+         * @param {Boolean} old - false (default) or true to return old format of client config
          * @returns {AdminConfig} `out.config` as `AdminConfig`
          *
          * @example

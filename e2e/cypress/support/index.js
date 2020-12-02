@@ -113,8 +113,9 @@ before(() => {
             break;
         }
 
-        // Log license status before test
+        // Log license status and server details before test
         printLicenseStatus();
+        printServerDetails();
     });
 });
 
@@ -124,14 +125,18 @@ beforeEach(() => {
 });
 
 function printLicenseStatus() {
-    cy.apiGetClientLicense().then(({isLicensed, isCloudLicensed}) => {
-        if (isCloudLicensed) {
-            cy.log('Server has enterprise license for Cloud.');
-        } else if (isLicensed) {
-            cy.log('Server has enterprise license.');
+    cy.apiGetClientLicense().then(({isLicensed, license}) => {
+        if (isLicensed) {
+            cy.log(`Server has license: ${license.SkuName}`);
         } else {
             cy.log('Server is without license.');
         }
+    });
+}
+
+function printServerDetails() {
+    cy.apiGetConfig(true).then(({config}) => {
+        cy.log(`Build Number: ${config.BuildNumber} | Version: ${config.Version} | Hash: ${config.BuildHash}`);
     });
 }
 
