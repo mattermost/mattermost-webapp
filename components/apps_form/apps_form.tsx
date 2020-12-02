@@ -8,6 +8,7 @@ import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
 import {AppCallResponse, AppField, AppForm, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {DialogElement} from 'mattermost-redux/types/integrations';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import SpinnerButton from 'components/spinner_button';
@@ -106,8 +107,9 @@ export default class AppsForm extends React.PureComponent<Props, State> {
         const errors: {[name: string]: React.ReactNode} = {};
         if (fields) {
             fields.forEach((field) => {
-                const error = checkDialogElementForError(
-                    field,
+                const element = {name: field.name} as DialogElement;
+                const error = checkDialogElementForError( // TODO: make sure all required values are present in `element`
+                    element,
                     values[field.name],
                 );
                 if (error) {
@@ -153,7 +155,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
 
             const newErrors = data.data?.errors;
 
-            const elements = fields.map((field) => ({name: field.name}));
+            const elements = fields.map((field) => ({name: field.name})) as DialogElement[];
             if (
                 newErrors &&
                 Object.keys(newErrors).length >= 0 &&

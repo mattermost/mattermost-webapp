@@ -18,7 +18,7 @@ const makeError = (errMessage: string) => {
             error: 'There has been an error submitting the dialog. Contact the app developer. Details: ' + errMessage,
         },
     };
-}
+};
 
 type FormValues = {
     [name: string]: any;
