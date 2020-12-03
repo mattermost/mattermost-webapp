@@ -10,7 +10,7 @@ import {getAdminAccount} from '../env';
 // *****************************************************************************
 
 Cypress.Commands.add('apiLogin', (user, requestOptions = {}) => {
-    cy.request({
+    return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
@@ -35,7 +35,7 @@ Cypress.Commands.add('apiLogin', (user, requestOptions = {}) => {
 });
 
 Cypress.Commands.add('apiLoginWithMFA', (user, token) => {
-    cy.request({
+    return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
@@ -277,7 +277,7 @@ Cypress.Commands.add('apiPatchUserRoles', (userId, roleNames = ['system_user']) 
         body: {roles: roleNames.join(' ')},
     }).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
@@ -349,7 +349,7 @@ Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
 
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
-        cy.wrap({user: response.body});
+        return cy.wrap({user: response.body});
     });
 });
 
