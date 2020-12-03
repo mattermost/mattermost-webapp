@@ -16,6 +16,7 @@ type Props = {
     showMoreChannelsModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
+    handleOpenDirectMessagesModal: (e: Event) => void;
 };
 
 type State = {
@@ -50,11 +51,21 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             );
         }
 
+        const createDirectMessage = (
+            <Menu.ItemAction
+                id={'browseDirectMessages'}
+                onClick={this.props.handleOpenDirectMessagesModal}
+                icon={<i className='icon-account-plus-outline'/>}
+                text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
+            />
+        );
+
         return (
             <React.Fragment>
                 <Menu.Group>
                     {joinPublicChannel}
                     {createChannel}
+                    {createDirectMessage}
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemAction
