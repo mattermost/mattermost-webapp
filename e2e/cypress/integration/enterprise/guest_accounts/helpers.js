@@ -14,7 +14,7 @@ export function changeGuestFeatureSettings(featureFlag = true, emailInvitation =
     });
 }
 
-export export function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Square', clickInvite = true) {
+export function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Square', clickInvite = true) {
     // # Open Invite People
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#invitePeople').should('be.visible').click();
