@@ -115,6 +115,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 id='dndCustomTimePickerModal'
+                className={'modal-overflow'}
             >
                 {
                     <DropdownButton
@@ -123,7 +124,9 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         id='dropdown-no-caret'
                         noCaret={true}
                     >
-                        <MenuItem>
+                        <MenuItem
+                            className={'dnd-pickers-dropdown-menu'}
+                        >
                             <DayPicker
                                 onDayClick={this.handleDayClick}
                                 showOutsideDays={true}
