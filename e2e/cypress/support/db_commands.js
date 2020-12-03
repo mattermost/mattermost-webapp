@@ -19,7 +19,10 @@ If your server is using database other than the default, you may export those as
 
 Cypress.Commands.add('apiRequireServerDBToMatch', () => {
     cy.apiGetConfig().then(({config}) => {
-        if (config.SqlSettings.DriverName !== dbClient) {
+        // On Cloud, SqlSettings is not being returned.
+        // With that, checking of server DB will be ignored and will assume it does match with
+        // the one being expected by Cypress.
+        if (config.SqlSettings && config.SqlSettings.DriverName !== dbClient) {
             expect(config.SqlSettings.DriverName, message).to.equal(dbClient);
         }
     });

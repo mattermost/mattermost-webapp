@@ -44,7 +44,7 @@ describe('Edit bot username', () => {
 
         const initialBotName = `bot-${getRandomId()}`;
 
-        // # fill+submit form
+        // # Fill and submit form
         cy.get('#username').clear().type(initialBotName);
         cy.get('#displayName').clear().type('Test Bot');
         cy.get('#saveBot').click();

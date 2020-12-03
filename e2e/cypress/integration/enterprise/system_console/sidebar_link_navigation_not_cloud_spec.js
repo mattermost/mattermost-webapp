@@ -8,85 +8,27 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console
+// Group: @enterprise @not_cloud @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('System Console - Enterprise', () => {
     const testCases = [
         {
-            header: 'Groups',
-            sidebar: 'Groups',
-            url: 'admin_console/user_management/groups',
+            header: 'Elasticsearch',
+            sidebar: 'Elasticsearch',
+            url: 'admin_console/environment/elasticsearch',
         },
         {
-            header: 'Mattermost Teams',
-            sidebar: 'Teams',
-            url: 'admin_console/user_management/teams',
-        },
-        {
-            header: 'Mattermost Channels',
-            sidebar: 'Channels',
-            url: 'admin_console/user_management/channels',
-        },
-        {
-            header: 'Permission Schemes',
-            sidebar: 'Permissions',
-            url: 'admin_console/user_management/permissions',
-        },
-        {
-            header: 'Performance Monitoring',
-            sidebar: 'Performance Monitoring',
-            url: 'admin_console/environment/performance_monitoring',
-        },
-        {
-            header: 'Announcement Banner',
-            sidebar: 'Announcement Banner',
-            url: 'admin_console/site_config/announcement_banner',
-        },
-        {
-            header: 'AD/LDAP',
-            sidebar: 'AD/LDAP',
-            url: 'admin_console/authentication/ldap',
-        },
-        {
-            header: 'SAML 2.0',
-            sidebar: 'SAML 2.0',
-            url: 'admin_console/authentication/saml',
-        },
-        {
-            header: 'OAuth 2.0',
-            sidebar: 'OAuth 2.0',
-            url: 'admin_console/authentication/oauth',
-        },
-        {
-            header: 'Guest Access (Beta)',
-            sidebar: 'Guest Access (Beta)',
-            url: 'admin_console/authentication/guest_access',
-        },
-        {
-            header: 'Data Retention Policy',
-            sidebar: 'Data Retention Policy',
-            url: 'admin_console/compliance/data_retention',
-        },
-        {
-            header: 'Compliance Export (Beta)',
-            sidebar: 'Compliance Export (Beta)',
-            url: 'admin_console/compliance/export',
-        },
-        {
-            header: 'Compliance Monitoring',
-            sidebar: 'Compliance Monitoring',
-            url: 'admin_console/compliance/monitoring',
-        },
-        {
-            header: 'Custom Terms of Service (Beta)',
-            sidebar: 'Custom Terms of Service (Beta)',
-            url: 'admin_console/compliance/custom_terms_of_service',
+            header: 'High Availability',
+            sidebar: 'High Availability',
+            url: 'admin_console/environment/high_availability',
         },
     ];
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license
         cy.apiRequireLicense();
 
