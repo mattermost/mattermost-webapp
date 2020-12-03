@@ -74,7 +74,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.OpenIdSettings.DiscoveryEndpoint).to.equal('http://test.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') +'/oauth/openid/login?extra=expired');
+        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') + '/oauth/openid/login?extra=expired');
     });
 
     it('MM-T3620 - Set to Google OpenId', () => {
