@@ -45,7 +45,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // * Check if server has license
         cy.apiRequireLicense();
     });
-
+    
     it('MM-T3623 - Set to Generic OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
@@ -74,7 +74,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.OpenIdSettings.DiscoveryEndpoint).to.equal('http://test.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') + '/oauth/openid/login?extra=expired');
+        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') +'/oauth/openid/login?extra=expired');
     });
 
     it('MM-T3620 - Set to Google OpenId', () => {
