@@ -45,7 +45,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         // * Check if server has license
         cy.apiRequireLicense();
     });
-    
+
     it('MM-T3623 - Set to Generic OpenId', () => {
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
