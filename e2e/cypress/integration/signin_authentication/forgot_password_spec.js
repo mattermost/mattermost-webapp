@@ -10,7 +10,12 @@
 // Stage: @prod
 // Group: @signin_authentication
 
-import {Constants, getEmailUrl, reUrl} from '../../utils';
+import {
+    Constants,
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
 describe('Signin/Authentication', () => {
     let testUser;
@@ -61,7 +66,7 @@ function verifyForgotPasswordEmail(response, toUser, config) {
     expect(data.subject).to.equal(`[${config.TeamSettings.SiteName}] Reset your password`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split('\n').map((d) => d.trim());
+    const bodyText = splitEmailBodyText(data.body.text);
     expect(bodyText.length).to.equal(14);
     expect(bodyText[1]).to.equal('You requested a password reset');
     expect(bodyText[4]).to.equal('To change your password, click "Reset Password" below.');
@@ -110,7 +115,7 @@ function resetPasswordAndLogin(user, team, config) {
         // * Verify contents password reset email
         verifyForgotPasswordEmail(response, user, config);
 
-        const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
+        const bodyText = splitEmailBodyText(response.data.body.text);
         const passwordResetLink = bodyText[7].match(reUrl)[0];
         const token = passwordResetLink.split('token=')[1];
 

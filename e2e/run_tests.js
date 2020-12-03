@@ -169,8 +169,14 @@ function printMessage(testFiles, overallIndex, currentIndex, lastIndex) {
 
 function getTestFilesIdentifier(numberOfTestFiles) {
     const {part, of} = argv;
-    const multiplier = Math.round(numberOfTestFiles / of);
-    const start = (part - 1) * multiplier;
+    const PART = parseInt(part, 10) || 1;
+    const OF = parseInt(of, 10) || 1;
+    if (PART > OF) {
+        throw new Error(`"--part=${PART}" should not be greater than "--of=${OF}"`);
+    }
+
+    const multiplier = Math.ceil(numberOfTestFiles / OF);
+    const start = (PART - 1) * multiplier;
     let end = start + multiplier;
     end = end < numberOfTestFiles ? end : numberOfTestFiles;
 

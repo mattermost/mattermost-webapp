@@ -2,8 +2,12 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
-import {getEmailUrl, reUrl} from '../../utils';
 const baseUrl = Cypress.config('baseUrl');
 const mailUrl = getEmailUrl(baseUrl);
 
@@ -49,7 +53,7 @@ export const verifyEmailInviteAndVisitLink = (username, email, teamName, teamDis
     cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
         verifyEmailInvite(response, teamName, teamDisplayName, email);
 
-        const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
+        const bodyText = splitEmailBodyText(response.data.body.text);
         const permalink = bodyText[6].match(reUrl)[0];
 
         // # Visit permalink (e.g. click on email link)
@@ -100,7 +104,7 @@ const verifyEmailInvite = (response, teamName, teamDisplayName, email) => {
     expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split('\n').map((d) => d.trim());
+    const bodyText = splitEmailBodyText(data.body.text);
     expect(bodyText.length).to.equal(17);
     expect(bodyText[1]).to.equal('You\'ve been invited');
     expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);
