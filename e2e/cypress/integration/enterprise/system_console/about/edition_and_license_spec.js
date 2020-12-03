@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console
+// Group: @enterprise @not_cloud @system_console
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {
@@ -23,6 +23,8 @@ const goToAdminConsole = () => {
 
 describe('System console', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license
         cy.apiRequireLicense();
     });

@@ -30,12 +30,10 @@ describe('Bot Tokens', () => {
     });
 
     it('MM-T1880 Deleted token cannot be used to post', () => {
-        const botName = 'bot-' + Date.now();
-        const message = 'Hello, message from ' + botName;
-
         // # Create a bot and get bot user id
-        cy.apiCreateBot(botName, 'Test Bot' + botName, 'test bot for E2E deleted token cannot be used to post').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             const botUserId = bot.user_id;
+            const message = 'Hello, message from ' + bot.username;
 
             // # Get token from bot's id
             cy.apiAccessToken(botUserId, 'Create token').then(({token, id: tokenId}) => {
