@@ -16,6 +16,7 @@ describe('components/sidebar', () => {
         teamId: 'fake_team_id',
         hasSeenModal: true,
         isCloud: false,
+        unreadFilterEnabled: false,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
