@@ -232,11 +232,12 @@ describe('Desktop notifications', () => {
 
             // # Ensure notifications are set up to fire a desktop notification if are mentioned
             changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
+
             // # Ensure display settings are set to "Show username"
             changeDesktopDisplaySettingsTeammateNameDisplayAs('#name_formatFormatA');
 
-            const actualMsg = `@${user.username} How are things?`
-            const expected = `@${testUser.username}: @${user.username} How are things?`
+            const actualMsg = `@${user.username} How are things?`;
+            const expected = `@${testUser.username}: @${user.username} How are things?`;
 
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 // # Have another user send a post.
@@ -245,7 +246,6 @@ describe('Desktop notifications', () => {
                 // * Desktop notification should be received with expected body.
                 cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
-                    console.log(args.body);
                     expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
                     return true;
                 });
