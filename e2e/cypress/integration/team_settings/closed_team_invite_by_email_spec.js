@@ -10,7 +10,12 @@
 // Group: @team_settings
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, reUrl, getRandomId} from '../../utils';
+import {
+    getEmailUrl,
+    getRandomId,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
 describe('Team Settings', () => {
     let testTeam;
@@ -81,7 +86,7 @@ describe('Team Settings', () => {
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
             verifyEmailInvite(response, testTeam.name, testTeam.display_name, email);
 
-            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
+            const bodyText = splitEmailBodyText(response.data.body.text);
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
@@ -127,7 +132,7 @@ describe('Team Settings', () => {
         expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split('\n').map((d) => d.trim());
+        const bodyText = splitEmailBodyText(data.body.text);
         expect(bodyText.length).to.equal(17);
         expect(bodyText[1]).to.equal('You\'ve been invited');
         expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);

@@ -15,7 +15,11 @@
  */
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import {getEmailUrl, getRandomId} from '../../../utils';
+import {
+    getEmailUrl,
+    getRandomId,
+    splitEmailBodyText,
+} from '../../../utils';
 
 const authenticator = require('authenticator');
 
@@ -152,7 +156,7 @@ describe('Guest Accounts', () => {
             expect(data.subject).to.contain(`sysadmin invited you to join the team ${testTeam.display_name} as a guest`);
 
             // # Extract invitation link from the invitation e-mail.
-            const bodyText = data.body.text.split('\n').map((d) => d.trim());
+            const bodyText = splitEmailBodyText(data.body.text);
             expect(bodyText[6]).to.contain('Join Team');
             const line = bodyText[6].split(' ');
             expect(line[3]).to.contain(baseUrl);

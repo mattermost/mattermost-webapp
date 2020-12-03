@@ -12,7 +12,11 @@
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, reUrl} from '../../utils';
+import {
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 const baseUrl = Cypress.config('baseUrl');
 const mailUrl = getEmailUrl(baseUrl);
 
@@ -74,7 +78,7 @@ describe('Notifications', () => {
         cy.apiLogin(otherUser);
 
         cy.task('getRecentEmail', {username: otherUser.username, mailUrl}).then((response) => {
-            const bodyText = response.data.body.text.split('\n').map((d) => d.trim());
+            const bodyText = splitEmailBodyText(response.data.body.text);
 
             // * Verify that the email was properly received and has the correct output
             verifyEmailNotification(response, testTeam.name, testTeam.display_name, otherUser.email);
@@ -110,7 +114,7 @@ describe('Notifications', () => {
         expect(data.subject).to.contain(`[Mattermost] Notification in ${teamDisplayName}`);
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split('\n').map((d) => d.trim());
+        const bodyText = splitEmailBodyText(data.body.text);
         expect(bodyText.length).to.equal(16);
         expect(bodyText[1]).to.equal('You have a new notification.');
         expect(bodyText[4]).to.equal('Channel: Off-Topic');
