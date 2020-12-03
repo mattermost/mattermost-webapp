@@ -131,6 +131,9 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2206 @ autocomplete - not in channel (center), have permission to add (public channel)', () => {
+        const message = `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`;
+
+
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
 
         // # Clear then type @
@@ -143,19 +146,17 @@ describe('autocomplete', () => {
         cy.get('#post_textbox').type(`${notInChannelUser.username}`);
 
         // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
-
-        const message = `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`;
-
-        cy.getLastPostId().then((postId) => {
-            // * Verify that the correct system message is displayed or not
-            cy.get(`#postMessageText_${postId}`).should('include.text', message);
-
-            // * Click on the link to add the user to the channel
-            cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click().then(() => {
+        cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+            cy.getLastPostId().then((postId) => {
                 // * Verify that the correct system message is displayed or not
-                cy.getLastPostId().then((npostId) => {
-                    cy.get(`#postMessageText_${npostId}`).should('include.text', `@${notInChannelUser.username} added to the channel by you`);
+                cy.get(`#postMessageText_${postId}`).should('include.text', message);
+
+                // * Click on the link to add the user to the channel
+                cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click().then(() => {
+                    // * Verify that the correct system message is displayed or not
+                    cy.getLastPostId().then((npostId) => {
+                        cy.get(`#postMessageText_${npostId}`).should('include.text', `@${notInChannelUser.username} added to the channel by you`);
+                    });
                 });
             });
         });
@@ -239,18 +240,18 @@ describe('autocomplete', () => {
             cy.get('#post_textbox').type(`${notInChannelUser.username}`);
 
             // # Post user name mention
-            cy.get('#post_textbox').type('{enter}{enter}');
-
-            // # Check that the user name has been posted
-            cy.getLastPostId().then((postId) => {
-                // * Verify that the correct system message is displayed or not
-                cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
-
+            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
                 // # Check that the user name has been posted
-                cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
+                cy.getLastPostId().then((postId) => {
+                    // * Verify that the correct system message is displayed or not
+                    cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
-                // * Verify that the @ mention is a link
-                cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                    // # Check that the user name has been posted
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
+
+                    // * Verify that the @ mention is a link
+                    cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                });
             });
         });
 
@@ -266,17 +267,17 @@ describe('autocomplete', () => {
 
             // # Type user name
             cy.get('#post_textbox').type(`${notInChannelUser.username}`);
-            cy.get('#post_textbox').type('{enter}{enter}');
+            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                cy.getLastPostId().then((postId) => {
+                    // * Verify that the correct system message is displayed or not
+                    cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
-            cy.getLastPostId().then((postId) => {
-                // * Verify that the correct system message is displayed or not
-                cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
+                    // # Check that the user name has been posted
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
 
-                // # Check that the user name has been posted
-                cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
-
-                // * Verify that the @ mention is a link
-                cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                    // * Verify that the @ mention is a link
+                    cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                });
             });
         });
     });
