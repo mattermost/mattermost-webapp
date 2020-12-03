@@ -133,7 +133,6 @@ describe('autocomplete', () => {
     it('MM-T2206 @ autocomplete - not in channel (center), have permission to add (public channel)', () => {
         const message = `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`;
 
-
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
 
         // # Clear then type @
