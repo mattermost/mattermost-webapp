@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @Authentication
+// Group: @system_console @authentication
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -17,6 +17,7 @@ const authenticator = require('authenticator');
 
 describe('Authentication', () => {
     let sysadmin;
+    let mfaSysAdmin;
     let testUser;
     let mentionedUser;
     let adminMFASecret;
@@ -31,6 +32,11 @@ describe('Authentication', () => {
             cy.apiCreateUser().then(({user: newUser}) => {
                 mentionedUser = newUser;
             });
+        });
+
+        // # Create and login a newly created user as sysadmin
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            mfaSysAdmin = sysadmin;
         });
 
         // # Log in as a team admin.
@@ -136,7 +142,7 @@ describe('Authentication', () => {
     });
 
     it('MM-T1778 - MFA - Enforced', () => {
-        cy.apiAdminLogin();
+        cy.apiLogin(mfaSysAdmin);
 
         // # Navigate to System Console -> Authentication -> MFA Page.
         cy.visit('/admin_console/authentication/mfa');
@@ -166,7 +172,7 @@ describe('Authentication', () => {
                 });
             } else {
                 // # If the sysadmin already has MFA enabled, reset the secret.
-                cy.apiGenerateMfaSecret(sysadmin.id).then((res) => {
+                cy.apiGenerateMfaSecret(mfaSysAdmin.id).then((res) => {
                     adminMFASecret = res.code.secret;
                 });
             }
@@ -214,7 +220,7 @@ describe('Authentication', () => {
 
         // # Login back as admin.
         const token = authenticator.generateToken(adminMFASecret);
-        cy.apiAdminLoginWithMFA(token);
+        cy.apiLoginWithMFA(mfaSysAdmin, token);
 
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
@@ -245,7 +251,7 @@ describe('Authentication', () => {
     it('MM-T1782 - MFA - Removing MFA option hidden for users without MFA set up', () => {
         // # Login back as admin.
         const token = authenticator.generateToken(adminMFASecret);
-        cy.apiAdminLoginWithMFA(token);
+        cy.apiLoginWithMFA(mfaSysAdmin, token);
 
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
@@ -360,7 +366,7 @@ describe('Authentication', () => {
     it('MM-T1754 - Restrict Domains - Account creation link on signin page', () => {
         cy.apiAdminLogin();
 
-        // # Enable open server and turn off user account creation
+        // # Enable open server and turn off user account creation and set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'test.com',
