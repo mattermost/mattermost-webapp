@@ -74,6 +74,12 @@ export function stubClipboard() {
     const clipboard = {contents: '', wasCalled: false};
 
     cy.window().then((win) => {
+        if (!win.navigator.clipboard) {
+            win.navigator.clipboard = {
+                writeText: () => {}, //eslint-disable-line no-empty-function
+            };
+        }
+
         cy.stub(win.navigator.clipboard, 'writeText', (link) => {
             clipboard.wasCalled = true;
             clipboard.contents = link;
