@@ -39,7 +39,7 @@ describe('Limited console access', () => {
     it('MM-T3387 - Verify the Admin Role - System User Manager', () => {
         const role = 'system_user_manager';
 
-        // # Make the user a System  Manager
+        // # Make the user a System User Manager
         makeUserASystemRole(role);
 
         // * Login as the new user and verify the role permissions (ensure they really are a system user manager)
@@ -49,7 +49,7 @@ describe('Limited console access', () => {
     it('MM-T3388 - Verify the Admin Role - System Read Only Admin', () => {
         const role = 'system_read_only_admin';
 
-        // # Make the user a System  Manager
+        // # Make the user a System Ready Only Manager
         makeUserASystemRole(role);
 
         // * Login as the new user and verify the role permissions (ensure they really are a system read only manager)
@@ -63,7 +63,7 @@ describe('Limited console access', () => {
         // # Go the system console.
         cy.visit('/admin_console/user_management/system_roles');
 
-        // # Click on edit for system manager
+        // # Click on edit for the role
         cy.findByTestId(`${role}_edit`).click();
 
         // # Click Add People button
