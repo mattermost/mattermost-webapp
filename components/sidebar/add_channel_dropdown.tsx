@@ -52,7 +52,6 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
         }
 
         let createCategory;
-        console.log(this.props.unreadFilterEnabled)
         if (!this.props.unreadFilterEnabled) {
             createCategory = (
                 <Menu.Group>
