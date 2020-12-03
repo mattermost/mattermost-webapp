@@ -4,6 +4,7 @@
 import React, {memo, ComponentProps, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
+import {useHistory, useRouteMatch} from 'react-router-dom';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -41,6 +42,8 @@ const ThreadPane = ({
 }: Props) => {
     const {formatMessage} = useIntl();
     const channel = useSelector((state: GlobalState) => getChannel(state, post.channel_id));
+    const {params: {team, threadIdentifier}} = useRouteMatch<{team: string; threadIdentifier: string}>();
+    const history = useHistory();
 
     return (
         <div className='ThreadPane'>
@@ -56,7 +59,9 @@ const ThreadPane = ({
                         </span>
                         <Button
                             className='separated'
-                            onClick={useCallback(actions.openInChannel, [actions.openInChannel])}
+                            onClick={useCallback(() => {
+                                history.push(`/${team}/pl/${threadIdentifier}`);
+                            }, [history])}
                         >
                             {channel.display_name}
                         </Button>

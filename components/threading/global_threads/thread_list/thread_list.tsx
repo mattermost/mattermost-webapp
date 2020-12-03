@@ -32,6 +32,7 @@ const ThreadList = ({
     children,
 }: PropsWithChildren<Props>) => {
     const {formatMessage} = useIntl();
+
     return (
         <div className={'ThreadList'}>
             <Header

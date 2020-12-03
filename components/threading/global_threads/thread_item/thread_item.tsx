@@ -3,6 +3,7 @@
 
 import React, {memo, ComponentProps, useCallback, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useHistory, useRouteMatch} from 'react-router-dom';
 import classNames from 'classnames';
 import {useSelector} from 'react-redux';
 
@@ -25,6 +26,7 @@ import {GlobalState} from 'types/store';
 type Props = {
     rootPostUserId: string;
     channelId: string;
+    threadId: string;
     participants: ComponentProps<typeof Avatars>['users'],
     totalParticipants?: number;
     previewText: string,
@@ -37,11 +39,6 @@ type Props = {
     isFollowing: boolean,
     isSaved: boolean,
     isSelected: boolean,
-
-    actions: {
-        select: () => void,
-        openInChannel: () => void,
-    },
 } & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
 
 const ThreadItem = ({
@@ -49,6 +46,7 @@ const ThreadItem = ({
     totalParticipants,
     rootPostUserId,
     channelId,
+    threadId,
     previewText,
 
     lastReplyAt,
@@ -61,10 +59,11 @@ const ThreadItem = ({
     isFollowing,
 
     actions,
-
 }: Props) => {
     const channel = useSelector((state: GlobalState) => getChannel(state, channelId));
     const rootPostUser = useSelector((state: GlobalState) => getUser(state, rootPostUserId));
+    const {params: {team}} = useRouteMatch<{team: string}>();
+    const history = useHistory();
 
     return (
         <article
@@ -73,7 +72,9 @@ const ThreadItem = ({
                 'is-selected': isSelected,
             })}
             tabIndex={0}
-            onClick={actions.select}
+            onClick={useCallback(() => {
+                history.replace(`/${team}/threads/${threadId}`);
+            }, [])}
         >
             <h1>
                 {Boolean(newMentions || newReplies) && (
@@ -93,8 +94,8 @@ const ThreadItem = ({
                     <Badge
                         onClick={useCallback((e: MouseEvent) => {
                             e.stopPropagation();
-                            actions.openInChannel();
-                        }, [])}
+                            history.push(`/${team}/pl/${threadId}`);
+                        }, [history])}
                     >
                         {channel.display_name}
                     </Badge>

@@ -1,14 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps, useState} from 'react';
+import React, {memo, ComponentProps, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {Link, useRouteMatch, useHistory} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {Link, useRouteMatch,} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -53,11 +54,16 @@ const GlobalThreads = ({
     actions = {},
 }: Props) => {
     const {formatMessage} = useIntl();
-    const {url, params: {team, threadIdentifier}} = useRouteMatch<{team: string, threadIdentifier?: string}>();
-    const history = useHistory();
+    const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
     const [filter, setFilter] = useStickyState('', 'globalThreads_filter');
     const currentUserId = useSelector(getCurrentUserId);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier ?? ''));
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getThreads(currentUserId));
+    }, [getThreads]);
 
     return (
         <div
@@ -94,21 +100,21 @@ const GlobalThreads = ({
                             unreadMentions,
                             last_reply_at: lastReplyAt,
                             post: {
-                                root_id: rootId,
                                 channel_id: channelId,
                                 message,
                                 user_id: userId,
                             },
                         }) => (
                             <ThreadItem
-                                key={rootId}
+                                key={id}
+                                threadId={id}
                                 rootPostUserId={userId}
                                 channelId={channelId}
                                 previewText={message}
                                 participants={participants.map((participant) => ({
                                     username: participant.username,
                                     name: `${participant.first_name} ${participant.last_name}`,
-                                    url: 'http://localhost:9005/api/v4/users/4wcwm9k3qi8t9836bodcxn5ufa/image?_=0',
+                                    url: `http://localhost:9005/api/v4/users/${participant.id}/image?_=0`,
                                 }))}
                                 totalReplies={replyCount}
                                 newReplies={unreadReplies}
@@ -117,12 +123,7 @@ const GlobalThreads = ({
                                 isFollowing={true}
                                 isSaved={false}
                                 isSelected={threadIdentifier === id}
-                                actions={{
-                                    ...actions,
-                                    select: () => {
-                                        history.replace(`/${team}/threads/${id}`);
-                                    },
-                                }}
+                                actions={actions}
                             />
                         ))}
                     </ThreadList>

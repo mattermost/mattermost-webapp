@@ -9,6 +9,8 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import * as Utils from 'utils/utils.jsx';
 import {FakePost} from 'types/store/rhs';
+
+import RhsHeaderPost from 'components/rhs_header_post';
 import ThreadViewer from 'components/threading/global_threads/thread_viewer';
 
 type Props = {
@@ -76,13 +78,21 @@ export default class RhsThread extends React.Component<Props, State> {
         const {selected, currentUserId} = this.props;
 
         return (
-            <ThreadViewer
+            <div
                 id='rhsContainer'
                 className='sidebar-right__body'
-                currentUserId={currentUserId}
-                rootPostId={selected.id}
-                useRelativeTimestamp={true}
-            />
+            >
+                <RhsHeaderPost
+                    rootPostId={selected.id}
+                    channel={this.props.channel}
+                    previousRhsState={this.props.previousRhsState}
+                />
+                <ThreadViewer
+                    currentUserId={currentUserId}
+                    rootPostId={selected.id}
+                    useRelativeTimestamp={false}
+                />
+            </div>
         );
     }
 }

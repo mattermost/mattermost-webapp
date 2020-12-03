@@ -25,6 +25,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {FakePost} from 'types/store/rhs';
 import {THREADING_TIME as BASE_THREADING_TIME} from 'components/threading/common/options';
 
+import './thread_viewer.scss';
+
 const THREADING_TIME: typeof BASE_THREADING_TIME = {
     ...BASE_THREADING_TIME,
     units: [
@@ -42,11 +44,14 @@ export function renderView(props: Record<string, any>) {
         <div
             {...props}
             className='scrollbar--view'
-        />);
+        />
+    );
 }
 
 export function renderThumbHorizontal() {
-    return (<div/>);
+    return (
+        <div/>
+    );
 }
 
 export function renderThumbVertical(props: Record<string, any>) {
@@ -54,7 +59,8 @@ export function renderThumbVertical(props: Record<string, any>) {
         <div
             {...props}
             className='scrollbar--vertical'
-        />);
+        />
+    );
 }
 
 type Attrs = 'className' | 'id';
