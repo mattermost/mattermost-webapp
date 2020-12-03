@@ -477,6 +477,7 @@ export default class LicenseSettings extends React.PureComponent {
                         onClick={this.handleRemove}
                         disabled={this.props.isDisabled}
                         id='remove-button'
+                        data-testid='remove-button'
                     >
                         {removeButtonText}
                     </button>
