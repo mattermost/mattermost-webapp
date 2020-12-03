@@ -16,7 +16,6 @@ import {getEmailUrl, reUrl, getRandomId} from '../../../utils';
 const authenticator = require('authenticator');
 
 describe('Authentication', () => {
-    let sysadmin;
     let mfaSysAdmin;
     let testUser;
     let mentionedUser;
@@ -35,14 +34,12 @@ describe('Authentication', () => {
         });
 
         // # Create and login a newly created user as sysadmin
-        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
-            mfaSysAdmin = sysadmin;
+        cy.apiCreateCustomAdmin().then(({mfaSysAdminCreated}) => {
+            mfaSysAdmin = mfaSysAdminCreated;
         });
 
-        // # Log in as a team admin.
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
-        });
+        // # Log in as a admin.
+        cy.apiAdminLogin();
     });
 
     it('MM-T1764 - Security - Signup: Email verification required (after having created account when verification was not required)', () => {
