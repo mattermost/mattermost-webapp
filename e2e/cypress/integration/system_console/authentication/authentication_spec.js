@@ -11,7 +11,7 @@
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-import {getEmailUrl, reUrl} from '../../../utils';
+import {getEmailUrl, reUrl, getRandomId} from '../../../utils';
 
 const authenticator = require('authenticator');
 
@@ -317,11 +317,11 @@ describe('Authentication', () => {
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
-        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${Math.random() * 1000}@BestInTheWorld.com`);
+        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
         cy.get('#password').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool4School${Math.random() * 1000}`);
+        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.get('#createAccountButton').click();
 
@@ -351,11 +351,11 @@ describe('Authentication', () => {
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
-        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${Math.random() * 1000000}@BestInTheWorld.com`);
+        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
         cy.get('#password').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool4School${Math.random() * 1000000}`);
+        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.get('#createAccountButton').click();
 
@@ -386,11 +386,11 @@ describe('Authentication', () => {
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
-        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${Math.random() * 1000000}@BestInTheWorld.com`);
+        cy.get('#email').type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
         cy.get('#password').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool4School${Math.random() * 1000000}`);
+        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.get('#createAccountButton').click();
 
