@@ -28,7 +28,6 @@ type Props = {
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
-    isDataPrefechEnabled: boolean;
     hasSeenModal: boolean;
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
@@ -206,7 +205,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />
-                {this.props.isDataPrefechEnabled && <DataPrefetch/>}
+                <DataPrefetch/>
                 {this.props.isCloud && <SidebarNextSteps/>}
                 {this.renderModals()}
             </div>
