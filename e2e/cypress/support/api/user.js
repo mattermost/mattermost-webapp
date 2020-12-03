@@ -64,7 +64,7 @@ Cypress.Commands.add('apiLogout', () => {
     });
 
     // * Verify logged out
-    cy.visit('/login?extra=expired').url().should('include', '/login?extra=expired');
+    cy.visit('/login?extra=expired').url().should('include', '/login');
 
     // # Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
@@ -135,6 +135,16 @@ Cypress.Commands.add('apiPatchMe', (data) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({user: response.body});
+    });
+});
+
+Cypress.Commands.add('apiCreateCustomAdmin', () => {
+    const sysadminUser = generateRandomUser('other-admin');
+
+    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
+        return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
+            return cy.wrap({sysadmin: user});
+        });
     });
 });
 
@@ -280,6 +290,23 @@ Cypress.Commands.add('apiDeactivateUser', (userId) => {
     });
 });
 
+Cypress.Commands.add('apiActivateUser', (userId) => {
+    const options = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/users/${userId}/active`,
+        body: {
+            active: true,
+        },
+    };
+
+    // # Deactivate a user account
+    return cy.request(options).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 Cypress.Commands.add('apiDemoteUserToGuest', (userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -344,6 +371,34 @@ Cypress.Commands.add('apiGenerateMfaSecret', (userId) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({code: response.body});
+    });
+});
+
+Cypress.Commands.add('apiAccessToken', (userId, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/' + userId + '/tokens',
+        method: 'POST',
+        body: {
+            description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body);
+    });
+});
+
+Cypress.Commands.add('apiRevokeAccessToken', (tokenId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/tokens/revoke',
+        method: 'POST',
+        body: {
+            token_id: tokenId,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });
 

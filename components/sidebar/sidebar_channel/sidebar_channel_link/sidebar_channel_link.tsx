@@ -16,7 +16,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
 import {isDesktopApp} from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils';
+import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
@@ -54,6 +54,13 @@ type Props = {
      * Checks if channel is collapsed
      */
     isCollapsed: boolean;
+
+    isChannelSelected: boolean;
+
+    actions: {
+        multiSelectChannelTo: (channelId: string) => void;
+        multiSelectChannelAdd: (channelId: string) => void;
+    };
 };
 
 type State = {
@@ -126,9 +133,29 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    trackChannelSelectedEvent = () => {
+    handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         mark('SidebarLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
+
+        this.handleSelectChannel(event);
+    }
+
+    handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        if (event.button !== 0) {
+            return;
+        }
+
+        if (cmdOrCtrlPressed(event)) {
+            event.preventDefault();
+            this.props.actions.multiSelectChannelAdd(this.props.channel.id);
+        } else if (event.shiftKey) {
+            event.preventDefault();
+            this.props.actions.multiSelectChannelTo(this.props.channel.id);
+        }
     }
 
     handleMenuToggle = (isMenuOpen: boolean) => {
@@ -144,7 +171,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     };
 
     render() {
-        const {link, label, channel, unreadMentions, icon, isMuted} = this.props;
+        const {link, label, channel, unreadMentions, icon, isMuted, isChannelSelected} = this.props;
 
         let labelElement: JSX.Element = (
             <span
@@ -208,6 +235,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 menuOpen: this.state.isMenuOpen,
                 muted: isMuted,
                 'unread-title': this.showChannelAsUnread(),
+                selected: isChannelSelected,
             },
         ]);
         let element = (
@@ -216,7 +244,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 id={`sidebarItem_${channel.name}`}
                 aria-label={this.getAriaLabel()}
                 to={link}
-                onClick={this.trackChannelSelectedEvent}
+                onClick={this.handleChannelClick}
                 tabIndex={this.props.isCollapsed ? -1 : 0}
             >
                 {content}
