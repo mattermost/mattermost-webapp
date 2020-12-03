@@ -39,8 +39,6 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.HALF_SEC);
     });
 
-    //Note: Missing MM-T1258, MM-T1259
-
     it('MM-T1239 - CTRL+/ and CMD+/ and /shortcuts', () => {
         // # Type CTRL/CMD+/
         cy.get('#post_textbox').cmdOrCtrlShortcut('/');
@@ -48,7 +46,7 @@ describe('Keyboard Shortcuts', () => {
         // # Verify that the 'Keyboard Shortcuts' modal is open
         cy.get('#shortcutsModalLabel').should('be.visible');
 
-        // # Verify that the 'Keyboard Shortcuts' modal displays ths CTRL/CMD+U shortcut
+        // # Verify that the 'Keyboard Shortcuts' modal displays the CTRL/CMD+U shortcut
         cy.get('.section').eq(2).within(() => {
             cy.findByText('Files').should('be.visible');
             cy.get('.shortcut-line').within(() => {
@@ -101,7 +99,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#post_textbox').contains(message);
         }
 
-        // # One exta CTRL/CMD+UP does not change the displayed message
+        // # One extra CTRL/CMD+UP does not change the displayed message
         cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
         message = messagePrefix + '0';
         cy.get('#post_textbox').contains(message);
@@ -213,7 +211,7 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1575 - Ability to Switch Teams', () => {
-        const count = 10;
+        const count = 5;
         const teamNames = [];
         const teamDisplayNames = [];
         const channelNames = [];
@@ -256,7 +254,37 @@ describe('Keyboard Shortcuts', () => {
             }
         }
 
-        // Step #2 - not clear what are the "new shortcuts" - verifying that 'Keyboard Shortcuts' show
+        for (let index = 0; index < count; index++) {
+            // # Press CTRL/CMD+SHIFT+DOWN
+            if (cy.isMac()) {
+                cy.get('body').type('{cmd}{option}', {release: false}).type('{downarrow}').type('{cmd}{option}', {release: true});
+            } else {
+                cy.get('body').type('{ctrl}{shift}', {release: false}).type('{downarrow}').type('{ctrl}{shift}', {release: true});
+            }
+
+            // # Verify that we've switched to the correct team
+            cy.get('#headerTeamName').should('contain', teamDisplayNames[index]);
+
+            // # Verify that we've switched to the correct channel
+            cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[index]);
+        }
+
+        for (let index = 2; index <= count + 1; index++) {
+            // # Press CTRL/CMD+SHIFT+index
+            if (cy.isMac()) {
+                cy.get('body').type('{cmd}{option}', {release: false}).type(String(index)).type('{cmd}{option}', {release: true});
+            } else {
+                cy.get('body').type('{ctrl}{shift}', {release: false}).type(String(index)).type('{ctrl}{shift}', {release: true});
+            }
+
+            // # Verify that we've switched to the correct team
+            cy.get('#headerTeamName').should('contain', teamDisplayNames[index - 2]);
+
+            // # Verify that we've switched to the correct channel
+            cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[index - 2]);
+        }
+
+        // Step #2
         cy.get('#channel-header').should('be.visible').then(() => {
             cy.get('#channelHeaderUserGuideButton').click();
             cy.get('.dropdown-menu').should('be.visible').then(() => {
@@ -264,6 +292,13 @@ describe('Keyboard Shortcuts', () => {
                 cy.get('#keyboardShortcuts button').click();
                 cy.get('#shortcutsModalLabel').should('be.visible');
             });
+        });
+
+        cy.get('.section').eq(0).within(() => {
+            cy.findByText('Navigation').should('be.visible');
+            cy.findByText('Previous team:').should('be.visible');
+            cy.findAllByText('Next team:').should('be.visible');
+            cy.findAllByText('Switch to a specific team:').should('be.visible');
         });
     });
 });
