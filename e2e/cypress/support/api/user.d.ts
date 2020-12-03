@@ -308,7 +308,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiActivateUserMFA('user-id', activate: false);
          */
-        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
+        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<Response>;
 
         /**
          * Create a user access token
