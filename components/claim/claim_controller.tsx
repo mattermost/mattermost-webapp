@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button';
@@ -12,26 +12,33 @@ import EmailToOAuth from 'components/claim/components/email_to_oauth';
 import LDAPToEmail from 'components/claim/components/ldap_to_email';
 import EmailToLDAP from 'components/claim/components/email_to_ldap';
 
-export default class ClaimController extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        siteName: PropTypes.string,
-        ldapLoginFieldName: PropTypes.string,
-        passwordConfig: PropTypes.object,
+interface PasswordConfig {
+    minimumLength: number;
+    requireLowercase: boolean;
+    requireUppercase: boolean;
+    requireNumber: boolean;
+    requireSymbol: boolean;
+}
 
-        /*
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-        }).isRequired,
+type Location = {
+    search: string;
+}
 
-        actions: PropTypes.shape({
-            switchLdapToEmail: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type Props = {
+    location: Location;
+    siteName?: string;
+    ldapLoginFieldName?: string;
+    passwordConfig?: PasswordConfig;
+    match: {
+        url: string
+    },
+    actions: {
+        switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode?: string) => ActionFunc;
+    },
+}
 
-    render() {
+export default class ClaimController extends React.PureComponent<Props> {
+    render() : JSX.Element {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
         const newType = (new URLSearchParams(this.props.location.search)).get('new_type');
         const currentType = (new URLSearchParams(this.props.location.search)).get('old_type');
