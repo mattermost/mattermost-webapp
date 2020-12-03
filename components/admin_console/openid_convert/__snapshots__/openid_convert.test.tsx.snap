@@ -21,13 +21,13 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
     >
       <FormattedMessage
         defaultMessage="OAuth 2.0 is being deprecated and replace by OpenID Connect."
-        id="admin.openidconvert.heading"
+        id="admin.openIdConvert.heading"
       />
     </div>
     <p>
       <FormattedMessage
         defaultMessage="Convert your OAuth 2.0 configuration to the new OpenID Connect standard."
-        id="admin.openidconvert.message"
+        id="admin.openIdConvert.message"
       />
     </p>
     <div
@@ -35,24 +35,24 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
     >
       <button
         className="btn"
-        data-testid="openid_convert"
+        data-testid="openIdConvert"
         onClick={[Function]}
       >
         <FormattedMessage
           defaultMessage="Convert to OpenID Connect"
-          id="admin.openidconvert.text"
+          id="admin.openIdConvert.text"
         />
       </button>
       <a
         className="btn-secondary"
-        data-testid="openid_learn_more"
+        data-testid="openIdLearnMore"
         href="https://docs.mattermost.com/deployment/sso-gitlab.html"
         rel="noopener noreferrer"
         target="_blank"
       >
         <FormattedMessage
           defaultMessage="Learn more"
-          id="admin.openidconvert.help"
+          id="admin.openIdConvert.help"
         />
       </a>
       <div
