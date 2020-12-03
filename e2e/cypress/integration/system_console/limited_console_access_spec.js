@@ -76,28 +76,28 @@ describe('Limited console access', () => {
         cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
 
         // # Click add button
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);;
+        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Click save button
         cy.findByTestId('saveSetting').click().wait(TIMEOUTS.HALF_SEC);
-    }
+    };
 
     const noAccessFunc = (section) => {
         // * If it's a no-access permission, we just need to check that the section doesn't exist in the side bar
         cy.get(`[data-testid="${section}"]`).should('not.exist');
-    }
-    
+    };
+
     const readOnlyFunc = (section) => {
         // * If it's a read only permission, we need to make sure that the section does exist in the sidebar however the inputs in that section is disabled (read only)
         cy.get(`[data-testid="${section}"]`).should('exist');
         checkInputsShould('be.disabled', section);
-    }
-    
+    };
+
     const readWriteFunc = (section) => {
         // * If we have read + write (can edit) permissions, we need to make the section exists and also that the inputs are all enabled
         cy.get(`[data-testid="${section}"]`).should('exist');
         checkInputsShould('be.enabled', section);
-    }
+    };
 
     const checkInputsShould = (shouldString, section) => {
         const {disabledInputs} = disabledTests.find((item) => item.section === section);
@@ -121,7 +121,6 @@ describe('Limited console access', () => {
         accessRules.forEach((rule) => {
             const {section} = rule;
             const access = rule[roleName];
-            console.log(access);
             switch (access) {
             case ACCESS_NONE:
                 noAccessFunc(section);
