@@ -231,6 +231,7 @@ describe('Authentication', () => {
 
         // # Navigate to System Console -> Authentication -> MFA Page.
         cy.visit('/admin_console/authentication/mfa');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Multi-factor Authentication');
 
         // # Also ensure that this MFA setting is enforced.
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationfalse').check();
