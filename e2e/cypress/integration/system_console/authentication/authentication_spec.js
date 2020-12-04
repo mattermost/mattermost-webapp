@@ -101,7 +101,7 @@ describe('Authentication', () => {
             cy.visit(permalink);
 
             // # Clear password field
-            cy.get('#loginPassword').clear().type(mentionedUser.password);
+            cy.get('#loginPassword', {timeout: TIMEOUTS.ONE_MIN}).clear().type(mentionedUser.password);
 
             // # Hit enter to login
             cy.get('#loginButton').click();
