@@ -188,7 +188,7 @@ describe('Authentication', () => {
         cy.apiLogin(testUser);
         cy.visit('');
         cy.wait(TIMEOUTS.ONE_SEC);
-        cy.get('.signup-team__container').should('be.visible');
+        cy.get('.signup-team__container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
     // This test relies on the previous test for having MFA enabled (MM-T1778)
