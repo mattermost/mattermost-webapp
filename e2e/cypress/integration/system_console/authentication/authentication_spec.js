@@ -13,13 +13,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {getEmailUrl, reUrl, getRandomId} from '../../../utils';
 
-const authenticator = require('authenticator');
-
 describe('Authentication', () => {
-    let mfaSysAdmin;
     let testUser;
-    let mentionedUser;
-    let adminMFASecret;
 
     before(() => {
         // # Do email test if setup properly
@@ -27,15 +22,6 @@ describe('Authentication', () => {
 
         cy.apiInitSetup().then(({user}) => {
             testUser = user;
-
-            cy.apiCreateUser().then(({user: newUser}) => {
-                mentionedUser = newUser;
-            });
-        });
-
-        // # Create and login a newly created user as sysadmin
-        cy.apiCreateCustomAdmin().then(({mfaSysAdminCreated}) => {
-            mfaSysAdmin = mfaSysAdminCreated;
         });
 
         // # Log in as a admin.
@@ -54,7 +40,7 @@ describe('Authentication', () => {
         });
 
         // # Login as test user and make sure it goes to team selection
-        cy.apiLogin(mentionedUser);
+        cy.apiLogin(testUser);
         cy.visit('/');
         cy.url().should('include', '/select_team');
         cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -74,10 +60,10 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // # Clear email/username field and type username
-        cy.get('#loginId', {timeout: TIMEOUTS.ONE_MIN}).clear().type(mentionedUser.username);
+        cy.get('#loginId', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
 
         // # Clear password field and type password
-        cy.get('#loginPassword').clear().type(mentionedUser.password);
+        cy.get('#loginPassword').clear().type(testUser.password);
 
         // # Hit enter to login
         cy.get('#loginButton').click();
@@ -92,7 +78,7 @@ describe('Authentication', () => {
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
 
-        cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
+        cy.task('getRecentEmail', {username: testUser.username, mailUrl}).then((response) => {
             const bodyText = response.data.body.text.split('\n');
 
             const permalink = bodyText[6].match(reUrl)[0];
@@ -101,7 +87,7 @@ describe('Authentication', () => {
             cy.visit(permalink);
 
             // # Clear password field
-            cy.get('#loginPassword', {timeout: TIMEOUTS.ONE_MIN}).clear().type(mentionedUser.password);
+            cy.get('#loginPassword', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.password);
 
             // # Hit enter to login
             cy.get('#loginButton').click();
@@ -135,137 +121,6 @@ describe('Authentication', () => {
             expect(PasswordSettings.Uppercase).equal(true);
             expect(PasswordSettings.Symbol).equal(true);
             expect(MaximumLoginAttempts).equal(10);
-        });
-    });
-
-    it('MM-T1778 - MFA - Enforced', () => {
-        cy.apiLogin(mfaSysAdmin);
-
-        // # Navigate to System Console -> Authentication -> MFA Page.
-        cy.visit('/admin_console/authentication/mfa');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Multi-factor Authentication');
-
-        // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
-        cy.findByTestId('ServiceSettings.EnableMultifactorAuthenticationtrue').check();
-
-        // # Also ensure that this MFA setting is enforced.
-        cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
-
-        // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
-
-        cy.url().then((url) => {
-            if (url.includes('mfa/setup')) {
-                // # Complete MFA setup if we are on token setup page /mfa/setup
-                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
-                    const secretp = p.text();
-                    adminMFASecret = secretp.split(' ')[1];
-
-                    const token = authenticator.generateToken(adminMFASecret);
-                    cy.get('#mfa').find('.form-control').type(token);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
-
-                    cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
-                });
-            } else {
-                // # If the sysadmin already has MFA enabled, reset the secret.
-                cy.apiGenerateMfaSecret(mfaSysAdmin.id).then((res) => {
-                    adminMFASecret = res.code.secret;
-                });
-            }
-        });
-
-        // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
-        cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
-
-        // * Remove MFA option not available for the user
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Remove MFA').should('not.be.visible');
-
-        // # Login as test user
-        cy.apiLogin(testUser);
-        cy.visit('/');
-        cy.get('.signup-team__container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    });
-
-    // This test relies on the previous test for having MFA enabled (MM-T1778)
-    it('MM-T1781 - MFA - Admin removes another users MFA', () => {
-        // # Login as test user
-        cy.apiLogin(testUser);
-        cy.visit('/');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        let token;
-        cy.url().then((url) => {
-            if (url.includes('mfa/setup')) {
-                // # Complete MFA setup if we are on token setup page /mfa/setup
-                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
-                    const secretp = p.text();
-                    const testUserMFASecret = secretp.split(' ')[1];
-
-                    token = authenticator.generateToken(testUserMFASecret);
-                    cy.get('#mfa').find('.form-control').type(token);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
-
-                    cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
-                });
-            }
-        });
-
-        // # Login back as admin.
-        token = authenticator.generateToken(adminMFASecret);
-        cy.apiLoginWithMFA(mfaSysAdmin, token);
-
-        // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
-        cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
-
-        // * Remove MFA option available for the user and click it
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Remove MFA').should('be.visible').click();
-
-        // # Navigate to System Console -> Authentication -> MFA Page.
-        cy.visit('/admin_console/authentication/mfa');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Multi-factor Authentication');
-
-        // # Also ensure that this MFA setting is enforced.
-        cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationfalse').check();
-
-        // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
-
-        // # Login as test user
-        cy.apiLogin(testUser);
-        cy.visit('/');
-        cy.get('.signup-team__container').should('not.be.visible');
-    });
-
-    // This test relies on the previous test for having MFA enabled (MM-T1781)
-    it('MM-T1782 - MFA - Removing MFA option hidden for users without MFA set up', () => {
-        // # Login back as admin.
-        const token = authenticator.generateToken(adminMFASecret);
-        cy.apiLoginWithMFA(mfaSysAdmin, token);
-
-        // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
-        cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
-
-        // * Remove MFA option available for the user and click it
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Remove MFA').should('not.be.visible');
-
-        // # Done with that MFA stuff so we disable it all
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: false,
-                EnforceMultifactorAuthentication: false,
-            },
         });
     });
 
