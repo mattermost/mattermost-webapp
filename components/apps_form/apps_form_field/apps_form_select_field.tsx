@@ -4,9 +4,7 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
-
-// @ts-ignore
-import AsyncSelectImpl from 'react-select/lib/Async';
+const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>;;
 
 import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 
@@ -63,8 +61,6 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const value = this.props.value || [];
 
         // const value = (this.props.value && options.find((opt) => opt.value === this.props.value.value)) || {};
-
-        const AsyncSelect = AsyncSelectImpl as React.ElementType<AsyncSelectProps<AppSelectOption>>;
 
         return (
             <div className='form-group'>

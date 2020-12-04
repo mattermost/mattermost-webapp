@@ -29,6 +29,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
         value: '',
         onChange: () => {},
         performLookup: jest.fn(),
+        isSubmit: false,
     };
 
     const baseTextSettingProps = {
