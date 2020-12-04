@@ -9,6 +9,7 @@ import configureStore from 'redux-mock-store';
 
 import {AppCall, AppCallResponse, AppField, AppForm} from 'mattermost-redux/types/apps';
 import {DialogElement} from 'mattermost-redux/types/integrations';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -47,13 +48,13 @@ describe('components/apps_modal/InteractiveDialog', () => {
                 ...baseProps,
                 actions: {
                     submit: jest.fn().mockResolvedValue({
-                        data: {error: 'This is an error.', type: ''},
+                        data: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
                     }),
                 },
             };
             const wrapper = shallow<InteractiveDialog>(<InteractiveDialog {...props}/>);
 
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             const expected = (
                 <div className='error-text'>
@@ -65,7 +66,7 @@ describe('components/apps_modal/InteractiveDialog', () => {
 
         test('should not appear when submit does not return an error', async () => {
             const wrapper = shallow<InteractiveDialog>(<InteractiveDialog {...baseProps}/>);
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
         });

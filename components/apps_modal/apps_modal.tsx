@@ -5,6 +5,7 @@ import React from 'react';
 
 import {AppCall, AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
 import {InteractiveDialogConfig, DialogElement} from 'mattermost-redux/types/integrations';
+import {AppsBindings} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -21,6 +22,10 @@ type Props = {
         doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>;
     };
     emojiMap: EmojiMap;
+    postID?: string;
+    channelID?: string;
+    teamID?: string;
+    isEmbedded?: boolean;
 };
 
 const AppsModal: React.FC<Props> = (props: Props) => {
@@ -28,7 +33,8 @@ const AppsModal: React.FC<Props> = (props: Props) => {
         return null;
     }
 
-    const submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse}> => {
+    const submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse<any>}> => {
+        //TODO use FormResponseData instead of Any
         if (!props.modal) {
             return {data: {type: 'error', error: 'There has been an error submitting the dialog. Contact the app developer. Details: props.modal is not defined'}};
         }
@@ -37,6 +43,13 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             ...props.modal.call,
             type: '',
             values: submission.values,
+            context: {
+                app_id: props.modal.call.context.app_id,
+                location: props.postID ? AppsBindings.IN_POST : props.modal.call.context.location,
+                post_id: props.postID,
+                team_id: props.postID ? props.teamID : props.modal.call.context.team_id,
+                channel_id: props.postID ? props.channelID : props.modal.call.context.channel_id,
+            },
         };
 
         try {
@@ -69,6 +82,7 @@ const AppsModal: React.FC<Props> = (props: Props) => {
             actions={{
                 submit: submitDialog,
             }}
+            isEmbedded={props.isEmbedded}
         />
     );
 };
@@ -92,7 +106,7 @@ function makeDialogProps(data: InteractiveDialogConfig) {
 
 export function appFormToInteractiveDialog(form: AppForm & {app_id: string; url: string}): InteractiveDialogConfig {
     const fields = form.fields || [];
-    const elements = fields.map(fieldToDialogElement);
+    const elements = fields.map((e) => fieldToDialogElement(e, form.submit_buttons));
     const config: InteractiveDialogConfig = {
         app_id: form.app_id,
         url: form.url,
@@ -118,7 +132,7 @@ type SubDialogElement = {
     data_source: string;
 }
 
-type SubDialogMaker = (field: AppField) => SubDialogElement;
+type SubDialogMaker = (field: AppField, submitField?: string) => SubDialogElement;
 
 const makeTextField: SubDialogMaker = (field) => {
     let type = 'text';
@@ -151,7 +165,7 @@ const makeBooleanField: SubDialogMaker = () => {
 //     };
 // };
 
-const makeStaticSelectField: SubDialogMaker = (field) => {
+const makeStaticSelectField: SubDialogMaker = (field, submitField?: string) => {
     let options: {text: string; value: string}[] = [];
     if (field.options) {
         options = field.options?.map((opt) => ({
@@ -160,9 +174,14 @@ const makeStaticSelectField: SubDialogMaker = (field) => {
         }));
     }
 
+    let subtype = field.subtype || '';
+    if (submitField === field.name) {
+        subtype = 'submit';
+    }
+
     return {
         type: 'select',
-        subtype: '',
+        subtype,
         options,
         data_source: '',
     };
@@ -204,14 +223,14 @@ enum FieldType {
     channel = 'channel',
 }
 
-const makeSubDialogField: SubDialogMaker = (field) => {
+const makeSubDialogField: SubDialogMaker = (field, submitField) => {
     switch (field.type) {
     case FieldType.text:
         return makeTextField(field);
     case FieldType.bool:
         return makeBooleanField(field);
     case FieldType.static_select:
-        return makeStaticSelectField(field);
+        return makeStaticSelectField(field, submitField);
     case FieldType.dynamic_select:
         return makeDynamicSelectField(field);
     case FieldType.user:
@@ -223,8 +242,8 @@ const makeSubDialogField: SubDialogMaker = (field) => {
     }
 };
 
-export const fieldToDialogElement = (field: AppField): DialogElement => {
-    const subField = makeSubDialogField(field);
+export const fieldToDialogElement = (field: AppField, submitField?: string): DialogElement => {
+    const subField = makeSubDialogField(field, submitField);
 
     const element: DialogElement = {
         ...subField,
