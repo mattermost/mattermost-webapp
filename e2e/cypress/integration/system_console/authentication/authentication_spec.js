@@ -281,7 +281,7 @@ describe('Authentication', () => {
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
-        cy.get('#email').type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
+        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
 
         cy.get('#password').type('Test123456!');
 
