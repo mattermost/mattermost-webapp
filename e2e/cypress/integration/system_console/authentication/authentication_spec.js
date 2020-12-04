@@ -195,7 +195,7 @@ describe('Authentication', () => {
     it('MM-T1781 - MFA - Admin removes another users MFA', () => {
         // # Login as test user
         cy.apiLogin(testUser);
-        cy.visit('');
+        cy.visit('/');
         cy.wait(TIMEOUTS.ONE_SEC);
 
         cy.url().then((url) => {
