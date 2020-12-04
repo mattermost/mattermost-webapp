@@ -66,6 +66,7 @@ describe('Limited console access', () => {
 
         // # Go the system console.
         cy.visit('/admin_console/user_management/system_roles');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').invoke('text').should('include', 'System Roles');
 
         // # Click on edit for the role
         cy.findByTestId(`${role}_edit`).click();
