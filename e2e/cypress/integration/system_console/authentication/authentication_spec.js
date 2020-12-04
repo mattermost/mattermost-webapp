@@ -188,7 +188,6 @@ describe('Authentication', () => {
         // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('/');
-        cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('.signup-team__container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
