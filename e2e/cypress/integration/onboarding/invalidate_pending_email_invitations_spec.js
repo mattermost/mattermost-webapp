@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @onboarding
+// Group: @te_only @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
@@ -26,8 +26,7 @@ describe('Onboarding', () => {
     const password = 'passwd';
 
     before(() => {
-        // # Delete license
-        cy.apiDeleteLicense();
+        cy.shouldRunOnTeamEdition();
 
         // # Disable LDAP and do email test if setup properly
         cy.apiUpdateConfig({LdapSettings: {Enable: false}});

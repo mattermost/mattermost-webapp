@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @signin_authentication
 
+import {FixedCloudConfig} from '../../utils/constants';
+
 describe('Login page', () => {
     let config;
     let testUser;
@@ -43,7 +45,7 @@ describe('Login page', () => {
         // * Verify email/username field is present
         cy.findByPlaceholderText('Email or Username').should('exist').and('be.visible');
 
-        // * Verify possword is present
+        // * Verify password is present
         cy.findByPlaceholderText('Password').should('exist').and('be.visible');
 
         // * Verify sign in button is present
@@ -65,21 +67,28 @@ describe('Login page', () => {
 
         // # Move inside of footer section
         cy.get('#footer_section').should('exist').and('be.visible').within(() => {
+            const {
+                ABOUT_LINK,
+                HELP_LINK,
+                PRIVACY_POLICY_LINK,
+                TERMS_OF_SERVICE_LINK,
+            } = FixedCloudConfig.SupportSettings;
+
             // * Check if about footer link is present
             cy.findByText('About').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.AboutLink);
+                parent().and('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
 
             // * Check if privacy footer link is present
             cy.findByText('Privacy').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
+                parent().and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK);
 
             // * Check if terms footer link is present
             cy.findByText('Terms').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
+                parent().and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK);
 
             // * Check if help footer link is present
             cy.findByText('Help').should('exist').
-                parent().and('have.attr', 'href', config.SupportSettings.HelpLink);
+                parent().and('have.attr', 'href', config.SupportSettings.HelpLink || HELP_LINK);
 
             const todaysDate = new Date();
             const currentYear = todaysDate.getFullYear();
