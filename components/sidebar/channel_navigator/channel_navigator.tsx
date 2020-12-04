@@ -109,7 +109,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
         );
 
         let layout;
-        if (!isDesktopApp()) {
+        if (isDesktopApp()) {
             layout = (
                 <div className={'SidebarChannelNavigator desktop'}>
                     {jumpToButton}
