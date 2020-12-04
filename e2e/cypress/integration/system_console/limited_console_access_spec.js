@@ -21,6 +21,8 @@ describe('Limited console access', () => {
     const testUsers = {};
 
     before(() => {
+        cy.apiRequireLicense();
+
         Cypress._.forEach(roleNames, (roleName) => {
             cy.apiCreateUser().then(({user}) => {
                 testUsers[roleName] = user;
