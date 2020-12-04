@@ -3,7 +3,7 @@
 
 import React from 'react';
 import ReactSelect from 'react-select';
-import AsyncSelect from 'react-select/async';
+import AsyncSelect from 'react-select/lib/Async';
 
 import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 
