@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import LoggedIn from 'components/logged_in/logged_in.jsx';
 import BrowserStore from 'stores/browser_store';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 jest.mock('actions/websocket_actions.jsx', () => ({
     initialize: jest.fn(),
