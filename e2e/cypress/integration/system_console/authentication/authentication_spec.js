@@ -206,7 +206,7 @@ describe('Authentication', () => {
                     const secretp = p.text();
                     const testUserMFASecret = secretp.split(' ')[1];
 
-                    const token = authenticator.generateToken(testUserMFASecret);
+                    token = authenticator.generateToken(testUserMFASecret);
                     cy.get('#mfa').find('.form-control').type(token);
                     cy.get('#mfa').find('.btn.btn-primary').click();
 
