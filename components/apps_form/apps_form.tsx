@@ -313,26 +313,31 @@ export default class AppsForm extends React.PureComponent<Props, State> {
     }
 
     renderElements() {
-        const {isEmbedded} = this.props;
+        const {isEmbedded, form} = this.props;
 
-        const {fields} = this.props.form;
+        const {fields} = form;
+        if (!fields) {
+            return null;
+        }
 
-        return (fields &&
-        fields.map((field, index) => {
+        return fields.map((field, index) => {
+            const isSubmit = field.name === form.submit_buttons;
+
             return (
                 <AppsFormField
                     field={field}
-                    performLookup={this.performLookup}
+                    isSubmit={isSubmit}
                     key={field.name}
                     autoFocus={index === 0}
                     name={field.name}
                     errorText={this.state.errors[field.name]}
                     value={this.state.values[field.name]}
+                    performLookup={this.performLookup}
                     onChange={this.onChange}
                     listComponent={isEmbedded ? SuggestionList : ModalSuggestionList}
                 />
             );
-        }));
+        });
     }
 
     renderBody() {

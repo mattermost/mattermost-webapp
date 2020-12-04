@@ -18,6 +18,7 @@ import BoolSetting from 'components/widgets/settings/bool_setting';
 import Provider from 'components/suggestion/provider';
 
 import AppsFormSelectField from './apps_form_select_field';
+import ButtonSelector from 'components/button_selector';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
@@ -31,6 +32,7 @@ export type Props = {
     autoFocus?: boolean;
     listComponent?: React.ComponentClass,
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
+    isSubmit: boolean;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
@@ -181,6 +183,21 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
                 />
             );
         } else if (field.type === 'static_select' || field.type === 'dynamic_select') {
+            if (this.props.isSubmit) {
+                const selected = value as AppSelectOption;
+                return (
+                    <ButtonSelector
+                        id={name}
+                        options={field.options}
+                        onChange={this.handleSelected}
+                        label={displayNameContent}
+                        helpText={helpTextContent}
+                        value={(selected && selected.value) || ''}
+                        shouldSubmit={true}
+                    />
+                );
+            }
+
             return (
                 <AppsFormSelectField
                     {...this.props}
