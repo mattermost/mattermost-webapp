@@ -309,7 +309,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account ubtton is visible
-        cy.get('#signup').should('be.visible');
+        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
