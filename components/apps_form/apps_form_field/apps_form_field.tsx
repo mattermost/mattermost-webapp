@@ -17,8 +17,9 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import Provider from 'components/suggestion/provider';
 
-import AppsFormSelectField from './apps_form_select_field';
 import ButtonSelector from 'components/button_selector';
+
+import AppsFormSelectField from './apps_form_select_field';
 
 export const RequiredStar: React.FC = () => (
     <span className='error-text'>{' *'}</span>
