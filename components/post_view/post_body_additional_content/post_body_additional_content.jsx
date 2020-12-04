@@ -155,10 +155,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 <React.Fragment>
                     {this.props.children}
                     <AppsForm
-                        modal={{
-                            form: this.props.post.props.form,
-                            call: this.props.post.props.call,
-                        }}
+                        form={this.props.post.props.form}
+                        call={this.props.post.props.call}
                         postID={this.props.post.id}
                         isEmbedded={true}
                         onHide={() => { /* Do nothing */ }}
