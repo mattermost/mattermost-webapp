@@ -74,7 +74,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // # Clear email/username field and type username
-        cy.get('#loginId').clear().type(mentionedUser.username);
+        cy.get('#loginId', {timeout: TIMEOUTS.ONE_MIN}).clear().type(mentionedUser.username);
 
         // # Clear password field and type password
         cy.get('#loginPassword').clear().type(mentionedUser.password);
