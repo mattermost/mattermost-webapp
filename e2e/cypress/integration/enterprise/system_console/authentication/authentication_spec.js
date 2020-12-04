@@ -9,7 +9,7 @@
 
 // Group: @enterprise @system_console @authentication
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 const authenticator = require('authenticator');
 
@@ -29,15 +29,15 @@ describe('Authentication', () => {
         });
 
         // # Create and login a newly created user as sysadmin
-        cy.apiCreateCustomAdmin().then(({mfaSysAdminCreated}) => {
-            mfaSysAdmin = mfaSysAdminCreated;
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            mfaSysAdmin = sysadmin;
         });
-
-        // # Log in as a admin.
-        cy.apiLogin(mfaSysAdmin);
     });
 
     it('MM-T1778 - MFA - Enforced', () => {
+        // # Log in as a admin.
+        cy.apiLogin(mfaSysAdmin);
+
         // # Navigate to System Console -> Authentication -> MFA Page.
         cy.visit('/admin_console/authentication/mfa');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Multi-factor Authentication');

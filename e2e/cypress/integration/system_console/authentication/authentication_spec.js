@@ -20,8 +20,10 @@ describe('Authentication', () => {
         // # Do email test if setup properly
         cy.apiEmailTest();
 
-        cy.apiInitSetup().then(({user}) => {
-            testUser = user;
+        cy.apiInitSetup().then(() => {
+            cy.apiCreateUser().then(({user: newUser}) => {
+                testUser = newUser;
+            });
         });
 
         // # Log in as a admin.
