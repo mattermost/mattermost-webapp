@@ -9,7 +9,12 @@ import TeamSettingsModal from 'components/team_settings_modal/team_settings_moda
 
 describe('components/team_settings_modal', () => {
     test('should match snapshot', () => {
-        const wrapper = shallow(<TeamSettingsModal onHide={jest.fn()}/>);
+        const wrapper = shallow(
+            <TeamSettingsModal
+                isCloud={false}
+                onHide={jest.fn()}
+            />,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -18,6 +23,7 @@ describe('components/team_settings_modal', () => {
 
         const wrapper = shallow(
             <TeamSettingsModal
+                isCloud={false}
                 onHide={onHide}
             />,
         );

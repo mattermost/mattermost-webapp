@@ -105,7 +105,6 @@ describe('Guest Account - Member Invitation Flow', () => {
             },
             ServiceSettings: {
                 EnableEmailInvitations: true,
-                IdleTimeout: 300,
             },
         });
 

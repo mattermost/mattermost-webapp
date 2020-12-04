@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console @plugin
+// Stage: @prod
+// Group: @not_cloud @system_console @plugin
 
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
@@ -21,11 +22,13 @@ describe('Draw Plugin - Upload', () => {
     const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
-                RequirePluginSignature: false,
             },
         });
 
