@@ -14,7 +14,7 @@ type Props = {
     footer?: React.ReactNode;
     disabled?: boolean;
     shouldSubmit?: boolean;
-    options?: {text: string; value: string}[] | null;
+    options: {text: string; value: string}[] | null;
 }
 
 const defaultProps: Partial<Props> = {
