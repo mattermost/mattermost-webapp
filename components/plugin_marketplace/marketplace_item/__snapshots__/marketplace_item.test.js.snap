@@ -32,6 +32,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -113,6 +114,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -192,6 +194,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -273,6 +276,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -354,6 +358,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -429,6 +434,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -516,6 +522,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with one label
         url="http://example.com/info"
       />
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -597,6 +604,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -690,6 +698,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with two label
         url="http://example.com/info2"
       />
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -771,6 +780,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -852,6 +862,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         </span>
       </a>
       <a
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -928,6 +939,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         </span>
       </span>
       <span
+        aria-label="Plugin\\\\'s website"
         className="style--none"
       >
         <p

@@ -443,6 +443,7 @@ export default class MarketplaceItem extends React.PureComponent {
                     </a>
                     {labels}
                     <a
+                        aria-label="Plugin's website"
                         className='style--none more-modal__row--link'
                         target='_blank'
                         rel='noopener noreferrer'
@@ -463,6 +464,7 @@ export default class MarketplaceItem extends React.PureComponent {
                     </span>
                     {labels}
                     <span
+                        aria-label="Plugin\'s website"
                         className='style--none'
                     >
                         {description}
