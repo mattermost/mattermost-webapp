@@ -55,7 +55,8 @@ describe('Authentication', () => {
 
         // # Login as test user and make sure it goes to team selection
         cy.apiLogin(mentionedUser);
-        cy.visit('');
+        cy.visit('/');
+        cy.url().should('include', '/select_team');
         cy.wait(TIMEOUTS.THREE_SEC);
         cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
