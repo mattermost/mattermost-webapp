@@ -6,6 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Channel} from 'mattermost-redux/types/channels';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {browserHistory} from 'utils/browser_history';
@@ -24,15 +25,11 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
 
-type SwitchToChannelResult = {
-    data?: true;
-    error?: true;
-}
 type ProviderSuggestions = {
     matchedPretext: any,
     terms: string[],
     items: any[],
-    component: SwitchChannelProvider|SwitchTeamProvider,
+    component: React.ReactNode,
 }
 
 export type Props = {
@@ -47,8 +44,8 @@ export type Props = {
      */
     showTeamSwitcher: boolean;
     actions: {
-        joinChannelById: (channelId: string) => Promise<any>;
-        switchToChannel: (channel: Channel) => Promise<SwitchToChannelResult>;
+        joinChannelById: (channelId: string) => Promise<ActionResult>;
+        switchToChannel: (channel: Channel) => Promise<ActionResult>;
     }
 }
 
@@ -141,8 +138,8 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             if (selected.type === Constants.MENTION_MORE_CHANNELS && selectedChannel.type === Constants.OPEN_CHANNEL) {
                 await joinChannelById(selectedChannel.id);
             }
-            switchToChannel(selectedChannel).then((result: SwitchToChannelResult) => {
-                if (result.data) {
+            switchToChannel(selectedChannel).then((result: ActionResult) => {
+                if ('data' in result) {
                     this.onHide();
                 }
             });

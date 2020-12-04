@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants';
 
@@ -35,7 +35,7 @@ describe('components/QuickSwitchModal', () => {
         it('should do nothing if nothing selected', () => {
             const props = {...baseProps};
 
-            const wrapper: ShallowWrapper<any, any, QuickSwitchModal> = shallow(
+            const wrapper = shallow<QuickSwitchModal>(
                 <QuickSwitchModal {...props}/>,
             );
 
@@ -45,7 +45,7 @@ describe('components/QuickSwitchModal', () => {
         });
 
         it('should fail to switch to a channel', (done) => {
-            const wrapper: ShallowWrapper<any, any, QuickSwitchModal> = shallow(
+            const wrapper = shallow<QuickSwitchModal>(
                 <QuickSwitchModal {...baseProps}/>,
             );
 
@@ -70,7 +70,7 @@ describe('components/QuickSwitchModal', () => {
                 },
             };
 
-            const wrapper: ShallowWrapper<any, any, QuickSwitchModal> = shallow(
+            const wrapper = shallow<QuickSwitchModal>(
                 <QuickSwitchModal {...props}/>,
             );
 
@@ -95,7 +95,7 @@ describe('components/QuickSwitchModal', () => {
                 },
             };
 
-            const wrapper: ShallowWrapper<any, any, QuickSwitchModal> = shallow(
+            const wrapper = shallow<QuickSwitchModal>(
                 <QuickSwitchModal {...props}/>,
             );
 
@@ -124,7 +124,7 @@ describe('components/QuickSwitchModal', () => {
                 },
             };
 
-            const wrapper: ShallowWrapper<any, any, QuickSwitchModal> = shallow(
+            const wrapper = shallow<QuickSwitchModal>(
                 <QuickSwitchModal {...props}/>,
             );
 
