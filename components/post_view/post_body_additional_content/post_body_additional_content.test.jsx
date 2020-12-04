@@ -23,6 +23,7 @@ describe('PostBodyAdditionalContent', () => {
             create_at: 1,
             message: '',
             metadata: {},
+            props: {},
         },
         isEmbedVisible: true,
         actions: {

@@ -15,6 +15,7 @@ import EmojiMap from 'utils/emoji_map';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InteractiveDialog, {Props as DialogProps} from './interactive_dialog';
+import { AppCallResponseTypes } from 'mattermost-redux/constants/apps';
 
 describe('components/apps_modal/InteractiveDialog', () => {
     const baseProps: DialogProps = {
@@ -47,7 +48,7 @@ describe('components/apps_modal/InteractiveDialog', () => {
                 ...baseProps,
                 actions: {
                     submit: jest.fn().mockResolvedValue({
-                        data: {error: 'This is an error.', type: ''},
+                        data: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
                     }),
                 },
             };
