@@ -241,7 +241,6 @@ describe('Authentication', () => {
         // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('/');
-        cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('.signup-team__container').should('not.be.visible');
     });
 
