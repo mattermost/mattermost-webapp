@@ -177,7 +177,7 @@ describe('Authentication', () => {
 
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
-        cy.get('#searchUsers').type(`${testUser.email}`);
+        cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
 
         // * Remove MFA option not available for the user
         cy.wait(TIMEOUTS.HALF_SEC);
