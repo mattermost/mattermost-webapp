@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -34,60 +33,14 @@ describe('Bot accounts ownership and API', () => {
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
-                DisableBotsWhenOwnerIsDeactivated: true,
-            },
-            PluginSettings: {
-                Enable: true,
-                RequirePluginSignature: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
 
         // # Create a test bot
-        cy.apiCreateBot(botName, 'Test Bot', 'test bot').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             newBot = bot;
             cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
-        });
-    });
-
-    it('MM-T1861 Bots do not re-enable if the owner is re-activated', () => {
-        // # Create another admin account
-        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
-            // # Login as the new admin
-            cy.apiLogin(sysadmin);
-
-            // # Create a new bot as the new admin
-            const botName3 = 'stay-enabled-bot-' + Date.now();
-            cy.apiCreateBot(botName3, 'Bot that should get disabled', 'hello bot');
-
-            // # Login again as main admin
-            cy.apiAdminLogin();
-
-            // # Deactivate the newly created admin
-            cy.apiDeactivateUser(sysadmin.id);
-
-            // # Get bot list
-            cy.visit(`/${newTeam.name}/integrations/bots`);
-
-            // # Search for the other bot
-            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(botName3);
-
-            // * Validate that the plugin is disabled since it's owner is deactivate
-            cy.get('.bot-list__disabled').scrollIntoView().should('be.visible');
-
-            // # Re-activate the newly created admin
-            cy.apiActivateUser(sysadmin.id);
-
-            // # Repeat the test to confirm it stays disabled
-
-            // # Get bot list
-            cy.visit(`/${newTeam.name}/integrations/bots`);
-
-            // # Search for the other bot
-            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(botName3);
-
-            // * Validate that the plugin is disabled even though it's owner is activate
-            cy.get('.bot-list__disabled').scrollIntoView().should('be.visible');
         });
     });
 
@@ -148,11 +101,8 @@ describe('Bot accounts ownership and API', () => {
         // # Login as admin
         cy.apiAdminLogin();
 
-        // # Create a new bot as the new admin
-        const botName3 = 'stay-enabled-bot-' + Date.now();
-
         // * This call will fail if bot was not created
-        cy.apiCreateBot(botName3, 'Bot that should get disabled', 'hello bot');
+        cy.apiCreateBot();
     });
 
     it('MM-T1865 Create post as bot', () => {
@@ -233,17 +183,16 @@ describe('Bot accounts ownership and API', () => {
     it('MM-T1868 BOT has a member role and is not in target channel and team', () => {
         // # Login as admin
         cy.apiAdminLogin();
-        const botName3 = 'stay-enabled-bot-' + Date.now();
 
         // # Create a test bot (member)
-        cy.apiCreateBot(botName3, 'Test Bot', 'test bot').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             // # Create token for the bot
             cy.apiCreateToken(bot.user_id).then(({token}) => {
                 // # Logout to allow posting as bot
                 cy.apiLogout();
 
                 // # Try posting
-                cy.apiCreatePost(newChannel.id, 'this is a bot message ' + botName3, '', {}, token, false).then((response) => {
+                cy.apiCreatePost(newChannel.id, 'this is a bot message ' + bot.username, '', {}, token, false).then((response) => {
                     // * Validate that posting was not allowed
                     expect(response.status).to.equal(403);
                 });
