@@ -129,7 +129,7 @@ const makeTextField: SubDialogMaker = (field) => {
     }
     return {
         type,
-        subtype: subtype,
+        subtype,
         options: [],
         data_source: '',
     };
