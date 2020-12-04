@@ -136,33 +136,91 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
         expect(setSelectionRange).toHaveBeenCalled();
     });
 
-    test('component adds link markdown', () => {
+    test('component adds link markdown when something is selected', () => {
         // "Fafda" is selected with ctrl + alt + K hotkey
         const input = 'Jalebi Fafda & Sambharo';
         const e = makeLinkHotKeyeyEvent(input, 7, 12);
 
         const instance = shallowWithIntl(generateInstance(input));
 
-        const setSelectionRange = jest.fn();
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
         initRefs(instance, setSelectionRange);
 
         find(instance).props().onKeyDown(e);
-        expect(getValue(instance)).toBe('Jalebi [Fafda]() & Sambharo');
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
         expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
+    test('component adds link markdown when cursor is before a word', () => {
+        // Cursor is before "Fafda" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyeyEvent(input, 7, 7);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
+    test('component adds link markdown when cursor is after a word', () => {
+        // Cursor is after "Fafda" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyeyEvent(input, 12, 12);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
     });
 
     test('component removes link markdown', () => {
         // "Fafda" is selected with ctrl + alt + K hotkey
-        const input = 'Jalebi [Fafda]() & Sambharo';
+        const input = 'Jalebi [Fafda](url) & Sambharo';
         const e = makeLinkHotKeyeyEvent(input, 8, 13);
 
         const instance = shallowWithIntl(generateInstance(input));
 
-        const setSelectionRange = jest.fn();
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
         initRefs(instance, setSelectionRange);
 
         find(instance).props().onKeyDown(e);
         expect(getValue(instance)).toBe('Jalebi Fafda & Sambharo');
         expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(7);
+        expect(selectionEnd).toBe(12);
     });
 }

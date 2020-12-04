@@ -1821,7 +1821,7 @@ export function getSortedUsers(reactions, currentUserId, profiles, teammateNameD
 const BOLD_MD = '**';
 const ITALIC_MD = '*';
 const LINK_MD_START = '[';
-const LINK_MD_END = ']()';
+const LINK_MD_END = '](url)';
 
 /**
  * Applies bold/italic/link markdown on textbox associated with event and returns
@@ -1871,10 +1871,55 @@ export function applyHotkeyMarkdown(e) {
         newValue = prefix.substring(0, prefix.length - delimiterStart.length) + selection + suffix.substring(delimiterEnd.length);
         newStart = selectionStart - delimiterStart.length;
         newEnd = selectionEnd - delimiterStart.length;
+    } else if (isLink) {
+        if (value.length === 0) {
+            // no input; Add [|](url)
+            newValue = delimiterStart + delimiterEnd;
+            newStart = 1;
+            newEnd = 1;
+        } else if (selectionStart < selectionEnd) {
+            // there is something selected; put markdown around it and preserve selection
+            newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
+            newStart = selectionEnd + 3;
+            newEnd = newStart + 3;
+        } else {
+            // nothing is selected
+            const spaceBefore = prefix.charAt(prefix.length - 1) === ' ';
+            const spaceAfter = suffix.charAt(0) === ' ';
+
+            const cursorBeforeWord = ((selectionStart !== 0 && spaceBefore && !spaceAfter) ||
+                                      (selectionStart === 0 && !spaceAfter));
+            const cursorAfterWord = ((selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
+                                     (selectionEnd === value.length && !spaceBefore));
+
+            if (cursorBeforeWord) {
+                // cursor before a word
+                let wordEnds = value.indexOf(' ', selectionStart);
+                if (wordEnds === -1) {
+                    wordEnds = value.length;
+                }
+                const word = value.substring(selectionStart, wordEnds);
+
+                newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
+                newStart = selectionStart + word.length + 3;
+            } else if (cursorAfterWord) {
+                // cursor after a word
+                let wordStarts = value.lastIndexOf(' ', selectionStart - 1) + 1;
+                if (wordStarts === -1) {
+                    wordStarts = 0;
+                }
+                const word = value.substring(wordStarts, selectionStart);
+
+                newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
+                newStart = selectionStart + 3;
+            }
+            newEnd = newStart + 3;
+        }
     } else {
+        // Add italic or bold markdown
         newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
-        newStart = isLink ? (selectionEnd + 3) : (selectionStart + delimiterStart.length);
-        newEnd = isLink ? newStart : (selectionEnd + delimiterEnd.length);
+        newStart = selectionStart + delimiterStart.length;
+        newEnd = selectionEnd + delimiterEnd.length;
     }
 
     return {
