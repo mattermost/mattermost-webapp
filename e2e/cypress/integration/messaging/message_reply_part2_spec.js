@@ -22,7 +22,7 @@ describe('Message Reply', () => {
             mainChannel = channel;
 
             // # Create other channel
-            cy.apiCreateChannel(team.id, 'other', 'other').then(({newChannel}) => {
+            cy.apiCreateChannel(team.id, 'other', 'other').then(({channel: newChannel}) => {
                 otherChannel = newChannel;
             });
 
