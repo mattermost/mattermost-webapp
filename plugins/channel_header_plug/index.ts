@@ -10,7 +10,7 @@ import ChannelHeaderPlug from './channel_header_plug';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        components: state.plugins.components.ChannelHeaderButton,
+        components: state.plugins.components.ChannelHeaderButton || [],
         theme: getTheme(state),
     };
 }
