@@ -1894,24 +1894,24 @@ export function applyHotkeyMarkdown(e) {
 
             if (cursorBeforeWord) {
                 // cursor before a word
-                let wordEnds = value.indexOf(' ', selectionStart);
-                if (wordEnds === -1) {
-                    wordEnds = value.length;
-                }
-                const word = value.substring(selectionStart, wordEnds);
+                const word = value.substring(selectionStart, findWordEnd(value, selectionStart));
 
                 newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
                 newStart = selectionStart + word.length + 3;
             } else if (cursorAfterWord) {
                 // cursor after a word
-                let wordStarts = value.lastIndexOf(' ', selectionStart - 1) + 1;
-                if (wordStarts === -1) {
-                    wordStarts = 0;
-                }
-                const word = value.substring(wordStarts, selectionStart);
+                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
 
                 newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
                 newStart = selectionStart + 3;
+            } else {
+                // cursor is in between a word
+                const wordStart = findWordStart(value, selectionStart);
+                const wordEnd = findWordEnd(value, selectionStart);
+                const word = value.substring(wordStart, wordEnd);
+
+                newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
+                newStart = wordEnd + 3;
             }
             newEnd = newStart + 3;
         }
@@ -1927,6 +1927,16 @@ export function applyHotkeyMarkdown(e) {
         selectionStart: newStart,
         selectionEnd: newEnd,
     };
+}
+
+function findWordEnd(text, start) {
+    const wordEnd = text.indexOf(' ', start);
+    return wordEnd === -1 ? text.length : wordEnd;
+}
+
+function findWordStart(text, start) {
+    const wordStart = text.lastIndexOf(' ', start - 1) + 1;
+    return wordStart === -1 ? 0 : wordStart;
 }
 
 /**

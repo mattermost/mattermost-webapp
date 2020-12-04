@@ -180,6 +180,28 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
         expect(selectionEnd).toBe(18);
     });
 
+    test('component adds link markdown when cursor is in a word', () => {
+        // Cursor is after "Fafda" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyeyEvent(input, 10, 10);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
     test('component adds link markdown when cursor is after a word', () => {
         // Cursor is after "Fafda" with ctrl + alt + K hotkey
         const input = 'Jalebi Fafda & Sambharo';
