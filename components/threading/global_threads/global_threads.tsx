@@ -4,15 +4,15 @@
 import React, {memo, ComponentProps, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {Link, useRouteMatch,} from 'react-router-dom';
+import {Link, useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
 import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getThreadOrder} from 'mattermost-redux/selectors/entities/threads';
 
 import {useStickyState} from 'stores/hooks';
 
@@ -41,7 +41,6 @@ import ThreadItem from './thread_item';
 import './global_threads.scss';
 
 type Props = {
-    threads?: Thread[];
     numUnread: number;
     actions: {
 
@@ -49,7 +48,6 @@ type Props = {
 } & Pick<ComponentProps<typeof ThreadItem & typeof ThreadPane>, 'actions'>;
 
 const GlobalThreads = ({
-    threads,
     numUnread = 1,
     actions = {},
 }: Props) => {
@@ -57,12 +55,14 @@ const GlobalThreads = ({
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
     const [filter, setFilter] = useStickyState('', 'globalThreads_filter');
     const currentUserId = useSelector(getCurrentUserId);
+    const currentTeamId = useSelector(getCurrentTeamId);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier ?? ''));
+    const threadIds = useSelector(getThreadOrder);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId));
+        dispatch(getThreads(currentUserId, currentTeamId));
     }, [getThreads]);
 
     return (
@@ -77,7 +77,7 @@ const GlobalThreads = ({
                 subtitle={formatMessage({id: 'globalThreads.subtitle', defaultMessage: 'Threads you’re participating in will automatically show here'})}
                 right={<RHSNavigation/>}
             />
-            {isEmpty(threads) ? (
+            {isEmpty(threadIds) ? (
                 <div className='no-results__holder'>
                     <NoResultsIndicator
                         iconGraphic={ChatIllustrationImg}
@@ -92,38 +92,11 @@ const GlobalThreads = ({
                         currentFilter={filter}
                         actions={{...actions, setFilter}}
                     >
-                        {threads?.map(({
-                            id,
-                            reply_count: replyCount,
-                            participants,
-                            unreadReplies,
-                            unreadMentions,
-                            last_reply_at: lastReplyAt,
-                            post: {
-                                channel_id: channelId,
-                                message,
-                                user_id: userId,
-                            },
-                        }) => (
+                        {threadIds?.map((id) => (
                             <ThreadItem
                                 key={id}
                                 threadId={id}
-                                rootPostUserId={userId}
-                                channelId={channelId}
-                                previewText={message}
-                                participants={participants.map((participant) => ({
-                                    username: participant.username,
-                                    name: `${participant.first_name} ${participant.last_name}`,
-                                    url: `http://localhost:9005/api/v4/users/${participant.id}/image?_=0`,
-                                }))}
-                                totalReplies={replyCount}
-                                newReplies={unreadReplies}
-                                newMentions={unreadMentions}
-                                lastReplyAt={lastReplyAt}
-                                isFollowing={true}
-                                isSaved={false}
                                 isSelected={threadIdentifier === id}
-                                actions={actions}
                             />
                         ))}
                     </ThreadList>

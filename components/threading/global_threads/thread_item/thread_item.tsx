@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
 
 import './thread_item.scss';
 
@@ -24,47 +25,31 @@ import {THREADING_TIME} from '../../common/options';
 import {GlobalState} from 'types/store';
 
 type Props = {
-    rootPostUserId: string;
-    channelId: string;
     threadId: string;
-    participants: ComponentProps<typeof Avatars>['users'],
-    totalParticipants?: number;
-    previewText: string,
-
-    lastReplyAt: ComponentProps<typeof Timestamp>['value'],
-    newReplies: number,
-    newMentions: number,
-    totalReplies: number,
-
-    isFollowing: boolean,
-    isSaved: boolean,
-    isSelected: boolean,
+    isSelected: boolean;
 } & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
 
 const ThreadItem = ({
-    participants,
-    totalParticipants,
-    rootPostUserId,
-    channelId,
     threadId,
-    previewText,
-
-    lastReplyAt,
-    newReplies,
-    newMentions,
-    totalReplies,
-
     isSelected,
-    isSaved,
-    isFollowing,
-
-    actions,
 }: Props) => {
-    const channel = useSelector((state: GlobalState) => getChannel(state, channelId));
-    const rootPostUser = useSelector((state: GlobalState) => getUser(state, rootPostUserId));
     const {params: {team}} = useRouteMatch<{team: string}>();
     const history = useHistory();
 
+    const {
+        unread_replies: newReplies,
+        unread_mentions: newMentions,
+        last_reply_at: lastReplyAt,
+        reply_count: totalReplies,
+        participants,
+        post: {
+            channel_id: channelId,
+            user_id: userId,
+            message,
+        },
+    } = useSelector((state: GlobalState) => getThread(state, threadId));
+    const channel = useSelector((state: GlobalState) => getChannel(state, channelId));
+    const user = useSelector((state: GlobalState) => getUser(state, userId));
     return (
         <article
             className={classNames('ThreadItem', {
@@ -89,7 +74,7 @@ const ThreadItem = ({
                         )}
                     </div>
                 )}
-                {`${rootPostUser.first_name} ${rootPostUser.last_name}`}
+                {`${user.first_name} ${user.last_name}`}
                 {Boolean(channel) && (
                     <Badge
                         onClick={useCallback((e: MouseEvent) => {
@@ -109,10 +94,10 @@ const ThreadItem = ({
             </h1>
             <span className='menu-anchor alt-visible'>
                 <ThreadMenu
-                    isSaved={isSaved}
-                    isFollowing={isFollowing}
+                    isSaved={false}
+                    isFollowing={true}
                     hasUnreads={Boolean(newReplies)}
-                    actions={actions}
+                    actions={{}}
                 >
                     <SimpleTooltip
                         id='threadActionMenu'
@@ -130,13 +115,17 @@ const ThreadItem = ({
                 </ThreadMenu>
             </span>
             <p>
-                {previewText}
+                {message}
             </p>
             {Boolean(totalReplies) && (
                 <div className='activity'>
                     <Avatars
-                        users={participants}
-                        totalUsers={totalParticipants}
+                        users={participants.map((participant) => ({
+                            username: participant.username,
+                            name: `${participant.first_name} ${participant.last_name}`,
+                            url: `http://localhost:9005/api/v4/users/${participant.id}/image?_=0`,
+                        }))}
+                        totalUsers={0}
                         size='xs'
                     />
                     {newReplies ? (
