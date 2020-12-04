@@ -92,10 +92,18 @@ describe('Prompting set status', () => {
 });
 
 const openDM = (username) => {
-    cy.get('#addDirectChannel').click();
-    cy.get('#selectItems').type(`${username}`);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    // # Click '+' to open DM and wait for some time to get the DM modal fully loaded
+    cy.get('#addDirectChannel').click().wait(TIMEOUTS.TWO_SEC);
+
+    // # Type username and wait for some time to load users list
+    cy.get('#selectItems').should('be.visible').type(`${username}`).wait(TIMEOUTS.TWO_SEC);
+
+    // # Find the user in the list and click
     cy.get('#multiSelectList').findByText(`@${username}`).click();
+
+    // * Verify that the user is selected
     cy.get('#selectItems').findByText(`${username}`).should('be.visible');
+
+    // # Click go to open DM with the user
     cy.findByText('Go').click();
 };
