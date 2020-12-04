@@ -198,6 +198,7 @@ describe('Authentication', () => {
         cy.visit('/');
         cy.wait(TIMEOUTS.ONE_SEC);
 
+        let token;
         cy.url().then((url) => {
             if (url.includes('mfa/setup')) {
                 // # Complete MFA setup if we are on token setup page /mfa/setup
