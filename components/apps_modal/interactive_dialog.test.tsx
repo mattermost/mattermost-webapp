@@ -9,13 +9,13 @@ import configureStore from 'redux-mock-store';
 
 import {AppCall, AppCallResponse, AppField, AppForm} from 'mattermost-redux/types/apps';
 import {DialogElement} from 'mattermost-redux/types/integrations';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InteractiveDialog, {Props as DialogProps} from './interactive_dialog';
-import { AppCallResponseTypes } from 'mattermost-redux/constants/apps';
 
 describe('components/apps_modal/InteractiveDialog', () => {
     const baseProps: DialogProps = {
