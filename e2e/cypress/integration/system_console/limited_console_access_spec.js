@@ -122,6 +122,7 @@ describe('Limited console access', () => {
 
         // # Go the system console.
         cy.visit('/admin_console');
+        cy.get('.admin-sidebar', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         accessRules.forEach((rule) => {
             const {section} = rule;
