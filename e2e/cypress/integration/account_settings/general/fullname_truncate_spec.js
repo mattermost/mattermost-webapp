@@ -9,6 +9,8 @@
 
 // Group: @account_setting
 
+import {getRandomId} from '../../../utils';
+
 describe('Account Settings > Full Name', () => {
     let testTeam;
     let firstUser;
