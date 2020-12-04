@@ -16,6 +16,7 @@ export type FormValues = {[name: string]: FormValue};
 export type Props = {
     field: AppField;
     label: React.ReactNode;
+    helpText: React.ReactNode;
     value: AppSelectOption | null;
     onChange: (value: AppSelectOption) => void;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
@@ -111,7 +112,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     }
 
     render() {
-        const {field, label} = this.props;
+        const {field, label, helpText} = this.props;
 
         let selectComponent;
         if (field.type === 'dynamic_select') {
@@ -130,6 +131,9 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                 {[
                     <React.Fragment key={this.state.refreshNonce}>
                         {selectComponent}
+                        <div className='help-text'>
+                            {helpText}
+                        </div>
                     </React.Fragment>,
                 ]}
             </div>

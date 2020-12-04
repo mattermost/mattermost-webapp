@@ -107,7 +107,12 @@ export default class AppsForm extends React.PureComponent<Props, State> {
         const errors: {[name: string]: React.ReactNode} = {};
         if (fields) {
             fields.forEach((field) => {
-                const element = {name: field.name} as DialogElement;
+                const element = {
+                    name: field.name,
+                    type: field.type,
+                    subtype: field.subtype,
+                    optional: !field.is_required,
+                } as DialogElement;
                 const error = checkDialogElementForError( // TODO: make sure all required values are present in `element`
                     element,
                     values[field.name],

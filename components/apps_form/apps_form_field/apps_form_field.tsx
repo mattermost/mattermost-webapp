@@ -20,6 +20,10 @@ import Provider from 'components/suggestion/provider';
 import AppsFormSelectField from './apps_form_select_field';
 import ButtonSelector from 'components/button_selector';
 
+export const RequiredStar: React.FC = () => (
+    <span className='error-text'>{' *'}</span>
+);
+
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
@@ -117,7 +121,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
             displayNameContent = (
                 <React.Fragment>
                     {displayName}
-                    <span className='error-text'>{' *'}</span>
+                    <RequiredStar/>
                 </React.Fragment>
             );
         }
@@ -203,6 +207,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
                     {...this.props}
                     field={field}
                     label={displayNameContent}
+                    helpText={helpTextContent}
                     onChange={this.handleSelected}
                     value={this.props.value as AppSelectOption | null}
                 />
