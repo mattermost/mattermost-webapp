@@ -10,10 +10,17 @@ import {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
+import AddChannelDropdown from '../add_channel_dropdown';
+import ChannelFilter from '../channel_filter';
 
 type Props = {
     canGoForward: boolean;
     canGoBack: boolean;
+    canJoinPublicChannel: boolean;
+    showMoreChannelsModal: () => void;
+    showNewChannelModal: () => void;
+    showCreateCategoryModal: () => void;
+    canCreateChannel: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -53,47 +60,79 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             channelSwitchTextShortcutDefault = '⌘K';
         }
 
-        let historyArrows;
-        if (isDesktopApp()) {
-            historyArrows = (
-                <React.Fragment>
-                    <button
-                        className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
-                        disabled={!this.props.canGoBack}
-                        onClick={this.goBack}
-                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
-                    >
-                        <i className='icon icon-arrow-left'/>
-                    </button>
-                    <button
-                        className={classNames('SidebarChannelNavigator_forwardButton', {disabled: !this.props.canGoForward})}
-                        disabled={!this.props.canGoForward}
-                        onClick={this.goForward}
-                        aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
-                    >
-                        <i className='icon icon-arrow-right'/>
-                    </button>
-                </React.Fragment>
-            );
-        }
-
-        return (
-            <div className={'SidebarChannelNavigator'}>
-                <button
-                    className={'SidebarChannelNavigator_jumpToButton'}
-                    onClick={this.openQuickSwitcher}
-                    aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
-                >
-                    <FormattedMessage
-                        id='sidebar_left.channel_navigator.jumpTo'
-                        defaultMessage='Jump to...'
-                    />
-                    <div className={'SidebarChannelNavigator_shortcutText'}>
-                        {channelSwitchTextShortcutDefault}
-                    </div>
-                </button>
-                {historyArrows}
-            </div>
+        const jumpToButton = (
+            <button
+                className={`SidebarChannelNavigator_jumpToButton`}
+                onClick={this.openQuickSwitcher}
+                aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
+            >
+                <i className='icon icon-magnify' />
+                <FormattedMessage
+                    id='sidebar_left.channel_navigator.jumpTo'
+                    defaultMessage='Find a channel...'
+                />
+                <div className={'SidebarChannelNavigator_shortcutText'}>
+                    {channelSwitchTextShortcutDefault}
+                </div>
+            </button>
         );
+
+        const addChannelDropdown = (
+            <AddChannelDropdown
+                showNewChannelModal={this.props.showNewChannelModal}
+                showMoreChannelsModal={this.props.showMoreChannelsModal}
+                showCreateCategoryModal={this.props.showCreateCategoryModal}
+                canCreateChannel={this.props.canCreateChannel}
+                canJoinPublicChannel={this.props.canJoinPublicChannel}
+            />
+        );
+
+        const historyArrows = (
+            <>
+            <button
+                className={classNames('SidebarChannelNavigator_backButton', { disabled: !this.props.canGoBack })}
+                disabled={!this.props.canGoBack}
+                onClick={this.goBack}
+                aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
+            >
+                <i className='icon icon-arrow-left' />
+            </button>
+            <button
+                className={classNames('SidebarChannelNavigator_forwardButton', { disabled: !this.props.canGoForward })}
+                disabled={!this.props.canGoForward}
+                onClick={this.goForward}
+                aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
+            >
+                <i className='icon icon-arrow-right' />
+                </button>
+                </>
+        );
+
+        let layout;
+        if (!isDesktopApp()) {
+            layout = (
+                <div className={'SidebarChannelNavigator desktop'}>
+                    {jumpToButton}
+                    <div className='SidebarContainer_filterAddChannel desktop'>
+                        <div className='SidebarContainer_rightContainer'>
+                            <ChannelFilter/>
+                            <div className='SidebarChannelNavigator_divider'></div>
+                            {historyArrows}
+                        </div>
+                        {addChannelDropdown}
+                    </div>
+                </div>
+            );
+        } else {
+            layout = (
+                <div className={'SidebarChannelNavigator webapp'}>
+                    <ChannelFilter />
+                    {jumpToButton}
+                    {addChannelDropdown}
+                </div>
+            )
+        };
+
+        return layout;
     }
 }

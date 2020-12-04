@@ -95,7 +95,11 @@
     .SidebarContainer_filterAddChannel {
         display: flex;
         flex-direction: row;
-        width: 240px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .SidebarContainer_rightContainer {
+        display: flex;
     }
 
     .SidebarHeader {
@@ -141,17 +145,31 @@
     }
 
     .SidebarChannelNavigator {
-        display: flex;
-        margin: 18px 16px 11px 16px;
+        &.desktop {
+            display: block;
+            margin: 18px 16px 11px 16px;
+            
+            button:not(.SidebarChannelNavigator_jumpToButton), .SidebarFilters_filterButton {
+                background: transparent;
+            }
+        }
+
+        &.webapp {
+            display: flex;
+            margin: 18px 10px 11px 10px;
+
+            button, .SidebarFilters_filterButton {
+                margin: 0 2px;
+                background: rgba(255, 255, 255, 0.16);
+            }
+        }
 
         button {
-            font-size: 16px;
-            line-height: 15px;
+            font-size: 18px;
             height: 28px;
             min-width: 28px;
             vertical-align: middle;
             border: 0;
-            background: rgba(255, 255, 255, 0.16);
             color: rgba(var(--sidebar-text-rgb), 0.72);
 
             &:hover:not(.disabled) {
@@ -165,18 +183,24 @@
         }
 
         .SidebarChannelNavigator_jumpToButton {
-            display: flex;
-            flex: 1 1 auto;
+            background: rgba(255, 255, 255, 0.16);
+            width: 100%;
+            text-align: left;
             border-radius: 4px;
             font-family: 'Open Sans';
-            font-size: 14px;
-            line-height: 19px;
-            padding: 3px 8px 6px 8px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+
+            .icon-magnify {
+                font-size: 18px;
+                margin-right: 2px;
+            }
 
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
                 display: none;
-                margin-top: 1px;
             }
 
             &:hover {
@@ -185,38 +209,39 @@
                 }
             }
         }
+        .SidebarChannelNavigator_divider {
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            height: 28px;
+            margin-left: 8px;
+        }
 
         .SidebarChannelNavigator_backButton {
             border-radius: 4px 0px 0px 4px;
             padding: 0;
-            margin-left: 4px;
+            margin-left: 8px;
+            background: transparent;
         }
 
         .SidebarChannelNavigator_forwardButton {
             border-radius: 0px 4px 4px 0px;
             padding: 0;
+            background: transparent;
         }
     }
 
     .SidebarFilters {
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        padding: 7px 16px;
         align-items: center;
-        margin-bottom: 8px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
         display: block;
         line-height: 28px;
         height: 28px;
-        width: 28px;
-        background: rgba(255, 255, 255, 0.16);
+        width: 28px;      
         text-align: center;
         border-radius: 4px;
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: 400;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
         color: rgba(var(--sidebar-text-rgb), 0.8);
@@ -225,22 +250,6 @@
     .SidebarFilters .SidebarFilters_filterButton.active {
         color: var(--sidebar-bg);
         background: var(--sidebar-text);
-    }
-
-    .SidebarFilters .SidebarFilters_filterTitle {
-        color: rgba(var(--sidebar-text-rgb), 0.72);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 12px;
-        margin-left: 8px;
-    }
-
-    .SidebarFilters .SidebarFilters_filterDescription {
-        color: var(--sidebar-text);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 14px;
-        margin-left: 8px;
     }
 
     .AddChannelDropdown {
@@ -269,8 +278,6 @@
 
     .AddChannelDropdown_dropdownButton {
         padding: 0;
-        margin-right: 16px;
-        margin-top: 7px;
         z-index: 1;
         background: transparent;
         border: none;

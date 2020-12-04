@@ -14,9 +14,7 @@ import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import AddChannelDropdown from './add_channel_dropdown';
 import ChannelNavigator from './channel_navigator';
-import ChannelFilter from './channel_filter';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
@@ -186,17 +184,13 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     className='a11y__region'
                     data-a11y-sort-order='6'
                 >
-                    <ChannelNavigator/>
-                    <div className='SidebarContainer_filterAddChannel'>
-                        <ChannelFilter/>
-                        <AddChannelDropdown
-                            showNewChannelModal={this.showNewChannelModal}
-                            showMoreChannelsModal={this.showMoreChannelsModal}
-                            showCreateCategoryModal={this.showCreateCategoryModal}
-                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
-                            canJoinPublicChannel={this.props.canJoinPublicChannel}
-                        />
-                    </div>
+                    <ChannelNavigator
+                        showNewChannelModal={this.showNewChannelModal}
+                        showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateCategoryModal={this.showCreateCategoryModal}
+                        canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                        canJoinPublicChannel={this.props.canJoinPublicChannel}
+                    />
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarChannelList

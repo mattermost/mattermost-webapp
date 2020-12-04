@@ -99,14 +99,6 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
                         <i className='icon icon-filter-variant'/>
                     </a>
                 </OverlayTrigger>
-                <div>
-                    <div className='SidebarFilters_filterTitle'>
-                        {filterTitle}
-                    </div>
-                    <div className='SidebarFilters_filterDescription'>
-                        {filterDescription}
-                    </div>
-                </div>
             </div>
         );
     }
