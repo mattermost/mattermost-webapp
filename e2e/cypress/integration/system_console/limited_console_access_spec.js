@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @enterprise @system_console
+
 import accessRules from '../../fixtures/system-roles-console-access';
 import disabledTests from '../../fixtures/console-example-inputs';
 import * as TIMEOUTS from '../../fixtures/timeouts';
