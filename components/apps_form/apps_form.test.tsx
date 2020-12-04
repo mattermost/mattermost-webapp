@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import {AppCall, AppCallResponse, AppField, AppForm} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -46,7 +47,7 @@ describe('components/apps_form/AppsForm', () => {
                 actions: {
                     ...baseProps.actions,
                     submit: jest.fn().mockResolvedValue({
-                        data: {error: 'This is an error.', type: ''},
+                        data: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
                     }),
                 },
             };

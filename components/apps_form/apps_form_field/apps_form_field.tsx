@@ -16,7 +16,6 @@ import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import Provider from 'components/suggestion/provider';
-
 import ButtonSelector from 'components/button_selector';
 
 import AppsFormSelectField from './apps_form_select_field';

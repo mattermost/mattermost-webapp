@@ -155,6 +155,7 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
             "https://example.com/image.png": Object {},
           },
         },
+        "props": Object {},
         "root_id": "root_id",
       }
     }
@@ -194,6 +195,7 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
             "https://example.com/image.png": Object {},
           },
         },
+        "props": Object {},
         "root_id": "root_id",
       }
     }
@@ -223,6 +225,7 @@ exports[`PostBodyAdditionalContent with an opengraph preview should render corre
             },
           ],
         },
+        "props": Object {},
         "root_id": "root_id",
       }
     }
@@ -254,6 +257,7 @@ exports[`PostBodyAdditionalContent with an opengraph preview should render the t
             },
           ],
         },
+        "props": Object {},
         "root_id": "root_id",
       }
     }
