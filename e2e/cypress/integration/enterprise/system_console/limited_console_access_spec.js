@@ -9,9 +9,9 @@
 
 // Group: @enterprise @system_console
 
-import accessRules from '../../fixtures/system-roles-console-access';
-import disabledTests from '../../fixtures/console-example-inputs';
-import * as TIMEOUTS from '../../fixtures/timeouts';
+import accessRules from '../../../fixtures/system-roles-console-access';
+import disabledTests from '../../../fixtures/console-example-inputs';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Limited console access', () => {
     const roleNames = ['system_manager', 'system_user_manager', 'system_read_only_admin'];
