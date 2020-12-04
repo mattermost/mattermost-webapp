@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/AppsFormHeader should not fail on empty value 1`] = `
+exports[`components/apps_form/AppsFormHeader should not fail on empty value 1`] = `
 <AppsFormHeader
   emojiMap={
     EmojiMap {
@@ -22,7 +22,7 @@ exports[`components/AppsFormHeader should not fail on empty value 1`] = `
 </AppsFormHeader>
 `;
 
-exports[`components/AppsFormHeader should render message with supported values 1`] = `
+exports[`components/apps_form/AppsFormHeader should render message with supported values 1`] = `
 <AppsFormHeader
   emojiMap={
     EmojiMap {
