@@ -57,7 +57,7 @@ describe('Authentication', () => {
         cy.apiLogin(mentionedUser);
         cy.visit('');
         cy.wait(TIMEOUTS.THREE_SEC);
-        cy.get('#teamsYouCanJoinContent', {timeouts: TIMEOUTS.FIVE_SEC}).should('be.visible');
+        cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         cy.apiAdminLogin();
 
@@ -439,4 +439,3 @@ describe('Authentication', () => {
         cy.get('.reason').should('include.text', 'The following email addresses do not belong to an accepted domain:');
     });
 });
-
