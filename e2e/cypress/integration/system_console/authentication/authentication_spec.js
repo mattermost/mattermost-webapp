@@ -57,7 +57,6 @@ describe('Authentication', () => {
         cy.apiLogin(mentionedUser);
         cy.visit('/');
         cy.url().should('include', '/select_team');
-        cy.wait(TIMEOUTS.THREE_SEC);
         cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         cy.apiAdminLogin();
