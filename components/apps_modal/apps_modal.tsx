@@ -175,13 +175,13 @@ const makeStaticSelectField: SubDialogMaker = (field, submitField?: string) => {
     }
 
     let subtype = field.subtype || '';
-    if (submitField == field.name) {
+    if (submitField === field.name) {
         subtype = 'submit';
     }
 
     return {
         type: 'select',
-        subtype: subtype,
+        subtype,
         options,
         data_source: '',
     };
