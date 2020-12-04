@@ -217,7 +217,7 @@ describe('Authentication', () => {
         });
 
         // # Login back as admin.
-        const token = authenticator.generateToken(adminMFASecret);
+        token = authenticator.generateToken(adminMFASecret);
         cy.apiLoginWithMFA(mfaSysAdmin, token);
 
         // # Navigate to System Console -> User Management -> Users
