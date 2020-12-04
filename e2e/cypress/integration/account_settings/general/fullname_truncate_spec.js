@@ -19,8 +19,6 @@ describe('Account Settings > Full Name', () => {
     const lastName = 'That Should Truncate';
 
     before(() => {
-        cy.apiAdminLogin();
-
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
             firstUser = user;
