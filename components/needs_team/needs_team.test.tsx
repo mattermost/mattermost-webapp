@@ -9,7 +9,7 @@ import {TestHelper} from 'utils/test_helper';
 
 import NeedsTeam from 'components/needs_team/needs_team';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitCloseRightHandSide: jest.fn(),
 }));
 
