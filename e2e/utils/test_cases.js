@@ -192,5 +192,7 @@ async function saveTestExecution(testExecution, index) {
 }
 
 module.exports = {
+    createTestCycle,
     saveTestCases,
+    createTestExecutions,
 };
