@@ -35,16 +35,6 @@ describe('System Console - Enterprise', () => {
             url: 'admin_console/user_management/permissions',
         },
         {
-            header: 'Elasticsearch',
-            sidebar: 'Elasticsearch',
-            url: 'admin_console/environment/elasticsearch',
-        },
-        {
-            header: 'High Availability',
-            sidebar: 'High Availability',
-            url: 'admin_console/environment/high_availability',
-        },
-        {
             header: 'Performance Monitoring',
             sidebar: 'Performance Monitoring',
             url: 'admin_console/environment/performance_monitoring',
