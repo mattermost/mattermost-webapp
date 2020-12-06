@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @messaging
 
-describe('MM-T2197 Ephemeral message disappears in center after refresh', () => {
+describe('Hide ephemeral message on refresh', () => {
     let townsquareLink;
 
     before(() => {
@@ -21,7 +21,7 @@ describe('MM-T2197 Ephemeral message disappears in center after refresh', () => 
         });
     });
 
-    it('Hide ephemeral message on refresh', () => {
+    it('MM-T2197 Ephemeral message disappears in center after refresh', () => {
         // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 

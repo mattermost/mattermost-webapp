@@ -7,12 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('MM-T2146 Remove all text from a post (no attachment)', () => {
+describe('Delete the post on text clear', () => {
     let townsquareLink;
 
     before(() => {
@@ -23,7 +22,7 @@ describe('MM-T2146 Remove all text from a post (no attachment)', () => {
         });
     });
 
-    it('Delete the post on text clear', () => {
+    it('MM-T2146 Remove all text from a post (no attachment)', () => {
         // # Go to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 
@@ -42,11 +41,7 @@ describe('MM-T2146 Remove all text from a post (no attachment)', () => {
             cy.get(`#edit_post_${postID}`).click();
 
             // # Edit message to 'This is sample add text'
-            cy.get('#edit_textbox').
-                should('be.visible').
-                and('be.focused').
-                wait(TIMEOUTS.HALF_SEC).
-                clear();
+            cy.get('#edit_textbox').should('be.visible').and('be.focused').wait(TIMEOUTS.HALF_SEC).clear();
 
             // # Click button Edit
             cy.get('#editButton').click();

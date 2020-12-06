@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @messaging
 
-describe('MM-T3318 Posting GIFs', () => {
+describe('Show GIF images properly', () => {
     let townsquareLink;
 
     before(() => {
@@ -28,7 +28,7 @@ describe('MM-T3318 Posting GIFs', () => {
         });
     });
 
-    it('Show GIF images properly', () => {
+    it('MM-T3318 Posting GIFs', () => {
         // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 
