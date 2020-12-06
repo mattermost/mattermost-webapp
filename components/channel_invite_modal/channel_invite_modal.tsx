@@ -12,12 +12,13 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
-import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {imageURLForUser, displayEntireNameForUser, getDisplayName, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import Constants from 'utils/constants';
 
@@ -173,13 +174,30 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             term,
         });
 
+        if (term) {
+            this.setUsersLoadingState(true);
+            this.searchTimeoutId = window.setTimeout(
+                async () => {
+                    const options = {
+                        team_id: this.props.channel.team_id,
+                        not_in_channel_id: this.props.channel.id,
+                        group_constrained: this.props.channel.group_constrained,
+                    };
+                    await this.props.actions.searchProfiles(term, options);
+                    this.setUsersLoadingState(false);
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
+            );
+        } else {
+            return;
+        }
+
         this.searchTimeoutId = window.setTimeout(
             async () => {
                 if (!term) {
                     return;
                 }
 
-                this.setUsersLoadingState(true);
                 const options = {
                     team_id: this.props.channel.team_id,
                     not_in_channel_id: this.props.channel.id,
@@ -240,8 +258,21 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         );
     };
 
-    private renderValue = (props: { data: { username: string } }) => {
-        return props.data.username;
+    private renderValue = (props: { data: { username: string, id: string, last_picture_update: number } }) => {
+        const profileImg = imageURLForUser(props.data.id, props.data.last_picture_update);
+
+        return (
+            <React.Fragment>
+                <Avatar
+                    size='sm'
+                    username={props.data.username}
+                    url={profileImg}
+                />
+                <div style={{margin: '0 2px 0 8px'}}>
+                    {getDisplayName(props.data)}
+                </div>
+            </React.Fragment>
+        );
     }
 
     public render = (): JSX.Element => {
@@ -250,14 +281,14 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
         }
 
-        const numRemainingText = (
-            <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
-                values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
-                }}
-            />
+        const header = (
+            <h1>
+                <FormattedMessage
+                    id='channel_invite.addNewMembers'
+                    defaultMessage='Add people to '
+                />
+                <span className='name'>{this.props.channel.display_name}</span>
+            </h1>
         );
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
@@ -283,6 +314,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 values={this.state.values}
                 valueRenderer={this.renderValue}
                 ariaLabelRenderer={this.renderAriaLabel}
+                saveButtonPosition={'bottom'}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -290,42 +322,39 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
                 maxValues={MAX_SELECTABLE_VALUES}
-                numRemainingText={numRemainingText}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
-                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
             />
         );
 
         return (
             <Modal
                 id='addUsersToChannelModal'
-                dialogClassName='a11y__modal more-modal'
+                dialogClassName='a11y__modal channel-switcher'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 role='dialog'
                 aria-labelledby='channelInviteModalLabel'
             >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='channelInviteModalLabel'
-                    >
-                        <FormattedMessage
-                            id='channel_invite.addNewMembers'
-                            defaultMessage='Add New Members to '
-                        />
-                        <span className='name'>{this.props.channel.display_name}</span>
-                    </Modal.Title>
-                </Modal.Header>
+                <Modal.Header
+                    id='quickSwitchModalLabel'
+                    closeButton={true}
+                />
                 <Modal.Body
                     role='application'
+                    className='overflow--visible'
                 >
+                    <div className='channel-switcher__header'>
+                        {header}
+                    </div>
                     {inviteError}
-                    {content}
+                    <div className='channel-switcher__content'>
+                        {content}
+                    </div>
                 </Modal.Body>
             </Modal>
         );
