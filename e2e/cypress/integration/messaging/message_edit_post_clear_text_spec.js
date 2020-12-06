@@ -24,7 +24,7 @@ describe('MM-T2146 Remove all text from a post (no attachment)', () => {
     });
 
     it('Delete the post on text clear', () => {
-        // # Got to a test channel on the side bar
+        // # Go to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // * Validate if the channel has been opened
