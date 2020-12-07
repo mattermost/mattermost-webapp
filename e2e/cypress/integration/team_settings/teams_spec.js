@@ -302,10 +302,9 @@ describe('Teams Suite', () => {
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
-        // # Functionality
-
-        cy.visit('/login');
+        // # Login as new user
         cy.apiLogin(newUser);
+        cy.visit('/');
 
         // * Verify if the user is redirected to the Select Team page
         cy.url().should('include', '/select_team');
