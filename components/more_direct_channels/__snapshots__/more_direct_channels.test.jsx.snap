@@ -208,7 +208,7 @@ exports[`components/MoreDirectChannels should match renderOptionValue snapshot 1
           </span>
           <BotBadge
             className="badge-popoverlist"
-            show={true}
+            show={false}
           />
           <GuestBadge
             className="badge-popoverlist"
@@ -417,7 +417,9 @@ exports[`components/MoreDirectChannels should render the group channel option 1`
       <div
         className="more-modal__name"
       >
-        @username
+        <span>
+          @username
+        </span>
       </div>
     </div>
   </React.Fragment>
