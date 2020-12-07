@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @messaging @markdown
+// Group: @not_cloud @messaging @markdown
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -39,8 +38,8 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T1734: Code highlighting', () => {
-        testCases.forEach((testCase) => {
+    testCases.forEach((testCase, i) => {
+        it(`MM-T1734_${i + 1}: Code highlighting - ${testCase.name}`, () => {
             // #  Post markdown message
             cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.ONE_SEC);
 
@@ -49,7 +48,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T1741: Markdown basics', () => {
+    it('MM-T2241: Markdown basics', () => {
         // # Post markdown message
         cy.postMessage('/test url test-markdown-basics.md').wait(TIMEOUTS.ONE_SEC);
 
@@ -68,7 +67,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T1742: Markdown lists', () => {
+    it('MM-T2242: Markdown lists', () => {
         // # Post markdown message
         cy.postMessage('/test url test-markdown-lists.md').wait(TIMEOUTS.ONE_SEC);
 
@@ -106,7 +105,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T1746: Markdown code syntax', () => {
+    it('MM-T2246: Markdown code syntax', () => {
         // # Post markdown message
         cy.postMessage('/test url test-syntax-highlighting').wait(TIMEOUTS.ONE_SEC);
 
