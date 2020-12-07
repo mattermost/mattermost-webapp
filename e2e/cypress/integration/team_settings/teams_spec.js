@@ -222,7 +222,7 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2312 Team setting / Team name: Change name', () => {
-        // # visit /
+        // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
