@@ -10,11 +10,11 @@
 // Group: @file_and_attachments
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {downloadAttachmentAndVerifyItsProperties} from './helpers';
 
 describe('Upload Files', () => {
     let testTeam;
-    let testChannel;
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -23,7 +23,6 @@ describe('Upload Files', () => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
-            testChannel = channel;
 
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('.announcement-bar__close').click();
@@ -91,9 +90,9 @@ describe('Upload Files', () => {
     });
 
     it('PDF', () => {
-        const route =  'mm_file_testing/Documents/PDF.pdf';
-        const filename = route.split("/").pop();
-    
+        const route = 'mm_file_testing/Documents/PDF.pdf';
+        const filename = route.split('/').pop();
+
         // # Post file in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
         cy.wait(TIMEOUTS.ONE_SEC);
@@ -103,30 +102,30 @@ describe('Upload Files', () => {
         });
         cy.postMessage('{enter}');
         cy.wait(TIMEOUTS.ONE_SEC);
-    
+
         cy.getLastPost().within(() => {
             cy.get('.post-image__thumbnail').within(() => {
                 // * File is posted
                 cy.get('.file-icon.pdf').should('exist').click();
             });
         });
-    
+
         cy.get('.modal-body').within(() => {
             cy.get('.pdf').get('.post-code').get('canvas').should('have.length', 5);
-    
+
             // # Hover over the image
             cy.get('.modal-image__content').trigger('mouseover');
-    
+
             // * Download button should exist
             cy.findByText('Download').should('exist').parent().then((downloadLink) => {
                 expect(downloadLink.attr('download')).to.equal(filename);
-    
+
                 const fileAttachmentURL = downloadLink.attr('href');
-    
+
                 // * Verify that download link has correct name
                 downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
             });
-    
+
             // # Close modal
             cy.get('.modal-close').click();
         });
@@ -136,7 +135,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Documents/Excel.xlsx',
             type: 'excel',
-        }
+        };
         testGenericFile(properties);
     });
 
@@ -144,7 +143,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Documents/PPT.pptx',
             type: 'ppt',
-        }
+        };
         testGenericFile(properties);
     });
 
@@ -152,20 +151,20 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Documents/Word.docx',
             type: 'word',
-        }
+        };
         testGenericFile(properties);
     });
 
     it('Text', () => {
-        const route =  'mm_file_testing/Documents/Text.txt';
-        const filename = route.split("/").pop();
+        const route = 'mm_file_testing/Documents/Text.txt';
+        const filename = route.split('/').pop();
 
         // # Post file in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('#create_post').find('.file-preview').within(() => {
             // * Thumbnail exist
-            cy.get(`.post-image__thumbnail > div.text`).should('exist');
+            cy.get('.post-image__thumbnail > div.text').should('exist');
         });
         cy.postMessage('{enter}');
         cy.wait(TIMEOUTS.ONE_SEC);
@@ -173,7 +172,7 @@ describe('Upload Files', () => {
         cy.getLastPost().within(() => {
             cy.get('.post-image__thumbnail').within(() => {
                 // * Image is posted
-                cy.get(`.file-icon.text`).should('exist').click();
+                cy.get('.file-icon.text').should('exist').click();
             });
         });
 
@@ -202,7 +201,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/MP4.mp4',
             shouldPreview: true,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -210,7 +209,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/AVI.avi',
             shouldPreview: false,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -218,7 +217,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/MKV.mkv',
             shouldPreview: false,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -226,7 +225,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/MOV.mov',
             shouldPreview: true,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -234,7 +233,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/MPG.mpg',
             shouldPreview: false,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -242,7 +241,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/WEBM.webm',
             shouldPreview: true,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -250,7 +249,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Video/WMV.wmv',
             shouldPreview: false,
-        }
+        };
         testVideoFile(properties);
     });
 
@@ -258,7 +257,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/MP3.mp3',
             shouldPreview: true,
-        }
+        };
         testAudioFile(properties);
     });
 
@@ -266,7 +265,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/M4A.m4a',
             shouldPreview: true,
-        }
+        };
         testAudioFile(properties);
     });
 
@@ -274,7 +273,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/AAC.aac',
             shouldPreview: false,
-        }
+        };
         testAudioFile(properties);
     });
 
@@ -282,7 +281,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/FLAC.flac',
             shouldPreview: true,
-        }
+        };
         testAudioFile(properties);
     });
 
@@ -290,7 +289,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/OGG.ogg',
             shouldPreview: true,
-        }
+        };
         testAudioFile(properties);
     });
 
@@ -298,7 +297,7 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/WAV.wav',
             shouldPreview: true,
-        }
+        };
         testAudioFile(properties);
     });
 
@@ -306,21 +305,21 @@ describe('Upload Files', () => {
         const properties = {
             route: 'mm_file_testing/Audio/WMA.wma',
             shouldPreview: false,
-        }
+        };
         testAudioFile(properties);
     });
 });
 
 function testAudioFile(fileProperties) {
     const {route, shouldPreview} = fileProperties;
-    const filename = route.split("/").pop();
+    const filename = route.split('/').pop();
 
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
     cy.wait(TIMEOUTS.ONE_SEC);
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
-        cy.get(`.post-image__thumbnail > div.audio`).should('exist');
+        cy.get('.post-image__thumbnail > div.audio').should('exist');
     });
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
@@ -328,7 +327,7 @@ function testAudioFile(fileProperties) {
     cy.getLastPost().within(() => {
         cy.get('.post-image__thumbnail').within(() => {
             // * File is posted
-            cy.get(`.file-icon.audio`).should('exist').click();
+            cy.get('.file-icon.audio').should('exist').click();
         });
     });
 
@@ -338,6 +337,7 @@ function testAudioFile(fileProperties) {
             // Audio is also played by the video element
             cy.get('video').should('exist');
         }
+
         // # Hover over the modal
         cy.get('.modal-image__content').trigger('mouseover');
 
@@ -358,14 +358,14 @@ function testAudioFile(fileProperties) {
 
 function testVideoFile(fileProperties) {
     const {route, shouldPreview} = fileProperties;
-    const filename = route.split("/").pop();
+    const filename = route.split('/').pop();
 
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
     cy.wait(TIMEOUTS.ONE_SEC);
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
-        cy.get(`.post-image__thumbnail > div.video`).should('exist');
+        cy.get('.post-image__thumbnail > div.video').should('exist');
     });
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
@@ -373,7 +373,7 @@ function testVideoFile(fileProperties) {
     cy.getLastPost().within(() => {
         cy.get('.post-image__thumbnail').within(() => {
             // * File is posted
-            cy.get(`.file-icon.video`).should('exist').click();
+            cy.get('.file-icon.video').should('exist').click();
         });
     });
 
@@ -382,6 +382,7 @@ function testVideoFile(fileProperties) {
             // * Check if the video element exist
             cy.get('video').should('exist');
         }
+
         // # Hover over the image
         cy.get('.modal-image__content').trigger('mouseover');
 
@@ -402,7 +403,7 @@ function testVideoFile(fileProperties) {
 
 function testGenericFile(fileProperties) {
     const {route, type} = fileProperties;
-    const filename = route.split("/").pop();
+    const filename = route.split('/').pop();
 
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
@@ -443,7 +444,7 @@ function testGenericFile(fileProperties) {
 
 function testImage(imageProperties) {
     const {route, originalWidth, originalHeight} = imageProperties;
-    const filename = route.split("/").pop();
+    const filename = route.split('/').pop();
     const aspectRatio = originalWidth / originalHeight;
 
     // # Post an image in center channel
