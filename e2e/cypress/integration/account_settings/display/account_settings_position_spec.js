@@ -8,8 +8,6 @@
 // ***************************************************************
 
 // Group: @account_setting
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 describe('Account Settings > General > Position', () => {
     let testTeam;
     let testUser;
@@ -54,7 +52,7 @@ describe('Account Settings > General > Position', () => {
         cy.contains('#user-profile-popover', 'Master hacker').should('be.visible');
     });
 
-    it.only('MM-T2064 Position / 128 characters', () => {
+    it('MM-T2064 Position / 128 characters', () => {
         const longPosition = 'Master Hacker II'.repeat(8);
 
         // # Open the hamburger menu
