@@ -3768,6 +3768,7 @@
   "sidebar_left.sidebar_category_menu.muteCategory": "Kategori Bildirimlerini Kapat",
   "sidebar_left.sidebar_category_menu.renameCategory": "Kategoriyi Yeniden Adlandır",
   "sidebar_left.sidebar_category_menu.unmuteCategory": "Kategori Bildirimlerini Aç",
+  "sidebar_left.sidebar_channel.selectedCount": "{count} seçilmiş",
   "sidebar_left.sidebar_channel_menu.addMembers": "Üye Ekle",
   "sidebar_left.sidebar_channel_menu.copyLink": "Bağlantıyı Kopyala",
   "sidebar_left.sidebar_channel_menu.dropdownAriaLabel": "Kanal menüsünü düzenle",
