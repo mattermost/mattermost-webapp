@@ -689,8 +689,6 @@
   "admin.experimental.experimentalChannelSidebarOrganization.desc": "有効な場合、ユーザーはセクションを折り畳んだり未読をフィルタリングできる実験的なチャンネルサイドバー機能にアクセスできるようになります。デフォルトOnの場合、このサーバーの全てのユーザーに対してデフォルトで新しいサイドバー機能が有効化されます。ユーザーは **アカウント設定 > サイドバー > 実験的なサイドバー機能** からこの機能を無効化できます。デフォルト Offの場合、ユーザーはアカウント設定から実験的なサイドバー機能を有効化する必要があります。詳しくは[説明文書](!https://about.mattermost.com/default-sidebar/)を参照してください。また、[フィードバックもお待ちしています](!https://about.mattermost.com/default-sidebar-survey/)",
   "admin.experimental.experimentalChannelSidebarOrganization.disabled": "無効",
   "admin.experimental.experimentalChannelSidebarOrganization.title": "実験的なサイドバー機能",
-  "admin.experimental.experimentalDataPrefetch.desc": "有効な場合、チャンネル読み込み時間を短くするために未読チャンネルのメッセージが事前に読み込まれるようになります。無効な場合、ユーザーがチャンネルを切り替えるまでメッセージはサーバーから読み込まれません。",
-  "admin.experimental.experimentalDataPrefetch.title": "未読チャンネル内メッセージの事前読み込み",
   "admin.experimental.experimentalEnableAuthenticationTransfer.desc": "有効な場合、ユーザーは自身のサインイン方法をアカウント設定かAPIを通じてサーバーで有効となっている方法に変更することができます。無効な場合、どの認証方法が有効になっているかに関わらず、ユーザーが自身のサインイン方法を変更することはできません。",
   "admin.experimental.experimentalEnableAuthenticationTransfer.title": "認証の移行を許可する:",
   "admin.experimental.experimentalEnableAutomaticReplies.desc": "有効な場合、**アカウント設定 > 通知** から自動返信を有効にできます。ユーザーは自動でダイレクトメッセージに送信されるカスタムメッセージを設定できます。無効な場合、自動ダイレクトメッセージ返信機能は無効となり、アカウント設定に表示されなくなります。",

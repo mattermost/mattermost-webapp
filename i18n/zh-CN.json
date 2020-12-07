@@ -738,8 +738,6 @@
   "admin.experimental.experimentalChannelSidebarOrganization.desc": "当开启时，用户可以访问实验性侧栏功能，包括可缩小的栏以及未读过滤器。如果默认开启，这将默认对所有用户开启新的侧栏功能。用户可在**帐号设定 > 侧栏 > 实验性侧栏功能**关闭这些功能。如果默认关闭，用户必须手动在帐号设定开启实验功能。[了解更多](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)",
   "admin.experimental.experimentalChannelSidebarOrganization.disabled": "已禁用",
   "admin.experimental.experimentalChannelSidebarOrganization.title": "实验性侧栏功能",
-  "admin.experimental.experimentalDataPrefetch.desc": "当为是时，频道中的未读消息将预加载以降低频道加载时间。当为否时，消息将在用户切换频道前不从服务器加载。",
-  "admin.experimental.experimentalDataPrefetch.title": "预加载频道中的未读消息",
   "admin.experimental.experimentalEnableAuthenticationTransfer.desc": "当设为是时，用户允许使用帐号设定或 API 更改他们的登入方式到任何服务器支持的方式。当设为否时，用户不能更改他们的登入方式。",
   "admin.experimental.experimentalEnableAuthenticationTransfer.title": "允许验证转移：",
   "admin.experimental.experimentalEnableAutomaticReplies.desc": "当设为是时，用户可以在 **帐号设定 > 通知** 开启自动回复。用户可设定自动私信回复的自定义消息。当设为否时，将关闭自动私信消息回复功能并且从帐号设定隐藏。",
