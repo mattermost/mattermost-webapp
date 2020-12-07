@@ -254,7 +254,7 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2317 Team setting / Update team description', () => {
-        // # visit /
+        // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
