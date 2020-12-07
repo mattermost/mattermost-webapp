@@ -94,8 +94,8 @@ describe('components/AddGroupsToChannelModal', () => {
         const wrapper = shallow(
             <AddGroupsToChannelModal {...baseProps}/>,
         );
-        const value1 = {id: 'id_1', label: 'label_1', value: 'value_1'};
-        const value2 = {id: 'id_2', label: 'label_2', value: 'value_2'};
+        const value1:any = {id: 'id_1', label: 'label_1', value: 'value_1'};
+        const value2:any = {id: 'id_2', label: 'label_2', value: 'value_2'};
 
         wrapper.setState({values: [value1]});
         (wrapper.instance() as AddGroupsToChannelModal).addValue(value2);
@@ -148,7 +148,7 @@ describe('components/AddGroupsToChannelModal', () => {
         const value3 = {id: 'id_3', label: 'label_3', value: 'value_3'};
 
         wrapper.setState({values: [value1]});
-        const newValues = [value2, value3];
+        const newValues:any = [value2, value3];
         (wrapper.instance() as AddGroupsToChannelModal).handleDelete(newValues);
         expect(wrapper.state('values')).toEqual(newValues);
     });
@@ -158,7 +158,7 @@ describe('components/AddGroupsToChannelModal', () => {
             <AddGroupsToChannelModal {...baseProps}/>,
         );
 
-        const option = {id: 'id', last_picture_update: '12345', email: 'test@test.com'};
+        const option:any = {id: 'id', last_picture_update: '12345', email: 'test@test.com'};
         let isSelected = false;
         function onAdd() {} //eslint-disable-line no-empty-function
 
@@ -167,7 +167,7 @@ describe('components/AddGroupsToChannelModal', () => {
         isSelected = true;
         expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(option, isSelected, onAdd)).toMatchSnapshot();
 
-        const optionBot = {id: 'id', is_bot: true, last_picture_update: '12345'};
+        const optionBot:any = {id: 'id', is_bot: true, last_picture_update: '12345'};
         expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
     });
 

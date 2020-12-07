@@ -7,15 +7,18 @@ import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
+import {Group, SyncablePatch} from 'mattermost-redux/types/groups';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {ServerError} from 'mattermost-redux/types/errors';
+
 import Constants from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import MultiSelect,{Value} from 'components/multiselect/multiselect';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
-import {Group, SyncablePatch} from 'mattermost-redux/types/groups';
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
 
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
@@ -37,11 +40,11 @@ export type Props = {
 
     actions: {
         getGroupsNotAssociatedToChannel: (channelID: string, q?: string, page?: number | null, perPage?: number | null, filterParentTeamPermitted?: boolean) => Promise<ActionFunc>;
-            setModalSearchTerm: (term: string) => { type: string, data: string};
-            linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => Promise<{error?: ServerError; data?: null}>;
-            getAllGroupsAssociatedToChannel: (channelID: string, filterAllowReference: boolean, includeMemberCount: boolean) => ActionFunc;
-            getTeam: (teamId: string) => ActionFunc;
-            getAllGroupsAssociatedToTeam: (teamID: string, filterAllowReference: boolean, includeMemberCount: boolean) => ActionFunc;
+        setModalSearchTerm: (term: string) => { type: string, data: string};
+        linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => Promise<{error?: ServerError; data?: null}>;
+        getAllGroupsAssociatedToChannel: (channelID: string, filterAllowReference: boolean, includeMemberCount: boolean) => ActionFunc;
+        getTeam: (teamId: string) => ActionFunc;
+        getAllGroupsAssociatedToTeam: (teamID: string, filterAllowReference: boolean, includeMemberCount: boolean) => ActionFunc;
     }
 }
 
@@ -200,7 +203,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
                 ref={isSelected ? this.selectedItemRef : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
-                onMouseMove={() => onMouseMove ? onMouseMove(option) : undefined}
+                onMouseMove={() => (onMouseMove ? onMouseMove(option) : undefined)}
             >
                 <img
                     className='more-modal__image'

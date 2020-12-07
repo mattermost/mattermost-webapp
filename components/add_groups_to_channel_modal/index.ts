@@ -8,22 +8,23 @@ import {getTeam} from 'mattermost-redux/actions/teams';
 import {getGroupsNotAssociatedToChannel as selectGroupsNotAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {setModalSearchTerm} from 'actions/views/search';
-
-import AddGroupsToChannelModal, {Props, GroupValue} from './add_groups_to_channel_modal';
-import {GlobalState} from 'types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Group} from 'mattermost-redux/types/groups';
 
-type ownProps = {
+import {GlobalState} from 'types/store';
+import {setModalSearchTerm} from 'actions/views/search';
+
+import AddGroupsToChannelModal, {Props} from './add_groups_to_channel_modal';
+
+type OwnProps = {
     channel: Channel;
     skipCommit: boolean;
     onAddCallback: (groupIDs: string[]) => void;
     excludeGroups: Group[];
 }
 
-function mapStateToProps(state: GlobalState, ownProps:ownProps) {
+function mapStateToProps(state: GlobalState, ownProps:OwnProps) {
     const searchTerm = state.views.search.modalSearch;
 
     const channel = ownProps.channel || getCurrentChannel(state) || {};
