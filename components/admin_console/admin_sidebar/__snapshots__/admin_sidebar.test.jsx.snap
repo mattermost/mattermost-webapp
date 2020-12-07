@@ -649,6 +649,19 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
+              definitionKey="experimental.feature_flags"
+              key="experimental.feature_flags"
+              name="experimental/feature_flags"
+              parentLink=""
+              subsection={false}
+              title={
+                <FormattedMessage
+                  defaultMessage="Feature Flags"
+                  id="admin.feature_flags.title"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="experimental.bleve"
               key="experimental.bleve"
               name="experimental/blevesearch"
