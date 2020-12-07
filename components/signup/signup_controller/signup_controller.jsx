@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button';

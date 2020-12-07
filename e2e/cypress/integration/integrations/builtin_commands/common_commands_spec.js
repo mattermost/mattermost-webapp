@@ -11,6 +11,7 @@
 // Group: @integrations
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {getRandomId} from '../../../utils';
 
 import {loginAndVisitChannel, verifyEphemeralMessage} from './helper';
 
@@ -59,34 +60,38 @@ describe('Integrations', () => {
         loginAndVisitChannel(user2, testChannelUrl);
         cy.postMessage('hello from user2');
 
+        const message = getRandomId();
+
         // # Login as user1 and post "/shrug test"
         loginAndVisitChannel(user1, testChannelUrl);
-        cy.postMessage('/shrug test{enter}');
+        cy.postMessage(`/shrug ${message}{enter}`);
 
         // * Verify that it posted message as expected from user1
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'test ¯\\_(ツ)_/¯');
+            cy.get(`#postMessageText_${postId}`).should('have.text', `${message} ¯\\_(ツ)_/¯`);
         });
 
         // * Login as user2 and verify that it read the same message as expected from user1
         loginAndVisitChannel(user2, testChannelUrl);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'test ¯\\_(ツ)_/¯');
+            cy.get(`#postMessageText_${postId}`).should('have.text', `${message} ¯\\_(ツ)_/¯`);
         });
     });
 
     it('MM-T678 /code', () => {
         loginAndVisitChannel(user1, testChannelUrl);
 
+        const message = '1. Not a list item, **not bolded**, http://notalink.com, ~off-topic is not a link to the channel.';
+
         // # Use "/code"
-        cy.postMessage('/code 1. Not a list item, **not bolded**, http://notalink.com, ~off-topic is not a link to the channel.');
+        cy.postMessage(`/code ${message}`);
 
         // * Verify that that markdown isn't rendered
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
-            cy.get(`#postMessageText_${postId}`).get('code').should('have.text', '1. Not a list item, **not bolded**, http://notalink.com, ~off-topic is not a link to the channel.');
+            cy.get(`#postMessageText_${postId}`).get('code').should('have.text', message);
         });
 
         // # Type "/code" with no text
@@ -99,20 +104,22 @@ describe('Integrations', () => {
     it('MM-T679 /echo', () => {
         loginAndVisitChannel(user1, testChannelUrl);
 
-        // # Type "/echo test 3"
-        cy.postMessage('/echo test 3');
+        const message = getRandomId();
 
-        // * Verify that that post is not shown after 1 second
+        // # Type "/echo message 3"
+        cy.postMessage(`/echo ${message} 3`);
+
+        // * Verify that post is not shown after 1 second
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('have.not.text', 'test');
+            cy.get(`#postMessageText_${postId}`).should('have.not.text', message);
         });
 
-        // * Verify that that test 3 is posted after 3 seconds
+        // * Verify that message is posted after 3 seconds
         cy.wait(TIMEOUTS.TWO_SEC);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'test');
+            cy.get(`#postMessageText_${postId}`).should('have.text', message);
         });
     });
 
@@ -171,15 +178,17 @@ describe('Integrations', () => {
     });
 
     it('MM-T684 /me', () => {
+        const message = getRandomId();
+
         loginAndVisitChannel(user1, testChannelUrl);
 
-        // # Type "/me test"
-        cy.postMessage('/me test');
+        // # Type "/me message"
+        cy.postMessage(`/me ${message}`);
 
-        // * Verify a message "test" is posted
+        // * Verify a message is posted
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'test');
+            cy.get(`#postMessageText_${postId}`).should('have.text', message);
 
             // * The message should match other system message formatting.
             cy.get(`#post_${postId}`).should('have.class', 'post--system');
@@ -187,15 +196,17 @@ describe('Integrations', () => {
     });
 
     it('MM-T685 /me not case-sensitive', () => {
+        const message = getRandomId();
+
         loginAndVisitChannel(user1, testChannelUrl);
 
-        // # Type "/Me test"
-        cy.postMessage('/Me test');
+        // # Type "/Me message"
+        cy.postMessage(`/Me ${message}`);
 
-        // * Verify a message "test" is posted
+        // * Verify a message is posted
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', user1.username);
-            cy.get(`#postMessageText_${postId}`).should('have.text', 'test');
+            cy.get(`#postMessageText_${postId}`).should('have.text', message);
         });
     });
 
@@ -216,22 +227,24 @@ describe('Integrations', () => {
         // # Open RHS (reply thread)
         cy.clickPostCommentIcon();
 
-        // # type /me test
-        cy.get('#reply_textbox').type('/me test');
+        const message = getRandomId();
+
+        // # type /me message
+        cy.get('#reply_textbox').type(`/me ${message}`);
         cy.get('#addCommentButton').click();
-        cy.uiWaitUntilMessagePostedIncludes('test');
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         cy.getLastPostId().then((postId) => {
             // * Verify RHS message is from current user and properly formatted with lower opacity
             cy.get(`#rhsPost_${postId}`).should('have.class', 'current--user').within(() => {
                 cy.get('button').should('have.text', user1.username);
-                cy.get('p').should('have.text', 'test').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+                cy.get('p').should('have.text', message).and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
             });
 
             // * Verify message on the main channel is from current user and properly formatted with lower opacity
             cy.get(`#post_${postId}`).should('have.class', 'current--user').within(() => {
                 cy.get('button').should('have.text', user1.username);
-                cy.get('p').should('have.text', 'test').and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
+                cy.get('p').should('have.text', message).and('have.css', 'color', 'rgba(61, 60, 64, 0.6)');
             });
         });
     });
@@ -239,7 +252,7 @@ describe('Integrations', () => {
     it('MM-T710 /mute error message', () => {
         loginAndVisitChannel(user1, testChannelUrl);
 
-        const invalidChannel = 'oppagangnamstyle';
+        const invalidChannel = `invalid-channel-${getRandomId()}`;
 
         // # Type /mute with random characters
         cy.postMessage(`/mute ${invalidChannel}{enter}`);
