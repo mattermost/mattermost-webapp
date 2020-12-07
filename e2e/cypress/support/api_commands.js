@@ -29,7 +29,7 @@ Cypress.Commands.add('apiCreateCommand', (command = {}) => {
 
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(201);
-        return {data: response.body, status: response.status};
+        return cy.wrap({data: response.body, status: response.status});
     });
 });
 
@@ -47,7 +47,7 @@ Cypress.Commands.add('apiEmailTest', () => {
         method: 'POST',
     }).then((response) => {
         expect(response.status, 'SMTP not setup at sysadmin config').to.equal(200);
-        cy.wrap(response);
+        return cy.wrap(response);
     });
 });
 
@@ -100,7 +100,7 @@ Cypress.Commands.add('apiCreateToken', (userId) => {
     }).then((response) => {
         // * Validate that request was denied
         expect(response.status).to.equal(200);
-        return {token: response.body.token};
+        return cy.wrap({token: response.body.token});
     });
 });
 
@@ -133,7 +133,7 @@ Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
 
     return cy.request(options).then((response) => {
         const data = response.body;
-        return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
+        return cy.wrap({...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''});
     });
 });
 
