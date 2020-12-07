@@ -8,6 +8,7 @@ declare namespace Cypress {
     type AnalyticsRow = import('mattermost-redux/types/admin').AnalyticsRow;
     type Bot = import('mattermost-redux/types/bots').Bot;
     type Channel = import('mattermost-redux/types/channels').Channel;
+    type Client = import('mattermost-redux/client/client4').default;
     type ClientLicense = import('mattermost-redux/types/config').ClientLicense;
     type ChannelMembership = import('mattermost-redux/types/channels').ChannelMembership;
     type ChannelType = import('mattermost-redux/types/channels').ChannelType;

@@ -3,6 +3,8 @@
 
 import Client4 from 'mattermost-redux/client/client4';
 
+import clientRequest from '../plugins/client_request';
+
 class E2EClient extends Client4 {
     doFetchWithResponse = async (url, options) => {
         const {
@@ -16,32 +18,28 @@ class E2EClient extends Client4 {
             data = JSON.parse(body);
         }
 
-        return new Promise((resolve) => {
-            cy.task('clientRequest', {
-                data,
-                headers,
-                method,
-                url,
-            }).then((response) => {
-                if (url.endsWith('/api/v4/users/login')) {
-                    this.setToken(response.headers.token);
-                    this.setUserId(response.data.id);
-                    this.setUserRoles(response.data.roles);
-                }
-
-                resolve(response);
-            });
+        const response = await clientRequest({
+            headers,
+            url,
+            method,
+            data,
         });
+
+        if (url.endsWith('/api/v4/users/login')) {
+            this.setToken(response.headers.token);
+            this.setUserId(response.data.id);
+            this.setUserRoles(response.data.roles);
+        }
+        return response;
     }
 }
 
-Cypress.Commands.add('makeClient', ({user}) => {
+Cypress.Commands.add('makeClient', async ({user}) => {
     const client = new E2EClient();
 
     const baseUrl = Cypress.config('baseUrl');
     client.setUrl(baseUrl);
 
-    return client.login(user.username, user.password).then(() => {
-        return cy.wrap(client);
-    });
+    await client.login(user.username, user.password);
+    return client;
 });
