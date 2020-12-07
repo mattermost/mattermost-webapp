@@ -1,16 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
-
+import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
-import {intlShape} from 'utils/react_intl';
-
 import Markdown from 'components/markdown';
+import {TextFormattingOptions} from 'utils/text_formatting';
 
 const typeMessage = {
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: {
@@ -47,17 +44,21 @@ const typeMessage = {
     },
 };
 
-class LastUsers extends React.PureComponent {
-    static propTypes = {
-        actor: PropTypes.string,
-        expandedLocale: PropTypes.object.isRequired,
-        formatOptions: PropTypes.object.isRequired,
-        intl: intlShape.isRequired,
-        postType: PropTypes.string.isRequired,
-        usernames: PropTypes.array.isRequired,
-    };
+type Props = {
+    actor?: string;
+    expandedLocale: MessageDescriptor;
+    formatOptions: Partial<TextFormattingOptions>;
+    intl: IntlShape;
+    postType: string;
+    usernames: Array<string>;
+}
 
-    constructor(props) {
+type State = {
+    expand: boolean;
+}
+
+export class LastUsers extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -65,13 +66,13 @@ class LastUsers extends React.PureComponent {
         };
     }
 
-    handleOnClick = (e) => {
+    handleOnClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.preventDefault();
 
         this.setState({expand: true});
     }
 
-    renderMessage = (formattedMessage) => {
+    renderMessage = (formattedMessage: string): JSX.Element => {
         return (
             <Markdown
                 message={formattedMessage}
@@ -80,7 +81,7 @@ class LastUsers extends React.PureComponent {
         );
     }
 
-    render() {
+    render(): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {expand} = this.state;
         const {
@@ -130,5 +131,4 @@ class LastUsers extends React.PureComponent {
         );
     }
 }
-
 export default injectIntl(LastUsers);
