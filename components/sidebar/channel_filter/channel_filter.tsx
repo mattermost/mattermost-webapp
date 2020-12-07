@@ -38,37 +38,9 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
     render() {
         const {unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let filterTitle = (
-            <FormattedMessage
-                id='sidebar_left.channel_filter.viewing'
-                defaultMessage='VIEWING:'
-            />
-        );
-
-        let filterDescription = (
-            <FormattedMessage
-                id='sidebar_left.channel_filter.allChannels'
-                defaultMessage='All channels'
-            />
-        );
-
         let tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
 
         if (unreadFilterEnabled) {
-            filterTitle = (
-                <FormattedMessage
-                    id='sidebar_left.channel_filter.filteredBy'
-                    defaultMessage='FILTERED BY:'
-                />
-            );
-
-            filterDescription = (
-                <FormattedMessage
-                    id='sidebar_left.channel_filter.unread'
-                    defaultMessage='Unread'
-                />
-            );
-
             tooltipMessage = localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
         }
 
