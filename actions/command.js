@@ -10,7 +10,7 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 
 import {openModal} from 'actions/views/modals';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
@@ -52,7 +52,7 @@ export function executeCommand(message, args) {
                 GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id);
                 return {data: true};
             }
-            const channel = getCurrentChannel(state);
+            const channel = getCurrentChannel(state) || {};
             if (channel.type === Constants.PRIVATE_CHANNEL) {
                 GlobalActions.showLeavePrivateChannelModal(channel);
                 return {data: true};

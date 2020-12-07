@@ -7,14 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @guest_account
+// Stage: @prod
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, getRandomId} from '../../../utils';
+import {
+    getEmailUrl,
+    getRandomId,
+    splitEmailBodyText,
+} from '../../../utils';
 
 const authenticator = require('authenticator');
 
@@ -23,7 +28,7 @@ describe('Guest Accounts', () => {
     let testTeam;
     let testChannel;
     let adminMFASecret;
-    const username = 'g' + getRandomId(); // username has to starts with a letter.
+    const username = 'g' + getRandomId(); // username has to start with a letter.
 
     before(() => {
         cy.apiInitSetup().then(({team, channel}) => {
@@ -151,8 +156,7 @@ describe('Guest Accounts', () => {
             expect(data.subject).to.contain(`sysadmin invited you to join the team ${testTeam.display_name} as a guest`);
 
             // # Extract invitation link from the invitation e-mail.
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            const bodyText = data.body.text.split(messageSeparator);
+            const bodyText = splitEmailBodyText(data.body.text);
             expect(bodyText[6]).to.contain('Join Team');
             const line = bodyText[6].split(' ');
             expect(line[3]).to.contain(baseUrl);
