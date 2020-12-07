@@ -281,8 +281,7 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2318 Allow anyone to join this team', () => {
-        // # UI
-
+        // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
