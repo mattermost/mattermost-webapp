@@ -222,6 +222,7 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2312 Team setting / Team name: Change name', () => {
+        const teamName = 'Test Team'
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
@@ -235,16 +236,16 @@ describe('Teams Suite', () => {
         cy.findByText('Team Name').should('be.visible').click();
 
         // # Change team name in the input
-        cy.get('#teamName').should('be.visible').clear().type('Test team');
+        cy.get('#teamName').should('be.visible').clear().type(teamName);
 
         // Save new team name
-        cy.get('#saveSetting').click();
+        cy.findByText(/save/i).click()
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
         // Team display name shows as "Testing Team" at top of main menu
-        cy.get('#headerTeamName').invoke('text').should('eq', 'Test team');
+        cy.get('#headerTeamName').invoke('text').should('eq', teamName);
 
         // Team initials show in the team icon in the sidebar
         cy.get(`#${testTeam.name}TeamButton`).scrollIntoView().should('have.attr', 'aria-label', 'test team team');
@@ -254,6 +255,7 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2317 Team setting / Update team description', () => {
+        const teamDescription = 'This is the best team'
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
@@ -267,17 +269,17 @@ describe('Teams Suite', () => {
         cy.findByText('Team Description').should('be.visible').click();
 
         // # Change team description in the input
-        cy.get('#teamDescription').should('be.visible').clear().type('This is the best team');
-        cy.get('#teamDescription').should('have.value', 'This is the best team');
+        cy.get('#teamDescription').should('be.visible').clear().type(teamDescription);
+        cy.get('#teamDescription').should('have.value', teamDescription);
 
         // Save new team description
-        cy.get('#saveSetting').click();
+        cy.findByText(/save/i).click()
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
 
         // Team tooltip should show description
-        verifyToolTip('#headerTeamName', 'This is the best team');
+        verifyToolTip('#headerTeamName', teamDescription);
     });
 
     it('MM-T2318 Allow anyone to join this team', () => {
@@ -297,7 +299,7 @@ describe('Teams Suite', () => {
         cy.get('#teamOpenInvite').click();
 
         // Save new team description
-        cy.get('#saveSetting').click();
+        cy.findByText(/save/i).click()
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
@@ -319,7 +321,7 @@ describe('Teams Suite', () => {
         cy.findByText('Beginning of Town Square').should('be.visible');
     });
 
-    it('MM-T2322 Do not allow anyone to join this team: UI', () => {
+    it('MM-T2322 Do not allow anyone to join this team', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
@@ -335,14 +337,13 @@ describe('Teams Suite', () => {
         cy.get('#teamOpenInviteNo').click();
 
         // Save new team description
-        cy.get('#saveSetting').click();
+        cy.findByText(/save/i).click()
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
-    });
-
-    it('MM-T2322 Do not allow anyone to join this team: Functionality', () => {
-        cy.apiLogin(newUser);
+  
+        // # Login as new user
+        cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.wait(TIMEOUTS.ONE_SEC);
 
@@ -360,17 +361,9 @@ describe('Teams Suite', () => {
         cy.apiLogout();
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        cy.visit('/login');
-        cy.apiLogin(newUser);
-
-        // * Verify if the user is redirected to the Select Team page
-        cy.url().should('include', '/select_team');
-        cy.get('#teamsYouCanJoinContent').should('be.visible');
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        // * Verify the user can login to a team
-        cy.get('.signup-team-dir').children().first().click();
-        ignoreUncaughtException();
+        // * Login as test user and join town square
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
