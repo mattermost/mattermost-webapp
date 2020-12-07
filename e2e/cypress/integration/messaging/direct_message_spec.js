@@ -53,7 +53,7 @@ describe('Direct Message', () => {
             cy.getLastPostId().then((postId) => {
                 const postText = `#postMessageText_${postId}`;
                 cy.get(postText).should('have.text', originalMessage);
-            })
+            });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
 
         cy.apiLogin(testUser).then(() => {
@@ -95,7 +95,7 @@ describe('Direct Message', () => {
                 // * Check the post and verify that it contains new edited message.
                 cy.get(postText).should('have.text', editedMessage);
                 cy.get(postEdited).should('be.visible');
-            })
+            });
         }).apiLogout().wait(TIMEOUTS.HALF_SEC);
     });
 
@@ -157,7 +157,7 @@ describe('Direct Message', () => {
         cy.get('#header-popover .popover-content').should('be.visible');
         cy.get('#header-popover').find('.popover-content').should(($el) => {
             expect($el.get(0).innerText).to.eq(expectedMessage);
-        })
+        });
     });
 
     it('MM-T1536 - Mute & Unmute', () => {
@@ -179,7 +179,7 @@ describe('Direct Message', () => {
         });
 
         // * Assert that channel appears as muted on the LHS
-        cy.get(`#directChannelList .muted`).first().should('contain', otherUser.username);
+        cy.get('#directChannelList .muted').first().should('contain', otherUser.username);
 
         // # Clicks on UnMute Channel
         cy.get('#channelHeaderDropdownButton button').click().then(() => {
@@ -190,6 +190,6 @@ describe('Direct Message', () => {
         });
 
         // * Assert that channel does not appear as muted on the LHS
-        cy.get(`#directChannelList .muted`).should('not.exist');
+        cy.get('#directChannelList .muted').should('not.exist');
     });
 });

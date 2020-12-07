@@ -30,6 +30,7 @@ describe('Group Message', () => {
 
     beforeEach(() => {
         cy.apiAdminLogin();
+
         // Add users on the testTeam
         Cypress._.times(groupUsersCount, (i) => {
             cy.apiCreateUser().then(({user: newUser}) => {
@@ -115,7 +116,7 @@ describe('Group Message', () => {
         cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 3 more people');
 
         // # Remove user by clicking the remove(x) button
-        cy.get('#selectItems .react-select__multi-value__remove').first().click()
+        cy.get('#selectItems .react-select__multi-value__remove').first().click();
 
         // * Assert that member info updates to reflect the new addition
         cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 4 more people');
@@ -133,7 +134,9 @@ describe('Group Message', () => {
         createGroupMessageWith(participants);
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        const sortedParticipants = participants.sort((a, b) => (a.username > b.username) ? 1 : -1);
+        const sortedParticipants = participants.sort((a, b) => {
+            return a.username > b.username ? 1 : -1;
+        });
 
         // * Assert that intro message includes the right copy
         const expectedChannelInfo = `This is the start of your group message history with ${sortedParticipants[0].username}, ${sortedParticipants[1].username}.Messages and files shared here are not shown to people outside this area.`;
@@ -163,7 +166,7 @@ describe('Group Message', () => {
         cy.getCurrentChannelId().then((channelId) => {
             cy.apiLogin(participants[0]);
 
-            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId: channelId});
+            cy.postMessageAs(participants[0], `@${testUser.username} Hello!!!`, channelId);
 
             // * Assert that user receives notification
             cy.wait(TIMEOUTS.HALF_SEC);
@@ -196,7 +199,7 @@ describe('Group Message', () => {
                 channelName = loc.pathname.split('/').slice(-1)[0];
             });
 
-            cy.postMessageAs({sender: participants[0], message: 'Hello all', channelId: channelId}).then(() => {
+            cy.postMessageAs(participants[0], 'Hello all', channelId).then(() => {
                 cy.apiLogin(testUser);
                 cy.visit(townsquareLink);
 
@@ -212,7 +215,7 @@ describe('Group Message', () => {
                     should('not.exist');
             });
 
-            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId: channelId}).then(() => {
+            cy.postMessageAs(participants[0], `@${testUser.username} Hello!!!`, channelId).then(() => {
                 cy.apiLogin(testUser);
                 cy.visit(townsquareLink);
 
@@ -233,7 +236,9 @@ describe('Group Message', () => {
     it('MM-T478 - Open existing group message from More... section', () => {
         // # Create a group message with two other users
         const participants = users.slice(0, 2);
-        const sortedParticipants = participants.sort((a, b) => (a.username > b.username) ? 1 : -1);
+        const sortedParticipants = participants.sort((a, b) => {
+            return a.username > b.username ? 1 : -1;
+        });
 
         createGroupMessageWith(participants);
         cy.wait(TIMEOUTS.HALF_SEC);
@@ -264,7 +269,7 @@ describe('Group Message', () => {
 });
 
 const createGroupMessageWith = (users) => {
-    let defaultUserLimit = 7;
+    const defaultUserLimit = 7;
     cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
     cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 7 more people');
 
