@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions';

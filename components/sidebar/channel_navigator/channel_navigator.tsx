@@ -116,7 +116,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                     <div className='SidebarContainer_filterAddChannel desktop'>
                         <div className='SidebarContainer_rightContainer'>
                             <ChannelFilter/>
-                            <div className='SidebarChannelNavigator_divider'></div>
+                            <div className='SidebarChannelNavigator_divider'/>
                             {historyArrows}
                         </div>
                         {addChannelDropdown}
@@ -126,7 +126,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
         } else {
             layout = (
                 <div className={'SidebarChannelNavigator webapp'}>
-                    <ChannelFilter />
+                    <ChannelFilter/>
                     {jumpToButton}
                     {addChannelDropdown}
                 </div>

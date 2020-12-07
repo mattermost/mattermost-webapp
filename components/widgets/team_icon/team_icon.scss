@@ -6,8 +6,8 @@
 
 .TeamIcon__content {
     @include single-transition(all, .25s, ease);
-    @include border-radius(3px);
-    background-color: alpha-color($black, .12);
+    @include border-radius(8px);
+    background-color: rgba(255, 255, 255, 0.16);
     overflow: hidden;
     height: 100%;
 
@@ -29,17 +29,15 @@
     }
 }
 .TeamIcon {
-    @include border-radius(4px);
-    font-weight: bold;
-    height: 45px;
+    font-weight: 600;
+    height: 40px;
     letter-spacing: -.5px;
     line-height: 42px;
     position: relative;
     text-align: center;
-    text-transform: capitalize;
+    text-transform: uppercase;
     vertical-align: top;
-    width: 45px;
-    margin-right: 12px;
+    width: 40px;
 
     &.TeamIcon__lg {
         width: 94px;

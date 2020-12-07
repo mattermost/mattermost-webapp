@@ -45,9 +45,12 @@
             display: flex;
             justify-content: center;
             margin-bottom: 16px;
+            margin-left: auto;
+            margin-right: auto;
             position: relative;
             text-align: center;
-            width: 100%;
+            width: 46px;
+            height: 46px;
 
             &:before {
                 @include border-radius(4px);
@@ -63,7 +66,7 @@
 
             &:not(.unread) {
                 &:before {
-                    transform: translateX(-100%) translateY(22%) scaleY(0);
+                    transform: translateX(-200%) translateY(12%) scaleY(0);
                 }
             }
 
@@ -73,12 +76,12 @@
                 &:hover::before,
                 &.unread:before,
                 &.active:before {
-                    transform: translateX(-100%) translateY(22%) scaleY(0);
+                    transform: translateX(-250%) translateY(12%) scaleY(0);
                 }
             }
 
             &:hover::before {
-                transform: translateX(-50%) translateY(22%) scaleY(1);
+                transform: translateX(-200%) translateY(12%) scaleY(1);
             }
 
             &.special {
@@ -88,31 +91,34 @@
             }
 
             &.active {
+                border: 4px solid rgba(var(--sidebar-text-active-border-rgb), 0.72);
+                border-radius: 11px;
                 &:before {
-                    transform: translateX(-50%) translateY(22%) scaleY(1.25);
+                    transform: translateX(-200%) translateY(12%) scaleY(1.25);
                 }
 
                 &:hover::before {
-                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                    transform: translateX(-200%) translateY(12%) scaleY(1);
                 }
             }
 
             &.unread {
                 &:before {
                     border-radius: 100%;
-                    transform: translateX(0px) translateY(22%) scaleX(0.8)
+                    transform: translateX(0px) translateY(12%) scaleX(0.8)
                         scaleY(0.2);
                 }
 
                 &:hover::before {
                     border-radius: 8px;
-                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                    transform: translateX(-200%) translateY(12%) scaleY(1);
                 }
             }
 
             a {
                 display: block;
                 height: 100%;
+                width: 40px;
                 text-decoration: none;
             }
 
@@ -123,7 +129,6 @@
             }
 
             .TeamIcon__content {
-                @include opacity(0.5);
                 &:hover {
                     @include opacity(0.8);
 
