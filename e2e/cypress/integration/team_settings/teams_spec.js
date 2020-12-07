@@ -222,7 +222,8 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2312 Team setting / Team name: Change name', () => {
-        const teamName = 'Test Team'
+        const teamName = 'Test Team';
+
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
@@ -239,7 +240,7 @@ describe('Teams Suite', () => {
         cy.get('#teamName').should('be.visible').clear().type(teamName);
 
         // Save new team name
-        cy.findByText(/save/i).click()
+        cy.findByText(/save/i).click();
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
@@ -255,7 +256,8 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2317 Team setting / Update team description', () => {
-        const teamDescription = 'This is the best team'
+        const teamDescription = 'This is the best team';
+
         // # Visit town-square channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
@@ -273,7 +275,7 @@ describe('Teams Suite', () => {
         cy.get('#teamDescription').should('have.value', teamDescription);
 
         // Save new team description
-        cy.findByText(/save/i).click()
+        cy.findByText(/save/i).click();
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
@@ -299,7 +301,7 @@ describe('Teams Suite', () => {
         cy.get('#teamOpenInvite').click();
 
         // Save new team description
-        cy.findByText(/save/i).click()
+        cy.findByText(/save/i).click();
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
@@ -337,7 +339,7 @@ describe('Teams Suite', () => {
         cy.get('#teamOpenInviteNo').click();
 
         // Save new team description
-        cy.findByText(/save/i).click()
+        cy.findByText(/save/i).click();
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
@@ -348,7 +350,7 @@ describe('Teams Suite', () => {
         cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Open the hamburger menu
-        cy.get('#teamIconInitial').should('be.visible').click();
+        cy.findByLabelText('main menu').should('be.visible').click();
 
         // # Click on Join another team menu item
         cy.findByText('Join Another Team').should('be.visible').click();
