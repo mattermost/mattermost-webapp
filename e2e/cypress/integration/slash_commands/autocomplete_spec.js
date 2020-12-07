@@ -7,12 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @integrations
+// Group: @not_cloud @integrations
+
 describe('Integrations', () => {
     const pluginIdDemo = 'com.mattermost.demo-plugin';
     const pluginIdJira = 'jira';
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);

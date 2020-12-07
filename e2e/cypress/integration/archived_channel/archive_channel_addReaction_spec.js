@@ -23,7 +23,7 @@ describe('Archived channels', () => {
         });
     });
 
-    it('MM-T1719 Cannot add reactions to existing reactions', () => {
+    it('MM-T1720 Cannot add reactions to existing reactions', () => {
         const messageText = 'Test add reaction in archive channels';
 
         // * Post text box should be visible

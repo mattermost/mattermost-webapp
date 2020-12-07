@@ -17,7 +17,7 @@ import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import ConfirmModal from 'components/confirm_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
