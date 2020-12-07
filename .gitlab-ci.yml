@@ -15,7 +15,7 @@ stages:
   - trigger
 
 variables:
-  ONLY_BUILD: "yes"
+  ONLY_BUILD: "no"
   ONLY_TEST: "no"
 
 include:
