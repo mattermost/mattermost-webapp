@@ -329,7 +329,9 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                     </div>
                     <div className='more-modal__details'>
                         <div className='more-modal__name'>
-                            {option.profiles.map((profile) => `@${profile.username}`).join(', ')}
+                            <span>
+                                {option.profiles.map((profile) => `@${profile.username}`).join(', ')}
+                            </span>
                         </div>
                     </div>
                 </>
@@ -339,7 +341,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         const {
             id,
             delete_at: deleteAt,
-            is_bot: isBot,
+            is_bot: isBot = false,
             last_picture_update: lastPictureUpdate,
         } = option;
 

@@ -800,7 +800,7 @@
         text-overflow: ellipsis;
 
         .more-modal__name {
-            margin: 5px 0;
+            margin: 5px;
             display: flex;
             min-width: 0;
             white-space: nowrap;
@@ -833,7 +833,7 @@
 
         span {
             overflow: hidden;
-            max-width: 90%;
+            max-width: 100%;
             text-overflow: ellipsis;
         }
     }
@@ -887,6 +887,7 @@
     .more-modal__lastPostAt {
         display: block;
         opacity: 0.6;
+        margin-left: 5px;
         time {
             font-weight: bold;
             white-space: nowrap;
