@@ -14,20 +14,12 @@ import {getRandomId} from '../../utils';
 
 describe('Edit bot username', () => {
     let testTeam;
-    let botName;
-    let newbotName;
 
-    // # Login as admin and visit town-square
     before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
-                DisableBotsWhenOwnerIsDeactivated: true,
-            },
-            PluginSettings: {
-                Enable: true,
-                RequirePluginSignature: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
@@ -50,16 +42,16 @@ describe('Edit bot username', () => {
         // * Assert that adding bots possible
         cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
-        botName = `bot-${getRandomId()}`;
+        const initialBotName = `bot-${getRandomId()}`;
 
-        // # fill+submit form
-        cy.get('#username').clear().type(botName);
+        // # Fill and submit form
+        cy.get('#username').clear().type(initialBotName);
         cy.get('#displayName').clear().type('Test Bot');
         cy.get('#saveBot').click();
         cy.get('#doneButton').click();
 
         // * Set alias for bot entry in bot list, this also checks that the bot entry exists
-        cy.get('.backstage-list__item').contains('.backstage-list__item', botName).as('botEntry');
+        cy.get('.backstage-list__item').contains('.backstage-list__item', initialBotName).as('botEntry');
 
         cy.get('@botEntry').then((el) => {
             // # Find the edit link for the bot
@@ -70,7 +62,7 @@ describe('Edit bot username', () => {
                 cy.wrap(editLink).click();
 
                 // * Check that user name is as expected
-                cy.get('#username').should('have.value', botName);
+                cy.get('#username').should('have.value', initialBotName);
 
                 // * Check that the display name is correct
                 cy.get('#displayName').should('have.value', 'Test Bot');
@@ -78,17 +70,19 @@ describe('Edit bot username', () => {
                 // * Check that description is empty
                 cy.get('#description').should('have.value', '');
 
-                newbotName = `bot-${getRandomId()}`;
+                const newBotName = `bot-${getRandomId()}`;
 
                 // * Enter the new user name
-                cy.get('#username').clear().type(newbotName);
+                cy.get('#username').clear().type(newBotName);
 
                 // # Click update button
                 cy.get('#saveBot').click();
+
+                cy.wrap(newBotName);
             }
-        }).then(() => {
+        }).then((newBotName) => {
             // * Set alias for bot entry in bot list, this also checks that the bot entry exists
-            cy.get('.backstage-list__item').contains('.backstage-list__item', newbotName).as('newbotEntry');
+            cy.get('.backstage-list__item').contains('.backstage-list__item', newBotName).as('newbotEntry');
 
             // * Get bot entry in bot list by username
             cy.get('@newbotEntry').then((el) => {

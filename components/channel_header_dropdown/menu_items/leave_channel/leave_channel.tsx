@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {showLeavePrivateChannelModal} from 'actions/global_actions';
 import {Constants} from 'utils/constants';
@@ -10,46 +11,50 @@ import {localizeMessage} from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
 
-export default class LeaveChannel extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+     * Object with info about user
+     */
+    channel: Channel;
+
+    /**
+     * Boolean whether the channel is default
+     */
+    isDefault: boolean;
+
+    /**
+     * Boolean whether the user is a guest or no
+     */
+    isGuestUser: boolean;
+
+    /**
+     * Use for test selector
+     */
+    id?: string;
+
+    /**
+     * Object with action creators
+     */
+    actions: {
 
         /**
-         * Object with info about user
+         * Action creator to leave channel
          */
-        channel: PropTypes.object.isRequired,
-
-        /**
-         * Boolean whether the channel is default
-         */
-        isDefault: PropTypes.bool.isRequired,
-
-        /**
-         * Boolean whether the user is a guest or no
-         */
-        isGuestUser: PropTypes.bool.isRequired,
-
-        /**
-         * Use for test selector
-         */
-        id: PropTypes.string,
-
-        /**
-         * Object with action creators
-         */
-        actions: PropTypes.shape({
-
-            /**
-             * Action creator to leave channel
-             */
-            leaveChannel: PropTypes.func.isRequired,
-        }).isRequired,
+        leaveChannel: (channelId: string) => void;
     };
+};
 
+type State = {
+};
+
+export default class LeaveChannel extends React.PureComponent<Props, State> {
     static defaultProps = {
+        isDefault: true,
         isGuestUser: false,
     }
 
-    handleLeave = (e) => {
+    handleLeave = (e: Event) => {
         e.preventDefault();
 
         const {
