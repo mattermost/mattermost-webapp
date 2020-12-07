@@ -343,7 +343,7 @@ describe('Teams Suite', () => {
 
         // # Close the team settings
         cy.get('body').type('{esc}', {force: true});
-  
+
         // # Login as new user
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
