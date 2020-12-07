@@ -54,7 +54,7 @@ describe('Account Settings > General > Position', () => {
         cy.contains('#user-profile-popover', 'Master hacker').should('be.visible');
     });
 
-    it('MM-T2064 Position / 128 characters', () => {
+    it.only('MM-T2064 Position / 128 characters', () => {
         const longPosition = 'Master Hacker II'.repeat(8);
 
         // # Open the hamburger menu
@@ -69,15 +69,13 @@ describe('Account Settings > General > Position', () => {
         cy.get('#saveSetting').click();
         cy.get('#position').should('not.be.visible');
 
+        cy.findByText('Position').should('be.visible').click();
         cy.get('#position').invoke('val').then((val) => {
             // # Verify that the input value is 128 characters
             expect(val.length).to.equal(128);
         });
 
         // # Try to edit the field with maximum characters
-        cy.findByText('Position').click();
-        cy.wait(TIMEOUTS.ONE_SEC);
-
         cy.get('#position').should('be.visible').focus().type('random');
         cy.get('#position').invoke('val').then((val) => {
             // # Verify that the position hasn't changed
