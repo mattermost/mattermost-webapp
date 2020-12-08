@@ -69,7 +69,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                 <i className='icon icon-magnify'/>
                 <FormattedMessage
                     id='sidebar_left.channel_navigator.jumpTo'
-                    defaultMessage='Find a channel...'
+                    defaultMessage='Find channel'
                 />
                 <div className={'SidebarChannelNavigator_shortcutText'}>
                     {channelSwitchTextShortcutDefault}

@@ -147,7 +147,7 @@
     .SidebarChannelNavigator {
         &.desktop {
             display: block;
-            margin: 18px 16px 11px 16px;
+            margin: 16px 14px 8px 14px;
             
             button:not(.SidebarChannelNavigator_jumpToButton), .SidebarFilters_filterButton {
                 background: transparent;
@@ -156,7 +156,7 @@
 
         &.webapp {
             display: flex;
-            margin: 18px 10px 11px 10px;
+            margin: 16px 14px 8px 14px;
 
             button, .SidebarFilters_filterButton {
                 margin: 0 2px;
@@ -174,7 +174,7 @@
 
             &:hover:not(.disabled) {
                 color: var(--sidebar-text);
-                background: rgba(255, 255, 255, 0.24);
+                background: rgba(255, 255, 255, 0.08);
             }
 
             &.disabled {
@@ -192,10 +192,12 @@
             display: flex;
             align-items: center;
             margin-bottom: 8px;
+            padding: 0 5px 0 2px;
 
             .icon-magnify {
                 font-size: 18px;
                 margin-right: 2px;
+                display: inline-flex;
             }
 
             .SidebarChannelNavigator_shortcutText {
@@ -210,20 +212,20 @@
             }
         }
         .SidebarChannelNavigator_divider {
-            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-right: 1px solid rgba(255, 255, 255, 0.16);
             height: 28px;
             margin-left: 8px;
         }
 
         .SidebarChannelNavigator_backButton {
-            border-radius: 4px 0px 0px 4px;
+            border-radius: 4px;
             padding: 0;
             margin-left: 8px;
             background: transparent;
         }
 
         .SidebarChannelNavigator_forwardButton {
-            border-radius: 0px 4px 4px 0px;
+            border-radius: 4px;
             padding: 0;
             background: transparent;
         }
@@ -234,7 +236,7 @@
     }
     .SidebarFilters .SidebarFilters_filterButton {
         display: block;
-        line-height: 28px;
+        line-height: 26px;
         height: 28px;
         width: 28px;      
         text-align: center;
