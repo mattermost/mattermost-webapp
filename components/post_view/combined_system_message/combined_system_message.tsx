@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
-
+import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
-import {t} from 'utils/i18n';
-import {intlShape} from 'utils/react_intl';
+import {UserProfile} from 'mattermost-redux/types/users';
 
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {t} from 'utils/i18n';
 import Markdown from 'components/markdown';
 
 import LastUsers from './last_users';
@@ -166,39 +166,43 @@ const postTypeMessage = {
     },
 };
 
-class CombinedSystemMessage extends React.PureComponent {
-    static propTypes = {
-        allUserIds: PropTypes.array.isRequired,
-        allUsernames: PropTypes.array.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        currentUsername: PropTypes.string.isRequired,
-        intl: intlShape.isRequired,
-        messageData: PropTypes.array.isRequired,
-        showJoinLeave: PropTypes.bool.isRequired,
-        userProfiles: PropTypes.array.isRequired,
-        actions: PropTypes.shape({
-            getMissingProfilesByIds: PropTypes.func.isRequired,
-            getMissingProfilesByUsernames: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+export type Props = {
+    allUserIds: Array<string>;
+    allUsernames: Array<string>;
+    currentUserId: string;
+    currentUsername: string;
+    intl: IntlShape;
+    messageData: Array<{
+        actorId: string;
+        postType: string;
+        userIds: Array<string>
+    }>;
+    showJoinLeave: boolean;
+    userProfiles: Array<UserProfile>;
+    actions: {
+        getMissingProfilesByIds: (userIds: Array<string>) => ActionFunc ;
+        getMissingProfilesByUsernames: (usernames: Array<string>) => ActionFunc;
+    }
+}
 
+export class CombinedSystemMessage extends React.PureComponent<Props> {
     static defaultProps = {
         allUserIds: [],
         allUsernames: [],
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.loadUserProfiles(this.props.allUserIds, this.props.allUsernames);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props): void {
         const {allUserIds, allUsernames} = this.props;
         if (allUserIds !== prevProps.allUserIds || allUsernames !== prevProps.allUsernames) {
             this.loadUserProfiles(allUserIds, allUsernames);
         }
     }
 
-    loadUserProfiles = (allUserIds, allUsernames) => {
+    loadUserProfiles = (allUserIds: Array<string>, allUsernames: Array<string>): void => {
         if (allUserIds.length > 0) {
             this.props.actions.getMissingProfilesByIds(allUserIds);
         }
@@ -208,7 +212,7 @@ class CombinedSystemMessage extends React.PureComponent {
         }
     }
 
-    getAllUsernames = () => {
+    getAllUsernames = (): {[p: string]: string} => {
         const {
             allUserIds,
             allUsernames,
@@ -217,7 +221,7 @@ class CombinedSystemMessage extends React.PureComponent {
             userProfiles,
         } = this.props;
         const {formatMessage} = this.props.intl;
-        const usernames = userProfiles.reduce((acc, user) => {
+        const usernames = userProfiles.reduce((acc: {[key: string]: string}, user: UserProfile) => {
             acc[user.id] = user.username;
             acc[user.username] = user.username;
             return acc;
@@ -233,7 +237,7 @@ class CombinedSystemMessage extends React.PureComponent {
         return usernames;
     }
 
-    getUsernamesByIds = (userIds = []) => {
+    getUsernamesByIds = (userIds: Array<string> = []): Array<string> => {
         const {currentUserId, currentUsername} = this.props;
         const allUsernames = this.getAllUsernames();
 
@@ -259,7 +263,7 @@ class CombinedSystemMessage extends React.PureComponent {
         return usernames;
     }
 
-    renderFormattedMessage(postType, userIds, actorId) {
+    renderFormattedMessage(postType: string, userIds: Array<string>, actorId: string): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
@@ -291,7 +295,7 @@ class CombinedSystemMessage extends React.PureComponent {
             );
         }
 
-        let localeHolder;
+        let localeHolder: MessageDescriptor = {};
         if (numOthers === 0) {
             localeHolder = postTypeMessage[postType].one;
 
@@ -315,7 +319,7 @@ class CombinedSystemMessage extends React.PureComponent {
         );
     }
 
-    renderMessage(postType, userIds, actorId) {
+    renderMessage(postType: string, userIds: Array<string>, actorId: string): JSX.Element {
         return (
             <React.Fragment key={postType + actorId}>
                 {this.renderFormattedMessage(postType, userIds, actorId)}
@@ -324,7 +328,7 @@ class CombinedSystemMessage extends React.PureComponent {
         );
     }
 
-    render() {
+    render(): JSX.Element {
         const {
             currentUserId,
             messageData,
