@@ -5,7 +5,7 @@ import React from 'react';
 
 import Setting from './setting';
 
-type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
+export type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
 
 export type WidgetTextSettingProps = {
     id: string;

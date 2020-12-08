@@ -20,7 +20,6 @@ module.exports = async ({data = {}, headers, method = 'get', url}) => {
                 status: error.response.status,
                 statusText: error.response.statusText,
                 data: error.response.data,
-                itWasAnError: 'ffff',
             };
         } else {
             // If we get here something else went wrong, so throw
