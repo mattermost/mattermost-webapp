@@ -225,6 +225,7 @@ const AdminDefinition = {
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
             it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
+            it.not(it.userHasReadPermissionOnResource('billing')),
         ),
         subscription: {
             url: 'billing/subscription',
@@ -237,6 +238,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         billing_history: {
             url: 'billing/billing_history',
@@ -249,6 +251,7 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info: {
             url: 'billing/company_info',
@@ -261,6 +264,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info_edit: {
             url: 'billing/company_info_edit',
@@ -268,6 +272,7 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info: {
             url: 'billing/payment_info',
@@ -281,6 +286,7 @@ const AdminDefinition = {
                 id: 'PaymentInfo',
                 component: PaymentInfo,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info_edit: {
             url: 'billing/payment_info_edit',
@@ -288,6 +294,7 @@ const AdminDefinition = {
                 id: 'PaymentInfoEdit',
                 component: PaymentInfoEdit,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
     },
     reporting: {
