@@ -208,15 +208,15 @@ describe('User Management', () => {
         // # Create a direct channel between two users
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
             // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`).wait(TIMEOUTS.TEN_SEC);
             cy.postMessage('hello');
         });
 
         cy.apiLogout().apiAdminLogin();
         activateUser(otherUser, false);
-        cy.apiLogout();
+        cy.apiLogout().wait(TIMEOUTS.FIVE_SEC);
 
-        cy.visit('/login').wait(TIMEOUTS.HALF_SEC);
+        cy.visit('/login').wait(TIMEOUTS.TEN_SEC);
 
         // # Login as otherUser
         cy.get('#loginId').should('be.visible').type(otherUser.username);
@@ -229,7 +229,7 @@ describe('User Management', () => {
         cy.apiLogin(testUser);
 
         // visit test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.TEN_SEC);
 
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -246,7 +246,7 @@ describe('User Management', () => {
             cy.findByLabelText('Close').click();
         });
 
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.HALF_SEC);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.TEN_SEC);
 
         // # Click Channel Members
         cy.get('#channelMemberIcon').should('be.visible').click();
