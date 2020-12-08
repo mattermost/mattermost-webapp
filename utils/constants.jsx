@@ -684,7 +684,7 @@ export const AboutLinks = {
 };
 
 export const CloudLinks = {
-    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
+    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
 };
 
 export const PermissionsScope = {

@@ -67,7 +67,7 @@ import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';

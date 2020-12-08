@@ -268,7 +268,7 @@ export default class MarketplaceItem extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
+        description: PropTypes.string,
         version: PropTypes.string.isRequired,
         homepageUrl: PropTypes.string,
         releaseNotesUrl: PropTypes.string,
@@ -443,7 +443,7 @@ export default class MarketplaceItem extends React.PureComponent {
                     </a>
                     {labels}
                     <a
-                        aria-label={this.props.description.toLowerCase()}
+                        aria-label="Plugin's website"
                         className='style--none more-modal__row--link'
                         target='_blank'
                         rel='noopener noreferrer'
@@ -464,7 +464,7 @@ export default class MarketplaceItem extends React.PureComponent {
                     </span>
                     {labels}
                     <span
-                        aria-label={this.props.description.toLowerCase()}
+                        aria-label="Plugin\'s website"
                         className='style--none'
                     >
                         {description}
