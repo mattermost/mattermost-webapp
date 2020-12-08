@@ -135,6 +135,7 @@ export function searchForTerm(term) {
     return (dispatch) => {
         dispatch(RhsActions.updateSearchTerms(term));
         dispatch(RhsActions.showSearchResults());
+        return {data: true};
     };
 }
 

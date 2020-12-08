@@ -404,6 +404,18 @@
                 z-index: 2;
             }
         }
+
+        .scrollbar--verticalTrack {
+            right: 2px;
+            bottom: 2px;
+            top: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        .scrollbar--vertical {
+            pointer-events: all;
+        }
     }
 
     .SidebarCategory_newLabel {
