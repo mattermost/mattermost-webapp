@@ -99,7 +99,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
             "current": null,
           }
         }
-        valueRenderer={[Function]}
         valueWithImage={true}
         values={Array []}
       />
@@ -207,7 +206,6 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
             "current": null,
           }
         }
-        valueRenderer={[Function]}
         valueWithImage={true}
         values={Array []}
       />

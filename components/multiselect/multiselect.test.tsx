@@ -55,6 +55,7 @@ describe('components/multiselect/multiselect', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+
     test('MultiSelectList should match state on next page', () => {
         const renderOption: MultiSelectProps<Value>['optionRenderer'] = (option, isSelected, onAdd, onMouseMove) => {
             return (

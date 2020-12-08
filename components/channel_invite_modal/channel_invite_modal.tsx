@@ -12,13 +12,12 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 
-import {imageURLForUser, displayEntireNameForUser, getDisplayName, localizeMessage, isGuest} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-import Avatar from 'components/widgets/users/avatar';
 
 import Constants from 'utils/constants';
 
@@ -258,23 +257,6 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         );
     };
 
-    private renderValue = (props: { data: { username: string, id: string, last_picture_update: number } }) => {
-        const profileImg = imageURLForUser(props.data.id, props.data.last_picture_update);
-
-        return (
-            <React.Fragment key={props.data.id}>
-                <Avatar
-                    size='sm'
-                    username={props.data.username}
-                    url={profileImg}
-                />
-                <div className='ml-2'>
-                    {getDisplayName(props.data)}
-                </div>
-            </React.Fragment>
-        );
-    }
-
     public render = (): JSX.Element => {
         let inviteError = null;
         if (this.state.inviteError) {
@@ -312,7 +294,6 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 optionRenderer={this.renderOption}
                 selectedItemRef={this.selectedItemRef}
                 values={this.state.values}
-                valueRenderer={this.renderValue}
                 ariaLabelRenderer={this.renderAriaLabel}
                 saveButtonPosition={'bottom'}
                 perPage={USERS_PER_PAGE}

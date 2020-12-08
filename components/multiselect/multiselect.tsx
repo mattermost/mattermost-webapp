@@ -54,7 +54,7 @@ export type Props<T extends Value> = {
     totalCount?: number;
     users?: unknown[];
     valueWithImage: boolean;
-    valueRenderer: (props: {data: T}) => any;
+    valueRenderer?: (props: {data: T}) => any;
     values: T[];
 }
 
@@ -500,10 +500,11 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                             {noteTextContainer}
                         </div>
                     </div>
+                    {this.props.saveButtonPosition === 'top' &&
                     <div className='filter-controls'>
                         {previousButton}
                         {nextButton}
-                    </div>
+                    </div>}
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
                 <div className='text-right pr-6 pb-6'>
