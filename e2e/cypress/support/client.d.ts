@@ -17,6 +17,6 @@
 
 declare namespace Cypress {
     interface Chainable<Subject = any> {
-        makeClient(options: {user: Pick<UserProfile, 'username' | 'password'>}): Chainable<Client>;
+        makeClient(options?: {user: Pick<UserProfile, 'username' | 'password'>}): Chainable<Client>;
     }
 }

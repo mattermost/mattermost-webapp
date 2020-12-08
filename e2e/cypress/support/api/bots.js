@@ -39,7 +39,7 @@ Cypress.Commands.add('apiGetBots', () => {
     });
 });
 
-function generateRandomBot(prefix = 'bot') {
+export function generateRandomBot(prefix = 'bot') {
     const randomId = getRandomId();
 
     return {

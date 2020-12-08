@@ -5,7 +5,9 @@ import Client4 from 'mattermost-redux/client/client4';
 
 import clientRequest from '../plugins/client_request';
 
-class E2EClient extends Client4 {
+import {getAdminAccount} from './env';
+
+export class E2EClient extends Client4 {
     doFetchWithResponse = async (url, options) => {
         const {
             body,
@@ -34,12 +36,13 @@ class E2EClient extends Client4 {
     }
 }
 
-Cypress.Commands.add('makeClient', async ({user}) => {
+Cypress.Commands.add('makeClient', async ({user = getAdminAccount()} = {}) => {
     const client = new E2EClient();
 
     const baseUrl = Cypress.config('baseUrl');
     client.setUrl(baseUrl);
 
     await client.login(user.username, user.password);
+
     return client;
 });

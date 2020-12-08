@@ -14,7 +14,7 @@ import {getAdminAccount} from '../../support/env';
 describe('Bot Post Message', () => {
     let townsquareChannel;
 
-    before(() => {
+    beforeEach(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
