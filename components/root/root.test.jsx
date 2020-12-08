@@ -7,7 +7,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import Root from 'components/root/root';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils';
 import Constants, {StoragePrefixes} from 'utils/constants';
 

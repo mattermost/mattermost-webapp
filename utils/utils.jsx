@@ -1902,3 +1902,11 @@ export function getNextBillingDate() {
     const nextBillingDate = moment().add(1, 'months').startOf('month');
     return nextBillingDate.format('MMM D, YYYY');
 }
+
+export function stringToNumber(s) {
+    if (!s) {
+        return 0;
+    }
+
+    return parseInt(s, 10);
+}

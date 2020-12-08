@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console @plugin
+// Group: @not_cloud @system_console @plugin
 
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
@@ -22,11 +22,13 @@ describe('Draw Plugin - Upload', () => {
     const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
-                RequirePluginSignature: false,
             },
         });
 
