@@ -4,6 +4,7 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
+import {Preferences} from 'mattermost-redux/constants';
 import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
@@ -38,10 +39,6 @@ type State = {
     selectedCategorySort: string;
 };
 
-enum Settings {
-    limitVisibleDmsGms = 'limit_visible_dms_gms',
-}
-
 export class SidebarCategorySortingMenu extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -67,7 +64,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         this.props.actions.savePreferences(currentUserId, [{
             user_id: currentUserId,
             category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            name: Settings.limitVisibleDmsGms,
+            name: Preferences.LIMIT_VISIBLE_DMS_GMS,
             value: number.toString(),
         }]);
         this.setState({selectedDmNumber: number});
