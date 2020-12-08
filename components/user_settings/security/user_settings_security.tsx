@@ -1017,6 +1017,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     <ToggleModalButton
                         className='security-links color--link mt-2'
                         dialogType={ActivityLogModal}
+                        id='viewAndLogOutOfActiveSessions'
                     >
                         <FormattedMessage
                             id='user.settings.security.logoutActiveSessions.icon'
