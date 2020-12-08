@@ -1,68 +1,75 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {Channel} from 'mattermost-redux/types/channels';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 import Markdown from 'components/markdown';
 
-import {renderSystemMessage} from './system_message_helpers.jsx';
+import {TextFormattingOptions, MentionKey} from 'utils/text_formatting';
 
-export default class PostMarkdown extends React.PureComponent {
-    static propTypes = {
+import {renderSystemMessage} from './system_message_helpers';
 
-        /*
+type Props = {
+
+    /*
          * Any extra props that should be passed into the image component
          */
-        imageProps: PropTypes.object,
+    imageProps?: Record<string, any>,
 
-        /*
+    /*
          * Whether or not this text is part of the RHS
          */
-        isRHS: PropTypes.bool,
+    isRHS?: boolean,
 
-        /*
+    /*
          * The post text to be rendered
          */
-        message: PropTypes.string.isRequired,
+    message: string,
 
-        /*
+    /*
          * The optional post for which this message is being rendered
          */
-        post: PropTypes.object,
+    post?: Post & {
+        message_source?: string;
+    },
 
-        /*
+    /*
          * The id of the channel that this post is being rendered in
          */
-        channelId: PropTypes.string,
+    channelId: string,
 
-        channel: PropTypes.object,
+    channel?: Channel,
 
-        options: PropTypes.object,
+    options?: Partial<TextFormattingOptions>,
 
-        pluginHooks: PropTypes.arrayOf(PropTypes.object),
+    pluginHooks?: Record<string, any>[],
 
-        /**
+    /**
          * Whether or not to place the LinkTooltip component inside links
          */
-        hasPluginTooltips: PropTypes.bool,
+    hasPluginTooltips?: boolean,
 
-        isUserCanManageMembers: PropTypes.bool,
-        mentionKeys: PropTypes.array.isRequired,
-    };
+    isUserCanManageMembers?: boolean,
+    mentionKeys: Array<MentionKey>,
+}
 
-    static defaultProps = {
+export default class PostMarkdown extends React.PureComponent<Props> {
+    static defaultProps: Partial<Props> = {
         isRHS: false,
         pluginHooks: [],
         options: {},
     };
 
-    render() {
+    render() : JSX.Element {
         let {message} = this.props;
-        const {post, mentionKeys} = this.props;
+        const {post, channel, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers);
+            const renderedSystemMessage = renderSystemMessage(post, channel, this.props.isUserCanManageMembers);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
@@ -76,11 +83,13 @@ export default class PostMarkdown extends React.PureComponent {
             disableGroupHighlight: post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
         };
 
-        this.props.pluginHooks.forEach((o) => {
-            if (o && o.hook && post) {
-                message = o.hook(post, message);
-            }
-        });
+        if (this.props.pluginHooks) {
+            this.props.pluginHooks.forEach((o) => {
+                if (o && o.hook && post) {
+                    message = o.hook(post, message);
+                }
+            });
+        }
 
         if (post && post.props) {
             options.mentionHighlight = !post.props.mentionHighlightDisabled;

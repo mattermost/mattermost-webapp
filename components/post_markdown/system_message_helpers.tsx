@@ -5,6 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {General, Posts} from 'mattermost-redux/constants';
+import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
+
+import {TextFormattingOptions} from 'utils/text_formatting';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -12,7 +16,7 @@ import Markdown from 'components/markdown';
 import CombinedSystemMessage from 'components/post_view/combined_system_message';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
-function renderUsername(value) {
+function renderUsername(value:string) {
     const username = (value[0] === '@') ? value : `@${value}`;
 
     const options = {
@@ -22,7 +26,7 @@ function renderUsername(value) {
     return renderFormattedText(username, options);
 }
 
-function renderFormattedText(value, options, post) {
+function renderFormattedText(value?:string, options?:Partial<TextFormattingOptions>, post?:Post) {
     return (
         <Markdown
             message={value}
@@ -33,7 +37,7 @@ function renderFormattedText(value, options, post) {
     );
 }
 
-function renderJoinChannelMessage(post) {
+function renderJoinChannelMessage(post: Post) {
     const username = renderUsername(post.props.username);
 
     return (
@@ -45,7 +49,7 @@ function renderJoinChannelMessage(post) {
     );
 }
 
-function renderGuestJoinChannelMessage(post) {
+function renderGuestJoinChannelMessage(post: Post) {
     const username = renderUsername(post.props.username);
 
     return (
@@ -57,7 +61,7 @@ function renderGuestJoinChannelMessage(post) {
     );
 }
 
-function renderLeaveChannelMessage(post) {
+function renderLeaveChannelMessage(post: Post) {
     const username = renderUsername(post.props.username);
 
     return (
@@ -69,7 +73,7 @@ function renderLeaveChannelMessage(post) {
     );
 }
 
-function renderAddToChannelMessage(post) {
+function renderAddToChannelMessage(post: Post) {
     const username = renderUsername(post.props.username);
     const addedUsername = renderUsername(post.props.addedUsername);
 
@@ -85,7 +89,7 @@ function renderAddToChannelMessage(post) {
     );
 }
 
-function renderAddGuestToChannelMessage(post) {
+function renderAddGuestToChannelMessage(post: Post) {
     const username = renderUsername(post.props.username);
     const addedUsername = renderUsername(post.props.addedUsername);
 
@@ -101,7 +105,7 @@ function renderAddGuestToChannelMessage(post) {
     );
 }
 
-function renderRemoveFromChannelMessage(post) {
+function renderRemoveFromChannelMessage(post: Post) {
     const removedUsername = renderUsername(post.props.removedUsername);
 
     return (
@@ -115,7 +119,7 @@ function renderRemoveFromChannelMessage(post) {
     );
 }
 
-function renderJoinTeamMessage(post) {
+function renderJoinTeamMessage(post: Post) {
     const username = renderUsername(post.props.username);
 
     return (
@@ -127,7 +131,7 @@ function renderJoinTeamMessage(post) {
     );
 }
 
-function renderLeaveTeamMessage(post) {
+function renderLeaveTeamMessage(post: Post) {
     const username = renderUsername(post.props.username);
 
     return (
@@ -139,7 +143,7 @@ function renderLeaveTeamMessage(post) {
     );
 }
 
-function renderAddToTeamMessage(post) {
+function renderAddToTeamMessage(post: Post) {
     const username = renderUsername(post.props.username);
     const addedUsername = renderUsername(post.props.addedUsername);
 
@@ -155,7 +159,7 @@ function renderAddToTeamMessage(post) {
     );
 }
 
-function renderRemoveFromTeamMessage(post) {
+function renderRemoveFromTeamMessage(post: Post) {
     const removedUsername = renderUsername(post.props.username);
 
     return (
@@ -169,7 +173,7 @@ function renderRemoveFromTeamMessage(post) {
     );
 }
 
-function renderHeaderChangeMessage(post) {
+function renderHeaderChangeMessage(post: Post) {
     if (!post.props.username) {
         return null;
     }
@@ -194,8 +198,8 @@ function renderHeaderChangeMessage(post) {
                         username,
                         old: oldHeader,
                         new: newHeader,
-                        strong: (chunks) => (<strong>{chunks}</strong>),
-                        br: (x) => (<><br/>{x}</>),
+                        strong: (chunks:Record<string, any>) => (<strong>{chunks}</strong>),
+                        br: (x:Record<string, any>) => (<><br/>{x}</>),
                     }}
                 />
             );
@@ -227,7 +231,7 @@ function renderHeaderChangeMessage(post) {
     return null;
 }
 
-function renderDisplayNameChangeMessage(post) {
+function renderDisplayNameChangeMessage(post: Post) {
     if (!(post.props.username && post.props.old_displayname && post.props.new_displayname)) {
         return null;
     }
@@ -249,7 +253,7 @@ function renderDisplayNameChangeMessage(post) {
     );
 }
 
-function renderConvertChannelToPrivateMessage(post) {
+function renderConvertChannelToPrivateMessage(post: Post) {
     if (!(post.props.username)) {
         return null;
     }
@@ -267,7 +271,7 @@ function renderConvertChannelToPrivateMessage(post) {
     );
 }
 
-function renderPurposeChangeMessage(post) {
+function renderPurposeChangeMessage(post: Post) {
     if (!post.props.username) {
         return null;
     }
@@ -317,7 +321,7 @@ function renderPurposeChangeMessage(post) {
     return null;
 }
 
-function renderChannelDeletedMessage(post) {
+function renderChannelDeletedMessage(post: Post) {
     if (!post.props.username) {
         return null;
     }
@@ -333,7 +337,7 @@ function renderChannelDeletedMessage(post) {
     );
 }
 
-function renderChannelUnarchivedMessage(post) {
+function renderChannelUnarchivedMessage(post: Post) {
     if (!post.props.username) {
         return null;
     }
@@ -349,7 +353,7 @@ function renderChannelUnarchivedMessage(post) {
     );
 }
 
-function renderMeMessage(post) {
+function renderMeMessage(post: Post) {
     return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
 }
 
@@ -373,11 +377,11 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post, channel, isUserCanManageMembers) {
+export function renderSystemMessage(post: Post, channel?:Channel, isUserCanManageMembers?: boolean) {
     if (post.props && post.props.add_channel_member) {
         const isEphemeral = Utils.isPostEphemeral(post);
 
-        if ((channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
+        if ((channel && (channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL)) &&
             isUserCanManageMembers &&
             isEphemeral
         ) {
