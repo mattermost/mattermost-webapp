@@ -46,7 +46,7 @@ jest.mock('actions/command', () => ({
     executeCommand: jest.fn((...args) => ({type: 'MOCK_ACTIONS_COMMAND_EXECUTE', args})),
 }));
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitUserCommentedEvent: jest.fn(),
 }));
 
