@@ -161,11 +161,11 @@ describe('Status dropdown menu', () => {
                 cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
 
                 // # Click status choice
-                cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id}`).should('be.visible')
-                    .and('have.css', 'cursor', 'pointer').click();
+                cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id}`).should('be.visible').
+                    and('have.css', 'cursor', 'pointer').click();
 
                 // # Verify correct status icon is shown on user's profile picture
-                cy.get(`.MenuWrapper.status-dropdown-menu svg`).should('have.attr', 'aria-label', `${tc.text} Icon`);
+                cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${tc.text} Icon`);
             });
         });
 
@@ -177,8 +177,8 @@ describe('Status dropdown menu', () => {
             cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
 
             // * Verify "Status" header does not have pointer cursor
-            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible')
-                .and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible').
+                and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
         });
     });
 });

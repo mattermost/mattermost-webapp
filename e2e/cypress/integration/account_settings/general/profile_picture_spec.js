@@ -12,11 +12,8 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Account Settings -> General -> Profile Picture', () => {
-    let testUser;
-
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
-            testUser = user;
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
@@ -59,7 +56,7 @@ describe('Account Settings -> General -> Profile Picture', () => {
         // # Close modal
         cy.get('body').type('{esc}');
 
-         // * Verify the default profile image is shown
-         cy.get('#lhsHeader img.Avatar').should('have.attr', 'src').should('not.include', customImageMatch);
+        // * Verify the default profile image is shown
+        cy.get('#lhsHeader img.Avatar').should('have.attr', 'src').should('not.include', customImageMatch);
     });
 });

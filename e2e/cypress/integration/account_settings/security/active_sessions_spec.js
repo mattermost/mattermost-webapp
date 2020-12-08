@@ -39,18 +39,18 @@ describe('Account Settings -> Security -> View and Log Out of Active Sessions', 
 
         // * Verify an appropriate platform is shown
         const platforms = ['Macintosh', 'Windows', 'Native Desktop App', 'iPhone Native App', 'Android Native App', 'iPhone Native Classic App', 'Android Native Classic App'];
-        const platformRegex = new RegExp(`${platforms.join('|')}`, 'g')
+        const platformRegex = new RegExp(`${platforms.join('|')}`, 'g');
         cy.get('.report__platform').contains(platformRegex);
 
         // # Click "More info" for the login session
         cy.get('.report__info a').should('be.visible').and('have.text', 'More info').click();
 
         // * Verify info is displayed
-        cy.get('.report__info').should('contain', 'Last activity:')
-            .and('contain', 'First time active:')
-            .and('contain', 'OS:')
-            .and('contain', 'Browser:')
-            .and('contain', 'Session ID:');
+        cy.get('.report__info').should('contain', 'Last activity:').
+            and('contain', 'First time active:').
+            and('contain', 'OS:').
+            and('contain', 'Browser:').
+            and('contain', 'Session ID:');
 
         // # Click "Log Out" to log out of the specified session
         cy.get('.activity-log__action button').should('have.text', 'Log Out').click();
