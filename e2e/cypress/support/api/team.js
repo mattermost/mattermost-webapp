@@ -94,7 +94,7 @@ Cypress.Commands.add('apiGetTeamsForUser', (userId = 'me') => {
 });
 
 Cypress.Commands.add('apiAddUserToTeam', (teamId, userId) => {
-    cy.request({
+    return cy.request({
         method: 'POST',
         url: `/api/v4/teams/${teamId}/members`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
