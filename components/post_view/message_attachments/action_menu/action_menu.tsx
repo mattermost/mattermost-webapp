@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -23,7 +23,7 @@ type AutocompleteChannelsAction = (
     term: string,
     success: (channels: Channel[]) => void,
     error: (error: Error) => void
-) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<void>;
+) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<ActionResult>;
 
 type SelectAttachmentMenuAction = (
     postId: string,
@@ -32,7 +32,7 @@ type SelectAttachmentMenuAction = (
     dataSource: string | undefined,
     text: string,
     value: string
-) => (dispatch: DispatchFunc) => Promise<void>;
+) => (dispatch: DispatchFunc) => Promise<ActionResult>;
 
 type Option = {
     text: string;

@@ -39,6 +39,9 @@ describe('Channel switching', () => {
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('contain', teamName);
 
+        // # Post any message
+        cy.postMessage('hello');
+
         // # Press alt + up
         cy.get('body').type('{alt}', {release: false}).type('{uparrow}').type('{alt}', {release: true});
 
@@ -70,6 +73,9 @@ describe('Channel switching', () => {
 
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('contain', teamName);
+
+        // # Post any message
+        cy.postMessage('hello');
 
         cy.getCurrentChannelId().as('townSquareId');
 
