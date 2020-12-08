@@ -19,7 +19,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
               "IndicatorsContainer": [Function],
               "Menu": [Function],
               "MultiValueLabel": [Function],
-              "MultiValueRemove": [Function],
             }
           }
           defaultInputValue=""
@@ -172,7 +171,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
               "IndicatorsContainer": [Function],
               "Menu": [Function],
               "MultiValueLabel": [Function],
-              "MultiValueRemove": [Function],
             }
           }
           defaultInputValue=""

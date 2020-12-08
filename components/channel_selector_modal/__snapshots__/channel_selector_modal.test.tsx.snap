@@ -78,6 +78,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>

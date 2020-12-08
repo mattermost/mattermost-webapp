@@ -3,14 +3,16 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import ReactSelect from 'react-select';
+import ReactSelect, {components} from 'react-select';
 
 import {InputActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 
+import {imageURLForUser, getDisplayName} from 'utils/utils.jsx';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import SaveButton from 'components/save_button';
+import Avatar from 'components/widgets/users/avatar';
 
 import MultiSelectList from './multiselect_list';
 
@@ -51,6 +53,7 @@ export type Props<T extends Value> = {
     submitImmediatelyOn?: (value: T) => void;
     totalCount?: number;
     users?: unknown[];
+    valueWithImage: boolean;
     valueRenderer: (props: {data: T}) => any;
     values: T[];
 }
@@ -71,6 +74,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
     public static defaultProps = {
         ariaLabelRenderer: defaultAriaLabelRenderer,
         saveButtonPosition: 'top',
+        valueWithImage: false,
     }
 
     public constructor(props: Props<T>) {
@@ -243,11 +247,32 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         this.props.handleDelete(values);
     }
 
-    MultiValueRemove = (children, innerProps) => (
+    MultiValueRemove = ({children, innerProps}: any) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon className='h-4 w-4 d-flex mr-1'/>}
         </div>
     );
+
+    formatOptionLabel = (user: any) => {
+        const profileImg = imageURLForUser(user.id, user.last_picture_update);
+
+        return (
+            <React.Fragment>
+                <Avatar
+                    size='sm'
+                    username={user.username}
+                    url={profileImg}
+                />
+                <div style={{margin: '0 2px 0 8px'}}>
+                    {getDisplayName(user)}
+                </div>
+            </React.Fragment>
+        );
+    }
+
+    valueRenderer = (props: any) => {
+        return this.props.valueWithImage ? <components.MultiValueLabel {...props}/> : this.props.valueRenderer;
+    }
 
     public render() {
         const options = Object.assign([...this.props.options]);
@@ -303,6 +328,68 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     </div>
                     <div>{this.props.noteText}</div>
                 </div>
+            );
+        }
+
+        let reactSelectDiv;
+        if (this.props.valueWithImage) {
+            reactSelectDiv = (
+                <ReactSelect
+                    id='selectItems'
+                    ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
+                    isMulti={true}
+                    options={this.props.options}
+                    styles={styles}
+                    components={{
+                        Menu: nullComponent,
+                        IndicatorsContainer: nullComponent,
+                        MultiValueRemove: this.MultiValueRemove,
+                    }}
+                    isClearable={false}
+                    openMenuOnFocus={false}
+                    menuIsOpen={false}
+                    onInputChange={this.onInput}
+                    onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
+                    onChange={this.onChange}
+                    value={this.props.values}
+                    formatOptionLabel={this.formatOptionLabel}
+                    placeholder={this.props.placeholderText}
+                    inputValue={this.state.input}
+                    getOptionValue={(option: Value) => option.id}
+                    getOptionLabel={this.props.ariaLabelRenderer}
+                    aria-label={this.props.placeholderText}
+                    className={this.state.a11yActive ? 'multi-select__focused' : ''}
+                    classNamePrefix='react-select-auto react-select'
+                />
+            );
+        } else {
+            reactSelectDiv = (
+                <ReactSelect
+                    id='selectItems'
+                    ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
+                    isMulti={true}
+                    options={this.props.options}
+                    styles={styles}
+                    components={{
+                        Menu: nullComponent,
+                        IndicatorsContainer: nullComponent,
+                        MultiValueLabel: paddedComponent(this.valueRenderer),
+                    }}
+                    isClearable={false}
+                    openMenuOnFocus={false}
+                    menuIsOpen={false}
+                    onInputChange={this.onInput}
+                    onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
+                    onChange={this.onChange}
+                    value={this.props.values}
+                    placeholder={this.props.placeholderText}
+                    inputValue={this.state.input}
+                    getOptionValue={(option: Value) => option.id}
+                    getOptionLabel={this.props.ariaLabelRenderer}
+                    aria-label={this.props.placeholderText}
+                    className={this.state.a11yActive ? 'multi-select__focused' : ''}
+                    classNamePrefix='react-select-auto react-select'
+                />
             );
         }
 
@@ -373,33 +460,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 <div className='filtered-user-list'>
                     <div className='filter-row filter-row--full'>
                         <div className='multi-select__container react-select'>
-                            <ReactSelect
-                                id='selectItems'
-                                ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
-                                isMulti={true}
-                                options={this.props.options}
-                                styles={styles}
-                                components={{
-                                    Menu: nullComponent,
-                                    IndicatorsContainer: nullComponent,
-                                    MultiValueLabel: paddedComponent(this.props.valueRenderer),
-                                    MultiValueRemove: this.MultiValueRemove,
-                                }}
-                                isClearable={false}
-                                openMenuOnFocus={false}
-                                menuIsOpen={false}
-                                onInputChange={this.onInput}
-                                onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
-                                onChange={this.onChange}
-                                value={this.props.values}
-                                placeholder={this.props.placeholderText}
-                                inputValue={this.state.input}
-                                getOptionValue={(option: Value) => option.id}
-                                getOptionLabel={this.props.ariaLabelRenderer}
-                                aria-label={this.props.placeholderText}
-                                className={this.state.a11yActive ? 'multi-select__focused' : ''}
-                                classNamePrefix='react-select-auto react-select'
-                            />
+                            {reactSelectDiv}
                             {this.props.saveButtonPosition === 'top' &&
                             <SaveButton
                                 id='saveItems'

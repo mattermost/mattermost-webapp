@@ -94,6 +94,7 @@ exports[`components/AddGroupsToTeamModal should match snapshot 1`] = `
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>

@@ -69,6 +69,14 @@
             height: auto;
         }
 
+        .react-select__multi-value__label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 4px;
+        }
+
         .multi-select__wrapper {
             padding: 12px 0;
             height: auto;

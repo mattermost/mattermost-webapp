@@ -150,6 +150,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
         ]
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
@@ -360,6 +361,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
         ]
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={
         Array [
           Object {

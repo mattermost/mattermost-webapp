@@ -262,13 +262,13 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         const profileImg = imageURLForUser(props.data.id, props.data.last_picture_update);
 
         return (
-            <React.Fragment>
+            <React.Fragment key={props.data.id}>
                 <Avatar
                     size='sm'
                     username={props.data.username}
                     url={profileImg}
                 />
-                <div style={{margin: '0 2px 0 8px'}}>
+                <div className='ml-2'>
                     {getDisplayName(props.data)}
                 </div>
             </React.Fragment>
@@ -327,6 +327,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search for people')}
+                valueWithImage={true}
             />
         );
 

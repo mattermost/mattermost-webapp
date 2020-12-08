@@ -187,6 +187,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
@@ -380,6 +381,7 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
