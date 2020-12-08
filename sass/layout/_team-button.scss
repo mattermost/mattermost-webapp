@@ -9,15 +9,13 @@
     vertical-align: top;
     width: 47px;
 
-    &:active,
-    &:focus-within {
-        @include box-shadow(0 0 2px v(sidebar-text))
-    }
-
     &.team-btn__add {
         font-size: 25px;
         line-height: 41px;
         vertical-align: middle;
-        background-color: transparent;
+
+        .TeamIcon__content {
+            background-color: transparent;
+        }
     }
 }

@@ -16,9 +16,10 @@
         .badge {
             border: 1px solid transparent;
             position: absolute;
-            right: -8px;
-            top: -6px;
+            right: -1px;
+            top: -9px;
             z-index: 5;
+            box-shadow: 0 0 0 2px #0E4289;
         }
     }
 

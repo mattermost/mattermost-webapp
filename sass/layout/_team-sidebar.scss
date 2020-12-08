@@ -51,67 +51,28 @@
             text-align: center;
             width: 46px;
             height: 46px;
+            border: 3px solid transparent;
+            border-radius: 11px;
 
-            &:before {
-                @include border-radius(4px);
-                content: "";
-                transform-origin: center center;
-                position: absolute;
-                top: 0;
-                left: 0;
-                transition: all 0.1s;
-                width: 8px;
-                height: 32px;
-            }
-
-            &:not(.unread) {
-                &:before {
-                    transform: translateX(-200%) translateY(12%) scaleY(0);
-                }
-            }
-
-            &.isDragging {
-                transition-timing-function: ease-in;
-                &:before,
-                &:hover::before,
-                &.unread:before,
-                &.active:before {
-                    transform: translateX(-250%) translateY(12%) scaleY(0);
-                }
-            }
-
-            &:hover::before {
-                transform: translateX(-200%) translateY(12%) scaleY(1);
-            }
-
-            &.special {
-                &:before {
-                    display: none;
-                }
+            &:hover {
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
             }
 
             &.active {
-                border: 4px solid rgba(var(--sidebar-text-active-border-rgb), 0.72);
-                border-radius: 11px;
-                &:before {
-                    transform: translateX(-200%) translateY(12%) scaleY(1.25);
-                }
-
-                &:hover::before {
-                    transform: translateX(-200%) translateY(12%) scaleY(1);
-                }
+                box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
             }
 
             &.unread {
                 &:before {
+                    content: "";
+                    position: absolute;
+                    top: -4px;
+                    right: -3px;
                     border-radius: 100%;
-                    transform: translateX(0px) translateY(12%) scaleX(0.8)
-                        scaleY(0.2);
-                }
-
-                &:hover::before {
-                    border-radius: 8px;
-                    transform: translateX(-200%) translateY(12%) scaleY(1);
+                    background: white;
+                    width: 8px;
+                    height: 8px;
+                    box-shadow: 0 0 0 2px #0E4289;
                 }
             }
 
@@ -125,16 +86,6 @@
             &.active {
                 .TeamIcon__content {
                     @include opacity(1);
-                }
-            }
-
-            .TeamIcon__content {
-                &:hover {
-                    @include opacity(0.8);
-
-                    &.no-hover {
-                        @include opacity(0.5);
-                    }
                 }
             }
 
