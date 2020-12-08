@@ -4,11 +4,13 @@
 import {connect} from 'react-redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
-import ChannelHeaderPlug from './channel_header_plug.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import ChannelHeaderPlug from './channel_header_plug';
+
+function mapStateToProps(state: GlobalState) {
     return {
-        components: state.plugins.components.ChannelHeaderButton,
+        components: state.plugins.components.ChannelHeaderButton || [],
         theme: getTheme(state),
     };
 }
