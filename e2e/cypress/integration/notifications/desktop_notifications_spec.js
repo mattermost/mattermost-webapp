@@ -246,6 +246,8 @@ describe('Desktop notifications', () => {
 
                 // # Visit Town square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.wait(TIMEOUTS.HALF_SEC);
+
                 spyNotificationAs('withNotification', 'granted');
 
                 // Have another user send a post with no mention
@@ -256,8 +258,6 @@ describe('Desktop notifications', () => {
 
                 // Have another user send a post with a mention
                 cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
-
-                cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Desktop notification is received
                 cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
