@@ -38,6 +38,7 @@ type Props = {
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
+    unreadFilterEnabled: boolean;
 };
 
 type State = {
@@ -195,6 +196,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                             showCreateCategoryModal={this.showCreateCategoryModal}
                             canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                             canJoinPublicChannel={this.props.canJoinPublicChannel}
+                            unreadFilterEnabled={this.props.unreadFilterEnabled}
                         />
                     </div>
                 </div>
