@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Stage: @prod
+// Group: @enterprise @not_cloud @system_console
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {
@@ -22,6 +23,8 @@ const goToAdminConsole = () => {
 
 describe('System console', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license
         cy.apiRequireLicense();
     });
