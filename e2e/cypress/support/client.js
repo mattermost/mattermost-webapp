@@ -11,7 +11,10 @@ class E2EClient extends Client4 {
             method,
         } = this.getOptions(options);
 
-        const data = JSON.parse(body);
+        let data;
+        if (body) {
+            data = JSON.parse(body);
+        }
 
         return new Promise((resolve) => {
             cy.task('clientRequest', {
@@ -38,7 +41,7 @@ Cypress.Commands.add('makeClient', ({user}) => {
     const baseUrl = Cypress.config('baseUrl');
     client.setUrl(baseUrl);
 
-    client.login(user.username, user.password).then(() => {
-        cy.wrap(client);
+    return client.login(user.username, user.password).then(() => {
+        return cy.wrap(client);
     });
 });
