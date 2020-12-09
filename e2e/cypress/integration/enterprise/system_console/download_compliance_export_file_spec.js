@@ -173,7 +173,7 @@ function exportCompliance() {
         eq(0).
         as('firstRow');
 
-    // Wait until export is finished
+    // # Wait until export is finished
     cy.waitUntil(() => {
         return cy.get('@firstRow').find('td:eq(1)').then((el) => {
             return el[0].innerText.trim() === 'Success';
