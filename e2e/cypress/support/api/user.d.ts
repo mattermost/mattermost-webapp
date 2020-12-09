@@ -311,7 +311,6 @@ declare namespace Cypress {
         apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
 
         /**
-        apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
          * Create a user access token
          * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1tokens/post
          * @param {String} userId - ID of user for whom to generate token
