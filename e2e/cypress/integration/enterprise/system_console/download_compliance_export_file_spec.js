@@ -135,7 +135,9 @@ function gotoTeamAndPostImage() {
     // Get user teams
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`); // Go to the first found team
+        // # Go to the first found team
+        cy.visit(`/${team.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
     
     // # Remove images from post message footer if exist
