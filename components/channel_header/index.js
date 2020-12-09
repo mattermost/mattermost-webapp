@@ -83,7 +83,7 @@ function makeMapStateToProps() {
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-            newSideBarPreference: config.EnableLegacySidebar !== 'true',
+            isLegacySidebar: config.EnableLegacySidebar === 'true',
             announcementBarCount: getAnnouncementBarCount(state),
         };
     };

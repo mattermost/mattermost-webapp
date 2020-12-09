@@ -87,7 +87,7 @@ class ChannelHeader extends React.PureComponent {
         }).isRequired,
         teammateNameDisplaySetting: PropTypes.string.isRequired,
         currentRelativeTeamUrl: PropTypes.string.isRequired,
-        newSideBarPreference: PropTypes.bool,
+        isLegacySidebar: PropTypes.bool,
         announcementBarCount: PropTypes.number,
     };
 
@@ -297,7 +297,7 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
             teammateNameDisplaySetting,
-            newSideBarPreference,
+            isLegacySidebar,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -446,7 +446,7 @@ class ChannelHeader extends React.PureComponent {
                     placement='bottom'
                     className={classNames(['channel-header__popover',
                         {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
-                            'chanel-header__popover--new_sidebar': newSideBarPreference}])}
+                            'chanel-header__popover--new_sidebar': !isLegacySidebar}])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}
