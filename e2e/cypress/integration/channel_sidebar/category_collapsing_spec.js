@@ -18,11 +18,6 @@ describe('Channel sidebar', () => {
     const sysadmin = getAdminAccount();
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
         cy.apiInitSetup({loginAfter: true});
     });
 

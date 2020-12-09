@@ -23,12 +23,6 @@ describe('Channel sidebar unread filter', () => {
     let testUser;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then(({user}) => {
             testUser = user;
 

@@ -17,12 +17,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
     let sysadmin;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 

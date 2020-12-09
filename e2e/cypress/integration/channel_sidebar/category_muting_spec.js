@@ -20,12 +20,6 @@ describe('Category muting', () => {
     let testUser;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then((({team, user}) => {
             testTeam = team;
             testUser = user;

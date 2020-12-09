@@ -21,13 +21,6 @@ describe('MM-T3156 DM category', () => {
     let testUser;
     const usernames = [];
     before(() => {
-        // # Enable channel sidebar organization
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
