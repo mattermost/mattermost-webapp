@@ -153,10 +153,19 @@ function gotoTeamAndPostImage() {
     };
     cy.get('#fileUploadInput').attachFile(file.filename);
 
+    // # Wait until the image upload process start
+    cy.waitUntil(() => {
+        return Cypress.$('.post-image__uploadingTxt').length;
+    });
+
     // # Wait until the image is uploaded
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
-    }));
+    cy.waitUntil(() => {
+        return !Cypress.$('.post-image__uploadingTxt').length;
+    }, {
+        timeout: TIMEOUTS.FIVE_MIN,
+        interval: TIMEOUTS.ONE_SEC,
+        errorMsg: 'Unable to upload attachment in time',
+    });
 
     cy.postMessage(`file uploaded-${file.filename}`);
 }
