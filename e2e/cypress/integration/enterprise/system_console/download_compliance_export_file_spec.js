@@ -128,6 +128,7 @@ function enableComplianceExport() {
 
 function gotoCompliancePage() {
     cy.visit('/admin_console/compliance/export');
+    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
 }
 
 function gotoTeamAndPostImage() {
