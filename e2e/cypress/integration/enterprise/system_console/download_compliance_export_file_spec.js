@@ -190,7 +190,7 @@ function downloadAttachmentAndVerifyItsProperties(fileURL) {
         // Verify the download
         expect(response.status).to.equal(200);
 
-        // Confirm it's a zip file
+        // * Confirm it's a zip file
         expect(response.headers['content-type']).to.equal('application/zip');
     });
 }
