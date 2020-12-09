@@ -75,7 +75,7 @@ type Props = {
         /**
          * The function to call to fetch team commands
          */
-        loadCommandsAndProfilesForTeam: (teamId?: string) => any;
+        loadCommandsAndProfilesForTeam: (teamId?: string) => any; // TechDebt-TODO: This needs to be changed to 'Promise<void>'
     };
 
     /**
