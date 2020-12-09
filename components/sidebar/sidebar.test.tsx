@@ -11,11 +11,11 @@ describe('components/sidebar', () => {
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
         canJoinPublicChannel: true,
-        isDataPrefechEnabled: true,
         isOpen: false,
         teamId: 'fake_team_id',
         hasSeenModal: true,
         isCloud: false,
+        unreadFilterEnabled: false,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
@@ -27,14 +27,6 @@ describe('components/sidebar', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <Sidebar {...baseProps}/>,
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot when isDataPrefechEnabled is disabled', () => {
-        const wrapper = shallow(
-            <Sidebar {...{...baseProps, isDataPrefechEnabled: false}}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

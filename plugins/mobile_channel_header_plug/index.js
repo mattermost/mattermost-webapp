@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
 
-import MobileChannelHeaderPlug from './mobile_channel_header_plug.jsx';
+import MobileChannelHeaderPlug from './mobile_channel_header_plug';
 
 function mapStateToProps(state) {
     return {
