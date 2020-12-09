@@ -137,6 +137,14 @@ function gotoTeamAndPostImage() {
         const team = teams[0];
         cy.visit(`/${team.name}/channels/town-square`); // Go to the first found team
     });
+    
+    // # Remove images from post message footer if exist
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        if (el.find('.post-image.normal').length > 0) {
+            cy.get('.file-preview__remove > .icon').click();
+        }
+        return el.find('.post-image.normal').length == 0;
+    }));
     const file = {
         filename: 'image-400x400.jpg',
         originalSize: {width: 400, height: 400},
