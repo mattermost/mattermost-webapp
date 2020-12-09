@@ -253,7 +253,7 @@ describe('Desktop notifications', () => {
         });
     });
 
-    it('MM-T488 Desktop Notifications - Teammate name display set to first and last name', () => {
+    it('MM-T490 Desktop Notifications - Teammate name display set to first and last name', () => {
         ignoreUncaughtException();
 
         cy.apiCreateUser({}).then(({user}) => {
