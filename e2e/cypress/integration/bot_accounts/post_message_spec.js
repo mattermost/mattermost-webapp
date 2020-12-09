@@ -9,8 +9,6 @@
 
 // Group: @bot_accounts
 
-import {getAdminAccount} from '../../support/env';
-
 describe('Bot Post Message', () => {
     let townsquareChannel;
 
@@ -64,7 +62,7 @@ describe('Bot Post Message', () => {
     });
 
     it('MM-T1813 Display name for bots stays current', () => {
-        cy.makeClient({user: getAdminAccount()}).then((client) => {
+        cy.makeClient().then((client) => {
         // # Create a bot and get bot user id
             cy.apiCreateBot().then(({bot}) => {
                 const botUserId = bot.user_id;

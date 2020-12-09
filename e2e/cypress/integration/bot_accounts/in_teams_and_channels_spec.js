@@ -15,12 +15,11 @@ import {createTeamPatch} from '../../support/api/team';
 describe('Managing bots in Teams', () => {
     before(() => {
         // # Set ServiceSettings to expected values
-        const newSettings = {
+        cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,
             },
-        };
-        cy.apiUpdateConfig(newSettings);
+        });
 
         cy.apiInitSetup();
     });
@@ -39,20 +38,19 @@ describe('Managing bots in Teams', () => {
             cy.get('#invitePeople > button').should('contain.text', 'Invite People').click();
             cy.findByTestId('inviteMembersSection').should('contain.text', 'Invite Members').click();
 
-            // # Enter bot username
+            // # Enter bot username and submit
             cy.findByTestId('inputPlaceholder').find('input').type(bot.username, {force: true}).as('input');
             cy.get('.users-emails-input__option ').contains(`@${bot.username}`);
             cy.get('@input').type('{enter}', {force: true});
-
-            // # Submit a
             cy.get('.invite-members button').click();
 
-            // # Verify
+            // * Verify bot added to team
             cy.get('.invitation-modal-confirm-sent .InvitationModalConfirmStepRow').
                 should('contain.text', `@${bot.username} - ${bot.display_name}`).
                 and('contain.text', 'This member has been added to the team.');
-            cy.get('.confirm-done').click();
 
+            // * Verify system message
+            cy.get('.confirm-done').click();
             cy.uiGetNthPost(-1).should('contain.text', `@${bot.username} added to the team by you.`);
         });
     });
