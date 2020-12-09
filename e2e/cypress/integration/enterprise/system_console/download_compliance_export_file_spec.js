@@ -187,7 +187,7 @@ function exportCompliance() {
 
 function downloadAttachmentAndVerifyItsProperties(fileURL) {
     cy.request(fileURL).then((response) => {
-        // Verify the download
+        // * Verify the download
         expect(response.status).to.equal(200);
 
         // * Confirm it's a zip file
