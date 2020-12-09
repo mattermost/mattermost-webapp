@@ -72,7 +72,6 @@ function mapStateToProps(state) {
         isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
         viewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
-        isDataPrefechEnabled: config.ExperimentalDataPrefetch === 'true',
     };
 }
 

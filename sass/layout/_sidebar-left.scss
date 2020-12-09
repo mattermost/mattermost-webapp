@@ -399,6 +399,18 @@
                 z-index: 2;
             }
         }
+
+        .scrollbar--verticalTrack {
+            right: 2px;
+            bottom: 2px;
+            top: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        .scrollbar--vertical {
+            pointer-events: all;
+        }
     }
 
     .SidebarCategory_newLabel {
@@ -538,6 +550,12 @@
 
         &.SidebarChannelGroupHeader--sticky {
             position: sticky;
+        }
+
+        &.muted {
+            .icon-chevron-down, .SidebarChannelGroupHeader_text {
+                opacity: 0.4;
+            }
         }
     }
 
@@ -787,6 +805,11 @@
             transform: none !important;
         }
 
+        &.selectedDragging {
+            opacity: 0.25;
+            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+        }
+
         .btn-close {
             @include opacity(0);
             visibility: hidden;
@@ -808,6 +831,25 @@
         .SidebarMenu_menuButton {
             height: 28px;
             width: 28px;
+        }
+
+        .SidebarChannel__selectedCount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            height: 25px;
+            background: var(--center-channel-color);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            border-radius: 20px;
+            padding: 2px 9px 7px 9px;
+
+
+            > span {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 11px;
+                color: var(--center-channel-bg);
+            }
         }
     }
 
@@ -903,6 +945,23 @@
             color: var(--sidebar-text);
         }
 
+        &.selected {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+
+            &:hover {
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+            }
+        }
+
+    }
+
+    .SidebarLink.selected {
+        background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+        color: rgba(var(--sidebar-text-rgb), 1);
+
+        &:hover {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        }
     }
 
     .SidebarChannel.active .SidebarLink::before {

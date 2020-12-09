@@ -40,6 +40,14 @@ export function renderThumbHorizontal(props: any) {
         />);
 }
 
+export function renderTrackVertical(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--verticalTrack'
+        />);
+}
+
 export function renderThumbVertical(props: any) {
     return (
         <div
@@ -50,26 +58,29 @@ export function renderThumbVertical(props: any) {
 
 type Props = {
     currentTeam: Team;
-    currentChannel: Channel;
+    currentChannelId: string;
     categories: ChannelCategory[];
     unreadChannelIds: string[];
     isUnreadFilterEnabled: boolean;
     displayedChannels: Channel[];
     newCategoryIds: string[];
     draggingState: DraggingState;
+    multiSelectedChannelIds: string[];
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
     onDragEnd: (result: DropResult) => void;
 
     actions: {
-        moveChannelInSidebar: (categoryId: string, channelId: string, newIndex: number) => void;
+        moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
         expandCategory: (categoryId: string) => void;
+        clearChannelSelection: () => void;
+        multiSelectChannelAdd: (channelId: string) => void;
     };
 };
 
@@ -121,7 +132,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (!this.props.currentChannel || !prevProps.currentChannel) {
+        if (!this.props.currentChannelId || !prevProps.currentChannelId) {
             return;
         }
 
@@ -131,14 +142,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         }
 
         // Scroll to selected channel so it's in view
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             // This will be re-enabled when we can avoid animating the scroll on first load and team switch
-            // this.scrollToChannel(this.props.currentChannel);
+            // this.scrollToChannel(this.props.currentChannelId);
         }
 
         // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
         // close the LHS on mobile when you change channels
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannelId !== prevProps.currentChannelId) {
             this.props.actions.close();
         }
 
@@ -162,12 +173,12 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
-        if (!this.props.currentChannel) {
+        if (!this.props.currentChannelId) {
             return null;
         }
 
         return channelIds.find((channelId) => {
-            return channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId);
+            return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
         });
     }
 
@@ -283,7 +294,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             e.preventDefault();
 
             const allChannelIds = this.getDisplayedChannelIds();
-            const curChannelId = this.props.currentChannel.id;
+            const curChannelId = this.props.currentChannelId;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -318,7 +329,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             }
 
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentChannel.id,
+                this.props.currentChannelId,
                 allChannelIds,
                 this.props.unreadChannelIds,
                 direction,
@@ -362,6 +373,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
         droppable[0].style.height = `${droppable[0].scrollHeight}px`;
 
+        if (!this.props.multiSelectedChannelIds.find((id) => before.draggableId === id)) {
+            this.props.actions.clearChannelSelection();
+        }
+
         const draggingState: DraggingState = {
             state: DraggingStates.CAPTURE,
             id: before.draggableId,
@@ -370,8 +385,14 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (this.props.categories.some((category) => category.id === before.draggableId)) {
             draggingState.type = DraggingStateTypes.CATEGORY;
         } else {
-            const draggingChannel = this.props.displayedChannels.find((channel) => channel.id === before.draggableId);
-            draggingState.type = (draggingChannel?.type === General.DM_CHANNEL || draggingChannel?.type === General.GM_CHANNEL) ? DraggingStateTypes.DM : DraggingStateTypes.CHANNEL;
+            const draggingChannels = this.props.displayedChannels.filter((channel) => this.props.multiSelectedChannelIds.indexOf(channel.id) !== -1 || channel.id === before.draggableId);
+            if (draggingChannels.every((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.DM;
+            } else if (draggingChannels.every((channel) => channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.CHANNEL;
+            } else {
+                draggingState.type = DraggingStateTypes.MIXED_CHANNELS;
+            }
         }
 
         this.props.actions.setDraggingState(draggingState);
@@ -396,7 +417,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
         if (result.reason === 'DROP' && result.destination) {
             if (result.type === 'SIDEBAR_CHANNEL') {
-                this.props.actions.moveChannelInSidebar(result.destination.droppableId, result.draggableId, result.destination.index);
+                this.props.actions.moveChannelsInSidebar(result.destination.droppableId, result.destination.index, result.draggableId);
                 trackEvent('ui', 'ui_sidebar_dragdrop_dropped_channel');
             } else if (result.type === 'SIDEBAR_CATEGORY') {
                 this.props.actions.moveCategory(this.props.currentTeam.id, result.draggableId, result.destination.index);
@@ -495,6 +516,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     autoHideDuration={500}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
+                    renderTrackVertical={renderTrackVertical}
                     renderView={renderView}
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}

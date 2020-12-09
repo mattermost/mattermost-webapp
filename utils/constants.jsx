@@ -206,6 +206,10 @@ export const ActionTypes = keyMirror({
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
     ADD_NEW_CATEGORY_ID: null,
+    MULTISELECT_CHANNEL: null,
+    MULTISELECT_CHANNEL_ADD: null,
+    MULTISELECT_CHANNEL_TO: null,
+    MULTISELECT_CHANNEL_CLEAR: null,
 
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
@@ -671,6 +675,7 @@ export const DraggingStateTypes = {
     CATEGORY: 'category',
     CHANNEL: 'channel',
     DM: 'DM',
+    MIXED_CHANNELS: 'mixed_channels',
 };
 
 export const AboutLinks = {
@@ -679,7 +684,7 @@ export const AboutLinks = {
 };
 
 export const CloudLinks = {
-    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
+    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
 };
 
 export const PermissionsScope = {
@@ -751,6 +756,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
+    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -975,7 +981,9 @@ export const Constants = {
     GITLAB_SERVICE: 'gitlab',
     GOOGLE_SERVICE: 'google',
     OFFICE365_SERVICE: 'office365',
-    OAUTH_SERVICES: ['gitlab', 'google', 'office365'],
+    OAUTH_SERVICES: ['gitlab', 'google', 'office365', 'openid'],
+    OPENID_SERVICE: 'openid',
+    OPENID_SCOPES: 'profile openid email',
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
     SAML_SERVICE: 'saml',
