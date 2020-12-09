@@ -167,7 +167,7 @@ function exportCompliance() {
     // Small wait to ensure new row is added
     cy.wait(TIMEOUTS.HALF_SEC);
 
-    // Get the first row
+    // # Get the first row
     cy.get('.job-table__table').
         find('tbody > tr').
         eq(0).
