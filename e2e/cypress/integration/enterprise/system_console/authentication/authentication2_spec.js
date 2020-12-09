@@ -11,7 +11,7 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-import {getEmailUrl, reUrl, getRandomId} from '../../../../utils';
+import {getEmailUrl, getRandomId} from '../../../../utils';
 
 describe('Authentication Part 2', () => {
     let testUser;
@@ -35,10 +35,8 @@ describe('Authentication Part 2', () => {
     });
 
     beforeEach(() => {
-
         // # Log in as a admin.
         cy.apiAdminLogin();
-
     });
 
     it('MM-T1756 - Restrict Domains - Multiple - success', () => {
@@ -74,11 +72,11 @@ describe('Authentication Part 2', () => {
         cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
-    it('MM-T1755 - Restrict Domains - Email invite', () => {
+    it('MM-T1757 - Restrict Domains - Multiple - fail', () => {
         // # Enable open server and turn on user account creation
         cy.apiUpdateConfig({
             TeamSettings: {
-                RestrictCreationToDomains: 'test.com',
+                RestrictCreationToDomains: 'mattermost.com, test.com',
                 EnableUserCreation: true,
                 EnableOpenServer: true,
             },
@@ -104,8 +102,8 @@ describe('Authentication Part 2', () => {
         cy.get('#emailEdit').should('be.visible').click();
 
         // # Type new email
-        cy.get('#primaryEmail').should('be.visible').type(`user-123123@example.com`);
-        cy.get('#confirmEmail').should('be.visible').type(`user-123123@example.com`);
+        cy.get('#primaryEmail').should('be.visible').type('user-123123@example.com');
+        cy.get('#confirmEmail').should('be.visible').type('user-123123@example.com');
         cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
         // # Save the settings
@@ -153,7 +151,7 @@ describe('Authentication Part 2', () => {
 
         cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
 
-        cy.findByTestId(`allowAllToggleSwitch`).click();
+        cy.findByTestId('allowAllToggleSwitch').click();
 
         // # Click "Save"
         cy.get('#saveSetting').click();
@@ -187,12 +185,11 @@ describe('Authentication Part 2', () => {
 
         cy.apiLogout();
 
-        cy.visit(`/`);
+        cy.visit('/');
 
         // * Assert that create account button is not visible
         cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
     });
-
 
     it('MM-T1761 - Enable Open Server - Create link appears if email account creation is false and other signin methods are true', () => {
         // # Enable open server and turn on user account creation and set restricted domain
@@ -210,28 +207,26 @@ describe('Authentication Part 2', () => {
 
         cy.apiLogout();
 
-        cy.visit(`/`);
+        cy.visit('/');
 
         // * Assert that create account button is visible
         cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
-
     it('MM-T1762 - Invite Salt', () => {
-        cy.visit(`/admin_console/site_config/public_links`);
+        cy.visit('/admin_console/site_config/public_links');
 
-        cy.findByText('Regenerate').click()
+        cy.findByText('Regenerate').click();
 
         // * Assert that create account button is visible
         cy.get('#FileSettings.PublicLinkSalt', {timeout: TIMEOUTS.ONE_MIN}).should('not.have.text', '********************************');
     });
 
-
     it('MM-T1763 - Security - Signup: Email verification not required, user immediately sees Town Square', () => {
         // # Enable open server and turn on user account creation and set restricted domain
         cy.apiUpdateConfig({
             EmailSettings: {
-                RequireEmailVerification: false
+                RequireEmailVerification: false,
             },
             TeamSettings: {
                 EnableUserCreation: true,
@@ -250,7 +245,7 @@ describe('Authentication Part 2', () => {
         // # Go to sign up with email page
         cy.visit('/signup_email');
 
-        const username = `Hossein${getRandomId()}`
+        const username = `Hossein${getRandomId()}`;
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`${username}@example.com`);
 
@@ -263,31 +258,29 @@ describe('Authentication Part 2', () => {
         // * Make sure account was created successfully and we are at the select team page
         cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
-
         const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
 
-        cy.task('getRecentEmail', {username: username, mailUrl}).then((response) => {
+        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
             // * Verify the subject
             expect(response.data.subject).to.include('[Mattermost] You joined');
         });
     });
 
-
     it('MM-T1765 - Authentication - Email - Creation with email = false', () => {
         // # Enable open server and turn on user account creation and set restricted domain
         cy.apiUpdateConfig({
             EmailSettings: {
-                EnableSignUpWithEmail: false
+                EnableSignUpWithEmail: false,
             },
             TeamSettings: {
                 EnableUserCreation: true,
                 EnableOpenServer: true,
             },
             GitLabSettings: {
-                DiscoveryEndpoint: "",
+                DiscoveryEndpoint: '',
                 Enable: true,
-                TokenEndpoint: "",
-                UserApiEndpoint: "",
+                TokenEndpoint: '',
+                UserApiEndpoint: '',
             },
         });
 
@@ -305,7 +298,7 @@ describe('Authentication Part 2', () => {
         // # Enable open server and turn on user account creation and set restricted domain
         cy.apiUpdateConfig({
             EmailSettings: {
-                EnableSignUpWithEmail: true
+                EnableSignUpWithEmail: true,
             },
             TeamSettings: {
                 EnableUserCreation: true,
@@ -320,5 +313,4 @@ describe('Authentication Part 2', () => {
         // * Email and Password option exist
         cy.findByText('Email and Password', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
     });
-
 });
