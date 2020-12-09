@@ -112,6 +112,10 @@ export default class StatusDropdown extends React.PureComponent {
         const dndCustomTimePicker = {
             ModalId: ModalIdentifiers.DND_CUSTOM_TIME_PICKER,
             dialogType: DndCustomTimePicker,
+            dialogProps: {
+                userId: this.props.userId,
+                setStatus: this.props.actions.setStatus,
+            },
         };
 
         this.props.actions.openModal(dndCustomTimePicker);
