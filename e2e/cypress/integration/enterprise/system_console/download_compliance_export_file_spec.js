@@ -164,7 +164,7 @@ function exportCompliance() {
     // Click the export job button
     cy.contains('button', 'Run Compliance Export Job Now').click();
 
-    // Small wait to ensure new row is added
+    // # Small wait to ensure new row is added
     cy.wait(TIMEOUTS.HALF_SEC);
 
     // # Get the first row
