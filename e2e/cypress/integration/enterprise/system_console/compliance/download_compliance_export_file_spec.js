@@ -9,7 +9,7 @@
 
 // Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 describe('Compliance Export', () => {
     before(() => {
