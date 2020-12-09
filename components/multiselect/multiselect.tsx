@@ -343,8 +343,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     components={{
                         Menu: nullComponent,
                         IndicatorsContainer: nullComponent,
-                        MultiValueLabel: this.props.valueWithImage ? <></> : paddedComponent(this.valueRenderer),
-                        MultiValueRemove: this.props.valueWithImage ? this.MultiValueRemove : <></>,
+                        MultiValueRemove: this.MultiValueRemove,
                     }}
                     isClearable={false}
                     openMenuOnFocus={false}
