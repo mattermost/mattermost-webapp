@@ -58,103 +58,103 @@ describe('autocomplete', () => {
     });
 
     it('MM-T2199 @ autocomplete - username', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
-
-        // # Clear then type @  and user name
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`).then(() => {
-            // * Verify that the item is displayed or not as expected.
-            cy.get('#suggestionList').within(() => {
-                cy.findByText(displayNameTestUser).should('be.visible');
-                cy.findByText(displayNameOtherUser).should('not.be.visible');
+        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Clear then type @  and user name
+            cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`).then(() => {
+                // * Verify that the item is displayed or not as expected.
+                cy.get('#suggestionList').within(() => {
+                    cy.findByText(displayNameTestUser).should('be.visible');
+                    cy.findByText(displayNameOtherUser).should('not.be.visible');
+                });
             });
-        });
 
-        // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
-
-        // # Check that the user name has been posted
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('contain', `${testUser.username}`);
+            // # Post user mention
+            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                // # Check that the user name has been posted
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${testUser.username}`);
+                });
+            });
         });
     });
 
     it('MM-T2200 @ autocomplete - nickname', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
-
-        // # Clear then type @ and user nickname
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.nickname}`).then(() => {
-            // * Verify that the item is displayed or not as expected.
-            cy.get('#suggestionList').within(() => {
-                cy.findByText(displayNameTestUser).should('be.visible');
-                cy.findByText(displayNameOtherUser).should('not.be.visible');
+        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Clear then type @ and user nickname
+            cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.nickname}`).then(() => {
+                // * Verify that the item is displayed or not as expected.
+                cy.get('#suggestionList').within(() => {
+                    cy.findByText(displayNameTestUser).should('be.visible');
+                    cy.findByText(displayNameOtherUser).should('not.be.visible');
+                });
             });
-        });
 
-        // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
-
-        // # Check that the user name has been posted
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('contain', `${testUser.username}`);
+            // # Post user mention
+            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                // # Check that the user name has been posted
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${testUser.username}`);
+                });
+            });
         });
     });
 
     it('MM-T2201 @ autocomplete - first name', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
-
-        // # Clear then type @  and user first names
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.first_name}`).then(() => {
-            // * Verify that the item is displayed or not as expected.
-            cy.get('#suggestionList').within(() => {
-                cy.findByText(displayNameTestUser).should('be.visible');
-                cy.findByText(displayNameOtherUser).should('not.be.visible');
+        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Clear then type @  and user first names
+            cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.first_name}`).then(() => {
+                // * Verify that the item is displayed or not as expected.
+                cy.get('#suggestionList').within(() => {
+                    cy.findByText(displayNameTestUser).should('be.visible');
+                    cy.findByText(displayNameOtherUser).should('not.be.visible');
+                });
             });
-        });
 
-        // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
-
-        // # Check that the user name has been posted
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('contain', `${testUser.username}`);
+            // # Post user mention
+            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                // # Check that the user name has been posted
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${testUser.username}`);
+                });
+            });
         });
     });
 
     it('MM-T2203 @ autocomplete - not email', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
-
-        // # Clear then type @ and user email
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.email}`);
-
-        // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Clear then type @ and user email
+            cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.email}`).then(() => {
+                // * Verify that the item is displayed or not as expected.
+                cy.get('#suggestionList').should('not.be.visible');
+            });
+        });
     });
 
     it('MM-T2206 @ autocomplete - not in channel (center), have permission to add (public channel)', () => {
         const message = `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`;
 
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Clear then type @
+            cy.get('#post_textbox').should('be.visible').clear().type('@').then(() => {
+                // * Verify that the suggestion list is visible
+                cy.get('#suggestionList').should('be.visible');
 
-        // # Clear then type @
-        cy.get('#post_textbox').should('be.visible').clear().type('@');
+                // # Type user name
+                cy.get('#post_textbox').type(`${notInChannelUser.username}`);
 
-        // * Verify that the suggestion list is visible
-        cy.get('#suggestionList').should('be.visible');
+                // # Post user mention
+                cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                    cy.getLastPostId().then((postId) => {
+                        // * Verify that the correct system message is displayed or not
+                        cy.get(`#postMessageText_${postId}`).should('include.text', message);
 
-        // # Type user name
-        cy.get('#post_textbox').type(`${notInChannelUser.username}`);
-
-        // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}').then(() => {
-            cy.getLastPostId().then((postId) => {
-                // * Verify that the correct system message is displayed or not
-                cy.get(`#postMessageText_${postId}`).should('include.text', message);
-
-                // * Click on the link to add the user to the channel
-                cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click().then(() => {
-                    // * Verify that the correct system message is displayed or not
-                    cy.getLastPostId().then((npostId) => {
-                        cy.get(`#postMessageText_${npostId}`).should('include.text', `@${notInChannelUser.username} added to the channel by you`);
+                        // * Click on the link to add the user to the channel
+                        cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click().then(() => {
+                            // * Verify that the correct system message is displayed or not
+                            cy.getLastPostId().then((npostId) => {
+                                cy.get(`#postMessageText_${npostId}`).should('include.text', `@${notInChannelUser.username} added to the channel by you`);
+                            });
+                        });
                     });
                 });
             });
@@ -169,55 +169,56 @@ describe('autocomplete', () => {
             tempUser = user1;
             cy.apiAddUserToTeam(testTeam.id, tempUser.id);
 
-            cy.apiLogin(testUser);
+            cy.apiLogin(testUser).then(() => {
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+                    // # Clear then type @
+                    cy.get('#post_textbox').should('be.visible').clear().type('@').then(() => {
+                        // * Verify that the suggestion list is visible
+                        cy.get('#suggestionList').should('be.visible');
 
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+                        // # Type user name
+                        cy.get('#post_textbox').type(`${tempUser.username}`);
 
-            // # Clear then type @
-            cy.get('#post_textbox').should('be.visible').clear().type('@');
+                        // # Post user name mention
+                        cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                            // * Verify that the correct system message is displayed
+                            cy.getLastPostId().then((postId) => {
+                                cy.get(`#postMessageText_${postId}`).should('include.text', `@${tempUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
-            // * Verify that the suggestion list is visible
-            cy.get('#suggestionList').should('be.visible');
+                                // * Click on the link to add the user to the channel
+                                cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click();
+                            });
 
-            // # Type user name
-            cy.get('#post_textbox').type(`${tempUser.username}`);
+                            cy.get('#sidebarItem_off-topic', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+                            cy.apiLogout().then(() => {
+                                cy.apiLogin(tempUser).then(() => {
+                                    cy.visit(`/${testTeam.name}`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+                                        // # Verify the mention notification exists
+                                        cy.get(`#sidebarItem_${testChannel.name}`).
+                                            scrollIntoView().
+                                            find('#unreadMentions').
+                                            should('be.visible').
+                                            and('have.text', '1');
 
-            // # Post user name mention
-            cy.get('#post_textbox').type('{enter}{enter}');
+                                        // * Navigate to the channel the user has been added to
+                                        cy.get(`#sidebarItem_${testChannel.name}`).click();
 
-            // * Verify that the correct system message is displayed
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`).should('include.text', `@${tempUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
+                                        // * Verify that the correct system message is displayed or not
+                                        cy.getLastPostId().then((postId) => {
+                                            cy.get(`#postMessageText_${postId}`).should('include.text', `You were added to the channel by @${testUser.username}`);
+                                        });
 
-                // * Click on the link to add the user to the channel
-                cy.get('a.PostBody_addChannelMemberLink').should('be.visible').click();
+                                        cy.apiLogout().then(() => {
+                                            // # Login as admin to restore the original state
+                                            cy.apiLogin(sysadmin);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
             });
-
-            cy.get('#sidebarItem_off-topic', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-            cy.apiLogout();
-
-            cy.apiLogin(tempUser);
-            cy.visit(`/${testTeam.name}`).wait(TIMEOUTS.FIVE_SEC);
-
-            // # Verify the mention notification exists
-            cy.get(`#sidebarItem_${testChannel.name}`).
-                scrollIntoView().
-                find('#unreadMentions').
-                should('be.visible').
-                and('have.text', '1');
-
-            // * Navigate to the channel the user has been added to
-            cy.get(`#sidebarItem_${testChannel.name}`).click();
-
-            // * Verify that the correct system message is displayed or not
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`).should('include.text', `You were added to the channel by @${testUser.username}`);
-            });
-
-            cy.apiLogout();
-
-            // # Login as admin to restore the original state
-            cy.apiLogin(sysadmin);
         });
     });
 
@@ -227,107 +228,107 @@ describe('autocomplete', () => {
         // # Create a group channel for 3 users
         cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Visit the channel using the name using the channels route
-            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+                // # Clear then type @
+                cy.get('#post_textbox').should('be.visible').clear().type('@').then(() => {
+                    // * Verify that the suggestion list is visible
+                    cy.get('#suggestionList').should('be.visible');
 
-            // # Clear then type @
-            cy.get('#post_textbox').should('be.visible').clear().type('@');
+                    // # Type user name
+                    cy.get('#post_textbox').type(`${notInChannelUser.username}`);
 
-            // * Verify that the suggestion list is visible
-            cy.get('#suggestionList').should('be.visible');
+                    // # Post user name mention
+                    cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                        // # Check that the user name has been posted
+                        cy.getLastPostId().then((postId) => {
+                            // * Verify that the correct system message is displayed or not
+                            cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
-            // # Type user name
-            cy.get('#post_textbox').type(`${notInChannelUser.username}`);
+                            // # Check that the user name has been posted
+                            cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
 
-            // # Post user name mention
-            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
-                // # Check that the user name has been posted
-                cy.getLastPostId().then((postId) => {
-                    // * Verify that the correct system message is displayed or not
-                    cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
-
-                    // # Check that the user name has been posted
-                    cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
-
-                    // * Verify that the @ mention is a link
-                    cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                            // * Verify that the @ mention is a link
+                            cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                        });
+                    });
                 });
             });
         });
 
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
             // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+                // # Clear then type @
+                cy.get('#post_textbox').should('be.visible').clear().type('@').then(() => {
+                    // * Verify that the suggestion list is visible
+                    cy.get('#suggestionList').should('be.visible');
 
-            // # Clear then type @
-            cy.get('#post_textbox').should('be.visible').clear().type('@');
+                    // # Type user name
+                    cy.get('#post_textbox').type(`${notInChannelUser.username}`);
+                    cy.get('#post_textbox').type('{enter}{enter}').then(() => {
+                        cy.getLastPostId().then((postId) => {
+                            // * Verify that the correct system message is displayed or not
+                            cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
 
-            // * Verify that the suggestion list is visible
-            cy.get('#suggestionList').should('be.visible');
+                            // # Check that the user name has been posted
+                            cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
 
-            // # Type user name
-            cy.get('#post_textbox').type(`${notInChannelUser.username}`);
-            cy.get('#post_textbox').type('{enter}{enter}').then(() => {
-                cy.getLastPostId().then((postId) => {
-                    // * Verify that the correct system message is displayed or not
-                    cy.get(`#postMessageText_${postId}`).should('not.include.text', `@${notInChannelUser.username} did not get notified by this mention because they are not in the channel. Would you like to add them to the channel? They will have access to all message history.`);
-
-                    // # Check that the user name has been posted
-                    cy.get(`#postMessageText_${postId}`).should('contain', `${notInChannelUser.username}`);
-
-                    // * Verify that the @ mention is a link
-                    cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                            // * Verify that the @ mention is a link
+                            cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                        });
+                    });
                 });
             });
         });
     });
 
     it('MM-T2212 @ mention followed by dot or underscore should highlight', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Type input suffixed with '.'
+            cy.get('#post_textbox').clear().type(`@${sysadmin.username}.`).type('{enter}{enter}').then(() => {
+                cy.getLastPostId().then((postId) => {
+                    // # Check that the user name has been posted
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
-        // # Type input suffixed with '.'
-        cy.get('#post_textbox').clear().type(`@${sysadmin.username}.`).type('{enter}{enter}').then(() => {
-            cy.getLastPostId().then((postId) => {
-                // # Check that the user name has been posted
-                cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
-
-                // * Verify that the group mention does have colored text
-                cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+                    // * Verify that the group mention does have colored text
+                    cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+                });
             });
-        });
 
-        // # Type input suffixed with '_'
-        cy.get('#post_textbox').clear().type(`@${sysadmin.username}_`).type('{enter}{enter}').then(() => {
-            cy.getLastPostId().then((postId) => {
-                // # Check that the user name has been posted
-                cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
+            // # Type input suffixed with '_'
+            cy.get('#post_textbox').clear().type(`@${sysadmin.username}_`).type('{enter}{enter}').then(() => {
+                cy.getLastPostId().then((postId) => {
+                    // # Check that the user name has been posted
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
-                // * Verify that the @ mention does have colored text
-                cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+                    // * Verify that the @ mention does have colored text
+                    cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+                });
             });
         });
     });
 
     it('MM-T2214 @ mention from link in profile popover: center', () => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC).then(() => {
+            // # Post a message as a different user
+            const message = `hello from ${otherUser.username}`;
+            cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id}).then((post) => {
+                // # Click on username
+                cy.get(`#post_${post.id}`).find('.user-popover').click();
 
-        // # Post a message as a different user
-        const message = `hello from ${otherUser.username}`;
-        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id}).then((post) => {
-            // # Click on username
-            cy.get(`#post_${post.id}`).find('.user-popover').click();
-
-            // * Popover should have rendered to screen
-            cy.get('#user-profile-popover').should('be.visible').within(($el) => {
-                cy.wrap($el).find('.user-popover__username').should('be.visible').click();
+                // * Popover should have rendered to screen
+                cy.get('#user-profile-popover').should('be.visible').within(($el) => {
+                    cy.wrap($el).find('.user-popover__username').should('be.visible').click();
+                });
             });
-        });
 
-        cy.get('#post_textbox').type('{enter}');
-
-        // # Check that the @ mention of username has been posted
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('contain', `${otherUser.username}`);
-            cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+            cy.get('#post_textbox').type('{enter}').then(() => {
+                // # Check that the @ mention of username has been posted
+                cy.getLastPostId().then((postId) => {
+                    cy.get(`#postMessageText_${postId}`).should('contain', `${otherUser.username}`);
+                    cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
+                });
+            });
         });
     });
 });
