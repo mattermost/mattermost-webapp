@@ -249,7 +249,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
 
     MultiValueRemove = ({children, innerProps}: any) => (
         <div {...innerProps}>
-            {children || <CloseCircleSolidIcon className='h-4 w-4 d-flex mr-1'/>}
+            {children || <CloseCircleSolidIcon/>}
         </div>
     );
 
@@ -263,7 +263,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     username={user.username}
                     url={profileImg}
                 />
-                <div style={{margin: '0 2px 0 8px'}}>
+                <div className='react-select__value__name'>
                     {getDisplayName(user)}
                 </div>
             </React.Fragment>
@@ -343,7 +343,8 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     components={{
                         Menu: nullComponent,
                         IndicatorsContainer: nullComponent,
-                        MultiValueRemove: this.MultiValueRemove,
+                        MultiValueLabel: this.props.valueWithImage ? <></> : paddedComponent(this.valueRenderer),
+                        MultiValueRemove: this.props.valueWithImage ? this.MultiValueRemove : <></>,
                     }}
                     isClearable={false}
                     openMenuOnFocus={false}

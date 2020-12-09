@@ -267,9 +267,11 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             <h1>
                 <FormattedMessage
                     id='channel_invite.addNewMembers'
-                    defaultMessage='Add people to '
+                    defaultMessage='Add people to {channel}'
+                    values={{
+                        channel: this.props.channel.display_name,
+                    }}
                 />
-                <span className='name'>{this.props.channel.display_name}</span>
             </h1>
         );
 

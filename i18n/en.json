@@ -2404,7 +2404,7 @@
   "channel_info.notFound": "No Channel Found",
   "channel_info.purpose": "Purpose:",
   "channel_info.url": "URL:",
-  "channel_invite.addNewMembers": "Add people to ",
+  "channel_invite.addNewMembers": "Add people to {channel}",
   "channel_loader.posted": "Posted",
   "channel_loader.postedImage": " posted an image",
   "channel_loader.socketError": "Please check connection, Mattermost unreachable. If issue persists, ask administrator to [check WebSocket port](!https://about.mattermost.com/default-websocket-port-help).",
