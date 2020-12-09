@@ -9,6 +9,7 @@
 
 // Group: @channel
 
+import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
@@ -16,9 +17,12 @@ describe('Leave an archived channel', () => {
     let testChannel;
     let testUser;
     let otherUser;
+    let adminUser;
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
     before(() => {
+        adminUser = getAdminAccount();
+
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
@@ -33,7 +37,6 @@ describe('Leave an archived channel', () => {
 
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
-                otherUser = second;
             });
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
             cy.postMessageAs({sender: testUser, message: testArchivedMessage, channelId: testChannel.id});
@@ -71,4 +74,54 @@ describe('Leave an archived channel', () => {
             });
         });
     });
+    it('MM-T1705 User can unarchive a public channel', () => {
+        // # As a user with appropriate permission, archive a public channel:
+        cy.apiLogin(adminUser);
+
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.contains('#channelHeaderTitle', 'Off-Topic');
+
+        const messageText = `archived text ${getRandomId()}`;
+
+        createArchivedChannel('unarchive-', [messageText]).then((channel) => {
+            // # View the archived channel, noting that it is read-only
+            cy.get('#post_textbox').should('not.be.visible');
+
+            // # Unarchive the channel:
+            cy.uiUnarchiveChannel();
+
+            // * Channel is no longer read-only
+            cy.get('#post_textbox').should('be.visible');
+
+            // * Channel is displayed in LHS with the normal icon, not an archived channel icon
+            cy.get(`#sidebarItem_${channel.name}`).should('be.visible');
+            cy.get(`#sidebarItem_${channel.name} .icon-globe`).should('be.visible');
+        });
+    });
+
+    async function createArchivedChannel(channelOptions, messages, memberUsernames) {
+        let channelName;
+        const wait = new Promise((waitFinished) => {
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.uiCreateChannel(channelOptions).then((newChannel) => {
+                channelName = newChannel.name;
+                if (memberUsernames) {
+                    cy.uiAddUsersToCurrentChannel(memberUsernames);
+                }
+                if (messages) {
+                    let messageList = messages;
+                    if (!Array.isArray(messages)) {
+                        messageList = [messages];
+                    }
+                    messageList.forEach((message) => {
+                        cy.postMessage(message);
+                    });
+                }
+                cy.uiArchiveChannel();
+                waitFinished();
+            });
+        });
+        await wait;
+        return cy.wrap({name: channelName});
+    }
 });
