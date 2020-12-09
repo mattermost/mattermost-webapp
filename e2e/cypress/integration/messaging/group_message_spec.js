@@ -164,9 +164,7 @@ describe('Group Message', () => {
 
         // # Post a message as a different user
         cy.getCurrentChannelId().then((channelId) => {
-            cy.apiLogin(participants[0]);
-
-            cy.postMessageAs(participants[0], `@${testUser.username} Hello!!!`, channelId);
+            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId: channelId});
 
             // * Assert that user receives notification
             cy.wait(TIMEOUTS.HALF_SEC);
@@ -182,9 +180,14 @@ describe('Group Message', () => {
         createGroupMessageWith(participants);
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        // # Clicks on Mute Channel
+        // # Clicks on Mute Channel through Notification Preferences
         cy.get('#channelHeaderDropdownButton button').click().then(() => {
-            cy.get('#channelToggleMuteChannel button').click().then(() => {
+            cy.get('#channelNotificationPreferences button').click().then(() => {
+                // # Set Mute Channel to On
+                cy.get('#markUnreadEdit').click();
+                cy.get('#channelNotificationUnmute').click();
+                cy.get('#saveSetting').click();
+
                 // * Assert that channel is muted
                 cy.get('#toggleMute').should('be.visible');
             });
@@ -192,15 +195,13 @@ describe('Group Message', () => {
 
         // # Post a message as a different user
         cy.getCurrentChannelId().then((channelId) => {
-            cy.apiLogin(participants[0]);
             let channelName;
 
             cy.location().then((loc) => {
                 channelName = loc.pathname.split('/').slice(-1)[0];
             });
 
-            cy.postMessageAs(participants[0], 'Hello all', channelId).then(() => {
-                cy.apiLogin(testUser);
+            cy.postMessageAs({sender: participants[0], message: 'Hello all', channelId: channelId}).then(() => {
                 cy.visit(townsquareLink);
 
                 // * Assert that user does not receives a notification
@@ -215,7 +216,7 @@ describe('Group Message', () => {
                     should('not.exist');
             });
 
-            cy.postMessageAs(participants[0], `@${testUser.username} Hello!!!`, channelId).then(() => {
+            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId: channelId}).then(() => {
                 cy.apiLogin(testUser);
                 cy.visit(townsquareLink);
 
