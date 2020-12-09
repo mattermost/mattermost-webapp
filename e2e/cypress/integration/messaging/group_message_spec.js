@@ -164,7 +164,7 @@ describe('Group Message', () => {
 
         // # Post a message as a different user
         cy.getCurrentChannelId().then((channelId) => {
-            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId: channelId});
+            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId});
 
             // * Assert that user receives notification
             cy.wait(TIMEOUTS.HALF_SEC);
@@ -201,7 +201,7 @@ describe('Group Message', () => {
                 channelName = loc.pathname.split('/').slice(-1)[0];
             });
 
-            cy.postMessageAs({sender: participants[0], message: 'Hello all', channelId: channelId}).then(() => {
+            cy.postMessageAs({sender: participants[0], message: 'Hello all', channelId}).then(() => {
                 cy.visit(townsquareLink);
 
                 // * Assert that user does not receives a notification
@@ -216,7 +216,7 @@ describe('Group Message', () => {
                     should('not.exist');
             });
 
-            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId: channelId}).then(() => {
+            cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId}).then(() => {
                 cy.apiLogin(testUser);
                 cy.visit(townsquareLink);
 
