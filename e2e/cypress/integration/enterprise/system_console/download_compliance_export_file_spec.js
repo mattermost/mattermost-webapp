@@ -13,7 +13,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Compliance Export', () => {
     before(() => {
-        cy.apiAdminLogin();
+        cy.apiRequireLicenseForFeature('Compliance');
         cy.apiUpdateConfig({
             MessageExportSettings: {
                 DownloadExportResults: true,
