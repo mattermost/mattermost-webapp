@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button';
@@ -30,12 +30,15 @@ export default class SignupController extends React.PureComponent {
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableSignUpWithOpenId: PropTypes.bool.isRequired,
         enableLDAP: PropTypes.bool.isRequired,
         enableSAML: PropTypes.bool.isRequired,
         samlLoginButtonText: PropTypes.string,
         siteName: PropTypes.string,
         usedBefore: PropTypes.string,
         ldapLoginFieldName: PropTypes.string.isRequired,
+        openidButtonText: PropTypes.string,
+        openidButtonColor: PropTypes.string,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
@@ -226,6 +229,37 @@ export default class SignupController extends React.PureComponent {
                                 id='signup.office365'
                                 defaultMessage='Office 365'
                             />
+                        </span>
+                    </span>
+                </a>,
+            );
+        }
+
+        if (this.props.isLicensed && this.props.enableSignUpWithOpenId) {
+            const buttonStyle = {};
+            if (this.props.openidButtonColor) {
+                buttonStyle.backgroundColor = this.props.openidButtonColor;
+            }
+            let buttonText = (
+                <FormattedMessage
+                    id='login.openid'
+                    defaultMessage='Open Id'
+                />
+            );
+            if (this.props.openidButtonText) {
+                buttonText = this.props.openidButtonText;
+            }
+            signupControls.push(
+                <a
+                    id='OpenIdButton'
+                    className='btn btn-custom-login btn--full openid'
+                    style={buttonStyle}
+                    key='openid'
+                    href={Client4.getOAuthRoute() + '/openid/signup' + window.location.search}
+                >
+                    <span>
+                        <span>
+                            {buttonText}
                         </span>
                     </span>
                 </a>,
