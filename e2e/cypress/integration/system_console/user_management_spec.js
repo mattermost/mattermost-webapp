@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getEmailUrl, getEmailMessageSeparator, getRandomId} from '../../utils';
+import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
 
 import {getAdminAccount} from '../../support/env';
 
@@ -80,7 +80,7 @@ describe('User Management', () => {
         resetUserEmail(testUser.email, newEmailAddr, '');
 
         // # Updates immediately in Account Settings for the user.
-        cy.get('#searchUsers').clear().type(newEmailAddr).wait(TIMEOUTS.HALF_SEC);
+        cy.findByPlaceholderText('Search users').clear().type(newEmailAddr).wait(TIMEOUTS.HALF_SEC);
         cy.get('.more-modal__details').should('be.visible').within(() => {
             cy.findByText(newEmailAddr).should('exist');
         });
@@ -151,12 +151,12 @@ describe('User Management', () => {
 
     it('MM-T938 Users - Revoke a user\'s session', () => {
         // # Create an active session for the user we're going to revoke.
-        apiLogin(testUser.username, testUser.password);
+        cy.apiLogin({username: testUser.username, password: testUser.password});
 
         // # Login to the UI as system_admin.
         cy.apiAdminLogin();
 
-        revokeSessionByEmailAndRole(testUser.email, 'Member');
+        revokeSessionByUsernameAndRole(testUser.username, 'Member');
 
         // # Ensure the user has no session.
         checkNoSessionsForUser(testUser.id);
@@ -168,9 +168,9 @@ describe('User Management', () => {
         // # Promote the test user to system_admin.
         cy.externalRequest({user: admin, method: 'put', path: `users/${testUser.id}/roles`, data: {roles: 'system_user system_admin'}});
 
-        apiLogin(testUser.username, testUser.password);
+        cy.apiLogin({username: testUser.username, password: testUser.password});
 
-        revokeSessionByEmailAndRole(testUser.email, 'System Admin');
+        revokeSessionByUsernameAndRole(testUser.username, 'System Admin');
 
         // # Ensure current user is redirected back to the login screen.
         cy.location('pathname').should('eq', '/login');
@@ -188,12 +188,12 @@ describe('User Management', () => {
         });
     }
 
-    function revokeSessionByEmailAndRole(email, role) {
+    function revokeSessionByUsernameAndRole(username, role) {
         // # Go to the user management page in the system console.
         cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
 
         // # Search for a test user.
-        cy.get('#searchUsers').clear().type(email).wait(TIMEOUTS.HALF_SEC);
+        cy.findByPlaceholderText('Search users').clear().type(username).wait(TIMEOUTS.HALF_SEC);
 
         cy.findByTestId('userListRow').first().within(() => {
             // # Open the actions menu of a member in the users list.
@@ -212,7 +212,7 @@ describe('User Management', () => {
 
     function resetUserEmail(oldEmail, newEmail, errorMsg) {
         // # Search for the user.
-        cy.get('#searchUsers').clear().type(oldEmail).wait(TIMEOUTS.HALF_SEC);
+        cy.findByPlaceholderText('Search users').clear().type(oldEmail).wait(TIMEOUTS.HALF_SEC);
 
         cy.findByTestId('userListRow').within(() => {
             // # Open the actions menu.
@@ -280,8 +280,7 @@ describe('User Management', () => {
             expect(data.subject).to.contain('Email Verification');
 
             // # Extract verification the link from the e-mail.
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            const bodyText = data.body.text.split(messageSeparator);
+            const bodyText = splitEmailBodyText(data.body.text);
             expect(bodyText[6]).to.contain('Verify Email');
             const line = bodyText[6].split(' ');
             expect(line[3]).to.contain(baseUrl);
