@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -26,9 +26,10 @@ const MAX_SELECTABLE_VALUES = 20;
 
 type UserProfileValue = Value & UserProfile;
 
-type Props = {
-    profilesNotInCurrentChannel: UserProfileValue[];
+export type Props = {
+    profilesNotInCurrentChannel: UserProfileValue[],
     profilesNotInCurrentTeam: UserProfileValue[],
+    userStatuses: RelationOneToOne<UserProfile, string>,
     onHide: () => void,
     channel: Channel,
 
@@ -46,6 +47,7 @@ type Props = {
         addUsersToChannel: any,
         getProfilesNotInChannel: any,
         getTeamStats: (teamId: string) => ActionFunc,
+        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{data: boolean;}>,
         searchProfiles: (term: string, options: any) => ActionFunc
     }
 }
@@ -95,6 +97,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
+        this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
     }
 
     public onHide = (): void => {
@@ -129,6 +132,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 this.props.channel.group_constrained,
                 page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
+                this.props.actions.loadStatusesForProfilesList(this.props.profilesNotInCurrentChannel);
             });
         }
     };
@@ -199,7 +203,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
         return option.username;
     }
 
-    private renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -215,6 +219,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                    status={this.props.userStatuses[option.id]}
                     size='md'
                     username={option.username}
                 />
