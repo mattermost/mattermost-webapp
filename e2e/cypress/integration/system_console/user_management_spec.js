@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getEmailUrl, getEmailMessageSeparator, getRandomId} from '../../utils';
+import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
 
 const TIMEOUTS = require('../../fixtures/timeouts');
 
@@ -426,8 +426,7 @@ describe('User Management', () => {
             expect(data.subject).to.contain('Email Verification');
 
             // # Extract verification the link from the e-mail.
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            const bodyText = data.body.text.split(messageSeparator);
+            const bodyText = splitEmailBodyText(data.body.text);
             expect(bodyText[6]).to.contain('Verify Email');
             const line = bodyText[6].split(' ');
             expect(line[3]).to.contain(baseUrl);
