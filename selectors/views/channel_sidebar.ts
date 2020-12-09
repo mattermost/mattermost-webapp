@@ -5,7 +5,12 @@
 
 import {createSelector} from 'reselect';
 
-import {getAllChannels, getCurrentChannelId, getMyChannelMemberships, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getAllChannels,
+    getCurrentChannelId,
+    getMyChannelMemberships,
+    getUnreadChannelIds,
+} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetChannelsByCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -166,4 +171,8 @@ export function getDisplayedChannels(state: GlobalState) {
 
 export function getDraggingState(state: GlobalState) {
     return state.views.channelSidebar.draggingState;
+}
+
+export function isChannelSelected(state: GlobalState, channelId: string) {
+    return state.views.channelSidebar.multiSelectedChannelIds.indexOf(channelId) !== -1;
 }

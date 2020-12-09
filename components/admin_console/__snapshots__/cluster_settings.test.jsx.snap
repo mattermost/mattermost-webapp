@@ -260,6 +260,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
@@ -532,6 +533,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         placement="top"
         rootClose={false}
         show={false}
+        target={null}
       >
         <Tooltip
           bsClass="tooltip"
