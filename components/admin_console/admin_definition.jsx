@@ -4430,7 +4430,6 @@ const AdminDefinition = {
                         newConfig[configSetting].TokenEndpoint = '';
                     }
 
-
                     delete newConfig.openidType;
                     return newConfig;
                 },
