@@ -4342,6 +4342,8 @@
   "user.settings.sidebar.never": "Never",
   "user.settings.sidebar.off": "Off",
   "user.settings.sidebar.on": "On",
+  "user.settings.sidebar.showUnreadsCategoryDesc": "When enabled, all unread channels and direct messages will be grouped together in the sidebar.",
+  "user.settings.sidebar.showUnreadsCategoryTitle": "Group unread channels separately",
   "user.settings.sidebar.sortAlpha": "Alphabetically",
   "user.settings.sidebar.sortAlphaShort": "sorted alphabetically",
   "user.settings.sidebar.sortChannelsTitle": "Channel sorting",
