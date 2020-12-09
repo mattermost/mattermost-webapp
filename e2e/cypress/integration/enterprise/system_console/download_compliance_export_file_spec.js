@@ -22,49 +22,49 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
-        // Go to compliance page and enable export
+        // # Go to compliance page and enable export
         gotoCompliancePage();
         enableComplianceExport();
 
-        // Navigate to a team and post an attachment
+        // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // Goto compliance page and start export
+        // # Goto compliance page and start export
         gotoCompliancePage();
         exportCompliance();
 
-        // Get the download link
+        // # Get the download link
         cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
             const fileURL = fileAttachment.attr('href');
 
-            // Download the file
+            // # Download the file
             downloadAttachmentAndVerifyItsProperties(fileURL);
         });
     });
 
     it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
-        // Go to compliance page and enable export
+        // # Go to compliance page and enable export
         gotoCompliancePage();
         enableComplianceExport();
 
-        // Navigate to a team and post an attachment
+        // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // Goto compliance page and start export
+        // # Goto compliance page and start export
         gotoCompliancePage();
         exportCompliance();
 
-        // Get the download link
+        // # Get the download link
         cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
             const fileURL = fileAttachment.attr('href');
 
-            // Download the File
+            // # Download the File
             downloadAttachmentAndVerifyItsProperties(fileURL);
 
-            // Export compliance again
+            // # Export compliance again
             exportCompliance();
 
-            // Download link should not exist this time
+            // # Download link should not exist this time
             cy.get('.job-table__table').
                 find('tbody > tr:eq(0)').
                 findByText('Download').should('not.exist');
@@ -72,55 +72,55 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
-        // Goto file storage settings Page
+        // # Goto file storage settings Page
         cy.visit('/admin_console/environment/file_storage');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
 
-        // Get AWS credentials
+        // # Get AWS credentials
         const AWS_S3_BUCKET = Cypress.env('AWS_S3_BUCKET');
         const AWS_ACCESS_KEY_ID = Cypress.env('AWS_ACCESS_KEY_ID');
         const AWS_SECRET_ACCESS_KEY = Cypress.env('AWS_SECRET_ACCESS_KEY');
 
-        // Config AWS settings
+        // # Config AWS settings
         cy.get('select[data-testid="FileSettings.DriverNamedropdown"]').select('amazons3');
         cy.get('input[data-testid="FileSettings.AmazonS3Bucketinput"]').type(AWS_S3_BUCKET);
         cy.get('input[data-testid="FileSettings.AmazonS3AccessKeyIdinput"]').type(AWS_ACCESS_KEY_ID);
         cy.get('input[data-testid="FileSettings.AmazonS3SecretAccessKeyinput"]').type(AWS_SECRET_ACCESS_KEY);
 
-        // Save file storage settings
+        // # Save file storage settings
         cy.get('button[data-testid="saveSetting"]').click();
 
         waitUntilConfigSave();
 
-        // Goto compliance page and enable export
+        // # Goto compliance page and enable export
         gotoCompliancePage();
         enableComplianceExport();
 
-        // Navigate to a team and post an attachment
+        // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // Goto compliance page and start export
+        // # Goto compliance page and start export
         gotoCompliancePage();
         exportCompliance();
 
-        // Get the download link
+        // # Get the download link
         cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
             const fileURL = fileAttachment.attr('href');
 
-            // Download the file
+            // # Download the file
             downloadAttachmentAndVerifyItsProperties(fileURL);
         });
     });
 });
 
 function enableComplianceExport() {
-    // Enable compliance export
+    // # Enable compliance export
     cy.get('input[data-testid="enableComplianceExporttrue"]').click();
 
-    // Change export format to CSV
+    // # Change export format to CSV
     cy.get('select[data-testid="exportFormatdropdown"]').select('csv');
 
-    // Save settings
+    // # Save settings
     cy.get('button[data-testid="saveSetting"]').click();
 
     waitUntilConfigSave();
@@ -132,20 +132,19 @@ function gotoCompliancePage() {
 }
 
 function gotoTeamAndPostImage() {
-    // Get user teams
+    // # Get user teams
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        // # Go to the first found team
         cy.visit(`/${team.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
-    
+
     // # Remove images from post message footer if exist
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         if (el.find('.post-image.normal').length > 0) {
             cy.get('.file-preview__remove > .icon').click();
         }
-        return el.find('.post-image.normal').length == 0;
+        return el.find('.post-image.normal').length === 0;
     }));
     const file = {
         filename: 'image-400x400.jpg',
