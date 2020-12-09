@@ -37,6 +37,9 @@ describe('components/SignupController', () => {
         enableSignUpWithGitLab: true,
         enableSignUpWithGoogle: true,
         enableSignUpWithOffice365: true,
+        enableSignUpWithOpenId: true,
+        openidButtonText: 'OpenId',
+        openidButtonColor: '#FFFFFF',
         samlLoginButtonText: 'SAML',
         ldapLoginFieldName: '',
         actions: {
