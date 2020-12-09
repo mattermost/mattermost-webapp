@@ -144,7 +144,6 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
         redirectChannel: 'default-channel',
         canCreatePublicChannel: true,
         canCreatePrivateChannel: true,
-        isDataPrefechEnabled: true,
     };
 
     test('should match snapshot, on sidebar show', () => {
@@ -207,18 +206,6 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     currentUser: null,
-                }}
-            />,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot that is not to have DataPrefetch mounted, when isDataPrefechEnabled is false', () => {
-        const wrapper = shallowWithIntl(
-            <Sidebar
-                {...{
-                    ...defaultProps,
-                    isDataPrefechEnabled: false,
                 }}
             />,
         );

@@ -225,6 +225,7 @@ const AdminDefinition = {
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
             it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
+            it.not(it.userHasReadPermissionOnResource('billing')),
         ),
         subscription: {
             url: 'billing/subscription',
@@ -237,6 +238,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         billing_history: {
             url: 'billing/billing_history',
@@ -249,6 +251,7 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info: {
             url: 'billing/company_info',
@@ -261,6 +264,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info_edit: {
             url: 'billing/company_info_edit',
@@ -268,6 +272,7 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info: {
             url: 'billing/payment_info',
@@ -281,6 +286,7 @@ const AdminDefinition = {
                 id: 'PaymentInfo',
                 component: PaymentInfo,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info_edit: {
             url: 'billing/payment_info_edit',
@@ -288,6 +294,7 @@ const AdminDefinition = {
                 id: 'PaymentInfoEdit',
                 component: PaymentInfoEdit,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
     },
     reporting: {
@@ -5241,16 +5248,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ExperimentalDataPrefetch',
-                        label: t('admin.experimental.experimentalDataPrefetch.title'),
-                        label_default: 'Preload messages in unread channels:',
-                        help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
-                        help_text_default: 'When true, messages in unread channels are preloaded to reduce channel loading time. When false, messages are not loaded from the server until users switch channels.',
-                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
