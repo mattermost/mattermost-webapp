@@ -74,6 +74,7 @@ describe('Compliance Export', () => {
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
         // Goto file storage settings Page
         cy.visit('/admin_console/environment/file_storage');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
 
         // Get AWS credentials
         const AWS_S3_BUCKET = Cypress.env('AWS_S3_BUCKET');
