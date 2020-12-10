@@ -35,34 +35,34 @@ describe('LDAP settings', () => {
     it('MM-T2700 LDAP username required', () => {
         cy.visitLDAPSettings();
 
-        // * Remove text from Username Attribute
-        cy.get('[data-testid="LdapSettings.UsernameAttributeinput"]').click().clear();
+        // # Remove text from Username Attribute
+        cy.findByLabelText(/username attribute:/i).click().clear();
 
         // # Click Save
         cy.findByText(/save/i).click();
 
-        // * Error message "AD/LDAP field "Username Attribute" is required."
-        cy.findByText(/ad\/ldap field "username attribute" is required./i).should('be.visible');
-        cy.get('.col-sm-12 > .control-label').should('be.visible');
+        // * Verifying message "AD/LDAP field "Username Attribute" is required."
+        cy.findByText('AD/LDAP field "Username Attribute" is required.').should('be.visible');
 
         // * Set back to what it was
-        cy.get('[data-testid="LdapSettings.UsernameAttributeinput"]').click().type('uid');
+        cy.findByLabelText(/username attribute:/i).click().type('uid');
         cy.findByText(/save/i).click();
         cy.findByRole('button', {name: /save/i}).should('be.disabled');
     });
     it('MM-T2701 LDAP LoginidAttribute required', () => {
         cy.visitLDAPSettings();
 
-        // * Try to save LDAP settings with blank Loginid
+        // # Try to save LDAP settings with blank Loginid
         cy.get('[data-testid="LdapSettings.LoginIdAttributeinput"]').click().clear();
         cy.findByText(/save/i).click();
+
+        // * Verifying Error Message
         cy.findByText(/ad\/ldap field "login id attribute" is required./i).should('be.visible');
     });
     it('MM-T2704 Create new LDAP account from login page', () => {
-        const testSettings =
-        {
+        const testSettings = {
             user: {
-                username: 'test.one',
+                username: 'test.two',
                 password: 'Password1',
             },
             siteName: 'Mattermost',
@@ -71,7 +71,7 @@ describe('LDAP settings', () => {
         // # Login as a new LDAP user
         cy.doLDAPLogin(testSettings);
 
-        // Verify user is logged in  Successfy
+        // * Verify user is logged in  Successfy
         cy.findByText(/logout/i).should('be.visible');
     });
 });
