@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
 import {Tooltip} from 'react-bootstrap';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
@@ -20,29 +19,29 @@ const POST_TOOLTIP_RANGES = [
     RelativeRanges.YESTERDAY_TITLE_CASE,
 ];
 
-export default class PostTime extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
+    /*
          * If true, time will be rendered as a permalink to the post
          */
-        isPermalink: PropTypes.bool.isRequired,
+    isPermalink: boolean;
 
-        /*
-         * The time to display
-         */
-        eventTime: PropTypes.number.isRequired,
+    /*
+     * The time to display
+     */
+    eventTime: number;
 
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
+    location: string;
 
-        /*
-         * The post id of posting being rendered
-         */
-        postId: PropTypes.string,
-        teamUrl: PropTypes.string,
-    };
+    /*
+     * The post id of posting being rendered
+     */
+    postId: string;
+    teamUrl: string;
+}
 
-    static defaultProps = {
+export default class PostTime extends React.PureComponent<Props> {
+    static defaultProps: Partial<Props> = {
         eventTime: 0,
         location: Locations.CENTER,
     };
@@ -94,7 +93,7 @@ export default class PostTime extends React.PureComponent {
                 placement='top'
                 overlay={
                     <Tooltip
-                        id={eventTime}
+                        id={eventTime.toString()}
                         className='hidden-xs'
                     >
                         <Timestamp

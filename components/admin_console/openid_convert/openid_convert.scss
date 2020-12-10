@@ -1,0 +1,80 @@
+@import 'utils/variables';
+
+.OpenIdConvert {
+    background-color: rgba(87,158,255,0.08);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border-radius: 4px;
+    border: 1px solid; 
+    border-color: rgba(87,158,255,0.24);
+    padding: 0px;
+    margin-bottom: 25px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+
+    p {
+        margin: 0 0 8px;
+    }
+
+    .btn {
+        margin-right: 10px;
+        width: 191px;
+        line-height: 9px;
+        height: 32px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 4px;
+        background: $primary-color;
+        color: $white;
+        &:focus, &:active, &:focus:active {
+            outline: none;
+            border-color: transparent;
+        }
+    }
+
+    .btn-secondary {
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 100px;
+        height: 32px;
+        margin: 0 10px 0 0;
+        text-decoration: none;
+        &:hover {
+            background-color: $primary-color;
+            color: $white;
+        }
+    }
+}
+
+.OpenIdConvert_actionWrapper {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid alpha-color($black, .1);
+    height: 40px;
+    padding: 4 0 4px;
+    z-index: 100;
+    -webkit-flex: 0 0 60px;
+    flex: 0 0 60px;
+    width: 100%;
+}
+
+
+.OpenIdConvert_copyWrapper {
+    padding: 16px 16px 16px 12px;
+}
+.OpenIdConvert_imageWrapper {
+    padding: 16px 0px 0px 16px;
+}
+.OpenIdConvert_image {
+    height: 18px;
+}
+
+.OpenIdConvert__heading {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    padding-bottom: 8px;
+}

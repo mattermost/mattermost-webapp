@@ -374,6 +374,24 @@ body {
                 }
             }
 
+            &.openid {
+                white-space: normal;
+                background: #0079d6;
+
+                &:hover {
+                    background: darken(#0079d6, 10%);
+                }
+                > span {    
+                    > span {
+                        line-height: normal;
+                        width: 150px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }    
+            }
+
             &.ldap {
                 background: #3AA1CF;
 
