@@ -54,8 +54,8 @@ describe('Authentication Part 2', () => {
         // # Go to front page
         cy.visit('/login');
 
-        // * Assert that create account ubtton is visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        // * Assert that create account button is visible
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -66,10 +66,10 @@ describe('Authentication Part 2', () => {
 
         cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Make sure account was created successfully and we are at the select team page
-        cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
     it('MM-T1757 - Restrict Domains - Multiple - fail', () => {
@@ -92,11 +92,8 @@ describe('Authentication Part 2', () => {
         // # Click on the side bar
         cy.get('#sidebarHeaderDropdownButton').click();
 
-        // * Verify Account Settings button is visible
-        cy.get('#accountSettings').should('be.visible').and('contain', 'Account Settings');
-
-        // # Click on the Account Settings button
-        cy.get('#accountSettings').click();
+        // * Verify Account Settings button is visible and exist and then click on it
+        cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist').click();
 
         // # Click "Edit" to the right of "Email"
         cy.get('#emailEdit').should('be.visible').click();
@@ -133,10 +130,10 @@ describe('Authentication Part 2', () => {
 
         cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Make sure account was not created successfully
-        cy.get('#existingEmailErrorContainer').should('have.text', 'The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.');
+        cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
     });
 
     it('MM-T1759 - Restrict Domains - Team invite open team', () => {
@@ -154,7 +151,7 @@ describe('Authentication Part 2', () => {
         cy.findByTestId('allowAllToggleSwitch').click();
 
         // # Click "Save"
-        cy.get('#saveSetting').click();
+        cy.findByText('Save').scrollIntoView().click();
 
         // # Wait until we are at the Mattermost Teams page
         cy.findByText('Mattermost Teams', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -169,10 +166,10 @@ describe('Authentication Part 2', () => {
 
         cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Make sure account was not created successfully
-        cy.get('#existingEmailErrorContainer').should('have.text', 'The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.');
+        cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
     });
 
     it('MM-T1760 - Enable Open Server false: Create account link is hidden', () => {
@@ -188,7 +185,7 @@ describe('Authentication Part 2', () => {
         cy.visit('/');
 
         // * Assert that create account button is not visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
     });
 
     it('MM-T1761 - Enable Open Server - Create link appears if email account creation is false and other signin methods are true', () => {
@@ -210,7 +207,7 @@ describe('Authentication Part 2', () => {
         cy.visit('/');
 
         // * Assert that create account button is visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
     it('MM-T1762 - Invite Salt', () => {
@@ -239,8 +236,8 @@ describe('Authentication Part 2', () => {
         // # Go to front page
         cy.visit('/login');
 
-        // * Assert that create account ubtton is visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        // * Assert that create account button is visible
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -253,10 +250,10 @@ describe('Authentication Part 2', () => {
 
         cy.get('#name').clear().type(`${username}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
-        // * Make sure account was created successfully and we are at the select team page
-        cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        // * Make sure account was created successfully and we are on the team joining page
+        cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
 
