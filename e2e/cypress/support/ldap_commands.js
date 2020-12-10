@@ -7,6 +7,11 @@ Cypress.Commands.add('doLDAPExistingLogin', () => {
     cy.findByText('Click here to sign in.').should('be.visible').click();
 });
 
+Cypress.Commands.add('visitLDAPSettings', () => {
+    // # Go to LDAP settings Page
+    cy.visit('/admin_console/authentication/ldap');
+});
+
 Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
     // # Go to login page
     cy.apiLogout();

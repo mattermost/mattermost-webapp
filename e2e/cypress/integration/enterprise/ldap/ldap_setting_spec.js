@@ -13,9 +13,9 @@
 // assumes that E20 license is uploaded
 // for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 
-describe('LDAP Group Sync Automated Tests', () => {
+describe('LDAP settings', () => {
     beforeEach(() => {
-        // ogin as sysadmin
+        // Login as sysadmin
         cy.apiAdminLogin();
 
         // Check if server has license for LDAP
@@ -23,7 +23,7 @@ describe('LDAP Group Sync Automated Tests', () => {
     });
     it('MM-T2699 Connection test button - Successful', () => {
         // # Load AD/LDAP page in system console
-        cy.visit('/admin_console/authentication/ldap');
+        cy.visitLDAPSettings();
 
         // click "AD/LDAP Test"
         cy.findByRole('button', {name: /ad\/ldap test/i}).click();
@@ -33,7 +33,7 @@ describe('LDAP Group Sync Automated Tests', () => {
         cy.findByTitle(/success icon/i).should('be.visible');
     });
     it('MM-T2700 LDAP username required', () => {
-        cy.visit('/admin_console/authentication/ldap');
+        cy.visitLDAPSettings();
 
         // * Remove text from Username Attribute
         cy.get('[data-testid="LdapSettings.UsernameAttributeinput"]').click().clear();
@@ -51,7 +51,7 @@ describe('LDAP Group Sync Automated Tests', () => {
         cy.findByRole('button', {name: /save/i}).should('be.disabled');
     });
     it('MM-T2701 LDAP LoginidAttribute required', () => {
-        cy.visit('/admin_console/authentication/ldap');
+        cy.visitLDAPSettings();
 
         // * Try to save LDAP settings with blank Loginid
         cy.get('[data-testid="LdapSettings.LoginIdAttributeinput"]').click().clear();
