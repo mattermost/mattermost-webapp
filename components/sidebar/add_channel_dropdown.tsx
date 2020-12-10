@@ -26,7 +26,7 @@ type State = {
 
 class AddChannelDropdown extends React.PureComponent<Props, State> {
     renderDropdownItems = () => {
-        const { intl, canCreateChannel, canJoinPublicChannel } = this.props;
+        const {intl, canCreateChannel, canJoinPublicChannel} = this.props;
 
         let joinPublicChannel;
         if (canJoinPublicChannel) {
@@ -34,8 +34,8 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 <Menu.ItemAction
                     id='showMoreChannels'
                     onClick={this.props.showMoreChannelsModal}
-                    icon={<i className='icon-globe' />}
-                    text={intl.formatMessage({ id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels' })}
+                    icon={<i className='icon-globe'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
                 />
             );
         }
@@ -46,8 +46,8 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                 <Menu.ItemAction
                     id='showNewChannel'
                     onClick={this.props.showNewChannelModal}
-                    icon={<i className='icon-plus' />}
-                    text={intl.formatMessage({ id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel' })}
+                    icon={<i className='icon-plus'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
                 />
             );
         }
@@ -69,8 +69,8 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             <Menu.ItemAction
                 id={'browseDirectMessages'}
                 onClick={this.props.handleOpenDirectMessagesModal}
-                icon={<i className='icon-account-plus-outline' />}
-                text={intl.formatMessage({ id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message' })}
+                icon={<i className='icon-account-plus-outline'/>}
+                text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
             />
         );
 
