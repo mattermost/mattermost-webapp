@@ -8,8 +8,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel @channel_settings
+import {
+    beMuted,
+    beRead,
+    beUnmuted,
+    beUnread,
+} from '../../support/assertions';
 
 describe('Channel Settings', () => {
     let testTeam;
@@ -77,5 +82,36 @@ describe('Channel Settings', () => {
 
         // URL is updated and no errors are displayed
         cy.url().should('include', `/${testTeam.name}/channels/another-town-square`);
+    });
+
+    it('MM-T887 Channel dropdown menu - Mute / Unmute', () => {
+        // # Visit off-topic
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Go to channel dropdown > Mute channel
+        cy.get('#channelHeaderDropdownIcon').click();
+        cy.findByText('Mute Channel').click();
+
+        // # Verify channel is muted
+        cy.get('#sidebarItem_off-topic').should(beMuted);
+        
+        // # Verify mute bell icon is visible
+        cy.get('#toggleMute').should('be.visible');
+
+        // # Verify that off topic is last in the list of channels
+        cy.get('#publicChannelList').children().not('[data-testid="morePublicButton"]').last().should('contain', 'Off-Topic').get('a').should('have.class', 'muted');
+
+        // # Go to channel dropdown > Unmute channel
+        cy.get('#channelHeaderDropdownIcon').click();
+        cy.findByText('Unmute Channel').click();
+
+        // # Verify channel is unmuted
+        cy.get('#sidebarItem_off-topic').should(beUnmuted);
+
+        // # Verify mute bell icon is not visible
+        cy.get('#toggleMute').should('not.be.visible');
+
+        // # Verify that off topic is not last in the list of channels
+        cy.get('#publicChannelList').children().not('[data-testid="morePublicButton"]').last().should('not.contain', 'Off-Topic');
     });
 });
