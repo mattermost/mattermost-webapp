@@ -11,9 +11,7 @@
 // Group: @channel @channel_settings
 import {
     beMuted,
-    beRead,
     beUnmuted,
-    beUnread,
 } from '../../support/assertions';
 
 describe('Channel Settings', () => {
@@ -94,7 +92,7 @@ describe('Channel Settings', () => {
 
         // # Verify channel is muted
         cy.get('#sidebarItem_off-topic').should(beMuted);
-        
+
         // # Verify mute bell icon is visible
         cy.get('#toggleMute').should('be.visible');
 
