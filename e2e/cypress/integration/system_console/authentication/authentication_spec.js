@@ -45,7 +45,7 @@ describe('Authentication', () => {
         cy.apiLogin(testUser);
         cy.visit('/');
         cy.url().should('include', '/select_team');
-        cy.get('#teamsYouCanJoinContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         cy.apiAdminLogin();
 
@@ -62,20 +62,21 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // # Clear email/username field and type username
-        cy.get('#loginId', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
+        cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
 
         // # Clear password field and type password
-        cy.get('#loginPassword').clear().type(testUser.password);
+        cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
         // # Hit enter to login
-        cy.get('#loginButton').click();
+        cy.findByText('Sign in').click();
 
         cy.wait(TIMEOUTS.THREE_SEC);
 
-        cy.findByTestId('emailVerifyResend').should('be.visible').click();
-        cy.findByTestId('emailVerifySentMessage').should('be.visible');
-        cy.findByTestId('emailVerifyAlmost').should('include.text', 'Mattermost: You are almost done');
-        cy.findByTestId('emailVerifyNotVerifiedBody').should('include.text', 'Please verify your email address. Check your inbox for an email.');
+        // * Assert that email verification has been sent and then resend to make sure it gets resent
+        cy.findByText('Resend Email').should('be.visible').and('exist').click();
+        cy.findByText('Verification email sent.').should('be.visible').and('exist');
+        cy.findByText('Mattermost: You are almost done').should('be.visible').and('exist');
+        cy.findByText('Please verify your email address. Check your inbox for an email.').should('be.visible').and('exist');
 
         const baseUrl = Cypress.config('baseUrl');
         const mailUrl = getEmailUrl(baseUrl);
@@ -88,14 +89,14 @@ describe('Authentication', () => {
             // # Visit permalink (e.g. click on email link), view in browser to proceed
             cy.visit(permalink);
 
-            // # Clear password field
-            cy.get('#loginPassword', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.password);
+            // # Clear password field and type password
+            cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Hit enter to login
-            cy.get('#loginButton').click();
+            cy.findByText('Sign in').click();
 
             // * Should show the join team stuff
-            cy.get('#teamsYouCanJoinContent').should('be.visible');
+            cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
 
@@ -145,7 +146,7 @@ describe('Authentication', () => {
 
         ['1user', 'te', 'user#1', 'user!1'].forEach((option) => {
             cy.get('#name').clear().type(option);
-            cy.get('#createAccountButton').click();
+            cy.findByText('Create Account').click();
 
             // * Assert the error is what is expected;
             cy.findByText('Usernames have to begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.').should('be.visible');
@@ -166,8 +167,8 @@ describe('Authentication', () => {
         // # Go to front page
         cy.visit('/login');
 
-        // * Assert that create account ubtton is visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        // * Assert that create account button is visible
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -178,10 +179,10 @@ describe('Authentication', () => {
 
         cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Make sure account was created successfully and we are on the team joining page
-        cy.get('#teamsYouCanJoinContent').should('be.visible');
+        cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
     it('MM-T1753 - Enable account creation - false', () => {
@@ -201,7 +202,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account ubtton is visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -212,10 +213,10 @@ describe('Authentication', () => {
 
         cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Make sure account was not created successfully and we are on the team joining page
-        cy.get('#existingEmailErrorContainer').should('have.text', 'User sign-up with email is disabled.');
+        cy.findByText('User sign-up with email is disabled.').should('be.visible').and('exist');
     });
 
     it('MM-T1754 - Restrict Domains - Account creation link on signin page', () => {
@@ -236,7 +237,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account ubtton is visible
-        cy.get('#signup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_email');
@@ -247,10 +248,10 @@ describe('Authentication', () => {
 
         cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
-        cy.get('#createAccountButton').click();
+        cy.findByText('Create Account').click();
 
         // * Make sure account was not created successfully
-        cy.get('#existingEmailErrorContainer').should('have.text', 'The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.');
+        cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
     });
 
     it('MM-T1755 - Restrict Domains - Email invite', () => {
@@ -273,27 +274,19 @@ describe('Authentication', () => {
         // # Click on the side bar
         cy.get('#sidebarHeaderDropdownButton').click();
 
-        // * Verify Invite People button is visible
-        cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People');
-
-        // # Click on the Invite People button
-        cy.get('#invitePeople').click();
+        // * Verify Invite People button is visible and exist and then click it
+        cy.findByText('Invite People').should('be.visible').and('exist').click();
 
         // # Click invite members
-        cy.findByTestId('invitationModal').click();
+        cy.findByText('Members').click();
 
         // # Input email, select member
-        cy.findByTestId('inputPlaceholder').type('HosseinTheBestProgrammer@Mattermost.com');
-
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        // # Input email, press enter
-        cy.findByTestId('inputPlaceholder').type('{enter}{enter}');
+        cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{enter}{enter}');
 
         // # Click invite memebers button
-        cy.get('#inviteMembersButton').click();
+        cy.findByText('Invite Members').click();
 
         // * Verify message is what you expect it to be
-        cy.get('.reason').should('include.text', 'The following email addresses do not belong to an accepted domain:');
+        cy.contains('The following email addresses do not belong to an accepted domain:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
     });
 });

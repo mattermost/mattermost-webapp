@@ -40,7 +40,7 @@ describe('Authentication', () => {
 
         // # Navigate to System Console -> Authentication -> MFA Page.
         cy.visit('/admin_console/authentication/mfa');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Multi-factor Authentication');
+        cy.findByText('Multi-factor Authentication', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
 
         // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
         cy.findByTestId('ServiceSettings.EnableMultifactorAuthenticationtrue').check();
@@ -49,7 +49,7 @@ describe('Authentication', () => {
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationtrue').check();
 
         // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
+        cy.findByText('Save').scrollIntoView().click();
 
         cy.url().then((url) => {
             if (url.includes('mfa/setup')) {
@@ -59,11 +59,11 @@ describe('Authentication', () => {
                     adminMFASecret = secretp.split(' ')[1];
 
                     const token = authenticator.generateToken(adminMFASecret);
-                    cy.get('#mfa').find('.form-control').type(token);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
+                    cy.findByPlaceholderText('MFA Code').type(token);
+                    cy.findByText('Save').click();
 
                     cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
+                    cy.findByText('Okay').click();
                 });
             } else {
                 // # If the sysadmin already has MFA enabled, reset the secret.
@@ -85,7 +85,9 @@ describe('Authentication', () => {
         // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('/');
-        cy.get('.signup-team__container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+        // * MFA page is shown
+        cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
     });
 
     // This test relies on the previous test for having MFA enabled (MM-T1778)
@@ -104,11 +106,11 @@ describe('Authentication', () => {
                     const testUserMFASecret = secretp.split(' ')[1];
 
                     token = authenticator.generateToken(testUserMFASecret);
-                    cy.get('#mfa').find('.form-control').type(token);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
+                    cy.findByPlaceholderText('MFA Code').type(token);
+                    cy.findByText('Save').click();
 
                     cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.get('#mfa').find('.btn.btn-primary').click();
+                    cy.findByText('Okay').click();
                 });
             }
         });
@@ -128,18 +130,20 @@ describe('Authentication', () => {
 
         // # Navigate to System Console -> Authentication -> MFA Page.
         cy.visit('/admin_console/authentication/mfa');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Multi-factor Authentication');
+        cy.findByText('Multi-factor Authentication', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
 
         // # Also ensure that this MFA setting is enforced.
         cy.findByTestId('ServiceSettings.EnforceMultifactorAuthenticationfalse').check();
 
         // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
+        cy.findByText('Save').scrollIntoView().click();
 
         // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('/');
-        cy.get('.signup-team__container').should('not.be.visible');
+
+        // * No MFA page is shown
+        cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible').and('not.exist');
     });
 
     // This test relies on the previous test for having MFA enabled (MM-T1781)
