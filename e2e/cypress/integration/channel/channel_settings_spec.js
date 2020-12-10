@@ -55,7 +55,7 @@ describe('Channel Settings', () => {
         });
     });
 
-    it.only('MM-T882 Channel URL validation works properly', () => {
+    it('MM-T882 Channel URL validation works properly', () => {
         // # Visit off-tipic
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
