@@ -398,6 +398,10 @@
             .post-code {
                 background: transparent;
 
+                .post-code__line-numbers {
+                    padding: 5px 0;
+                }
+
                 code {
                     margin: 0;
                     padding: 5px 0;
