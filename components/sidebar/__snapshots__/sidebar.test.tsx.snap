@@ -24,6 +24,7 @@ exports[`components/sidebar should match snapshot 1`] = `
         showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
+        unreadFilterEnabled={false}
       />
     </div>
   </div>
@@ -61,6 +62,7 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
         showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
+        unreadFilterEnabled={false}
       />
     </div>
   </div>
@@ -102,6 +104,7 @@ exports[`components/sidebar should match snapshot when more channels modal is op
         showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
+        unreadFilterEnabled={false}
       />
     </div>
   </div>
