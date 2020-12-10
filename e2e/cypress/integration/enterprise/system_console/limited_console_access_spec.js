@@ -66,41 +66,41 @@ describe('Limited console access', () => {
 
         // # Go the system console.
         cy.visit('/admin_console/user_management/system_roles');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').invoke('text').should('include', 'System Roles');
+        cy.contains('System Roles', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
 
         // # Click on edit for the role
         cy.findByTestId(`${role}_edit`).click();
 
         // # Click Add People button
-        cy.findByTestId('addRoleMembers').click();
+        cy.findByText('Add People').click();
 
         // # Type in user name
-        cy.get('#selectItems').type(`${testUsers[role].email}`);
+        cy.findByText('Search and add members').type(`${testUsers[role].email}`);
 
         // # Find the user and click on him
         cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
 
         // # Click add button
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByText('Add').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Click save button
-        cy.findByTestId('saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByText('Save').click().wait(TIMEOUTS.HALF_SEC);
     };
 
     const noAccessFunc = (section) => {
         // * If it's a no-access permission, we just need to check that the section doesn't exist in the side bar
-        cy.get(`[data-testid="${section}"]`).should('not.exist');
+        cy.findByTestId(section).should('not.exist');
     };
 
     const readOnlyFunc = (section) => {
         // * If it's a read only permission, we need to make sure that the section does exist in the sidebar however the inputs in that section is disabled (read only)
-        cy.get(`[data-testid="${section}"]`).should('exist');
+        cy.findByTestId(section).should('exist');
         checkInputsShould('be.disabled', section);
     };
 
     const readWriteFunc = (section) => {
         // * If we have read + write (can edit) permissions, we need to make the section exists and also that the inputs are all enabled
-        cy.get(`[data-testid="${section}"]`).should('exist');
+        cy.findByTestId(section).should('exist');
         checkInputsShould('be.enabled', section);
     };
 
@@ -109,7 +109,7 @@ describe('Limited console access', () => {
         Cypress._.forEach(disabledInputs, ({path, selector}) => {
             if (path.length && selector.length) {
                 cy.visit(path, {timeout: TIMEOUTS.HALF_MIN});
-                cy.get(selector, {timeout: TIMEOUTS.ONE_MIN}).should(shouldString);
+                cy.findByTestId(selector, {timeout: TIMEOUTS.ONE_MIN}).should(shouldString);
             }
         });
     };
