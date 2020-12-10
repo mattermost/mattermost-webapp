@@ -70,7 +70,7 @@
         top: 40px;
         z-index: 5;
     }
-    
+
     .color-input {
         width: 232px;
     }
@@ -643,35 +643,36 @@
     }
 
     .sidebar-category {
-        margin-top: 0px;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
 
         .category-title {
-            background: alpha-color($white, .15);
-            color: $white;
-            line-height: 15.4px;
+            background: alpha-color($white, .1);
+            color: alpha-color($white, .5);
+            line-height: 16px;
+            font-size: 13px;
             padding: 10px 12px;
+            letter-spacing: .03em;
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            flex-direction: row-reverse;
             text-transform: uppercase;
 
             .category-icon {
-                margin-right: 6px;
-                overflow: hidden;
-                top: 6px;
                 vertical-align: bottom;
-                width: 16px;
                 text-align: center;
-
-                &.fa-users {
-                    font-size: 13px;
-                }
+                font-size: 16px;
             }
         }
 
         .sections {
-            padding: 5px 0;
+            padding: 2px 0;
         }
     }
 
     .sidebar-section {
+        // background: alpha-color($white, .15);
         > .sidebar-section-title {
             position: relative;
         }
@@ -692,14 +693,14 @@
 
                 &:hover,
                 &:focus {
-                    color: alpha-color($white, .5);
+                    background: alpha-color($white, .15);
                 }
             }
         }
     }
 
     .sidebar-section-title {
-        padding: 6px 35px 6px 12px;
+        padding: .35rem 1.5rem;
     }
 
     .sidebar-section-tag {
@@ -714,7 +715,6 @@
         border-radius: 4px;
         background-color: rgba(255,255,255,0.64);
         text-transform: uppercase;
-        ;
     }
 
     .sidebar-subsection-title {
@@ -723,27 +723,34 @@
 
     .sidebar-section-title,
     .sidebar-subsection-title {
-        color: alpha-color($white, .5);
+        color: alpha-color($white, .8);
         display: block;
-        font-size: 13px;
         position: relative;
+        font-size: 14px;
+        line-height: 24px;
+        font-weight: 300;
+        letter-spacing: .03em;
 
         &:focus {
             text-decoration: none;
         }
 
         &:hover {
-            color: lighten($primary-color, 10);
+            color: alpha-color($white, .95);
+            background: alpha-color($white, .15);
             text-decoration: none;
         }
 
         &--active {
-            background: alpha-color($white, .1);
-            color: $white;
+            background: alpha-color($primary-color, .25);
+            color: alpha-color($white, 1);
+            font-weight: 400;
+            letter-spacing: .02em;
+
 
             &:hover,
             &:focus {
-                background: alpha-color($white, .1);
+                background: alpha-color($primary-color, .35);
                 color: $white;
             }
 
