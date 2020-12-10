@@ -22,79 +22,86 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import {Post} from 'mattermost-redux/src/types/posts';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 
-export default class DotMenu extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object.isRequired,
-        teamId: PropTypes.string,
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
-        commentCount: PropTypes.number,
-        isFlagged: PropTypes.bool,
-        handleCommentClick: PropTypes.func,
-        handleDropdownOpened: PropTypes.func,
-        handleAddReactionClick: PropTypes.func,
-        isMenuOpen: PropTypes.bool,
-        isReadOnly: PropTypes.bool,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isLicensed: PropTypes.bool.isRequired,
-        postEditTimeLimit: PropTypes.string.isRequired,
-        enableEmojiPicker: PropTypes.bool.isRequired,
-        channelIsArchived: PropTypes.bool.isRequired,
-        currentTeamUrl: PropTypes.string.isRequired,
-
-        /*
-         * Components for overriding provided by plugins
-         */
-        components: PropTypes.object.isRequired,
-
-        actions: PropTypes.shape({
+interface ActionShape {
 
             /**
              * Function flag the post
              */
-            flagPost: PropTypes.func.isRequired,
+            flagPost: (id: string) => any;
 
             /**
              * Function to unflag the post
              */
-            unflagPost: PropTypes.func.isRequired,
+            unflagPost: (id: string) => any;
 
             /**
              * Function to set the editing post
              */
-            setEditingPost: PropTypes.func.isRequired,
+            setEditingPost: (postId: string, commentCount: number, refocusId: string, title: any, isRHS: boolean) => any;
 
             /**
              * Function to pin the post
              */
-            pinPost: PropTypes.func.isRequired,
+            pinPost: (id: string) => any;
 
             /**
              * Function to unpin the post
              */
-            unpinPost: PropTypes.func.isRequired,
+            unpinPost: (id: string) => any;
 
             /**
              * Function to open a modal
              */
-            openModal: PropTypes.func.isRequired,
+            openModal: (deletePostModalData: any) => any;
 
             /*
              * Function to set the unread mark at given post
              */
-            markPostAsUnread: PropTypes.func.isRequired,
-        }).isRequired,
+            markPostAsUnread: (post: Pick<Post, 'id' | 'channel_id' | 'create_at' | 'is_pinned' | 'root_id'>) => any;
+}
 
-        canEdit: PropTypes.bool.isRequired,
-        canDelete: PropTypes.bool.isRequired,
-    }
+type DotMenuProps = {
+    post: Pick<Post, 'id' | 'channel_id' | 'create_at' | 'is_pinned' | 'root_id'>;
+    teamId?: string;
+    location: Locations;
+    commentCount?: number;
+    isFlagged?: boolean;
+    handleCommentClick?: () => any;
+    handleDropdownOpened?: (isOpened: boolean) => void;
+    handleAddReactionClick?: () => any;
+    isMenuOpen?: boolean;
+    isReadOnly?: boolean;
+    pluginMenuItems?: any[];
+    isLicensed: boolean;
+    postEditTimeLimit: string;
+    enableEmojiPicker: boolean;
+    channelIsArchived: boolean;
+    currentTeamUrl: string;
+    components: any;
+    actions: ActionShape;
+    canEdit: boolean;
+    canDelete: boolean;
+}
 
-    static defaultProps = {
-        post: {},
+export interface DotMenuState {
+    openUp: boolean;
+    width: number;
+    canEdit: boolean;
+    canDelete?: boolean;
+}
+
+export default class DotMenu extends React.PureComponent<DotMenuProps, DotMenuState> {
+    buttonRef: React.RefObject<HTMLButtonElement>;
+    editDisableAction: DelayedAction;
+
+    static defaultProps: Partial<DotMenuProps> = {
+        post: {id: '', is_pinned: false, channel_id: '', create_at: 0, root_id: ''},
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
@@ -103,7 +110,7 @@ export default class DotMenu extends React.PureComponent {
         enableEmojiPicker: false,
     }
 
-    constructor(props) {
+    constructor(props: DotMenuProps) {
         super(props);
 
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
@@ -124,7 +131,7 @@ export default class DotMenu extends React.PureComponent {
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (+postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -136,7 +143,7 @@ export default class DotMenu extends React.PureComponent {
         this.disableCanEditPostByTime();
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: DotMenuProps) {
         return {
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
@@ -160,7 +167,7 @@ export default class DotMenu extends React.PureComponent {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e) => {
+    handleAddReactionMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -194,12 +201,12 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    handleUnreadMenuItemActivated = (e) => {
+    handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.actions.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e) => {
+    handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -218,7 +225,7 @@ export default class DotMenu extends React.PureComponent {
     handleEditMenuItemActivated = () => {
         this.props.actions.setEditingPost(
             this.props.post.id,
-            this.props.commentCount,
+            this.props.commentCount || 0,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
@@ -237,11 +244,11 @@ export default class DotMenu extends React.PureComponent {
         </Tooltip>
     )
 
-    refCallback = (menuRef) => {
+    refCallback = (menuRef: any) => {
         if (menuRef) {
             const rect = menuRef.rect();
-            const buttonRect = this.buttonRef.current.getBoundingClientRect();
-            const y = typeof buttonRect.y === 'undefined' ? buttonRect.top : buttonRect.y;
+            const buttonRect = this.buttonRef.current?.getBoundingClientRect();
+            const y = (typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y) || 0;
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
@@ -255,7 +262,7 @@ export default class DotMenu extends React.PureComponent {
         }
     }
 
-    renderDivider = (suffix) => {
+    renderDivider = (suffix: string) => {
         return (
             <li
                 id={`divider_post_${this.props.post.id}_${suffix}`}
@@ -269,7 +276,7 @@ export default class DotMenu extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        const pluginItems = this.props.pluginMenuItems.
+        const pluginItems = (this.props.pluginMenuItems || []).
             filter((item) => {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
@@ -308,7 +315,6 @@ export default class DotMenu extends React.PureComponent {
         return (
             <MenuWrapper onToggle={this.props.handleDropdownOpened}>
                 <OverlayTrigger
-                    className='hidden-xs'
                     delayShow={500}
                     placement='top'
                     overlay={this.tooltip}

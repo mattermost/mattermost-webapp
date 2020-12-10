@@ -10,22 +10,26 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import Constants, {UserStatuses} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-export default class PostProfilePicture extends React.PureComponent {
-    static propTypes = {
-        compactDisplay: PropTypes.bool.isRequired,
-        enablePostIconOverride: PropTypes.bool.isRequired,
-        hasImageProxy: PropTypes.bool.isRequired,
-        isBusy: PropTypes.bool,
-        isRHS: PropTypes.bool,
-        post: PropTypes.object.isRequired,
-        status: PropTypes.string,
-        user: PropTypes.object,
-        isBot: PropTypes.bool,
-        postIconOverrideURL: PropTypes.string,
-        overwriteIcon: PropTypes.string,
-    };
 
+type PostProfilePictureProps = {
+    compactDisplay: boolean;
+    enablePostIconOverride: boolean;
+    hasImageProxy: boolean;
+    isBusy?: boolean;
+    isRHS?: boolean
+    post: Post;
+    status?: string;
+    user: UserProfile;
+    isBot?: boolean;
+    postIconOverrideURL?: string;
+    overwriteIcon?: string;
+}
+
+
+export default class PostProfilePicture extends React.PureComponent<PostProfilePictureProps> {
     static defaultProps = {
         status: UserStatuses.OFFLINE,
     };
@@ -42,7 +46,7 @@ export default class PostProfilePicture extends React.PureComponent {
         return '';
     };
 
-    getStatus = (fromAutoResponder, fromWebhook, user) => {
+    getStatus = (fromAutoResponder: boolean, fromWebhook: boolean, user: UserProfile) => {
         if (fromAutoResponder || fromWebhook || (user && user.is_bot)) {
             return '';
         }
@@ -50,7 +54,7 @@ export default class PostProfilePicture extends React.PureComponent {
         return this.props.status;
     };
 
-    getPostIconURL = (defaultURL, fromAutoResponder, fromWebhook) => {
+    getPostIconURL = (defaultURL: string, fromAutoResponder: boolean, fromWebhook: boolean) => {
         const {enablePostIconOverride, hasImageProxy, post} = this.props;
         const postProps = post.props;
         let postIconOverrideURL = '';
@@ -112,11 +116,11 @@ export default class PostProfilePicture extends React.PureComponent {
                 profileSrc={profileSrc}
                 isEmoji={isEmoji}
                 status={status}
-                userId={user ? user.id : null}
-                username={user ? user.username : null}
+                userId={user.id}
+                username={user.username}
                 overwriteIcon={this.props.overwriteIcon}
                 overwriteName={overwriteName}
-                post={this.props.post}
+                // post={this.props.post} no such prop is there
             />
         );
     }

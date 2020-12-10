@@ -17,12 +17,35 @@ jest.mock('utils/post_utils.jsx', () => ({
 }));
 
 import {isMobile} from 'utils/utils';
+import {PostTypes} from 'utils/constants';
+import {PostMetadata, Post, PostType} from 'mattermost-redux/types/posts';
 jest.mock('utils/utils', () => ({
     isMobile: jest.fn(),
 }));
-
+// id: string;
+// create_at: number;
+// update_at: number;
+// edit_at: number;
+// delete_at: number;
+// is_pinned: boolean;
+// user_id: string;
+// channel_id: string;
+// root_id: string;
+// parent_id: string;
+// original_id: string;
+// message: string;
+// type: PostType;
+// props: Record<string, any>;
+// hashtags: string;
+// pending_post_id: string;
+// reply_count: number;
+// file_ids?: any[];
+// metadata: PostMetadata;
+// failed?: boolean;
+// user_activity_posts?: Array<Post>;
+// state?: 'DELETED';
 describe('components/RhsComment', () => {
-    const post = {
+    const post: Post = {
         channel_id: 'channel_id',
         create_at: 1502715365009,
         delete_at: 0,
@@ -35,9 +58,12 @@ describe('components/RhsComment', () => {
         pending_post_id: '',
         props: {},
         root_id: '',
-        type: '',
+        type: PostTypes.ADD_REMOVE as PostType,
         update_at: 1502715372443,
         user_id: 'user_id',
+        hashtags: '', 
+        reply_count: 0, 
+        metadata: {} as PostMetadata,
     };
     const baseProps = {
         post,
@@ -62,8 +88,11 @@ describe('components/RhsComment', () => {
         shortcutReactToLastPostEmittedFrom: '',
         actions: {
             markPostAsUnread: jest.fn(),
+            emitShortcutReactToLastPostFrom: jest.fn(),
         },
         emojiMap: new EmojiMap(new Map()),
+        a11yIndex: 1,
+        isLastPost: false
     };
 
     test('should match snapshot', () => {
@@ -85,7 +114,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot mobile', () => {
-        isMobile.mockImplementation(() => true);
+        (isMobile as jest.MockedFunction<any>).mockImplementation(() => true);
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>,
         );
@@ -94,11 +123,14 @@ describe('components/RhsComment', () => {
     });
 
     test('should match snapshot hovered on deleted post', () => {
+        enum DELETED  {
+            'DELETED' = 'DELETED'
+        }
         const props = {
             ...baseProps,
             post: {
                 ...baseProps.post,
-                state: Posts.POST_DELETED,
+                state: DELETED.DELETED,
             },
         };
         const wrapper = shallowWithIntl(

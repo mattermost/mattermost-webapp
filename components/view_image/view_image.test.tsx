@@ -10,6 +10,7 @@ import ViewImageModal from 'components/view_image/view_image';
 
 import Constants from 'utils/constants';
 import {generateId} from 'utils/utils';
+import * as Utils from 'utils/utils';
 
 describe('components/ViewImageModal', () => {
     const onModalDismissed = jest.fn();
@@ -19,8 +20,7 @@ describe('components/ViewImageModal', () => {
         startIndex: 0,
         onModalDismissed,
         canDownloadFiles: true,
-        enablePublicLink: true,
-        post: {},
+        enablePublicLink: true
     };
 
     test('should match snapshot, modal not shown', () => {
@@ -144,31 +144,32 @@ describe('components/ViewImageModal', () => {
         ];
         const props = {...baseProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
-
+        const instance = wrapper.instance() as ViewImageModal;
         wrapper.setState({loaded: [true, true, true]});
 
         let evt = {key: Constants.KeyCodes.RIGHT[0]};
 
-        wrapper.instance().handleKeyPress(evt);
+        instance.handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(1);
-        wrapper.instance().handleKeyPress(evt);
+        instance.handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(2);
 
         evt = {key: Constants.KeyCodes.LEFT[0]};
-        wrapper.instance().handleKeyPress(evt);
+        instance.handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(1);
-        wrapper.instance().handleKeyPress(evt);
+        instance.handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(0);
     });
 
     test('should handle onMouseEnter and onMouseLeave', () => {
         const wrapper = shallow(<ViewImageModal {...baseProps}/>);
+        const instance = wrapper.instance() as ViewImageModal;
         wrapper.setState({loaded: [true]});
 
-        wrapper.instance().onMouseEnterImage();
+        instance.onMouseEnterImage();
         expect(wrapper.state('showCloseBtn')).toBe(true);
 
-        wrapper.instance().onMouseLeaveImage();
+        instance.onMouseLeaveImage();
         expect(wrapper.state('showCloseBtn')).toBe(false);
     });
 
@@ -176,11 +177,12 @@ describe('components/ViewImageModal', () => {
         const newOnModalDismissed = jest.fn();
         const props = {...baseProps, onModalDismissed: newOnModalDismissed};
         const wrapper = shallow(<ViewImageModal {...props}/>);
+        const instance = wrapper.instance() as ViewImageModal;
         wrapper.setState({
             loaded: [true],
             showCloseBtn: true,
         });
-        wrapper.instance().handleGetPublicLink();
+        instance.handleGetPublicLink();
 
         expect(newOnModalDismissed).toHaveBeenCalledTimes(1);
     });
@@ -193,14 +195,17 @@ describe('components/ViewImageModal', () => {
         ];
         const props = {...baseProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
-        const nextProps = {
+        const instance = wrapper.instance() as ViewImageModal;
+        const newStartIndex = {
             startIndex: 1,
         };
+        const nextProps = {...baseProps, newStartIndex};
         wrapper.setState({loaded: [true]});
 
-        wrapper.instance().onModalHidden();
+        instance.onModalHidden();
         expect(wrapper).toMatchSnapshot();
-        wrapper.instance().onModalShown(nextProps);
+        //@ts-ignore
+        instance.onModalShown(nextProps);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -221,15 +226,16 @@ describe('components/ViewImageModal', () => {
         ];
         const props = {...baseProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
-
+        const instance = wrapper.instance() as ViewImageModal;
         let index = 1;
         wrapper.setState({loaded: [true, false, false]});
-        wrapper.instance().loadImage(index);
-
+        instance.loadImage(index);
+        //@ts-ignore
         expect(wrapper.state('loaded')[index]).toBe(true);
 
         index = 2;
-        wrapper.instance().loadImage(index);
+        instance.loadImage(index);
+        //@ts-ignore
         expect(wrapper.state('loaded')[index]).toBe(true);
     });
 
@@ -241,15 +247,17 @@ describe('components/ViewImageModal', () => {
         ];
         const props = {...baseProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
+        const instance = wrapper.instance() as ViewImageModal;
 
         let index = 1;
         wrapper.setState({loaded: [true, false, false]});
-        wrapper.instance().handleImageLoaded(index);
-
+        instance.handleImageLoaded(index);
+        //@ts-ignore
         expect(wrapper.state('loaded')[index]).toBe(true);
 
         index = 2;
-        wrapper.instance().handleImageLoaded(index);
+        instance.handleImageLoaded(index);
+        //@ts-ignore
         expect(wrapper.state('loaded')[index]).toBe(true);
     });
 
@@ -261,53 +269,51 @@ describe('components/ViewImageModal', () => {
         ];
         const props = {...baseProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
-
+        const instance = wrapper.instance() as ViewImageModal;
         const index = 1;
         let completedPercentage = 30;
         wrapper.setState({loaded: [true, false, false]});
-        wrapper.instance().handleImageProgress(index, completedPercentage);
-
+        instance.handleImageProgress(index, completedPercentage);
+        //@ts-ignore
         expect(wrapper.state('progress')[index]).toBe(completedPercentage);
 
         completedPercentage = 70;
-        wrapper.instance().handleImageProgress(index, completedPercentage);
-
+        instance.handleImageProgress(index, completedPercentage);
+        //@ts-ignore
         expect(wrapper.state('progress')[index]).toBe(completedPercentage);
     });
 
     test('should pass componentWillReceiveProps', () => {
-        let nextProps = {
+        const nextProps = {
             show: false,
         };
         const wrapper = shallow(<ViewImageModal {...baseProps}/>);
+        
         expect(wrapper.find(Modal).prop('show')).toBe(true);
         wrapper.setProps(nextProps);
         expect(wrapper.find(Modal).prop('show')).toBe(false);
-
+        //@ts-ignore
         expect(wrapper.state('loaded').length).toBe(1);
+        //@ts-ignore
         expect(wrapper.state('progress').length).toBe(1);
-        nextProps = {
+        const nextUpdatedProps = {
             fileInfos: [
                 {id: 'file_id_1', extension: 'gif'},
                 {id: 'file_id_2', extension: 'wma'},
                 {id: 'file_id_3', extension: 'mp4'},
             ],
         };
-        wrapper.setProps(nextProps);
+        wrapper.setProps(nextUpdatedProps);
+        //@ts-ignore
         expect(wrapper.state('loaded').length).toBe(3);
+        //@ts-ignore
         expect(wrapper.state('progress').length).toBe(3);
     });
 
     test('should match snapshot when plugin overrides the preview component', () => {
-        const pluginFilePreviewComponents = [{
-            id: generateId(),
-            pluginId: 'file-preview',
-            override: () => true,
-            component: () => <div>{'Preview'}</div>,
-        }];
-        const props = {...baseProps, pluginFilePreviewComponents};
-        const wrapper = shallow(<ViewImageModal {...props}/>);
-
+        
+        const wrapper = shallow(<ViewImageModal {...baseProps}/>);
+        
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -319,6 +325,7 @@ describe('components/ViewImageModal', () => {
             component: () => <div>{'Preview'}</div>,
         }];
         const props = {...baseProps, pluginFilePreviewComponents};
+        //@ts-ignore
         const wrapper = shallow(<ViewImageModal {...props}/>);
 
         expect(wrapper).toMatchSnapshot();

@@ -9,49 +9,54 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants';
-import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {localizeMessage} from 'utils/utils.jsx';
+import {Post} from 'mattermost-redux/types/posts';
+import {Reaction} from 'mattermost-redux/types/reactions';
+import ReactionComponent from '../reaction/reaction';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
 
-export default class ReactionList extends React.PureComponent {
-    static propTypes = {
+type ReactionListProps = {
+    /**
+     * The post to render reactions for
+     */
+     post: Post;
 
+    /*
+     * The id of the team which belongs the post
+     */
+    teamId: string;
+
+    /**
+     * The reactions to render
+     */
+    reactions: {[x: string]: Reaction} | null | undefined;
+
+    /**
+     * Whether to show the emoji picker.
+     */
+    enableEmojiPicker: boolean,
+
+    actions: {
         /**
-         * The post to render reactions for
+         * Function to add a reaction to the post
          */
-        post: PropTypes.object.isRequired,
+        addReaction: (id: string, emojiName: string) => void
+    };
+}
 
-        /*
-         * The id of the team which belongs the post
-         */
-        teamId: PropTypes.string,
+type ReactionListState = {
+    showEmojiPicker: boolean;
+}
 
-        /**
-         * The reactions to render
-         */
-        reactions: PropTypes.object,
+export default class ReactionList extends React.PureComponent<ReactionListProps, ReactionListState> {
 
-        /**
-         * Whether to show the emoji picker.
-         */
-        enableEmojiPicker: PropTypes.bool.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to add a reaction to the post
-             */
-            addReaction: PropTypes.func.isRequired,
-        }),
-    }
-
-    constructor(props) {
+    constructor(props: ReactionListProps) {
         super(props);
 
         this.state = {
@@ -63,7 +68,7 @@ export default class ReactionList extends React.PureComponent {
         return this.refs.addReactionButton;
     }
 
-    handleEmojiClick = (emoji) => {
+    handleEmojiClick = (emoji: any) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
@@ -100,7 +105,7 @@ export default class ReactionList extends React.PureComponent {
 
         const reactions = emojiNames.map((emojiName) => {
             return (
-                <Reaction
+                <ReactionComponent
                     key={emojiName}
                     post={this.props.post}
                     emojiName={emojiName}
@@ -109,7 +114,7 @@ export default class ReactionList extends React.PureComponent {
             );
         });
 
-        const addReactionButton = this.getTarget();
+        const addReactionButton = this.getTarget() as HTMLElement;
         let rightOffset = DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (addReactionButton) {
             rightOffset = window.innerWidth - addReactionButton.getBoundingClientRect().right - EMOJI_PICKER_WIDTH_OFFSET;

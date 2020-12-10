@@ -18,63 +18,75 @@ const PDFPreview = React.lazy(() => import('components/pdf_preview'));
 
 import ImagePreview from './image_preview';
 import PopoverBar from './popover_bar';
+import {Post, PostMetadata} from 'mattermost-redux/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
+import {PluginComponent} from 'types/store/plugins';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class ViewImageModal extends React.PureComponent {
-    static propTypes = {
+type ViewImageModalProps = {
+    /**
+     * The post the files are attached to
+     */
+    post: Post;
 
-        /**
-         * The post the files are attached to
-         */
-        post: PropTypes.object.isRequired,
+    /**
+     * Set whether to show this modal or not
+     */
+    show: boolean;
 
-        /**
-         * Set whether to show this modal or not
-         */
-        show: PropTypes.bool.isRequired,
+    /**
+     * Function to call when this modal is dismissed
+     **/
+     onModalDismissed: () => void;
 
-        /**
-         * Function to call when this modal is dismissed
-         **/
-        onModalDismissed: PropTypes.func.isRequired,
+    /**
+     * List of FileInfo to view
+     **/
+    fileInfos: Array<any>;
+    /**
+     * The index number of starting image
+     **/
+    startIndex: number;
 
-        /**
-         * List of FileInfo to view
-         **/
-        fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+    canDownloadFiles: boolean;
+    enablePublicLink: boolean;
+    pluginFilePreviewComponents: PluginComponent[];
 
-        /**
-         * The index number of starting image
-         **/
-        startIndex: PropTypes.number.isRequired,
+}
 
-        canDownloadFiles: PropTypes.bool.isRequired,
-        enablePublicLink: PropTypes.bool.isRequired,
-        pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
-    };
+type ViewImageModalState = {
+    imageIndex: number;
+    imageHeight: number;
+    loaded: any[];
+    progress: any[];
+    showCloseBtn: boolean;
+    prevFileInfosCount?: number;
+}
 
-    static defaultProps = {
+export default class ViewImageModal extends React.PureComponent<ViewImageModalProps, ViewImageModalState> {
+
+    static defaultProps: Partial<ViewImageModalProps> = {
         show: false,
         fileInfos: [],
         startIndex: 0,
         pluginFilePreviewComponents: [],
-        post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
+       
     };
 
-    constructor(props) {
+    constructor(props: ViewImageModalProps) {
         super(props);
 
         this.state = {
             imageIndex: this.props.startIndex,
-            imageHeight: '100%',
+            imageHeight: 100,
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
             showCloseBtn: false,
         };
     }
 
-    handleNext = (e) => {
+    handleNext = (e: React.MouseEvent) => {
         if (e) {
             e.stopPropagation();
         }
@@ -85,7 +97,7 @@ export default class ViewImageModal extends React.PureComponent {
         this.showImage(id);
     }
 
-    handlePrev = (e) => {
+    handlePrev = (e: React.MouseEvent) => {
         if (e) {
             e.stopPropagation();
         }
@@ -96,15 +108,15 @@ export default class ViewImageModal extends React.PureComponent {
         this.showImage(id);
     }
 
-    handleKeyPress = (e) => {
+    handleKeyPress = (e: any) => {
         if (Utils.isKeyPressed(e, KeyCodes.RIGHT)) {
-            this.handleNext();
+            this.handleNext(e);
         } else if (Utils.isKeyPressed(e, KeyCodes.LEFT)) {
-            this.handlePrev();
+            this.handlePrev(e);
         }
     }
 
-    onModalShown = (nextProps) => {
+    onModalShown = (nextProps: ViewImageModalProps) => {
         document.addEventListener('keyup', this.handleKeyPress);
 
         this.showImage(nextProps.startIndex);
@@ -114,11 +126,12 @@ export default class ViewImageModal extends React.PureComponent {
         document.removeEventListener('keyup', this.handleKeyPress);
 
         if (this.refs.video) {
+            //@ts-ignore
             this.refs.video.stop();
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: ViewImageModalProps) {
         if (this.props.show === true && prevProps.show === false) {
             this.onModalShown(this.props);
         } else if (this.props.show === false && prevProps.show === true) {
@@ -126,7 +139,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: ViewImageModalProps, state: ViewImageModalState) {
         if (props.fileInfos.length !== state.prevFileInfosCount) {
             return {
                 loaded: Utils.fillArray(false, props.fileInfos.length),
@@ -137,24 +150,24 @@ export default class ViewImageModal extends React.PureComponent {
         return null;
     }
 
-    showImage = (id) => {
+    showImage = (id: number) => {
         this.setState({imageIndex: id});
 
         const imageHeight = window.innerHeight - 100;
-        this.setState({imageHeight});
+        this.setState({imageHeight: imageHeight});
 
         if (!this.state.loaded[id]) {
             this.loadImage(id);
         }
     }
 
-    loadImage = (index) => {
-        const fileInfo = this.props.fileInfos[index];
+    loadImage = (index: number) => {
+        const fileInfo: FileInfo = this.props.fileInfos[index];
         const fileType = Utils.getFileType(fileInfo.extension);
 
         if (fileType === FileTypes.IMAGE && Boolean(fileInfo.id)) {
             let previewUrl;
-            if (fileInfo.has_image_preview) {
+            if (fileInfo.has_preview_image) {
                 previewUrl = getFilePreviewUrl(fileInfo.id);
             } else {
                 // some images (eg animated gifs) just show the file itself and not a preview
@@ -164,7 +177,7 @@ export default class ViewImageModal extends React.PureComponent {
             Utils.loadImage(
                 previewUrl,
                 () => this.handleImageLoaded(index),
-                (completedPercentage) => this.handleImageProgress(index, completedPercentage),
+                (completedPercentage: any) => this.handleImageProgress(index, completedPercentage),
             );
         } else {
             // there's nothing to load for non-image files
@@ -172,7 +185,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    handleImageLoaded = (index) => {
+    handleImageLoaded = (index: number) => {
         this.setState((prevState) => {
             return {
                 loaded: {
@@ -183,7 +196,7 @@ export default class ViewImageModal extends React.PureComponent {
         });
     }
 
-    handleImageProgress = (index, completedPercentage) => {
+    handleImageProgress = (index: number, completedPercentage: any) => {
         this.setState((prevState) => {
             return {
                 progress: {
@@ -278,9 +291,12 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         for (const preview of this.props.pluginFilePreviewComponents) {
+            //@ts-ignore
             if (preview.override(fileInfo, this.props.post)) {
                 content = (
+                    //@ts-ignore
                     <preview.component
+                        //@ts-ignore
                         fileInfo={fileInfo}
                         post={this.props.post}
                         onModalDismissed={this.props.onModalDismissed}

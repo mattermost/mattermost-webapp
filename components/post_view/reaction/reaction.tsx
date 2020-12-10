@@ -9,87 +9,91 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import * as Utils from 'utils/utils.jsx';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Reaction} from 'mattermost-redux/types/reactions';
 
-export default class Reaction extends React.PureComponent {
-    static propTypes = {
+type ReactionProps = {
+   
+    post: Post;
+
+    /*
+    * The user id of the logged in user
+    */
+    currentUserId: string;
+
+    /*
+    * The name of the emoji for the reaction
+    */
+    emojiName: string;
+    
+   /*
+    * The number of reactions to this post for this emoji
+    */
+    reactionCount: number;
+
+   /*
+    * Array of users who reacted to this post
+    */
+    profiles: UserProfile[];
+
+
+   /*
+    * The number of users not in the profile list who have reacted with this emoji
+    */
+    otherUsersCount: number;
+
+   /*
+    * Array of reactions by user
+    */
+    reactions: Reaction[];
+
+   /*
+    * True if the user has the permission to add a reaction in this channel
+    */
+    canAddReaction: boolean;
+
+   /*
+    * True if user has the permission to remove his own reactions in this channel
+    */
+    canRemoveReaction: boolean;
+
+   /*
+    * The URL of the emoji image
+    */
+    emojiImageUrl: string;
+
+    actions: {
 
         /*
-         * The post to render the reaction for
-         */
-        post: PropTypes.object.isRequired,
+            * Function to add a reaction to a post
+            */
+        addReaction: (id: string, emojiName: string) => void,
 
         /*
-         * The user id of the logged in user
-         */
-        currentUserId: PropTypes.string.isRequired,
+            * Function to get non-loaded profiles by id
+            */
+        getMissingProfilesByIds: (ids: string[]) => void,
 
         /*
-         * The name of the emoji for the reaction
-         */
-        emojiName: PropTypes.string.isRequired,
+            * Function to remove a reaction from a post
+            */
+        removeReaction: (id: string, emojiName: string) => void
+    },
 
-        /*
-         * The number of reactions to this post for this emoji
-         */
-        reactionCount: PropTypes.number.isRequired,
+    sortedUsers: any;
+}
 
-        /*
-         * Array of users who reacted to this post
-         */
-        profiles: PropTypes.array.isRequired,
+export default class ReactionComponent extends React.PureComponent<ReactionProps> {
+    
 
-        /*
-         * The number of users not in the profile list who have reacted with this emoji
-         */
-        otherUsersCount: PropTypes.number.isRequired,
-
-        /*
-         * Array of reactions by user
-         */
-        reactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-        /*
-         * True if the user has the permission to add a reaction in this channel
-         */
-        canAddReaction: PropTypes.bool.isRequired,
-
-        /*
-         * True if user has the permission to remove his own reactions in this channel
-         */
-        canRemoveReaction: PropTypes.bool.isRequired,
-
-        /*
-         * The URL of the emoji image
-         */
-        emojiImageUrl: PropTypes.string.isRequired,
-
-        actions: PropTypes.shape({
-
-            /*
-             * Function to add a reaction to a post
-             */
-            addReaction: PropTypes.func.isRequired,
-
-            /*
-             * Function to get non-loaded profiles by id
-             */
-            getMissingProfilesByIds: PropTypes.func.isRequired,
-
-            /*
-             * Function to remove a reaction from a post
-             */
-            removeReaction: PropTypes.func.isRequired,
-        }),
-        sortedUsers: PropTypes.object.isRequired,
-    }
-
-    handleAddReaction = (e) => {
+    handleAddReaction = (e: React.MouseEvent) => {
         e.preventDefault();
         const {actions, post, emojiName} = this.props;
         actions.addReaction(post.id, emojiName);
     }
 
-    handleRemoveReaction = (e) => {
+    handleRemoveReaction = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.actions.removeReaction(this.props.post.id, this.props.emojiName);
     }
@@ -233,7 +237,7 @@ export default class Reaction extends React.PureComponent {
                 <OverlayTrigger
                     delayShow={500}
                     placement='top'
-                    shouldUpdatePosition={true}
+                    // shouldUpdatePosition={true} no longer in the prop
                     overlay={
                         <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
                             {tooltip}

@@ -10,11 +10,15 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {isEmbedVisible} from 'selectors/posts';
 
 import FileAttachmentList from './file_attachment_list.jsx';
+import {Post} from 'mattermost-redux/src/types/posts';
+import {GlobalState} from 'types/store/index.js';
 
-function makeMapStateToProps() {
-    const selectFilesForPost = makeGetFilesForPost();
+type OwnProps = {
+    post: Post
+}
 
-    return function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+        const selectFilesForPost = makeGetFilesForPost();
         const postId = ownProps.post ? ownProps.post.id : '';
         const fileInfos = selectFilesForPost(state, postId);
 
@@ -23,9 +27,10 @@ function makeMapStateToProps() {
             fileCount = (ownProps.post.metadata.files || []).length;
         } else if (ownProps.post.file_ids) {
             fileCount = ownProps.post.file_ids.length;
-        } else if (ownProps.post.filenames) {
-            fileCount = ownProps.post.filenames.length;
-        }
+        } 
+        // else if (ownProps.post.filenames) {
+        //     fileCount = ownProps.post.filenames.length;
+        // }
 
         return {
             enableSVGs: getConfig(state).EnableSVGs === 'true',
@@ -35,6 +40,5 @@ function makeMapStateToProps() {
             locale: getCurrentLocale(state),
         };
     };
-}
 
-export default connect(makeMapStateToProps)(FileAttachmentList);
+export default connect(mapStateToProps)(FileAttachmentList);

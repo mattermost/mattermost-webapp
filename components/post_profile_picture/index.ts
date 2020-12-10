@@ -8,8 +8,15 @@ import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/u
 import {Client4} from 'mattermost-redux/client';
 
 import PostProfilePicture from './post_profile_picture';
+import {GlobalState} from 'types/store';
+import {Post} from 'mattermost-redux/types/posts';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    userId: string;
+    post: Post;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const user = getUser(state, ownProps.userId);
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';

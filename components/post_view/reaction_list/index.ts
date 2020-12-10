@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
@@ -11,11 +11,19 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {addReaction} from 'actions/post_actions.jsx';
 
 import ReactionList from './reaction_list.jsx';
+import {GlobalState} from 'types/store/index.js';
+import {Post} from 'mattermost-redux/types/posts';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+type OwnProps = {
+    isReadOnly: boolean;
+    post: Post;
+} 
 
 function makeMapStateToProps() {
     const getReactionsForPost = makeGetReactionsForPost();
 
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const config = getConfig(state);
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !ownProps.isReadOnly;
 
@@ -30,7 +38,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addReaction,

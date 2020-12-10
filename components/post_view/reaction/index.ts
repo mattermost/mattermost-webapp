@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {removeReaction} from 'mattermost-redux/actions/posts';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
@@ -15,18 +15,29 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import Permissions from 'mattermost-redux/constants/permissions';
 import Constants from 'mattermost-redux/constants/general';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-
 import {addReaction} from 'actions/post_actions.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
 import {getSortedUsers} from 'utils/utils.jsx';
 
-import Reaction from './reaction.jsx';
+import {GlobalState} from 'types/store/index.js';
+import {Reaction} from 'mattermost-redux/types/reactions';
+import {Post} from 'mattermost-redux/types/posts';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {ClientConfig} from 'mattermost-redux/types/config';
+import {UserProfile} from 'mattermost-redux/types/users';
+import ReactionComponent from './reaction';
+
+type OwnProps = {
+    reactions:  Reaction[];
+    emojiName: string;
+    post: Post;
+}
 
 function makeMapStateToProps() {
     const getProfilesForReactions = makeGetProfilesForReactions();
 
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const config = getConfig(state);
         const license = getLicense(state);
         const me = getCurrentUser(state);
@@ -34,6 +45,7 @@ function makeMapStateToProps() {
         const profiles = getProfilesForReactions(state, ownProps.reactions);
         let emoji;
         if (Emoji.EmojiIndicesByAlias.has(ownProps.emojiName)) {
+            //@ts-ignore
             emoji = Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(ownProps.emojiName)];
         } else {
             const emojis = getCustomEmojisByName(state);
@@ -70,7 +82,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             addReaction,
@@ -80,7 +92,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-function checkReactionAction(state, teamId, channelId, channelName, config, license, user, permission) {
+function checkReactionAction(state: GlobalState, teamId: string, channelId: string, channelName: string, config: Partial<ClientConfig>, license: any, user: UserProfile, permission: string) {
     if (!haveIChannelPermission(state, {team: teamId, channel: channelId, permission})) {
         return false;
     }
@@ -92,4 +104,4 @@ function checkReactionAction(state, teamId, channelId, channelName, config, lice
     return true;
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(Reaction);
+export default connect(makeMapStateToProps, mapDispatchToProps)(ReactionComponent);

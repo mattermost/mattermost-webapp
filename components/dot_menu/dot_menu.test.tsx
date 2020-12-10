@@ -5,7 +5,6 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Locations, PostTypes} from 'utils/constants';
-
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
 jest.mock('utils/utils', () => {
@@ -17,8 +16,10 @@ jest.mock('utils/utils', () => {
 });
 
 describe('components/dot_menu/DotMenu', () => {
+    // Type '{ id: string; is_pinned: boolean; type: string; }' 
+    // s not assignable to type 'Pick<Post, "id" | "channel_id" | "create_at" | "is_pinned" | "root_id" | "type">
     const baseProps = {
-        post: {id: 'post_id_1', is_pinned: false, type: ''},
+        post: {id: 'post_id_1', is_pinned: false, channel_id: '', create_at: 0, root_id: ''},
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -45,15 +46,15 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             canEdit: true,
         };
-        const wrapper = shallow(
-            <DotMenu {...props}/>,
+        const wrapper = shallow<DotMenu>(
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
 
         const instance = wrapper.instance();
         const setStateMock = jest.fn();
-        instance.setState = setStateMock;
+        instance.setState = setStateMock;;
         wrapper.instance().handleEditDisable();
         expect(setStateMock).toBeCalledWith({canEdit: false});
     });
@@ -96,8 +97,7 @@ describe('components/dot_menu/DotMenu', () => {
         const props = {
             ...baseProps,
             post: {
-                ...baseProps.post,
-                type: PostTypes.JOIN_CHANNEL,
+                ...baseProps.post
             },
         };
         const wrapper = shallow(

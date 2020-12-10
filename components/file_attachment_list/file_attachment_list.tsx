@@ -12,38 +12,45 @@ import {getFileType} from 'utils/utils';
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 import ViewImageModal from 'components/view_image';
+import {Post} from 'mattermost-redux/src/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
 
-export default class FileAttachmentList extends React.PureComponent {
-    static propTypes = {
+type FileAttachmentListProps = {
 
-        /*
-         * The post the files are attached to
-         */
-        post: PropTypes.object.isRequired,
+    /*
+     * The post the files are attached to
+     */
+    post: Pick<Post, 'id' | 'file_ids'>;
 
-        /*
-         * The number of files attached to the post
-         */
-        fileCount: PropTypes.number.isRequired,
+    /*
+     * The number of files attached to the post
+     */
 
-        /*
-         * Sorted array of metadata for each file attached to the post
-         */
-        fileInfos: PropTypes.arrayOf(PropTypes.object),
+    fileCount: number;
 
-        compactDisplay: PropTypes.bool,
-        enableSVGs: PropTypes.bool,
-        isEmbedVisible: PropTypes.bool,
-        locale: PropTypes.string.isRequired,
-    }
+    /*
+     * Sorted array of metadata for each file attached to the post
+     */
+    fileInfos: Array<FileInfo>;
+    compactDisplay: boolean;
+    enableSVGs: boolean;
+    isEmbedVisible: boolean;
+    locale: string;
+}
 
-    constructor(props) {
+export type FileAttachmentListState = {
+    showPreviewModal: boolean;
+    startImgIndex: number;
+}
+
+export default class FileAttachmentList extends React.Component<FileAttachmentListProps, FileAttachmentListState> {
+    constructor(props: FileAttachmentListProps) {
         super(props);
 
         this.state = {showPreviewModal: false, startImgIndex: 0};
     }
 
-    handleImageClick = (indexClicked) => {
+    handleImageClick = (indexClicked: number) => {
         this.setState({showPreviewModal: true, startImgIndex: indexClicked});
     }
 

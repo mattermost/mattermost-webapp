@@ -9,12 +9,29 @@ import SingleImageView from 'components/single_image_view';
 
 import FileAttachmentList from './file_attachment_list';
 
+
 describe('FileAttachmentList', () => {
+    const baseFileInfo = {
+        id: 'thumbnail_id',
+        extension: 'pdf',
+        name: 'test.pdf',
+        size: 100,
+        width: 100,
+        height: 80,
+        has_preview_image: true,
+        user_id: '',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        mime_type: '',
+        clientId: '',
+    };
+
     const post = {id: 'post_id', file_ids: ['file_id_1', 'file_id_2', 'file_id_3']};
     const fileInfos = [
-        {id: 'file_id_3', name: 'image_3.png', extension: 'png', create_at: 3},
-        {id: 'file_id_2', name: 'image_2.png', extension: 'png', create_at: 2},
-        {id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1},
+        {...baseFileInfo, id: 'file_id_3', name: 'image_3.png', extension: 'png', create_at: 3},
+        {...baseFileInfo, id: 'file_id_2', name: 'image_2.png', extension: 'png', create_at: 2},
+        {...baseFileInfo, id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1},
     ];
     const baseProps = {
         post,
@@ -32,7 +49,7 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'file.txt', extension: 'txt'},
+                {... baseFileInfo, id: 'file_id_1', name: 'file.txt', extension: 'txt'},
             ],
         };
 
@@ -58,7 +75,7 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'image.png', extension: 'png'},
+                {... baseFileInfo, id: 'file_id_1', name: 'image.png', extension: 'png'},
             ],
         };
 
@@ -75,7 +92,7 @@ describe('FileAttachmentList', () => {
             enableSVGs: true,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'image.svg', extension: 'svg'},
+                {... baseFileInfo, id: 'file_id_1', name: 'image.svg', extension: 'svg'},
             ],
         };
 
@@ -91,7 +108,7 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'image.svg', extension: 'svg'},
+                {... baseFileInfo, id: 'file_id_1', name: 'image.svg', extension: 'svg'},
             ],
         };
 
@@ -107,10 +124,10 @@ describe('FileAttachmentList', () => {
         const wrapper = shallow(
             <FileAttachmentList {...baseProps}/>,
         );
-
+        const instance = wrapper.instance() as FileAttachmentList;
         wrapper.setState({showPreviewModal: false, startImgIndex: 0});
         const newImageIndex = 1;
-        wrapper.instance().handleImageClick(newImageIndex);
+        instance.handleImageClick(newImageIndex);
 
         expect(wrapper.state('showPreviewModal')).toEqual(true);
         expect(wrapper.state('startImgIndex')).toEqual(newImageIndex);
@@ -120,9 +137,9 @@ describe('FileAttachmentList', () => {
         const wrapper = shallow(
             <FileAttachmentList {...baseProps}/>,
         );
-
+        const instance = wrapper.instance() as FileAttachmentList;
         wrapper.setState({showPreviewModal: true});
-        wrapper.instance().hidePreviewModal();
+        instance.hidePreviewModal();
 
         expect(wrapper.state('showPreviewModal')).toEqual(false);
     });

@@ -8,8 +8,15 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {canDownloadFiles} from 'utils/file_utils.jsx';
 
 import ViewImage from './view_image.jsx';
+import {GlobalState} from 'types/store/index.js';
+import {Post} from 'mattermost-redux/types/posts';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    post: Post;
+    postId: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
 
     return {

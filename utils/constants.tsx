@@ -762,12 +762,12 @@ export const DefaultRolePermissions = {
     ],
 };
 
-export const Locations = {
-    CENTER: 'CENTER',
-    RHS_ROOT: 'RHS_ROOT',
-    RHS_COMMENT: 'RHS_COMMENT',
-    SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE',
+export enum Locations {
+    CENTER = 'CENTER',
+    RHS_ROOT = 'RHS_ROOT',
+    RHS_COMMENT = 'RHS_COMMENT',
+    SEARCH = 'SEARCH',
+    NO_WHERE = 'NO_WHERE'
 };
 
 export const PostListRowListIds = {

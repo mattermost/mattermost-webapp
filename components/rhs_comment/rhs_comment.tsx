@@ -4,7 +4,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -32,69 +32,57 @@ import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import {isNil} from 'lodash';
 import UserProfile from 'components/user_profile';
-import {Post} from 'mattermost-redux/src/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 
-export interface intlShape {
-    locale: string;
-    timeZone: string;
-    formats: any;
-    messages: any;
-    textComponent: any,
-    defaultLocale: string;
-    defaultFormats: any;
-    onError: () => any,
-    formatDate: () => any;
-    formatTime: () => any;
-    formatRelativeTime: () => any;
-    formatNumber: () => any;
-    formatPlural: () => any;
-    formatMessage: () => any;
-    formatHTMLMessage: () => any;
+interface Actions {
+    markPostAsUnread: (post: Post) => any;
+    emitShortcutReactToLastPostFrom: (str: string) => any;
 }
 
-class RhsComment extends React.PureComponent {
-    static propTypes = {
-        post: PropTypes.object,
-        teamId: PropTypes.string.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        compactDisplay: PropTypes.bool,
-        author: PropTypes.string,
-        reactions: PropTypes.object,
-        isFlagged: PropTypes.bool,
-        isBusy: PropTypes.bool,
-        removePost: PropTypes.func.isRequired,
-        previewCollapsed: PropTypes.string.isRequired,
-        previewEnabled: PropTypes.bool.isRequired,
-        isEmbedVisible: PropTypes.bool,
-        enableEmojiPicker: PropTypes.bool.isRequired,
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
-        isReadOnly: PropTypes.bool.isRequired,
-        pluginPostTypes: PropTypes.object,
-        channelIsArchived: PropTypes.bool.isRequired,
-        isConsecutivePost: PropTypes.bool,
-        handleCardClick: PropTypes.func,
-        a11yIndex: PropTypes.number,
+interface RhsCommentProps {
+    post: Post;
+    teamId: string;
+    currentUserId: string;
+    compactDisplay: boolean;
+    author: string;
+    reactions: any;
+    isFlagged: boolean;
+    isBusy?: boolean;
+    removePost: (post: Post) => any;
+    previewCollapsed: string;
+    previewEnabled: boolean;
+    isEmbedVisible: boolean;
+    enableEmojiPicker: boolean;
+    enablePostUsernameOverride: boolean;
+    isReadOnly: boolean;
+    pluginPostTypes: any,
+    channelIsArchived: boolean;
+    isConsecutivePost: boolean;
+    handleCardClick: (post: Post) => any,
+    a11yIndex: number;
 
-        /**
-         * To Check if the current post is last in the list of RHS
-         */
-        isLastPost: PropTypes.bool,
+    /**
+     * To Check if the current post is last in the list of RHS
+     */
+    isLastPost: boolean;
 
-        /**
-         * To check if the state of emoji for last message and from where it was emitted
-         */
-        shortcutReactToLastPostEmittedFrom: PropTypes.string,
-        intl: intlShape.isRequired,
-        actions: PropTypes.shape({
-            markPostAsUnread: PropTypes.func.isRequired,
+    /**
+     * To check if the state of emoji for last message and from where it was emitted
+     */
+    shortcutReactToLastPostEmittedFrom: string;
+    intl: IntlShape;
+    actions: Actions;
+    emojiMap: any;
+};
 
-            /**
-             * Function to set or unset emoji picker for last message
-             */
-            emitShortcutReactToLastPostFrom: PropTypes.func,
-        }),
-        emojiMap: PropTypes.object.isRequired,
-    };
+type RhsCommentState = {
+    showEmojiPicker: boolean;
+    dropdownOpened: boolean;
+    alt: boolean;
+    hover: boolean;
+    a11yActive: boolean;
+    currentAriaLabel: string;
+}
 
 export class RhsComment extends React.PureComponent<RhsCommentProps, RhsCommentState> {
     
@@ -171,8 +159,8 @@ export class RhsComment extends React.PureComponent<RhsCommentProps, RhsCommentS
 
             // Checking if rhs comment is in scroll view of the user
             const boundingRectOfPostInfo = this.postHeaderRef.current?.getBoundingClientRect();
-            const isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 110) > 0 &&
-                boundingRectOfPostInfo.bottom < (window.innerHeight);
+            const isPostHeaderVisibleToUser = boundingRectOfPostInfo ? (boundingRectOfPostInfo.top - 110) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight) : false;
 
             if (isPostHeaderVisibleToUser && !isEphemeralPost && !isSystemMessage && !isReadOnly && !isFailedPost &&
                 !isAutoRespondersPost && !isDeletedPost && !channelIsArchived && !isMobile() && enableEmojiPicker) {

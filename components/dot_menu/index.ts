@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -23,9 +23,16 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import DotMenu from './dot_menu.jsx';
+import DotMenu from './dot_menu.js';
+import {GlobalState} from 'types/store/index.js';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {Post} from 'mattermost-redux/src/types/posts';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    post: Pick<Post, 'id' | 'channel_id' | 'create_at' | 'is_pinned' | 'root_id'>;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const {post} = ownProps;
 
     const license = getLicense(state);
@@ -38,7 +45,7 @@ function mapStateToProps(state, ownProps) {
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit: getConfig(state).PostEditTimeLimit,
+        postEditTimeLimit: getConfig(state).PostEditTimeLimit || '',
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
@@ -49,7 +56,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             flagPost,

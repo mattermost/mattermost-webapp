@@ -29,7 +29,7 @@ export default class ChannelPermissionGate extends React.PureComponent {
         /**
          * Has permission
          */
-        hasPermission: PropTypes.bool.isRequired,
+        hasPermission: PropTypes.bool,
 
         /**
          * Invert the permission (used for else)
