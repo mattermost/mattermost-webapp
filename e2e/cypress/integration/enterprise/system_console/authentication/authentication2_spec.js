@@ -145,7 +145,7 @@ describe('Authentication Part 2', () => {
 
         cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
 
-        cy.findByTestId('allowAllToggleSwitch').click();
+        cy.findByTestId('allowAllToggleSwitch', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Click "Save"
         cy.findByText('Save').scrollIntoView().click();
