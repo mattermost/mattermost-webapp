@@ -22,17 +22,17 @@ function mapStateToProps(state: GlobalState) {
 
     const enableTimezone = areTimezonesEnabledAndSupported(state);
 
-    let currentDate;
+    let cDate;
     if (enableTimezone) {
         if (userTimezone.useAutomaticTimezone) {
-            currentDate = getCurrentDateForTimezone(userTimezone.automaticTimezone);
+            cDate = getCurrentDateForTimezone(userTimezone.automaticTimezone);
         } else {
-            currentDate = getCurrentDateForTimezone(userTimezone.manualTimezone);
+            cDate = getCurrentDateForTimezone(userTimezone.manualTimezone);
         }
     }
     return {
         userId,
-        currentDate,
+        currentDate: cDate,
     };
 }
 

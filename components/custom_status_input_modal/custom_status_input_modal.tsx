@@ -20,8 +20,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 type Props = {
     onHide: () => void;
     userId: string;
-
-    // setCustomStatus: (status: UserCustomStatus) => ActionFunc
+    actions: {
+        setCustomStatus: (status: UserCustomStatus) => ActionFunc
+    }
 };
 
 type State = {
@@ -69,7 +70,12 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
 
     handleSubmit = (event: any) => {
         event.preventDefault();
-        console.log('status is', this.state.message);
+        this.props.actions.setCustomStatus({
+            user_id: this.props.userId,
+            text: this.state.message,
+            emoji: '',
+            expire_time: '',
+        });
     }
 
     hideEmojiPicker = (event: any) => {
