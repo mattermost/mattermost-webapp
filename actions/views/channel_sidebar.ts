@@ -147,7 +147,7 @@ export function clearChannelSelection() {
 
         if (state.views.channelSidebar.multiSelectedChannelIds.length === 0) {
             // No selection to clear
-            return {data: true};
+            return Promise.resolve({data: true});
         }
 
         return dispatch({
