@@ -20,7 +20,6 @@ describe('Authentication Part 2', () => {
 
     before(() => {
         cy.apiRequireLicense();
-        
         // # Do email test if setup properly
         cy.apiEmailTest();
 
