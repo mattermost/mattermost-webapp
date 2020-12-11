@@ -103,7 +103,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
             />
           }
           disabled={false}
-          extraClasses="ml-4"
           id="saveItems"
           onClick={[Function]}
           saving={false}
@@ -293,7 +292,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
             />
           }
           disabled={false}
-          extraClasses="ml-4"
           id="saveItems"
           onClick={[Function]}
           saving={false}

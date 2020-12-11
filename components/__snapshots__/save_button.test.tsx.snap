@@ -2,9 +2,10 @@
 
 exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
 <button
-  className="save-button btn btn-primary some-class"
+  className="save-button btn btn-primary"
   data-testid="saveSetting"
   disabled={false}
+  extraClasses="some-class"
   id="saveSetting"
   type="submit"
 >

@@ -27,7 +27,6 @@ export default class SaveButton extends React.PureComponent<Props> {
             />
         ),
         disabled: false,
-        extraClasses: '',
         savingMessage: (
             <FormattedMessage
                 id='save_button.saving'
@@ -43,17 +42,12 @@ export default class SaveButton extends React.PureComponent<Props> {
             savingMessage,
             defaultMessage,
             btnClass,
-            extraClasses,
             ...props
         } = this.props;
 
         let className = 'save-button btn';
         if (!disabled || saving) {
             className += ' ' + btnClass;
-        }
-
-        if (extraClasses) {
-            className += ' ' + extraClasses;
         }
 
         return (

@@ -240,7 +240,6 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -513,7 +512,6 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."

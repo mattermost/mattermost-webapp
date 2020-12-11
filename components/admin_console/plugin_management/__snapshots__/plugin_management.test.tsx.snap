@@ -299,7 +299,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -631,7 +630,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -730,7 +728,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1062,7 +1059,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1396,7 +1392,6 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1732,7 +1727,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2064,7 +2058,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2373,7 +2366,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2705,7 +2697,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -3039,7 +3030,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -3432,7 +3422,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -3794,7 +3783,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -4156,7 +4144,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -4518,7 +4505,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -4911,7 +4897,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           />
         }
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
