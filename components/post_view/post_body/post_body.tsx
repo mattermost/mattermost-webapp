@@ -158,7 +158,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
         }
 
         let failedOptions;
-        if (this.props.post && this.props.post.failed) {
+        if (this.props.post?.failed) {
             postClass += ' post--fail';
             failedOptions = <FailedPostOptions post={this.props.post}/>;
         }
@@ -169,10 +169,9 @@ export default class PostBody extends React.PureComponent<Props, State> {
 
         let fileAttachmentHolder = null;
         if (
-            ((post && post.file_ids && post.file_ids.length > 0) ||
-        (post && post.filenames && post.filenames.length > 0)) &&
-      this.props.post &&
-      this.props.post.state !== Posts.POST_DELETED
+            ((post?.file_ids?.length > 0) ||
+        (post?.filenames?.length > 0)) &&
+      this.props.post?.state !== Posts.POST_DELETED
         ) {
             fileAttachmentHolder = (
                 <FileAttachmentListContainer
@@ -198,15 +197,12 @@ export default class PostBody extends React.PureComponent<Props, State> {
         );
 
         const hasPlugin =
-      (post &&
-        post.type &&
-        this.props.pluginPostTypes &&
-        this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
-      (post &&
-        post.props &&
-        post.props.type &&
-        this.props.pluginPostTypes &&
-        this.props.pluginPostTypes.hasOwnProperty(post.props.type));
+      (
+        post?.type &&
+        this.props.pluginPostTypes?.hasOwnProperty(post.type)) ||
+      (
+        post?.props?.type &&
+        this.props.pluginPostTypes?.hasOwnProperty(post.props.type));
 
         let messageWithAdditionalContent;
         if (
