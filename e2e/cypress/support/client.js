@@ -41,7 +41,7 @@ Cypress.Commands.add('makeClient', ({user}) => {
     const baseUrl = Cypress.config('baseUrl');
     client.setUrl(baseUrl);
 
-    client.login(user.username, user.password).then(() => {
-        cy.wrap(client);
+    return client.login(user.username, user.password).then(() => {
+        return cy.wrap(client);
     });
 });

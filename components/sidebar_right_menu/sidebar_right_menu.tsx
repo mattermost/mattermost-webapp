@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 import {CSSTransition} from 'react-transition-group';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
