@@ -210,7 +210,7 @@ describe('Authentication Part 2', () => {
     it('MM-T1762 - Invite Salt', () => {
         cy.visit('/admin_console/site_config/public_links');
 
-        cy.findByText('Regenerate').click();
+        cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // * Assert that create account button is visible
         cy.get('#FileSettings.PublicLinkSalt', {timeout: TIMEOUTS.ONE_MIN}).should('not.have.text', '********************************');
