@@ -21,55 +21,55 @@ describe('Compliance Export', () => {
         });
     });
 
-    // it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
-    //     // # Go to compliance page and enable export
-    //     gotoCompliancePage();
-    //     enableComplianceExport();
+    it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
+        // # Go to compliance page and enable export
+        gotoCompliancePage();
+        enableComplianceExport();
 
-    //     // # Navigate to a team and post an attachment
-    //     gotoTeamAndPostImage();
+        // # Navigate to a team and post an attachment
+        gotoTeamAndPostImage();
 
-    //     // # Goto compliance page and start export
-    //     gotoCompliancePage();
-    //     exportCompliance();
+        // # Goto compliance page and start export
+        gotoCompliancePage();
+        exportCompliance();
 
-    //     // # Get the download link
-    //     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-    //         const fileURL = fileAttachment.attr('href');
+        // # Get the download link
+        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
+            const fileURL = fileAttachment.attr('href');
 
-    //         // # Download the file
-    //         downloadAttachmentAndVerifyItsProperties(fileURL);
-    //     });
-    // });
+            // # Download the file
+            downloadAttachmentAndVerifyItsProperties(fileURL);
+        });
+    });
 
-    // it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
-    //     // # Go to compliance page and enable export
-    //     gotoCompliancePage();
-    //     enableComplianceExport();
+    it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
+        // # Go to compliance page and enable export
+        gotoCompliancePage();
+        enableComplianceExport();
 
-    //     // # Navigate to a team and post an attachment
-    //     gotoTeamAndPostImage();
+        // # Navigate to a team and post an attachment
+        gotoTeamAndPostImage();
 
-    //     // # Goto compliance page and start export
-    //     gotoCompliancePage();
-    //     exportCompliance();
+        // # Goto compliance page and start export
+        gotoCompliancePage();
+        exportCompliance();
 
-    //     // # Get the download link
-    //     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-    //         const fileURL = fileAttachment.attr('href');
+        // # Get the download link
+        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
+            const fileURL = fileAttachment.attr('href');
 
-    //         // # Download the File
-    //         downloadAttachmentAndVerifyItsProperties(fileURL);
+            // # Download the File
+            downloadAttachmentAndVerifyItsProperties(fileURL);
 
-    //         // # Export compliance again
-    //         exportCompliance();
+            // # Export compliance again
+            exportCompliance();
 
-    //         // # Download link should not exist this time
-    //         cy.get('.job-table__table').
-    //             find('tbody > tr:eq(0)').
-    //             findByText('Download').should('not.exist');
-    //     });
-    // });
+            // # Download link should not exist this time
+            cy.get('.job-table__table').
+                find('tbody > tr:eq(0)').
+                findByText('Download').should('not.exist');
+        });
+    });
 
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
         // # Goto file storage settings Page
