@@ -12,7 +12,7 @@ import {UserStatus} from 'mattermost-redux/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -42,7 +42,7 @@ type Props = {
     currentUser?: {
         id: string;
     };
-    currentChannel?: Channel;
+    currentChannelId?: string;
     currentTeamId?: string;
     useLegacyLHS: boolean;
     actions: {
@@ -188,8 +188,8 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     handleFocus = () => {
-        if (this.props.currentChannel) {
-            this.props.actions.markChannelAsReadOnFocus(this.props.currentChannel.id);
+        if (this.props.currentChannelId) {
+            this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
             window.isActive = true;
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {

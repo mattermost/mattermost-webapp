@@ -9,6 +9,7 @@ const {
     dbGetUserSession,
     dbUpdateUserSession,
 } = require('./db_request');
+const clientRequest = require('./client_request');
 const externalRequest = require('./external_request');
 const fileExist = require('./file_exist');
 const getRecentEmail = require('./get_recent_email');
@@ -26,6 +27,7 @@ const log = (message) => {
 
 module.exports = (on, config) => {
     on('task', {
+        clientRequest,
         dbGetActiveUserSessions,
         dbGetUser,
         dbGetUserSession,

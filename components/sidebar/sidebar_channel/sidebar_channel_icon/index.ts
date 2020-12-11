@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -18,16 +18,16 @@ type OwnProps = {
     channel?: Channel;
 }
 
-function hasDraft(draft: any, currentChannel?: Channel, channel?: Channel) {
-    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannel?.id !== channel?.id;
+function hasDraft(draft: any, currentChannelId?: string, channel?: Channel) {
+    return draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length) && currentChannelId !== channel?.id;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const currentChannel = getCurrentChannel(state);
+    const currentChannelId = getCurrentChannelId(state);
     const draft = ownProps.channel?.id ? getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channel.id) : false;
 
     return {
-        hasDraft: hasDraft(draft, currentChannel, ownProps.channel),
+        hasDraft: hasDraft(draft, currentChannelId, ownProps.channel),
     };
 }
 
