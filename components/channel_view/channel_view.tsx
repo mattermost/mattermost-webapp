@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
 
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
@@ -16,33 +17,41 @@ import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class ChannelView extends React.PureComponent {
-    static propTypes = {
-        channelId: PropTypes.string.isRequired,
-        deactivatedChannel: PropTypes.bool.isRequired,
-        channelRolesLoading: PropTypes.bool.isRequired,
-        match: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-            params: PropTypes.shape({
-                postid: PropTypes.string,
-            }).isRequired,
-        }).isRequired,
-        showTutorial: PropTypes.bool.isRequired,
-        showNextSteps: PropTypes.bool.isRequired,
-        showNextStepsTips: PropTypes.bool.isRequired,
-        isOnboardingHidden: PropTypes.bool.isRequired,
-        showNextStepsEphemeral: PropTypes.bool.isRequired,
-        channelIsArchived: PropTypes.bool.isRequired,
-        viewArchivedChannels: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            goToLastViewedChannel: PropTypes.func.isRequired,
-            setShowNextStepsView: PropTypes.func.isRequired,
-            getProfiles: PropTypes.func.isRequired,
-        }),
-        isCloud: PropTypes.bool.isRequired,
-    };
+type Props = {
+    channelId: string;
+    deactivatedChannel: boolean;
+    channelRolesLoading: boolean;
+    match: {
+        url: string,
+        params: {
+            postid?: string,
+        }
+    },
+    showTutorial: boolean;
+    showNextSteps: boolean;
+    showNextStepsTips: boolean;
+    isOnboardingHidden: boolean;
+    showNextStepsEphemeral: boolean;
+    channelIsArchived: boolean;
+    viewArchivedChannels: boolean;
+    isCloud: boolean;
+    actions: {
+        goToLastViewedChannel: () => Promise<{data: boolean}>;
+        setShowNextStepsView: (show: boolean) => Action;
+        getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
+    },
+};
 
-    static createDeferredPostView = () => {
+type State = {
+    channelId: string;
+    url: string;
+    focusedPostId?: string;
+    deferredPostView: any;
+    showNextSteps: boolean;
+};
+
+export default class ChannelView extends React.PureComponent<Props, State> {
+    public static createDeferredPostView = () => {
         return deferComponentRender(
             PostView,
             <div
@@ -55,7 +64,7 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState = {};
         const focusedPostId = props.match.params.postid;
 
@@ -81,14 +90,16 @@ export default class ChannelView extends React.PureComponent {
 
         return null;
     }
-
-    constructor(props) {
+    channelViewRef: React.RefObject<HTMLDivElement>;
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             url: props.match.url,
             channelId: props.channelId,
+            focusedPostId: props.match.params.postid,
             deferredPostView: ChannelView.createDeferredPostView(),
+            showNextSteps: props.showNextSteps,
         };
 
         this.channelViewRef = React.createRef();
@@ -109,7 +120,7 @@ export default class ChannelView extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             mark('ChannelView#componentDidUpdate');
 
@@ -229,7 +240,7 @@ export default class ChannelView extends React.PureComponent {
             >
                 <FileUploadOverlay overlayType='center'/>
                 <ChannelHeader
-                    channelId={this.props.channelId}
+                    {...this.props}
                 />
                 <DeferredPostView
                     channelId={this.props.channelId}

@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {joinChannelById, switchToChannel} from 'actions/views/channel';
 
-import QuickSwitchModal from './quick_switch_modal.jsx';
+import QuickSwitchModal, {Props} from './quick_switch_modal';
 
 function mapStateToProps() {
     return {
@@ -14,9 +15,9 @@ function mapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             joinChannelById,
             switchToChannel,
         }, dispatch),
