@@ -158,6 +158,15 @@ export default class StatusDropdown extends React.PureComponent {
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction
+                            onClick={() => null}
+                            ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
+                            text={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status')}
+                            icon={<StatusOnlineIcon className={'online--icon'} />}
+                            id={'status-menu-custom'}
+                        />
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemAction
                             onClick={setOnline}
                             ariaLabel={localizeMessage('status_dropdown.set_online', 'Online').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_online', 'Online')}
