@@ -18,7 +18,6 @@ import {spyNotificationAs, ignoreUncaughtException} from '../../support/notifica
 describe('Desktop notifications', () => {
     let testTeam;
     let testUser;
-    let firstUser;
 
     before(() => {
         // Initialise a user.
@@ -285,7 +284,7 @@ describe('Desktop notifications', () => {
                 spyNotificationAs('withNotification', 'granted');
 
                 // Have another user send a post with delay
-                cy.postMessageAs({sender: testUser, message: message, channelId: channel.id});
+                cy.postMessageAs({sender: testUser, message, channelId: channel.id});
 
                 // * Desktop notification is not received
                 cy.get('@withNotification').should('not.have.been.called');
@@ -306,7 +305,7 @@ describe('Desktop notifications', () => {
                 spyNotificationAs('withNotification', 'granted');
 
                 // Have another user send a post with delay
-                cy.postMessageAs({sender: testUser, message: message, channelId: channel.id});
+                cy.postMessageAs({sender: testUser, message, channelId: channel.id});
 
                 // * Desktop notification is not received
                 cy.get('@withNotification').should('not.have.been.called');
@@ -327,7 +326,7 @@ describe('Desktop notifications', () => {
             changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
 
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
-                const messageWithoutNotification = 'message without notification'
+                const messageWithoutNotification = 'message without notification';
                 const messageWithNotification = `random message with mention @${user.username}`;
                 const expected = `@${testUser.username}: ${messageWithNotification}`;
 
@@ -345,7 +344,7 @@ describe('Desktop notifications', () => {
                     expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
                     return true;
                 });
-                
+
                 // # Have another user post a direct message
                 cy.apiCreateDirectChannel([user.id, testUser.id]).then(({channel: dmChannel}) => {
                     cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
@@ -417,9 +416,11 @@ describe('Desktop notifications', () => {
 
                 // # Select sound off.
                 cy.get('#soundOff').check();
+
                 // # Ensure sound dropdown is not visible
                 cy.get('#displaySoundNotification').should('not.be.visible');
-                 // # Click "Save"
+
+                // # Click "Save"
                 cy.findByText('Save').scrollIntoView().should('be.visible').click();
 
                 // Close the modal.
