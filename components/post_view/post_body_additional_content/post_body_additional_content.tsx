@@ -51,7 +51,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
         for (const c of postWillRenderEmbedComponents) {
             if (c.match(embed)) {
                 const Component = c.component;
-                return this.props.isEmbedVisible && <Component embed={embed}/>;
+                return this.props.isEmbedVisible && <Component embed={embed} />;
             }
         }
 
