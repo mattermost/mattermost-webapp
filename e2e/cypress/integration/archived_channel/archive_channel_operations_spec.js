@@ -16,7 +16,6 @@ describe('Leave an archived channel', () => {
     let testTeam;
     let testChannel;
     let testUser;
-    let otherUser;
     let adminUser;
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
