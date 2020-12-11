@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import {Tooltip} from 'react-bootstrap';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
@@ -73,7 +73,7 @@ export default class PostTime extends React.PureComponent {
         const content = isMobile() || !isPermalink ? (
             <div
                 role='presentation'
-                className='post__permalink'
+                className='post_permalink_mobile_view'
             >
                 {postTime}
             </div>

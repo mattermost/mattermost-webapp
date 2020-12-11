@@ -350,7 +350,10 @@ function renderChannelUnarchivedMessage(post) {
 }
 
 function renderMeMessage(post) {
-    return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
+    // Trim off the leading and trailing asterisk added to /me messages
+    const message = post.message.replace(/^\*|\*$/g, '');
+
+    return renderFormattedText(message);
 }
 
 const systemMessageRenderers = {

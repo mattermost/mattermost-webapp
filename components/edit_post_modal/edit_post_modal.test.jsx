@@ -14,7 +14,7 @@ import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Textbox from 'components/textbox';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitClearSuggestions: jest.fn(),
 }));
 
@@ -407,21 +407,49 @@ describe('components/EditPostModal', () => {
         var wrapper = shallowWithIntl(createEditPost({ctrlSend: true}), {context: options.get()});
         var instance = wrapper.instance();
         instance.handleEdit = jest.fn();
-        instance.handleKeyDown({keyCode: 1, ctrlKey: true, ...eventMethods});
+
+        // Test with Control Key (Windows)
+        instance.handleKeyDown({keyCode: 1, ctrlKey: true, metaKey: false, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, ...eventMethods});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, metaKey: false, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true, ...eventMethods});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true, metaKey: false, ...eventMethods});
+        expect(instance.handleEdit).toBeCalled();
+
+        wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
+        instance = wrapper.instance();
+        instance.handleEdit = jest.fn();
+
+        // Test with Command Key (Mac)
+        instance.handleKeyDown({keyCode: 1, ctrlKey: false, metaKey: true, ...eventMethods});
+        expect(instance.handleEdit).not.toBeCalled();
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, metaKey: false, ...eventMethods});
+        expect(instance.handleEdit).not.toBeCalled();
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, metaKey: true, ...eventMethods});
         expect(instance.handleEdit).toBeCalled();
 
         wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
         instance = wrapper.instance();
         instance.handleEdit = jest.fn();
-        instance.handleKeyDown({keyCode: 1, ctrlKey: true, ...eventMethods});
+
+        // Test with Control Key (Windows)
+        instance.handleKeyDown({keyCode: 1, ctrlKey: true, metaKey: false, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, ...eventMethods});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, metaKey: false, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
-        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true, ...eventMethods});
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true, metaKey: false, ...eventMethods});
+        expect(instance.handleEdit).not.toBeCalled();
+
+        wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
+        instance = wrapper.instance();
+        instance.handleEdit = jest.fn();
+
+        // Test with Command Key (Mac)
+        instance.handleKeyDown({keyCode: 1, ctrlKey: false, metaKey: true, ...eventMethods});
+        expect(instance.handleEdit).not.toBeCalled();
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, metaKey: false, ...eventMethods});
+        expect(instance.handleEdit).not.toBeCalled();
+        instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: false, metaKey: true, ...eventMethods});
         expect(instance.handleEdit).not.toBeCalled();
     });
 
