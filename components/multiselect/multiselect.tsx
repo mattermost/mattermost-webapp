@@ -373,7 +373,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     components={{
                         Menu: nullComponent,
                         IndicatorsContainer: nullComponent,
-                        MultiValueLabel: paddedComponent(this.valueRenderer),
+                        MultiValueLabel: paddedComponent(this.props.valueRenderer),
                     }}
                     isClearable={false}
                     openMenuOnFocus={false}
@@ -531,7 +531,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     </div>}
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
-                <div className='text-right pr-6 pb-6'>
+                <div className='channel-switcher__footer'>
                     <SaveButton
                         id='saveItems'
                         saving={this.props.saving}
@@ -558,10 +558,7 @@ const nullComponent = () => null;
 const paddedComponent = (WrappedComponent: any) => {
     return (props: {data: any}) => {
         return (
-            <div
-                className='d-flex align-items-center'
-                style={{padding: '4px 2px 4px 4px'}}
-            >
+            <div className='react-select__padded-component'>
                 <WrappedComponent {...props}/>
             </div>
         );
