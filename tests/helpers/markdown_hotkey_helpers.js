@@ -50,7 +50,7 @@ function makeMarkdownHotkeyEvent(input, start, end, keycode, altKey = false) {
  * @param  {int} [end] selection's end index
  * @return {object} keydown event object
  */
-export function makeBoldHotkeyEvent(input, start, end) {
+function makeBoldHotkeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.B);
 }
 
@@ -60,11 +60,11 @@ export function makeBoldHotkeyEvent(input, start, end) {
  * @param  {int} [end] selection's end index
  * @return {object} keydown event object
  */
-export function makeItalicHotkeyEvent(input, start, end) {
+function makeItalicHotkeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.I);
 }
 
-export function makeLinkHotKeyeyEvent(input, start, end) {
+function makeLinkHotKeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.K, true);
 }
 
@@ -139,7 +139,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
     test('component adds link markdown when something is selected', () => {
         // "Fafda" is selected with ctrl + alt + K hotkey
         const input = 'Jalebi Fafda & Sambharo';
-        const e = makeLinkHotKeyeyEvent(input, 7, 12);
+        const e = makeLinkHotKeyEvent(input, 7, 12);
 
         const instance = shallowWithIntl(generateInstance(input));
 
@@ -161,7 +161,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
     test('component adds link markdown when cursor is before a word', () => {
         // Cursor is before "Fafda" with ctrl + alt + K hotkey
         const input = 'Jalebi Fafda & Sambharo';
-        const e = makeLinkHotKeyeyEvent(input, 7, 7);
+        const e = makeLinkHotKeyEvent(input, 7, 7);
 
         const instance = shallowWithIntl(generateInstance(input));
 
@@ -183,7 +183,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
     test('component adds link markdown when cursor is in a word', () => {
         // Cursor is after "Fafda" with ctrl + alt + K hotkey
         const input = 'Jalebi Fafda & Sambharo';
-        const e = makeLinkHotKeyeyEvent(input, 10, 10);
+        const e = makeLinkHotKeyEvent(input, 10, 10);
 
         const instance = shallowWithIntl(generateInstance(input));
 
@@ -205,7 +205,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
     test('component adds link markdown when cursor is after a word', () => {
         // Cursor is after "Fafda" with ctrl + alt + K hotkey
         const input = 'Jalebi Fafda & Sambharo';
-        const e = makeLinkHotKeyeyEvent(input, 12, 12);
+        const e = makeLinkHotKeyEvent(input, 12, 12);
 
         const instance = shallowWithIntl(generateInstance(input));
 
@@ -227,7 +227,7 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
     test('component removes link markdown', () => {
         // "Fafda" is selected with ctrl + alt + K hotkey
         const input = 'Jalebi [Fafda](url) & Sambharo';
-        const e = makeLinkHotKeyeyEvent(input, 8, 13);
+        const e = makeLinkHotKeyEvent(input, 8, 13);
 
         const instance = shallowWithIntl(generateInstance(input));
 
