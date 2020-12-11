@@ -253,6 +253,15 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             }
         }
 
+        // Load all the channels to make quickswitch great.
+        // Skip the current team since we did that one already.
+        this.props.teamsList.map((item: Team) => {
+            if (item.id !== team.id) {
+                this.props.actions.fetchMyChannelsAndMembers(item.id);
+            }
+            return item;
+        });
+
         return team;
     }
 
