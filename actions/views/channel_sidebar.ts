@@ -142,7 +142,14 @@ export function adjustTargetIndexForMove(state: GlobalState, categoryId: string,
 }
 
 export function clearChannelSelection() {
-    return (dispatch: DispatchFunc) => {
+    return (dispatch: DispatchFunc, getState: () => GlobalState) => {
+        const state = getState();
+
+        if (state.views.channelSidebar.multiSelectedChannelIds.length === 0) {
+            // No selection to clear
+            return {data: true};
+        }
+
         return dispatch({
             type: ActionTypes.MULTISELECT_CHANNEL_CLEAR,
         });
