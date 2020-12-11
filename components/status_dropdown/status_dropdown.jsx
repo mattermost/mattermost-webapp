@@ -18,6 +18,8 @@ import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 
+import CustomStatusInputModal from 'components/custom_status_input_modal';
+
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
@@ -169,7 +171,7 @@ export default class StatusDropdown extends React.PureComponent {
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction
-                            onClick={showCustomStatusChangeInput}
+                            onClick={this.showCustomStatusChangeInput}
                             ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status')}
                             icon={<StatusOnlineIcon className={'online--icon'} />}
