@@ -82,7 +82,7 @@ describe('Leave an archived channel', () => {
 
         const messageText = `archived text ${getRandomId()}`;
 
-        createArchivedChannel('unarchive-', [messageText]).then((channel) => {
+        createArchivedChannel({prefix: 'unarchive-'}, [messageText]).then((channel) => {
             // # View the archived channel, noting that it is read-only
             cy.get('#post_textbox').should('not.be.visible');
 
