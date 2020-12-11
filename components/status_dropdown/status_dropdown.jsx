@@ -78,6 +78,17 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.openModal(resetStatusModalData);
     };
 
+    showCustomStatusChangeInput = () => {
+        const customStatusInputModalData = {
+            ModalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusInputModal,
+            dialogProps: { userId: this.props.userId },
+        };
+
+        this.props.actions.openModal(customStatusInputModalData);
+    };
+
+
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
             return null;
@@ -158,7 +169,7 @@ export default class StatusDropdown extends React.PureComponent {
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction
-                            onClick={() => null}
+                            onClick={showCustomStatusChangeInput}
                             ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status')}
                             icon={<StatusOnlineIcon className={'online--icon'} />}
