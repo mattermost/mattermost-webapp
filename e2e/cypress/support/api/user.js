@@ -14,7 +14,7 @@ Cypress.Commands.add('apiLogin', (user, requestOptions = {}) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
-        body: {login_id: user.username, password: user.password},
+        body: {login_id: user.username || user.email, password: user.password},
         ...requestOptions,
     }).then((response) => {
         if (requestOptions.failOnStatusCode) {
@@ -54,7 +54,15 @@ Cypress.Commands.add('apiLoginWithMFA', (user, token) => {
 Cypress.Commands.add('apiAdminLogin', (requestOptions = {}) => {
     const admin = getAdminAccount();
 
-    return cy.apiLogin(admin, requestOptions);
+    // This basically first tries to use the username and if it fails, then it tries to use the email.
+    cy.apiLogin(admin, requestOptions).then((resp) => {
+        if (resp.error) {
+            delete admin.username;
+            return cy.apiLogin(admin, requestOptions);
+        }
+
+        return resp;
+    });
 });
 
 Cypress.Commands.add('apiAdminLoginWithMFA', (token) => {
