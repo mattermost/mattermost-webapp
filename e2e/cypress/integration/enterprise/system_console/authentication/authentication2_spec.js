@@ -29,9 +29,6 @@ describe('Authentication Part 2', () => {
                 testUser = newUser;
             });
         });
-
-        // # Log in as a admin.
-        cy.apiAdminLogin();
     });
 
     beforeEach(() => {
