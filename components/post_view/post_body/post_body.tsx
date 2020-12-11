@@ -206,7 +206,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
 
         let messageWithAdditionalContent;
         if (
-            (this.props.post && this.props.post.state === Posts.POST_DELETED) ||
+            (this.props.post?.state === Posts.POST_DELETED) ||
       hasPlugin
         ) {
             messageWithAdditionalContent = messageWrapper;
