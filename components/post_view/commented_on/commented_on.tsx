@@ -39,7 +39,7 @@ export default class CommentedOn extends PureComponent<Props> {
             message = Utils.replaceHtmlEntities(post.message);
         } else if (post.file_ids && post.file_ids.length > 0) {
             message = (
-                <CommentedOnFilesMessage parentPostId={post.id} />
+                <CommentedOnFilesMessage parentPostId={post.id}/>
             );
         } else if (post.props && post.props.attachments && post.props.attachments.length > 0) {
             const attachment = post.props.attachments[0];

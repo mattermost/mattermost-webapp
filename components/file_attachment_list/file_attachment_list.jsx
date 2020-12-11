@@ -36,6 +36,7 @@ export default class FileAttachmentList extends React.PureComponent {
         compactDisplay: PropTypes.bool,
         enableSVGs: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
+
         // Need to remove .isRequired till the component is not migrated to tsx
         locale: PropTypes.string,
     }
