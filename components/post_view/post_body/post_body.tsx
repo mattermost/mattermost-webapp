@@ -123,7 +123,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
 
     componentDidMount() {
         const post = this.props.post;
-        if (post && post.id === post.pending_post_id) {
+        if (post?.id === post.pending_post_id) {
             this.sendingAction.fireAfter(SENDING_ANIMATION_DELAY);
         }
     }
