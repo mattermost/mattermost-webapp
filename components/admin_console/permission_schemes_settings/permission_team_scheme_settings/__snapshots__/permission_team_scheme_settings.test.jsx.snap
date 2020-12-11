@@ -225,6 +225,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -513,6 +514,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -808,6 +810,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -1103,6 +1106,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -1414,6 +1418,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -1728,6 +1733,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."

@@ -203,6 +203,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -279,6 +280,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -521,6 +523,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."

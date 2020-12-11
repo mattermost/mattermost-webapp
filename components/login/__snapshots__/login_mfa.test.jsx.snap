@@ -42,6 +42,7 @@ exports[`components/login/LoginMfa should match snapshot 1`] = `
         btnClass="btn-primary"
         defaultMessage="Submit"
         disabled={false}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Submitting..."

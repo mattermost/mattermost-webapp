@@ -35,6 +35,7 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
             />
           }
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage={
@@ -105,6 +106,7 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
             />
           }
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage={
@@ -175,6 +177,7 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
             />
           }
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage={
@@ -230,6 +233,7 @@ exports[`components/SettingItemMax should match snapshot, with new saveTextButto
           btnClass="btn-primary"
           defaultMessage="CustomText"
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage={

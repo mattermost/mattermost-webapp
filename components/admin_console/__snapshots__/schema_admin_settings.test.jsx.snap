@@ -694,6 +694,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."

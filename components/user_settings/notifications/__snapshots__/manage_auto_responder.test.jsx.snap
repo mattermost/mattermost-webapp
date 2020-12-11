@@ -130,6 +130,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 />
               }
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage={
@@ -410,6 +411,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 />
               }
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage={

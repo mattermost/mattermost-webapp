@@ -382,6 +382,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           />
         }
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -795,6 +796,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           />
         }
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."

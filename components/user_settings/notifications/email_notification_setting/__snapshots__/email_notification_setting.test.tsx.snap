@@ -199,6 +199,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 />
               }
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage={
@@ -611,6 +612,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 />
               }
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage={

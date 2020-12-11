@@ -160,6 +160,7 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -409,6 +410,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if LD
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -665,6 +667,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -915,6 +918,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if SA
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -1164,6 +1168,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -1413,6 +1418,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         />
       }
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
