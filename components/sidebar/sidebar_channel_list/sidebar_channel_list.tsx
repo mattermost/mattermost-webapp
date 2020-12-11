@@ -357,9 +357,9 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         );
     }
 
-    onScroll = () => {
+    onScroll = debounce(() => {
         this.updateUnreadIndicators();
-    }
+    }, 100);
 
     onTransitionEnd = debounce(() => {
         this.updateUnreadIndicators();
