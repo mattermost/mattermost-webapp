@@ -71,7 +71,7 @@ type Props = {
     /**
    * Whether or not the post username can be overridden.
    */
-    enablePostUsernameOverride?: boolean;
+    enablePostUsernameOverride: boolean;
 
     /**
    * Set not to allow edits on post
@@ -193,7 +193,6 @@ export default class PostBody extends React.PureComponent<Props, State> {
                 <PostMessageView
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
-                    hasMention={true}
                 />
             </React.Fragment>
         );
@@ -235,12 +234,12 @@ export default class PostBody extends React.PureComponent<Props, State> {
         if (isEphemeral) {
             ephemeralPostClass = 'post--ephemeral';
         }
-
+        const divId = post ? `${post.id}_message` : undefined;
         return (
             <div>
                 {comment}
                 <div
-                    id={`${post ? post.id : ''}_message`}
+                    id={divId}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
                     {messageWithAdditionalContent}

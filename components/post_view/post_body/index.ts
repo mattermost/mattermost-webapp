@@ -13,28 +13,21 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Post} from 'mattermost-redux/types/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import {PluginsState} from 'types/store/plugins';
-
 import PostBody from './post_body';
-
-interface State extends GlobalState {
-    plugins: PluginsState;
-}
 
 type Props = {
     post: Post;
 };
-function mapStateToProps(state: State, ownProps: Props) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     let parentPost;
     let parentPostUser;
     if (ownProps.post.root_id) {
         parentPost = getPost(state, ownProps.post.root_id);
-        parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
+        parentPostUser = parentPost ? getUser(state, parentPost.user_id) : undefined;
     }
 
     const config = getConfig(state);
-    const enablePostUsernameOverride =
-    config.EnablePostUsernameOverride === 'true';
+    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     const currentChannel = getCurrentChannel(state);
     const channelIsArchived = currentChannel.delete_at !== 0;

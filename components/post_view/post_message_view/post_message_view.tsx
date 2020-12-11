@@ -27,7 +27,6 @@ type Props = {
     theme: Theme; /* Logged in user's theme */
     pluginPostTypes?: any; /* Post type components from plugins */
     currentRelativeTeamUrl: string;
-    hasMention?: boolean;
 }
 
 type State = {
