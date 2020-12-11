@@ -9,7 +9,7 @@
 
 // Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 describe('Compliance Export', () => {
     before(() => {
@@ -21,55 +21,55 @@ describe('Compliance Export', () => {
         });
     });
 
-    it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
-        // # Go to compliance page and enable export
-        gotoCompliancePage();
-        enableComplianceExport();
+    // it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
+    //     // # Go to compliance page and enable export
+    //     gotoCompliancePage();
+    //     enableComplianceExport();
 
-        // # Navigate to a team and post an attachment
-        gotoTeamAndPostImage();
+    //     // # Navigate to a team and post an attachment
+    //     gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
-        gotoCompliancePage();
-        exportCompliance();
+    //     // # Goto compliance page and start export
+    //     gotoCompliancePage();
+    //     exportCompliance();
 
-        // # Get the download link
-        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-            const fileURL = fileAttachment.attr('href');
+    //     // # Get the download link
+    //     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
+    //         const fileURL = fileAttachment.attr('href');
 
-            // # Download the file
-            downloadAttachmentAndVerifyItsProperties(fileURL);
-        });
-    });
+    //         // # Download the file
+    //         downloadAttachmentAndVerifyItsProperties(fileURL);
+    //     });
+    // });
 
-    it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
-        // # Go to compliance page and enable export
-        gotoCompliancePage();
-        enableComplianceExport();
+    // it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
+    //     // # Go to compliance page and enable export
+    //     gotoCompliancePage();
+    //     enableComplianceExport();
 
-        // # Navigate to a team and post an attachment
-        gotoTeamAndPostImage();
+    //     // # Navigate to a team and post an attachment
+    //     gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
-        gotoCompliancePage();
-        exportCompliance();
+    //     // # Goto compliance page and start export
+    //     gotoCompliancePage();
+    //     exportCompliance();
 
-        // # Get the download link
-        cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-            const fileURL = fileAttachment.attr('href');
+    //     // # Get the download link
+    //     cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
+    //         const fileURL = fileAttachment.attr('href');
 
-            // # Download the File
-            downloadAttachmentAndVerifyItsProperties(fileURL);
+    //         // # Download the File
+    //         downloadAttachmentAndVerifyItsProperties(fileURL);
 
-            // # Export compliance again
-            exportCompliance();
+    //         // # Export compliance again
+    //         exportCompliance();
 
-            // # Download link should not exist this time
-            cy.get('.job-table__table').
-                find('tbody > tr:eq(0)').
-                findByText('Download').should('not.exist');
-        });
-    });
+    //         // # Download link should not exist this time
+    //         cy.get('.job-table__table').
+    //             find('tbody > tr:eq(0)').
+    //             findByText('Download').should('not.exist');
+    //     });
+    // });
 
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
         // # Goto file storage settings Page
@@ -82,13 +82,13 @@ describe('Compliance Export', () => {
         const AWS_SECRET_ACCESS_KEY = Cypress.env('AWS_SECRET_ACCESS_KEY');
 
         // # Config AWS settings
-        cy.get('select[data-testid="FileSettings.DriverNamedropdown"]').select('amazons3');
-        cy.get('input[data-testid="FileSettings.AmazonS3Bucketinput"]').type(AWS_S3_BUCKET);
-        cy.get('input[data-testid="FileSettings.AmazonS3AccessKeyIdinput"]').type(AWS_ACCESS_KEY_ID);
-        cy.get('input[data-testid="FileSettings.AmazonS3SecretAccessKeyinput"]').type(AWS_SECRET_ACCESS_KEY);
+        cy.findByTestId('FileSettings.DriverNamedropdown').select('amazons3');
+        cy.findByTestId('FileSettings.AmazonS3Bucketinput').type(AWS_S3_BUCKET);
+        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type(AWS_ACCESS_KEY_ID);
+        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type(AWS_SECRET_ACCESS_KEY);
 
         // # Save file storage settings
-        cy.get('button[data-testid="saveSetting"]').click();
+        cy.findByTestId('saveSetting').click();
 
         waitUntilConfigSave();
 
@@ -115,13 +115,13 @@ describe('Compliance Export', () => {
 
 function enableComplianceExport() {
     // # Enable compliance export
-    cy.get('input[data-testid="enableComplianceExporttrue"]').click();
+    cy.findByTestId('enableComplianceExporttrue').click();
 
     // # Change export format to CSV
-    cy.get('select[data-testid="exportFormatdropdown"]').select('csv');
+    cy.findByTestId('exportFormatdropdown').select('csv');
 
     // # Save settings
-    cy.get('button[data-testid="saveSetting"]').click();
+    cy.findByTestId('saveSetting').click();
 
     waitUntilConfigSave();
 }
