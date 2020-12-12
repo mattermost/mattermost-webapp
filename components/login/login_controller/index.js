@@ -33,8 +33,12 @@ function mapStateToProps(state) {
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = config.EnableSignUpWithGoogle === 'true';
     const enableSignUpWithOffice365 = config.EnableSignUpWithOffice365 === 'true';
+    const enableSignUpWithOpenId = config.EnableSignUpWithOpenId === 'true';
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
+    const openidButtonText = config.OpenIdButtonText;
+    const openidButtonColor = config.OpenIdButtonColor;
+
     const siteName = config.SiteName;
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
@@ -67,9 +71,12 @@ function mapStateToProps(state) {
         enableSignUpWithGitLab,
         enableSignUpWithGoogle,
         enableSignUpWithOffice365,
+        enableSignUpWithOpenId,
         experimentalPrimaryTeam,
         ldapLoginFieldName,
         samlLoginButtonText,
+        openidButtonText,
+        openidButtonColor,
         siteName,
         initializing,
     };

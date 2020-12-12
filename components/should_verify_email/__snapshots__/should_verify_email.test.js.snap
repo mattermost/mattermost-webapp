@@ -11,7 +11,9 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
     <div
       className="signup-team__container"
     >
-      <h3>
+      <h3
+        data-testid="emailVerifyAlmost"
+      >
         <FormattedMessage
           defaultMessage="{siteName}: You are almost done"
           id="email_verify.almost"
@@ -23,7 +25,9 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
         />
       </h3>
       <div>
-        <p>
+        <p
+          data-testid="emailVerifyNotVerifiedBody"
+        >
           <FormattedMessage
             defaultMessage="Please verify your email address. Check your inbox for an email."
             id="email_verify.notVerifiedBody"
@@ -31,6 +35,7 @@ exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
         </p>
         <button
           className="btn btn-primary"
+          data-testid="emailVerifyResend"
           onClick={[Function]}
         >
           <FormattedMessage
