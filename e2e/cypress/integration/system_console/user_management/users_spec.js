@@ -50,7 +50,7 @@ describe('System Console > User Management > Users', () => {
         cy.get('#user_management\\/users').click().wait(TIMEOUTS.ONE_SEC);
     });
 
-    xit('MM-T932 Users - Change a user\'s password', () => {
+    it('MM-T932 Users - Change a user\'s password', () => {
         // # Search for the user.
         cy.get('#searchUsers').type(testUser.email).wait(TIMEOUTS.HALF_SEC);
 
@@ -82,7 +82,7 @@ describe('System Console > User Management > Users', () => {
         });
     });
 
-    xit('MM-T933 Users - System admin changes own password - Cancel out of changes', () => {
+    it('MM-T933 Users - System admin changes own password - Cancel out of changes', () => {
         // # Search for the admin.
         cy.get('#searchUsers').type(otherAdmin.username).wait(TIMEOUTS.HALF_SEC);
 
@@ -108,7 +108,7 @@ describe('System Console > User Management > Users', () => {
         cy.apiLogin(otherAdmin);
     });
 
-    xit('MM-T934 Users - System admin changes own password - Incorrect old password', () => {
+    it('MM-T934 Users - System admin changes own password - Incorrect old password', () => {
         // # Search for the admin.
         cy.get('#searchUsers').type(otherAdmin.username).wait(TIMEOUTS.HALF_SEC);
 
@@ -132,7 +132,7 @@ describe('System Console > User Management > Users', () => {
             and('contain', 'The "Current Password" you entered is incorrect. Please check that Caps Lock is off and try again.');
     });
 
-    xit('MM-T935 Users - System admin changes own password - Invalid new password', () => {
+    it('MM-T935 Users - System admin changes own password - Invalid new password', () => {
         // # Search for the admin.
         cy.get('#searchUsers').type(otherAdmin.username).wait(TIMEOUTS.HALF_SEC);
 
@@ -156,7 +156,7 @@ describe('System Console > User Management > Users', () => {
             and('contain', 'Your password must contain between 5 and 64 characters.');
     });
 
-    xit('MM-T936 Users - System admin changes own password - Blank fields', () => {
+    it('MM-T936 Users - System admin changes own password - Blank fields', () => {
         // # Search for the admin.
         cy.get('#searchUsers').type(otherAdmin.username).wait(TIMEOUTS.HALF_SEC);
 
@@ -186,7 +186,7 @@ describe('System Console > User Management > Users', () => {
             and('contain', 'Your password must contain between 5 and 64 characters.');
     });
 
-    xit('MM-T937 Users - System admin changes own password - Successfully changed', () => {
+    it('MM-T937 Users - System admin changes own password - Successfully changed', () => {
         // # Search for the admin.
         cy.get('#searchUsers').type(otherAdmin.username).wait(TIMEOUTS.HALF_SEC);
 
