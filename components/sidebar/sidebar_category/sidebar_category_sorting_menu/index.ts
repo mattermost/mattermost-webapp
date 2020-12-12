@@ -7,27 +7,20 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
 
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
-function makeMapStateToProps() {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
-
+function mapStateToProps() {
     return (state: GlobalState) => {
-        let categories;
-        const currentTeam = getCurrentTeam(state);
-
-        if (currentTeam) {
-            categories = getCategoriesForTeam(state, currentTeam.id);
-        }
+        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS);
 
         return {
-            categories,
+            selectedDmNumber,
             currentUserId: getCurrentUserId(state),
         };
     };
@@ -42,4 +35,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarCategorySortingMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarCategorySortingMenu);
