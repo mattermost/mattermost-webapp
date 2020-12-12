@@ -47,13 +47,13 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
     getText = () => {
         const modalHeaderText = (
             <FormattedMessage
-                id='custom_status_input_modal.'
+                id='custom_status_input_modal'
                 defaultMessage='Set a Custom Status'
             />
         );
         const confirmButtonText = (
             <FormattedMessage
-                id='custum_status_input_modal.confirm'
+                id='custum_status_input_modal_confirm'
                 defaultMessage='Confirm'
             />
         );

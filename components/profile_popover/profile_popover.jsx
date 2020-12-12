@@ -489,7 +489,6 @@ class ProfilePopover extends React.PureComponent {
                 status={this.props.hideStatus ? null : this.props.status}
             />,
         );
-
         let roleTitle;
         if (this.props.user.is_bot) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('bots.is_bot', 'BOT')}</span>;
@@ -517,6 +516,14 @@ class ProfilePopover extends React.PureComponent {
                 </span>
                 {roleTitle}
             </span>
+        );
+
+        dataContent.push(
+            <div
+                key='user-custom-status'
+            >
+                {JSON.parse(this.props.user.props['custom-status']).text}
+            </div>,
         );
 
         return (
