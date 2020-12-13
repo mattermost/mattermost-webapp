@@ -522,7 +522,7 @@ class ProfilePopover extends React.PureComponent {
             <div
                 key='user-custom-status'
             >
-                {JSON.parse(this.props.user.props['custom-status']).text}
+                {JSON.parse(this.props.user.props['custom_status']).text}
             </div>,
         );
 
