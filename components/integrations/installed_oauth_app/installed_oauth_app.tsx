@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -16,46 +15,67 @@ import DeleteIntegration from '../delete_integration.jsx';
 
 const FAKE_SECRET = '***************';
 
-export function matchesFilter(oauthApp, filter) {
+export type OAuthApp = {
+    id: string,
+    name: string,
+    client_secret: string,
+    create_at: number,
+    creator_id: string,
+    description?: string,
+    homepage?: string,
+    icon_url?: string,
+    is_trusted: boolean,
+    update_at: number,
+    callback_urls: Array<string>,
+}
+
+export function matchesFilter(oauthApp: OAuthApp, filter?: string | null): boolean {
     if (!filter) {
         return true;
     }
 
-    return oauthApp.name.toLowerCase().indexOf(filter) !== -1;
+    return oauthApp.name.toLowerCase().includes(filter);
 }
 
-export default class InstalledOAuthApp extends React.PureComponent {
-    static propTypes = {
+export type InstalledOAuthAppProps = {
 
-        /**
-        * The team data
-        */
-        team: PropTypes.object,
+    /**
+     * The team data
+     */
+    team: {
+        name: string
+    },
 
-        /**
-        * The oauthApp data
-        */
-        oauthApp: PropTypes.object.isRequired,
+    /**
+     * The oauthApp data
+     */
+    oauthApp: OAuthApp,
 
-        creatorName: PropTypes.string.isRequired,
+    creatorName: string,
 
-        /**
-        * The function to call when Regenerate Secret link is clicked
-        */
-        onRegenerateSecret: PropTypes.func.isRequired,
+    /**
+     * The function to call when Regenerate Secret link is clicked
+     */
+    onRegenerateSecret: (oauthAppId: string) => Promise<{error?: {message: string}}>,
 
-        /**
-        * The function to call when Delete link is clicked
-        */
-        onDelete: PropTypes.func.isRequired,
+    /**
+     * The function to call when Delete link is clicked
+     */
+    onDelete: (oauthApp: OAuthApp) => void,
 
-        /**
-        * Set to filter OAuthApp
-        */
-        filter: PropTypes.string,
-    }
+    /**
+       * Set to filter OAuthApp
+       */
+    filter?: string | null,
+}
 
-    constructor(props) {
+export type InstalleOAuthAppState = {
+    clientSecret: string,
+    error?: string | null
+}
+
+export default class InstalledOAuthApp extends React.PureComponent<InstalledOAuthAppProps, InstalleOAuthAppState> {
+    constructor(props: InstalledOAuthAppProps) {
         super(props);
 
         this.state = {
@@ -63,19 +83,19 @@ export default class InstalledOAuthApp extends React.PureComponent {
         };
     }
 
-    handleShowClientSecret = (e) => {
+    handleShowClientSecret = (e?: React.MouseEvent): void => {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
         this.setState({clientSecret: this.props.oauthApp.client_secret});
     }
 
-    handleHideClientSecret = (e) => {
+    handleHideClientSecret = (e: React.MouseEvent): void => {
         e.preventDefault();
         this.setState({clientSecret: FAKE_SECRET});
     }
 
-    handleRegenerate = (e) => {
+    handleRegenerate = (e: React.MouseEvent): void => {
         e.preventDefault();
         this.props.onRegenerateSecret(this.props.oauthApp.id).then(
             ({error}) => {
@@ -89,11 +109,11 @@ export default class InstalledOAuthApp extends React.PureComponent {
         );
     }
 
-    handleDelete = () => {
+    handleDelete = (): void => {
         this.props.onDelete(this.props.oauthApp);
     }
 
-    render() {
+    render(): React.ReactNode {
         const {oauthApp, creatorName} = this.props;
         let error;
 
