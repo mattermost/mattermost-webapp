@@ -25,7 +25,7 @@ export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
-        userId: PropTypes.string.isRequired,
+        currentUser: PropTypes.object.isRequired,
         profilePicture: PropTypes.string,
         autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
@@ -35,7 +35,7 @@ export default class StatusDropdown extends React.PureComponent {
     }
 
     static defaultProps = {
-        userId: '',
+        currentUser: null,
         profilePicture: '',
         status: UserStatuses.OFFLINE,
     }
@@ -46,7 +46,7 @@ export default class StatusDropdown extends React.PureComponent {
 
     setStatus = (status) => {
         this.props.actions.setStatus({
-            user_id: this.props.userId,
+            user_id: this.props.currentUser.id,
             status,
         });
     }
@@ -85,12 +85,11 @@ export default class StatusDropdown extends React.PureComponent {
         const customStatusInputModalData = {
             ModalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusInputModal,
-            dialogProps: { userId: this.props.userId },
+            dialogProps: { userId: this.props.currentUser.id },
         };
 
         this.props.actions.openModal(customStatusInputModalData);
     };
-
 
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
@@ -130,6 +129,16 @@ export default class StatusDropdown extends React.PureComponent {
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
+        let customStatusMsg = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+        let customStatusEmoji;
+        if (this.props.currentUser.props && 'custom_status' in this.props.currentUser.props) {
+            const customStatus = JSON.parse(this.props.currentUser.props.custom_status);
+            if (customStatus.emoji !== '') {
+                customStatusEmoji = customStatus.emoji;
+            }
+            customStatusMsg = customStatus.text.substring(0, 24) + '...';
+        }
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
@@ -168,7 +177,7 @@ export default class StatusDropdown extends React.PureComponent {
                         <Menu.ItemAction
                             onClick={this.showCustomStatusChangeInput}
                             ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
-                            text={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status')}
+                            text={customStatusMsg}
                             icon={<EmojiIcon className={'icon icon--emoji'}/>}
                             id={'status-menu-custom'}
                         />
