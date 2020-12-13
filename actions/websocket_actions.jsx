@@ -383,6 +383,10 @@ export function handleEvent(msg) {
         handleStatusChangedEvent(msg);
         break;
 
+    case SocketEvents.PROPS_CHANGED:
+        handlePropsChangedEvent(msg);
+        break;
+
     case SocketEvents.HELLO:
         handleHelloEvent(msg);
         break;
@@ -1126,6 +1130,14 @@ function handleStatusChangedEvent(msg) {
     dispatch({
         type: UserTypes.RECEIVED_STATUSES,
         data: [{user_id: msg.data.user_id, status: msg.data.status}],
+    });
+}
+
+function handlePropsChangedEvent(msg) {
+    const nprops = JSON.parse(msg.data.props);
+    dispatch({
+        type: UserTypes.RECEIVED_PROPS,
+        data: [{ user_id: msg.data.user_id, props: nprops }],
     });
 }
 
