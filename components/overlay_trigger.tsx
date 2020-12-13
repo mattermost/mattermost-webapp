@@ -9,7 +9,11 @@ import {Provider} from 'react-redux';
 
 import store from 'stores/redux_store.jsx';
 
-export {BaseOverlayTrigger};
+interface HideableOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void
+}
+
+export {BaseOverlayTrigger, HideableOverlayTrigger};
 
 type Props = OverlayTriggerProps & {
     disabled?: boolean;

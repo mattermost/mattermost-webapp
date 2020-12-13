@@ -1,52 +1,62 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
+
+import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
 
 import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {HideableOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
-export default class UserProfile extends PureComponent {
-    static propTypes = {
-        disablePopover: PropTypes.bool,
-        displayName: PropTypes.string,
-        displayUsername: PropTypes.bool,
-        hasMention: PropTypes.bool,
-        hideStatus: PropTypes.bool,
-        isBusy: PropTypes.bool,
-        isRHS: PropTypes.bool,
-        overwriteName: PropTypes.node,
-        overwriteIcon: PropTypes.node,
-        user: PropTypes.object,
-        userId: PropTypes.string,
-    };
+export type UserProfileProps = {
+    disablePopover?: boolean,
+    displayName?: string,
+    displayUsername?: boolean,
+    hasMention?: boolean,
+    hideStatus?: boolean,
+    isBusy?: boolean,
+    isRHS?: boolean,
+    overwriteName?: React.ReactNode,
+    overwriteIcon?: React.ReactNode,
+    overwriteImage?: React.ReactNode,
+    user?: UserProfileType,
+    userId: string,
+}
 
-    static defaultProps = {
-        disablePopover: false,
-        displayUsername: false,
-        hasMention: false,
-        hideStatus: false,
-        isRHS: false,
-        overwriteImage: '',
-        overwriteName: '',
-    };
+const defaultProps : UserProfileProps = {
+    disablePopover: false,
+    displayUsername: false,
+    hasMention: false,
+    hideStatus: false,
+    isRHS: false,
+    overwriteImage: '',
+    overwriteName: '',
+    user: {} as UserProfileType,
+    userId: '',
+};
 
-    hideProfilePopover = () => {
+export default class UserProfile extends PureComponent<UserProfileProps> {
+    private overlay?: HideableOverlayTrigger;
+
+    constructor(props: UserProfileProps) {
+        super({...defaultProps, props} as UserProfileProps);
+    }
+
+    hideProfilePopover = (): void => {
         if (this.overlay) {
             this.overlay.hide();
         }
     }
 
-    setOverlaynRef = (ref) => {
+    setOverlaynRef = (ref: HideableOverlayTrigger): void => {
         this.overlay = ref;
     }
 
-    render() {
+    render(): React.ReactNode {
         const {
             disablePopover,
             displayName,
@@ -61,12 +71,14 @@ export default class UserProfile extends PureComponent {
             userId,
         } = this.props;
 
-        let name;
-        if (displayUsername) {
+        let name: React.ReactNode;
+        if (user && displayUsername) {
             name = `@${(user.username)}`;
         } else {
             name = overwriteName || displayName || '...';
         }
+
+        const ariaName: string = typeof name === 'string' ? name.toLowerCase() : '';
 
         if (disablePopover) {
             return <div className='user-popover'>{name}</div>;
@@ -105,7 +117,7 @@ export default class UserProfile extends PureComponent {
                     }
                 >
                     <button
-                        aria-label={name.toLowerCase()}
+                        aria-label={ariaName}
                         className='user-popover style--none'
                     >
                         {name}
