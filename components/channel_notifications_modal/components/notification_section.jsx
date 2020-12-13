@@ -28,6 +28,18 @@ export default class NotificationSection extends React.PureComponent {
         memberNotificationLevel: PropTypes.string.isRequired,
 
         /**
+         * Member and Global values related to the desktop notification
+         */
+        desktopNotification: PropTypes.shape({
+            memberDesktopSound: PropTypes.string,
+            globalDesktopSound: PropTypes.string,
+            memberDesktopNotificationSound: PropTypes.string,
+            globalDesktopNotificationSound: PropTypes.string,
+            handleUpdateDesktopSound: PropTypes.func.isRequired,
+            handleUpdateDesktopNotificationSound: PropTypes.func.isRequired,
+        }),
+
+        /**
          * Ignore channel-wide mentions @channel, @here and @all
          */
         ignoreChannelMentions: PropTypes.string,
@@ -75,6 +87,7 @@ export default class NotificationSection extends React.PureComponent {
             expand,
             globalNotificationLevel,
             memberNotificationLevel,
+            desktopNotification,
             ignoreChannelMentions,
             onSubmit,
             section,
@@ -87,6 +100,7 @@ export default class NotificationSection extends React.PureComponent {
                     section={section}
                     memberNotifyLevel={memberNotificationLevel}
                     globalNotifyLevel={globalNotificationLevel}
+                    desktopNotification={desktopNotification}
                     ignoreChannelMentions={ignoreChannelMentions}
                     onChange={this.handleOnChange}
                     onSubmit={onSubmit}

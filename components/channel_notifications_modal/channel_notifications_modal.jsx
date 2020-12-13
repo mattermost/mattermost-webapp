@@ -94,6 +94,8 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         return {
             desktopNotifyLevel: channelMemberNotifyProps.desktop || NotificationLevels.DEFAULT,
+            desktopSound: channelMemberNotifyProps.desktop_sound,
+            desktopNotificationSound: channelMemberNotifyProps.desktop_notification_sound,
             markUnreadNotifyLevel: channelMemberNotifyProps.mark_unread || NotificationLevels.ALL,
             pushNotifyLevel: channelMemberNotifyProps.push || NotificationLevels.DEFAULT,
             ignoreChannelMentions,
@@ -135,21 +137,30 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         }
     }
 
-    handleSubmitDesktopNotifyLevel = () => {
+    handleSubmitDesktopNotification = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
-        const {desktopNotifyLevel} = this.state;
+        const {desktopNotifyLevel, desktopSound, desktopNotificationSound} = this.state;
 
-        if (channelNotifyProps.desktop === desktopNotifyLevel) {
+        if (channelNotifyProps.desktop === desktopNotifyLevel && channelNotifyProps.desktop_sound === desktopSound &&
+            channelNotifyProps.desktop_notification_sound === desktopNotificationSound) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
 
-        const props = {desktop: desktopNotifyLevel};
+        const props = {desktop: desktopNotifyLevel, desktop_sound: desktopSound, desktop_notification_sound: desktopNotificationSound};
         this.handleUpdateChannelNotifyProps(props);
     }
 
     handleUpdateDesktopNotifyLevel = (desktopNotifyLevel) => {
         this.setState({desktopNotifyLevel});
+    }
+
+    handleUpdateDesktopSound = (desktopSound) => {
+        this.setState({desktopSound});
+    }
+
+    handleUpdateDesktopNotificationSound = (desktopNotificationSound) => {
+        this.setState({desktopNotificationSound});
     }
 
     handleSubmitMarkUnreadLevel = () => {
@@ -207,6 +218,8 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         const {
             activeSection,
             desktopNotifyLevel,
+            desktopSound,
+            desktopNotificationSound,
             markUnreadNotifyLevel,
             pushNotifyLevel,
             ignoreChannelMentions,
@@ -224,6 +237,14 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         if (serverError) {
             serverErrorTag = <div className='form-group has-error'><label className='control-label'>{serverError}</label></div>;
         }
+        const desktopNotification = {
+            memberDesktopSound: desktopSound,
+            globalDesktopSound: currentUser.notify_props?.desktop_sound,
+            handleUpdateDesktopSound: this.handleUpdateDesktopSound,
+            memberDesktopNotificationSound: desktopNotificationSound,
+            globalDesktopNotificationSound: currentUser.notify_props?.desktop_notification_sound,
+            handleUpdateDesktopNotificationSound: this.handleUpdateDesktopNotificationSound,
+        };
 
         return (
             <Modal
@@ -283,8 +304,9 @@ export default class ChannelNotificationsModal extends React.PureComponent {
                                         expand={activeSection === NotificationSections.DESKTOP}
                                         memberNotificationLevel={desktopNotifyLevel}
                                         globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
+                                        desktopNotification={desktopNotification}
                                         onChange={this.handleUpdateDesktopNotifyLevel}
-                                        onSubmit={this.handleSubmitDesktopNotifyLevel}
+                                        onSubmit={this.handleSubmitDesktopNotification}
                                         onUpdateSection={this.updateSection}
                                         serverError={serverError}
                                     />
