@@ -17,8 +17,8 @@ export type UserProfileProps = {
     isBusy?: boolean,
     overwriteName?: React.ReactNode,
     overwriteIcon?: React.ReactNode,
-    userId: string,
     user?:UserProfileType,
+    userId: string,
 } & Partial<UserProfileDefaultProps>
 
 type UserProfileDefaultProps = {
@@ -29,7 +29,6 @@ type UserProfileDefaultProps = {
     isRHS: boolean,
     overwriteImage: React.ReactNode,
     overwriteName: React.ReactNode,
-    userId: string,
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
@@ -43,7 +42,6 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
         isRHS: false,
         overwriteImage: '',
         overwriteName: '',
-        userId: '',
     }
 
     hideProfilePopover = (): void => {
