@@ -13,37 +13,37 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
 export type UserProfileProps = {
-    disablePopover?: boolean,
     displayName?: string,
-    displayUsername?: boolean,
-    hasMention?: boolean,
-    hideStatus?: boolean,
     isBusy?: boolean,
-    isRHS?: boolean,
     overwriteName?: React.ReactNode,
     overwriteIcon?: React.ReactNode,
-    overwriteImage?: React.ReactNode,
-    user?: UserProfileType,
+    userId: string,
+    user?:UserProfileType,
+} & Partial<UserProfileDefaultProps>
+
+type UserProfileDefaultProps = {
+    disablePopover: boolean,
+    displayUsername: boolean,
+    hasMention: boolean,
+    hideStatus: boolean,
+    isRHS: boolean,
+    overwriteImage: React.ReactNode,
+    overwriteName: React.ReactNode,
     userId: string,
 }
-
-const defaultProps : UserProfileProps = {
-    disablePopover: false,
-    displayUsername: false,
-    hasMention: false,
-    hideStatus: false,
-    isRHS: false,
-    overwriteImage: '',
-    overwriteName: '',
-    user: {} as UserProfileType,
-    userId: '',
-};
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
     private overlay?: HideableOverlayTrigger;
 
-    constructor(props: UserProfileProps) {
-        super({...defaultProps, props} as UserProfileProps);
+    static defaultProps: UserProfileDefaultProps = {
+        disablePopover: false,
+        displayUsername: false,
+        hasMention: false,
+        hideStatus: false,
+        isRHS: false,
+        overwriteImage: '',
+        overwriteName: '',
+        userId: '',
     }
 
     hideProfilePopover = (): void => {
