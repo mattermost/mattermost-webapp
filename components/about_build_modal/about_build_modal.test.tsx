@@ -5,27 +5,41 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
+import AboutBuildModal from 'components/about_build_modal/about_build_modal';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
 
 import {AboutLinks} from 'utils/constants';
 
 import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
 
 describe('components/AboutBuildModal', () => {
-    const RealDate = Date;
+    const RealDate: DateConstructor = Date;
 
-    function mockDate(date) {
-        global.Date = class extends RealDate {
-            constructor() {
-                super();
-                return new RealDate(date);
-            }
-        };
+    function mockDate(date: Date) {
+        function mock() {
+            return new RealDate(date);
+        }
+        mock.now = () => date.getTime();
+        global.Date = mock as any;
     }
 
-    let config = null;
-    let license = null;
+    let config: {
+        BuildEnterpriseReady: string;
+        Version: string;
+        BuildNumber: string;
+        SQLDriverName: string;
+        BuildHash: string;
+        BuildHashEnterprise: string;
+        BuildDate: string;
+        TermsOfServiceLink: string;
+        PrivacyPolicyLink: string;
+    } | null = null;
+    let license: {
+        IsLicensed: string;
+        Company: string;
+        Cloud?: string;
+    } | null = null;
 
     afterEach(() => {
         global.Date = RealDate;
@@ -34,7 +48,7 @@ describe('components/AboutBuildModal', () => {
     });
 
     beforeEach(() => {
-        mockDate('2017-06-01');
+        mockDate(new Date(2017, 6, 1));
 
         config = {
             BuildEnterpriseReady: 'true',
@@ -74,7 +88,9 @@ describe('components/AboutBuildModal', () => {
     });
 
     test('should match snapshot for cloud edition', () => {
-        license.Cloud = 'true';
+        if (license !== null) {
+            license.Cloud = 'true';
+        }
         const wrapper = shallow(
             <AboutBuildModalCloud
                 config={config}
@@ -131,7 +147,7 @@ describe('components/AboutBuildModal', () => {
             />,
         );
 
-        wrapper.find(Modal).first().props().onExited();
+        wrapper.find(Modal).first().props().onExited?.();
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 
@@ -148,8 +164,8 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#tosLink').props().href).toBe(AboutLinks.TERMS_OF_SERVICE);
         expect(wrapper.find('#privacyLink').props().href).toBe(AboutLinks.PRIVACY_POLICY);
 
-        expect(wrapper.find('#tosLink').props().href).not.toBe(config.TermsOfServiceLink);
-        expect(wrapper.find('#privacyLink').props().href).not.toBe(config.PrivacyPolicyLink);
+        expect(wrapper.find('#tosLink').props().href).not.toBe(config?.TermsOfServiceLink);
+        expect(wrapper.find('#privacyLink').props().href).not.toBe(config?.PrivacyPolicyLink);
     });
 
     function shallowAboutBuildModal(props = {}) {
@@ -160,6 +176,8 @@ describe('components/AboutBuildModal', () => {
             show,
             onHide,
             webappBuildHash: '0a1b2c3d4f',
+            config,
+            license,
             ...props,
         };
 

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -14,35 +13,41 @@ import {AboutLinks} from 'utils/constants';
 
 import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
 
-export default class AboutBuildModal extends React.PureComponent {
-    static defaultProps = {
-        show: false,
-    };
+type Props = {
 
-    static propTypes = {
+    /**
+     * Function that is called when the modal is dismissed
+     */
+    onHide: () => void;
 
-        /**
-         * Function that is called when the modal is dismissed
-         */
-        onHide: PropTypes.func.isRequired,
+    /**
+     * Global config object
+     */
+    config: any;
 
-        /**
-         * Global config object
-         */
-        config: PropTypes.object.isRequired,
+    /**
+     * Global license object
+     */
+    license: any;
 
-        /**
-         * Global license object
-         */
-        license: PropTypes.object.isRequired,
+    /**
+     * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
+     */
+    webappBuildHash?: string;
 
-        /**
-         * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
-         */
-        webappBuildHash: PropTypes.string,
-    };
+    show?: boolean;
+};
 
-    constructor(props) {
+type State = {
+    show: boolean;
+};
+
+export default class AboutBuildModal extends React.PureComponent<Props, State> {
+    // static defaultProps = {
+    //     show: false,
+    // };
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -182,7 +187,7 @@ export default class AboutBuildModal extends React.PureComponent {
         );
 
         // Only show build number if it's a number (so only builds from Jenkins)
-        let buildnumber = (
+        let buildnumber: JSX.Element | null = (
             <div>
                 <FormattedMessage
                     id='about.buildnumber'
@@ -195,7 +200,7 @@ export default class AboutBuildModal extends React.PureComponent {
             buildnumber = null;
         }
 
-        let mmversion = config.BuildNumber;
+        let mmversion: string = config.BuildNumber;
         if (!isNaN(config.BuildNumber)) {
             mmversion = 'ci';
         }
