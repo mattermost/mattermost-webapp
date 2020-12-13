@@ -5,6 +5,9 @@ import React from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
+import { ActionFunc } from 'mattermost-redux/types/actions';
+import { UserCustomStatus } from 'mattermost-redux/src/types/users';
+
 import GenericModal from 'components/generic_modal';
 import '../category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -13,9 +16,6 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-
-// import { ActionFunc } from 'mattermost-redux/types/actions';
-// import { UserCustomStatus } from 'mattermost-redux/src/types/users';
 
 type Props = {
     onHide: () => void;
@@ -29,6 +29,8 @@ type State = {
     showEmojiPicker: boolean,
     userId: string;
     message: string;
+    emoji: string;
+    expire_time: string;
     currentDate: Date;
 }
 
@@ -40,6 +42,8 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
             showEmojiPicker: false,
             userId: props.userId || '',
             message: '',
+            emoji: '',
+            expire_time: '',
             currentDate: new Date(),
         };
     }
@@ -96,6 +100,7 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
 
         this.setState({
             showEmojiPicker: false,
+            emoji: emojiAlias,
         });
     }
 
