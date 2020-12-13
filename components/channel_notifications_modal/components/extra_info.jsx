@@ -9,15 +9,6 @@ import {NotificationSections} from 'utils/constants';
 
 export default function ExtraInfo({section}) {
     switch (section) {
-    case NotificationSections.DESKTOP:
-        return (
-            <span>
-                <FormattedMessage
-                    id='channel_notifications.override'
-                    defaultMessage='Selecting an option other than "Default" will override the global notification settings. Desktop notifications are available on Firefox, Safari, and Chrome.'
-                />
-            </span>
-        );
     case NotificationSections.PUSH:
         return (
             <span>
