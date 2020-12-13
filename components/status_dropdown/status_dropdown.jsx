@@ -13,6 +13,7 @@ import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
@@ -154,12 +155,6 @@ export default class StatusDropdown extends React.PureComponent {
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
                 >
-                    <Menu.Header>
-                        <FormattedMessage
-                            id='status_dropdown.set_your_status'
-                            defaultMessage='Status'
-                        />
-                    </Menu.Header>
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
@@ -174,7 +169,7 @@ export default class StatusDropdown extends React.PureComponent {
                             onClick={this.showCustomStatusChangeInput}
                             ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status')}
-                            icon={<StatusOnlineIcon className={'online--icon'} />}
+                            icon={<EmojiIcon className={'icon icon--emoji'}/>}
                             id={'status-menu-custom'}
                         />
                     </Menu.Group>
