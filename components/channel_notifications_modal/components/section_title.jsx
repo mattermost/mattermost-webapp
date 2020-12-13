@@ -11,8 +11,8 @@ export default function SectionTitle({section}) {
     if (section === NotificationSections.DESKTOP) {
         return (
             <FormattedMessage
-                id='channel_notifications.sendDesktop'
-                defaultMessage='Send desktop notifications'
+                id='channel_notifications.desktopNotifications'
+                defaultMessage='Desktop notifications'
             />
         );
     } else if (section === NotificationSections.PUSH) {
