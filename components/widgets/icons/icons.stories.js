@@ -32,6 +32,7 @@ import FaLogoutIcon from './fa_logout_icon';
 import FaNextIcon from './fa_next_icon';
 import FaPreviousIcon from './fa_previous_icon';
 import FaReloadIcon from './fa_reload_icon';
+import FaRepeatIcon from './fa_repeat_icon';
 import FaRemoveIcon from './fa_remove_icon';
 import FaSearchIcon from './fa_search_icon';
 import FaSelectIcon from './fa_select_icon';
@@ -79,7 +80,7 @@ const icons = [
     AttachmentIcon, BackIcon, BotIcon, CheckboxCheckedIcon,
     CheckboxPartialIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
     DotsHorizontal, DownloadIcon, DraftIcon, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
-    FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
+    FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon, FaRepeatIcon,
     FaRemoveIcon, FaSearchIcon, FaSelectIcon, FaSuccessIcon, FaWarningIcon,
     FlagIconFilled, FlagIcon, GfycatIcon, GifReactionsIcon,
     GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, InfoIcon,
