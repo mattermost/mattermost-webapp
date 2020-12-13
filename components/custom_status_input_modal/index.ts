@@ -3,13 +3,12 @@
 
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { setCustomStatus } from 'mattermost-redux/actions/users';
+import { updateMe } from 'mattermost-redux/actions/users';
 
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
+import { getCurrentUser, getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
 import { getUserTimezone } from 'mattermost-redux/selectors/entities/timezone';
 
 import { GlobalState } from 'types/store';
-
 
 import { getCurrentDateForTimezone } from 'utils/timezone';
 import { areTimezonesEnabledAndSupported } from 'selectors/general';
@@ -17,7 +16,8 @@ import { areTimezonesEnabledAndSupported } from 'selectors/general';
 import CustomStatusInputModal from './custom_status_input_modal';
 
 function mapStateToProps(state: GlobalState) {
-    const userId = getCurrentUserId(state);
+    const user = getCurrentUser(state);
+    const userId = user.id;
     const userTimezone = getUserTimezone(state, userId);
 
     const enableTimezone = areTimezonesEnabledAndSupported(state);
@@ -33,13 +33,14 @@ function mapStateToProps(state: GlobalState) {
     return {
         userId,
         currentDate: cDate,
+        currentUser: user,
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
-            setCustomStatus,
+            updateMe,
         }, dispatch),
     };
 }

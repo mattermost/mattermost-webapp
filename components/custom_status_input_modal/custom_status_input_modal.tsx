@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 
 import { ActionFunc } from 'mattermost-redux/types/actions';
-import { UserCustomStatus } from 'mattermost-redux/src/types/users';
 
 import GenericModal from 'components/generic_modal';
 import '../category_modal.scss';
@@ -16,18 +15,18 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import { UserProfile } from 'mattermost-redux/types/users';
 
 type Props = {
     onHide: () => void;
-    userId: string;
+    currentUser: UserProfile;
     actions: {
-        setCustomStatus: (status: UserCustomStatus) => ActionFunc
+        updateMe: (status: UserProfile) => ActionFunc
     }
 };
 
 type State = {
     showEmojiPicker: boolean,
-    userId: string;
     message: string;
     emoji: string;
     expire_time: string;
@@ -40,7 +39,6 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
 
         this.state = {
             showEmojiPicker: false,
-            userId: props.userId || '',
             message: '',
             emoji: '',
             expire_time: '',
@@ -74,12 +72,15 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
 
     handleSubmit = (event: any) => {
         event.preventDefault();
-        this.props.actions.setCustomStatus({
-            user_id: this.props.userId,
+        const nProps = Object.assign({}, this.props.currentUser.props);
+        nProps.custom_status = JSON.stringify({
+            user_id: this.props.currentUser.id,
+            emoji: this.state.emoji,
             text: this.state.message,
-            emoji: '',
-            expire_time: '',
+            expire_time: this.state.expire_time,
         });
+        const user = Object.assign({}, this.props.currentUser, { props: nProps });
+        this.props.actions.updateMe(user);
     }
 
     hideEmojiPicker = (event: any) => {
