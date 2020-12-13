@@ -239,9 +239,11 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         }
         const desktopNotification = {
             memberDesktopSound: desktopSound,
+            // eslint-disable-next-line camelcase
             globalDesktopSound: currentUser.notify_props?.desktop_sound,
             handleUpdateDesktopSound: this.handleUpdateDesktopSound,
             memberDesktopNotificationSound: desktopNotificationSound,
+            // eslint-disable-next-line camelcase
             globalDesktopNotificationSound: currentUser.notify_props?.desktop_notification_sound,
             handleUpdateDesktopNotificationSound: this.handleUpdateDesktopNotificationSound,
         };

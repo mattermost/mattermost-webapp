@@ -11,20 +11,37 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import Describe from './describe.jsx';
 import ExtraInfo from './extra_info.jsx';
 import SectionTitle from './section_title.jsx';
+import DesktopNotificationSection from './desktop_notification_section';
 
 export default function ExpandView({
     section,
     memberNotifyLevel,
     globalNotifyLevel,
+    desktopNotification,
     onChange,
     onSubmit,
     serverError,
     onCollapseSection,
     ignoreChannelMentions,
 }) {
+    if (section === NotificationSections.DESKTOP) {
+        return (
+            <DesktopNotificationSection
+                section={section}
+                onChange={onChange}
+                onSubmit={onSubmit}
+                serverError={serverError}
+                onCollapseSection={onCollapseSection}
+                memberNotifyLevel={memberNotifyLevel}
+                globalNotifyLevel={globalNotifyLevel}
+                {...desktopNotification}
+            />
+        );
+    }
+
     const inputs = [(
         <div key='channel-notification-level-radio'>
-            {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
+            {section === NotificationSections.PUSH &&
             <fieldset>
                 <div className='radio'>
                     <label className=''>
@@ -191,6 +208,14 @@ ExpandView.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
+    desktopNotification: PropTypes.shape({
+        memberDesktopSound: PropTypes.string,
+        globalDesktopSound: PropTypes.string,
+        memberDesktopNotificationSound: PropTypes.string,
+        globalDesktopNotificationSound: PropTypes.string,
+        handleUpdateDesktopSound: PropTypes.func.isRequired,
+        handleUpdateDesktopNotificationSound: PropTypes.func.isRequired,
+    }),
     section: PropTypes.string.isRequired,
     serverError: PropTypes.string,
 };
