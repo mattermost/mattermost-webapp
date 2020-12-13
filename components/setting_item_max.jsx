@@ -111,6 +111,11 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of save button
          */
         saveButtonText: PropTypes.string,
+
+        /**
+         * Settings the action button
+         */
+        actionButton: PropTypes.node,
     }
 
     constructor(props) {
@@ -232,7 +237,7 @@ export default class SettingItemMax extends React.PureComponent {
             title = (
                 <h4
                     id='settingTitle'
-                    className='col-sm-12 section-title'
+                    className='section-title'
                 >
                     {this.props.title}
                 </h4>
@@ -271,7 +276,10 @@ export default class SettingItemMax extends React.PureComponent {
             <section
                 className={`section-max form-horizontal ${this.props.containerStyle}`}
             >
-                {title}
+                <div className='d-flex'>
+                    {title}
+                    {this.props.actionButton && <div className='section-max__action'>{this.props.actionButton}</div>}
+                </div>
                 <div className={widthClass}>
                     <div
                         tabIndex='-1'

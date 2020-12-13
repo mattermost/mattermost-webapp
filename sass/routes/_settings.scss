@@ -235,12 +235,25 @@
                     @include legacy-pie-clearfix;
                     @include alpha-property('background', $black, .05);
                     margin-bottom: 0;
-                    padding: 1em 0 1.3em;
+                    padding: 1em 1em 1.3em;
+
+                    .d-flex {
+                        justify-content: space-between;
+                    }
 
                     .section-title {
                         margin: 0 0 5px;
                         font-size: 14px;
                         line-height: 20px;
+                    }
+
+                    .section-max__action {
+                        text-align: right;
+
+                        .fa {
+                            font-size: 12px;
+                            margin-right: 5px;
+                        }
                     }
                 }
 
