@@ -64,8 +64,8 @@ export type InstalledOAuthAppProps = {
     onDelete: (oauthApp: OAuthApp) => void,
 
     /**
-       * Set to filter OAuthApp
-       */
+     * Set to filter OAuthApp
+     */
     filter?: string | null,
 }
 
