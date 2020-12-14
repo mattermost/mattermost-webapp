@@ -104,7 +104,7 @@ this is long text this is long text this is long text this is long text this is 
 \\sqrt{x * y + 2}
 ~~~`);
 
-        expect(output).toContain('<span class="post-code__language">TeX</span>');
+        expect(output).toContain('<span class="post-code__language">LaTeX</span>');
     });
 
     test('should add line numbers to code', () => {
