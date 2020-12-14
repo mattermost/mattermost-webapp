@@ -318,7 +318,7 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
 
-            // Visit town-square.
+            // # Visit town-square.
             cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
