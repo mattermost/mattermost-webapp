@@ -131,7 +131,7 @@ describe('Authentication Part 3', () => {
     it('MM-T1772 - Change minimum password length, verify help text and error message', () => {
         cy.visit('/admin_console/authentication/password');
 
-        cy.findByPlaceholderText('E.g.: "5"').clear().type('7');
+        cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('7');
 
         cy.findByRole('button', {name: 'Save'}).click();
 
