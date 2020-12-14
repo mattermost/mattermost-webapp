@@ -7,7 +7,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
-import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -357,11 +357,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         );
     }
 
-    onScroll = debounce(() => {
+    onScroll = throttle(() => {
         this.updateUnreadIndicators();
     }, 100);
 
-    onTransitionEnd = debounce(() => {
+    onTransitionEnd = throttle(() => {
         this.updateUnreadIndicators();
     }, 100);
 
