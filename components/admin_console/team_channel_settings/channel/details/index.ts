@@ -37,12 +37,20 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
 
-import ChannelDetails, {ChannelDetailsActions, ChannelDetailsProps} from './channel_details';
+import ChannelDetails, {ChannelDetailsActions} from './channel_details';
 
-function mapStateToProps(state: GlobalState, props: ChannelDetailsProps) {
+type OwnProps = {
+    match: {
+        params: {
+            channel_id: string;
+        }
+    };
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
-    const channelID = props.channelID;
+    const channelID = ownProps.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
     const team = getTeam(state, channel.team_id) || {};
     const groups = getGroupsAssociatedToChannel(state, channelID);
