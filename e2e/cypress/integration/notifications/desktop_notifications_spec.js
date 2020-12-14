@@ -252,6 +252,40 @@ describe('Desktop notifications', () => {
             });
         });
     });
+
+    it('MM-T490 Desktop Notifications - Teammate name display set to first and last name', () => {
+        ignoreUncaughtException();
+
+        cy.apiCreateUser({}).then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
+
+            // # Ensure notifications are set up to fire a desktop notification if are mentioned
+            changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
+
+            // # Ensure display settings are set to "Show first and last name"
+            changeDesktopDisplaySettingsTeammateNameDisplayAs('#name_formatFormatC');
+
+            const actualMsg = `@${user.username} How are things?`;
+            const expected = `@${testUser.first_name} ${testUser.last_name}: @${user.username} How are things?`;
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                // # Have another user send a post.
+                cy.postMessageAs({sender: testUser, message: actualMsg, channelId: channel.id});
+
+                // * Desktop notification should be received with expected body.
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
+            });
+        });
+    });
 });
 
 const changeDesktopNotificationSettingsAs = (category) => {
