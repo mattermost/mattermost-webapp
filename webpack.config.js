@@ -409,6 +409,7 @@ if (targetIsDevServer) {
         ...config,
         devtool: 'cheap-module-eval-source-map',
         devServer: {
+            index: '',
             hot: true,
             injectHot: true,
             liveReload: false,
@@ -430,7 +431,8 @@ if (targetIsDevServer) {
                     return '/static/root.html';
                 },
                 logLevel: 'silent',
-                target: 'http://localhost:8065',
+                target: 'https://community-daily.mattermost.com',
+                changeOrigin: true,
                 xfwd: true,
                 ws: true,
             }],
