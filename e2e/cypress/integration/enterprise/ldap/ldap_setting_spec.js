@@ -46,7 +46,7 @@ describe('LDAP settings', () => {
         // * Verifying message "AD/LDAP field "Username Attribute" is required."
         cy.findByText('AD/LDAP field "Username Attribute" is required.').should('be.visible');
 
-        // * Set back to what it was
+        // # Set back to what it was
         cy.findByLabelText(/username attribute:/i).click().type('uid');
         cy.findByRole('button', {name: /save/i}).click();
         cy.findByRole('button', {name: /save/i}).should('be.disabled');
