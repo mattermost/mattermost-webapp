@@ -16,9 +16,9 @@ import {GlobalState} from '../../types/store';
 import ChannelSelectorModal from './channel_selector_modal';
 
 type Actions = {
-    loadChannels: (page?: number, perPage?: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean) => Promise<{data: ChannelWithTeamData[]}>,
-    setModalSearchTerm: (term: string) => ActionResult,
-    searchAllChannels: (term: string, opts?: ChannelSearchOpts) => Promise<{data: ChannelWithTeamData[]}>,
+    loadChannels: (page?: number, perPage?: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean) => Promise<{data: ChannelWithTeamData[]}>;
+    setModalSearchTerm: (term: string) => ActionResult;
+    searchAllChannels: (term: string, opts?: ChannelSearchOpts) => Promise<{data: ChannelWithTeamData[]}>;
 }
 
 function mapStateToProps(state: GlobalState) {
@@ -27,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch:Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
             loadChannels,
