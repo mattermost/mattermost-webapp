@@ -28,7 +28,7 @@ describe('Authentication Part 3', () => {
 
     beforeEach(() => {
         // # Log in as a admin.
-        cy.apiAdminLogin();
+        cy.apiAdminLogin({failOnStatusCode: false});
     });
 
     after(() => {
@@ -144,7 +144,7 @@ describe('Authentication Part 3', () => {
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#name').clear().type(`BestUsernameInTheWorld${getRandomId()}`);
+        cy.get('#name').clear().type(`BestUsername${getRandomId()}`);
 
         cy.get('#password').clear().type('less');
 
