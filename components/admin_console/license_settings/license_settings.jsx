@@ -53,6 +53,8 @@ export default class LicenseSettings extends React.PureComponent {
             restarting: false,
             restartError: null,
         };
+
+        this.fileInputRef = React.createRef();
     }
 
     componentDidMount() {
@@ -88,7 +90,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     handleChange = () => {
-        const element = this.refs.fileInput;
+        const element = this.fileInputRef.current;
         if (element && element.files.length > 0) {
             this.setState({fileSelected: true, fileName: element.files[0].name});
         }
@@ -97,7 +99,7 @@ export default class LicenseSettings extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        const element = this.refs.fileInput;
+        const element = this.fileInputRef.current;
         if (!element || element.files.length === 0) {
             return;
         }
@@ -477,6 +479,7 @@ export default class LicenseSettings extends React.PureComponent {
                         onClick={this.handleRemove}
                         disabled={this.props.isDisabled}
                         id='remove-button'
+                        data-testid='remove-button'
                     >
                         {removeButtonText}
                     </button>
@@ -549,7 +552,7 @@ export default class LicenseSettings extends React.PureComponent {
                             />
                         </button>
                         <input
-                            ref='fileInput'
+                            ref={this.fileInputRef}
                             type='file'
                             accept='.mattermost-license'
                             onChange={this.handleChange}
