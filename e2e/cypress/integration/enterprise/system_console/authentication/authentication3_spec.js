@@ -103,7 +103,7 @@ describe('Authentication Part 3', () => {
         cy.visit('/login');
 
         // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Email').and('not.contain', 'Username');
+        cy.findByTestId('loginId', {timeout: TIMEOUTS.ONE_MIN}).invoke('attr', 'placeholder').should('contain', 'Email').and('not.contain', 'Username');
     });
 
     it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
