@@ -211,7 +211,7 @@ describe('Authentication Part 3', () => {
     it('MM-T1775 - Maximum Login Attempts field resets to default after saving invalid value', () => {
         cy.visit('/admin_console/authentication/password');
 
-        cy.findByPlaceholderText('E.g.: "10"').clear().type('ten');
+        cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('ten');
 
         cy.findByRole('button', {name: 'Save'}).click();
 
