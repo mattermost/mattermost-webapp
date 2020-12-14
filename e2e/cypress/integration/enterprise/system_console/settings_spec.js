@@ -13,10 +13,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Settings', () => {
     before(() => {
-        cy.apiInitSetup().
-            then(() => {
-                cy.apiRequireLicense();
-            });
+        cy.apiRequireLicense();
     });
 
     it('MM-T1161: Data retention - Settings are saved', () => {

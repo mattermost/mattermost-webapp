@@ -11,6 +11,7 @@
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {getAdminAccount} from '../../../support/env';
 
 const authenticator = require('authenticator');
 
@@ -50,7 +51,6 @@ describe('Settings', () => {
             }).then(() => {
                 return cy.apiAdminLogin();
             }).then(() => {
-                cy.visit('/admin_console');
                 return cy.apiCreateUser();
             }).then(({user: user2}) => {
                 // # Create SAML user
@@ -76,8 +76,9 @@ describe('Settings', () => {
     it('MM-T953: Verify correct authentication method', () => {
         cy.visit('/admin_console/user_management/users');
 
+        const adminUsername = getAdminAccount().username;
         // # Type sysadmin
-        cy.get('#searchUsers').clear().type('sysadmin').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchUsers').clear().type(adminUsername).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify sign-in method
         cy.findByTestId('userListRow').within(() => {
@@ -133,7 +134,7 @@ function migrateAuthToSAML(body) {
         url: '/api/v4/users/migrate_auth/saml',
         method: 'POST',
         body,
-        timeout: 60000,
+        timeout: TIMEOUTS.ONE_MIN,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
