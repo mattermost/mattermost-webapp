@@ -11,11 +11,11 @@ import {AnnouncementBarTypes} from 'utils/constants';
 import AnnouncementBar from '../default_announcement_bar';
 
 interface Props {
-    serverVersion: string,
+    serverVersion: string;
 }
 
 interface State {
-    serverVersionOnAppLoad: string,
+    serverVersionOnAppLoad: string;
 }
 
 export default class VersionBar extends React.PureComponent <Props, State> {

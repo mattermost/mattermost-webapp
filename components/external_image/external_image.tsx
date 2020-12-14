@@ -11,7 +11,7 @@ interface Props {
     children: (src : string) => React.ReactNode;
     enableSVGs: boolean;
     hasImageProxy: boolean;
-    imageMetadata?: PostImage,
+    imageMetadata?: PostImage;
     src: string;
 }
 

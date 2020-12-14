@@ -41,7 +41,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
          */
-        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>;
 
         /**
          * Login as admin via API.

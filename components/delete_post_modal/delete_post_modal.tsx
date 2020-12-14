@@ -22,7 +22,7 @@ type Props = {
     isRHS: boolean;
     onHide: () => void;
     actions: {
-        deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>
+        deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>;
     };
     location: {
         pathname: string;

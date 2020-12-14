@@ -13,14 +13,14 @@ const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 import TeamSettings from 'components/team_settings';
 
 type Props = {
-    onHide: () => void,
-    isCloud?: boolean,
+    onHide: () => void;
+    isCloud?: boolean;
 }
 
 export type State = {
-    activeTab: string,
-    activeSection: string,
-    show: boolean,
+    activeTab: string;
+    activeSection: string;
+    show: boolean;
 }
 
 export default class TeamSettingsModal extends React.PureComponent<Props, State> {

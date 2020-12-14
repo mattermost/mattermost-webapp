@@ -30,11 +30,11 @@ type Props = {
     ldapLoginFieldName?: string;
     passwordConfig?: PasswordConfig;
     match: {
-        url: string
-    },
+        url: string;
+    };
     actions: {
         switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode?: string) => ActionFunc;
-    },
+    };
 }
 
 export default class ClaimController extends React.PureComponent<Props> {
