@@ -109,7 +109,7 @@ describe('Authentication Part 3', () => {
     it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
         cy.visit('/admin_console/authentication/password');
 
-        cy.findByPlaceholderText('E.g.: "5"').clear().type('88');
+        cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('88');
 
         cy.findByText('Save').click();
 
