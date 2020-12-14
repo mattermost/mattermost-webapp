@@ -37,7 +37,7 @@ describe('Bot post unread message', () => {
         });
 
         // # Create a bot and get userID
-        cy.apiCreateBot('bot-' + Date.now(), 'Test Bot', 'test bot for E2E test replying to older bot post').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             const botUserId = bot.user_id;
             cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
