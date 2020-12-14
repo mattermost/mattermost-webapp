@@ -407,4 +407,20 @@ Cypress.Commands.add('apiRevokeAccessToken', (tokenId) => {
     });
 });
 
+Cypress.Commands.add('apiUpdateUserAuth', (userId, authData, password, authService) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'PUT',
+        url: `/api/v4/users/${userId}/auth`,
+        body: {
+            auth_data: authData,
+            password,
+            auth_service: authService,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 export {generateRandomUser};
