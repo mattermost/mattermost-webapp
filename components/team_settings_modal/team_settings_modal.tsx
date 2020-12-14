@@ -26,7 +26,7 @@ export type State = {
 export default class TeamSettingsModal extends React.PureComponent<Props, State> {
     modalBodyRef: React.RefObject<Modal>;
 
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -45,7 +45,7 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
         });
     }
 
-    updateSection = (section:string) => {
+    updateSection = (section: string) => {
         this.setState({activeSection: section});
     }
 

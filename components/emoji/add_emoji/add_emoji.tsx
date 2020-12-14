@@ -50,7 +50,7 @@ interface AddEmojiResponse {
 }
 
 export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmojiState> {
-    constructor(props : AddEmojiProps) {
+    constructor(props: AddEmojiProps) {
         super(props);
 
         this.state = {

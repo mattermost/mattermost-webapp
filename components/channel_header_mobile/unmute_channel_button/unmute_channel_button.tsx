@@ -8,7 +8,7 @@ import {ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {NotificationLevels} from 'utils/constants';
 
 type Actions = {
-    updateChannelNotifyProps: (userId:string, channelId:string, props:ChannelNotifyProps) => void;
+    updateChannelNotifyProps: (userId: string, channelId: string, props: ChannelNotifyProps) => void;
 }
 
 type Props = {

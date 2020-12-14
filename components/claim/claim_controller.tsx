@@ -38,7 +38,7 @@ type Props = {
 }
 
 export default class ClaimController extends React.PureComponent<Props> {
-    render() : JSX.Element {
+    render(): JSX.Element {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
         const newType = (new URLSearchParams(this.props.location.search)).get('new_type');
         const currentType = (new URLSearchParams(this.props.location.search)).get('old_type');

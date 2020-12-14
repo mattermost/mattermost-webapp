@@ -21,7 +21,7 @@ type ChannelWithTeamDataValue = ChannelWithTeamData & Value;
 type Props = {
     searchTerm: string;
     onModalDismissed?: () => void;
-    onChannelsSelected?: (channels:ChannelWithTeamData[]) => void;
+    onChannelsSelected?: (channels: ChannelWithTeamData[]) => void;
     groupID: string;
     actions: {
         loadChannels: (page?: number, perPage?: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean) => Promise<{data: ChannelWithTeamData[]}>;
@@ -124,7 +124,7 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
         });
     }
 
-    handlePageChange = (page:number, prevPage: number) => {
+    handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
             this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
@@ -153,10 +153,10 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
     }
 
     renderOption = (
-        option:ChannelWithTeamDataValue,
+        option: ChannelWithTeamDataValue,
         isSelected: boolean,
-        onAdd: (value:ChannelWithTeamDataValue) => void,
-        onMouseMove: (value:ChannelWithTeamDataValue) => void) => {
+        onAdd: (value: ChannelWithTeamDataValue) => void,
+        onMouseMove: (value: ChannelWithTeamDataValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';

@@ -187,7 +187,7 @@ declare namespace Cypress {
          * Create a randomly named admin account
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(): Chainable<{sysadmin:UserProfile}>;
+        apiCreateCustomAdmin(): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.

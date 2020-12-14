@@ -6,7 +6,7 @@ import React from 'react';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 
 type Actions = {
-    toggleRhsMenu: (e?:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    toggleRhsMenu: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 type Props = {
