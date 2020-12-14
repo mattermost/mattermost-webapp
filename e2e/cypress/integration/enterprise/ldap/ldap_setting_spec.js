@@ -18,7 +18,7 @@ describe('LDAP settings', () => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 
-        // Check if server has license for LDAP
+        // * Check if server has license for LDAP
         cy.apiRequireLicenseForFeature('LDAP');
     });
 
