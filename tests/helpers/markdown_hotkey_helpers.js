@@ -50,7 +50,7 @@ function makeMarkdownHotkeyEvent(input, start, end, keycode, altKey = false) {
  * @param  {int} [end] selection's end index
  * @return {object} keydown event object
  */
-function makeBoldHotkeyEvent(input, start, end) {
+export function makeBoldHotkeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.B);
 }
 
@@ -60,7 +60,7 @@ function makeBoldHotkeyEvent(input, start, end) {
  * @param  {int} [end] selection's end index
  * @return {object} keydown event object
  */
-function makeItalicHotkeyEvent(input, start, end) {
+export function makeItalicHotkeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.I);
 }
 
