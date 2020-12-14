@@ -57,7 +57,7 @@ describe('LDAP settings', () => {
 
         // # Try to save LDAP settings with blank Loginid
         cy.findByTestId('LdapSettings.LoginIdAttributeinput').click().clear();
-        cy.findByText(/save/i).click();
+        cy.findByRole('button', {name: /save/i}).click();
 
         // * Verifying Error Message
         cy.findByText(/ad\/ldap field "login id attribute" is required./i).should('be.visible');
