@@ -97,11 +97,13 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     moveToNewCategory = () => {
-        this.props.actions.openModal({
+        const {actions, multiSelectedChannelIds, channel} = this.props;
+
+        actions.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
             dialogProps: {
-                channelIdsToAdd: [this.props.channel.id],
+                channelIdsToAdd: multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel.id] : multiSelectedChannelIds,
             },
         });
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
