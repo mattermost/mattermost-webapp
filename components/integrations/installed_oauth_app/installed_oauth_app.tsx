@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {Team} from 'mattermost-redux/types/teams';
 
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -14,20 +16,6 @@ import CopyText from 'components/copy_text';
 import DeleteIntegration from '../delete_integration.jsx';
 
 const FAKE_SECRET = '***************';
-
-export type OAuthApp = {
-    id: string,
-    name: string,
-    client_secret: string,
-    create_at: number,
-    creator_id: string,
-    description?: string,
-    homepage?: string,
-    icon_url?: string,
-    is_trusted: boolean,
-    update_at: number,
-    callback_urls: Array<string>,
-}
 
 export function matchesFilter(oauthApp: OAuthApp, filter?: string | null): boolean {
     if (!filter) {
@@ -42,9 +30,7 @@ export type InstalledOAuthAppProps = {
     /**
      * The team data
      */
-    team: {
-        name: string
-    },
+    team: Partial<Team>,
 
     /**
      * The oauthApp data
@@ -64,8 +50,8 @@ export type InstalledOAuthAppProps = {
     onDelete: (oauthApp: OAuthApp) => void,
 
     /**
-       * Set to filter OAuthApp
-       */
+     * Set to filter OAuthApp
+     */
     filter?: string | null,
 }
 

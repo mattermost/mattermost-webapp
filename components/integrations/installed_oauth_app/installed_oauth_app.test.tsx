@@ -4,13 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOAuthApp, {OAuthApp} from 'components/integrations/installed_oauth_app/installed_oauth_app';
+import InstalledOAuthApp from 'components/integrations/installed_oauth_app/installed_oauth_app';
 import DeleteIntegration from 'components/integrations/delete_integration.jsx';
 
 describe('components/integrations/InstalledOAuthApp', () => {
     const FAKE_SECRET = '***************';
     const team = {name: 'team_name'};
-    const oauthApp: OAuthApp = {
+    const oauthApp = {
         id: 'facxd9wpzpbpfp8pad78xj75pr',
         name: 'testApp',
         client_secret: '88cxd9wpzpbpfp8pad78xj75pr',
