@@ -13,7 +13,7 @@
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getEmailUrl} from '../../utils';
-import {spyNotificationAs, ignoreUncaughtException} from '../../support/notification';
+import {spyNotificationAs} from '../../support/notification';
 
 describe('Desktop notifications', () => {
     let testTeam;
@@ -215,6 +215,58 @@ describe('Desktop notifications', () => {
 
                 // * Verify that the channel is now unread without a mention badge
                 cy.get(`#sidebarItem_${channel.name} .badge`).should('not.exist');
+            });
+        });
+    });
+
+    it('MM-T885 Channel notifications: Desktop notifications mentions only', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+
+            // # Ensure notifications are set up to fire a desktop notification
+            changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                const messageWithNotification = `random message with mention @${user.username}`;
+                const expected = `@${testUser.username}: ${messageWithNotification}`;
+
+                // # Go to Off topic
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+                // # Set channel notifications to show on mention only
+                cy.get('#channelHeaderDropdownIcon').click();
+                cy.findByText('Notification Preferences').click();
+                cy.findByText('Send desktop notifications').click();
+                cy.get('#channelNotificationMentions').click();
+                cy.get('#saveSetting').click();
+
+                // # Visit Town square
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.wait(TIMEOUTS.HALF_SEC);
+
+                spyNotificationAs('withNotification', 'granted');
+
+                // Have another user send a post with no mention
+                cy.postMessageAs({sender: testUser, message: 'random message no mention', channelId: channel.id});
+
+                // * Desktop notification is not received
+                cy.get('@withNotification').should('not.have.been.called');
+
+                // Have another user send a post with a mention
+                cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
+
+                // * Desktop notification is received
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
+
+                // * Notification badge is aligned 10px to the right of LHS
+                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 10px 0px 0px');
             });
         });
     });
