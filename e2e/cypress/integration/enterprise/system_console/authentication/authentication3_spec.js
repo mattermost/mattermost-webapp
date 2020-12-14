@@ -164,7 +164,7 @@ describe('Authentication Part 3', () => {
     it('MM-T1773 - Minimum password length field resets to default after saving invalid value', () => {
         cy.visit('/admin_console/authentication/password');
 
-        cy.findByPlaceholderText('E.g.: "5"').clear().type('10');
+        cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('10');
 
         cy.findByRole('button', {name: 'Save'}).click();
 
