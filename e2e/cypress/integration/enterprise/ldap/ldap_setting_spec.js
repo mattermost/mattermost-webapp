@@ -21,6 +21,7 @@ describe('LDAP settings', () => {
         // Check if server has license for LDAP
         cy.apiRequireLicenseForFeature('LDAP');
     });
+
     it('MM-T2699 Connection test button - Successful', () => {
         // # Load AD/LDAP page in system console
         cy.visitLDAPSettings();
@@ -32,6 +33,7 @@ describe('LDAP settings', () => {
         cy.findByText(/ad\/ldap test successful/i).should('be.visible');
         cy.findByTitle(/success icon/i).should('be.visible');
     });
+
     it('MM-T2700 LDAP username required', () => {
         cy.visitLDAPSettings();
 
@@ -39,26 +41,28 @@ describe('LDAP settings', () => {
         cy.findByLabelText(/username attribute:/i).click().clear();
 
         // # Click Save
-        cy.findByText(/save/i).click();
+        cy.findByRole('button', {name: /save/i}).click();
 
         // * Verifying message "AD/LDAP field "Username Attribute" is required."
         cy.findByText('AD/LDAP field "Username Attribute" is required.').should('be.visible');
 
         // * Set back to what it was
         cy.findByLabelText(/username attribute:/i).click().type('uid');
-        cy.findByText(/save/i).click();
+        cy.findByRole('button', {name: /save/i}).click();
         cy.findByRole('button', {name: /save/i}).should('be.disabled');
     });
+
     it('MM-T2701 LDAP LoginidAttribute required', () => {
         cy.visitLDAPSettings();
 
         // # Try to save LDAP settings with blank Loginid
-        cy.get('[data-testid="LdapSettings.LoginIdAttributeinput"]').click().clear();
+        cy.findByTestId('LdapSettings.LoginIdAttributeinput').click().clear();
         cy.findByText(/save/i).click();
 
         // * Verifying Error Message
         cy.findByText(/ad\/ldap field "login id attribute" is required./i).should('be.visible');
     });
+
     it('MM-T2704 Create new LDAP account from login page', () => {
         const testSettings = {
             user: {
