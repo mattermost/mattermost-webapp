@@ -468,7 +468,7 @@ describe('Desktop notifications', () => {
                     cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
                     ignoreUncaughtException();
 
-                    // # DM notification is received
+                    // * DM notification is received
                     cy.get('@withNotification').should('have.been.called');
                 });
             });
@@ -514,7 +514,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
             ignoreUncaughtException();
 
-            // Visit town-square.
+            // # Visit town-square.
             cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
