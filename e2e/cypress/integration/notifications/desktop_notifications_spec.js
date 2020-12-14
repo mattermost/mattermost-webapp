@@ -422,27 +422,6 @@ describe('Desktop notifications', () => {
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                 spyNotificationAs('withNotification', 'granted');
 
-                // # Have another user send a post with delay
-                cy.postMessageAs({sender: testUser, message, channelId: channel.id});
-
-                // * Desktop notification is not received
-                cy.get('@withNotification').should('not.have.been.called');
-            });
-        });
-    });
-
-    it('MM-T491 - Channel notifications: No desktop notification when in focus', () => {
-        cy.apiCreateUser().then(({user}) => {
-            cy.apiAddUserToTeam(testTeam.id, user.id);
-            cy.apiLogin(user);
-
-            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
-                const message = '/echo test 3';
-
-                // # Go to Off topic
-                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-                spyNotificationAs('withNotification', 'granted');
-
                 // Have another user send a post with delay
                 cy.postMessageAs({sender: testUser, message, channelId: channel.id});
 
@@ -534,6 +513,13 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
             ignoreUncaughtException();
+            cy.window().then((win) => {
+                cy.stub(win, 'Audio');
+            });
+
+            // Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
 
             // # Click hamburger main menu.
             cy.get('#sidebarHeaderDropdownButton').click();
@@ -568,8 +554,9 @@ describe('Desktop notifications', () => {
                 // # Have another user send a post with a mention
                 cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
 
-                // * Desktop notification is not received
-                cy.get('@withNotification').should('not.have.been.called');
+                // * Desktop notification is received without sound
+                cy.get('@withNotification').should('have.been.called');
+                cy.window().should('not.have.property', 'Audio');
             });
         });
     });
