@@ -72,7 +72,7 @@ describe('Limited console access', () => {
         cy.findByTestId(`${role}_edit`).click();
 
         // # Click Add People button
-        cy.findByText('Add People').click();
+        cy.findByRole('button', {name: 'Add People'}).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Type in user name
         cy.findByText('Search and add members').type(`${testUsers[role].email}`);
@@ -81,10 +81,10 @@ describe('Limited console access', () => {
         cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
 
         // # Click add button
-        cy.findByText('Add').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByRole('button', {name: 'Add'}).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Click save button
-        cy.findByText('Save').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByRole('button', {name: 'Save'}).click().wait(TIMEOUTS.HALF_SEC);
     };
 
     const noAccessFunc = (section) => {
