@@ -513,9 +513,6 @@ describe('Desktop notifications', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
             ignoreUncaughtException();
-            cy.window().then((win) => {
-                cy.stub(win, 'Audio');
-            });
 
             // Visit town-square.
             cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -555,8 +552,10 @@ describe('Desktop notifications', () => {
                 cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
 
                 // * Desktop notification is received without sound
-                cy.get('@withNotification').should('have.been.called');
-                cy.window().should('not.have.property', 'Audio');
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.silent).to.equal(true);
+                    return true;
+                });
             });
         });
     });
