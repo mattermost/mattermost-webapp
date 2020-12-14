@@ -27,20 +27,18 @@ describe('Account Settings > General > Position', () => {
     });
 
     it('MM-T2063 Position', () => {
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
+        // # Open 'Account Settings' modal and view the default 'General Settings'
+        cy.uiOpenAccountSettingsModal().within(() => {
+            // # Open 'Position' setting
+            cy.findByRole('heading', {name: 'Position'}).should('be.visible').click();
 
-        // # Click on Account settings menu item
-        cy.findByText('Account Settings').should('be.visible').click();
+            // # Enter new 'Position'
+            cy.findByRole('textbox', {name: 'Position'}).should('be.visible').type(position);
 
-        // # Fill-in the position field
-        cy.findByText('Position').should('be.visible').click();
-        cy.get('#position').type(position);
-        cy.get('#saveSetting').click();
-        cy.get('#position').should('not.be.visible');
-
-        // # Exit the modal
-        cy.get('body').type('{esc}', {force: true});
+            // # Save and close the modal
+            cy.uiSave();
+            cy.uiClose();
+        });
 
         // # Post message in the main channel
         cy.postMessage('hello from master hacker');
@@ -55,35 +53,32 @@ describe('Account Settings > General > Position', () => {
     it('MM-T2064 Position / 128 characters', () => {
         const longPosition = 'Master Hacker II'.repeat(8);
 
-        // # Open the hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click();
+        // # Open 'Account Settings' modal and view the default 'General Settings'
+        cy.uiOpenAccountSettingsModal().within(() => {
+            const minPositionHeader = () => cy.findByRole('heading', {name: 'Position'});
+            const maxPositionInput = () => cy.findByRole('textbox', {name: 'Position'});
 
-        // # Click on Account settings menu item
-        cy.findByText('Account Settings').should('be.visible').click();
+            // # Fill-in the position field with a value of 128 characters
+            minPositionHeader().click();
+            maxPositionInput().type(longPosition);
+            cy.uiSave();
+            maxPositionInput().should('not.exist');
 
-        // # Fill-in the position field with a value of 128 characters
-        cy.findByText('Position').should('be.visible').click();
-        cy.get('#position').type(longPosition);
-        cy.get('#saveSetting').click();
-        cy.get('#position').should('not.be.visible');
+            minPositionHeader().click();
+            maxPositionInput().invoke('val').then((val) => {
+                // # Verify that the input value is 128 characters
+                expect(val.length).to.equal(128);
+            });
 
-        cy.findByText('Position').should('be.visible').click();
-        cy.get('#position').invoke('val').then((val) => {
-            // # Verify that the input value is 128 characters
-            expect(val.length).to.equal(128);
+            // # Try to edit the field with maximum characters
+            maxPositionInput().focus().type('random');
+            maxPositionInput().invoke('val').then((val) => {
+                // # Verify that the position hasn't changed
+                expect(val).to.equal(longPosition);
+            });
+
+            // # Save position
+            cy.uiSave();
         });
-
-        // # Try to edit the field with maximum characters
-        cy.get('#position').should('be.visible').focus().type('random');
-        cy.get('#position').invoke('val').then((val) => {
-            // # Verify that the position hasn't changed
-            expect(val).to.equal(longPosition);
-        });
-
-        // # Save position
-        cy.get('#saveSetting').click();
-
-        // # Exit the modal
-        cy.get('body').type('{esc}', {force: true});
     });
 });

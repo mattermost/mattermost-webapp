@@ -49,21 +49,15 @@ describe('Notifications', () => {
     });
 
     it('MM-T506 Channel links show as links in notification emails', () => {
-        // # Open 'Account Settings' modal
-        cy.findByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').should('be.visible').click();
+        // # Open 'Notifications' of 'Account Settings' modal
+        cy.uiOpenAccountSettingsModal('Notifications').within(() => {
+            // # Open 'Email Notifications' setting and set to 'Immediately'
+            cy.findByRole('heading', {name: 'Email Notifications'}).should('be.visible').click();
+            cy.findByRole('radio', {name: 'Immediately'}).click().should('be.checked');
 
-        // * Check that the 'Account Settings' modal was opened
-        cy.get('#accountSettingsModal').should('exist').within(() => {
-            cy.get('#notificationsButton').should('be.visible').click();
-
-            // * Verify that 'Email Notifications' is set to 'Immediately'
-            cy.get('#emailDesc').should('be.visible').within(() => {
-                cy.findByText('Immediately').should('be.visible');
-            });
-
-            // # Close the modal
-            cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
+            // # Save then close the modal
+            cy.uiSave();
+            cy.uiClose();
         });
 
         // # Post a message as sysadmin that contains the channel name and otherUser's username

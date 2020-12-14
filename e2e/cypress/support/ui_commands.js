@@ -3,6 +3,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {isMac} from '../utils';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -82,14 +83,6 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) =
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
 });
-
-Cypress.Commands.add('isMac', () => {
-    isMac();
-});
-
-function isMac() {
-    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-}
 
 // ***********************************************************
 // Post
