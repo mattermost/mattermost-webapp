@@ -383,7 +383,7 @@ describe('Desktop notifications', () => {
                     cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
                     ignoreUncaughtException();
 
-                    // # DM notification is not received
+                    // * DM notification is not received
                     cy.get('@withNotification').should('not.have.been.called');
                 });
             });
