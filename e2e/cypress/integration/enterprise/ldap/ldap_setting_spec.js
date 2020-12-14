@@ -15,7 +15,7 @@
 
 describe('LDAP settings', () => {
     beforeEach(() => {
-        // Login as sysadmin
+        // # Login as sysadmin
         cy.apiAdminLogin();
 
         // Check if server has license for LDAP
