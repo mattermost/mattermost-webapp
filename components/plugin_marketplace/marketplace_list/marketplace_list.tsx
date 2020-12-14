@@ -65,7 +65,7 @@ export default class MarketplaceList extends React.PureComponent <MarketplaceLis
                         key={p.manifest.id}
                         id={p.manifest.id}
                         name={p.manifest.name}
-                        description={p.manifest.description ? p.manifest.description : ''}
+                        description={p.manifest.description}
                         version={p.manifest.version}
                         homepageUrl={p.homepage_url}
                         releaseNotesUrl={p.release_notes_url}
