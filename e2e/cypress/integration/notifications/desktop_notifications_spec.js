@@ -13,7 +13,7 @@
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getEmailUrl} from '../../utils';
-import {spyNotificationAs} from '../../support/notification';
+import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
 
 describe('Desktop notifications', () => {
     let testTeam;
