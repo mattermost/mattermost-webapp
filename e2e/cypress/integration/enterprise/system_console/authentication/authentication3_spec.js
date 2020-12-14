@@ -83,7 +83,7 @@ describe('Authentication Part 3', () => {
         cy.visit('/login');
 
         // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Username').and('contain', 'Email');
+        cy.findByTestId('loginId', {timeout: TIMEOUTS.ONE_MIN}).invoke('attr', 'placeholder').should('contain', 'Username').and('contain', 'Email');
     });
 
     it('MM-T1769 - Email signin true Username signin false', () => {
