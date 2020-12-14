@@ -330,7 +330,7 @@ describe('Desktop notifications', () => {
                 const messageWithNotification = `random message with mention @${user.username}`;
                 const expected = `@${testUser.username}: ${messageWithNotification}`;
 
-                // Have another user send a post with no mention
+                // # Have another user send a post with no mention
                 cy.postMessageAs({sender: testUser, message: messageWithoutNotification, channelId: channel.id});
 
                 // * Desktop notification is not received
