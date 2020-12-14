@@ -430,7 +430,7 @@ describe('Desktop notifications', () => {
             cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
                 const messageWithNotification = `random message with mention @${user.username}`;
 
-                // Have another user send a post with a mention
+                // # Have another user send a post with a mention
                 cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
 
                 // * Desktop notification is not received
