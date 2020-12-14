@@ -388,7 +388,6 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
-    PROPS_CHANGED: 'props_change',
 };
 
 export const TutorialSteps = {
