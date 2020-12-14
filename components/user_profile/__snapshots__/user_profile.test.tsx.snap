@@ -7,8 +7,12 @@ exports[`components/UserProfile should match snapshot 1`] = `
     overlay={
       <Memo(Connect(injectIntl(ProfilePopover)))
         className="user-profile-popover"
+        hasMention={false}
         hide={[Function]}
+        hideStatus={false}
         isBusy={false}
+        isRHS={false}
+        overwriteName=""
         src="/api/v4/users/undefined/image?_=0"
         userId="user_id"
       />
@@ -42,8 +46,12 @@ exports[`components/UserProfile should match snapshot, when displayUsername is e
     overlay={
       <Memo(Connect(injectIntl(ProfilePopover)))
         className="user-profile-popover"
+        hasMention={false}
         hide={[Function]}
+        hideStatus={false}
         isBusy={false}
+        isRHS={false}
+        overwriteName=""
         src="/api/v4/users/undefined/image?_=0"
         userId="user_id"
       />
