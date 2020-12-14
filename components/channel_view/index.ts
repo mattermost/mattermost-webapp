@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
@@ -14,26 +14,38 @@ import {withRouter} from 'react-router-dom';
 
 import {getProfiles} from 'mattermost-redux/actions/users';
 
+import {Action, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+
 import {getDirectTeammate} from 'utils/utils.jsx';
+
 import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
-import {setShowNextStepsView} from 'actions/views/next_steps';
-import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
 
-import ChannelView from './channel_view.jsx';
+import {setShowNextStepsView} from 'actions/views/next_steps';
+
+import {isOnboardingHidden, showNextSteps, showNextStepsTips} from 'components/next_steps_view/steps';
+import {GlobalState} from 'types/store';
+
+import ChannelView from './channel_view';
+
+type Actions = {
+    goToLastViewedChannel: () => Promise<{data: boolean}>;
+    setShowNextStepsView: (show: boolean) => Action;
+    getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
+}
 
 // Temporary selector until getDirectTeammate is converted to be redux-friendly
 const getDeactivatedChannel = createSelector(
-    (state, channelId) => {
+    (state: GlobalState, channelId: string) => {
         return getDirectTeammate(state, channelId);
     },
-    (teammate) => {
+    (teammate: Record<string, any>) => {
         return Boolean(teammate && teammate.delete_at);
     },
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
 
     const config = getConfig(state);
@@ -60,6 +72,7 @@ function mapStateToProps(state) {
         channelId: channel ? channel.id : '',
         channelRolesLoading,
         deactivatedChannel: channel ? getDeactivatedChannel(state, channel.id) : false,
+        focusedPostId: state.views.channel.focusedPostId,
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
         showNextSteps: showNextSteps(state),
         showNextStepsTips: showNextStepsTips(state),
@@ -71,9 +84,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
             setShowNextStepsView,
             goToLastViewedChannel,
             getProfiles,
