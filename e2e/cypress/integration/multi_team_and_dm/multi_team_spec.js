@@ -27,18 +27,18 @@ describe('Send a DM', () => {
 
             cy.apiCreateUser().then(({user: otherUser}) => {
                 userB = otherUser;
-                cy.apiAddUserToTeam(team.id, userB.id);
-            });
-
-            cy.apiCreateUser().then(({user: otherUser}) => {
-                userC = otherUser;
-                cy.apiAddUserToTeam(team.id, userC.id);
-            });
-
-            cy.apiCreateTeam('team', 'Team').then(({team: otherTeam}) => {
-                teamB = otherTeam;
-                cy.apiAddUserToTeam(otherTeam.id, userA.id);
-                cy.apiAddUserToTeam(otherTeam.id, userB.id);
+                return cy.apiAddUserToTeam(team.id, userB.id);
+            }).then(() => {
+                return cy.apiCreateUser().then(({user: otherUser}) => {
+                    userC = otherUser;
+                    cy.apiAddUserToTeam(team.id, userC.id);
+                });
+            }).then(() => {
+                return cy.apiCreateTeam('team', 'Team').then(({team: otherTeam}) => {
+                    teamB = otherTeam;
+                    cy.apiAddUserToTeam(otherTeam.id, userA.id);
+                    cy.apiAddUserToTeam(otherTeam.id, userB.id);
+                });
             });
         });
     });
@@ -56,10 +56,11 @@ describe('Send a DM', () => {
         cy.apiCreateDirectChannel([userA.id, userB.id]).then(() => {
             cy.visit(`/${teamA.name}/channels/${userA.id}__${userB.id}`).wait(TIMEOUTS.FIVE_SEC);
             cy.postMessage(':)');
-        });
-        cy.apiCreateDirectChannel([userA.id, userC.id]).then(() => {
-            cy.visit(`/${teamA.name}/channels/${userA.id}__${userC.id}`).wait(TIMEOUTS.FIVE_SEC);
-            cy.postMessage(':(');
+        }).then(() => {
+            cy.apiCreateDirectChannel([userA.id, userC.id]).then(() => {
+                cy.visit(`/${teamA.name}/channels/${userA.id}__${userC.id}`).wait(TIMEOUTS.FIVE_SEC);
+                cy.postMessage(':(');
+            });
         });
 
         // # Click Team B in the team sidebar.
@@ -93,7 +94,7 @@ describe('Send a DM', () => {
         cy.get('#directChannelList').findByText(`${userB.username}`).should('be.visible');
         cy.get('#directChannelList').findByText(`${userC.username}`).should('be.visible');
 
-        // * Channel viewed on team a before switching should be the one that displays after switching back (Town Square does not briefly show).
+        // * Channel viewed on a team before switching should be the one that displays after switching back (Town Square does not briefly show).
         cy.visit(`/${teamA.name}/messages/@${userB.username}`);
     });
 
