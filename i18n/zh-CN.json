@@ -1192,7 +1192,6 @@
   "admin.oauth.office365": "Office 365",
   "admin.oauth.providerDescription": "当设为是时，Mattermost 可以做为 OAuth 2.0 服务提供商允许 Mattermost 给外部应用 API 请求授权。参见[文档](!https://docs.mattermost.com/developer/oauth-2-0-applications.html)了解更多。",
   "admin.oauth.providerTitle": "启动 OAuth 2.0 服务提供商：",
-  "admin.oauth.select": "选择 OAuth 2.0 服务提供商：",
   "admin.office365.EnableMarkdownDesc": "1. [登录](!https://login.microsoftonline.com/)您的 Microsoft 或者 Office 365 账号。确认用户使用与[租户](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) 相同的账号登录。\n2. 转到 [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com)，点击**前往应用程序列表** > **新增应用程序**并且使用 \"Mattermost - your-company-name\" 作为 **应用名**。\n3. 找到 **应用密码**, 点击**生成新密码**，拷贝内容粘贴到 **应用密码**。\n4. 找到**平台**，点击**添加平台**，选择**Web**，输入 **your-mattermost-url/signup/office365/complete** (例如：http://localhost:8065/signup/office365/complete) 到**重指向 URI**。去掉**允许隐含流程**的选择。\n5. 最后，点击**保存**并且拷贝粘贴**应用程序识别码**的内容。",
   "admin.office365.authTitle": "认证端点：",
   "admin.office365.clientIdDescription": "您在微软注册您的应用时收到的应用/客户端ID。",
