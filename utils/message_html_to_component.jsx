@@ -9,6 +9,7 @@ import LatexBlock from 'components/latex_block';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
+import TimeFormatInText from 'components/time_format_in_text'
 
 /*
  * Converts HTML to React components using html-to-react.
@@ -67,6 +68,27 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             },
         });
     }
+    
+    const RE_TIME_IN_STRING = /([0-1]?[0-9]|2[0-3]):[0-5][0-9]/g
+    const messageHasTimeFormat = RE_TIME_IN_STRING.test(html)
+    if(messageHasTimeFormat){
+        const timeAttrib = 'data-time';
+        processingInstructions.push({
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.attribs && node.attribs[timeAttrib],
+            processNode: (node, children) => {
+                const originalTime = node.attribs[timeAttrib];
+                const timeConvertInText = (
+                    <TimeFormatInText 
+                        originalTime={originalTime}
+                        postId={options.postId}
+                    />
+                );
+                return timeConvertInText;
+            },
+        });
+    }
+
     if (!('mentions' in options) || options.mentions) {
         const mentionHighlight = 'mentionHighlight' in options ? options.mentionHighlight : true;
         const disableGroupHighlight = 'disableGroupHighlight' in options ? options.disableGroupHighlight === true : false;

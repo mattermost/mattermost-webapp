@@ -250,9 +250,33 @@ export function formatText(
     return output;
 }
 
+function highlightTime(text:string):string{
+    let output = text
+    
+    const RE_TIME_IN_STRING = /([0-1]?[0-9]|2[0-3]):[0-5][0-9]/g
+    const messageHasTimeFormat = RE_TIME_IN_STRING.test(text)
+    
+    if (messageHasTimeFormat === false) {
+        return text
+    }
+
+    if(output.length === 0){
+        return text
+    }
+
+    output.replace(RE_TIME_IN_STRING, (match) => {
+        console.log(output,"output")
+        output = output.replace(match,`<span data-time='${match}'>${match}</span>`)
+    })
+
+    return output
+}
+
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
 export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
     let output = text;
+
+    output = highlightTime(output)
 
     const tokens = new Map();
 
