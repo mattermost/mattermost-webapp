@@ -26,7 +26,7 @@ describe('LDAP settings', () => {
         // # Load AD/LDAP page in system console
         cy.visitLDAPSettings();
 
-        // click "AD/LDAP Test"
+        // # Click "AD/LDAP Test"
         cy.findByRole('button', {name: /ad\/ldap test/i}).click();
 
         // * Confirmation message saying the connection is successful.
