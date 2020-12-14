@@ -390,7 +390,7 @@ describe('Desktop notifications', () => {
         });
     });
 
-    it('MM-T496 - Channel notifications: Desktop Notification Sounds OFF', () => {
+    it('MM-T499 - Channel notifications: Desktop Notification Sounds OFF', () => {
         cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
