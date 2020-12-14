@@ -80,6 +80,17 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
             action: () => this.handleSortDirectMessages(CategorySorting.Recency),
         }];
 
+        const dmLimitOptions = [10, 15, 20, 40];
+
+        const selectedDmCount = dmLimitOptions.map((number) => {
+            return {
+                id: `SidebarCategorySortingMenu-dmCount-${number}`,
+                direction: 'right' as any,
+                text: number,
+                action: () => this.handlelimitVisibleDMsGMs(number),
+            } as SubmenuItemProps;
+        });
+
         const categoryMenuItems: SubmenuItemProps[] = [];
         categoryMenuItems.push(
             {
@@ -92,12 +103,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                 id: 'SidebarChannelMenu-moveToDivider',
                 text: (<li className='MenuGroup menu-divider'/>),
             },
-            {
-                id: `SidebarCategorySortingMenu-dmCount-${this.props.selectedDmNumber}`,
-                direction: 'right' as any,
-                text: this.props.selectedDmNumber,
-                action: () => this.handlelimitVisibleDMsGMs(this.props.selectedDmNumber),
-            },
+            ...selectedDmCount,
         );
 
         const browseDirectMessages = (
