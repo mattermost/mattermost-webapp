@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console @visual_regression
+// Group: @enterprise @not_cloud @system_console @visual_regression
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
@@ -95,6 +95,8 @@ describe('System Console - Enterprise', () => {
     ];
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license for feature
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
