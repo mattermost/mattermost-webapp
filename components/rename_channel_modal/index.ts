@@ -16,7 +16,7 @@ import {getSiteURL} from 'utils/url';
 import RenameChannelModal from './rename_channel_modal';
 
 type Actions = {
-    patchChannel(channelId: string, patch: Channel): Promise<{ data: Channel, error: Error }>;
+    patchChannel(channelId: string, patch: Channel): Promise<{ data: Channel; error: Error }>;
 };
 
 const mapStateToProps = createSelector(
