@@ -963,6 +963,14 @@ export function applyTheme(theme) {
             'mention-highlight-link': theme.mentionHighlightLink,
         },
     });
+
+    window.postMessage(
+        {
+            type: 'theme-updated',
+            message: {theme},
+        },
+        window.location.origin,
+    );
 }
 
 export function resetTheme() {
