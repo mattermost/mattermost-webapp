@@ -517,7 +517,7 @@ describe('Desktop notifications', () => {
                 cy.stub(win, 'Audio');
             });
 
-            // Visit town-square.
+            // # Visit town-square.
             cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
