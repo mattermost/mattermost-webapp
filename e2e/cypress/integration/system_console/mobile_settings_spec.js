@@ -11,7 +11,7 @@
 
 describe('Settings', () => {
     before(() => {
-        cy.apiInitSetup();
+        cy.shouldRunOnTeamEdition();
     });
 
     it('MM-T1149: Hide mobile-specific settings', () => {

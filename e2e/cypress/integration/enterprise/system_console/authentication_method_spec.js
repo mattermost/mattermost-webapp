@@ -77,6 +77,7 @@ describe('Settings', () => {
         cy.visit('/admin_console/user_management/users');
 
         const adminUsername = getAdminAccount().username;
+
         // # Type sysadmin
         cy.get('#searchUsers').clear().type(adminUsername).wait(TIMEOUTS.HALF_SEC);
 
