@@ -222,7 +222,7 @@ describe('Authentication Part 3', () => {
     it('MM-T1776 - Maximum Login Attempts field successfully saves valid change', () => {
         cy.visit('/admin_console/authentication/password');
 
-        cy.findByPlaceholderText('E.g.: "10"').clear().type('2');
+        cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('2');
 
         cy.findByRole('button', {name: 'Save'}).click();
 
