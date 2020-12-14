@@ -38,222 +38,26 @@ describe('Authentication Part 3', () => {
         cy.apiAdminLogin();
     });
 
-    it('MM-T1767 - Email signin false Username signin true', () => {
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: false,
-                EnableSignInWithUsername: true,
-            },
-            LdapSettings: {
-                Enable: false
-            },
-        });
+    after(() => {
+        // # Log in as a admin.
+        cy.apiAdminLogin({failOnStatusCode: false});
 
-        cy.apiLogout();
-
-        // # Go to front page
-        cy.visit('/login');
-
-        // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Username').and('not.contain', 'Email');
-    });
-
-    it('MM-T1768 - Email signin true Username signin true', () => {
         cy.apiUpdateConfig({
             EmailSettings: {
                 EnableSignInWithEmail: true,
                 EnableSignInWithUsername: true,
             },
-            LdapSettings: {
-                Enable: false
-            },
         });
-
-        cy.apiLogout();
-
-        // # Go to front page
-        cy.visit('/login');
-
-        // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Username').and('contain', 'Email');
     });
 
-    it('MM-T1769 - Email signin true Username signin false', () => {
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: true,
-                EnableSignInWithUsername: false,
-            },
-            LdapSettings: {
-                Enable: false
-            },
-        });
-
-        cy.apiLogout();
-
-        // # Go to front page
-        cy.visit('/login');
-
-        // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Email').and('not.contain', 'Username');
-    });
-
-    // it('MM-T1757 - Restrict Domains - Multiple - fail', () => {
-    //     // # Enable open server and turn on user account creation
-    //     cy.apiUpdateConfig({
-    //         TeamSettings: {
-    //             RestrictCreationToDomains: 'mattermost.com, test.com',
-    //             EnableUserCreation: true,
-    //             EnableOpenServer: true,
-    //         },
-    //     });
-
-    //     cy.apiLogin(testUserAlreadyInTeam);
-
-    //     cy.visit('/');
-
-    //     // * Verify the side bar is visible
-    //     cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-    //     // # Click on the side bar
-    //     cy.get('#sidebarHeaderDropdownButton').click();
-
-    //     // * Verify Account Settings button is visible and exist and then click on it
-    //     cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist').click();
-
-    //     // # Click "Edit" to the right of "Email"
-    //     cy.get('#emailEdit').should('be.visible').click();
-
-    //     // # Type new email
-    //     cy.get('#primaryEmail').should('be.visible').type('user-123123@example.com');
-    //     cy.get('#confirmEmail').should('be.visible').type('user-123123@example.com');
-    //     cy.get('#currentPassword').should('be.visible').type(testUser.password);
-
-    //     // # Save the settings
-    //     cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
-
-    //     // * Assert an error exist and is what is expected
-    //     cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible');
-    // });
-
-    // it('MM-T1758 - Restrict Domains - Team invite closed team', () => {
-    //     // # Enable open server and turn off user account creation and set restricted domain
-    //     cy.apiUpdateConfig({
-    //         TeamSettings: {
-    //             RestrictCreationToDomains: 'mattermost.com, test.com',
-    //             EnableUserCreation: true,
-    //             EnableOpenServer: true,
-    //         },
-    //     });
-
-    //     cy.apiLogout();
-
-    //     cy.visit(`/signup_email/?id=${testTeam.invite_id}`);
-
-    //     cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
-
-    //     cy.get('#password').type('Test123456!');
-
-    //     cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
-
-    //     cy.findByText('Create Account').click();
-
-    //     // * Make sure account was not created successfully
-    //     cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
-    // });
-
-    // it('MM-T1759 - Restrict Domains - Team invite open team', () => {
-    //     // # Enable open server and turn on user account creation and set restricted domain
-    //     cy.apiUpdateConfig({
-    //         TeamSettings: {
-    //             RestrictCreationToDomains: 'mattermost.com, test.com',
-    //             EnableUserCreation: true,
-    //             EnableOpenServer: true,
-    //         },
-    //     });
-
-    //     cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
-
-    //     cy.findByTestId('allowAllToggleSwitch', {timeout: TIMEOUTS.ONE_MIN}).click();
-
-    //     // # Click "Save"
-    //     cy.findByText('Save').scrollIntoView().click();
-
-    //     // # Wait until we are at the Mattermost Teams page
-    //     cy.findByText('Mattermost Teams', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-    //     cy.apiLogout();
-
-    //     cy.visit(`/signup_email/?id=${testTeam.invite_id}`);
-
-    //     cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
-
-    //     cy.get('#password').type('Test123456!');
-
-    //     cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
-
-    //     cy.findByText('Create Account').click();
-
-    //     // * Make sure account was not created successfully
-    //     cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
-    // });
-
-    // it('MM-T1760 - Enable Open Server false: Create account link is hidden', () => {
-    //     // # Enable open server and turn on user account creation and set restricted domain
-    //     cy.apiUpdateConfig({
-    //         TeamSettings: {
-    //             EnableOpenServer: false,
-    //         },
-    //     });
-
-    //     cy.apiLogout();
-
-    //     cy.visit('/');
-
-    //     // * Assert that create account button is not visible
-    //     cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
-    // });
-
-    // it('MM-T1761 - Enable Open Server - Create link appears if email account creation is false and other signin methods are true', () => {
-    //     // # Enable open server and turn on user account creation and set restricted domain
+    // it('MM-T1767 - Email signin false Username signin true', () => {
     //     cy.apiUpdateConfig({
     //         EmailSettings: {
-    //             EnableSignUpWithEmail: false,
-    //         },
-    //         TeamSettings: {
-    //             EnableOpenServer: true,
+    //             EnableSignInWithEmail: false,
+    //             EnableSignInWithUsername: true,
     //         },
     //         LdapSettings: {
-    //             Enable: true,
-    //         },
-    //     });
-
-    //     cy.apiLogout();
-
-    //     cy.visit('/');
-
-    //     // * Assert that create account button is visible
-    //     cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    // });
-
-    // it('MM-T1762 - Invite Salt', () => {
-    //     cy.visit('/admin_console/site_config/public_links');
-
-    //     cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
-
-    //     // * Assert that create account button is visible
-    //     cy.get('#FileSettings.PublicLinkSalt', {timeout: TIMEOUTS.ONE_MIN}).should('not.have.text', '********************************');
-    // });
-
-    // it('MM-T1763 - Security - Signup: Email verification not required, user immediately sees Town Square', () => {
-    //     // # Enable open server and turn on user account creation and set restricted domain
-    //     cy.apiUpdateConfig({
-    //         EmailSettings: {
-    //             RequireEmailVerification: false,
-    //         },
-    //         TeamSettings: {
-    //             EnableUserCreation: true,
-    //             EnableOpenServer: true,
+    //             Enable: false
     //         },
     //     });
 
@@ -262,78 +66,90 @@ describe('Authentication Part 3', () => {
     //     // # Go to front page
     //     cy.visit('/login');
 
-    //     // * Assert that create account button is visible
-    //     cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-    //     // # Go to sign up with email page
-    //     cy.visit('/signup_email');
-
-    //     const username = `Hossein${getRandomId()}`;
-
-    //     cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`${username}@example.com`);
-
-    //     cy.get('#password').type('Test123456!');
-
-    //     cy.get('#name').clear().type(`${username}`);
-
-    //     cy.findByText('Create Account').click();
-
-    //     // * Make sure account was created successfully and we are on the team joining page
-    //     cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-    //     const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
-
-    //     cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-    //         // * Verify the subject
-    //         expect(response.data.subject).to.include('[Mattermost] You joined');
-    //     });
+    //     // * Make sure input section for username contains username and not email
+    //     cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Username').and('not.contain', 'Email');
     // });
 
-    // it('MM-T1765 - Authentication - Email - Creation with email = false', () => {
-    //     // # Enable open server and turn on user account creation and set restricted domain
+    // it('MM-T1768 - Email signin true Username signin true', () => {
     //     cy.apiUpdateConfig({
     //         EmailSettings: {
-    //             EnableSignUpWithEmail: false,
+    //             EnableSignInWithEmail: true,
+    //             EnableSignInWithUsername: true,
     //         },
-    //         TeamSettings: {
-    //             EnableUserCreation: true,
-    //             EnableOpenServer: true,
-    //         },
-    //         GitLabSettings: {
-    //             DiscoveryEndpoint: '',
-    //             Enable: true,
-    //             TokenEndpoint: '',
-    //             UserApiEndpoint: '',
+    //         LdapSettings: {
+    //             Enable: false
     //         },
     //     });
 
     //     cy.apiLogout();
 
-    //     cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
+    //     // # Go to front page
+    //     cy.visit('/login');
 
-    //     cy.findByText('GitLab Single Sign-On', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-    //     // * Email and Password option does not exist
-    //     cy.findByText('Email and Password').should('not.exist').and('not.be.visible');
+    //     // * Make sure input section for username contains username and not email
+    //     cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Username').and('contain', 'Email');
     // });
 
-    // it('MM-T1766 - Authentication - Email - Creation with email = true', () => {
-    //     // # Enable open server and turn on user account creation and set restricted domain
+    // it('MM-T1769 - Email signin true Username signin false', () => {
     //     cy.apiUpdateConfig({
     //         EmailSettings: {
-    //             EnableSignUpWithEmail: true,
+    //             EnableSignInWithEmail: true,
+    //             EnableSignInWithUsername: false,
     //         },
-    //         TeamSettings: {
-    //             EnableUserCreation: true,
-    //             EnableOpenServer: true,
+    //         LdapSettings: {
+    //             Enable: false
     //         },
     //     });
 
     //     cy.apiLogout();
 
-    //     cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
+    //     // # Go to front page
+    //     cy.visit('/login');
 
-    //     // * Email and Password option exist
-    //     cy.findByText('Email and Password', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
+    //     // * Make sure input section for username contains username and not email
+    //     cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Email').and('not.contain', 'Username');
     // });
+
+    // it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
+    //     cy.visit('/admin_console/authentication/password');
+
+    //     cy.findByPlaceholderText('E.g.: "5"').clear().type('88');
+
+    //     cy.findByText('Save').click();
+
+    //     // * Ensure error appears when saving a password outside of the limits
+    //     cy.findByText('Minimum password length must be a whole number greater than or equal to 5 and less than or equal to 64.', {timeout: TIMEOUTS.ONE_MIN})
+    //     .should('exist')
+    //     .and('be.visible');
+
+    //     cy.findByPlaceholderText('E.g.: "5"').clear().type('3');
+
+    //     cy.findByText('Save').click();
+
+    //     // * Ensure error appears when saving a password outside of the limits
+    //     cy.findByText('Minimum password length must be a whole number greater than or equal to 5 and less than or equal to 64.', {timeout: TIMEOUTS.ONE_MIN})
+    //     .should('exist')
+    //     .and('be.visible');
+    // });
+
+
+    it('MM-T1773 - Minimum password length field resets to default after saving invalid value', () => {
+        cy.visit('/admin_console/authentication/password');
+
+        cy.findByPlaceholderText('E.g.: "5"').clear().type('10');
+
+        cy.findByRole('button', {name: 'Save'}).click();
+
+        cy.reload();
+
+        // * Ensure the limit 10 appears
+        cy.findByPlaceholderText('E.g.: "5"').invoke('val').should('equal', '10');
+        cy.findByPlaceholderText('E.g.: "5"').clear();
+
+        cy.findByRole('button', {name: 'Save'}).click();
+
+        // * Ensure the limit 10 appears
+        cy.findByPlaceholderText('E.g.: "5"').invoke('val').should('equal', '5');
+    });
+
 });
