@@ -66,6 +66,7 @@ function mapStateToProps(state) {
         enableOpenServer,
         enableSaml,
         enableSignInWithEmail,
+        enableSignInWithMagicLink: config.EnableSignInWithMagicLink === 'true',
         enableSignInWithUsername,
         enableSignUpWithEmail,
         enableSignUpWithGitLab,

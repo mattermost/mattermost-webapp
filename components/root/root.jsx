@@ -45,6 +45,7 @@ const LazySelectTeam = React.lazy(() => import('components/select_team'));
 const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
+const LazyMagicLink = React.lazy(() => import('components/login/magic_link'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -70,6 +71,7 @@ const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
 const SelectTeam = makeAsyncComponent(LazySelectTeam);
 const Authorize = makeAsyncComponent(LazyAuthorize);
 const Mfa = makeAsyncComponent(LazyMfa);
+const MagicLink = makeAsyncComponent(LazyMagicLink);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -277,6 +279,10 @@ export default class Root extends React.PureComponent {
                     <Route
                         path={'/error'}
                         component={ErrorPage}
+                    />
+                    <Route
+                        path={'/login/magic_link'}
+                        component={MagicLink}
                     />
                     <HFTRoute
                         path={'/login'}

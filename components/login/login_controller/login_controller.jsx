@@ -48,6 +48,7 @@ class LoginController extends React.PureComponent {
         enableOpenServer: PropTypes.bool.isRequired,
         enableSaml: PropTypes.bool.isRequired,
         enableSignInWithEmail: PropTypes.bool.isRequired,
+        enableSignInWithMagicLink: PropTypes.bool.isRequired,
         enableSignInWithUsername: PropTypes.bool.isRequired,
         enableSignUpWithEmail: PropTypes.bool.isRequired,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
@@ -649,6 +650,23 @@ class LoginController extends React.PureComponent {
                         <FormattedMessage
                             id='login.forgot'
                             defaultMessage='I forgot my password.'
+                        />
+                    </Link>
+                </div>,
+            );
+        }
+
+        if (this.props.enableSignInWithMagicLink) {
+            loginControls.push(
+                <div
+                    id='login_magic_link'
+                    key='magicLink'
+                    className='form-group'
+                >
+                    <Link to={'/login/magic_link' + (this.state.loginId ? `?=login_id=${encodeURIComponent(this.state.loginId)}` : '')}>
+                        <FormattedMessage
+                            id='login.magicLink'
+                            defaultMessage="I don't feel like remembering my password."
                         />
                     </Link>
                 </div>,
