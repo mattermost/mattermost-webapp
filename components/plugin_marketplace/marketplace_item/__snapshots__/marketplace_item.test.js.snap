@@ -32,7 +32,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -114,7 +114,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -194,7 +194,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -276,7 +276,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -287,6 +287,86 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
         >
           test plugin
         </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with no plugin description 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        />
       </a>
       <UpdateDetails
         installedVersion=""
@@ -354,7 +434,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -442,7 +522,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with one label
         url="http://example.com/info"
       />
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -524,7 +604,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -618,7 +698,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with two label
         url="http://example.com/info2"
       />
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -700,7 +780,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -782,7 +862,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         </span>
       </a>
       <a
-        aria-label="test plugin"
+        aria-label="Plugin's website"
         className="style--none more-modal__row--link"
         href="http://example.com"
         rel="noopener noreferrer"
@@ -859,7 +939,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         </span>
       </span>
       <span
-        aria-label="test plugin"
+        aria-label="Plugin\\\\'s website"
         className="style--none"
       >
         <p

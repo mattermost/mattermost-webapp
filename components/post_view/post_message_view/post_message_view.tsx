@@ -44,7 +44,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
         pluginPostTypes: {},
     };
 
-    constructor(props : Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
