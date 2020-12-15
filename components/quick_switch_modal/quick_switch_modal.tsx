@@ -317,7 +317,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                         <i className='icon icon-magnify icon-16'/>
                         <SuggestionBox
                             id='quickSwitchInput'
-                            aria-label='quick switch input'
+                            aria-label={Utils.localizeMessage('quick_switch_modal.input', 'quick switch input')}
                             ref={this.setSwitchBoxRef}
                             className='form-control focused'
                             onChange={this.onChange}
