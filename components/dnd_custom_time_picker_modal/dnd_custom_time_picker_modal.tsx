@@ -108,7 +108,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         for (let i = 0; i < 24; i++) {
             for (let j = 0; j < 2; j++) {
                 const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
-                console.log('uparmar', t);
                 timeMenuItems.push(
                     <MenuItem
                         eventKey={t}
@@ -130,7 +129,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 status: UserStatuses.DND,
                 dnd_end_time: endTime.toISOString(),
             });
-            console.log('uparmar', endTime);
         };
 
         return (
