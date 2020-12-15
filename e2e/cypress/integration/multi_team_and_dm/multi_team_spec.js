@@ -27,18 +27,19 @@ describe('Send a DM', () => {
 
             cy.apiCreateUser().then(({user: otherUser}) => {
                 userB = otherUser;
-                return cy.apiAddUserToTeam(team.id, userB.id);
+                return cy.apiAddUserToTeam(teamA.id, userB.id);
             }).then(() => {
-                return cy.apiCreateUser().then(({user: otherUser}) => {
-                    userC = otherUser;
-                    cy.apiAddUserToTeam(team.id, userC.id);
-                });
+                return cy.apiCreateUser();
+            }).then(({user: otherUser}) => {
+                userC = otherUser;
+                return cy.apiAddUserToTeam(teamA.id, userC.id);
             }).then(() => {
-                return cy.apiCreateTeam('team', 'Team').then(({team: otherTeam}) => {
-                    teamB = otherTeam;
-                    cy.apiAddUserToTeam(otherTeam.id, userA.id);
-                    cy.apiAddUserToTeam(otherTeam.id, userB.id);
-                });
+                return cy.apiCreateTeam('team', 'Team');
+            }).then(({team: otherTeam}) => {
+                teamB = otherTeam;
+                return cy.apiAddUserToTeam(teamB.id, userA.id);
+            }).then(() => {
+                return cy.apiAddUserToTeam(teamB.id, userB.id);
             });
         });
     });
@@ -53,14 +54,13 @@ describe('Send a DM', () => {
 
     it('MM-T433 Switch teams', () => {
         // # Open several DM channels, including accounts that are not on Team B.
-        cy.apiCreateDirectChannel([userA.id, userB.id]).then(() => {
+        cy.apiCreateDirectChannel([userA.id, userB.id]).wait(TIMEOUTS.ONE_SEC).then(() => {
             cy.visit(`/${teamA.name}/channels/${userA.id}__${userB.id}`).wait(TIMEOUTS.FIVE_SEC);
             cy.postMessage(':)');
+            return cy.apiCreateDirectChannel([userA.id, userC.id]).wait(TIMEOUTS.ONE_SEC);
         }).then(() => {
-            cy.apiCreateDirectChannel([userA.id, userC.id]).then(() => {
-                cy.visit(`/${teamA.name}/channels/${userA.id}__${userC.id}`).wait(TIMEOUTS.FIVE_SEC);
-                cy.postMessage(':(');
-            });
+            cy.visit(`/${teamA.name}/channels/${userA.id}__${userC.id}`).wait(TIMEOUTS.FIVE_SEC);
+            cy.postMessage(':(');
         });
 
         // # Click Team B in the team sidebar.
@@ -95,7 +95,7 @@ describe('Send a DM', () => {
         cy.get('#directChannelList').findByText(`${userC.username}`).should('be.visible');
 
         // * Channel viewed on a team before switching should be the one that displays after switching back (Town Square does not briefly show).
-        cy.visit(`/${teamA.name}/messages/@${userB.username}`);
+        cy.url().should('include', `/${teamA.name}/messages/@${userC.username}`);
     });
 
     it('MM-T437 Multi-team mentions', () => {
