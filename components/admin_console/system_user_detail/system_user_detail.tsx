@@ -48,7 +48,7 @@ export type Props = {
         updateUserActive: (userId: string, active: boolean) => Promise<{error: ServerError}>;
         setNavigationBlocked: (blocked: boolean) => void;
         addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
-    }
+    };
 }
 
 export type State = {
