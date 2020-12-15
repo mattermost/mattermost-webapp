@@ -11,10 +11,11 @@ import DayPicker from 'react-day-picker';
 import '../category_modal.scss';
 import GenericModal from 'components/generic_modal';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
-import { Button } from 'react-bootstrap/lib/InputGroup';
 import { ActionFunc } from 'mattermost-redux/types/actions';
 import { UserStatus } from 'mattermost-redux/types/users';
 import { UserStatuses } from 'utils/constants';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 type Props = {
     onHide: () => void;
@@ -109,12 +110,12 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             for (let j = 0; j < 2; j++) {
                 const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
                 timeMenuItems.push(
-                    <MenuItem
-                        eventKey={t}
-                        onSelect={handleTimeSelect}
+                    <Menu.ItemAction
+                        text={t}
+                        onClick={handleTimeSelect}
                     >
                         {t}
-                    </MenuItem>,
+                    </Menu.ItemAction>,
                 );
             }
         }
@@ -158,14 +159,22 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                     </DropdownButton>
                 }
                 {
-                    <DropdownButton
-                        bsStyle='default'
-                        title='Time Picker'
+                    <MenuWrapper
                         id='dropdown-no-caret'
-                        noCaret={true}
+                        className={'DNDTimePickerModal__footer'}
                     >
-                        {timeMenuItems}
-                    </DropdownButton>
+                        <button className='style--none'>
+                            <span>{'Select Hours:'}</span>
+                            <strong className='ml-1 mr-1'>{'1 hour'}</strong>
+                            <i className='icon icon-chevron-down icon--xs icon-14' />
+                        </button>
+                        <Menu
+                            openLeft={false}
+                            ariaLabel={'Clear custom status after'}
+                        >
+                            {timeMenuItems}
+                        </Menu>
+                    </MenuWrapper>
                 }
                 {
                     <button
