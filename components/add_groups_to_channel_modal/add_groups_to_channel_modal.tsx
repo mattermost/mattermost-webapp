@@ -23,7 +23,7 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
 
-export type GroupValue = (Group & Value);
+type GroupValue = (Group & Value);
 
 export type Props = {
     currentChannelName: string;
@@ -61,7 +61,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
     private searchTimeoutId: number;
     private selectedItemRef: React.RefObject<HTMLDivElement>;
 
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
@@ -163,7 +163,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
 
     addValue = (value: GroupValue) => {
         const values = Object.assign([], this.state.values);
-        const userIds = values.map((v:Group) => v.id);
+        const userIds = values.map((v: Group) => v.id);
         if (value && value.id && userIds.indexOf(value.id) === -1) {
             values.push(value);
         }
@@ -262,11 +262,11 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
         }
         let groupsToShow = this.props.groups;
         if (this.props.excludeGroups) {
-            const hasGroup = (og: any) => this.props.excludeGroups!.find((g) => g.id === og.id);
+            const hasGroup = (og: Group) => this.props.excludeGroups!.find((g) => g.id === og.id);
             groupsToShow = groupsToShow.filter(hasGroup);
         }
         if (this.props.includeGroups) {
-            const hasGroup = (og: any) => this.props.includeGroups!.find((g) => g.id === og.id);
+            const hasGroup = (og: Group) => this.props.includeGroups!.find((g) => g.id === og.id);
             groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
         const groupsToShowValues = groupsToShow.map((group) => {
