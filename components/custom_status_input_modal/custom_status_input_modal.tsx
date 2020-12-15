@@ -81,7 +81,7 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
         });
         let recents;
         if ('recent_custom_statuses' in nProps) {
-            recents = JSON.parse(nProps.recent_custom_statsues);
+            recents = JSON.parse(nProps.recent_custom_statuses);
             if (recents.length === 5) {
                 recents.pop();
             }
@@ -91,7 +91,6 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
                 nProps.custom_status,
             ]);
         }
-
         const user = Object.assign({}, this.props.currentUser, { props: nProps });
         this.props.actions.updateMe(user);
     }
