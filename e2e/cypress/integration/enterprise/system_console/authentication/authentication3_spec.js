@@ -46,64 +46,39 @@ describe('Authentication Part 3', () => {
         });
     });
 
-    it('MM-T1767 - Email signin false Username signin true', () => {
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: false,
-                EnableSignInWithUsername: true,
-            },
-            LdapSettings: {
-                Enable: false,
-            },
+    it('MM-T1767/MM-T1768/MM-T1769 - Email signin false Username signin true/Email signin true Username signin true/Email signin true Username signin false', () => {
+        // First value in the 2D array is for Email and the second value is for the Username
+        [[false, true], [true, true], [true, false]].forEach((option) => {
+            cy.apiUpdateConfig({
+                EmailSettings: {
+                    EnableSignInWithEmail: option[0],
+                    EnableSignInWithUsername: option[1],
+                },
+                LdapSettings: {
+                    Enable: false,
+                },
+            });
+
+            cy.apiLogout();
+
+            // # Go to front page
+            cy.visit('/login');
+
+            let expectedPlaceholderText;
+            if (option[0] && option[1]) {
+                expectedPlaceholderText = 'Email or Username';
+            } else if (option[0]) {
+                expectedPlaceholderText = 'Email';
+            } else {
+                expectedPlaceholderText = 'Username';
+            }
+
+            // * Make sure the username field has expected placeholder text
+            cy.findByPlaceholderText(expectedPlaceholderText).should('exist').and('be.visible');
+
+            // # Log in as a admin.
+            cy.apiAdminLogin({failOnStatusCode: false});
         });
-
-        cy.apiLogout();
-
-        // # Go to front page
-        cy.visit('/login');
-
-        // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId').invoke('attr', 'placeholder').should('contain', 'Username').and('not.contain', 'Email');
-    });
-
-    it('MM-T1768 - Email signin true Username signin true', () => {
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: true,
-                EnableSignInWithUsername: true,
-            },
-            LdapSettings: {
-                Enable: false,
-            },
-        });
-
-        cy.apiLogout();
-
-        // # Go to front page
-        cy.visit('/login');
-
-        // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId', {timeout: TIMEOUTS.ONE_MIN}).invoke('attr', 'placeholder').should('contain', 'Username').and('contain', 'Email');
-    });
-
-    it('MM-T1769 - Email signin true Username signin false', () => {
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: true,
-                EnableSignInWithUsername: false,
-            },
-            LdapSettings: {
-                Enable: false,
-            },
-        });
-
-        cy.apiLogout();
-
-        // # Go to front page
-        cy.visit('/login');
-
-        // * Make sure input section for username contains username and not email
-        cy.findByTestId('loginId', {timeout: TIMEOUTS.ONE_MIN}).invoke('attr', 'placeholder').should('contain', 'Email').and('not.contain', 'Username');
     });
 
     it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
