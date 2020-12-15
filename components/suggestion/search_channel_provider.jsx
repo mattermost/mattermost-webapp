@@ -34,7 +34,7 @@ export default class SearchChannelProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultsCallback) {
-        const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
+        const captured = (/\b(?:in|channel):([\s\S]*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             let channelPrefix = captured[1];
             const isAtSearch = channelPrefix.startsWith('@');
