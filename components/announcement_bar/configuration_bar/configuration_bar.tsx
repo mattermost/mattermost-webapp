@@ -7,6 +7,8 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
 
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 
@@ -21,27 +23,26 @@ import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 
 import UserProfile from 'components/user_profile/user_profile';
-import { Dictionary } from 'mattermost-redux/types/utilities';
 
 type Props = {
-    config?: Partial<ClientConfig>,
-    intl: IntlShape,
-    license?: any,
-    user?: UserProfile,
-    canViewSystemErrors: boolean,
-    totalUsers?: number,
-    dismissedExpiringLicense?: boolean,
-    dismissedNumberOfActiveUsersWarnMetricStatus?: boolean,
-    dismissedNumberOfActiveUsersWarnMetricStatusAck?: boolean,
-    dismissedNumberOfPostsWarnMetricStatus?: boolean,
-    dismissedNumberOfPostsWarnMetricStatusAck?: boolean,
-    siteURL: string,
+    config?: Partial<ClientConfig>;
+    intl: IntlShape;
+    license?: any;
+    user?: UserProfile;
+    canViewSystemErrors: boolean;
+    totalUsers?: number;
+    dismissedExpiringLicense?: boolean;
+    dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
+    dismissedNumberOfActiveUsersWarnMetricStatusAck?: boolean;
+    dismissedNumberOfPostsWarnMetricStatus?: boolean;
+    dismissedNumberOfPostsWarnMetricStatusAck?: boolean;
+    siteURL: string;
     warnMetricsStatus?: {
-        [key: string]: Dictionary<WarnMetricStatus>,
-    },
+        [key: string]: Dictionary<WarnMetricStatus>;
+    };
     actions: {
-        dismissNotice: (notice: string) => void,
-    },
+        dismissNotice: (notice: string) => void;
+    };
 };
 
 const RENEWAL_LINK = 'https://mattermost.com/renew/';
@@ -77,7 +78,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent<Props> {
         let message: JSX.Element | string = '';
         let type = '';
         let showModal = false;
-        let dismissFunc = undefined;
+        let dismissFunc;
         let isDismissed = null;
         let canCloseBar = false;
 

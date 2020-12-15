@@ -10,16 +10,16 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 
 type Action = {
-    favoriteChannel: (channelId: string) => void,
-    unfavoriteChannel: (channelId: string) => void,
-}
+    favoriteChannel: (channelId: string) => void;
+    unfavoriteChannel: (channelId: string) => void;
+};
 
 type Props = {
-    show: boolean,
-    channel: Channel,
-    isFavorite: boolean,
-    actions: Action
-}
+    show: boolean;
+    channel: Channel;
+    isFavorite: boolean;
+    actions: Action;
+};
 
 export default class ToggleFavoriteChannel extends React.PureComponent<Props> {
     static defaultProps = {
