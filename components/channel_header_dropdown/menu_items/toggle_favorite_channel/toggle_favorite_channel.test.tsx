@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -12,6 +13,21 @@ describe('components/ChannelHeaderDropdown/MenuItem.ToggleFavoriteChannel', () =
     const baseProps = {
         channel: {
             id: 'channel_id',
+            display_name: 'channel_display_name',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: '',
+            type: 'O' as ChannelType,
+            name: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         },
         actions: {
             favoriteChannel: jest.fn(),

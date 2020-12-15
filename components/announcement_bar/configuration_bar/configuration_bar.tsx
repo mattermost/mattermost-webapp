@@ -2,13 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
+import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
+
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 
 import {t} from 'utils/i18n';
 
@@ -20,61 +22,65 @@ import TextDismissableBar from '../text_dismissable_bar';
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 
+import UserProfile from 'components/user_profile/user_profile';
+
+type Props = {
+    config?: Partial<ClientConfig>;
+    intl: IntlShape;
+    license?: any;
+    user?: UserProfile;
+    canViewSystemErrors: boolean;
+    totalUsers?: number;
+    dismissedExpiringLicense?: boolean;
+    dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
+    dismissedNumberOfActiveUsersWarnMetricStatusAck?: boolean;
+    dismissedNumberOfPostsWarnMetricStatus?: boolean;
+    dismissedNumberOfPostsWarnMetricStatusAck?: boolean;
+    siteURL: string;
+    warnMetricsStatus?: {
+        [key: string]: Dictionary<WarnMetricStatus>;
+    };
+    actions: {
+        dismissNotice: (notice: string) => void;
+    };
+};
+
 const RENEWAL_LINK = 'https://mattermost.com/renew/';
 
-class ConfigurationAnnouncementBar extends React.PureComponent {
-    static propTypes = {
-        config: PropTypes.object,
-        intl: intlShape.isRequired,
-        license: PropTypes.object,
-        user: PropTypes.object,
-        canViewSystemErrors: PropTypes.bool.isRequired,
-        totalUsers: PropTypes.number,
-        dismissedExpiringLicense: PropTypes.bool,
-        dismissedNumberOfActiveUsersWarnMetricStatus: PropTypes.bool,
-        dismissedNumberOfActiveUsersWarnMetricStatusAck: PropTypes.bool,
-        dismissedNumberOfPostsWarnMetricStatus: PropTypes.bool,
-        dismissedNumberOfPostsWarnMetricStatusAck: PropTypes.bool,
-        siteURL: PropTypes.string.isRequired,
-        warnMetricsStatus: PropTypes.object,
-        actions: PropTypes.shape({
-            dismissNotice: PropTypes.func.isRequired,
-        }).isRequired,
-    };
-
-    dismissExpiringLicense = () => {
+class ConfigurationAnnouncementBar extends React.PureComponent<Props> {
+    public dismissExpiringLicense = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
     }
 
-    dismissNumberOfActiveUsersWarnMetric = () => {
+    public dismissNumberOfActiveUsersWarnMetric = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS);
     }
 
-    dismissNumberOfPostsWarnMetric = () => {
+    public dismissNumberOfPostsWarnMetric = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS);
     }
 
-    dismissNumberOfActiveUsersWarnMetricAck = () => {
+    public dismissNumberOfActiveUsersWarnMetricAck = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK);
     }
 
-    dismissNumberOfPostsWarnMetricAck = () => {
+    public dismissNumberOfPostsWarnMetricAck = () => {
         this.props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK);
     }
 
-    getNoticeForWarnMetric = (warnMetricStatus) => {
+    public getNoticeForWarnMetric = (warnMetricStatus: any) => {
         if (!warnMetricStatus ||
             (warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500 &&
             warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_POSTS_2M)) {
             return null;
         }
 
-        var message = '';
-        var type = '';
-        var showModal = false;
-        var dismissFunc = null;
-        var isDismissed = null;
-        var canCloseBar = false;
+        let message: JSX.Element | string = '';
+        let type = '';
+        let showModal = false;
+        let dismissFunc;
+        let isDismissed = null;
+        let canCloseBar = false;
 
         if (warnMetricStatus.acked) {
             message = (
@@ -153,10 +159,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
         };
     }
 
-    render() {
+    public render() {
         // System administrators
         if (this.props.canViewSystemErrors) {
-            const renewalLink = `${RENEWAL_LINK}?id=${this.props.license.Id}&user_count=${this.props.totalUsers}`;
+            const renewalLink = `${RENEWAL_LINK}?id=${this.props.license?.Id}&user_count=${this.props.totalUsers}`;
             if (isLicensePastGracePeriod(this.props.license)) {
                 return (
                     <AnnouncementBar
@@ -202,7 +208,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                                 id={AnnouncementBarMessages.LICENSE_EXPIRING}
                                 defaultMessage='Enterprise license expires on {date, date, long}. [Please renew](!{link}).'
                                 values={{
-                                    date: new Date(parseInt(this.props.license.ExpiresAt, 10)),
+                                    date: new Date(parseInt(this.props.license?.ExpiresAt, 10)),
                                     link: renewalLink,
                                 }}
                             />
@@ -213,7 +219,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             if (this.props.license?.IsLicensed === 'false' &&
                 this.props.warnMetricsStatus) {
                 for (const status of Object.values(this.props.warnMetricsStatus)) {
-                    var notice = this.getNoticeForWarnMetric(status);
+                    const notice = this.getNoticeForWarnMetric(status);
                     if (!notice || notice.IsDismissed) {
                         continue;
                     }
@@ -251,8 +257,8 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
 
         const {formatMessage} = this.props.intl;
 
-        if (this.props.config.SendEmailNotifications !== 'true' &&
-            this.props.config.EnablePreviewModeBanner === 'true'
+        if (this.props.config?.SendEmailNotifications !== 'true' &&
+            this.props.config?.EnablePreviewModeBanner === 'true'
         ) {
             const emailMessage = formatMessage({
                 id: AnnouncementBarMessages.PREVIEW_MODE,
@@ -268,10 +274,10 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
             );
         }
 
-        if (this.props.canViewSystemErrors && this.props.config.SiteURL === '') {
+        if (this.props.canViewSystemErrors && this.props.config?.SiteURL === '') {
             let id;
             let defaultMessage;
-            if (this.props.config.EnableSignUpWithGitLab === 'true') {
+            if (this.props.config?.EnableSignUpWithGitLab === 'true') {
                 id = t('announcement_bar.error.site_url_gitlab.full');
                 defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb.';
             } else {

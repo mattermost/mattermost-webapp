@@ -106,7 +106,10 @@ export function multiSelectedChannelIds(state: string[] = [], action: GenericAct
         return removeItem(state, action.data);
     case ActionTypes.MULTISELECT_CHANNEL_TO:
         return action.data;
+
     case ActionTypes.MULTISELECT_CHANNEL_CLEAR:
+        return state.length > 0 ? [] : state;
+
     case UserTypes.LOGOUT_SUCCESS:
         return [];
     default:
