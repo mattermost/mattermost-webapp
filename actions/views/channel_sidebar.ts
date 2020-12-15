@@ -51,7 +51,17 @@ export function stopDragging() {
 }
 
 export function createCategory(teamId: string, displayName: string, channelIds?: string[]) {
-    return async (dispatch: DispatchFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        if (channelIds) {
+            const state = getState() as GlobalState;
+            const multiSelectedChannelIds = state.views.channelSidebar.multiSelectedChannelIds;
+            channelIds.forEach((channelId) => {
+                if (multiSelectedChannelIds.indexOf(channelId) >= 0) {
+                    dispatch(multiSelectChannelAdd(channelId));
+                }
+            });
+        }
+
         const result: any = await dispatch(createCategoryRedux(teamId, displayName, channelIds));
         return dispatch({
             type: ActionTypes.ADD_NEW_CATEGORY_ID,
