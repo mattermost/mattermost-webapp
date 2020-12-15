@@ -139,7 +139,7 @@ describe('Account Settings > Sidebar > General', () => {
             // * Verify that the username span contains the '@' symbol and the dark colour
             cy.get('.more-modal__details > .more-modal__name').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
 
-            // Close modal
+            // # Close modal
             cy.get('body').type('{esc}');
 
             // # Click More... in the sidebar
