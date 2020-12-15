@@ -5,7 +5,7 @@ import React from 'react';
 
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
@@ -21,6 +21,7 @@ import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 
 import UserProfile from 'components/user_profile/user_profile';
+import { Dictionary } from 'mattermost-redux/types/utilities';
 
 type Props = {
     config?: Partial<ClientConfig>,
@@ -35,7 +36,9 @@ type Props = {
     dismissedNumberOfPostsWarnMetricStatus?: boolean,
     dismissedNumberOfPostsWarnMetricStatusAck?: boolean,
     siteURL: string,
-    warnMetricsStatus?: any,
+    warnMetricsStatus?: {
+        [key: string]: Dictionary<WarnMetricStatus>,
+    },
     actions: {
         dismissNotice: (notice: string) => void,
     },
@@ -74,7 +77,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent<Props> {
         let message: JSX.Element | string = '';
         let type = '';
         let showModal = false;
-        let dismissFunc = null;
+        let dismissFunc = undefined;
         let isDismissed = null;
         let canCloseBar = false;
 
