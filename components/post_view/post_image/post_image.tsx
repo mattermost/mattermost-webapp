@@ -10,9 +10,10 @@ import ViewImageModal from 'components/view_image';
 
 type Props = {
     imageMetadata: {
+        format?: string,
+        frameCount?: number,
         height: number,
         width: number
-        format?: string
     },
     link: string,
     post: Post,
