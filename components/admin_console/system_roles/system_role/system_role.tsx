@@ -35,7 +35,7 @@ type Props = {
         editRole(role: Role): Promise<ActionResult>;
         updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
         setNavigationBlocked: (blocked: boolean) => void;
-    }
+    };
 }
 
 type State = {

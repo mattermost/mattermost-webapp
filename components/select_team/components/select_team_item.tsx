@@ -14,11 +14,11 @@ import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    team: Team,
-    onTeamClick: (team: Team) => void,
-    loading: boolean,
-    canJoinPublicTeams: boolean,
-    canJoinPrivateTeams: boolean,
+    team: Team;
+    onTeamClick: (team: Team) => void;
+    loading: boolean;
+    canJoinPublicTeams: boolean;
+    canJoinPrivateTeams: boolean;
 };
 
 export default class SelectTeamItem extends React.PureComponent<Props> {
