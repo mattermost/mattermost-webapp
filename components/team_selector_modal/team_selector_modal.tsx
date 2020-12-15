@@ -153,7 +153,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         this.setState({values});
     }
 
-    search = (term: string, multiselectComponent: { state: { page: number; }; setState: (arg0: { page: number; }) => void; }) => {
+    search = (term: string, multiselectComponent: { state: { page: number }; setState: (arg0: { page: number }) => void }) => {
         if (multiselectComponent.state.page !== 0) {
             multiselectComponent.setState({page: 0});
         }
@@ -196,7 +196,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         );
     }
 
-    renderValue(props: { data: TeamValue; }) {
+    renderValue(props: { data: TeamValue }) {
         return props.data.display_name;
     }
 
