@@ -20,9 +20,11 @@ exports[`components/sidebar should match snapshot 1`] = `
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        handleOpenDirectMessagesModal={[Function]}
         showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
+        unreadFilterEnabled={false}
       />
     </div>
   </div>
@@ -56,9 +58,11 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        handleOpenDirectMessagesModal={[Function]}
         showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
+        unreadFilterEnabled={false}
       />
     </div>
   </div>
@@ -96,9 +100,11 @@ exports[`components/sidebar should match snapshot when more channels modal is op
       <injectIntl(AddChannelDropdown)
         canCreateChannel={true}
         canJoinPublicChannel={true}
+        handleOpenDirectMessagesModal={[Function]}
         showCreateCategoryModal={[Function]}
         showMoreChannelsModal={[Function]}
         showNewChannelModal={[Function]}
+        unreadFilterEnabled={false}
       />
     </div>
   </div>

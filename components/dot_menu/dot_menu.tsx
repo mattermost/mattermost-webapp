@@ -33,19 +33,19 @@ type Props = {
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
     handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
-    isMenuOpen?: boolean,
-    isReadOnly: boolean | null,
+    isMenuOpen?: boolean;
+    isReadOnly: boolean | null;
     pluginMenuItems?: any[];
-    isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
-    postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
+    isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    channelIsArchived?: boolean, // TechDebt: Made non-mandatory while converting to typescript
-    currentTeamUrl?: string, // TechDebt: Made non-mandatory while converting to typescript
+    channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
 
     /**
      * Components for overriding provided by plugins
      */
-    components?: any, // TechDebt: Made non-mandatory while converting to typescript
+    components?: any; // TechDebt: Made non-mandatory while converting to typescript
 
     actions?: {
 
