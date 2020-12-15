@@ -42,6 +42,12 @@
     "system_read_only_admin": "read"
   },
   {
+    "section": "user_management.system_roles",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
     "section": "environment",
     "system_manager": "read+write",
     "system_user_manager": "none",

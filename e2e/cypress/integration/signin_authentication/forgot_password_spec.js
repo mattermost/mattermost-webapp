@@ -10,7 +10,12 @@
 // Stage: @prod
 // Group: @signin_authentication
 
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import {
+    Constants,
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
 describe('Signin/Authentication', () => {
     let testUser;
@@ -40,7 +45,7 @@ describe('Signin/Authentication', () => {
     });
 });
 
-function verifyForgotPasswordEmail(response, toUser, config, messageSeparator) {
+function verifyForgotPasswordEmail(response, toUser, config) {
     const isoDate = new Date().toISOString().substring(0, 10);
     const {data, status} = response;
 
@@ -52,7 +57,7 @@ function verifyForgotPasswordEmail(response, toUser, config, messageSeparator) {
     expect(data.to[0]).to.contain(toUser.email);
 
     // * Verify that email is from default feedback email
-    expect(data.from).to.contain(config.EmailSettings.FeedbackEmail);
+    expect(data.from).to.contain(config.EmailSettings.FeedbackEmail || Constants.FixedCloudConfig.EmailSettings.FEEDBACK_EMAIL);
 
     // * Verify that date is current
     expect(data.date).to.contain(isoDate);
@@ -61,7 +66,7 @@ function verifyForgotPasswordEmail(response, toUser, config, messageSeparator) {
     expect(data.subject).to.equal(`[${config.TeamSettings.SiteName}] Reset your password`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split(messageSeparator);
+    const bodyText = splitEmailBodyText(data.body.text);
     expect(bodyText.length).to.equal(14);
     expect(bodyText[1]).to.equal('You requested a password reset');
     expect(bodyText[4]).to.equal('To change your password, click "Reset Password" below.');
@@ -107,12 +112,10 @@ function resetPasswordAndLogin(user, team, config) {
     const mailUrl = getEmailUrl(baseUrl);
 
     cy.task('getRecentEmail', {username: user.username, mailUrl}).then((response) => {
-        const separator = getEmailMessageSeparator(baseUrl);
-
         // * Verify contents password reset email
-        verifyForgotPasswordEmail(response, user, config, separator);
+        verifyForgotPasswordEmail(response, user, config);
 
-        const bodyText = response.data.body.text.split(separator);
+        const bodyText = splitEmailBodyText(response.data.body.text);
         const passwordResetLink = bodyText[7].match(reUrl)[0];
         const token = passwordResetLink.split('token=')[1];
 

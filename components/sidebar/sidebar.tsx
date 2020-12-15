@@ -28,7 +28,6 @@ type Props = {
     canCreatePrivateChannel: boolean;
     canJoinPublicChannel: boolean;
     isOpen: boolean;
-    isDataPrefechEnabled: boolean;
     hasSeenModal: boolean;
     actions: {
         fetchMyCategories: (teamId: string) => {data: boolean};
@@ -39,6 +38,7 @@ type Props = {
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
+    unreadFilterEnabled: boolean;
 };
 
 type State = {
@@ -196,6 +196,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                             showCreateCategoryModal={this.showCreateCategoryModal}
                             canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                             canJoinPublicChannel={this.props.canJoinPublicChannel}
+                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                            unreadFilterEnabled={this.props.unreadFilterEnabled}
                         />
                     </div>
                 </div>
@@ -205,7 +207,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}
                 />
-                {this.props.isDataPrefechEnabled && <DataPrefetch/>}
+                <DataPrefetch/>
                 {this.props.isCloud && <SidebarNextSteps/>}
                 {this.renderModals()}
             </div>
