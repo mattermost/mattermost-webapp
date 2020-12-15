@@ -8,20 +8,25 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel @channel_settings
+import {
+    beMuted,
+    beUnmuted,
+} from '../../support/assertions';
 
 describe('Channel Settings', () => {
+    let testTeam;
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
-            cy.apiCreateChannel(team.id, 'channel', 'Private Channel', 'P').then(({channel}) => {
+            testTeam = team;
+            cy.apiCreateChannel(testTeam.id, 'channel', 'Private Channel', 'P').then(({channel}) => {
                 cy.apiAddUserToChannel(channel.id, user.id);
             });
 
             cy.apiLogin(user);
 
             // # Visit town-square channel
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -51,5 +56,60 @@ describe('Channel Settings', () => {
             // check for the close button
             cy.get('@channel').find('span.btn-close').should('exist');
         });
+    });
+
+    it('MM-T882 Channel URL validation works properly', () => {
+        // # Visit off-tipic
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Go to channel dropdown > Rename channel
+        cy.get('#channelHeaderDropdownIcon').click();
+        cy.findByText('Rename Channel').click();
+
+        // # Try to enter existing URL and save
+        cy.get('#channel_name').clear().type('town-square');
+        cy.get('#save-button').click();
+
+        // # Error is displayed and URL is unchanged
+        cy.get('.has-error').should('be.visible').and('contain', 'Unable to update the channel');
+        cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
+
+        // # Enter a new URL and save
+        cy.get('#channel_name').clear().type('another-town-square');
+        cy.get('#save-button').click();
+
+        // URL is updated and no errors are displayed
+        cy.url().should('include', `/${testTeam.name}/channels/another-town-square`);
+    });
+
+    it('MM-T887 Channel dropdown menu - Mute / Unmute', () => {
+        // # Visit off-topic
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Go to channel dropdown > Mute channel
+        cy.get('#channelHeaderDropdownIcon').click();
+        cy.findByText('Mute Channel').click();
+
+        // # Verify channel is muted
+        cy.get('#sidebarItem_off-topic').should(beMuted);
+
+        // # Verify mute bell icon is visible
+        cy.get('#toggleMute').should('be.visible');
+
+        // # Verify that off topic is last in the list of channels
+        cy.get('#publicChannelList').children().not('[data-testid="morePublicButton"]').last().should('contain', 'Off-Topic').get('a').should('have.class', 'muted');
+
+        // # Go to channel dropdown > Unmute channel
+        cy.get('#channelHeaderDropdownIcon').click();
+        cy.findByText('Unmute Channel').click();
+
+        // # Verify channel is unmuted
+        cy.get('#sidebarItem_off-topic').should(beUnmuted);
+
+        // # Verify mute bell icon is not visible
+        cy.get('#toggleMute').should('not.be.visible');
+
+        // # Verify that off topic is not last in the list of channels
+        cy.get('#publicChannelList').children().not('[data-testid="morePublicButton"]').last().should('not.contain', 'Off-Topic');
     });
 });

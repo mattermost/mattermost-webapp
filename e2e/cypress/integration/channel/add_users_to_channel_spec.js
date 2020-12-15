@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel @channel_settings @smoke
 
 function verifyMentionedUserAndProfilePopover(postId) {
@@ -54,11 +53,16 @@ function addNumberOfUsersToChannel(num = 1) {
 
 describe('CS15445 Join/leave messages', () => {
     let testTeam;
+    let firstUser;
+    let addedUsersChannel;
+    let username;
+    const usernames = [];
 
     before(() => {
         // # Login as new user and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
+            firstUser = user;
 
             // # Add 4 users
             for (let i = 0; i < 4; i++) {
@@ -66,8 +70,11 @@ describe('CS15445 Join/leave messages', () => {
                     cy.apiAddUserToTeam(testTeam.id, newUser.id);
                 });
             }
+            cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+                addedUsersChannel = channel;
+            });
 
-            cy.apiLogin(user);
+            cy.apiLogin(firstUser);
         });
     });
 
@@ -106,5 +113,70 @@ describe('CS15445 Join/leave messages', () => {
                 });
             });
         });
+    });
+
+    it('MM-T856_1 Add existing users to public channel from drop-down > Add Members', () => {
+        // # Visit the add users channel
+        cy.visit(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
+
+        // # Click 'Add Members'
+        cy.get('#channelHeaderTitle').click();
+        cy.get('#channelAddMembers').click();
+
+        // # First add one user in order to see them disappearing from the list
+        cy.get('#multiSelectList > div').first().then((el) => {
+            const childNodes = Array.from(el[0].childNodes);
+            childNodes.map((child) => usernames.push(child.innerText));
+
+            // # Get username from text for comparison
+            username = usernames.toString().match(/@\w+/g)[0];
+            cy.get('#multiSelectList').should('contain', username);
+
+            // # Click to add the first user
+            cy.wrap(el).click();
+
+            // # Verify username does not exist in the users list
+            cy.get('#multiSelectList').should('not.contain', username);
+
+            // # Save and exit modal
+            cy.get('#saveItems').click();
+            cy.get('#addUsersToChannelModal').should('not.exist');
+        });
+
+        // # Verify that the last system post also contains the username
+        cy.getLastPostId().then((id) => {
+            cy.get(`#postMessageText_${id}`).should('contain', `${username} added to the channel by you.`);
+        });
+
+        // Add two more users
+        addNumberOfUsersToChannel(2);
+
+        // Verify that the system post reflects the number of added users
+        cy.getLastPostId().then((id) => {
+            cy.get(`#postMessageText_${id}`).should('contain', 'added to the channel by you');
+        });
+    });
+
+    it('MM-T856_2 Existing users cannot be added to public channel from drop-down > Add Members', () => {
+        cy.apiAdminLogin();
+
+        // # Visit the add users channel
+        cy.visit(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
+
+        // # Verify that the system message for adding users displays
+        cy.getLastPostId().then((id) => {
+            cy.get(`#postMessageText_${id}`).should('contain', `added to the channel by @${firstUser.username}`);
+        });
+
+        // Visit off topic where all users are added
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
+        // # Click 'Add Members'
+        cy.get('#channelHeaderTitle').click();
+        cy.get('#channelAddMembers').click();
+
+        // # Verify users list does not exist
+        cy.get('#multiSelectList').should('not.exist');
+        cy.get('body').type('{esc}');
     });
 });
