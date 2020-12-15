@@ -14,35 +14,35 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 
 export type Actions = {
-    updateChannelNotifyProps(userId: string, channelId: string, props: Partial<ChannelNotifyProps>): ActionFunc
-}
+    updateChannelNotifyProps(userId: string, channelId: string, props: Partial<ChannelNotifyProps>): ActionFunc;
+};
 
 type Props = {
 
     /**
      * Object with info about the current user
      */
-    user: UserProfile,
+    user: UserProfile;
 
     /**
      * Object with info about the current channel
      */
-    channel: Channel,
+    channel: Channel;
 
     /**
      * Boolean whether the current channel is muted
      */
-    isMuted: boolean,
+    isMuted: boolean;
 
     /**
      * Use for test selector
      */
-    id?: string,
+    id?: string;
 
     /**
      * Object with action creators
      */
-    actions: Actions,
+    actions: Actions;
 };
 
 export default class MenuItemToggleMuteChannel extends React.PureComponent<Props> {
