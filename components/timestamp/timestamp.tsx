@@ -74,7 +74,7 @@ type DisplayAs = {
 
 export type RangeDescriptor = Breakpoint & DisplayAs;
 
-function normalizeRangeDescriptor(unit: Unit | keyof typeof STANDARD_UNITS | RangeDescriptor) : RangeDescriptor {
+function normalizeRangeDescriptor(unit: Unit | keyof typeof STANDARD_UNITS | RangeDescriptor): RangeDescriptor {
     return typeof unit === 'string' || typeof unit === 'number' ? STANDARD_UNITS[unit] : unit;
 }
 
