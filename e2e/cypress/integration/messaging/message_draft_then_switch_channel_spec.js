@@ -32,7 +32,7 @@ describe('Message Draft and Switch Channels', () => {
         openChannelFromLhs(testTeam.name, testChannel);
 
         // # Type a message in the input box but do not send
-        cy.findByLabelText(`write to ${testChannel.toLowerCase()}`).should('be.visible').type(message);
+        cy.findByRole('textbox', `write to ${testChannel.toLowerCase()}`).should('be.visible').type(message);
 
         // # Switch to another channel and check if it opened correctly
         openChannelFromLhs(testTeam.name, 'Town Square', 'town-square');
@@ -47,7 +47,7 @@ describe('Message Draft and Switch Channels', () => {
         cy.findAllByRole('dialog').first().findByText('Switch Channels').should('be.visible');
 
         // # Type the first few letters of the channel name you typed the message draft in
-        cy.get('#quickSwitchInput').type(testChannel.substring(0, 3));
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(testChannel.substring(0, 3));
 
         // * Suggestion list is visible
         cy.get('#suggestionList').should('be.visible').within(() => {
@@ -59,7 +59,7 @@ describe('Message Draft and Switch Channels', () => {
         });
 
         // * Draft is saved in the text input box of the test channel
-        cy.findByLabelText(`write to ${testChannel.toLowerCase()}`).should('be.visible').and('have.text', message);
+        cy.findByRole('textbox', `write to ${testChannel.toLowerCase()}`).should('be.visible').and('have.text', message);
     });
 });
 
