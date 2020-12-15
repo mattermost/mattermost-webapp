@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
-
 import {getCurrentDateForTimezone} from 'utils/timezone';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getCurrentUserLocale} from 'selectors/i18n';
@@ -28,7 +27,7 @@ function mapStateToProps(state) {
             currentDate = getCurrentDateForTimezone(userTimezone.manualTimezone);
         }
     }
-    
+
     return {
         currentDate,
         currentLocale,
