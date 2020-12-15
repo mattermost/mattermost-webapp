@@ -10,12 +10,12 @@ type Props = {
     /*
         * The id of the post that was commented on
         */
-    parentPostId: string,
+    parentPostId: string;
 
     /*
      * An array of file metadata for the parent post
      */
-    fileInfos?: Array<FileInfo>
+    fileInfos?: Array<FileInfo>;
 }
 
 export default class CommentedOnFilesMessage extends React.PureComponent<Props> {
