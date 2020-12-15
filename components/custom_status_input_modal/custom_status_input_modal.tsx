@@ -79,6 +79,12 @@ export default class CustomStatusInputModal extends React.PureComponent<Props, S
             text: this.state.message,
             expire_time: this.state.expire_time,
         });
+        const recents = JSON.parse(nProps.recent_custom_statsues);
+        if (recents.length === 5) {
+            recents.pop();
+        }
+        recents.unshift(nProps.custom_status);
+
         const user = Object.assign({}, this.props.currentUser, { props: nProps });
         this.props.actions.updateMe(user);
     }
