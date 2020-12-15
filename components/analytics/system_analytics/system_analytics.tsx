@@ -45,9 +45,12 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         }
     }
 
-    private getStatValue(stat: number | AnalyticsRow[]):number {
+    private getStatValue(stat: number | AnalyticsRow[]):number | undefined {
         if (typeof stat === 'number') {
             return stat;
+        }
+        if (!stat) {
+            return undefined;
         }
         return stat[0].value;
     }
@@ -311,7 +314,18 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                 count={this.getStatValue(stats[StatTypes.TOTAL_TEAMS])}
             />
         );
-
+        const totalPublicChannelsCount = this.getStatValue(stats[StatTypes.TOTAL_PUBLIC_CHANNELS]);
+        const totalPrivateGroupsCount = this.getStatValue(stats[StatTypes.TOTAL_PRIVATE_GROUPS]);
+        const totalChannelCount = () => {
+            if (totalPublicChannelsCount && totalPrivateGroupsCount) {
+                return totalPublicChannelsCount + totalPrivateGroupsCount;
+            } else if (!totalPublicChannelsCount && totalPrivateGroupsCount) {
+                return totalPrivateGroupsCount;
+            } else if (totalPublicChannelsCount && !totalPrivateGroupsCount) {
+                return totalPublicChannelsCount;
+            }
+            return undefined;
+        };
         const channelCount = (
             <StatisticCount
                 id='totalChannels'
@@ -322,7 +336,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                     />
                 }
                 icon='fa-globe'
-                count={this.getStatValue(stats[StatTypes.TOTAL_PUBLIC_CHANNELS]) + this.getStatValue(stats[StatTypes.TOTAL_PRIVATE_GROUPS])}
+                count={totalChannelCount()}
             />
         );
 
