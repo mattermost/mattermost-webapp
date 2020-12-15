@@ -18,8 +18,10 @@ import { UserStatuses } from 'utils/constants';
 
 type Props = {
     onHide: () => void;
-    setStatus: (status: UserStatus) => ActionFunc;
     userId: string;
+    actions: {
+        setStatus: (status: UserStatus) => ActionFunc;
+    }
 };
 
 type State = {
@@ -123,7 +125,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             const minutes = parseInt(timeString.split(':')[1], 10);
             const endTime = new Date(dateString);
             endTime.setHours(hours, minutes);
-            this.props.setStatus({
+            this.props.actions.setStatus({
                 user_id: this.props.userId,
                 status: UserStatuses.DND,
                 dnd_end_time: endTime.toISOString(),
