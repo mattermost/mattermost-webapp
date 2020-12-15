@@ -26,17 +26,17 @@ type Props = {
     textColor: string;
     type: string;
     message: React.ReactNode;
-    handleClose?: (e?:any)=>void;
+    handleClose?: (e?: any) => void;
     announcementBarCount?: number;
-    showModal?: ()=> void;
+    showModal?: () => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
     warnMetricStatus?: Dictionary<WarnMetricStatus>;
     isTallBanner: boolean;
     actions: {
-        incrementAnnouncementBarCount: ()=>void;
-        decrementAnnouncementBarCount: ()=>void;
+        incrementAnnouncementBarCount: () => void;
+        decrementAnnouncementBarCount: () => void;
     };
 }
 

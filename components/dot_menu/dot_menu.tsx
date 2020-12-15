@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-
 import {Post} from 'mattermost-redux/types/posts';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
@@ -17,9 +16,7 @@ import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-
 import Pluggable from 'plugins/pluggable';
-
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
@@ -36,19 +33,19 @@ type Props = {
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
     handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
-    isMenuOpen?: boolean,
-    isReadOnly: boolean | null,
+    isMenuOpen?: boolean;
+    isReadOnly: boolean | null;
     pluginMenuItems?: any[];
-    isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
-    postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
+    isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    channelIsArchived?: boolean, // TechDebt: Made non-mandatory while converting to typescript
-    currentTeamUrl?: string, // TechDebt: Made non-mandatory while converting to typescript
+    channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
 
     /**
      * Components for overriding provided by plugins
      */
-    components?: any, // TechDebt: Made non-mandatory while converting to typescript
+    components?: any; // TechDebt: Made non-mandatory while converting to typescript
 
     actions?: {
 
@@ -119,7 +116,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             openUp: false,
             width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
-            canDelete: props.canDelete,
+            canDelete: props.canDelete && !props.isReadOnly,
         };
 
         this.buttonRef = React.createRef<HTMLButtonElement>();
@@ -130,7 +127,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         const {canEdit} = this.state;
 
         if (canEdit && isLicensed) {
-            if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
+            if (postEditTimeLimit !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
                 const timeLeft = (post.create_at + (Number(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
@@ -168,7 +165,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e: Event) => {
+    handleAddReactionMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -189,12 +186,12 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         }
     }
 
-    handleUnreadMenuItemActivated = (e: Event) => {
+    handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.actions?.markPostAsUnread(this.props.post);
     }
 
-    handleDeleteMenuItemActivated = (e: Event) => {
+    handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
 
         const deletePostModalData = {
@@ -277,7 +274,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                     return (
                         <Menu.ItemSubMenu
                             key={item.id + '_pluginmenuitem'}
-                            id={item.text.id}
+                            id={item.id}
                             postId={this.props.post.id}
                             text={item.text}
                             subMenu={item.subMenu}
