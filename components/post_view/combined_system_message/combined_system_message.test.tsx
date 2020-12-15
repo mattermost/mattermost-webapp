@@ -24,7 +24,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         {id: 'other_user_id', username: 'other_username'},
         {id: 'user_id_1', username: 'User1'},
         {id: 'user_id_2', username: 'User2'},
-    ] as unknown as Array<UserProfile>;
+    ] as unknown as UserProfile[];
 
     const baseProps = {
         currentUserId: 'current_user_id',
@@ -48,8 +48,8 @@ describe('components/post_view/CombinedSystemMessage', () => {
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         userProfiles,
         actions: {
-            getMissingProfilesByIds: emptyFunc as unknown as (userIds: Array<string>) => ActionFunc,
-            getMissingProfilesByUsernames: emptyFunc as unknown as (usernames: Array<string>) => ActionFunc,
+            getMissingProfilesByIds: emptyFunc as unknown as (userIds: string[]) => ActionFunc,
+            getMissingProfilesByUsernames: emptyFunc as unknown as (usernames: string[]) => ActionFunc,
         },
     };
 

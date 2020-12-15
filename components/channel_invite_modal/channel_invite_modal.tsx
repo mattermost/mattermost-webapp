@@ -82,7 +82,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
     }
 
     private addValue = (value: UserProfileValue): void => {
-        const values: Array<UserProfileValue> = Object.assign([], this.state.values);
+        const values: UserProfileValue[] = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
         }
