@@ -4,10 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/src/types/users';
+
 import {Constants, NotificationLevels} from 'utils/constants';
 
 import Menu from 'components/widgets/menu/menu';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.tsx';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 import MenuItemToggleMuteChannel from './toggle_mute_channel';
 
@@ -15,11 +18,11 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
     const baseProps = {
         user: {
             id: 'user_id',
-        },
+        } as UserProfile,
         channel: {
             id: 'channel_id',
-            type: Constants.OPEN_CHANNEL,
-        },
+            type: 'O',
+        } as Channel,
         isMuted: false,
         actions: {
             updateChannelNotifyProps: jest.fn(),
@@ -80,7 +83,7 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
             const channel = {
                 id: 'channel_id',
                 type: channelType,
-            };
+            } as Channel;
 
             const wrapper = shallow(
                 <MenuItemToggleMuteChannel
