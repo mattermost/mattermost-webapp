@@ -15,7 +15,7 @@ import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 type Props = {
     location: {

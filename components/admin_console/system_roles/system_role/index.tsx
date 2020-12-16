@@ -9,6 +9,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {updateUserRoles} from 'mattermost-redux/actions/users';
 import {editRole} from 'mattermost-redux/actions/roles';
 import {getRolesById} from 'mattermost-redux/selectors/entities/roles';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
@@ -26,12 +27,16 @@ type Props = {
 type Actions = {
     editRole(role: Role): Promise<ActionResult>;
     updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
-    setNavigationBlocked: (blocked: boolean) => void,
+    setNavigationBlocked: (blocked: boolean) => void;
 }
 
 function mapStateToProps(state: GlobalState, props: Props) {
     const role = getRolesById(state)[props.match.params.role_id];
+    const license = getLicense(state);
+    const isLicensedForCloud = license.Cloud === 'true';
+
     return {
+        isLicensedForCloud,
         role,
     };
 }

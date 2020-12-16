@@ -37,12 +37,12 @@ interface Props {
         /**
          * The function to call to update an outgoing webhook
          */
-        updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
+        updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook; error: ServerError }>;
 
         /**
          * The function to call to get an outgoing webhook
          */
-        getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
+        getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook; error: ServerError }>;
     };
 
     /**
@@ -119,7 +119,7 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props, Stat
     submitHook = async (): Promise<void> => {
         this.setState({serverError: ''});
 
-        const {data, error}: {data: OutgoingWebhook, error: ServerError} = await this.props.actions.updateOutgoingHook(this.newHook!);
+        const {data, error}: {data: OutgoingWebhook; error: ServerError} = await this.props.actions.updateOutgoingHook(this.newHook!);
 
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/outgoing_webhooks`);
