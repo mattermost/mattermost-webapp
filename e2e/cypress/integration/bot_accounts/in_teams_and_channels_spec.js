@@ -9,49 +9,93 @@
 
 // Group: @bot_accounts
 
-import {generateRandomBot} from '../../support/api/bots';
-import {createTeamPatch} from '../../support/api/team';
+import {createBotPatch} from '../../support/api/bots';
+import {createChannelPatch} from '../../support/api/channel';
+import {FIVE_SEC} from '../../fixtures/timeouts';
 
-describe('Managing bots in Teams', () => {
+describe('Managing bots in Teams and Channels', () => {
+    let team;
+
     before(() => {
-        // # Set ServiceSettings to expected values
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,
             },
+            TeamSettings: {
+                RestrictCreationToDomains: 'sample.mattermost.com',
+            },
         });
-
-        cy.apiInitSetup();
+        cy.apiInitSetup({loginAfter: true}).then((out) => {
+            team = out.team;
+        });
     });
-
-    it('MM-T1814 Add a BOT to a team', () => {
-        // # Create a bot and get bot user id
+    it('MM-T1815 Add a BOT to a team that has email restricted', () => {
         cy.makeClient().then(async (client) => {
-            const bot = await client.createBot(generateRandomBot());
-            const team = await client.createTeam(createTeamPatch());
-            const channel = await client.getChannelByName(team.id, 'town-square');
 
+            // # Go to channel
+            const channel = await client.getChannelByName(team.id, 'town-square');
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
-            // # Open invite screen
-            cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-            cy.get('#invitePeople > button').should('contain.text', 'Invite People').click();
-            cy.findByTestId('inviteMembersSection').should('contain.text', 'Invite Members').click();
+            // # Invite bot to team
+            const bot = await client.createBot(createBotPatch());
+            cy.uiInviteMemberToCurrentTeam(bot.username);
 
-            // # Enter bot username and submit
-            cy.findByTestId('inputPlaceholder').find('input').type(bot.username, {force: true}).as('input');
-            cy.get('.users-emails-input__option ').contains(`@${bot.username}`);
-            cy.get('@input').type('{enter}', {force: true});
-            cy.get('.invite-members button').click();
+            // * Verify system message in-channel
+            cy.uiWaitUntilMessagePostedIncludes(`@${bot.username} added to the team by you.`);
+        });
+    });
 
-            // * Verify bot added to team
-            cy.get('.invitation-modal-confirm-sent .InvitationModalConfirmStepRow').
-                should('contain.text', `@${bot.username} - ${bot.display_name}`).
-                and('contain.text', 'This member has been added to the team.');
+    it('MM-T1816 Add a BOT to a channel', () => {
+        cy.makeClient().then(async (client) => {
 
-            // * Verify system message
-            cy.get('.confirm-done').click();
-            cy.uiGetNthPost(-1).should('contain.text', `@${bot.username} added to the team by you.`);
+            // # Go to channel
+            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+
+            // # Add bot to team
+            const bot = await client.createBot(createBotPatch());
+            await client.addToTeam(team.id, bot.user_id);
+
+            // # Add bot to channel in team
+            cy.uiAddUsersToCurrentChannel([bot.username]);
+
+            // * Verify system message in-channel
+            cy.uiWaitUntilMessagePostedIncludes(`@${bot.username} added to the channel by you.`);
+        });
+    });
+
+    it('MM-T1817 Add a BOT to a channel that is not on the Team', () => {
+        cy.makeClient().then(async (client) => {
+            // # Go to channel
+            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+
+            // # Invite bot to team
+            const bot = await client.createBot(createBotPatch());
+            cy.uiPostMessageQuickly(`/invite @${bot.username}`);
+
+            // * Verify system message in-channel
+            cy.uiWaitUntilMessagePostedIncludes(`@${bot.username} is not a member of the team.`);
+        });
+    });
+
+    it('MM-T1818 No ephemeral post about Adding a bot to a channel When Bot is mentioned', () => {
+        cy.makeClient().then(async (client) => {
+
+            // # Go to channel
+            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+
+            // # And bot to team
+            const bot = await client.createBot(createBotPatch());
+            cy.apiAddUserToTeam(team.id, bot.user_id);
+
+            // # Mention bot
+            const message = `hey @${bot.username}, tell me a rhyme..`;
+            cy.uiPostMessageQuickly(message).wait(FIVE_SEC);
+
+            // * Verify ​​​​​​​​​no ephemeral post is shown asking if you want to invite the bot to the server
+            cy.uiGetNthPost(-1).should('contain.text', message);
         });
     });
 });

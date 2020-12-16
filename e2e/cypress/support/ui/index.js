@@ -8,3 +8,4 @@ import './post_dropdown_menu';
 import './search';
 import './system';
 import './channel';
+import './team';
