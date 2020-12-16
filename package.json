@@ -141,7 +141,7 @@
     "eslint-plugin-header": "3.0.0",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-jquery": "1.5.1",
-    "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#70e8863702daec58f6fa6f0ad737c32cb288af34",
+    "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#46ad99355644a719bf32082f472048f526605181",
     "eslint-plugin-no-only-tests": "2.4.0",
     "eslint-plugin-react": "7.20.6",
     "exports-loader": "1.1.0",
