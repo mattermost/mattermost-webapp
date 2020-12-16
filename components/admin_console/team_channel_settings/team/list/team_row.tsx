@@ -11,8 +11,8 @@ import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 type Props = {
-    team: Team,
-    onRowClick(id: string): void
+    team: Team;
+    onRowClick(id: string): void;
 }
 export default class TeamRow extends React.PureComponent<Props> {
     handleRowClick = () => {
