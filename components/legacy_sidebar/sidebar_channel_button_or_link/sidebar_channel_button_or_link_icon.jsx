@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import Svg from 'react-inlinesvg';
 
-import { Constants } from 'utils/constants';
+import {Constants} from 'utils/constants';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import DraftIcon from 'components/widgets/icons/draft_icon';
@@ -96,6 +96,8 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                         >
                             <Svg
                                 src={this.props.botIconUrl}
+                                onLoad={this.onSvgLoad}
+                                onError={this.onSvgLoadError}
                             />
                         </span>
                     );

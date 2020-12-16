@@ -168,7 +168,7 @@ function botIconImageUrl(botUser) {
 }
 
 /**
- * Gets the user image url for a given botUser.
+ * Gets the user image url for a given teammate.
  */
 function teamateIconImageUrl(teammate) {
     return `${Client4.getUsersRoute()}/${teammate.id}/image?_=${(teammate.last_picture_update || 0)}`;

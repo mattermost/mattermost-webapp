@@ -172,7 +172,7 @@ class LegacySidebar extends React.PureComponent {
             showMorePublicChannelsModal: false,
             morePublicChannelsModalType: 'public',
         };
-        
+
         this.animate = new SpringSystem();
         this.scrollAnimation = this.animate.createSpring();
         this.scrollAnimation.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
