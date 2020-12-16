@@ -19,22 +19,18 @@ export type UserProfileProps = {
     overwriteIcon?: React.ReactNode,
     user?:UserProfileType,
     userId: string,
-} & Partial<UserProfileDefaultProps>
-
-type UserProfileDefaultProps = {
-    disablePopover: boolean,
-    displayUsername: boolean,
-    hasMention: boolean,
-    hideStatus: boolean,
-    isRHS: boolean,
-    overwriteImage: React.ReactNode,
-    overwriteName: React.ReactNode,
+    disablePopover?: boolean,
+    displayUsername?: boolean,
+    hasMention?: boolean,
+    hideStatus?: boolean,
+    isRHS?: boolean,
+    overwriteImage?: React.ReactNode,
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
     private overlay?: BaseOverlayTrigger;
 
-    static defaultProps: UserProfileDefaultProps = {
+    static defaultProps: Partial<UserProfileProps> = {
         disablePopover: false,
         displayUsername: false,
         hasMention: false,
