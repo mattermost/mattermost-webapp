@@ -36,6 +36,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableSignUpWithEmail: true,
         enableSignUpWithGitLab: false,
         enableSignUpWithGoogle: true,
+        enableSignUpWithOpenId: false,
         enableLdap: false,
         enableSaml: true,
         enableSignUpWithOffice365: false,

@@ -6,6 +6,7 @@ import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} 
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
@@ -47,11 +48,11 @@ type Props = {
     currentUserId: string;
     currentTeamId: string;
     preview?: boolean;
-    profilesInChannel: { id: string }[];
-    autocompleteGroups: { id: string }[] | null;
+    profilesInChannel: Array<{ id: string }>;
+    autocompleteGroups: Array<{ id: string }> | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;

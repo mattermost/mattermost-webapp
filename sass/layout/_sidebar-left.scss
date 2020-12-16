@@ -108,6 +108,11 @@
                 color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             }
 
+            .team__name,
+            .user__name {
+                max-width: 140px;
+            }
+
             &:hover .user__name {
                 color: var(--sidebar-header-text-color);
             }
@@ -398,6 +403,18 @@
             div {
                 z-index: 2;
             }
+        }
+
+        .scrollbar--verticalTrack {
+            right: 2px;
+            bottom: 2px;
+            top: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        .scrollbar--vertical {
+            pointer-events: all;
         }
     }
 

@@ -7,7 +7,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
-import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -37,6 +37,14 @@ export function renderThumbHorizontal(props: any) {
         <div
             {...props}
             className='scrollbar--horizontal'
+        />);
+}
+
+export function renderTrackVertical(props: any) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--verticalTrack'
         />);
 }
 
@@ -349,11 +357,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         );
     }
 
-    onScroll = () => {
+    onScroll = throttle(() => {
         this.updateUnreadIndicators();
-    }
+    }, 100);
 
-    onTransitionEnd = debounce(() => {
+    onTransitionEnd = throttle(() => {
         this.updateUnreadIndicators();
     }, 100);
 
@@ -508,6 +516,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     autoHideDuration={500}
                     renderThumbHorizontal={renderThumbHorizontal}
                     renderThumbVertical={renderThumbVertical}
+                    renderTrackVertical={renderTrackVertical}
                     renderView={renderView}
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}

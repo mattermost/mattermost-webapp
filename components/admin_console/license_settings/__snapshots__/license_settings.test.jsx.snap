@@ -390,6 +390,7 @@ Your subscription details are as follows:
           >
             <button
               className="btn btn-danger"
+              data-testid="remove-button"
               id="remove-button"
               onClick={[Function]}
               type="button"
@@ -540,6 +541,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             <button
               className="btn btn-danger"
+              data-testid="remove-button"
               id="remove-button"
               onClick={[Function]}
               type="button"
