@@ -105,7 +105,7 @@ describe('components/marketplace/', () => {
     });
 
     describe('MarketplaceModal', () => {
-        const baseProps:MarketplaceModalProps = {
+        const baseProps: MarketplaceModalProps = {
             show: true,
             plugins: [samplePlugin],
             installedPlugins: [],
@@ -152,15 +152,9 @@ describe('components/marketplace/', () => {
             wrapper.setProps({...baseProps});
             expect(fetchPlugins).toBeCalledTimes(1);
 
-            const status: PluginStatusRedux = {
+            const status = {
                 id: 'test',
-                name: 'test',
-                description: 'some description',
-                version: '1.0.0',
-                active: true,
-                state: 2,
-                instances: [],
-            };
+            } as PluginStatusRedux;
             wrapper.setProps({...baseProps, pluginStatuses: {test: status}});
             expect(fetchPlugins).toBeCalledTimes(2);
         });
