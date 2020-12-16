@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
-import {Tabs, Tab} from 'react-bootstrap';
+import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
 
 import {MarketplacePlugin, PluginStatusRedux} from 'mattermost-redux/types/plugins';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -57,7 +57,7 @@ export const AllPlugins = ({plugins}: AllPluginsProps): JSX.Element => {
 
 type InstalledPluginsProps = {
     installedPlugins: MarketplacePlugin[];
-    changeTab: (key: any) => void;
+    changeTab: SelectCallback;
 };
 
 // InstalledPlugins renders the contents of the installed plugins tab.
@@ -153,7 +153,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
         this.props.actions.closeModal();
     }
 
-    changeTab = (tabKey: any): void => {
+    changeTab: SelectCallback = (tabKey: any): void => {
         this.setState({tabKey});
     }
 
