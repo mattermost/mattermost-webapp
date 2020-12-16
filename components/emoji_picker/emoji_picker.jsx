@@ -183,7 +183,7 @@ export default class EmojiPicker extends React.PureComponent {
                 if (
                     currentEmoji.aliases &&
                     Emoji.EmojiIndicesByAlias.has(currentEmoji.aliases[0] + '_dark_skin_tone')) {
-                    let my = Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(currentEmoji.aliases[0] + '_dark_skin_tone')];
+                    const my = Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(currentEmoji.aliases[0] + '_dark_skin_tone')];
                     currentEmoji = my;
                     categories[category].emojiIds[i] = getEmojiFilename(currentEmoji);
                 }
@@ -529,7 +529,6 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     showSkinTones() {
-        console.log('show skin tones');
         this.setState({
             showSkinTones: true,
         });
