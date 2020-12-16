@@ -7,12 +7,16 @@ import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/u
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import UserProfile, {UserProfileProps} from './user_profile';
+import UserProfile from './user_profile';
+
+type OwnProps = {
+    userId: string,
+}
 
 function makeMapStateToProps() {
     const getDisplayName = makeGetDisplayName();
 
-    return (state: GlobalState, ownProps: UserProfileProps) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         return {
             displayName: getDisplayName(state, ownProps.userId, true),
             user: getUser(state, ownProps.userId),
