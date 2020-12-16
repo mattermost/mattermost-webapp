@@ -27,6 +27,7 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
+        teammateIconUrl: PropTypes.string,
     };
 
     constructor(props) {

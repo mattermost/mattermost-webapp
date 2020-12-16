@@ -43,6 +43,11 @@ class SidebarChannel extends React.PureComponent {
         botIconUrl: PropTypes.string,
 
         /**
+         * User profile image url
+         */
+        teammateIconUrl: PropTypes.string,
+
+        /**
          * Channel is muted
          */
         channelMuted: PropTypes.bool,

@@ -82,8 +82,8 @@ function makeMapStateToProps() {
         let botLastIconUpdate = 0;
         let channelDisplayName = channel.display_name;
         let botIconUrl = null;
-        let teammateIconUrl = null
-        let teammateLastIconUpdate = null
+        let teammateIconUrl = null;
+        let teammateLastIconUpdate = null;
         if (channel.type === Constants.DM_CHANNEL) {
             teammate = getUser(state, channel.teammate_id);
             if (teammate) {
@@ -100,10 +100,10 @@ function makeMapStateToProps() {
                 if (botLastIconUpdate !== 0) {
                     botIconUrl = botIconImageUrl(teammate);
                 }
-            }else if (teammate) {
+            } else if (teammate) {
                 if (teammateLastIconUpdate !== 0) {
                     teammateIconUrl = teamateIconImageUrl(teammate);
-                } 
+                }
             }
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
         }
