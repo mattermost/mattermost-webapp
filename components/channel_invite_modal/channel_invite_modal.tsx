@@ -28,26 +28,26 @@ type UserProfileValue = Value & UserProfile;
 
 type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
-    profilesNotInCurrentTeam: UserProfileValue[],
-    onHide: () => void,
-    channel: Channel,
+    profilesNotInCurrentTeam: UserProfileValue[];
+    onHide: () => void;
+    channel: Channel;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
-    skipCommit?: boolean,
+    skipCommit?: boolean;
 
     // onAddCallback takes an array of UserProfiles and should set usersToAdd in state of parent component
-    onAddCallback?: (userProfiles?: UserProfileValue[]) => void,
+    onAddCallback?: (userProfiles?: UserProfileValue[]) => void;
 
     // Dictionaries of userid mapped users to exclude or include from this list
-    excludeUsers?: Dictionary<UserProfileValue>,
-    includeUsers?: Dictionary<UserProfileValue>,
+    excludeUsers?: Dictionary<UserProfileValue>;
+    includeUsers?: Dictionary<UserProfileValue>;
 
     actions: {
-        addUsersToChannel: any,
-        getProfilesNotInChannel: any,
-        getTeamStats: (teamId: string) => ActionFunc,
-        searchProfiles: (term: string, options: any) => ActionFunc
-    }
+        addUsersToChannel: any;
+        getProfilesNotInChannel: any;
+        getTeamStats: (teamId: string) => ActionFunc;
+        searchProfiles: (term: string, options: any) => ActionFunc;
+    };
 }
 
 type State = {
@@ -82,7 +82,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
     }
 
     private addValue = (value: UserProfileValue): void => {
-        const values: Array<UserProfileValue> = Object.assign([], this.state.values);
+        const values: UserProfileValue[] = Object.assign([], this.state.values);
         if (values.indexOf(value) === -1) {
             values.push(value);
         }

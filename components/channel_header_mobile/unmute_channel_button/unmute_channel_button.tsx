@@ -8,13 +8,13 @@ import {ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {NotificationLevels} from 'utils/constants';
 
 type Actions = {
-    updateChannelNotifyProps: (userId:string, channelId:string, props:ChannelNotifyProps) => void
+    updateChannelNotifyProps: (userId: string, channelId: string, props: ChannelNotifyProps) => void;
 }
 
 type Props = {
-    user: { id: string }
-    channel: { id: string }
-    actions: Actions
+    user: { id: string };
+    channel: { id: string };
+    actions: Actions;
 }
 
 export default class UnmuteChannelButton extends React.PureComponent<Props> {

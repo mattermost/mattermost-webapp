@@ -12,7 +12,7 @@ import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {intlShape} from 'utils/react_intl';
@@ -290,6 +290,7 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-fullname'
                 >
                     <div
+                        data-testId={`popover-fullname-${this.props.user.username}`}
                         className='overflow--ellipsis text-nowrap'
                     >
                         <strong>{fullname}</strong>

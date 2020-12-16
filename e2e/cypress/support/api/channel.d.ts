@@ -55,7 +55,7 @@ declare namespace Cypress {
          *       // do something with channel
          *   });
          */
-        apiCreateDirectChannel(userIds: Array<string>): Chainable<Channel>;
+        apiCreateDirectChannel(userIds: string[]): Chainable<Channel>;
 
         /**
          * Create a new group message channel to group of users via API. If the logged in user's id is not included in the list, it will be appended to the end.
@@ -68,7 +68,7 @@ declare namespace Cypress {
          *       // do something with channel
          *   });
          */
-        apiCreateGroupChannel(userIds: Array<string>): Chainable<Channel>;
+        apiCreateGroupChannel(userIds: string[]): Chainable<Channel>;
 
         /**
          * Update a channel.
