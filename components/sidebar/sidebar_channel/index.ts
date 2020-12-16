@@ -7,9 +7,11 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {getPostDraft} from 'selectors/rhs';
 import {getDraggingState, isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
-import {NotificationLevels} from 'utils/constants';
+import {NotificationLevels, StoragePrefixes} from 'utils/constants';
+import {hasDraft} from 'utils/channel_utils';
 
 import SidebarChannel from './sidebar_channel';
 
@@ -25,6 +27,7 @@ function makeMapStateToProps() {
         const currentTeam = getCurrentTeam(state);
 
         const member = getMyChannelMemberships(state)[ownProps.channelId];
+        const draft = getPostDraft(state, StoragePrefixes.DRAFT, ownProps.channelId);
         const currentChannelId = getCurrentChannelId(state);
 
         // Unread counts
@@ -51,6 +54,7 @@ function makeMapStateToProps() {
             unreadMsgs,
             showUnreadForMsgs,
             draggingState: getDraggingState(state),
+            hasDraft: hasDraft(draft),
             isChannelSelected: isChannelSelected(state, ownProps.channelId),
             multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
         };

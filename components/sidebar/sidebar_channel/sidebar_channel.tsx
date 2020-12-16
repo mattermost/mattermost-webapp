@@ -79,6 +79,8 @@ type Props = {
 
     isDropDisabled: boolean;
 
+    hasDraft: boolean;
+
     isChannelSelected: boolean;
 
     multiSelectedChannelIds: string[];
@@ -98,7 +100,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
     }
 
     isCollapsed = (props: Props) => {
-        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel);
+        return props.isCategoryDragged || (props.isCategoryCollapsed && !this.isUnread() && !props.isCurrentChannel && !props.hasDraft);
     }
 
     componentDidUpdate(prevProps: Props) {

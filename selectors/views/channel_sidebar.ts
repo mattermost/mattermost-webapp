@@ -22,9 +22,14 @@ import {getItemFromStorage} from 'selectors/storage';
 import {GlobalState} from 'types/store';
 import {StoragePrefixes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
+import {hasDraft} from 'utils/channel_utils';
 
 function isCategoryCollapsedFromStorage(prefix: string, storage: {[key: string]: any}, categoryId: string) {
     return getItemFromStorage(storage, prefix + StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
+}
+
+function getDraftFromStorage(storage: {[key: string]: any}, channelId: string) {
+    return getItemFromStorage(storage, StoragePrefixes.DRAFT + channelId, false);
 }
 
 export function isCategoryCollapsed(state: GlobalState, categoryId: string) {
@@ -60,7 +65,8 @@ export const getChannelsInCategoryOrder = (() => {
         (state: GlobalState) => getChannelsByCategory(state, getCurrentTeamId(state)),
         getCurrentChannelId,
         (state: GlobalState) => getUnreadChannelIds(state),
-        (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds) => {
+        (state: GlobalState) => state.storage.storage,
+        (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds, storage) => {
             return categories.map((category) => {
                 const channels = channelsByCategory[category.id];
                 const isCollapsed = collapsedState[category.id];
@@ -69,8 +75,9 @@ export const getChannelsInCategoryOrder = (() => {
                     const filter = (channel: Channel) => {
                         const filterByUnread = (channelId: string) => channel.id === channelId;
                         const isUnread = unreadChannelIds.some(filterByUnread);
+                        const draft = getDraftFromStorage(storage, channel.id);
 
-                        return isUnread || currentChannelId === channel.id;
+                        return isUnread || currentChannelId === channel.id || hasDraft(draft);
                     };
                     return channels.filter(filter);
                 }
