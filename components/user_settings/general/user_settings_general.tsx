@@ -637,6 +637,24 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                         {helpText}
                     </div>,
                 );
+            } else if (this.props.user.auth_service === Constants.OPENID_SERVICE) {
+                inputs.push(
+                    <div
+                        key='oauthEmailInfo'
+                        className='form-group'
+                    >
+                        <div className='setting-list__hint pb-3'>
+                            <FormattedMessage
+                                id='user.settings.general.emailOpenIdCantUpdate'
+                                defaultMessage='Login occurs through OpenID Connect. Email cannot be updated. Email address used for notifications is {email}.'
+                                values={{
+                                    email: this.state.originalEmail,
+                                }}
+                            />
+                        </div>
+                        {helpText}
+                    </div>,
+                );
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 inputs.push(
                     <div
