@@ -75,7 +75,7 @@ describe('LDAP settings', () => {
         // # Login as a new LDAP user
         cy.doLDAPLogin(testSettings);
 
-        // * Verify user is logged in  Successfy
+        // * Verify user is logged in  Successfully
         cy.findByText(/logout/i).should('be.visible');
     });
 });
