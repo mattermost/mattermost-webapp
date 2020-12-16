@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
 
@@ -21,10 +20,6 @@ type MarketplaceListState = {
 };
 
 export default class MarketplaceList extends React.PureComponent <MarketplaceListProps, MarketplaceListState> {
-    static propTypes = {
-        plugins: PropTypes.array.isRequired,
-    };
-
     static getDerivedStateFromProps(props: MarketplaceListProps, state: MarketplaceListState): MarketplaceListState | null {
         if (state.page > 0 && props.plugins.length < PLUGINS_PER_PAGE) {
             return {page: 0};
