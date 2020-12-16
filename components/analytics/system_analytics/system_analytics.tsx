@@ -49,7 +49,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         if (typeof stat === 'number') {
             return stat;
         }
-        if (!stat) {
+        if (!stat || stat.length === 0) {
             return undefined;
         }
         return stat[0].value;
