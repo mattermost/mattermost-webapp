@@ -9,7 +9,7 @@ import TeamList from 'components/admin_console/team_channel_settings/team/list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 type Props = {
-    siteName: string,
+    siteName: string;
 };
 
 export function TeamsSettings(props: Props) {

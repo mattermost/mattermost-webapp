@@ -175,14 +175,14 @@ export type Props = {
     messageData: Array<{
         actorId: string;
         postType: string;
-        userIds: Array<string>
+        userIds: Array<string>;
     }>;
     showJoinLeave: boolean;
     userProfiles: Array<UserProfile>;
     actions: {
         getMissingProfilesByIds: (userIds: Array<string>) => ActionFunc ;
         getMissingProfilesByUsernames: (usernames: Array<string>) => ActionFunc;
-    }
+    };
 }
 
 export class CombinedSystemMessage extends React.PureComponent<Props> {
