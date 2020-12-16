@@ -95,7 +95,7 @@ export type MarketplaceModalProps = {
     plugins: MarketplacePlugin[];
     installedPlugins: MarketplacePlugin[];
     siteURL: string;
-    pluginStatuses?: Dictionary<PluginStatusRedux>,
+    pluginStatuses?: Dictionary<PluginStatusRedux>;
     actions: {
         closeModal: () => void;
         fetchPlugins: (localOnly?: boolean) => Promise<{error?: Error}>;
@@ -106,7 +106,7 @@ export type MarketplaceModalProps = {
 type MarketplaceModalState = {
     tabKey: any;
     loading: boolean;
-    serverError: Error | undefined;
+    serverError?: Error;
     filter: string;
 };
 
