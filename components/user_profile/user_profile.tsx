@@ -7,7 +7,7 @@ import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
 
 import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
-import OverlayTrigger, {HideableOverlayTrigger} from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -32,7 +32,7 @@ type UserProfileDefaultProps = {
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
-    private overlay?: HideableOverlayTrigger;
+    private overlay?: BaseOverlayTrigger;
 
     static defaultProps: UserProfileDefaultProps = {
         disablePopover: false,
@@ -50,7 +50,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
         }
     }
 
-    setOverlaynRef = (ref: HideableOverlayTrigger): void => {
+    setOverlaynRef = (ref: BaseOverlayTrigger): void => {
         this.overlay = ref;
     }
 

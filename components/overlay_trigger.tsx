@@ -2,25 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
+import {OverlayTrigger as OriginalOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
 import {IntlContext, IntlShape} from 'react-intl';
 
 import {Provider} from 'react-redux';
 
 import store from 'stores/redux_store.jsx';
 
-interface HideableOverlayTrigger extends BaseOverlayTrigger {
+export type BaseOverlayTrigger = OriginalOverlayTrigger & {
     hide: () => void
 }
-
-export {BaseOverlayTrigger, HideableOverlayTrigger};
 
 type Props = OverlayTriggerProps & {
     disabled?: boolean;
     className?: string;
 };
 
-const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
+const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<OriginalOverlayTrigger>) => {
     const {
         overlay,
         disabled,
@@ -45,7 +43,7 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
                     overlayProps.style = {visibility: 'hidden', ...overlayProps.style};
                 }
                 return (
-                    <BaseOverlayTrigger
+                    <OriginalOverlayTrigger
                         {...otherProps}
                         ref={ref}
                         overlay={
