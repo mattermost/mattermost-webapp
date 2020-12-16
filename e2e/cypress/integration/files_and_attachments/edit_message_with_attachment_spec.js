@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @files_and_attachments
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Edit Message with Attachment', () => {

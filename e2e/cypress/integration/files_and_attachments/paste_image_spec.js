@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @files_and_attachments
+
 describe('Paste Image', () => {
     let testTeam;
     const aspectRatio = 1;
@@ -41,6 +43,10 @@ describe('Paste Image', () => {
                 }],
                 types: [],
             }});
+
+            cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+                return el.find('.post-image.normal').length > 0;
+            }));
         });
 
         cy.get('#create_post').find('.file-preview').within(() => {

@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @file_and_attachments
+// Group: @files_and_attachments
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -25,11 +25,11 @@ describe('Upload Files', () => {
             testTeam = team;
 
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('.announcement-bar__close').click();
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
 
-    it('JPG', () => {
+    it('MM-T2264_1 - JPG', () => {
         const properties = {
             route: 'mm_file_testing/Images/JPG.jpg',
             originalWidth: 400,
@@ -39,7 +39,7 @@ describe('Upload Files', () => {
         testImage(properties);
     });
 
-    it('PNG', () => {
+    it('MM-T2264_2 - PNG', () => {
         const properties = {
             route: 'mm_file_testing/Images/PNG.png',
             originalWidth: 400,
@@ -49,17 +49,7 @@ describe('Upload Files', () => {
         testImage(properties);
     });
 
-    it('BMP', () => {
-        const properties = {
-            route: 'mm_file_testing/Images/BMP.bmp',
-            originalWidth: 400,
-            originalHeight: 479,
-        };
-
-        testImage(properties);
-    });
-
-    it('GIF', () => {
+    it('MM-T2264_4 - GIF', () => {
         const properties = {
             route: 'mm_file_testing/Images/GIF.gif',
             originalWidth: 500,
@@ -69,7 +59,7 @@ describe('Upload Files', () => {
         testImage(properties);
     });
 
-    it('TIFF', () => {
+    it('MM-T2264_5 - TIFF', () => {
         const properties = {
             route: 'mm_file_testing/Images/TIFF.tif',
             originalWidth: 400,
@@ -79,23 +69,15 @@ describe('Upload Files', () => {
         testImage(properties);
     });
 
-    it('PSD', () => {
-        const properties = {
-            route: 'mm_file_testing/Images/PSD.psd',
-            originalWidth: 400,
-            originalHeight: 479,
-        };
-
-        testImage(properties);
-    });
-
-    it('PDF', () => {
+    it('MM-T2264_7 - PDF', () => {
         const route = 'mm_file_testing/Documents/PDF.pdf';
         const filename = route.split('/').pop();
 
         // # Post file in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+            return el.find('.post-image.normal').length > 0;
+        }));
         cy.get('#create_post').find('.file-preview').within(() => {
             // * Thumbnail exist
             cy.get('.post-image__thumbnail > div.pdf').should('exist');
@@ -131,7 +113,7 @@ describe('Upload Files', () => {
         });
     });
 
-    it('Excel', () => {
+    it('MM-T2264_8 - Excel', () => {
         const properties = {
             route: 'mm_file_testing/Documents/Excel.xlsx',
             type: 'excel',
@@ -139,7 +121,7 @@ describe('Upload Files', () => {
         testGenericFile(properties);
     });
 
-    it('PPT', () => {
+    it('MM-T2264_9 - PPT', () => {
         const properties = {
             route: 'mm_file_testing/Documents/PPT.pptx',
             type: 'ppt',
@@ -147,7 +129,7 @@ describe('Upload Files', () => {
         testGenericFile(properties);
     });
 
-    it('Word', () => {
+    it('MM-T2264_10 - Word', () => {
         const properties = {
             route: 'mm_file_testing/Documents/Word.docx',
             type: 'word',
@@ -155,7 +137,7 @@ describe('Upload Files', () => {
         testGenericFile(properties);
     });
 
-    it('Text', () => {
+    it('MM-T2264_11 - Text', () => {
         const route = 'mm_file_testing/Documents/Text.txt';
         const filename = route.split('/').pop();
 
@@ -197,7 +179,7 @@ describe('Upload Files', () => {
         });
     });
 
-    it('MP4', () => {
+    it('MM-T2264_12 - MP4', () => {
         const properties = {
             route: 'mm_file_testing/Video/MP4.mp4',
             shouldPreview: true,
@@ -205,7 +187,7 @@ describe('Upload Files', () => {
         testVideoFile(properties);
     });
 
-    it('AVI', () => {
+    it('MM-T2264_13 - AVI', () => {
         const properties = {
             route: 'mm_file_testing/Video/AVI.avi',
             shouldPreview: false,
@@ -213,7 +195,7 @@ describe('Upload Files', () => {
         testVideoFile(properties);
     });
 
-    it('MKV', () => {
+    it('MM-T2264_14 - MKV', () => {
         const properties = {
             route: 'mm_file_testing/Video/MKV.mkv',
             shouldPreview: false,
@@ -221,15 +203,7 @@ describe('Upload Files', () => {
         testVideoFile(properties);
     });
 
-    it('MOV', () => {
-        const properties = {
-            route: 'mm_file_testing/Video/MOV.mov',
-            shouldPreview: true,
-        };
-        testVideoFile(properties);
-    });
-
-    it('MPG', () => {
+    it('MM-T2264_16 - MPG', () => {
         const properties = {
             route: 'mm_file_testing/Video/MPG.mpg',
             shouldPreview: false,
@@ -237,7 +211,7 @@ describe('Upload Files', () => {
         testVideoFile(properties);
     });
 
-    it('WEBM', () => {
+    it('MM-T2264_17 - WEBM', () => {
         const properties = {
             route: 'mm_file_testing/Video/WEBM.webm',
             shouldPreview: true,
@@ -245,7 +219,7 @@ describe('Upload Files', () => {
         testVideoFile(properties);
     });
 
-    it('WMV', () => {
+    it('MM-T2264_18 - WMV', () => {
         const properties = {
             route: 'mm_file_testing/Video/WMV.wmv',
             shouldPreview: false,
@@ -253,7 +227,7 @@ describe('Upload Files', () => {
         testVideoFile(properties);
     });
 
-    it('MP3', () => {
+    it('MM-T2264_19 - MP3', () => {
         const properties = {
             route: 'mm_file_testing/Audio/MP3.mp3',
             shouldPreview: true,
@@ -261,15 +235,7 @@ describe('Upload Files', () => {
         testAudioFile(properties);
     });
 
-    it('M4A', () => {
-        const properties = {
-            route: 'mm_file_testing/Audio/M4A.m4a',
-            shouldPreview: true,
-        };
-        testAudioFile(properties);
-    });
-
-    it('AAC', () => {
+    it('MM-T2264_21 - AAC', () => {
         const properties = {
             route: 'mm_file_testing/Audio/AAC.aac',
             shouldPreview: false,
@@ -277,15 +243,7 @@ describe('Upload Files', () => {
         testAudioFile(properties);
     });
 
-    it('FLAC', () => {
-        const properties = {
-            route: 'mm_file_testing/Audio/FLAC.flac',
-            shouldPreview: true,
-        };
-        testAudioFile(properties);
-    });
-
-    it('OGG', () => {
+    it('MM-T2264_23 - OGG', () => {
         const properties = {
             route: 'mm_file_testing/Audio/OGG.ogg',
             shouldPreview: true,
@@ -293,7 +251,7 @@ describe('Upload Files', () => {
         testAudioFile(properties);
     });
 
-    it('WAV', () => {
+    it('MM-T2264_24 - WAV', () => {
         const properties = {
             route: 'mm_file_testing/Audio/WAV.wav',
             shouldPreview: true,
@@ -301,7 +259,7 @@ describe('Upload Files', () => {
         testAudioFile(properties);
     });
 
-    it('WMA', () => {
+    it('MM-T2264_25 - WMA', () => {
         const properties = {
             route: 'mm_file_testing/Audio/WMA.wma',
             shouldPreview: false,
@@ -316,7 +274,9 @@ function testAudioFile(fileProperties) {
 
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
         cy.get('.post-image__thumbnail > div.audio').should('exist');
@@ -362,7 +322,9 @@ function testVideoFile(fileProperties) {
 
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
         cy.get('.post-image__thumbnail > div.video').should('exist');
@@ -407,7 +369,9 @@ function testGenericFile(fileProperties) {
 
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
         cy.get(`.post-image__thumbnail > div.${type}`).should('exist');
@@ -449,7 +413,9 @@ function testImage(imageProperties) {
 
     // # Post an image in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
     cy.get('.post-image').should('be.visible');
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Img thumbnail exist

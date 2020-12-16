@@ -301,9 +301,14 @@ describe('Upload Files', () => {
         const aspectRatio = 1;
 
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Attach file
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+            return el.find('.post-image.normal').length > 0;
+        }));
+
         cy.get('#create_post').find('.file-preview').within(() => {
             // * Filename is correct
             cy.get('.post-image__name').should('contain.text', filename);
@@ -381,6 +386,7 @@ describe('Upload Files', () => {
         const minimumSeparation = 5;
 
         cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Upload files
         cy.get('#centerChannelFooter').find('#fileUploadInput').
