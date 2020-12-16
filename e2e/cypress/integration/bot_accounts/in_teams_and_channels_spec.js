@@ -29,6 +29,7 @@ describe('Managing bots in Teams and Channels', () => {
             team = out.team;
         });
     });
+
     it('MM-T1815 Add a BOT to a team that has email restricted', () => {
         cy.makeClient().then(async (client) => {
 
