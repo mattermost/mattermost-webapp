@@ -42,7 +42,7 @@ export type Props = {
         /**
          * Function to get a user's access tokens
          */
-        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc
+        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc;
     };
 };
 
