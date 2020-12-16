@@ -4422,11 +4422,13 @@ const AdminDefinition = {
                         configSetting = 'OpenIdSettings';
                     }
 
-                    newConfig[configSetting].Enable = true;
-                    newConfig[configSetting].Scope = Constants.OPENID_SCOPES;
-                    newConfig[configSetting].UserApiEndpoint = '';
-                    newConfig[configSetting].AuthEndpoint = '';
-                    newConfig[configSetting].TokenEndpoint = '';
+                    if (configSetting !== '') {
+                        newConfig[configSetting].Enable = true;
+                        newConfig[configSetting].Scope = Constants.OPENID_SCOPES;
+                        newConfig[configSetting].UserApiEndpoint = '';
+                        newConfig[configSetting].AuthEndpoint = '';
+                        newConfig[configSetting].TokenEndpoint = '';
+                    }
 
                     delete newConfig.openidType;
                     return newConfig;
