@@ -53,7 +53,7 @@ const users = [
 storiesOf('Widgets/Users Info', module).
     addDecorator(withKnobs).
     add('avatar, per size', () => {
-        const sizes: ComponentProps<typeof Avatar>['size'][] = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+        const sizes: Array<ComponentProps<typeof Avatar>['size']> = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
         const url = text('Image url', './api/v4/users/1/image?_=0');
         const username = text('Username', 'jesus.espino');
         return (
@@ -75,7 +75,7 @@ storiesOf('Widgets/Users Info', module).
         );
     }).
     add('avatars, per size', () => {
-        const sizes: ComponentProps<typeof Avatar>['size'][] = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+        const sizes: Array<ComponentProps<typeof Avatar>['size']> = ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
         return (
             <StoryGrid>
                 {sizes.map((size) => (

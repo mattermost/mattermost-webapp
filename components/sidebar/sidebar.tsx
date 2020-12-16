@@ -36,6 +36,7 @@ type Props = {
         clearChannelSelection: () => void;
     };
     isCloud: boolean;
+    unreadFilterEnabled: boolean;
 };
 
 type State = {

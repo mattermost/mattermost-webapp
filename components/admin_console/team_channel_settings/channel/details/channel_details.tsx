@@ -43,7 +43,7 @@ export interface ChannelDetailsProps {
     groups: Group[];
     totalGroups: number;
     allGroups: Dictionary<Group>;
-    channelPermissions?: Array<ChannelPermissions>;
+    channelPermissions?: ChannelPermissions[];
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
     isDisabled?: boolean;
@@ -73,7 +73,7 @@ interface ChannelDetailsState {
     showConvertConfirmModal: boolean;
     showRemoveConfirmModal: boolean;
     showConvertAndRemoveConfirmModal: boolean;
-    channelPermissions?: Array<ChannelPermissions>;
+    channelPermissions?: ChannelPermissions[];
     teamScheme?: Scheme;
     isLocalArchived: boolean;
     showArchiveConfirmModal: boolean;
@@ -83,15 +83,15 @@ export type ChannelDetailsActions = {
     getGroups: (channelID: string, q?: string, page?: number, perPage?: number, filterAllowReference?: boolean) => Promise<ActionResult>;
     linkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => ActionResult;
     unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => ActionFunc;
-    membersMinusGroupMembers: (channelID: string, groupIDs: Array<string>, page?: number, perPage?: number) => ActionResult;
-    setNavigationBlocked: (blocked: boolean) => {type: 'SET_NAVIGATION_BLOCKED', blocked: boolean};
+    membersMinusGroupMembers: (channelID: string, groupIDs: string[], page?: number, perPage?: number) => ActionResult;
+    setNavigationBlocked: (blocked: boolean) => {type: 'SET_NAVIGATION_BLOCKED'; blocked: boolean};
     getChannel: (channelId: string) => ActionFunc;
     getTeam: (teamId: string) => Promise<ActionResult>;
     getChannelModerations: (channelId: string) => Promise<ActionResult>;
     patchChannel: (channelId: string, patch: Channel) => ActionFunc;
     updateChannelPrivacy: (channelId: string, privacy: string) => Promise<ActionResult>;
     patchGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => ActionFunc;
-    patchChannelModerations: (channelID: string, patch: Array<ChannelModerationPatch>) => {data: Channel, error: ServerError};
+    patchChannelModerations: (channelID: string, patch: ChannelModerationPatch[]) => {data: Channel; error: ServerError};
     loadScheme: (schemeID: string) => Promise<ActionResult>;
     addChannelMember: (channelId: string, userId: string, postRootId?: string) => Promise<ActionResult>;
     removeChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
@@ -490,7 +490,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             }
         }
 
-        const patchChannelPermissionsArray: Array<ChannelModerationPatch> = channelPermissions!.map((p) => {
+        const patchChannelPermissionsArray: ChannelModerationPatch[] = channelPermissions!.map((p) => {
             return {
                 name: p.name,
                 roles: {

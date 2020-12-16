@@ -112,6 +112,11 @@
                 color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             }
 
+            .team__name,
+            .user__name {
+                max-width: 140px;
+            }
+
             &:hover .user__name {
                 color: var(--sidebar-header-text-color);
             }

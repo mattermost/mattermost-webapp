@@ -10,7 +10,7 @@ import {toggleMenu as toggleRhsMenu} from 'actions/views/rhs';
 
 import CollapseRhsButton from './collapse_rhs_button';
 
-const mapDispatchToProps = (dispatch:Dispatch<GenericAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     actions: bindActionCreators({
         toggleRhsMenu,
     }, dispatch),
