@@ -167,7 +167,7 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES) i').should('be.visible').should('not.have.class', 'icon-rotate-minus-90');
     });
 
-    it('should collapse channels that do not have a draft message', () => {
+    it('MM-T3624 should collapse channels that do not have a draft message', () => {
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(() => {
                 // # Create the draft message
