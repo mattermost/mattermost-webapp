@@ -179,7 +179,14 @@ export default class EmojiPicker extends React.PureComponent {
             }
             categories[category].emojiIds = categoryEmojis.map((emoji) => getEmojiFilename(emoji));
             for (let i = 0; i < categoryEmojis.length; i++) {
-                const currentEmoji = categoryEmojis[i];
+                let currentEmoji = categoryEmojis[i];
+                if (
+                    currentEmoji.aliases &&
+                    Emoji.EmojiIndicesByAlias.has(currentEmoji.aliases[0] + '_dark_skin_tone')) {
+                    let my = Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(currentEmoji.aliases[0] + '_dark_skin_tone')];
+                    currentEmoji = my;
+                    categories[category].emojiIds[i] = getEmojiFilename(currentEmoji);
+                }
                 const fileName = getEmojiFilename(currentEmoji);
                 allEmojis[fileName] = {
                     ...currentEmoji,
@@ -228,6 +235,8 @@ export default class EmojiPicker extends React.PureComponent {
             emojisToShow: SYSTEM_EMOJIS_COUNT,
             renderAllCategories: false,
         };
+
+        this.showSkinTones = this.showSkinTones.bind(this);
     }
 
     componentDidMount() {
@@ -519,6 +528,13 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
+    showSkinTones() {
+        console.log('show skin tones');
+        this.setState({
+            showSkinTones: true,
+        });
+    }
+
     getCategoryByIndex(index) {
         if (this.props.filter && index !== 0) {
             return null;
@@ -655,29 +671,58 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     emojiSearch() {
+        const handIndex = Emoji.EmojiIndicesByAlias.get('raised_hand_with_fingers_splayed');
+        const skinToneEmoji = Emoji.Emojis[handIndex];
         return (
             <div className='emoji-picker__search-container'>
-                <span className='fa fa-search emoji-picker__search-icon'/>
-                <FormattedMessage
-                    id='emoji_picker.search_emoji'
-                    defaultMessage='Search for an emoji'
-                >
-                    {(ariaLabel) => (
-                        <LocalizedInput
-                            id='emojiPickerSearch'
-                            aria-label={ariaLabel}
-                            ref={this.emojiSearchInput}
-                            className='emoji-picker__search'
-                            data-testid='emojiInputSearch'
-                            type='text'
-                            onChange={this.handleFilterChange}
-                            onKeyDown={this.handleKeyDown}
-                            autocomplete='off'
-                            placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
-                            value={this.props.filter}
-                        />
-                    )}
-                </FormattedMessage>
+                <div className='emoji-picker__text-container'>
+                    <span className='fa fa-search emoji-picker__search-icon'/>
+                    <FormattedMessage
+                        id='emoji_picker.search_emoji'
+                        defaultMessage='Search for an emoji'
+                    >
+                        {(ariaLabel) => (
+                            <LocalizedInput
+                                id='emojiPickerSearch'
+                                aria-label={ariaLabel}
+                                ref={this.emojiSearchInput}
+                                className='emoji-picker__search'
+                                data-testid='emojiInputSearch'
+                                type='text'
+                                onChange={this.handleFilterChange}
+                                onKeyDown={this.handleKeyDown}
+                                autocomplete='off'
+                                placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
+                                value={this.props.filter}
+                            />
+                        )}
+                    </FormattedMessage>
+                </div>
+                <div className='skin-tones-overlay'/>
+                <div className='skin-tones'>
+                    <EmojiPickerItem
+                        emoji={skinToneEmoji}
+                        onItemClick={this.showSkinTones}
+                    />
+                    <EmojiPickerItem
+                        emoji={skinToneEmoji}
+                        onItemClick={this.showSkinTones}
+                    />
+                    <EmojiPickerItem
+                        emoji={skinToneEmoji}
+                        onItemClick={this.showSkinTones}
+                    />
+                    <EmojiPickerItem
+                        emoji={skinToneEmoji}
+                        onItemClick={this.showSkinTones}
+                    />
+                </div>
+                <div className='color-selector'>
+                    <EmojiPickerItem
+                        emoji={skinToneEmoji}
+                        onItemClick={this.showSkinTones}
+                    />
+                </div>
             </div>
         );
     }
