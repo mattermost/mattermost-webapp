@@ -18,12 +18,15 @@ import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal/dnd_custom_time_picker_modal';
+import { getCurrentDateTimeForTimezone } from 'utils/timezone';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
         userId: PropTypes.string.isRequired,
+        userTimezone: PropTypes.object,
+        enableTimezone: PropTypes.bool,
         profilePicture: PropTypes.string,
         autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
@@ -45,6 +48,18 @@ export default class StatusDropdown extends React.PureComponent {
             openUp: false,
             width: 0,
         };
+    }
+
+    getCurrentTimeInUTC = (tz, enable) => {
+        let currentDate;
+        if (enable) {
+            if (tz.useAutomaticTimezone) {
+                currentDate = getCurrentDateTimeForTimezone(tz.automaticTimezone);
+            } else {
+                currentDate = getCurrentDateTimeForTimezone(tz.manualTimezone);
+            }
+        }
+        return currentDate;
     }
 
     dndTimes = ['30 mins', '1 hour', '2 hours', 'Today', 'Tomorrow', 'Custom']
@@ -79,7 +94,7 @@ export default class StatusDropdown extends React.PureComponent {
     setDnd = (event, index) => {
         event.preventDefault();
 
-        var currentTime = new Date().getTime();
+        var currentTime = this.getCurrentTimeInUTC(this.props.userTimezone, this.props.enableTimezone).getTime();
         var endTime = new Date().getTime();
         switch (index) {
         case 0:

@@ -26,3 +26,8 @@ export function getCurrentDateForTimezone(timezone) {
     const tztime = moment().tz(timezone);
     return new Date(tztime.year(), tztime.month(), tztime.date());
 }
+
+export function getCurrentDateTimeForTimezone(timezone) {
+    const tztime = moment().tz(timezone);
+    return new Date(tztime.year(), tztime.month(), tztime.date(), tztime.hour(), tztime.minute(), tztime.second());
+}

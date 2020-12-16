@@ -12,6 +12,8 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {openModal} from 'actions/views/modals';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
+import { getUserTimezone } from 'mattermost-redux/selectors/entities/timezone';
+import { areTimezonesEnabledAndSupported } from 'selectors/general';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
@@ -21,11 +23,15 @@ function mapStateToProps(state) {
     }
 
     const userId = currentUser.id;
+    const ctz = getUserTimezone(state, userId);
+    const etz = areTimezonesEnabledAndSupported(state);
     return {
         userId,
         profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
         autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
         status: getStatusForUserId(state, userId),
+        userTimezone: ctz,
+        enableTimezone: etz,
     };
 }
 
