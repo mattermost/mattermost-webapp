@@ -158,7 +158,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     }
 
     onInput = (): void => {
-        if (this.filterRef && this.filterRef.current) {
+        if (this.filterRef.current) {
             this.setState({filter: this.filterRef.current.value});
 
             this.debouncedSearch();
@@ -166,7 +166,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     }
 
     handleClearSearch = (): void => {
-        if (this.filterRef && this.filterRef.current) {
+        if (this.filterRef.current) {
             this.filterRef.current.value = '';
             this.setState({filter: this.filterRef.current.value}, this.doSearch);
         }
