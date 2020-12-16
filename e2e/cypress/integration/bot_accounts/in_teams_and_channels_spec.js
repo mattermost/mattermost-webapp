@@ -11,7 +11,7 @@
 
 import {createBotPatch} from '../../support/api/bots';
 import {createChannelPatch} from '../../support/api/channel';
-import {FIVE_SEC} from '../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Managing bots in Teams and Channels', () => {
     let team;
@@ -32,7 +32,6 @@ describe('Managing bots in Teams and Channels', () => {
 
     it('MM-T1815 Add a BOT to a team that has email restricted', () => {
         cy.makeClient().then(async (client) => {
-
             // # Go to channel
             const channel = await client.getChannelByName(team.id, 'town-square');
             cy.visit(`/${team.name}/channels/${channel.name}`);
@@ -48,7 +47,6 @@ describe('Managing bots in Teams and Channels', () => {
 
     it('MM-T1816 Add a BOT to a channel', () => {
         cy.makeClient().then(async (client) => {
-
             // # Go to channel
             const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
             cy.visit(`/${team.name}/channels/${channel.name}`);
@@ -82,7 +80,6 @@ describe('Managing bots in Teams and Channels', () => {
 
     it('MM-T1818 No ephemeral post about Adding a bot to a channel When Bot is mentioned', () => {
         cy.makeClient().then(async (client) => {
-
             // # Go to channel
             const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
             cy.visit(`/${team.name}/channels/${channel.name}`);
@@ -93,9 +90,9 @@ describe('Managing bots in Teams and Channels', () => {
 
             // # Mention bot
             const message = `hey @${bot.username}, tell me a rhyme..`;
-            cy.uiPostMessageQuickly(message).wait(FIVE_SEC);
+            cy.uiPostMessageQuickly(message).wait(TIMEOUTS.FIVE_SEC);
 
-            // * Verify ​​​​​​​​​no ephemeral post is shown asking if you want to invite the bot to the server
+            // * Verify no ephemeral post is shown asking if you want to invite the bot to the server
             cy.uiGetNthPost(-1).should('contain.text', message);
         });
     });
