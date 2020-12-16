@@ -154,7 +154,7 @@ declare namespace Cypress {
          *       // do something with channels
          *   });
          */
-        apiGetAllChannels(): Chainable<{channels: Channel[]}>;z
+        apiGetAllChannels(): Chainable<{channels: Channel[]}>;
 
         /**
          * Get channels for user.
