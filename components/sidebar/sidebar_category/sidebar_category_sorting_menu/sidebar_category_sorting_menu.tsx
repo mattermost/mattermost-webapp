@@ -51,6 +51,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         const {category} = this.props;
 
         this.props.actions.setCategorySorting(category.id, sorting);
+        console.log(category.sorting);
         trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
     }
 
@@ -65,7 +66,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
     }
 
     renderDropdownItems = () => {
-        const {intl} = this.props;
+        const {intl, category} = this.props;
 
         const sortMenuItems: SubmenuItemProps[] = [{
             id: 'sortAlphabetical',
@@ -124,8 +125,8 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         id={'sortDirectMessages'}
                         subMenu={sortMenuItems}
                         text={intl.formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
-                        selectedValueText={CategorySorting.Alphabetical ? intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}) : intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'})}
-                        icon={CategorySorting.Alphabetical ? <i className='icon-sort-alphabetical-ascending'/> : <i className='icon-clock-outline'/>}
+                        selectedValueText={category.sorting === CategorySorting.Alphabetical ? intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}) : intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'})}
+                        icon={category.sorting === CategorySorting.Alphabetical ? <i className='icon-sort-alphabetical-ascending'/> : <i className='icon-clock-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
                         xOffset={this.state.width}
