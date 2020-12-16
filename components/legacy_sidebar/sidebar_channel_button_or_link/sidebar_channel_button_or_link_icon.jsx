@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import Svg from 'react-inlinesvg';
 
-import {Constants} from 'utils/constants';
+import { Constants } from 'utils/constants';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import DraftIcon from 'components/widgets/icons/draft_icon';
@@ -14,6 +14,7 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import StatusIcon from 'components/status_icon';
 import BotIcon from 'components/widgets/icons/bot_icon.jsx';
+import ProfilePicture from 'components/profile_picture';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
@@ -51,26 +52,35 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         let icon = null;
         if (this.props.channelIsArchived) {
             icon = (
-                <ArchiveIcon className='icon icon__archive'/>
+                <ArchiveIcon className='icon icon__archive' />
             );
         } else if (this.props.hasDraft) {
             icon = (
-                <DraftIcon className='icon icon__draft'/>
+                <DraftIcon className='icon icon__draft' />
             );
         } else if (this.props.channelType === Constants.OPEN_CHANNEL) {
             icon = (
-                <GlobeIcon className='icon icon__globe'/>
+                <GlobeIcon className='icon icon__globe' />
             );
         } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <LockIcon className='icon icon__lock'/>
+                <LockIcon className='icon icon__lock' />
             );
         } else if (this.props.channelType === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{this.props.membersCount}</div>;
         } else if (this.props.channelType === Constants.DM_CHANNEL) {
             if (this.props.teammateId && this.props.teammateDeletedAt) {
                 icon = (
-                    <ArchiveIcon className='icon icon__archive'/>
+                    <span
+                        className='avatar profile-dnd'
+                    >
+                        <ProfilePicture
+                            size='md'
+                            type='avatar'
+                            status='dnd'
+                            src={this.props.teammateIconUrl}
+                        />
+                    </span>
                 );
             } else if (this.props.teammateId && this.props.teammateIsBot) {
                 // Use default bot icon
@@ -86,18 +96,33 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
                         >
                             <Svg
                                 src={this.props.botIconUrl}
-                                onLoad={this.onSvgLoad}
-                                onError={this.onSvgLoadError}
                             />
                         </span>
                     );
                 }
+            } else if (this.props.teammateId && !this.props.teammateIsBot && this.props.teammateIconUrl) {
+                icon = (
+                    <span
+                        className='avatar'
+                    >
+                        <ProfilePicture
+                            size='md'
+                            type='avatar'
+                            status={this.props.channelStatus}
+                            src={this.props.teammateIconUrl}
+                        />
+                    </span>
+                );
             } else {
                 icon = (
-                    <StatusIcon
-                        type='avatar'
-                        status={this.props.channelStatus}
-                    />
+                    <span
+                        className='avatar'
+                    >
+                        <StatusIcon
+                            type='avatar'
+                            status={this.props.channelStatus}
+                        />
+                    </span>
                 );
             }
         }

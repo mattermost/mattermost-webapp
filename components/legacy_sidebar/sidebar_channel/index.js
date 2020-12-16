@@ -82,6 +82,8 @@ function makeMapStateToProps() {
         let botLastIconUpdate = 0;
         let channelDisplayName = channel.display_name;
         let botIconUrl = null;
+        let teammateIconUrl = null
+        let teammateLastIconUpdate = null
         if (channel.type === Constants.DM_CHANNEL) {
             teammate = getUser(state, channel.teammate_id);
             if (teammate) {
@@ -91,11 +93,17 @@ function makeMapStateToProps() {
                 channelTeammateIsBot = teammate.is_bot;
                 botLastIconUpdate = teammate.bot_last_icon_update;
                 botLastIconUpdate = (typeof botLastIconUpdate === 'undefined') ? 0 : botLastIconUpdate;
+                teammateLastIconUpdate = teammate.last_picture_update;
+                botLastIconUpdate = (typeof teammateLastIconUpdate === 'undefined') ? 0 : teammateLastIconUpdate;
             }
             if (channelTeammateIsBot) {
                 if (botLastIconUpdate !== 0) {
                     botIconUrl = botIconImageUrl(teammate);
                 }
+            }else if (teammate) {
+                if (teammateLastIconUpdate !== 0) {
+                    teammateIconUrl = teamateIconImageUrl(teammate);
+                } 
             }
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
         }
@@ -116,6 +124,7 @@ function makeMapStateToProps() {
             channelName: channel.name,
             channelDisplayName,
             botIconUrl,
+            teammateIconUrl,
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
@@ -156,6 +165,13 @@ function mapDispatchToProps(dispatch) {
  */
 function botIconImageUrl(botUser) {
     return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.bot_last_icon_update || 0)}`;
+}
+
+/**
+ * Gets the user image url for a given botUser.
+ */
+function teamateIconImageUrl(teammate) {
+    return `${Client4.getUsersRoute()}/${teammate.id}/image?_=${(teammate.last_picture_update || 0)}`;
 }
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(SidebarChannel);

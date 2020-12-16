@@ -302,6 +302,7 @@ class SidebarChannel extends React.PureComponent {
                     channelId={this.props.channelId}
                     channelName={this.props.channelName}
                     botIconUrl={this.props.botIconUrl}
+                    teammateIconUrl={this.props.teammateIconUrl}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}
