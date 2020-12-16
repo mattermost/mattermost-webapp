@@ -6,10 +6,10 @@ import {shallow} from 'enzyme';
 
 import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
 
-import UserProfile, {UserProfileProps} from './user_profile';
+import UserProfile from './user_profile';
 
 describe('components/UserProfile', () => {
-    const baseProps: UserProfileProps = {
+    const baseProps = {
         displayName: 'nickname',
         isBusy: false,
         user: {username: 'username'} as UserProfileType,
