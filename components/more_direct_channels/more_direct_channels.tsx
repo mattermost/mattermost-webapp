@@ -394,7 +394,6 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     }
 
     renderValue(props: {data: OptionType}) {
-        console.log('asd');
         return (props.data as UserProfileValue).username;
     }
 
