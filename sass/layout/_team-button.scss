@@ -1,6 +1,6 @@
 .team-btn {
     @include border-radius(8px);
-    font-weight: bold;
+    font-weight: bold;    
     height: 47px;
     letter-spacing: -.5px;
     position: relative;
@@ -14,8 +14,17 @@
         line-height: 41px;
         vertical-align: middle;
 
-        .TeamIcon__content {
+        .TeamIcon {
             background-color: transparent;
+            transform-origin: center center;
+            transition: transform 0.2s, background-color 0.2s;
+
+            &:hover {
+                transform: scale(1);
+                border: none;
+                box-shadow: none;
+                background-color: rgba(255, 255, 255, 0.08);
+            }
         }
     }
 }

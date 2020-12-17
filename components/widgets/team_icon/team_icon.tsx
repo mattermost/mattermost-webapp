@@ -24,6 +24,9 @@ type Props = {
 
     /** Whether to add hover effect to the icon */
     withHover?: boolean;
+
+    /** Whether to add additional classnames */
+    className?: string;
 };
 
 /**
@@ -36,7 +39,7 @@ export class TeamIcon extends React.PureComponent<Props> {
     };
 
     public render() {
-        const {name, url, size, withHover} = this.props;
+        const {name, url, size, withHover, className} = this.props;
         const hoverCss = withHover ? '' : 'no-hover';
 
         // FIXME Nowhere does imageURLForTeam seem to check for display_name.
@@ -63,7 +66,7 @@ export class TeamIcon extends React.PureComponent<Props> {
             );
         }
         return (
-            <div className={`TeamIcon ${hoverCss} TeamIcon__${size}`} >
+            <div className={`TeamIcon ${hoverCss} TeamIcon__${size} ${className}`} >
                 <div className={`TeamIcon__content ${hoverCss}`}>
                     {icon}
                 </div>

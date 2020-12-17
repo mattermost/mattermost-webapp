@@ -105,6 +105,7 @@ class TeamButton extends React.PureComponent<Props> {
 
         const content = (
             <TeamIcon
+                className={teamClass}
                 withHover={true}
                 name={this.props.content || displayName || ''}
                 url={teamIconUrl}

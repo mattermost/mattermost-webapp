@@ -44,42 +44,29 @@
         .team-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 16px;
+            align-items: center;
+            margin-bottom: 12px;
             margin-left: auto;
             margin-right: auto;
             position: relative;
             text-align: center;
-            width: 46px;
-            height: 46px;
-            border: 3px solid transparent;
-            border-radius: 11px;
-
-            &:hover {
-                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
-            }
-
-            &.active {
-                box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
-            }
 
             &.unread {
                 &:before {
                     content: "";
                     position: absolute;
-                    top: -4px;
-                    right: -3px;
+                    top: -2px;
+                    right: 9px;
                     border-radius: 100%;
-                    background: white;
                     width: 8px;
                     height: 8px;
-                    box-shadow: 0 0 0 2px #0E4289;
+                    box-shadow: 0 0 0 3px #0E4289;
+                    z-index: 1;
                 }
             }
 
             a {
                 display: block;
-                height: 100%;
-                width: 40px;
                 text-decoration: none;
             }
 
@@ -124,6 +111,14 @@
                 font-weight: 500;
                 font-size: 12px;
             }
+
+            &.isDragging {
+                cursor: grab;
+        
+                .TeamIcon {
+                    transform: scale(0.9);        
+                }
+            }
         }
 
         .scrollbar--view {
@@ -150,7 +145,7 @@
                 &::before,
                 &.active::before,
                 &.unread::before {
-                    background: var(--sidebar-text-active-border);
+                    background: white;
                 }
             }
         }
