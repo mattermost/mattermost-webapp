@@ -33,16 +33,21 @@ export type Props = {
     isEmbedded?: boolean;
 };
 
-export default class AppsFormContainer extends React.PureComponent<Props> {
-    state = {
-        refreshNonce: '',
+export type State = {
+    form?: AppForm;
+}
+
+export default class AppsFormContainer extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {form: props.form};
     }
 
     submitDialog = async (submission: {values: AppFormValues}): Promise<{data: AppCallResponse<any>}> => {
         //TODO use FormResponseData instead of Any
-        const {form} = this.props;
+        const {form} = this.state;
         if (!form) {
-            return makeError('submitDialog props.form is not defined');
+            return makeError('submitDialog state.form is not defined');
         }
 
         const call = this.getCall();
@@ -65,7 +70,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
     };
 
     refreshOnSelect = async (field: AppField, values: AppFormValues, value: AppFormValue): Promise<{data: AppCallResponse<any>}> => {
-        const {form} = this.props;
+        const {form} = this.state;
         if (!form) {
             return makeError('refreshOnSelect props.form is not defined');
         }
@@ -96,6 +101,11 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
 
         try {
             const res = await this.props.actions.doAppCall(outCall);
+
+            if (res?.data?.form) {
+                this.setState({form: res.data.form});
+            }
+
             return res;
         } catch (e) {
             return {data: {type: 'error', error: e.message}};
@@ -137,7 +147,8 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
     }
 
     getCall = (): AppCall | null => {
-        const {postID, channelID, teamID, form} = this.props;
+        const {postID, channelID, teamID} = this.props;
+        const {form} = this.state;
 
         const propsCall = this.props.call;
         const call = (form && form.call) || propsCall;
@@ -179,8 +190,13 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
     };
 
     render() {
-        const {form, call} = this.props;
-        if (!form || !call) {
+        const {call} = this.props;
+        if (!call) {
+            return null;
+        }
+
+        const {form} = this.state;
+        if (!form) {
             return null;
         }
 
