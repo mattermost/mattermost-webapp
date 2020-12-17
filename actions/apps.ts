@@ -40,10 +40,6 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
                 return {data: res};
             }
 
-            if (call.presentation === 'modal') {
-                dispatch(openAppsModal(res.form, call));
-            }
-
             return {data: res};
         }
 
