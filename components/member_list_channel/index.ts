@@ -26,7 +26,7 @@ import {GlobalState} from 'types/store';
 import MemberListChannel, {Props} from './member_list_channel';
 
 const getUsersAndActionsToDisplay = createSelector(
-    (state: GlobalState, users: Array<UserProfile>) => users,
+    (state: GlobalState, users: UserProfile[]) => users,
     getMembersInCurrentTeam,
     getMembersInCurrentChannel,
     getCurrentChannel,
