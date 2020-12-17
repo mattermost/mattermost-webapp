@@ -170,7 +170,10 @@ describe('Channel sidebar', () => {
     it('MM-T3624 should collapse channels that do not have a draft message', () => {
         cy.getCurrentTeamId().then((teamId) => {
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then(() => {
-                // # Create the draft message
+                // # Open Channel Test
+                cy.get('.SidebarChannel:contains(Channel Test)').click();
+
+                // # Create the draft message in Channel Test
                 const draft = `Draft message ${getRandomId()}`;
                 cy.get('#post_textbox').clear().type(draft);
 
@@ -188,12 +191,12 @@ describe('Channel sidebar', () => {
                 // # Click on CHANNELS
                 cy.get('@channelsGroup').click();
 
-                // * Verify that Off-Topic and Town-Square are visible
+                // * Verify that Off-Topic and Channel Test are visible
                 cy.get('.SidebarChannel:contains(Off-Topic)').should('be.visible');
-                cy.get('.SidebarChannel:contains(Town Square)').should('be.visible');
+                cy.get('.SidebarChannel:contains(Channel Test)').should('be.visible');
 
-                // * Verify that Channel Test is not visible
-                cy.get('.SidebarChannel:contains(Channel Test)').should('not.be.visible');
+                // * Verify that Town Square is not visible
+                cy.get('.SidebarChannel:contains(Town Square)').should('not.be.visible');
             });
         });
     });
