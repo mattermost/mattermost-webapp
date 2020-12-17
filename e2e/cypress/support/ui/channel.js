@@ -56,6 +56,12 @@ Cypress.Commands.add('uiArchiveChannel', () => {
     return cy.get('#deleteChannelModalDeleteButton').click();
 });
 
+Cypress.Commands.add('uiUnarchiveChannel', () => {
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelUnarchiveChannel').click();
+    return cy.get('#unarchiveChannelModalDeleteButton').click();
+});
+
 Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
     cy.get('#channelHeaderDropdownIcon').click();
 

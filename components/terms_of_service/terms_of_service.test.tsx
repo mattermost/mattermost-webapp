@@ -4,13 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
 import EmojiMap from 'utils/emoji_map';
 
 import TermsOfService, {TermsOfServiceProps} from './terms_of_service';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitUserLoggedOutEvent: jest.fn(),
     redirectUserToDefaultTeam: jest.fn(),
 }));

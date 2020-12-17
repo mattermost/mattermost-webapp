@@ -22,7 +22,7 @@ type Props = {
     isRHS: boolean;
     onHide: () => void;
     actions: {
-        deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>
+        deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>;
     };
     location: {
         pathname: string;
@@ -36,7 +36,7 @@ type State = {
 export default class DeletePostModal extends React.PureComponent<Props, State> {
     deletePostBtn: React.RefObject<HTMLButtonElement>;
 
-    constructor(props : Props) {
+    constructor(props: Props) {
         super(props);
         this.deletePostBtn = React.createRef();
 

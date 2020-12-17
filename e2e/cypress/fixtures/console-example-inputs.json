@@ -4,7 +4,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/about/license",
-                "selector": "[data-testid=\"remove-button\"]"
+                "selector": "remove-button"
             }
         ]
     },
@@ -37,7 +37,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/web_server",
-                "selector": "[data-testid=\"ServiceSettings.ListenAddressinput\"]"
+                "selector": "ServiceSettings.ListenAddressinput"
             }
         ]
     },
@@ -46,7 +46,7 @@
         "disabledInputs": [
             {
                 "path": "admin_console/site_config/customization",
-                "selector": "[data-testid=\"TeamSettings.SiteNameinput\"]"
+                "selector": "TeamSettings.SiteNameinput"
             }
         ]
     },
@@ -55,7 +55,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/authentication/password",
-                "selector": "[data-testid=\"passwordMinimumLengthinput\"]"
+                "selector": "passwordMinimumLengthinput"
             }
         ]
     },
@@ -64,7 +64,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/plugins/plugin_management",
-                "selector": "[data-testid=\"marketplaceUrlinput\"]"
+                "selector": "marketplaceUrlinput"
             }
         ]
     },
@@ -73,7 +73,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/integrations/gif",
-                "selector": "[data-testid=\"ServiceSettings.GfycatApiKeyinput\"]"
+                "selector": "ServiceSettings.GfycatApiKeyinput"
             }
         ]
     },
@@ -82,7 +82,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/compliance/data_retention",
-                "selector": "[data-testid=\"deletionJobStartTimeinput\"]"
+                "selector": "deletionJobStartTimeinput"
             }
         ]
     },
@@ -91,7 +91,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/experimental/features",
-                "selector": "[data-testid=\"ExperimentalSettings.LinkMetadataTimeoutMillisecondsnumber\"]"
+                "selector": "ExperimentalSettings.LinkMetadataTimeoutMillisecondsnumber"
             }
         ]
     }
