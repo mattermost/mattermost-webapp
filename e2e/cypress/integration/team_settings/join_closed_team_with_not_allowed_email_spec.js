@@ -118,7 +118,7 @@ describe('Team Settings', () => {
         });
 
         // # Create a new user
-        cy.apiCreateUser({prefix: 'nonAdminUser', user: {email: `user${randomId}@sample.gmail.com`, username: `user${randomId}`, password: 'passwd'}}).then(({user}) => {
+        cy.apiCreateUser({user: {email: `user${randomId}@sample.gmail.com`, username: `user${randomId}`, password: 'passwd'}}).then(({user}) => {
             // # Create a second team
             cy.apiCreateTeam('other-team', 'Other Team').then(({team: otherTeam}) => {
                 // # Add user to the other team

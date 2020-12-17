@@ -7,12 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @team_settings
 
 import {
     promoteToChannelOrTeamAdmin,
 } from '../enterprise/system_console/channel_moderation/helpers.js';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Manage Members', () => {
     let testTeam;
@@ -121,7 +121,7 @@ describe('Manage Members', () => {
                         cy.visit(`/${otherTeam.name}/channels/town-square`);
 
                         // * Verify they are still a member
-                        cy.get(`#headerTeamName:contains(${otherTeam.display_name})`, {timeout: 45000}).should('be.visible');
+                        cy.get(`#headerTeamName:contains(${otherTeam.display_name})`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                         // # Go to team that they were removed from
                         cy.visit(`/${testTeam.name}/channels/town-square`);
