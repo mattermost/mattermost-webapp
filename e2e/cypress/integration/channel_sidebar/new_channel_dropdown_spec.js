@@ -15,6 +15,12 @@ import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);

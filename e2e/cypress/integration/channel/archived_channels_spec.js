@@ -19,6 +19,9 @@ describe('Leave an archived channel', () => {
 
     before(() => {
         cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },

@@ -23,6 +23,12 @@ describe('Channel sidebar unread filter', () => {
     let testUser;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true}).then(({user}) => {
             testUser = user;
 

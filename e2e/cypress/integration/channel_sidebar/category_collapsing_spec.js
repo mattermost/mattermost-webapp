@@ -18,6 +18,12 @@ describe('Channel sidebar', () => {
     const sysadmin = getAdminAccount();
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true});
     });
 

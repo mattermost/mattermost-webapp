@@ -20,6 +20,12 @@ describe('Category muting', () => {
     let testUser;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true}).then((({team, user}) => {
             testTeam = team;
             testUser = user;

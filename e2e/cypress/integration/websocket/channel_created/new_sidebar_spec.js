@@ -13,6 +13,14 @@
 import {getRandomId} from '../../../utils';
 
 describe('Handle removed user - new sidebar', () => {
+    before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+    });
+
     it('MM-27202 should add new channels to the sidebar when created from another session', () => {
         // # Start with a new team
         const teamName = `team-${getRandomId()}`;

@@ -26,6 +26,12 @@ describe('Sidebar channel menu', () => {
     let teamName;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             teamName = team.name;
 

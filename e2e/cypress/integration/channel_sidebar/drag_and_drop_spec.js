@@ -20,6 +20,12 @@ describe('Channel sidebar', () => {
     let channelName;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true});
     });
 
