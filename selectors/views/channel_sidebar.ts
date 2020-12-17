@@ -18,7 +18,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {getItemFromStorage} from 'selectors/storage';
 import {GlobalState} from 'types/store';
@@ -58,7 +58,7 @@ export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => Relati
 // getChannelsInCategoryOrder returns an array of channels on the current team that are currently visible in the sidebar.
 // Channels are returned in the same order as in the sidebar.
 export const getChannelsInCategoryOrder = (() => {
-    const getCollapsedStateForAllCategories = createSelector(
+    const getCollapsedStateForAllCategories = createIdsSelector(
         getPrefix,
         getCategoriesForCurrentTeam,
         (state: GlobalState) => state.storage.storage,
