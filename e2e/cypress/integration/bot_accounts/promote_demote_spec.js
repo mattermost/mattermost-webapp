@@ -42,6 +42,7 @@ describe('Managing bots in Teams and Channels', () => {
             cy.get('#manageMembers > button').should('contain.text', 'Manage Members').click();
 
             // # Find bot
+            cy.get('.more-modal__list').find('.more-modal__row').its('length').should('be.gt', 0);
             cy.get('#searchUsersInput').type(`${bot.username}`);
 
             // # Wait for loading screen
