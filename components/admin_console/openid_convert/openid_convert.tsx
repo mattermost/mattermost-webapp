@@ -24,10 +24,10 @@ type Props = BaseProps & {
     disabled?: boolean;
     actions: {
         updateConfig: (config: AdminConfig) => ActionFunc & Partial<{error?: ClientErrorPlaceholder}>;
-    }
+    };
 };
 type State = {
-    serverError?: string
+    serverError?: string;
 }
 
 type ClientErrorPlaceholder = {

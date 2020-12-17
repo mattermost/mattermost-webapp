@@ -353,6 +353,21 @@ Cypress.Commands.add('apiVerifyUserEmailById', (userId) => {
     });
 });
 
+Cypress.Commands.add('apiActivateUserMFA', (userId, activate, token) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/users/${userId}/mfa`,
+        method: 'PUT',
+        body: {
+            activate,
+            code: token,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 Cypress.Commands.add('apiResetPassword', (userId, currentPass, newPass) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},

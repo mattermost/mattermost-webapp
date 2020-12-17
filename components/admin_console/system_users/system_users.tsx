@@ -98,15 +98,15 @@ type Props = {
         /**
          * Function to log errors
          */
-        logError: (error: {type: string, message: string}) => void;
+        logError: (error: {type: string; message: string}) => void;
     };
 };
 
 type State = {
-    loading: boolean,
-    searching: boolean,
-    showRevokeAllSessionsModal: boolean,
-    term?: string,
+    loading: boolean;
+    searching: boolean;
+    showRevokeAllSessionsModal: boolean;
+    term?: string;
 };
 
 export default class SystemUsers extends React.PureComponent<Props, State> {

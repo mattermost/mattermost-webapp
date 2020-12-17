@@ -222,10 +222,10 @@ type Props = {
     showSession?: boolean;
     currentUser: UserProfile;
     getUser: (userId: string) => UserProfile;
-    getByName: (channelURL: string) => Channel | null | undefined
+    getByName: (channelURL: string) => Channel | null | undefined;
     actions: {
         getMissingProfilesByIds: (userIds: string[]) => ActionFunc;
-    }
+    };
     getDirectTeammate: (channelId: string) => any;
 };
 
