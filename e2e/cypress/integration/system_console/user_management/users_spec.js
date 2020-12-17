@@ -225,24 +225,19 @@ describe('System Console > User Management > Users', () => {
 describe('System Console > User Management > Deactivation', () => {
     let team1;
     before(() => {
-        cy.apiAdminLogin();
-
-        // # Login as new user and visit town-square.
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        // # Do initial setup
+        cy.apiInitSetup().then(({team}) => {
             team1 = team;
         });
-
-        // # Log back in as admin
-        cy.apiAdminLogin();
     });
 
     beforeEach(() => {
-        // # Visit town-squad
+        // # Visit town-square
         cy.visit(`/${team1.name}`);
     });
 
     // # Create two users
-    it('MM-T946 Reactivating a user results in them showing up in the normal spot in the list, without the `Deactivated` label  ', () => {
+    it('MM-T946 GM: User deactivated in System Console still displays', () => {
         cy.apiCreateUser({prefix: 'first'}).then(({user: user1}) => {
             cy.apiCreateUser({prefix: 'second'}).then(({user: user2}) => {
                 const message = MESSAGES.SMALL;
@@ -369,7 +364,7 @@ describe('System Console > User Management > Deactivation', () => {
         });
     });
 
-    it('MM-T951 Reactivating a user results in them showing up in the normal spot in the list, without the `Deactivated` label.', () => {
+    it('MM-T952 Reactivating a user results in them showing up in the normal spot in the list, without the `Deactivated` label.', () => {
         // # Create two users with same random prefix
         const id = getRandomId();
 
