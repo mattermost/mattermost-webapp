@@ -143,9 +143,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('body').type('{esc}');
 
             // # Click More... in the sidebar
-            cy.get('#alphaChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
+            cy.get('#moreDirectMessage').scrollIntoView().should('be.visible').click();
 
             // # Go to direct messages modal
             cy.get('.more-modal').should('be.visible').within(() => {
@@ -155,6 +153,9 @@ describe('Account Settings > Sidebar > General', () => {
                 // * Verify that the username span contains the '@' symbol and the dark colour
                 cy.get('.more-modal__details > .more-modal__name').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
             });
+
+            // # Exit the modal
+            cy.get('body').type('{esc}');
         });
     });
 
@@ -179,19 +180,24 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
-    it('MM-T2062 Clear nickname and save', () => {
+    it.only('MM-T2062 Clear nickname and save', () => {
         cy.toAccountSettingsModal();
 
+        // # Go to general settings > Edit nickname
         cy.get('#generalButton').should('be.visible').click();
-
         cy.get('#nicknameEdit').click();
+
+        // # Clear the nickname
         cy.get('#nickname').clear();
+
+        // * Check if nickname element is present and it does not contain any nickname
+        cy.get('#nickname').should('be.visible').should('contain', '');
         cy.get('#saveSetting').click();
 
+        // * Verify nickname help text is visible
         cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
 
-        // * Check if element is present and it does not contain any nickname
-        cy.get('#nickname').should('be.visible').should('contain', '');
+        // # Close the modal
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
