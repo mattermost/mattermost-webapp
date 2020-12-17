@@ -7,12 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel_sidebar
 
 describe('Sidebar category menu', () => {
-    let teamName;
-
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -21,8 +18,6 @@ describe('Sidebar category menu', () => {
         });
 
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            teamName = team.name;
-
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
