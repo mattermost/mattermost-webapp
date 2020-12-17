@@ -25,11 +25,11 @@ type TeamValue = (Team & Value);
 
 export type Props = {
     currentSchemeId?: string;
-    alreadySelected?: Array<string>;
+    alreadySelected?: string[];
     searchTerm: string;
-    teams: Array<Team>;
+    teams: Team[];
     onModalDismissed?: () => void;
-    onTeamsSelected?: (a: Array<Team>) => void;
+    onTeamsSelected?: (a: Team[]) => void;
     modalID?: string;
     actions: {
         loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => Promise<ActionResult>;
@@ -40,7 +40,7 @@ export type Props = {
 };
 
 type State = {
-    values: Array<TeamValue>;
+    values: TeamValue[];
     show: boolean;
     search: boolean;
     loadingTeams: boolean;
@@ -149,7 +149,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleDelete = (values: Array<TeamValue>) => {
+    handleDelete = (values: TeamValue[]) => {
         this.setState({values});
     }
 
@@ -242,7 +242,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        let teams = [] as Array<Team>;
+        let teams = [] as Team[];
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
