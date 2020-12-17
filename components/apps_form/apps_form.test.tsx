@@ -18,7 +18,12 @@ import AppsForm, {Props as AppsFormProps} from './apps_form';
 
 describe('components/apps_form/AppsForm', () => {
     const baseProps: AppsFormProps = {
-        form: {} as AppForm,
+        form: {
+            fields: [{
+                name: 'field1',
+                type: 'text',
+            }],
+        } as AppForm,
         call: {
             url: '/submit_url',
         } as AppCall,
@@ -71,13 +76,13 @@ describe('components/apps_form/AppsForm', () => {
         });
     });
 
-    describe('default select element in Interactive Dialog', () => {
+    describe('default select element', () => {
         const mockStore = configureStore();
 
         test('should be enabled by default', () => {
             const selectField: AppField = {
                 type: 'static_select',
-                value: 'opt3',
+                value: {label: 'Option3', value: 'opt3'},
                 modal_label: 'Option Selector',
                 name: 'someoptionselector',
                 is_required: true,
@@ -93,15 +98,12 @@ describe('components/apps_form/AppsForm', () => {
                 description: '',
             };
 
-            const fields = baseProps.form.fields || [];
+            const fields = [selectField];
             const props: AppsFormProps = {
                 ...baseProps,
                 call: {} as AppCall,
                 form: {
-                    fields: [
-                        ...fields,
-                        selectField,
-                    ],
+                    fields,
                 },
             };
 
@@ -111,7 +113,7 @@ describe('components/apps_form/AppsForm', () => {
                     <AppsForm {...props}/>
                 </Provider>,
             );
-            expect(wrapper.find(Modal.Body).find('input').find({defaultValue: 'Option3'}).exists()).toBe(true);
+            expect(wrapper.find(Modal.Body).find('.react-select__single-value').text()).toEqual('Option3');
         });
     });
 });

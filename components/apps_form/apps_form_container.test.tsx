@@ -30,13 +30,18 @@ describe('components/apps_model/AppsFormContainer', () => {
                     type: 'text',
                     name: 'field1',
                     value: 'initial_value_1',
-                    source_url: '/dynamic_url',
+                },
+                {
+                    type: 'static_select',
+                    name: 'field2',
+                    value: 'initial_value_2',
+                    refresh: true,
                 },
             ],
         },
         call: {
             context,
-            url: '/submit_url',
+            url: '/form_url',
         },
         actions: {
             doAppCall: jest.fn().mockResolvedValue({}),
@@ -86,15 +91,13 @@ describe('components/apps_model/AppsFormContainer', () => {
                     team_id: 'team',
                 },
                 type: '',
-                url: '/submit_url',
+                url: '/form_url',
                 values: {
                     field1: 'value1',
-                    field2: [
-                        {
-                            label: 'label2',
-                            value: 'value2',
-                        },
-                    ],
+                    field2: {
+                        label: 'label2',
+                        value: 'value2',
+                    },
                 },
             });
 
@@ -129,7 +132,7 @@ describe('components/apps_model/AppsFormContainer', () => {
 
             const wrapper = shallow<AppsFormContainer>(<AppsFormContainer {...props}/>);
             const result = await wrapper.instance().performLookupCall(
-                form.fields[0],
+                form.fields[1],
                 {
                     field1: 'value1',
                     field2: {label: 'label2', value: 'value2'},
@@ -146,29 +149,16 @@ describe('components/apps_model/AppsFormContainer', () => {
                     team_id: 'team',
                 },
                 type: 'lookup',
-                url: '/dynamic_url',
+                url: '/form_url',
                 values: {
-                    form: {
-                        fields: [
-                            {
-                                name: 'field1',
-                                source_url: '/dynamic_url',
-                                type: 'text',
-                                value: 'initial_value_1',
-                            },
-                        ],
-                        header: 'Form Header',
-                        title: 'Form Title',
-                    },
+                    name: 'field2',
                     user_input: 'My search',
                     values: {
                         field1: 'value1',
-                        field2: [
-                            {
-                                label: 'label2',
-                                value: 'value2',
-                            },
-                        ],
+                        field2: {
+                            label: 'label2',
+                            value: 'value2',
+                        },
                     },
                 },
             });

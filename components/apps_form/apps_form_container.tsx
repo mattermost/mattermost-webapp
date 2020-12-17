@@ -103,7 +103,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
     };
 
     performLookupCall = async (field: AppField, values: AppFormValues, userInput: string): Promise<AppSelectOption[]> => {
-        if (!field.source_url) {
+        if (!field.refresh) {
             return [];
         }
 

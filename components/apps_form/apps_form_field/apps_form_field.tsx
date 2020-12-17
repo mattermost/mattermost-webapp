@@ -20,10 +20,6 @@ import ButtonSelector from 'components/button_selector';
 
 import AppsFormSelectField from './apps_form_select_field';
 
-export const RequiredStar: React.FC = () => (
-    <span className='error-text'>{' *'}</span>
-);
-
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
@@ -113,7 +109,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
             listComponent,
         } = this.props;
 
-        const placeholder = field.hint;
+        const placeholder = field.hint || '';
 
         const displayName = (field.modal_label || field.label) as string;
         let displayNameContent: React.ReactNode = (field.modal_label || field.label) as string;
@@ -121,7 +117,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
             displayNameContent = (
                 <React.Fragment>
                     {displayName}
-                    <RequiredStar/>
+                    <span className='error-text'>{' *'}</span>
                 </React.Fragment>
             );
         }
@@ -196,7 +192,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
                         onChange={this.handleSelected}
                         label={displayNameContent}
                         helpText={helpTextContent}
-                        value={(selected && selected.value) || ''}
+                        value={(selected && selected.value) || null}
                         shouldSubmit={true}
                     />
                 );

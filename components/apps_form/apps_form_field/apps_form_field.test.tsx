@@ -7,159 +7,261 @@ import {shallow} from 'enzyme';
 import {AppField} from 'mattermost-redux/types/apps';
 
 import TextSetting from 'components/widgets/settings/text_setting';
-import RadioSetting from 'components/widgets/settings/radio_setting';
+
+import ButtonSelector from 'components/button_selector';
+
+import AutocompleteSelector from 'components/autocomplete_selector';
+import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import AppsFormField, {Props} from './apps_form_field';
+import AppsFormSelectField from './apps_form_select_field';
 
 describe('components/apps_form/apps_form_field/AppsFormField', () => {
-    const field: AppField = {
-        name: 'field1',
-        type: 'text',
-        max_length: 100,
-        modal_label: 'The Field',
-    };
+    describe('Text elements', () => {
+        const textField: AppField = {
+            name: 'field1',
+            type: 'text',
+            max_length: 100,
+            modal_label: 'The Field',
+            hint: 'The hint',
+            description: 'The description',
+            is_required: true,
+        };
 
-    const baseDialogProps: Props = {
-        name: 'testing',
-        actions: {
-            autocompleteChannels: jest.fn(),
-            autocompleteUsers: jest.fn(),
-        },
-        field,
-        value: '',
-        onChange: () => {},
-        performLookup: jest.fn(),
-        isSubmit: false,
-    };
+        const baseDialogTextProps: Props = {
+            name: 'testing',
+            actions: {
+                autocompleteChannels: jest.fn(),
+                autocompleteUsers: jest.fn(),
+            },
+            field: textField,
+            value: '',
+            onChange: () => {},
+            performLookup: jest.fn(),
+            isSubmit: false,
+        };
 
-    const baseTextSettingProps = {
-        id: baseDialogProps.name,
-        maxLength: 100,
-        resizable: false,
-        value: '',
-        label: (
-            <React.Fragment>
-                {baseDialogProps.field.modal_label}
-                <span className='error-text'>{' *'}</span>
-            </React.Fragment>
-        ),
-    };
-    it('subtype blank', () => {
-        const wrapper = shallow(
-            <AppsFormField
-                {...baseDialogProps}
-            />,
-        );
-        expect(wrapper.matchesElement(
-            <TextSetting
-                {...baseTextSettingProps}
-                type='input'
-            />,
-        )).toEqual(true);
+        const baseTextSettingProps = {
+            inputClassName: '',
+            label: (
+                <React.Fragment>
+                    {baseDialogTextProps.field.modal_label}
+                    <span className='error-text'>{' *'}</span>
+                </React.Fragment>
+            ),
+            maxLength: 100,
+            placeholder: 'The hint',
+            resizable: false,
+            type: 'input',
+            value: '',
+            id: baseDialogTextProps.name,
+            helpText: 'The description',
+        };
+        it('subtype blank', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                />,
+            );
+
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    type='input'
+                />,
+            )).toEqual(true);
+        });
+
+        it('subtype email', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                    field={{
+                        ...textField,
+                        subtype: 'email',
+                    }}
+                />,
+            );
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    type='email'
+                />,
+            )).toEqual(true);
+        });
+
+        it('subtype invalid', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                    field={{
+                        ...textField,
+                        subtype: 'invalid',
+                    }}
+                />,
+            );
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    type='input'
+                />,
+            )).toEqual(true);
+        });
+
+        it('subtype password', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                    field={{
+                        ...textField,
+                        subtype: 'password',
+                    }}
+                />,
+            );
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    type='password'
+                />,
+            )).toEqual(true);
+        });
     });
 
-    it('subtype email', () => {
-        const wrapper = shallow(
-            <AppsFormField
-                {...baseDialogProps}
-                field={{
-                    ...field,
-                    subtype: 'email',
-                }}
-            />,
-        );
-        expect(wrapper.matchesElement(
-            <TextSetting
-                {...baseTextSettingProps}
-                type='email'
-            />,
-        )).toEqual(true);
-    });
+    describe('Select elements', () => {
+        const selectField: AppField = {
+            name: 'field1',
+            type: 'static_select',
+            max_length: 100,
+            modal_label: 'The Field',
+            hint: 'The hint',
+            description: 'The description',
+            is_required: true,
+            options: [],
+        };
 
-    it('subtype invalid', () => {
-        const wrapper = shallow(
-            <AppsFormField
-                {...baseDialogProps}
-                field={{
-                    ...field,
-                    subtype: 'invalid',
-                }}
-            />,
-        );
-        expect(wrapper.matchesElement(
-            <TextSetting
-                {...baseTextSettingProps}
-                type='input'
-            />,
-        )).toEqual(true);
-    });
+        const baseDialogSelectProps: Props = {
+            name: 'testing',
+            actions: {
+                autocompleteChannels: jest.fn(),
+                autocompleteUsers: jest.fn(),
+            },
+            field: selectField,
+            value: null,
+            onChange: () => {},
+            performLookup: jest.fn(),
+            isSubmit: false,
+        };
 
-    it('subtype password', () => {
-        const wrapper = shallow(
-            <AppsFormField
-                {...baseDialogProps}
-                field={{
-                    ...field,
-                    subtype: 'password',
-                }}
-            />,
-        );
-        expect(wrapper.matchesElement(
-            <TextSetting
-                {...baseTextSettingProps}
-                type='password'
-            />,
-        )).toEqual(true);
-    });
-
-    describe('radioSetting', () => {
-        const radioOptions = [
+        const options = [
             {value: 'foo', label: 'foo-text'},
             {value: 'bar', label: 'bar-text'},
         ];
 
-        test('RadioSetting is rendered when type is radio', () => {
+        test('AppsFormSelectField is rendered when type is static_select', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
-                        options: radioOptions,
+                        options,
                     }}
                     onChange={jest.fn()}
                 />,
             );
 
-            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('RadioSetting is rendered when options are undefined', () => {
+        test('AppsFormSelectField is rendered when type is dynamic_select', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
+                        type: 'dynamic_select',
+                        options,
+                    }}
+                    onChange={jest.fn()}
+                />,
+            );
+
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
+        });
+
+        test('ButtonSelector is rendered when type isSubmit is true', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogSelectProps}
+                    field={{
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
+                        options,
+                    }}
+                    onChange={jest.fn()}
+                    isSubmit={true}
+                />,
+            );
+
+            expect(wrapper.find(ButtonSelector).exists()).toBe(true);
+        });
+
+        test('GenericUserProvider is used when field type is user', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogSelectProps}
+                    field={{
+                        ...selectField,
+                        type: 'user',
+                    }}
+                    onChange={jest.fn()}
+                />,
+            );
+
+            expect(wrapper.find(AutocompleteSelector).exists()).toBe(true);
+            expect(wrapper.find(AutocompleteSelector).prop('providers')[0]).toBeInstanceOf(GenericUserProvider);
+        });
+
+        test('GenericChannelProvider is used when field type is channel', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogSelectProps}
+                    field={{
+                        ...selectField,
+                        type: 'channel',
+                    }}
+                    onChange={jest.fn()}
+                />,
+            );
+
+            expect(wrapper.find(AutocompleteSelector).exists()).toBe(true);
+            expect(wrapper.find(AutocompleteSelector).prop('providers')[0]).toBeInstanceOf(GenericChannelProvider);
+        });
+
+        test('AppSelectForm is rendered when options are undefined', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogSelectProps}
+                    field={{
+                        ...selectField,
+                        type: 'static_select',
                         options: undefined,
                     }}
                     onChange={jest.fn()}
                 />,
             );
 
-            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('RadioSetting is rendered when options are null and value is null', () => {
+        test('AppsFormSelectField is rendered when options are null and value is null', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
                         options: undefined,
                     }}
                     value={null}
@@ -167,76 +269,72 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 />,
             );
 
-            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('RadioSetting is rendered when options are null and value is not null', () => {
+        test('AppsFormSelectField is rendered when options are null and value is not null', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
                         options: undefined,
                     }}
-                    value={'a'}
+                    value={options[0]}
                     onChange={jest.fn()}
                 />,
             );
 
-            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('RadioSetting is rendered when value is not one of the options', () => {
+        test('AppsFormSelectField is rendered when value is not one of the options', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
-                        options: radioOptions,
+                        options,
                     }}
-                    value={'a'}
+                    value={{label: 'Other', value: 'other'}}
                     onChange={jest.fn()}
                 />,
             );
 
-            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('No default value is selected from the radio button list', () => {
+        test('No default value is selected from the options list', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
-                        options: radioOptions,
+                        options,
                     }}
                     onChange={jest.fn()}
                 />,
             );
-            expect(wrapper.find({options: radioOptions}).props().value).toEqual('');
+            expect(wrapper.find(AppsFormSelectField).prop('value')).toBeNull();
         });
 
         test('The default value can be specified from the list', () => {
             const wrapper = shallow(
                 <AppsFormField
-                    {...baseDialogProps}
+                    {...baseDialogSelectProps}
                     field={{
-                        ...field,
+                        ...selectField,
                         type: 'static_select',
-                        subtype: 'radio',
-                        options: radioOptions,
+                        options,
                     }}
-                    value={radioOptions[1].value}
+                    value={options[1]}
                     onChange={jest.fn()}
                 />,
             );
-            expect(wrapper.find({options: radioOptions, value: radioOptions[1].value}).exists()).toBe(true);
+            expect(wrapper.find(AppsFormSelectField).prop('value')).toBe(options[1]);
         });
     });
 });
