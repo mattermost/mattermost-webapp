@@ -45,7 +45,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         }
     }
 
-    private getStatValue(stat: number | AnalyticsRow[]):number | undefined {
+    private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
         if (typeof stat === 'number') {
             return stat;
         }
