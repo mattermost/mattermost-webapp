@@ -13,18 +13,18 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
 export type UserProfileProps = {
-    displayName?: string,
-    isBusy?: boolean,
-    overwriteName?: React.ReactNode,
-    overwriteIcon?: React.ReactNode,
-    user?:UserProfileType,
-    userId: string,
-    disablePopover?: boolean,
-    displayUsername?: boolean,
-    hasMention?: boolean,
-    hideStatus?: boolean,
-    isRHS?: boolean,
-    overwriteImage?: React.ReactNode,
+    userId: string;
+    displayName?: string;
+    isBusy?: boolean;
+    overwriteName?: React.ReactNode;
+    overwriteIcon?: React.ReactNode;
+    user?:UserProfileType;
+    disablePopover?: boolean;
+    displayUsername?: boolean;
+    hasMention?: boolean;
+    hideStatus?: boolean;
+    isRHS?: boolean;
+    overwriteImage?: React.ReactNode;
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
