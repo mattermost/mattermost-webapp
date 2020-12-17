@@ -19,8 +19,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 type Props = {
     user: UserProfile;
     status?: string;
-    extraInfo?: (string | JSX.Element)[];
-    actions?: ConnectedComponent<any, any>[];
+    extraInfo?: Array<string | JSX.Element>;
+    actions?: Array<ConnectedComponent<any, any>>;
     actionProps?: {
         mfaEnabled: boolean;
         enableUserAccessTokens: boolean;

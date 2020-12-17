@@ -175,7 +175,7 @@ const formattedMessages: any = defineMessages({
 });
 
 interface Props {
-    channelPermissions?: Array<ChannelPermissions>;
+    channelPermissions?: ChannelPermissions[];
     onChannelPermissionsChanged: (name: string, channelRole: ChannelModerationRoles) => void;
     teamSchemeID?: string;
     teamSchemeDisplayName?: string;
@@ -269,8 +269,8 @@ export const ChannelModerationTableRow: React.FunctionComponent<RowProps> = (pro
 };
 
 export default class ChannelModeration extends React.PureComponent<Props> {
-    private errorMessagesToDisplay = (entry: ChannelPermissions): Array<JSX.Element> => {
-        const errorMessages: Array<JSX.Element> = [];
+    private errorMessagesToDisplay = (entry: ChannelPermissions): JSX.Element[] => {
+        const errorMessages: JSX.Element[] = [];
         const isGuestsDisabled = !isNil(entry.roles.guests?.enabled) && !entry.roles.guests?.enabled && this.props.guestAccountsEnabled;
         const isMembersDisabled = !entry.roles.members.enabled;
         let createPostsKey = '';
