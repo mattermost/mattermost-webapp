@@ -10,7 +10,7 @@ import {ChannelMembership} from 'mattermost-redux/types/channels';
 import {Group} from 'mattermost-redux/types/groups';
 
 type ProfileWithGroups = Partial<UserProfile & {
-    groups: Partial<Group>[];
+    groups: Array<Partial<Group>>;
 }>;
 
 interface GroupUsersRoleProps {
