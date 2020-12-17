@@ -8,6 +8,8 @@ import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
+import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -71,7 +73,7 @@ export class TestHelper {
         return Object.assign({}, defaultBot, override);
     }
 
-    public static getChannelMock(override: Partial<Channel>): Channel {
+    public static getChannelMock(override?: Partial<Channel>): Channel {
         const defaultChannel: Channel = {
             id: 'channel_id',
             create_at: 0,
@@ -91,6 +93,20 @@ export class TestHelper {
             group_constrained: false,
         };
         return Object.assign({}, defaultChannel, override);
+    }
+
+    public static getCategoryMock(override?: Partial<ChannelCategory>): ChannelCategory {
+        const defaultCategory: ChannelCategory = {
+            id: 'category_id',
+            team_id: 'team_id',
+            user_id: 'user_id',
+            type: CategoryTypes.CUSTOM,
+            display_name: 'category_name',
+            sorting: CategorySorting.Alphabetical,
+            channel_ids: ['channel_id'],
+            muted: false,
+        };
+        return Object.assign({}, defaultCategory, override);
     }
 
     public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps: Partial<ChannelNotifyProps>): ChannelMembership {
