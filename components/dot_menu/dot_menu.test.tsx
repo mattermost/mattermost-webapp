@@ -37,7 +37,7 @@ describe('components/dot_menu/DotMenu', () => {
             unpinPost: jest.fn(),
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
-            doAppCall: jest.fn(),
+            doAppCallWithBinding: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
