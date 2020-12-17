@@ -19,7 +19,7 @@ export type Props = {
     currentTeamId: string;
     currentChannelId: string;
     searchTerm: string;
-    usersToDisplay: Array<UserProfile>;
+    usersToDisplay: UserProfile[];
     actionUserProps: {
         [userId: string]: {
             channel: Channel;
@@ -43,7 +43,7 @@ export type Props = {
         ) => Promise<{
             data: boolean;
         }>;
-        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{data: boolean}>;
+        loadStatusesForProfilesList: (users: UserProfile[]) => Promise<{data: boolean}>;
         loadTeamMembersAndChannelMembersForProfilesList: (
             profiles: any,
             teamId: string,

@@ -96,7 +96,7 @@ export type Props = FormatOptions & {
     value?: ConstructorParameters<typeof Date>[0];
 
     useRelative?: Resolvable<ResolvedFormats['relative'], {value: Date}, FormatOptions>;
-    units?: (RangeDescriptor | Unit | keyof typeof STANDARD_UNITS)[];
+    units?: Array<RangeDescriptor | Unit | keyof typeof STANDARD_UNITS>;
     ranges?: Props['units'];
     useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
     useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;
