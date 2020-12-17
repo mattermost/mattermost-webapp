@@ -92,7 +92,7 @@ const makeMapStateToProps = () => {
     };
 };
 
-const filterGroupChannels = memoizeResult((channels: Array<{profiles: Array<UserProfile>} & Channel>, term: string) => {
+const filterGroupChannels = memoizeResult((channels: Array<{profiles: UserProfile[]} & Channel>, term: string) => {
     return channels.filter((channel) => {
         const matches = filterProfilesStartingWithTerm(channel.profiles, term);
         return matches.length > 0;

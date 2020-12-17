@@ -19,7 +19,7 @@ import ComplianceReports from './compliance_reports';
 
 type Actions = {
     getComplianceReports: () => Promise<{data: Compliance[]}>;
-    createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance, error?: Error}>;
+    createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance; error?: Error}>;
 }
 
 const getUsersForReports = createSelector(
