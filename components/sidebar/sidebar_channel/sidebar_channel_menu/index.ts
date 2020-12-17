@@ -8,19 +8,21 @@ import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-
 import Permissions from 'mattermost-redux/constants/permissions';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {makeGetCategoriesForTeam, getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Action} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
-import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
+
+import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
+
 import {GlobalState} from 'types/store';
+
 import {getSiteURL} from 'utils/url';
 
 import SidebarChannelMenu from './sidebar_channel_menu';
@@ -30,15 +32,6 @@ type OwnProps = {
     channelLink: string;
     isUnread: boolean;
 }
-
-const getCategoriesForCurrentTeam = (() => {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
-
-    return memoizeResult((state: GlobalState) => {
-        const currentTeamId = getCurrentTeam(state).id;
-        return getCategoriesForTeam(state, currentTeamId);
-    });
-})();
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const member = getMyChannelMemberships(state)[ownProps.channel.id];
