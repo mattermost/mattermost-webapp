@@ -25,11 +25,11 @@ type TeamValue = (Team & Value);
 
 export type Props = {
     currentSchemeId?: string;
-    alreadySelected?: Array<string>;
+    alreadySelected?: string[];
     searchTerm: string;
-    teams: Array<Team>;
+    teams: Team[];
     onModalDismissed?: () => void;
-    onTeamsSelected?: (a: Array<Team>) => void;
+    onTeamsSelected?: (a: Team[]) => void;
     modalID?: string;
     actions: {
         loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => Promise<ActionResult>;
@@ -40,7 +40,7 @@ export type Props = {
 };
 
 type State = {
-    values: Array<TeamValue>;
+    values: TeamValue[];
     show: boolean;
     search: boolean;
     loadingTeams: boolean;
@@ -149,11 +149,11 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         }
     }
 
-    handleDelete = (values: Array<TeamValue>) => {
+    handleDelete = (values: TeamValue[]) => {
         this.setState({values});
     }
 
-    search = (term: string, multiselectComponent: { state: { page: number; }; setState: (arg0: { page: number; }) => void; }) => {
+    search = (term: string, multiselectComponent: { state: { page: number }; setState: (arg0: { page: number }) => void }) => {
         if (multiselectComponent.state.page !== 0) {
             multiselectComponent.setState({page: 0});
         }
@@ -196,7 +196,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         );
     }
 
-    renderValue(props: { data: TeamValue; }) {
+    renderValue(props: { data: TeamValue }) {
         return props.data.display_name;
     }
 
@@ -242,7 +242,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        let teams = [] as Array<Team>;
+        let teams = [] as Team[];
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);

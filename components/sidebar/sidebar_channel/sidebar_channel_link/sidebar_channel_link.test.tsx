@@ -41,6 +41,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             multiSelectChannel: jest.fn(),
             multiSelectChannelAdd: jest.fn(),
             multiSelectChannelTo: jest.fn(),
+            clearChannelSelection: jest.fn(),
         },
     };
 
