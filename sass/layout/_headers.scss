@@ -163,8 +163,8 @@
             height: 20px;
             margin-right: 8px;
             font-size: 1.6rem;
-            fill: v(center-channel-color-56);
-            color: v(center-channel-color-56);
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
 
             svg,
             img {
@@ -399,7 +399,7 @@
             overflow: visible;
 
             button {
-                color: v(center-channel-color-56);
+                color: rgba(var(--center-channel-color-rgb), 0.64);
 
                 .edit-icon {
                     display: none;
