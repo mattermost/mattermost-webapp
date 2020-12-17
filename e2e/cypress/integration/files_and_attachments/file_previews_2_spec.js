@@ -81,7 +81,7 @@ function testAudioFile(fileProperties) {
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
+        return el.find('.post-image__thumbnail').length > 0;
     }));
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
@@ -129,7 +129,7 @@ function testVideoFile(fileProperties) {
     // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
+        return el.find('.post-image__thumbnail').length > 0;
     }));
     cy.get('#create_post').find('.file-preview').within(() => {
         // * Thumbnail exist
@@ -177,7 +177,7 @@ function testImage(imageProperties) {
     // # Post an image in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
+        return el.find('.post-image__thumbnail').length > 0;
     }));
     cy.get('.post-image').should('be.visible');
     cy.get('#create_post').find('.file-preview').within(() => {
