@@ -1,8 +1,16 @@
 @charset 'UTF-8';
 
 .GenericModal {
+    width: 692px;
+
     &.modal-dialog {
         margin-top: calc(50vh - 240px);
+    }
+
+    &.modal-overflow {
+        .modal-body {
+            overflow: visible;
+        }
     }
 
     .modal-body {
@@ -32,6 +40,7 @@
 
     .modal-content {
         border-radius: 8px;
+        padding: 0;
     }
 
     .modal-header {
@@ -73,7 +82,7 @@
 }
 
 .GenericModal__header {
-    padding: 24px 24px 16px 24px;
+    padding: 28px 24px 16px 24px;
 
     h1 {
         font-weight: 600;
@@ -118,3 +127,4 @@
         }
     }
 }
+

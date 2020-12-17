@@ -2,27 +2,28 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
 
-import { localizeMessage } from 'utils/utils';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+import {UserStatus} from 'mattermost-redux/types/users';
 
-import DayPicker from 'react-day-picker';
-
-import '../category_modal.scss';
 import GenericModal from 'components/generic_modal';
-import { MenuItem, DropdownButton } from 'react-bootstrap';
-import { ActionFunc } from 'mattermost-redux/types/actions';
-import { UserStatus } from 'mattermost-redux/types/users';
-import { UserStatuses } from 'utils/constants';
+// import {localizeMessage} from 'utils/utils';
+
+
+import {UserStatuses} from 'utils/constants';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+
+import './dnd_custom_time_picker_modal.scss';
 
 type Props = {
     onHide: () => void;
     userId: string;
     actions: {
         setStatus: (status: UserStatus) => ActionFunc;
-    }
+    };
 };
 
 type State = {
@@ -39,11 +40,11 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
     }
 
     // handleClear = () => {
-    //     this.setState({ categoryName: '' });
+    //     this.setState({categoryName: '' });
     // }
 
     // handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     this.setState({ categoryName: e.target.value });
+    //     this.setState({categoryName: e.target.value });
     // }
 
     // handleCancel = () => {
@@ -138,35 +139,26 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 id='dndCustomTimePickerModal'
-                className={'modal-overflow'}
+                className={'DndModal modal-overflow'}
             >
-                {
-                    <DropdownButton
-                        bsStyle='default'
-                        title='Date Picker'
-                        id='dropdown-no-caret'
-                        noCaret={true}
-                    >
-                        <MenuItem
-                            className={'dnd-pickers-dropdown-menu'}
-                        >
-                            <DayPicker
-                                onDayClick={handleDayClick}
-                                showOutsideDays={true}
-                                modifiers={modifiers}
-                            />
-                        </MenuItem>
-                    </DropdownButton>
-                }
-                {
+                <div className='DndModal__content'>
+                    <div>
+                        <div className='DndModal__input DndModal__input--no-border'>
+                            <div className='DndModal__input__label'>{'Date'}</div>
+                            <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
+                            <DayPickerInput placeholder='Today'/>
+                        </div>
+                    </div>
                     <MenuWrapper
                         id='dropdown-no-caret'
-                        className={'DNDTimePickerModal__footer'}
                     >
-                        <button className='style--none'>
-                            <span>{'Select Hours:'}</span>
-                            <strong className='ml-1 mr-1'>{'1 hour'}</strong>
-                            <i className='icon icon-chevron-down icon--xs icon-14' />
+                        <button
+                            className='DndModal__input'
+                            type='button'
+                        >
+                            <div className='DndModal__input__label'>{'Time'}</div>
+                            <i className='icon icon--no-spacing icon-clock-outline icon--xs icon-14'/>
+                            <span>{'12:30 PM'}</span>
                         </button>
                         <Menu
                             openLeft={false}
@@ -175,14 +167,15 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             {timeMenuItems}
                         </Menu>
                     </MenuWrapper>
-                }
-                {
+                </div>
+                <div className='DndModal__footer'>
                     <button
+                        className='btn btn-primary'
                         onClick={setStatus}
                     >
-                        {'Done'}
+                        {'Disable Notifications'}
                     </button>
-                }
+                </div>
             </GenericModal>
         );
     }
