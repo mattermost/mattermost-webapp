@@ -30,7 +30,7 @@ type Props = {
         removeIncomingHook: (hookId: string) => Promise<ActionResult>;
         loadIncomingHooksAndProfilesForTeam: (teamId: string, startPageNumber: number,
             pageSize: string) => Promise<ActionResult>;
-    }
+    };
 }
 
 type State = {
