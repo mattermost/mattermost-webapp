@@ -6,7 +6,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -18,27 +17,28 @@ import {
     stopDragging,
 } from 'actions/views/channel_sidebar';
 import {close} from 'actions/views/lhs';
-import {isUnreadFilterEnabled, getDraggingState, getDisplayedChannels} from 'selectors/views/channel_sidebar';
+import {
+    getDisplayedChannels,
+    getDraggingState,
+    getCategoriesForCurrentTeam,
+    isUnreadFilterEnabled,
+} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarChannelList from './sidebar_channel_list';
 
-function makeMapStateToProps() {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
+function mapStateToProps(state: GlobalState) {
+    const currentTeam = getCurrentTeam(state);
 
-    return (state: GlobalState) => {
-        const currentTeam = getCurrentTeam(state);
-
-        return {
-            currentTeam,
-            currentChannelId: getCurrentChannelId(state),
-            categories: getCategoriesForTeam(state, currentTeam.id),
-            isUnreadFilterEnabled: isUnreadFilterEnabled(state),
-            unreadChannelIds: getUnreadChannelIds(state),
-            displayedChannels: getDisplayedChannels(state),
-            draggingState: getDraggingState(state),
-            newCategoryIds: state.views.channelSidebar.newCategoryIds,
-        };
+    return {
+        currentTeam,
+        currentChannelId: getCurrentChannelId(state),
+        categories: getCategoriesForCurrentTeam(state),
+        isUnreadFilterEnabled: isUnreadFilterEnabled(state),
+        unreadChannelIds: getUnreadChannelIds(state),
+        displayedChannels: getDisplayedChannels(state),
+        draggingState: getDraggingState(state),
+        newCategoryIds: state.views.channelSidebar.newCategoryIds,
     };
 }
 
@@ -56,4 +56,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarChannelList);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelList);
