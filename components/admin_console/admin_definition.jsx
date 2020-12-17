@@ -5578,6 +5578,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableLegacySidebar.desc'),
                         help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
@@ -5588,6 +5589,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **On**.',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('experimental')),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
@@ -5601,6 +5603,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
                         help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **On**.',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('experimental')),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
@@ -5614,6 +5617,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
                         help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **On**.',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('experimental')),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
@@ -5627,7 +5631,10 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
                         help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **On**.',
                         help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
+                        isHidden: it.any(
+                            it.not(it.licensed), // E10 and higher
+                            it.licensedForFeature('Cloud'),
+                        ),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('experimental')),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
