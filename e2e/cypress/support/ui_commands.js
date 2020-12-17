@@ -299,7 +299,7 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
 /**
  * Close a DM via the X button
  * @param {User} sender - the one currently observing and who will close the DM
- * @param {User} recipient - the other user in a DM 
+ * @param {User} recipient - the other user in a DM
  * @param {String} team - a team where the sender is member of
  */
 Cypress.Commands.add('closeDirectMessageViaXButton', (sender, recipient, team) => {
