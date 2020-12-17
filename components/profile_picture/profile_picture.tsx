@@ -21,7 +21,7 @@ type Props = {
     isRHS?: boolean;
     profileSrc?: string;
     size?: ComponentProps<typeof Avatar>['size'];
-    src: string;
+    src?: string;
     status?: string;
     userId?: string;
     username?: string;

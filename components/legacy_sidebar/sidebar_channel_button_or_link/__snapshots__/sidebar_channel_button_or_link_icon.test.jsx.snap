@@ -1,9 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on archive direct message 1`] = `
-<ArchiveIcon
-  className="icon icon__archive"
-/>
+<span
+  className="avatar profile-dnd"
+>
+  <ProfilePicture
+    hasMention={false}
+    isEmoji={false}
+    isRHS={false}
+    size="md"
+    status="dnd"
+    type="avatar"
+    wrapperClass=""
+  />
+</span>
 `;
 
 exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on archived public channel 1`] = `
@@ -13,12 +23,16 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 `;
 
 exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on direct message 1`] = `
-<StatusIcon
-  button={false}
-  className=""
-  status="test"
-  type="avatar"
-/>
+<span
+  className="avatar"
+>
+  <StatusIcon
+    button={false}
+    className=""
+    status="test"
+    type="avatar"
+  />
+</span>
 `;
 
 exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on group direct message 1`] = `
