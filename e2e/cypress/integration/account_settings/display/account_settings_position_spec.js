@@ -36,8 +36,7 @@ describe('Account Settings > General > Position', () => {
             cy.findByRole('textbox', {name: 'Position'}).should('be.visible').type(position);
 
             // # Save and close the modal
-            cy.uiSave();
-            cy.uiClose();
+            cy.uiSaveAndClose();
         });
 
         // # Post message in the main channel
@@ -66,14 +65,14 @@ describe('Account Settings > General > Position', () => {
 
             minPositionHeader().click();
             maxPositionInput().invoke('val').then((val) => {
-                // # Verify that the input value is 128 characters
+                // * Verify that the input value is 128 characters
                 expect(val.length).to.equal(128);
             });
 
             // # Try to edit the field with maximum characters
             maxPositionInput().focus().type('random');
             maxPositionInput().invoke('val').then((val) => {
-                // # Verify that the position hasn't changed
+                // * Verify that the position hasn't changed
                 expect(val).to.equal(longPosition);
             });
 

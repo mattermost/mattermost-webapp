@@ -40,5 +40,13 @@ declare namespace Cypress {
          *   cy.uiClose();
          */
         uiClose(): Chainable;
+
+        /**
+         * Click Save then Close buttons
+         *
+         * @example
+         *   cy.uiSaveAndClose();
+         */
+        uiSaveAndClose(): Chainable;
     }
 }

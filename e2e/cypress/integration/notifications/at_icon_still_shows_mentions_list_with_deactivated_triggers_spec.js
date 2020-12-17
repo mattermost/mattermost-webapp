@@ -34,8 +34,7 @@ describe('Notifications', () => {
                 cy.findByRole('checkbox', {name: 'Other non case-sensitive words, separated by commas:'}).should('not.be.checked');
 
                 // # Save then close the modal
-                cy.uiSave();
-                cy.uiClose();
+                cy.uiSaveAndClose();
             });
 
             cy.apiLogout();

@@ -27,8 +27,7 @@ describe('Messaging', () => {
             cy.findByRole('checkbox', {name: 'Show markdown preview option in message input box'}).click().should('be.checked');
 
             // # Save and close the modal
-            cy.uiSave();
-            cy.uiClose();
+            cy.uiSaveAndClose();
         });
 
         // # Post the image link to the channel

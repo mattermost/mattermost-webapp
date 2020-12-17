@@ -12,3 +12,8 @@ Cypress.Commands.add('uiCancel', () => {
 Cypress.Commands.add('uiClose', () => {
     return cy.findByRole('button', {name: 'Close'}).click();
 });
+
+Cypress.Commands.add('uiSaveAndClose', () => {
+    cy.uiSave();
+    cy.uiClose();
+});

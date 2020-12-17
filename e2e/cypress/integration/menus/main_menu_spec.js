@@ -40,7 +40,7 @@ describe('Main menu', () => {
         cy.findByRole('menu').should('exist');
     });
 
-    it('for system administrator for system administrator', () => {
+    it('should show integrations option for system administrator', () => {
         cy.apiAdminLogin();
         cy.visit(`/${testTeam.name}/channels/town-square`);
 

@@ -864,7 +864,6 @@ function setSendMessagesOnCtrlEnter(name) {
         cy.findByRole('radio', {name}).click();
 
         // # Save and close the  modal
-        cy.uiSave();
-        cy.uiClose();
+        cy.uiSaveAndClose();
     });
 }

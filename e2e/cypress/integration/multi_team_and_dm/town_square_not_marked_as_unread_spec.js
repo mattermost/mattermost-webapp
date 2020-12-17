@@ -44,8 +44,7 @@ describe('Multi Team and DM', () => {
             cy.findByRole('radio', {name: 'Off'}).click();
 
             // # Save and close the modal
-            cy.uiSave();
-            cy.uiClose();
+            cy.uiSaveAndClose();
         });
 
         // # Confirm Town Square is marked as read

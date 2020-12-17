@@ -56,8 +56,7 @@ describe('Notifications', () => {
             cy.findByRole('radio', {name: 'Immediately'}).click().should('be.checked');
 
             // # Save then close the modal
-            cy.uiSave();
-            cy.uiClose();
+            cy.uiSaveAndClose();
         });
 
         // # Post a message as sysadmin that contains the channel name and otherUser's username
