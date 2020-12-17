@@ -319,7 +319,7 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const extraInfo: {[key: string]: (string | JSX.Element)[]} = {};
+        const extraInfo: {[key: string]: Array<string | JSX.Element>} = {};
         if (this.props.users) {
             for (const user of this.props.users) {
                 extraInfo[user.id] = this.getInfoForUser(user);

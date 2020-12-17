@@ -17,7 +17,7 @@ type StylingKeys = 'size';
 type UserProps = ComponentProps<typeof Avatar> & {name: string};
 
 export type Props = Pick<UserProps, StylingKeys> & {
-    users: Omit<UserProps, StylingKeys>[];
+    users: Array<Omit<UserProps, StylingKeys>>;
     totalUsers?: number;
     breakAt?: number;
 }

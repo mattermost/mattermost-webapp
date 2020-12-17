@@ -31,7 +31,7 @@ type Props = {
     license: ClientLicense;
     analytics?: Dictionary<number | AnalyticsRow[]>;
     actions: {
-        savePreferences(userId: string, preferences: Array<PreferenceType>): void;
+        savePreferences(userId: string, preferences: PreferenceType[]): void;
         dismissNotice(type: string): void;
         getStandardAnalytics(teamId?: string): void;
     };
