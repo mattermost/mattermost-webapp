@@ -4,12 +4,10 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>;;
 
 import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 
-export type FormValue = string | AppSelectOption | null;
-export type FormValues = {[name: string]: FormValue};
+const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
 
 export type Props = {
     field: AppField;
@@ -55,12 +53,8 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
     renderDynamicSelect() {
         const {field} = this.props;
-
         const placeholder = field.hint || '';
-
         const value = this.props.value || [];
-
-        // const value = (this.props.value && options.find((opt) => opt.value === this.props.value.value)) || {};
 
         return (
             <div className='form-group'>
@@ -87,8 +81,6 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
         const options = field.options || [];
         const value = this.props.value || {};
-
-        // const value = (this.props.value && options.find((opt) => opt.value === this.props.value.value)) || {};
 
         return (
             <div className='form-group'>

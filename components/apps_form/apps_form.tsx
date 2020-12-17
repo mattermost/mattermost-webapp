@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
 import {DialogElement} from 'mattermost-redux/types/integrations';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -20,7 +20,6 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
-import {FormValues, FormValue} from './apps_form_field/apps_form_select_field';
 
 export type Props = {
     call: AppCall;
@@ -39,8 +38,8 @@ export type Props = {
                 [name: string]: string;
             };
         }) => Promise<{data: AppCallResponse<FormResponseData>}>;
-        performLookupCall: (field: AppField, values: FormValues, userInput: string) => Promise<AppSelectOption[]>;
-        refreshOnSelect: (field: AppField, values: FormValues, value: FormValue) => Promise<{data: AppCallResponse<any>}>;
+        performLookupCall: (field: AppField, values: AppFormValues, userInput: string) => Promise<AppSelectOption[]>;
+        refreshOnSelect: (field: AppField, values: AppFormValues, value: AppFormValue) => Promise<{data: AppCallResponse<any>}>;
     };
     emojiMap: EmojiMap;
 }
@@ -212,14 +211,13 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (field.refresh_url) {
-            this.props.actions.refreshOnSelect(field, this.state.values, value);
+        const values = {...this.state.values, [name]: value};
+
+        if (field.refresh) {
+            this.props.actions.refreshOnSelect(field, values, value);
         }
 
-        this.setState((state) => {
-            const values = {...state.values, [name]: value};
-            return {values};
-        });
+        this.setState({values});
     };
 
     renderModal() {

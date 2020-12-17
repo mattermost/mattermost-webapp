@@ -3,12 +3,11 @@
 
 import React from 'react';
 
-import {AppCall, AppCallResponse, AppField, AppForm, AppSelectOption, AppContext} from 'mattermost-redux/types/apps';
+import {AppCall, AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppContext} from 'mattermost-redux/types/apps';
 import {AppsBindings, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
-import {FormValue} from './apps_form_field/apps_form_select_field';
 import AppsForm from './apps_form';
 
 const makeError = (errMessage: string) => {
@@ -18,10 +17,6 @@ const makeError = (errMessage: string) => {
             error: 'There has been an error submitting the dialog. Contact the app developer. Details: ' + errMessage,
         },
     };
-};
-
-type FormValues = {
-    [name: string]: any;
 };
 
 export type Props = {
@@ -43,23 +38,22 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         refreshNonce: '',
     }
 
-    submitDialog = async (submission: {values: FormValues}): Promise<{data: AppCallResponse<any>}> => {
+    submitDialog = async (submission: {values: AppFormValues}): Promise<{data: AppCallResponse<any>}> => {
         //TODO use FormResponseData instead of Any
-        const {form, call} = this.props;
-        if (!form || !call) {
-            return makeError('submitDialog props.form or props.call is not defined');
+        const {form} = this.props;
+        if (!form) {
+            return makeError('submitDialog props.form is not defined');
         }
 
-        const context = this.getContext();
-        if (!context) {
-            return makeError('submitDialog context is not defined');
+        const call = this.getCall();
+        if (!call) {
+            return makeError('submitDialog props.call is not defined');
         }
 
         const outCall: AppCall = {
             ...call,
             type: '',
             values: submission.values,
-            context,
         };
 
         try {
@@ -70,13 +64,18 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         }
     };
 
-    refreshOnSelect = async (field: AppField, values: FormValues, value: FormValue): Promise<{data: AppCallResponse<any>}> => {
-        const {form, call} = this.props;
-        if (!form || !call) {
-            return makeError('refreshOnSelect props.form or props.call is not defined');
+    refreshOnSelect = async (field: AppField, values: AppFormValues, value: AppFormValue): Promise<{data: AppCallResponse<any>}> => {
+        const {form} = this.props;
+        if (!form) {
+            return makeError('refreshOnSelect props.form is not defined');
         }
 
-        if (!field.refresh_url) {
+        const call = this.getCall();
+        if (!call) {
+            return makeError('refreshOnSelect props.call is not defined');
+        }
+
+        if (!field.refresh) {
             return {
                 data: {
                     type: '',
@@ -85,20 +84,14 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
             };
         }
 
-        const context = this.getContext();
-        if (!context) {
-            return makeError('refreshOnSelect context is not defined');
-        }
-
         const outCall: AppCall = {
             ...call,
-            url: field.refresh_url,
             type: 'form',
             values: {
+                name: field.name,
                 values,
                 value,
             },
-            context,
         };
 
         try {
@@ -109,31 +102,25 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         }
     };
 
-    performLookupCall = async (field: AppField, values: FormValues, userInput: string): Promise<AppSelectOption[]> => {
+    performLookupCall = async (field: AppField, values: AppFormValues, userInput: string): Promise<AppSelectOption[]> => {
         if (!field.source_url) {
             return [];
         }
 
-        const {call, form} = this.props;
+        const call = this.getCall();
         if (!call) {
-            return [];
-        }
-
-        const context = this.getContext();
-        if (!context) {
             return [];
         }
 
         const res = await this.props.actions.doAppCall({
             ...call,
-            url: field.source_url,
             type: 'lookup',
             values: {
                 user_input: userInput,
                 values,
-                form,
+                name: field.name,
+                // form, // instead of including the form, just make sure any form elements that have a blank value in the `values` field here
             },
-            context,
         });
 
         if (res.data.type === AppCallResponseTypes.ERROR) {
@@ -146,6 +133,28 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         }
 
         return [];
+    }
+
+    getCall = (): AppCall | null => {
+        const {postID, channelID, teamID, form} = this.props;
+
+        const propsCall = this.props.call;
+        const call = form.call || propsCall;
+
+        if (!call) {
+            return null;
+        }
+
+        return {
+            ...call,
+            context: {
+                app_id: call.context.app_id,
+                location: postID ? AppsBindings.IN_POST : call.context.location,
+                post_id: postID,
+                team_id: postID ? teamID : call.context.team_id,
+                channel_id: postID ? channelID : call.context.channel_id,
+            }
+        };
     }
 
     getContext = (): AppContext | null => {
