@@ -3,7 +3,7 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppCall, AppForm} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppCall, AppForm, AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
@@ -48,6 +48,19 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
         }
 
         return {data: res};
+    };
+}
+
+export function doAppCallWithBinding<Res=unknown>(call: AppCall, binding: AppBinding): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        const res = await dispatch(doAppCall(call));
+        if (binding.presentation === 'modal' && 'data' in res) {
+            const form = res.data.form as AppForm;
+            if (form) {
+                dispatch(openAppsModal(form, call));
+            }
+        }
+        return res;
     };
 }
 

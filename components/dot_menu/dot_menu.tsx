@@ -99,7 +99,7 @@ export type Props = {
          * Function to set the unread mark at given post
          */
         markPostAsUnread: (post: Post) => void,
-        doAppCall: (call: AppCall) => void,
+        doAppCallWithBinding: (call: AppCall, binding: AppBinding) => void,
     }
 }
 
@@ -288,7 +288,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         if (!binding.call) {
             return;
         }
-        this.props.actions.doAppCall({
+        this.props.actions.doAppCallWithBinding({
             ...binding.call,
             context: {
                 app_id: binding.app_id,
@@ -298,7 +298,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 post_id: this.props.post.id,
                 root_id: this.props.post.root_id,
             },
-        });
+        }, binding);
     }
 
     render() {

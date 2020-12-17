@@ -14,7 +14,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall} from 'actions/apps';
+import {doAppCallWithBinding} from 'actions/apps';
 import {
     flagPost,
     unflagPost,
@@ -85,7 +85,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             unpinPost,
             openModal,
             markPostAsUnread,
-            doAppCall,
+            doAppCallWithBinding,
         }, dispatch),
     };
 }

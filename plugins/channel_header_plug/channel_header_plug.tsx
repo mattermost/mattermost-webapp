@@ -96,7 +96,7 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: (call: AppCall) => void;
+        doAppCallWithBinding: (call: AppCall, binding: AppBinding) => void;
     }
 }
 
@@ -144,7 +144,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
             return;
         }
 
-        this.props.actions.doAppCall({
+        this.props.actions.doAppCallWithBinding({
             ...binding.call,
             context: {
                 app_id: binding.app_id,
@@ -152,7 +152,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
-        });
+        }, binding);
     }
 
     createAppBindingButton = (binding: AppBinding) => {
@@ -201,7 +201,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
+                        onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCallWithBinding({
                             url: binding.call!.url,
                             context: {
                                 app_id: binding.app_id,
@@ -209,7 +209,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },
-                        }))}
+                        }, binding))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
                         <span>{binding.label}</span>

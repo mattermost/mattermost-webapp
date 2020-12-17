@@ -9,7 +9,7 @@ import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppsBindings} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {doAppCall} from 'actions/apps';
+import {doAppCallWithBinding} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
 import ChannelHeaderPlug from './channel_header_plug';
@@ -25,7 +25,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            doAppCall,
+            doAppCallWithBinding,
         }, dispatch),
     };
 }
