@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
@@ -11,49 +12,55 @@ import InstalledOAuthApp from '../installed_oauth_app';
 import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class InstalledOAuthApps extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-        * The team data
-        */
-        team: PropTypes.object,
+    /**
+    * The team data
+    */
+    team: {name: string};
 
-        /**
-        * The oauthApps data
-        */
-        oauthApps: PropTypes.object,
-
-        /**
-        * Set if user can manage oath
-        */
-        canManageOauth: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call to fetch OAuth apps
-            */
-            loadOAuthAppsAndProfiles: PropTypes.func.isRequired,
-
-            /**
-            * The function to call when Regenerate Secret link is clicked
-            */
-            regenOAuthAppSecret: PropTypes.func.isRequired,
-
-            /**
-            * The function to call when Delete link is clicked
-            */
-            deleteOAuthApp: PropTypes.func.isRequired,
-        }).isRequired,
-
-        /**
-        * Whether or not OAuth applications are enabled.
-        */
-        enableOAuthServiceProvider: PropTypes.bool,
+    /**
+    * The oauthApps data
+    */
+    oauthApps: {
+        [key: string]: OAuthApp;
     };
 
-    constructor(props) {
+    /**
+    * Set if user can manage oath
+    */
+    canManageOauth: boolean;
+
+    /**
+    * Whether or not OAuth applications are enabled.
+    */
+    enableOAuthServiceProvider: boolean;
+
+    actions: ({
+
+        /**
+        * The function to call to fetch OAuth apps
+        */
+        loadOAuthAppsAndProfiles: (page?: any, perPage?: any) => any;
+
+        /**
+        * The function to call when Regenerate Secret link is clicked
+        */
+        regenOAuthAppSecret: (appId: string) => ActionFunc;
+
+        /**
+        * The function to call when Delete link is clicked
+        */
+        deleteOAuthApp: (appId: string) => ActionFunc;
+    });
+};
+
+type State = {
+    loading: boolean;
+};
+
+export default class InstalledOAuthApps extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loading: true,
@@ -68,19 +75,19 @@ export default class InstalledOAuthApps extends React.PureComponent {
         }
     }
 
-    deleteOAuthApp = (app) => {
+    deleteOAuthApp = (app: OAuthApp) => {
         if (app && app.id) {
             this.props.actions.deleteOAuthApp(app.id);
         }
     }
 
-    oauthAppCompare(a, b) {
-        let nameA = a.name;
+    oauthAppCompare(a: OAuthApp, b: OAuthApp) {
+        let nameA = a.name.toString();
         if (!nameA) {
             nameA = localizeMessage('installed_integrations.unnamed_oauth_app', 'Unnamed OAuth 2.0 Application');
         }
 
-        let nameB = b.name;
+        let nameB = b.name.toString();
         if (!nameB) {
             nameB = localizeMessage('installed_integrations.unnamed_oauth_app', 'Unnamed OAuth 2.0 Application');
         }
@@ -88,17 +95,18 @@ export default class InstalledOAuthApps extends React.PureComponent {
         return nameA.localeCompare(nameB);
     }
 
-    oauthApps = (filter) => Object.values(this.props.oauthApps).
+    oauthApps = (filter?: string) => Object.values(this.props.oauthApps).
         filter((app) => matchesFilter(app, filter)).
         sort(this.oauthAppCompare).
         map((app) => {
             return (
                 <InstalledOAuthApp
                     key={app.id}
-                    team={this.props.team}
                     oauthApp={app}
                     onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
                     onDelete={this.deleteOAuthApp}
+                    team={this.props.team}
+                    creatorName=''
                 />
             );
         });
@@ -170,7 +178,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
                 loading={this.state.loading}
                 {...props}
             >
-                {(filter) => {
+                {(filter: string) => {
                     const children = this.oauthApps(filter);
                     return [children, children.length > 0];
                 }}
