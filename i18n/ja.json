@@ -1192,7 +1192,6 @@
   "admin.oauth.office365": "Office 365",
   "admin.oauth.providerDescription": "有効な場合、MattermostはOAuth 2.0サービスプロバイダーとして働き、外部のアプリケーションからのAPIリクエストを認証することできます。詳しくは[説明文書](!https://docs.mattermost.com/developer/oauth-2-0-applications.html)を参照してください。",
   "admin.oauth.providerTitle": "OAuth 2.0サービスプロバイダーを有効にする: ",
-  "admin.oauth.select": "OAuth 2.0サービスプロバーダーを選択する:",
   "admin.office365.EnableMarkdownDesc": "1. あなたのMicrosoftまたはOffice365アカウントで[ログイン](!https://login.microsoftonline.com/)してください。あなたがユーザーをログインさせたい [テナント](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) と同じテナントのアカウントでログインしていることを確認してください。\n2. [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com)へ移動し、**Go to app list** > **Add an app** をクリックし、**Application Name** に \"Mattermost - your-company-name\" を入力してください。\n3. **Application Secrets** 配下の **Generate New Password** をクリックし、生成されたパスワードを下記の **Application Secret Password** 欄にペースとしてください。\n4. **Platforms** 配下の **Add Platform** をクリックし、**Web** を選択して **Redirect URIs** 配下に **your-mattermost-url/signup/office365/complete** (例: http://localhost:8065/signup/office365/complete) を入力してください. また **Allow Implicit Flow** のチェックを外してください。\n5. 最後に **Save** をクリックし、**Application ID** を下記にペースとしてください。",
   "admin.office365.authTitle": "認証エンドポイント:",
   "admin.office365.clientIdDescription": "Microsoftにアプリケーションを登録したときに受け取るアプリケーションID/クライアントIDです。",
