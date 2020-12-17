@@ -422,7 +422,7 @@ describe('Desktop notifications', () => {
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                 spyNotificationAs('withNotification', 'granted');
 
-                // Have another user send a post with delay
+                // # Have another user send a post with delay
                 cy.postMessageAs({sender: testUser, message, channelId: channel.id});
 
                 // * Desktop notification is not received
