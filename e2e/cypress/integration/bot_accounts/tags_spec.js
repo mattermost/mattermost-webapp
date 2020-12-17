@@ -46,9 +46,11 @@ describe('Bot tags', () => {
 
             // # Post message as bot through api with auth token
             const props = {attachments: [{pretext: 'Some Pretext', text: 'Some Text'}]};
+
             cy.postBotMessage({token, message, props, channelId: channel.id}).then(async ({id}) => {
                 postId = id;
                 await client.pinPost(postId);
+
                 cy.visit(`/${team.name}/channels/${channel.name}`);
                 cy.clickPostDotMenu(postId);
                 cy.get(`#CENTER_flagIcon_${postId}`).click();
