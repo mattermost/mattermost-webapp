@@ -14,6 +14,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Action} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
@@ -30,38 +31,43 @@ type OwnProps = {
     isUnread: boolean;
 }
 
-function makeMapStateToProps() {
+const getCategoriesForCurrentTeam = (() => {
     const getCategoriesForTeam = makeGetCategoriesForTeam();
 
-    return (state: GlobalState, ownProps: OwnProps) => {
-        const member = getMyChannelMemberships(state)[ownProps.channel.id];
-        const currentTeam = getCurrentTeam(state);
+    return memoizeResult((state: GlobalState) => {
+        const currentTeamId = getCurrentTeam(state).id;
+        return getCategoriesForTeam(state, currentTeamId);
+    });
+})();
 
-        let managePublicChannelMembers = false;
-        let managePrivateChannelMembers = false;
-        let categories;
-        let currentCategory;
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const member = getMyChannelMemberships(state)[ownProps.channel.id];
+    const currentTeam = getCurrentTeam(state);
 
-        if (currentTeam) {
-            managePublicChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
-            managePrivateChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
-            categories = getCategoriesForTeam(state, currentTeam.id);
-            currentCategory = getCategoryInTeamWithChannel(state, currentTeam.id, ownProps.channel.id);
-        }
+    let managePublicChannelMembers = false;
+    let managePrivateChannelMembers = false;
+    let categories;
+    let currentCategory;
 
-        return {
-            currentTeamId: currentTeam.id,
-            currentUserId: getCurrentUserId(state),
-            categories,
-            currentCategory,
-            isFavorite: isFavoriteChannel(state, ownProps.channel.id),
-            isMuted: isChannelMuted(member),
-            channelLink: `${getSiteURL()}${ownProps.channelLink}`,
-            managePublicChannelMembers,
-            managePrivateChannelMembers,
-            displayedChannels: getDisplayedChannels(state),
-            multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
-        };
+    if (currentTeam) {
+        managePublicChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
+        managePrivateChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+        categories = getCategoriesForCurrentTeam(state);
+        currentCategory = getCategoryInTeamWithChannel(state, currentTeam.id, ownProps.channel.id);
+    }
+
+    return {
+        currentTeamId: currentTeam.id,
+        currentUserId: getCurrentUserId(state),
+        categories,
+        currentCategory,
+        isFavorite: isFavoriteChannel(state, ownProps.channel.id),
+        isMuted: isChannelMuted(member),
+        channelLink: `${getSiteURL()}${ownProps.channelLink}`,
+        managePublicChannelMembers,
+        managePrivateChannelMembers,
+        displayedChannels: getDisplayedChannels(state),
+        multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
     };
 }
 
@@ -89,4 +95,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarChannelMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelMenu);
