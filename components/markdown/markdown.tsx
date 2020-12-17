@@ -22,7 +22,7 @@ type Props = {
      * An array of URL schemes that should be turned into links. Anything that looks
      * like a link will be turned into a link if this is not provided.
      */
-    autolinkedUrlSchemes?: Array<string>;
+    autolinkedUrlSchemes?: string[];
 
     /*
      * Whether or not to do Markdown rendering
@@ -42,7 +42,7 @@ type Props = {
     /*
      * An array of words that can be used to mention a user
      */
-    mentionKeys?: Array<MentionKey>;
+    mentionKeys?: MentionKey[];
 
     /*
      * The text to be rendered
