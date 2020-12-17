@@ -32,7 +32,7 @@ describe('Bot display name', () => {
 
     it('MM-T1813 Display name for bots stays current', () => {
         cy.makeClient().then((client) => {
-        // # Create a bot and get bot user id
+            // # Create a bot and get bot user id
             cy.apiCreateBot().then(({bot}) => {
                 const botUserId = bot.user_id;
                 const firstMessage = 'This is the first message from a bot that will change its name';

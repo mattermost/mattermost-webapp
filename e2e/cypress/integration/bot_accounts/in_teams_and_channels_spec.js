@@ -11,7 +11,6 @@
 
 import {createBotPatch} from '../../support/api/bots';
 import {createChannelPatch} from '../../support/api/channel';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Managing bots in Teams and Channels', () => {
     let team;
@@ -71,7 +70,7 @@ describe('Managing bots in Teams and Channels', () => {
 
             // # Invite bot to team
             const bot = await client.createBot(createBotPatch());
-            cy.uiPostMessageQuickly(`/invite @${bot.username}`);
+            cy.postMessage(`/invite @${bot.username}`);
 
             // * Verify system message in-channel
             cy.uiWaitUntilMessagePostedIncludes(`@${bot.username} is not a member of the team.`);
@@ -90,7 +89,7 @@ describe('Managing bots in Teams and Channels', () => {
 
             // # Mention bot
             const message = `hey @${bot.username}, tell me a rhyme..`;
-            cy.uiPostMessageQuickly(message).wait(TIMEOUTS.FIVE_SEC);
+            cy.postMessage(message);
 
             // * Verify no ephemeral post is shown asking if you want to invite the bot to the server
             cy.uiGetNthPost(-1).should('contain.text', message);

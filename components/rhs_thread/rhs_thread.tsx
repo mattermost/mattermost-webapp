@@ -68,7 +68,7 @@ type State = {
     isScrolling: boolean;
     topRhsPostId: string;
     openTime: number;
-    postsArray?: Record<string, any>[];
+    postsArray?: Array<Record<string, any>>;
     isBusy?: boolean;
     postsContainerHeight: number;
     userScrolledToBottom: boolean;

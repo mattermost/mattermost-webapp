@@ -148,11 +148,11 @@ type PluginStatus = {
     description: string;
     version: string;
     name: string;
-    instances: Array<any>;
+    instances: any[];
     settings_schema?: {
         header: string;
         footer: string;
-        settings?: Array<unknown>;
+        settings?: unknown[];
     };
 }
 
