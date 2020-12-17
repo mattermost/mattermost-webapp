@@ -663,7 +663,7 @@ class LoginController extends React.PureComponent {
                     key='magicLink'
                     className='form-group'
                 >
-                    <Link to={'/login/magic_link' + (this.state.loginId ? `?=login_id=${encodeURIComponent(this.state.loginId)}` : '')}>
+                    <Link to={'/login/magic_link' + (this.state.loginId ? `?login_id=${encodeURIComponent(this.state.loginId)}` : '')}>
                         <FormattedMessage
                             id='login.magicLink'
                             defaultMessage="I don't feel like remembering my password."
