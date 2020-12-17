@@ -73,7 +73,7 @@ describe('components/apps_model/AppsFormContainer', () => {
             const result = await wrapper.instance().submitDialog({
                 values: {
                     field1: 'value1',
-                    field2: [{label: 'label2', value: 'value2'}],
+                    field2: {label: 'label2', value: 'value2'},
                 },
             });
 
@@ -132,7 +132,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                 form.fields[0],
                 {
                     field1: 'value1',
-                    field2: [{label: 'label2', value: 'value2'}],
+                    field2: {label: 'label2', value: 'value2'},
                 },
                 'My search',
             );

@@ -119,6 +119,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
                 user_input: userInput,
                 values,
                 name: field.name,
+
                 // form, // instead of including the form, just make sure any form elements that have a blank value in the `values` field here
             },
         });
@@ -139,7 +140,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
         const {postID, channelID, teamID, form} = this.props;
 
         const propsCall = this.props.call;
-        const call = form.call || propsCall;
+        const call = (form && form.call) || propsCall;
 
         if (!call) {
             return null;
@@ -153,7 +154,7 @@ export default class AppsFormContainer extends React.PureComponent<Props> {
                 post_id: postID,
                 team_id: postID ? teamID : call.context.team_id,
                 channel_id: postID ? channelID : call.context.channel_id,
-            }
+            },
         };
     }
 
