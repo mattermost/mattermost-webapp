@@ -177,18 +177,13 @@
             border: 0;
             color: rgba(var(--sidebar-text-rgb), 0.72);
 
-            &:hover:not(.disabled) {
-                color: var(--sidebar-text);
-                background: rgba(255, 255, 255, 0.08);
-            }
-
             &.disabled {
                 background: rgba(255, 255, 255, 0.08);
             }
         }
 
         .SidebarChannelNavigator_jumpToButton {
-            background: rgba(255, 255, 255, 0.16);
+            background: rgba(109, 68, 68, 0.16);
             width: 100%;
             text-align: left;
             border-radius: 4px;
@@ -206,7 +201,7 @@
             }
 
             .SidebarChannelNavigator_shortcutText {
-                margin-left: auto;
+                margin-left: 16px;
                 display: none;
             }
 
@@ -252,7 +247,6 @@
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
         color: rgba(var(--sidebar-text-rgb), 0.8);
-        background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
         color: var(--sidebar-bg);
