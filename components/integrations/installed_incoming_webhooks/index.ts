@@ -35,7 +35,6 @@ function mapStateToProps(state: GlobalState) {
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
 
     return {
-        teamId,
         incomingWebhooks,
         channels: getAllChannels(state),
         users: getUsers(state),
