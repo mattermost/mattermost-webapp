@@ -3576,6 +3576,7 @@
   "quick_switch_modal.help": "Start typing then use TAB to toggle channels/teams, **▲▼** to browse, **ENTER** to select, **ESC** to dismiss.",
   "quick_switch_modal.help_mobile": "Type to find a channel.",
   "quick_switch_modal.help_no_team": "Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss.",
+  "quick_switch_modal.input": "quick switch input",
   "quick_switch_modal.switchChannels": "Switch Channels",
   "quick_switch_modal.teams": "Teams",
   "quick_switch_modal.teamsShortcut.mac": "- ⌘⌥K",
