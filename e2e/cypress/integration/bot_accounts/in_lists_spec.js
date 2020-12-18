@@ -30,11 +30,11 @@ describe('Bots in lists', () => {
         });
 
         cy.makeClient().then(async (client) => {
-            // # Setup state
+            // # Create 3 bots and add to current team and channel
             bots = await Promise.all([
-                createBotPatch('bota'),
-                createBotPatch('botc'),
-                createBotPatch('botb'),
+                createBotPatch(),
+                createBotPatch(),
+                createBotPatch(),
             ].map(async (botPatch) => {
                 const bot = await client.createBot(botPatch);
                 await client.addToTeam(team.id, bot.user_id);
@@ -46,14 +46,21 @@ describe('Bots in lists', () => {
     });
 
     it('MM-T1834 Bots are not listed on “Users” list in System Console > Users', () => {
-        // # Go to system console > users
-        cy.visit('/admin_console/user_management/users');
+        cy.makeClient().then(async (client) => {
+            // # Go to system console > users
+            cy.visit('/admin_console/user_management/users');
 
-        // # Search for user
-        cy.get('#searchUsers').type(`@${bots[0].username}`);
+            const {total_users_count: nonBotTotal} = await client.getFilteredUsersStats({include_bots: false});
 
-        // * Verify bot not included
-        cy.findByTestId('noUsersFound').should('have.text', 'No users found');
+            bots.forEach(({username}) => {
+                // # Search for user
+                cy.get('#searchUsers').clear().type(`@${username}`);
+
+                // * Verify bot not in list, pseudo checksum total of non bot users
+                cy.findByTestId('noUsersFound').should('have.text', 'No users found');
+                cy.get('#searchableUserListTotal').should('have.text', `0 users of ${nonBotTotal} total`);
+            });
+        });
     });
 
     it('MM-T1835 Channel Members list for BOTs', () => {
@@ -67,7 +74,7 @@ describe('Bots in lists', () => {
                 // # Escape jQuery
                 const userEls = $query.toArray();
 
-                // # Get 'em (users: profiles and statuses)
+                // # Get users
                 const profiles = await client.getProfilesByUsernames(userEls.map(({innerText}) => innerText));
                 const statuses = await client.getStatusesByIds(profiles.map((user) => user.id));
                 const users = zip(profiles, statuses).map(([profile, status]) => ({...profile, ...status}));
