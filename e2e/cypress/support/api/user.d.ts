@@ -41,7 +41,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
          */
-        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>;
 
         /**
          * Login as admin via API.
@@ -187,7 +187,7 @@ declare namespace Cypress {
          * Create a randomly named admin account
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(): Chainable<{sysadmin:UserProfile}>;
+        apiCreateCustomAdmin(): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
@@ -308,7 +308,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiActivateUserMFA('user-id', activate: false);
          */
-        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<UserProfile>;
+        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<Response>;
 
         /**
          * Create a user access token

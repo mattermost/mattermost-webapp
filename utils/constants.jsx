@@ -964,7 +964,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 5,
+    MAX_UPLOAD_FILES: 10,
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
