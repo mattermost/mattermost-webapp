@@ -9,9 +9,17 @@
 
 // Group: @bot_accounts
 
-import {zip, sortBy} from 'lodash';
+import {zip, orderBy} from 'lodash';
 
 import {createBotPatch} from '../../support/api/bots';
+
+const STATUS_PRIORITY = {
+    online: 0,
+    away: 1,
+    dnd: 2,
+    offline: 3,
+    ooo: 3,
+};
 
 describe('Bots in lists', () => {
     let team;
@@ -50,15 +58,17 @@ describe('Bots in lists', () => {
             // # Go to system console > users
             cy.visit('/admin_console/user_management/users');
 
-            const {total_users_count: nonBotTotal} = await client.getFilteredUsersStats({include_bots: false});
+            const {total_users_count: nonBotCount} = await client.getFilteredUsersStats({include_bots: false});
 
             bots.forEach(({username}) => {
-                // # Search for user
+                // # Search for bot
                 cy.get('#searchUsers').clear().type(`@${username}`);
 
-                // * Verify bot not in list, pseudo checksum total of non bot users
+                // * Verify bot not in list
                 cy.findByTestId('noUsersFound').should('have.text', 'No users found');
-                cy.get('#searchableUserListTotal').should('have.text', `0 users of ${nonBotTotal} total`);
+
+                // * Verify pseudo checksum total of non bot users
+                cy.get('#searchableUserListTotal').should('have.text', `0 users of ${nonBotCount} total`);
             });
         });
     });
@@ -80,10 +90,14 @@ describe('Bots in lists', () => {
                 const users = zip(profiles, statuses).map(([profile, status]) => ({...profile, ...status}));
 
                 // # Sort 'em
-                const sortedUsers = sortBy(users, [
-                    ({is_bot: isBot}) => (isBot ? 1 : 0),
+                const sortedUsers = orderBy(users, [
+                    ({is_bot: isBot}) => isBot,
                     ({status}) => STATUS_PRIORITY[status],
                     ({username}) => username,
+                ], [
+                    'desc',
+                    'asc',
+                    'asc',
                 ]);
 
                 // * Verify order of member-dropdown users against data-sorted version
@@ -101,11 +115,3 @@ describe('Bots in lists', () => {
         });
     });
 });
-
-const STATUS_PRIORITY = {
-    online: 0,
-    away: 1,
-    dnd: 2,
-    offline: 3,
-    ooo: 3,
-};
