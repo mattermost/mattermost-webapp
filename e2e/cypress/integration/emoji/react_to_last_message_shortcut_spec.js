@@ -51,7 +51,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#channelHeaderTitle').should('be.visible').and('contain', 'Town Square');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
 
         // # Make sure there is at least a message without reaction for each test
         cy.postMessage(MESSAGES.TINY);
@@ -444,39 +444,45 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not emoji picker by shortcut if any modals are open', () => {
         // # Open account settings modal
-        openMainMenuOptions('Account Settings');
+        cy.uiOpenMainMenu('Account Settings');
 
         // * Emulate react to last message shortcut and verify its blocked
         verifyShortcutReactToLastMessageIsBlocked();
+        pressEscapeKey();
 
         // * Open view members modal and verify shortcut is blocked
-        openMainMenuOptions('View Members');
+        cy.uiOpenMainMenu('View Members');
         verifyShortcutReactToLastMessageIsBlocked();
+        pressEscapeKey();
 
         // * Open about mattermost modal and verify shortcut is blocked
-        openMainMenuOptions('About Mattermost');
+        cy.uiOpenMainMenu('About Mattermost');
         verifyShortcutReactToLastMessageIsBlocked();
+        pressEscapeKey();
 
         // * Open channel header modal and verify shortcut is blocked
-        openChannelMainOptions('Edit Channel Header');
+        cy.uiOpenChannelMenu('Edit Channel Header');
         verifyShortcutReactToLastMessageIsBlocked();
+        pressEscapeKey();
 
         // * Open Edit channel header modal and verify shortcut is blocked
-        openChannelMainOptions('View Members');
+        cy.uiOpenChannelMenu('View Members');
         verifyShortcutReactToLastMessageIsBlocked();
+        pressEscapeKey();
 
         // * Open channel rename modal and verify shortcut is blocked
-        openChannelMainOptions('Rename Channel');
+        cy.uiOpenChannelMenu('Rename Channel');
         verifyShortcutReactToLastMessageIsBlocked();
+        pressEscapeKey();
     });
 
     it('Should not open the emoji picker by shortcut if any dropdown or popups are open', () => {
         // * Open the channel menu dropdown, execute the shortcut and verify it is blocked
-        cy.findByLabelText('channel menu').click();
+        cy.uiOpenChannelMenu();
         verifyShortcutReactToLastMessageIsBlocked();
 
         // * Open the channel menu dropdown, execute the shortcut and verify it is blocked
-        cy.findByLabelText('main menu').click();
+        cy.uiOpenMainMenu();
         verifyShortcutReactToLastMessageIsBlocked();
     });
 
@@ -659,14 +665,6 @@ function verifyShortcutReactToLastMessageIsBlocked(from) {
     cy.get('#emojiPicker').should('not.exist');
 }
 
-function openMainMenuOptions(menu) {
-    cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
-    cy.findByLabelText('main menu').click();
-    cy.findByText(menu).scrollIntoView().click();
-}
-
-function openChannelMainOptions(menu) {
-    cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
-    cy.findByLabelText('channel menu').click();
-    cy.findByText(menu).scrollIntoView().should('be.visible').click();
+function pressEscapeKey() {
+    cy.get('body').type('{esc}');
 }
