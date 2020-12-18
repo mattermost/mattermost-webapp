@@ -185,7 +185,7 @@ describe('DM category', () => {
         });
     });
 
-    it('MM-T2017_4 Should not double already open GMs in a custom category', () => {
+    it('MM-T2017_3 Should not double already open GMs in a custom category', () => {
         // # Create 2 new users to start a GM with
         cy.apiCreateUser().then(({user}) => {
             cy.apiCreateUser().then(({user: user2}) => {
