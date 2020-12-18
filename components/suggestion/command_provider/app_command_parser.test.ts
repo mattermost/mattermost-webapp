@@ -105,6 +105,9 @@ const viewCommand: AppBinding = {
     label: 'view',
     description: 'View details of a Jira issue',
     form: {
+        call: {
+            url: '/projects',
+        },
         fields: [
             {
                 name: 'project',
@@ -113,7 +116,6 @@ const viewCommand: AppBinding = {
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 hint: 'The Jira project hint',
                 position: 1,
-                source_url: '/projects',
             },
             {
                 name: 'issue',
@@ -131,6 +133,9 @@ const createCommand: AppBinding = {
     label: 'create',
     description: 'Create a new Jira issue',
     form: {
+        call: {
+            url: '/projects',
+        },
         fields: [
             {
                 name: 'project',
@@ -138,7 +143,6 @@ const createCommand: AppBinding = {
                 description: 'The Jira project description',
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 hint: 'The Jira project hint',
-                source_url: '/projects',
             },
             {
                 name: 'summary',

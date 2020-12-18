@@ -458,10 +458,15 @@ export class AppCommandParser {
             return [];
         }
 
+        const call = binding?.form?.call;
+        if (!call) {
+            return [];
+        }
+
         const values = this.getFormValues(cmdStr, binding);
 
         const payload: AppCall = {
-            url: field.source_url || '',
+            ...call,
             context: {
                 ...this.getAppContext(),
                 app_id: binding.app_id,

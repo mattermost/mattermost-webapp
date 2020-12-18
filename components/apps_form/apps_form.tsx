@@ -177,7 +177,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
         const field = this.props.form.fields.find((f) => f.name === name);
-        if (!field || !field.source_url) {
+        if (!field) {
             return [];
         }
 
