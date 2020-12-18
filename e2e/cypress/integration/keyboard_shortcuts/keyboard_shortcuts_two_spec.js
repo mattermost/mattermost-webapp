@@ -10,6 +10,7 @@
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {isMac} from '../../utils';
 
 describe('Keyboard Shortcuts', () => {
     let testTeam;
@@ -50,7 +51,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('.section').eq(2).within(() => {
             cy.findByText('Files').should('be.visible');
             cy.get('.shortcut-line').within(() => {
-                if (cy.isMac()) {
+                if (isMac()) {
                     cy.findByText('⌘').should('be.visible');
                 } else {
                     cy.findByText('CTRL').should('be.visible');
@@ -198,16 +199,11 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('MM-T1279 - Keyboard shortcuts menu item', () => {
-        cy.get('#channel-header').should('be.visible').then(() => {
-            // # Click hamburger main menu
-            cy.get('#channelHeaderUserGuideButton').click();
-            cy.get('.dropdown-menu').should('be.visible').then(() => {
-                // # Select 'Keyboard Shortcuts'
-                cy.get('#keyboardShortcuts').should('be.visible');
-                cy.get('#keyboardShortcuts button').click();
-                cy.get('#shortcutsModalLabel').should('be.visible');
-            });
-        });
+        // # Click "Keyboard Shortcuts" at main menu
+        cy.uiOpenMainMenu('Keyboard Shortcuts');
+
+        const name = isMac() ? 'Keyboard Shortcuts⌘/' : 'Keyboard ShortcutsCtrl/';
+        cy.findByRole('dialog', {name}).should('be.visible');
     });
 
     it('MM-T1575 - Ability to Switch Teams', () => {
@@ -247,7 +243,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayNames[count - index - 1]);
 
             // # Press CTRL/CMD+SHIFT+UP
-            if (cy.isMac()) {
+            if (isMac()) {
                 cy.get('body').type('{cmd}{option}', {release: false}).type('{uparrow}').type('{cmd}{option}', {release: true});
             } else {
                 cy.get('body').type('{ctrl}{shift}', {release: false}).type('{uparrow}').type('{ctrl}{shift}', {release: true});
@@ -256,7 +252,7 @@ describe('Keyboard Shortcuts', () => {
 
         for (let index = 0; index < count; index++) {
             // # Press CTRL/CMD+SHIFT+DOWN
-            if (cy.isMac()) {
+            if (isMac()) {
                 cy.get('body').type('{cmd}{option}', {release: false}).type('{downarrow}').type('{cmd}{option}', {release: true});
             } else {
                 cy.get('body').type('{ctrl}{shift}', {release: false}).type('{downarrow}').type('{ctrl}{shift}', {release: true});
@@ -271,7 +267,7 @@ describe('Keyboard Shortcuts', () => {
 
         for (let index = 2; index <= count + 1; index++) {
             // # Press CTRL/CMD+SHIFT+index
-            if (cy.isMac()) {
+            if (isMac()) {
                 cy.get('body').type('{cmd}{option}', {release: false}).type(String(index)).type('{cmd}{option}', {release: true});
             } else {
                 cy.get('body').type('{ctrl}{shift}', {release: false}).type(String(index)).type('{ctrl}{shift}', {release: true});
