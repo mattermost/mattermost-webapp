@@ -365,6 +365,9 @@
             overflow: hidden;
             display: flex;
             margin-left: 4px;
+            margin-top: 3px;
+            align-self: start;
+            flex-direction: column;
             line-height: 16px;
 
             ul {
