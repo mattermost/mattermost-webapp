@@ -147,7 +147,7 @@ describe('components/AboutBuildModal', () => {
             />,
         );
 
-        wrapper.find(Modal).first().props().onExited?.();
+        wrapper.find(Modal).first().props().onExited?.(document.createElement('div'));
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 
