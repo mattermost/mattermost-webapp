@@ -343,70 +343,6 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         //     formatOptionLabel: this.props.valueWithImage ? this.formatOptionLabel : undefined
         // }
 
-        let reactSelectDiv;
-        if (this.props.valueWithImage) {
-            reactSelectDiv = (
-                <ReactSelect
-                    id='selectItems'
-                    ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
-                    isMulti={true}
-                    options={this.props.options}
-                    styles={styles}
-                    components={{
-                        Menu: nullComponent,
-                        IndicatorsContainer: nullComponent,
-                        MultiValueLabel: this.props.valueWithImage ? undefined : paddedComponent(this.props.valueRenderer),
-                        MultiValueRemove: this.props.valueWithImage ? this.formatOptionLabel : undefined,
-                    }}
-                    isClearable={false}
-                    openMenuOnFocus={false}
-                    menuIsOpen={false}
-                    onInputChange={this.onInput}
-                    onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
-                    onChange={this.onChange}
-                    value={this.props.values}
-                    formatOptionLabel={this.props.valueWithImage ? this.formatOptionLabel : undefined}
-                    placeholder={this.props.placeholderText}
-                    inputValue={this.state.input}
-                    getOptionValue={(option: Value) => option.id}
-                    getOptionLabel={this.props.ariaLabelRenderer}
-                    aria-label={this.props.placeholderText}
-                    className={this.state.a11yActive ? 'multi-select__focused' : ''}
-                    classNamePrefix='react-select-auto react-select'
-                />
-            );
-        } else {
-            reactSelectDiv = (
-                <ReactSelect
-                    id='selectItems'
-                    ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
-                    isMulti={true}
-                    options={this.props.options}
-                    styles={styles}
-                    components={{
-                        Menu: nullComponent,
-                        IndicatorsContainer: nullComponent,
-                        MultiValueLabel: paddedComponent(this.props.valueRenderer),
-                    }}
-                    isClearable={false}
-                    openMenuOnFocus={false}
-                    menuIsOpen={false}
-                    onInputChange={this.onInput}
-                    onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
-                    onChange={this.onChange}
-                    value={this.props.values}
-                    formatOptionLabel={this.props.valueWithImage ? this.formatOptionLabel : undefined}
-                    placeholder={this.props.placeholderText}
-                    inputValue={this.state.input}
-                    getOptionValue={(option: Value) => option.id}
-                    getOptionLabel={this.props.ariaLabelRenderer}
-                    aria-label={this.props.placeholderText}
-                    className={this.state.a11yActive ? 'multi-select__focused' : ''}
-                    classNamePrefix='react-select-auto react-select'
-                />
-            );
-        }
-
         const valueMap: Record<string, boolean> = {};
         for (let i = 0; i < values.length; i++) {
             valueMap[values[i].id] = true;
@@ -520,8 +456,8 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                                 components={{
                                     Menu: nullComponent,
                                     IndicatorsContainer: nullComponent,
-                                    MultiValueLabel: this.props.valueWithImage ? nullComponent : paddedComponent(this.props.valueRenderer),
-                                    MultiValueRemove: this.MultiValueRemove,
+                                    MultiValueLabel: this.props.valueWithImage ? components.MultiValueLabel : paddedComponent(this.props.valueRenderer),
+                                    MultiValueRemove: this.props.valueWithImage ? this.MultiValueRemove : components.MultiValueRemove,
                                 }}
                                 isClearable={false}
                                 openMenuOnFocus={false}
