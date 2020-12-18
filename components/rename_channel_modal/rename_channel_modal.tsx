@@ -71,7 +71,7 @@ type Props = {
         /*
         * Action creator to patch current channel
         */
-        patchChannel: (channelId: string, patch: Channel) => Promise<{ data: Channel, error: Error }>;
+        patchChannel: (channelId: string, patch: Channel) => Promise<{ data: Channel; error: Error }>;
     };
 }
 
@@ -80,7 +80,7 @@ type State = {
     channelName: string;
     serverError?: string;
     urlErrors: React.ReactNode[];
-    displayNameError: React.ReactNode
+    displayNameError: React.ReactNode;
     invalid: boolean;
     show: boolean;
 };

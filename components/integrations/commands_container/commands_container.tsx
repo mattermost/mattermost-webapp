@@ -1,16 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
+
+import {Team} from 'mattermost-redux/types/teams';
+
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+
+import {Command} from 'mattermost-redux/types/integrations';
 
 import InstalledCommands from 'components/integrations/installed_commands';
 import AddCommand from 'components/integrations/add_command';
 import EditCommand from 'components/integrations/edit_command';
 import ConfirmIntegration from 'components/integrations/confirm_integration';
 
-const CommandRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disable-line react/prop-types
+interface IProps {
+    component: any;
+    extraProps: {
+        loading: boolean;
+        commands: Command[];
+        users?: RelationOneToOne<UserProfile, UserProfile>;
+        team?: Team;
+        user?: UserProfile;
+    };
+    path: string;
+}
+
+const CommandRoute = ({component: Component, extraProps, ...rest}: IProps) => (
     <Route
         {...rest}
         render={(props) => (
@@ -22,51 +41,55 @@ const CommandRoute = ({component: Component, extraProps, ...rest}) => ( //eslint
     />
 );
 
-export default class CommandsContainer extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+     * The team data needed to pass into child components
+     */
+    team?: Team;
+
+    /**
+     * The user data needed to pass into child components
+     */
+    user?: UserProfile;
+
+    /**
+     * The users collection
+     */
+    users?: RelationOneToOne<UserProfile, UserProfile>;
+
+    /**
+     * Installed slash commands to display
+     */
+    commands: Command[];
+
+    /**
+     * Object from react-router
+     */
+    match: {
+        url: string;
+    };
+
+    actions: {
 
         /**
-        * The team data needed to pass into child components
-        */
-        team: PropTypes.object,
+         * The function to call to fetch team commands
+         */
+        loadCommandsAndProfilesForTeam: (teamId?: string) => any; // TechDebt-TODO: This needs to be changed to 'Promise<void>'
+    };
 
-        /**
-        * The user data needed to pass into child components
-        */
-        user: PropTypes.object,
+    /**
+     * Whether or not commands are enabled.
+     */
+    enableCommands?: boolean;
+};
 
-        /**
-        * The users collection
-        */
-        users: PropTypes.object,
+type State = {
+    loading: boolean;
+};
 
-        /**
-        * Installed slash commands to display
-        */
-        commands: PropTypes.array,
-
-        /**
-        * Object from react-router
-        */
-        match: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-        }).isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call to fetch team commands
-            */
-            loadCommandsAndProfilesForTeam: PropTypes.func.isRequired,
-        }).isRequired,
-
-        /**
-        * Whether or not commands are enabled.
-        */
-        enableCommands: PropTypes.bool,
-    }
-
-    constructor(props) {
+export default class CommandsContainer extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loading: true,
@@ -75,7 +98,7 @@ export default class CommandsContainer extends React.PureComponent {
 
     componentDidMount() {
         if (this.props.enableCommands) {
-            this.props.actions.loadCommandsAndProfilesForTeam(this.props.team.id).then(
+            this.props.actions.loadCommandsAndProfilesForTeam(this.props.team?.id).then(
                 () => this.setState({loading: false}),
             );
         }

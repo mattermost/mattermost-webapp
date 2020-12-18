@@ -17,7 +17,7 @@ import {NoResultsVariant} from './types';
 interface Props {
     variant: NoResultsVariant;
     titleValues?: Dictionary<ReactNode>;
-    subtitleValues?: Dictionary<ReactNode>
+    subtitleValues?: Dictionary<ReactNode>;
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {

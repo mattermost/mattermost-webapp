@@ -58,6 +58,7 @@ type Props = {
     isChannelSelected: boolean;
 
     actions: {
+        clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
     };
@@ -155,6 +156,8 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else if (event.shiftKey) {
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
+        } else {
+            this.props.actions.clearChannelSelection();
         }
     }
 
