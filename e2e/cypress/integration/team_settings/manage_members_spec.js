@@ -134,7 +134,7 @@ describe('Manage Members', () => {
         });
     });
 
-    it('MM-T2335 Remove a team member and ensure they can rejoin with invite link', () => {
+    it('MM-T2338 Remove a team member and ensure they can rejoin with invite link', () => {
         promoteToChannelOrTeamAdmin(testUser.id, testTeam.id, 'teams');
 
         // # Create a new user
