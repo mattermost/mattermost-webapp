@@ -115,7 +115,6 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('MM-T2060 Nickname and username styles', () => {
-        cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
