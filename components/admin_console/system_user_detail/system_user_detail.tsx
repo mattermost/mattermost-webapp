@@ -438,8 +438,8 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
                                         <span className='SystemUserDetail__field-text'>{this.getAuthenticationText()}</span>
                                     </div>
 
-                                    <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
-                                    <p>{currentRoles}</p>
+                                    {/* <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
+                                    <p>{currentRoles}</p> */}
                                 </React.Fragment>
                             }
                             footer={
