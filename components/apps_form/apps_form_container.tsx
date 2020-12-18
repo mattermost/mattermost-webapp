@@ -162,7 +162,7 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
             context: {
                 app_id: call.context.app_id,
                 location: postID ? AppsBindings.IN_POST : call.context.location,
-                post_id: postID,
+                post_id: postID || call.context.post_id,
                 team_id: postID ? teamID : call.context.team_id,
                 channel_id: postID ? channelID : call.context.channel_id,
             },
