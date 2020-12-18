@@ -22,11 +22,11 @@ type Props = {
     deactivatedChannel: boolean;
     channelRolesLoading: boolean;
     match: {
-        url: string,
+        url: string;
         params: {
-            postid?: string,
-        }
-    },
+            postid?: string;
+        };
+    };
     showTutorial: boolean;
     showNextSteps: boolean;
     showNextStepsTips: boolean;
@@ -39,7 +39,7 @@ type Props = {
         goToLastViewedChannel: () => Promise<{data: boolean}>;
         setShowNextStepsView: (show: boolean) => Action;
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
-    },
+    };
 };
 
 type State = {

@@ -8,7 +8,7 @@ import Setting from './setting';
 interface Props {
     id: string;
     label: React.ReactNode;
-    values: { text: string; value: string }[];
+    values: Array<{ text: string; value: string }>;
     value: string;
     setByEnv: boolean;
     disabled?: boolean;
