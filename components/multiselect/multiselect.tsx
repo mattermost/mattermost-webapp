@@ -247,11 +247,19 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         this.props.handleDelete(values);
     }
 
-    MultiValueRemove = ({children, innerProps}: any) => (
-        <div {...innerProps}>
-            {children || <CloseCircleSolidIcon/>}
-        </div>
-    );
+    MultiValueRemove = ({children, innerProps}: any) => {
+        if (this.props.valueWithImage) {
+            return (
+                <div {...innerProps}>
+                    {<CloseCircleSolidIcon/>}
+                </div>
+            );
+        }
+
+        return (
+            <div {...innerProps}/>
+        );
+    };
 
     formatOptionLabel = (user: any) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
@@ -331,6 +339,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             );
         }
 
+        // const reactSelectProps = {
+        //     formatOptionLabel: this.props.valueWithImage ? this.formatOptionLabel : undefined
+        // }
+
         let reactSelectDiv;
         if (this.props.valueWithImage) {
             reactSelectDiv = (
@@ -343,7 +355,8 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     components={{
                         Menu: nullComponent,
                         IndicatorsContainer: nullComponent,
-                        MultiValueRemove: this.MultiValueRemove,
+                        MultiValueLabel: this.props.valueWithImage ? undefined : paddedComponent(this.props.valueRenderer),
+                        MultiValueRemove: this.props.valueWithImage ? this.formatOptionLabel : undefined,
                     }}
                     isClearable={false}
                     openMenuOnFocus={false}
@@ -352,7 +365,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
                     onChange={this.onChange}
                     value={this.props.values}
-                    formatOptionLabel={this.formatOptionLabel}
+                    formatOptionLabel={this.props.valueWithImage ? this.formatOptionLabel : undefined}
                     placeholder={this.props.placeholderText}
                     inputValue={this.state.input}
                     getOptionValue={(option: Value) => option.id}
@@ -382,6 +395,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
                     onChange={this.onChange}
                     value={this.props.values}
+                    formatOptionLabel={this.props.valueWithImage ? this.formatOptionLabel : undefined}
                     placeholder={this.props.placeholderText}
                     inputValue={this.state.input}
                     getOptionValue={(option: Value) => option.id}
@@ -497,7 +511,34 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 <div className='filtered-user-list'>
                     <div className='filter-row filter-row--full'>
                         <div className='multi-select__container react-select'>
-                            {reactSelectDiv}
+                            <ReactSelect
+                                id='selectItems'
+                                ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
+                                isMulti={true}
+                                options={this.props.options}
+                                styles={styles}
+                                components={{
+                                    Menu: nullComponent,
+                                    IndicatorsContainer: nullComponent,
+                                    MultiValueLabel: this.props.valueWithImage ? nullComponent : paddedComponent(this.props.valueRenderer),
+                                    MultiValueRemove: this.MultiValueRemove,
+                                }}
+                                isClearable={false}
+                                openMenuOnFocus={false}
+                                menuIsOpen={false}
+                                onInputChange={this.onInput}
+                                onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
+                                onChange={this.onChange}
+                                value={this.props.values}
+                                formatOptionLabel={this.props.valueWithImage ? this.formatOptionLabel : undefined}
+                                placeholder={this.props.placeholderText}
+                                inputValue={this.state.input}
+                                getOptionValue={(option: Value) => option.id}
+                                getOptionLabel={this.props.ariaLabelRenderer}
+                                aria-label={this.props.placeholderText}
+                                className={this.state.a11yActive ? 'multi-select__focused' : ''}
+                                classNamePrefix='react-select-auto react-select'
+                            />
                             {this.props.saveButtonPosition === 'top' &&
                             <SaveButton
                                 id='saveItems'
