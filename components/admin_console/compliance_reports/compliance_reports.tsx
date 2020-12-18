@@ -48,7 +48,7 @@ type Props = {
         /*
             * Function to save compliance reports
             */
-        createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance, error?: Error}>;
+        createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance; error?: Error}>;
     };
 }
 

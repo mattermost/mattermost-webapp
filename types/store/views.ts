@@ -101,7 +101,9 @@ export type ViewsState = {
     };
 
     notice: {
-        [noticeType: string]: boolean;
+        hasBeenDismissed: {
+            [message: string]: boolean;
+        };
     };
 
     system: {
