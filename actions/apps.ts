@@ -16,7 +16,7 @@ import {ModalIdentifiers} from 'utils/constants';
 const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (call && call.context.channel_id) || '', call && call.context.root_id);
 
 export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+    return async () => {
         const res = await Client4.executeAppCall(call) as AppCallResponse<Res>;
 
         const responseType = res.type || AppCallResponseTypes.OK;
