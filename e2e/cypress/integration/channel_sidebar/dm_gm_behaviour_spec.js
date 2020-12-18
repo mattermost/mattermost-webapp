@@ -146,7 +146,7 @@ describe('DM category', () => {
         });
     });
 
-    it('MM-T2017_2_3 Receiving a DM from a user should show the DM in the sidebar', () => {
+    it('MM-T2017_2 Receiving a DM from a user should show the DM in the sidebar', () => {
         // # Create 2 new users to start a GM with
         cy.apiCreateUser().then(({user}) => {
             cy.apiCreateUser().then(({user: user2}) => {
