@@ -159,9 +159,12 @@ describe('Leave an archived channel', () => {
         });
     });
 
-    it('MM-T1696 - When clicking "More..." for Public and Private channels, no options for archived channels are shown when the feature is disabled', () => {
+    it('MM-T1696 - When clicking Browse Channels no options for archived channels are shown when the feature is disabled', () => {
         cy.apiAdminLogin();
         cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: false,
             },
@@ -175,28 +178,19 @@ describe('Leave an archived channel', () => {
             // # Archive the channel
             cy.uiArchiveChannel();
 
-            // # Open more modal
-            cy.get('#publicChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-                cy.get('#channelsMoreDropdown').should('not.be.visible');
+            // # Click on add channel button
+            cy.get('.AddChannelDropdown_dropdownButton').click();
 
-                // # Modal should not contain the created channel
-                cy.get('#moreChannelsList').should('not.contain', channel.name);
-            });
+            // # Click on browse channels
+            cy.get('#showMoreChannels').click();
+
+            // # Modal should not contain the created channel
+            cy.get('#channelsMoreDropdown').should('not.be.visible');
+            cy.get('#moreChannelsList').should('not.contain', channel.name);
         });
     });
 
-    it('MM-T1697 - More... for Public channels shows archived channels option', () => {
-        cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_off',
-            },
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: true,
-            },
-        });
-
+    it('MM-T1697 - Browse Public channels shows archived channels option', () => {
         // # Create public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
             // # Visit the channel
@@ -205,10 +199,13 @@ describe('Leave an archived channel', () => {
             // # Archive the channel
             cy.uiArchiveChannel();
 
-            // # Open more modal
-            cy.get('#publicChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
+            // # Click on add channel button
+            cy.get('.AddChannelDropdown_dropdownButton').click();
+
+            // # Click on browse channels
+            cy.get('#showMoreChannels').click();
+
+            // # More channels modal opens
             cy.get('#moreChannelsModal').should('be.visible').within(() => {
                 // # Click on dropdown
                 cy.findByText('Show: Public Channels').should('be.visible').click();
@@ -222,54 +219,8 @@ describe('Leave an archived channel', () => {
         });
     });
 
-    it('MM-T1698 - More... for Private channels shows archived channels option', () => {
+    it('MM-T1699 - Browse Channels for all channel types shows archived channels option', () => {
         cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_off',
-            },
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: true,
-            },
-        });
-
-        // # Create private channel
-        createPrivateChannel(testTeam.id).then((channel) => {
-            // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-
-            // # Archive the channel
-            cy.uiArchiveChannel();
-
-            // Open private channel more modal
-            cy.get('#privateChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
-            cy.get('#moreChannelsModal').should('be.visible').within(() => {
-                // # Modal should show archived channels by default
-                cy.findByText('Show: Archived Channels').should('be.visible');
-
-                // # And contain the newly created channel
-                cy.get('#moreChannelsList').should('contain', channel.display_name);
-
-                // # User should be able to view public channels
-                cy.findByText('Show: Archived Channels').should('be.visible').click();
-                cy.findByText('Public Channels').click();
-            });
-        });
-    });
-
-    it('MM-T1699 - More... for all channel types shows archived channels option', () => {
-        cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_off',
-                ExperimentalChannelOrganization: true,
-            },
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: true,
-            },
-        });
         let archivedPrivateChannel;
         let archivedPublicChannel;
 
@@ -295,21 +246,13 @@ describe('Leave an archived channel', () => {
             cy.uiArchiveChannel();
         });
 
-        // # Go to account settings
-        cy.toAccountSettingsModal();
-        cy.findByText('Account Settings').click();
+        // # Click on add channel button
+        cy.get('.AddChannelDropdown_dropdownButton').click();
 
-        // # Disable channel grouping and sorting
-        cy.findByText('Sidebar').click();
-        cy.findByText('Channel Grouping and Sorting').click();
-        cy.get('#noneOption').click();
-        cy.get('#saveSetting').click();
-        cy.get('body').type('{esc}', {force: true});
+        // # Click on browse channels
+        cy.get('#showMoreChannels').click();
 
-        // # Open more channel modal
-        cy.get('#moreRecentAlphaButton').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        // # More channels modal opens
         cy.get('.more-modal').should('be.visible').within(() => {
             // # Public channel list opens by default
             cy.findByText('Show: Public Channels').should('be.visible').click();
@@ -324,16 +267,6 @@ describe('Leave an archived channel', () => {
     });
 
     it('MM-T1700 - All archived public channels are shown Important', () => {
-        cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_off',
-            },
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: true,
-            },
-        });
-
         let archivedPublicChannel1;
         let archivedPublicChannel2;
 
@@ -365,10 +298,13 @@ describe('Leave an archived channel', () => {
             cy.url().should('include', `/${testTeam.name}/channels/${archivedPublicChannel1.name}`);
         });
 
-        // # Open more modal
-        cy.get('#moreRecentAlphaButton').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        // # Click on add channel button
+        cy.get('.AddChannelDropdown_dropdownButton').click();
+
+        // # Click on browse channels
+        cy.get('#showMoreChannels').click();
+
+        // # More channels modal opens
         cy.get('.more-modal').should('be.visible').within(() => {
             // # Public channels are shown by default
             cy.findByText('Show: Public Channels').should('be.visible').click();
@@ -384,15 +320,6 @@ describe('Leave an archived channel', () => {
 
     it('MM-T1701 - Only Private channels you are a member of are displayed', () => {
         cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_off',
-            },
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: true,
-            },
-        });
-
         let archivedPrivateChannel1;
         let archivedPrivateChannel2;
 
@@ -425,10 +352,13 @@ describe('Leave an archived channel', () => {
         cy.get('#confirmModal').should('be.visible');
         cy.get('#confirmModalButton').click();
 
-        // # Open more modal
-        cy.get('#moreRecentAlphaButton').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        // # Click on add channel button
+        cy.get('.AddChannelDropdown_dropdownButton').click();
+
+        // # Click on browse channels
+        cy.get('#showMoreChannels').click();
+
+        // # More channels modal opens
         cy.get('.more-modal').should('be.visible').within(() => {
             // # Show public channels is visible by default
             cy.findByText('Show: Public Channels').should('be.visible').click();
