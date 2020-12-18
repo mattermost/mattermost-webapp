@@ -74,7 +74,7 @@ describe('MM-T3156 DM category', () => {
         });
     });
 
-    it('MM-T2016_3_4 Receiving a DM from a user should show the DM in the sidebar', () => {
+    it('MM-T2016_3 Receiving a DM from a user should show the DM in the sidebar', () => {
         // # Create a new user to start a DM with
         cy.apiCreateUser().then(({user}) => {
             cy.apiCreateDirectChannel([testUser.id, user.id]).then(({channel}) => {
