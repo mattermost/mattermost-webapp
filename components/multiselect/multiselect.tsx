@@ -248,11 +248,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
     }
 
     MultiValueRemove = ({children, innerProps}: any) => (
-            <div {...innerProps}>
-                {children && <CloseCircleSolidIcon/>}
-            </div>
-        )
-    };
+        <div {...innerProps}>
+            {children && <CloseCircleSolidIcon/>}
+        </div>
+    );
 
     formatOptionLabel = (user: any) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
