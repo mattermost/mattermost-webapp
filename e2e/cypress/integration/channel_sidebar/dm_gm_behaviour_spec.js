@@ -12,7 +12,7 @@
 import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('MM-T3156 DM category', () => {
+describe('DM category', () => {
     const sysadmin = getAdminAccount();
     let testUser;
     before(() => {
