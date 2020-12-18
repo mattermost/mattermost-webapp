@@ -191,6 +191,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
+                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                        unreadFilterEnabled={this.props.unreadFilterEnabled}
                     />
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>

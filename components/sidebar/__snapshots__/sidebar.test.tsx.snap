@@ -15,9 +15,11 @@ exports[`components/sidebar should match snapshot 1`] = `
     <Connect(ChannelNavigator)
       canCreateChannel={true}
       canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
       showCreateCategoryModal={[Function]}
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
     />
   </div>
   <Connect(Pluggable)
@@ -45,9 +47,11 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     <Connect(ChannelNavigator)
       canCreateChannel={true}
       canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
       showCreateCategoryModal={[Function]}
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
     />
   </div>
   <Connect(Pluggable)
@@ -79,9 +83,11 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     <Connect(ChannelNavigator)
       canCreateChannel={true}
       canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
       showCreateCategoryModal={[Function]}
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
     />
   </div>
   <Connect(Pluggable)
