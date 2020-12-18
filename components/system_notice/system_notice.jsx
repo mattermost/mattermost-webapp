@@ -116,7 +116,7 @@ export default class SystemNotice extends React.PureComponent {
 
         return (
             <div
-                className='system-notice bg--white shadow--2'
+                className='system-notice bg--white'
             >
                 <div className='system-notice__header'>
                     <div className='system-notice__logo'>

@@ -49,6 +49,14 @@ const IndicatorsContainer = (props: any) => {
     );
 };
 
+const Control = (props: any) => {
+    return (
+        <div className='DropdownInput__controlContainer'>
+            <components.Control {...props}/>
+        </div>
+    );
+};
+
 const Option = (props: any) => {
     return (
         <div
@@ -126,8 +134,10 @@ const DropdownInput = <T extends ValueType>(props: Props<T>) => {
                         components={{
                             IndicatorsContainer,
                             Option,
+                            Control,
                         }}
                         className={classNames('Input', className, {Input__focus: showLegend})}
+                        classNamePrefix={'DropDown'}
                         value={value}
                         onChange={onChange as any} // types are not working correctly for multiselect
                         styles={{...baseStyles, ...styles}}

@@ -12,6 +12,8 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
+import {openModal} from 'actions/views/modals';
+
 import {GlobalState} from 'types/store';
 
 import {Preferences} from 'utils/constants';
@@ -36,6 +38,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             {
                 savePreferences,
                 getStandardAnalytics,
+                openModal,
             },
             dispatch,
         ),

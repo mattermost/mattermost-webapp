@@ -104,6 +104,9 @@ before(() => {
                 cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
         }
+
+        // * Verify that the server database matches with the DB client and config at "cypress.json"
+        cy.apiRequireServerDBToMatch();
     });
 });
 

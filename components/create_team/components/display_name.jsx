@@ -4,7 +4,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -30,7 +29,9 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            teamDisplayName: this.props.state.team.display_name,
+        };
     }
 
     componentDidMount() {
@@ -40,7 +41,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
     submitNext = (e) => {
         e.preventDefault();
         trackEvent('display_name', 'click_next');
-        var displayName = ReactDOM.findDOMNode(this.refs.name).value.trim();
+        var displayName = this.state.teamDisplayName.trim();
         if (!displayName) {
             this.setState({nameError: (
                 <FormattedMessage
@@ -75,6 +76,10 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         e.currentTarget.select();
     }
 
+    handleDisplayNameChange = (e) => {
+        this.setState({teamDisplayName: e.target.value});
+    }
+
     render() {
         var nameError = null;
         var nameDivClass = 'form-group';
@@ -103,13 +108,13 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                                 <input
                                     id='teamNameInput'
                                     type='text'
-                                    ref='name'
                                     className='form-control'
                                     placeholder=''
                                     maxLength='128'
-                                    defaultValue={this.props.state.team.display_name}
+                                    value={this.state.teamDisplayName}
                                     autoFocus={true}
                                     onFocus={this.handleFocus}
+                                    onChange={this.handleDisplayNameChange}
                                     spellCheck='false'
                                 />
                             </div>

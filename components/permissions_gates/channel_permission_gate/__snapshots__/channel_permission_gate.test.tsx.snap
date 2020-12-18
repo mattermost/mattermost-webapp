@@ -26,7 +26,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="invalid_id"
       dispatch={[Function]}
       hasPermission={false}
-      invert={false}
       permissions={
         Array [
           "test_channel_permission",
@@ -64,7 +63,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="channel_id"
       dispatch={[Function]}
       hasPermission={false}
-      invert={false}
       permissions={
         Array [
           "invalid_permission",
@@ -144,7 +142,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="channel_id"
       dispatch={[Function]}
       hasPermission={true}
-      invert={false}
       permissions={
         Array [
           "test_channel_permission",
@@ -225,7 +222,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="channel_id"
       dispatch={[Function]}
       hasPermission={true}
-      invert={false}
       permissions={
         Array [
           "test_system_permission",
@@ -267,7 +263,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="channel_id"
       dispatch={[Function]}
       hasPermission={true}
-      invert={false}
       permissions={
         Array [
           "test_team_permission",
@@ -309,7 +304,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="channel_id"
       dispatch={[Function]}
       hasPermission={true}
-      invert={false}
       permissions={
         Array [
           "test_channel_permission",
@@ -351,7 +345,6 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
       channelId="channel_id"
       dispatch={[Function]}
       hasPermission={false}
-      invert={false}
       permissions={
         Array [
           "invalid_permission",

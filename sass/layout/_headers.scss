@@ -116,6 +116,11 @@
                 width: 16px;
                 height: 16px;
             }
+
+            svg {
+                fill: rgba(var(--center-channel-color-rgb), 0.6);
+            }
+
         }
 
         a {
@@ -162,6 +167,7 @@
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: var(--center-channel-color);
     }
 
     .caret {
@@ -269,6 +275,7 @@
             .emoticon {
                 position: relative;
                 top: -1px;
+                overflow: hidden;
             }
         }
 
@@ -738,6 +745,11 @@
             }
         }
     }
+		.channel-header__info {
+			.header-dropdown__icon {
+				color: rgba(var(--center-channel-color-rgb),0.8)
+			}
+		}
 
 }
 

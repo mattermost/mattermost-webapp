@@ -5,6 +5,9 @@ import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ModalIdentifiers} from 'utils/constants';
+import PurchaseModal from 'components/purchase_modal';
+
 import UpgradeUserLimitModalSvg from './user_limit_upgrade_svg';
 import './user_limit_modal.scss';
 
@@ -12,13 +15,17 @@ type Props = {
     show: boolean;
     actions: {
         closeModal: () => void;
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
     };
 };
 
 export default function UserLimitModal(props: Props) {
     const onSubmit = () => {
-        // This does nothing until implementation of the upgrade tier page is complete
-        // Eventually, we will dispatch props.actions.openModal here
+        props.actions.closeModal();
+        props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
     };
 
     const close = () => {
