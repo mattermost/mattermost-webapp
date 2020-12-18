@@ -215,7 +215,7 @@ describe('Leave an archived channel', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
-        cy.get('#quickSwitchInput').type('archived-');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('archived-');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -231,7 +231,7 @@ describe('Leave an archived channel', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
-        cy.get('#quickSwitchInput').type('archived-');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('archived-');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -257,7 +257,7 @@ describe('Leave an archived channel', () => {
             cy.typeCmdOrCtrl().type('K', {release: true});
 
             // # Start typing the name of a private channel located above
-            cy.get('#quickSwitchInput').type('archived-');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('archived-');
 
             cy.get('#suggestionList').should('be.visible');
 
@@ -274,7 +274,7 @@ describe('Leave an archived channel', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a public or private channel on this team that has been archived
-        cy.get('#quickSwitchInput').type(testChannel.display_name);
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(testChannel.display_name);
 
         // # Select an archived channel from the list
         cy.get('#suggestionList').should('be.visible');

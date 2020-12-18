@@ -8,10 +8,10 @@ import {PostImage} from 'mattermost-redux/types/posts';
 import {getImageSrc} from 'utils/post_utils.jsx';
 
 interface Props {
-    children: (src : string) => React.ReactNode;
+    children: (src: string) => React.ReactNode;
     enableSVGs: boolean;
     hasImageProxy: boolean;
-    imageMetadata?: PostImage,
+    imageMetadata?: PostImage;
     src: string;
 }
 

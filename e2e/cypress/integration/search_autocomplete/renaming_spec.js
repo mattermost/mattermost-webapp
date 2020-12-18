@@ -19,7 +19,7 @@ function searchAndVerifyChannel(channel) {
     cy.typeCmdOrCtrl().type('k');
 
     // # Search for channel's display name
-    cy.get('#quickSwitchInput').
+    cy.findByRole('textbox', {name: 'quick switch input'}).
         should('be.visible').
         as('input').
         clear().

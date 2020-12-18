@@ -19,8 +19,8 @@ type OwnProps = {
 }
 
 type Actions = {
-    updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
-    getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
+    updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook; error: ServerError }>;
+    getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook; error: ServerError }>;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
