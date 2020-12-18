@@ -179,7 +179,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
     });
 
-    it.only('MM-T2062 Clear nickname and save', () => {
+    it('MM-T2062 Clear nickname and save', () => {
         cy.toAccountSettingsModal();
 
         // # Go to general settings > Edit nickname
