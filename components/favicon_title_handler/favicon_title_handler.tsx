@@ -119,7 +119,7 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
         const link64x64 = document.querySelector<HTMLLinkElement>('link[rel="icon"][sizes="64x64"]');
         const link96x96 = document.querySelector<HTMLLinkElement>('link[rel="icon"][sizes="96x96"]');
 
-        const getFavicon = (url: string) : string => (typeof url === 'string' ? url : '');
+        const getFavicon = (url: string): string => (typeof url === 'string' ? url : '');
 
         switch (badgeStatus) {
         case BadgeStatus.Mention: {

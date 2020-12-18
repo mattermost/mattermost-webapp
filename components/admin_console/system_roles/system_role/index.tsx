@@ -27,7 +27,7 @@ type Props = {
 type Actions = {
     editRole(role: Role): Promise<ActionResult>;
     updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
-    setNavigationBlocked: (blocked: boolean) => void,
+    setNavigationBlocked: (blocked: boolean) => void;
 }
 
 function mapStateToProps(state: GlobalState, props: Props) {

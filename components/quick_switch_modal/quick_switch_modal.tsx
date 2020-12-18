@@ -26,10 +26,10 @@ const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';
 
 type ProviderSuggestions = {
-    matchedPretext: any,
-    terms: string[],
-    items: any[],
-    component: React.ReactNode,
+    matchedPretext: any;
+    terms: string[];
+    items: any[];
+    component: React.ReactNode;
 }
 
 export type Props = {
@@ -46,15 +46,15 @@ export type Props = {
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
         switchToChannel: (channel: Channel) => Promise<ActionResult>;
-    }
+    };
 }
 
 type State = {
     text: string;
     mode: string|null;
-    hasSuggestions: boolean,
-    shouldShowLoadingSpinner: boolean,
-    pretext: string,
+    hasSuggestions: boolean;
+    shouldShowLoadingSpinner: boolean;
+    pretext: string;
 }
 
 export default class QuickSwitchModal extends React.PureComponent<Props, State> {
@@ -317,6 +317,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                         <i className='icon icon-magnify icon-16'/>
                         <SuggestionBox
                             id='quickSwitchInput'
+                            aria-label={Utils.localizeMessage('quick_switch_modal.input', 'quick switch input')}
                             ref={this.setSwitchBoxRef}
                             className='form-control focused'
                             onChange={this.onChange}

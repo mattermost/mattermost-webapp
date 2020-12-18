@@ -167,22 +167,22 @@ const postTypeMessage = {
 };
 
 export type Props = {
-    allUserIds: Array<string>;
-    allUsernames: Array<string>;
+    allUserIds: string[];
+    allUsernames: string[];
     currentUserId: string;
     currentUsername: string;
     intl: IntlShape;
     messageData: Array<{
         actorId: string;
         postType: string;
-        userIds: Array<string>
+        userIds: string[];
     }>;
     showJoinLeave: boolean;
-    userProfiles: Array<UserProfile>;
+    userProfiles: UserProfile[];
     actions: {
-        getMissingProfilesByIds: (userIds: Array<string>) => ActionFunc ;
-        getMissingProfilesByUsernames: (usernames: Array<string>) => ActionFunc;
-    }
+        getMissingProfilesByIds: (userIds: string[]) => ActionFunc ;
+        getMissingProfilesByUsernames: (usernames: string[]) => ActionFunc;
+    };
 }
 
 export class CombinedSystemMessage extends React.PureComponent<Props> {
@@ -202,7 +202,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         }
     }
 
-    loadUserProfiles = (allUserIds: Array<string>, allUsernames: Array<string>): void => {
+    loadUserProfiles = (allUserIds: string[], allUsernames: string[]): void => {
         if (allUserIds.length > 0) {
             this.props.actions.getMissingProfilesByIds(allUserIds);
         }
@@ -237,7 +237,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         return usernames;
     }
 
-    getUsernamesByIds = (userIds: Array<string> = []): Array<string> => {
+    getUsernamesByIds = (userIds: string[] = []): string[] => {
         const {currentUserId, currentUsername} = this.props;
         const allUsernames = this.getAllUsernames();
 
@@ -263,7 +263,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         return usernames;
     }
 
-    renderFormattedMessage(postType: string, userIds: Array<string>, actorId: string): JSX.Element {
+    renderFormattedMessage(postType: string, userIds: string[], actorId: string): JSX.Element {
         const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
@@ -319,7 +319,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
-    renderMessage(postType: string, userIds: Array<string>, actorId: string): JSX.Element {
+    renderMessage(postType: string, userIds: string[], actorId: string): JSX.Element {
         return (
             <React.Fragment key={postType + actorId}>
                 {this.renderFormattedMessage(postType, userIds, actorId)}
