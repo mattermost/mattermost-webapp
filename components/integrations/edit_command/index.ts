@@ -7,7 +7,7 @@ import {editCommand, getCustomTeamCommands} from 'mattermost-redux/actions/integ
 import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {Command} from 'mattermost-redux/types/integrations';
 
 import EditCommand from './edit_command';
@@ -17,8 +17,8 @@ type Props = {
 }
 
 type Actions = {
-    getCustomTeamCommands: (teamId: string) => ActionFunc;
-    editCommand: (command: Command) => ActionFunc;
+    getCustomTeamCommands: (teamId: string) => Promise<ActionResult>;
+    editCommand: (command?: Command) => Promise<{data?: Command; error?: Error}>;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
