@@ -100,8 +100,6 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
   serverError=""
   team={
     Object {
-      "id": "m5gix3oye3du8ghk4ko6h9cq7y",
-      "name": "test",
       "allow_open_invite": false,
       "allowed_domains": "",
       "company_name": "",
@@ -111,7 +109,9 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
       "display_name": "name",
       "email": "",
       "group_constrained": false,
+      "id": "m5gix3oye3du8ghk4ko6h9cq7y",
       "invite_id": "",
+      "name": "test",
       "scheme_id": "id",
       "type": "O",
       "update_at": 0,
