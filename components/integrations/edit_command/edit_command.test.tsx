@@ -10,7 +10,7 @@ import EditCommand from 'components/integrations/edit_command/edit_command';
 
 describe('components/integrations/EditCommand', () => {
     const commands = {
-        r5tpgt4iepf45jt768jz84djic: {
+        r5tpgt4iepf45jt768jz84djic: TestHelper.getCommandMock({
             id: 'r5tpgt4iepf45jt768jz84djic',
             display_name: 'display_name',
             description: 'description',
@@ -28,7 +28,7 @@ describe('components/integrations/EditCommand', () => {
             update_at: 1504468859001,
             url: 'https://google.com/command',
             username: 'username',
-        },
+        }),
     };
     const team: Team = TestHelper.getTeamMock({
         name: 'test',
@@ -53,7 +53,7 @@ describe('components/integrations/EditCommand', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow<EditCommand>(
+        const wrapper = shallow(
             <EditCommand {...baseProps}/>,
         );
 
@@ -65,7 +65,7 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should match snapshot, loading', () => {
-        const wrapper = shallow<EditCommand>(
+        const wrapper = shallow(
             <EditCommand {...baseProps}/>,
         );
 
@@ -78,7 +78,7 @@ describe('components/integrations/EditCommand', () => {
             editCommand: jest.fn(),
         };
         const props = {...baseProps, actions, enableCommands: false};
-        const wrapper = shallow<EditCommand>(
+        const wrapper = shallow(
             <EditCommand {...props}/>,
         );
 

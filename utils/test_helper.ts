@@ -9,6 +9,7 @@ import {Group} from 'mattermost-redux/types/groups';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {Command} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 export class TestHelper {
@@ -251,5 +252,28 @@ export class TestHelper {
             clientId: 'client_id',
         };
         return Object.assign({}, defaultFileInfo, override);
+    }
+
+    public static getCommandMock(override: Partial<Command>): Command {
+        const defaultCommand: Command = {
+            id: 'command_id',
+            display_name: 'command_display_name',
+            description: 'command_description',
+            token: 'token',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            creator_id: 'creator_id',
+            team_id: 'team_id',
+            trigger: 'trigger',
+            method: 'G',
+            username: 'username',
+            icon_url: '',
+            auto_complete: true,
+            auto_complete_desc: 'auto_complete_hint',
+            auto_complete_hint: 'auto_complete_desc',
+            url: '',
+        };
+        return Object.assign({}, defaultCommand, override);
     }
 }
