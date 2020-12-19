@@ -76,10 +76,10 @@ describe('SupportSettings', () => {
         cy.apiLogout();
         cy.wait(TIMEOUTS.TWO_SEC);
 
-        // * Ensure that the user was redirected to the login page after the logout
+        // * Verify that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
-        // * Ensure that links are correct
+        // * Verify that links are correct
         cy.get('#about_link').should('contain', 'About').and('have.attr', 'href').and('equal', aboutLink);
         cy.get('#privacy_link').should('contain', 'Privacy').and('have.attr', 'href').and('equal', privacyLink);
         cy.get('#terms_link').should('contain', 'Terms').and('have.attr', 'href').and('equal', tosLink);
@@ -88,7 +88,7 @@ describe('SupportSettings', () => {
         // # Visit signup page
         cy.get('#signup').click();
 
-        // * Ensure that links are correct
+        // * Verify that links are correct
         cy.get('#about_link').should('contain', 'About').and('have.attr', 'href').and('equal', aboutLink);
         cy.get('#privacy_link').should('contain', 'Privacy').and('have.attr', 'href').and('equal', privacyLink);
         cy.get('#terms_link').should('contain', 'Terms').and('have.attr', 'href').and('equal', tosLink);
@@ -124,7 +124,7 @@ describe('SupportSettings', () => {
         // # Logout
         cy.apiLogout();
 
-        // * Ensure that the user was redirected to the login page after the logout
+        // * Verify that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
         // * Verify that terms of services link is set to default
@@ -169,16 +169,16 @@ describe('SupportSettings', () => {
         // # Logout
         cy.apiLogout();
 
-        // * Ensure that the user was redirected to the login page after the logout
+        // * Verify that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
-        // * Ensure no privacy link
+        // * Verify no privacy link
         cy.get('#privacy_link').should('not.exist');
 
         // # Visit signup page
         cy.get('#signup').click();
 
-        // * Ensure no privacy link
+        // * Verify no privacy link
         cy.get('#privacy_link').should('not.exist');
     });
 
