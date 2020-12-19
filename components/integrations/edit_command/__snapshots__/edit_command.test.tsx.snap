@@ -48,7 +48,7 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
       "auto_complete": true,
       "auto_complete_desc": "auto_complete_desc",
       "auto_complete_hint": "auto_complete_hint",
-      "create_at": "1499722850203",
+      "create_at": 1499722850203,
       "creator_id": "88oybd1dwfdoxpkpw1h5kpbyco",
       "delete_at": 0,
       "description": "description",

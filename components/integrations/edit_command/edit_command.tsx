@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Team} from 'mattermost-redux/types/teams';
 import {Command} from 'mattermost-redux/types/integrations';
-import {ActionResult} from 'mattermost-redux/types/actions';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {browserHistory} from 'utils/browser_history';
@@ -39,7 +38,7 @@ type Props = {
         /**
         * The function to call to fetch team commands
         */
-        getCustomTeamCommands: (teamId: string) => Promise<ActionResult>;
+        getCustomTeamCommands: (teamId: string) => Promise<void>;
 
         /**
         * The function to call to edit command
@@ -102,7 +101,7 @@ export default class EditCommand extends React.PureComponent<Props, State> {
         }
     }
 
-    private handleConfirmModal = (): void => {
+    public handleConfirmModal = (): void => {
         this.setState({showConfirmModal: true});
     }
 
