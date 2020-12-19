@@ -9,6 +9,14 @@ import {TestHelper} from 'utils/test_helper';
 import EditCommand from 'components/integrations/edit_command/edit_command';
 
 describe('components/integrations/EditCommand', () => {
+    const getCustomTeamCommands = jest.fn(
+        () => {
+            return new Promise((resolve) => {
+                process.nextTick(() => resolve({}));
+            });
+        },
+    );
+
     const commands = {
         r5tpgt4iepf45jt768jz84djic: TestHelper.getCommandMock({
             id: 'r5tpgt4iepf45jt768jz84djic',
@@ -46,7 +54,7 @@ describe('components/integrations/EditCommand', () => {
         commands,
         editCommandRequest,
         actions: {
-            getCustomTeamCommands: jest.fn(),
+            getCustomTeamCommands,
             editCommand: jest.fn(),
         },
         enableCommands: true,
@@ -87,7 +95,7 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should have match state when handleConfirmModal is called', () => {
-        const props = {...baseProps};
+        const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow<EditCommand>(
             <EditCommand {...props}/>,
         );
@@ -98,7 +106,7 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should have match state when confirmModalDismissed is called', () => {
-        const props = {...baseProps};
+        const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow<EditCommand>(
             <EditCommand {...props}/>,
         );
@@ -109,7 +117,7 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should have match renderExtra', () => {
-        const props = {...baseProps};
+        const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow<EditCommand>(
             <EditCommand {...props}/>,
         );
@@ -118,7 +126,7 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should have match when editCommand is called', () => {
-        const props = {...baseProps};
+        const props = {...baseProps, getCustomTeamCommands};
         const wrapper = shallow<EditCommand>(
             <EditCommand {...props}/>,
         );

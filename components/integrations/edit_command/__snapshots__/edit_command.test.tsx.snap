@@ -102,6 +102,19 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
     Object {
       "id": "m5gix3oye3du8ghk4ko6h9cq7y",
       "name": "test",
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
+      "invite_id": "",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />

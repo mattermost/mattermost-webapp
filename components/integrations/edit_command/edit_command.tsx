@@ -38,7 +38,7 @@ type Props = {
         /**
         * The function to call to fetch team commands
         */
-        getCustomTeamCommands: (teamId: string) => Promise<void>;
+        getCustomTeamCommands: (teamId: string) => Promise<any>;
 
         /**
         * The function to call to edit command
