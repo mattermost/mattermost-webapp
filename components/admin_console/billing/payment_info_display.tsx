@@ -58,6 +58,10 @@ const noPaymentInfoSection = (
 const PaymentInfoDisplay: React.FC = () => {
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
+    if (!paymentInfo) {
+        return null;
+    }
+
     let body = noPaymentInfoSection;
 
     if (paymentInfo?.payment_method && paymentInfo?.billing_address) {

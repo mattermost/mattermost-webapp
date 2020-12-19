@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {sendEmailInvitesToTeamGracefully, regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -15,8 +16,11 @@ import {GlobalState} from 'types/store';
 import InviteMembersStep from './invite_members_step';
 
 function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
+
     return {
         team: getCurrentTeam(state),
+        isEmailInvitesEnabled: config.EnableEmailInvitations === 'true',
     };
 }
 

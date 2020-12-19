@@ -246,6 +246,12 @@ const PlanDetails: React.FC = () => {
             </div>
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
+            <div className='PlanDetails__description'>
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.freeForTenUsers'
+                    defaultMessage='Always free for up to 10 users'
+                />
+            </div>
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
                     id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'

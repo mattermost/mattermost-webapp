@@ -18,7 +18,7 @@ import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedi
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/src/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -107,7 +107,7 @@ export function emitChannelClickEvent(channel: Channel) {
                 switchToChannel(data);
             },
             () => {
-                browserHistory.push('/'); //+ this.state.currentTeam.name);
+                browserHistory.push('/');
             },
         );
     } else {
@@ -172,7 +172,7 @@ export function showLeavePrivateChannelModal(channel: Channel) {
     });
 }
 
-export function showMobileSubMenuModal(elements: any[]) { //Using any, but the only place used is a list of submenu props.
+export function showMobileSubMenuModal(elements: any[]) { // TODO Use more specific type
     const submenuModalData = {
         ModalId: ModalIdentifiers.MOBILE_SUBMENU,
         dialogType: SubMenuModal,
@@ -184,7 +184,7 @@ export function showMobileSubMenuModal(elements: any[]) { //Using any, but the o
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId: string, parentId?: string) {
+export function sendEphemeralPost(message: string, channelId: string, parentId: string) {
     const timestamp = Utils.getTimestamp();
     const post = {
         id: Utils.generateId(),
@@ -232,8 +232,8 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
         const stats = getCurrentChannelStats(state);
         const membersInChannel = stats ? stats.member_count : 0;
 
-        const timeBetweenUserTypingUpdatesMilliseconds = stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds);
-        const maxNotificationsPerChannel = stringToNumber(config.MaxNotificationsPerChannel);
+        const timeBetweenUserTypingUpdatesMilliseconds = Utils.stringToNumber(config.TimeBetweenUserTypingUpdatesMilliseconds);
+        const maxNotificationsPerChannel = Utils.stringToNumber(config.MaxNotificationsPerChannel);
 
         if (((t - lastTimeTypingSent) > timeBetweenUserTypingUpdatesMilliseconds) &&
             (membersInChannel < maxNotificationsPerChannel) && (config.EnableUserTypingMessages === 'true')) {

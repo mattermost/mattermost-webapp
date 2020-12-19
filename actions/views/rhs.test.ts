@@ -56,13 +56,13 @@ const POST_CREATED_TIME = Date.now();
 global.Date.now = jest.fn(() => POST_CREATED_TIME);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
-    getPostThread: (...args:any) => ({type: 'MOCK_GET_POST_THREAD', args}),
-    getProfilesAndStatusesForPosts: (...args:any) => ({type: 'MOCK_GET_PROFILES_AND_STATUSES_FOR_POSTS', args}),
+    getPostThread: (...args: any) => ({type: 'MOCK_GET_POST_THREAD', args}),
+    getProfilesAndStatusesForPosts: (...args: any) => ({type: 'MOCK_GET_PROFILES_AND_STATUSES_FOR_POSTS', args}),
 }));
 
 jest.mock('mattermost-redux/actions/search', () => ({
-    searchPostsWithParams: (...args:any) => ({type: 'MOCK_SEARCH_POSTS', args}),
-    clearSearch: (...args:any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
+    searchPostsWithParams: (...args: any) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    clearSearch: (...args: any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
 }));

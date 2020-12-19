@@ -249,7 +249,7 @@ var config = {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     performance: {
         hints: 'warning',
@@ -290,6 +290,7 @@ var config = {
                 {from: 'images/warning.png', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
+                {from: 'images/cloud', to: 'images'},
             ],
         }),
 

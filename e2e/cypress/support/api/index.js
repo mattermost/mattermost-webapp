@@ -16,3 +16,4 @@ import './status';
 import './system';
 import './team';
 import './user';
+import './webhooks';

@@ -25,6 +25,7 @@ export default class EditPostTimeLimitButton extends React.PureComponent {
 
         return (
             <button
+                type='button'
                 className='edit-post-time-limit-button'
                 onClick={this.props.onClick}
                 disabled={this.props.isDisabled}

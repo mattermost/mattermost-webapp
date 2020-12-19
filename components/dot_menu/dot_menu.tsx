@@ -26,103 +26,96 @@ import {PluginComponent} from 'types/store/plugins';
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
-
-// TODO: Should substitute locations from contants.jsx
-export enum Location {
-    Center = 'CENTER',
-    RHSRoot = 'RHS_ROOT',
-    RHSComment = 'RHS_COMMENT',
-    Search = 'SEARCH',
-    Nowhere = 'NO_WHERE',
-}
-
-export type Props = {
+type Props = {
     post: Post;
     teamId?: string;
-    location: Location;
+    location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     commentCount?: number;
     isFlagged?: boolean;
-    handleCommentClick?: () => void;
-    handleDropdownOpened?: () => void;
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly?: boolean;
-    pluginMenuItems: PluginComponent[];
-    isLicensed: boolean;
-    postEditTimeLimit?: number;
-    enableEmojiPicker: boolean;
-    channelIsArchived: boolean;
-    currentTeamUrl: string;
+    isReadOnly: boolean | null;
+    pluginMenuItems?: PluginComponent[];
+    isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
+    enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[];
-    canEdit: boolean;
-    canDelete: boolean;
 
     /**
      * Components for overriding provided by plugins
      */
     components: {
         [componentName: string]: PluginComponent[],
-    },
-    actions: {
+    }
+
+    actions?: {
 
         /**
          * Function flag the post
          */
-        flagPost: (id: string) => void,
+        flagPost: (postId: string) => void;
 
         /**
          * Function to unflag the post
          */
-        unflagPost: (id: string) => void,
+        unflagPost: (postId: string) => void;
 
         /**
          * Function to set the editing post
          */
-        setEditingPost: (postId: string, commentCount: number, refocusId: string, title: string, isRHS: boolean) => void,
+        setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
          * Function to pin the post
          */
-        pinPost: (id: string) => void,
+        pinPost: (postId: string) => void;
 
         /**
          * Function to unpin the post
          */
-        unpinPost: (id: string) => void,
+        unpinPost: (postId: string) => void;
 
         /**
          * Function to open a modal
          */
-        openModal: (modalData: any) => void, // TODO Improve typing
+        openModal: (postId: any) => void;
 
         /**
          * Function to set the unread mark at given post
          */
-        markPostAsUnread: (post: Post) => void,
+        markPostAsUnread: (post: Post) => void;
+
+        /**
+         * Function to perform an app call
+         */
         doAppCall: (call: AppCall) => void,
-    }
+    }; // TechDebt: Made non-mandatory while converting to typescript
+
+    canEdit: boolean;
+    canDelete: boolean;
 }
 
 type State = {
-    openUp: boolean,
-    width: number,
-    canEdit: boolean,
-    canDelete: boolean,
+    openUp: boolean;
+    width?: number;
+    canEdit: boolean;
+    canDelete: boolean;
 }
 
 export default class DotMenu extends React.PureComponent<Props, State> {
-    editDisableAction: DelayedAction
-    buttonRef: React.RefObject<HTMLButtonElement>
-
-    public static defaultProps: Partial<Props> = {
-        post: {} as Post,
+    static defaultProps = {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
-        pluginMenuItems: [] as PluginComponent[],
-        location: Location.Center,
-        enableEmojiPicker: false,
+        location: Locations.CENTER,
+        pluginMenuItems: [],
     }
+    private editDisableAction: DelayedAction;
+    private buttonRef: React.RefObject<HTMLButtonElement>;
 
     constructor(props: Props) {
         super(props);
@@ -136,7 +129,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             canDelete: props.canDelete && !props.isReadOnly,
         };
 
-        this.buttonRef = React.createRef();
+        this.buttonRef = React.createRef<HTMLButtonElement>();
     }
 
     disableCanEditPostByTime() {
@@ -146,9 +139,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         const postEditTimeLimit = this.props.postEditTimeLimit || Constants.UNSET_POST_EDIT_TIME_LIMIT;
 
         if (canEdit && isLicensed) {
-            if (postEditTimeLimit !== Constants.UNSET_POST_EDIT_TIME_LIMIT) {
+            if (postEditTimeLimit !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
-                const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
+                const timeLeft = (post.create_at + (Number(postEditTimeLimit) * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {
                     this.editDisableAction.fireAfter(timeLeft + milliseconds);
                 }
@@ -177,9 +170,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     handleFlagMenuItemActivated = () => {
         if (this.props.isFlagged) {
-            this.props.actions.unflagPost(this.props.post.id);
+            this.props.actions?.unflagPost(this.props.post.id);
         } else {
-            this.props.actions.flagPost(this.props.post.id);
+            this.props.actions?.flagPost(this.props.post.id);
         }
     }
 
@@ -199,15 +192,15 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     handlePinMenuItemActivated = () => {
         if (this.props.post.is_pinned) {
-            this.props.actions.unpinPost(this.props.post.id);
+            this.props.actions?.unpinPost(this.props.post.id);
         } else {
-            this.props.actions.pinPost(this.props.post.id);
+            this.props.actions?.pinPost(this.props.post.id);
         }
     }
 
     handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
-        this.props.actions.markPostAsUnread(this.props.post);
+        this.props.actions?.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
@@ -223,17 +216,13 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             },
         };
 
-        this.props.actions.openModal(deletePostModalData);
+        this.props.actions?.openModal(deletePostModalData);
     }
 
     handleEditMenuItemActivated = () => {
-        let commentCount = 0;
-        if (this.props.commentCount) {
-            commentCount = this.props.commentCount;
-        }
-        this.props.actions.setEditingPost(
+        this.props.actions?.setEditingPost(
             this.props.post.id,
-            commentCount,
+            this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
@@ -252,15 +241,15 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         </Tooltip>
     )
 
-    refCallback = (menuRef: Menu | null) => {
+    refCallback = (menuRef: Menu) => {
         if (menuRef) {
-            const rect = menuRef.rect();
-            if (!rect) {
-                return;
-            }
-
             const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-            const y = (typeof buttonRect?.y === 'undefined' ? buttonRect?.top : buttonRect.y) || 0;
+            let y;
+            if (typeof buttonRect?.y === 'undefined') {
+                y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
+            } else {
+                y = buttonRect?.y;
+            }
             const windowHeight = window.innerHeight;
 
             const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
@@ -269,7 +258,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
-                width: rect.width,
+                width: menuRef.rect()?.width,
             });
         }
     }
@@ -288,7 +277,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         if (!binding.call) {
             return;
         }
-        this.props.actions.doAppCall({
+        this.props.actions?.doAppCall({
             ...binding.call,
             context: {
                 app_id: binding.app_id,
@@ -352,7 +341,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 />
             );
         });
-        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -449,7 +438,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {(pluginItems.length > 0 || appBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {((typeof pluginItems !== 'undefined' && pluginItems.length > 0) || appBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
                     {appBindings}
                     <Pluggable

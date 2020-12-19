@@ -229,6 +229,7 @@ class CreateComment extends React.PureComponent {
         getChannelMemberCountsByGroup: PropTypes.func.isRequired,
         groupsWithAllowReference: PropTypes.object,
         channelMemberCountsByGroup: PropTypes.object,
+        onHeightChange: PropTypes.func,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -296,6 +297,12 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+
+        if (this.saveDraftFrame) {
+            cancelAnimationFrame(this.saveDraftFrame);
+
+            this.props.onUpdateCommentDraft(this.state.draft);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -696,8 +703,15 @@ class CreateComment extends React.PureComponent {
 
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
-        this.props.onUpdateCommentDraft(updatedDraft);
-        this.setState({draft: updatedDraft, serverError});
+
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.onUpdateCommentDraft(updatedDraft);
+        });
+
+        this.setState({draft: updatedDraft, serverError}, () => {
+            this.scrollToBottom();
+        });
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
@@ -969,6 +983,10 @@ class CreateComment extends React.PureComponent {
                 this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
             }
         });
+
+        if (this.props.onHeightChange) {
+            this.props.onHeightChange();
+        }
     }
 
     render() {

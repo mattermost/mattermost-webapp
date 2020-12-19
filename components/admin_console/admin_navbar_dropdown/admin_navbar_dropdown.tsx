@@ -67,15 +67,12 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                             defaultMessage='Select Team Icon'
                         >
                             {(title) => {
-                                if (typeof title === 'string') {
-                                    return (
-                                        <i
-                                            className='fa fa-exchange'
-                                            title={title}
-                                        />
-                                    );
-                                }
-                                return title;
+                                return (
+                                    <i
+                                        className='fa fa-exchange'
+                                        title={title as string}
+                                    />
+                                );
                             }}
                         </FormattedMessage>
                     }

@@ -8,6 +8,8 @@ import {v4 as uuidv4} from 'uuid';
 import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
+import Constants from './constants';
+
 /**
  * @param {Number} length - length on random string to return, e.g. 7 (default)
  * @return {String} random string
@@ -18,20 +20,14 @@ export function getRandomId(length = 7) {
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
 }
 
-export function getEmailUrl(baseUrl) {
-    if (baseUrl === 'http://localhost:8065') {
-        return 'http://localhost:10080/api/v1/mailbox';
-    }
+export function getEmailUrl() {
+    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:10080';
 
-    return `${baseUrl}/mail`;
+    return `${smtpUrl}/api/v1/mailbox`;
 }
 
-export function getEmailMessageSeparator(baseUrl) {
-    if (baseUrl === 'http://localhost:8065') {
-        return '\r\n';
-    }
-
-    return '\n';
+export function splitEmailBodyText(text) {
+    return text.split('\n').map((d) => d.trim());
 }
 
 export function getMessageMenusPayload({dataSource, options, prefix = Date.now()} = {}) {
@@ -78,6 +74,12 @@ export function stubClipboard() {
     const clipboard = {contents: '', wasCalled: false};
 
     cy.window().then((win) => {
+        if (!win.navigator.clipboard) {
+            win.navigator.clipboard = {
+                writeText: () => {}, //eslint-disable-line no-empty-function
+            };
+        }
+
         cy.stub(win.navigator.clipboard, 'writeText', (link) => {
             clipboard.wasCalled = true;
             clipboard.contents = link;
@@ -86,3 +88,7 @@ export function stubClipboard() {
 
     return cy.wrap(clipboard);
 }
+
+export {
+    Constants,
+};
