@@ -28,7 +28,7 @@ type Props = {
     /**
      * The post to render the info for
      */
-    post: Post,
+    post: Post;
 
     /**
      * The id of the team which belongs the post

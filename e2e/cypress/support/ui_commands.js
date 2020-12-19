@@ -3,6 +3,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {isMac} from '../utils';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -82,14 +83,6 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) =
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
 });
-
-Cypress.Commands.add('isMac', () => {
-    isMac();
-});
-
-function isMac() {
-    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-}
 
 // ***********************************************************
 // Post
@@ -213,6 +206,106 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
         cy.fixture(file, 'utf-8').then((expectedHtml) => {
             cy.get(postMessageTextId, {timeout}).should('have.html', expectedHtml.replace(/\n$/, ''));
         });
+    });
+});
+
+// ***********************************************************
+// DM
+// ***********************************************************
+
+/**
+ * Sends a DM to a given user
+ * @param {User} user - the user that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
+    // # Open a new direct message with firstDMUser
+    cy.get('#addDirectChannel').click();
+
+    // # Type username
+    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+
+    // * Expect user count in the list to be 1
+    cy.get('#multiSelectList').
+        should('be.visible').
+        children().
+        should('have.length', 1);
+
+    // # Select first user in the list
+    cy.get('body').
+        type('{downArrow}').
+        type('{enter}');
+
+    // # Click on "Go" in the group message's dialog to begin the conversation
+    cy.get('#saveItems').click();
+
+    // * Expect the channel title to be the user's username
+    // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
+    cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+
+    // # Type message and send it to the user
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
+});
+
+/**
+ * Sends a GM to a given user list
+ * @param {User[]} users - the users that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
+    // # Open a new direct message
+    cy.get('#addDirectChannel').click();
+
+    users.forEach((user) => {
+        // # Type username
+        cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+
+        // * Expect user count in the list to be 1
+        cy.get('#multiSelectList').
+            should('be.visible').
+            children().
+            should('have.length', 1);
+
+        // # Select first user in the list
+        cy.get('body').
+            type('{downArrow}').
+            type('{enter}');
+    });
+
+    // # Click on "Go" in the group message's dialog to begin the conversation
+    cy.get('#saveItems').click();
+
+    // * Expect the channel title to be the user's username
+    // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
+    users.forEach((user) => {
+        cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+    });
+
+    // # Type message and send it to the user
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
+});
+
+/**
+ * Close a DM via the X button
+ * @param {User} sender - the one currently observing and who will close the DM
+ * @param {User} recipient - the other user in a DM
+ * @param {String} team - a team where the sender is member of
+ */
+Cypress.Commands.add('closeDirectMessageViaXButton', (sender, recipient, team) => {
+    // # Find the username in the 'Direct Messages' list and trigger the 'x' button to appear (hover over the username)
+    cy.apiGetChannelsForUser(sender.id, team.id).then(({channels}) => {
+        // Get the name of the channel to build the CSS selector for that specific DM link in the sidebar
+        const channelDmWithFirstUser = channels.find((channel) =>
+            channel.type === 'D' && channel.name.includes(recipient.id),
+        );
+
+        // # Close the DM via 'x' button next to username in direct message list
+        cy.get(`#sidebarItem_${channelDmWithFirstUser.name} .btn-close`).
+            click({force: true});
     });
 });
 

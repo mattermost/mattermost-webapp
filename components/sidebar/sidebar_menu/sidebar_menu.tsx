@@ -59,22 +59,6 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         }
     }
 
-    // TODO: Temporary code to keep the menu in place while scrolling
-    // This shouldn't be necessary once the menus are fixed up
-    componentDidMount() {
-        const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
-        if (scrollbars && scrollbars[0]) {
-            scrollbars[0].addEventListener('scroll', this.closeMenu);
-        }
-    }
-
-    componentWillUnmount() {
-        const scrollbars = document.querySelectorAll('#SidebarContainer .SidebarNavContainer .scrollbar--view');
-        if (scrollbars && scrollbars[0]) {
-            scrollbars[0].removeEventListener('scroll', this.closeMenu);
-        }
-    }
-
     closeMenu = () => {
         if (this.menuWrapperRef.current) {
             this.menuWrapperRef.current.close();

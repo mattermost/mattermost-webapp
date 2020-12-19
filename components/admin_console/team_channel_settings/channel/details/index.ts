@@ -43,7 +43,7 @@ type OwnProps = {
     match: {
         params: {
             channel_id: string;
-        }
+        };
     };
 }
 
