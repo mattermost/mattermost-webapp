@@ -9,7 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import InstalledCommands from './installed_commands.jsx';
+import InstalledCommands from './installed_commands';
 
 type Props = {
     team: {
