@@ -373,5 +373,4 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         wrapper.instance().handleUpdateDesktopNotificationSound('Crackle');
         expect(wrapper.state('desktopNotificationSound')).toEqual('Crackle');
     });
-
 });
