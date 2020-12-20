@@ -24,9 +24,9 @@ describe('components/integrations/bots/Bots', () => {
     };
 
     it('bots', () => {
-        const bot1 = TestHelper.getBotMock({user_id: '1', owner_id: '1'});
-        const bot2 = TestHelper.getBotMock({user_id: '2', owner_id: '2'});
-        const bot3 = TestHelper.getBotMock({user_id: '3', owner_id: '3'});
+        const bot1 = TestHelper.getBotMock({user_id: '1'});
+        const bot2 = TestHelper.getBotMock({user_id: '2'});
+        const bot3 = TestHelper.getBotMock({user_id: '3'});
         const bots = {
             [bot1.user_id]: bot1,
             [bot2.user_id]: bot2,
@@ -37,17 +37,13 @@ describe('components/integrations/bots/Bots', () => {
             [bot2.user_id]: TestHelper.getUserMock({id: bot2.user_id}),
             [bot3.user_id]: TestHelper.getUserMock({id: bot3.user_id}),
         };
-        const owners = {
-            [bot1.owner_id]: TestHelper.getUserMock({id: bot1.owner_id}),
-            [bot2.owner_id]: TestHelper.getUserMock({id: bot2.owner_id}),
-            [bot3.owner_id]: TestHelper.getUserMock({id: bot3.owner_id}),
-        };
+
         const wrapperFull = shallow(
             <Bots
                 bots={bots}
                 team={team}
                 accessTokens={{}}
-                owners={owners}
+                owners={{}}
                 users={users}
                 actions={actions}
             />,
@@ -59,7 +55,7 @@ describe('components/integrations/bots/Bots', () => {
             <Bot
                 key={bot1.user_id}
                 bot={bot1}
-                owner={owners[bot1.owner_id]}
+                owner={undefined}
                 user={users[bot1.user_id]}
                 accessTokens={{}}
                 team={team}
@@ -70,7 +66,7 @@ describe('components/integrations/bots/Bots', () => {
             <Bot
                 key={bot2.user_id}
                 bot={bot2}
-                owner={owners[bot2.owner_id]}
+                owner={undefined}
                 user={users[bot2.user_id]}
                 accessTokens={{}}
                 team={team}
@@ -81,7 +77,7 @@ describe('components/integrations/bots/Bots', () => {
             <Bot
                 key={bot3.user_id}
                 bot={bot3}
-                owner={owners[bot3.owner_id]}
+                owner={undefined}
                 user={users[bot3.user_id]}
                 accessTokens={{}}
                 team={team}
