@@ -27,7 +27,7 @@ type Props = {
     /**
     *  Map from botUserId to accessTokens.
     */
-    accessTokens: RelationOneToOne<UserProfile, Dictionary<UserAccessToken>>;
+    accessTokens?: RelationOneToOne<UserProfile, Dictionary<UserAccessToken>>;
 
     /**
     *  Map from botUserId to owner.
@@ -165,7 +165,7 @@ export default class Bots extends React.PureComponent<Props, State> {
                 bot={bot}
                 owner={this.props.owners[bot.user_id]}
                 user={this.props.users[bot.user_id]}
-                accessTokens={this.props.accessTokens[bot.user_id] || {}}
+                accessTokens={(this.props.accessTokens && this.props.accessTokens[bot.user_id]) || {}}
                 actions={this.props.actions}
                 team={this.props.team}
             />
