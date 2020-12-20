@@ -15,6 +15,8 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         channelMember: {
             notify_props: {
                 desktop: NotificationLevels.ALL,
+                desktop_sound: 'true',
+                desktop_notification_sound: 'Bing',
                 mark_unread: NotificationLevels.ALL,
                 push: NotificationLevels.DEFAULT,
                 ignore_channel_mentions: IgnoreChannelMentions.DEFAULT,
@@ -52,6 +54,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
+        expect(wrapper.state('desktopSound')).toBeUndefined();
     });
 
     test('should provide correct default when currentUser channel notify props is true', () => {
@@ -210,12 +213,12 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         instance.handleUpdateChannelNotifyProps = jest.fn();
         instance.updateSection = jest.fn();
 
-        wrapper.setState({desktopNotifyLevel: NotificationLevels.DEFAULT});
-        instance.handleSubmitDesktopNotifyLevel();
+        wrapper.setState({desktopNotifyLevel: NotificationLevels.DEFAULT, desktopSound: 'false', desktopNotificationSound: null});
+        instance.handleSubmitDesktopNotification();
         expect(instance.handleUpdateChannelNotifyProps).toHaveBeenCalledTimes(1);
 
-        wrapper.setState({desktopNotifyLevel: NotificationLevels.ALL});
-        instance.handleSubmitDesktopNotifyLevel();
+        wrapper.setState({desktopNotifyLevel: NotificationLevels.ALL, desktopSound: 'true', desktopNotificationSound: 'Bing'});
+        instance.handleSubmitDesktopNotification();
         expect(instance.updateSection).toHaveBeenCalledTimes(1);
         expect(instance.updateSection).toBeCalledWith('');
     });
@@ -321,6 +324,8 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     test('should match state on resetStateFromNotifyProps', () => {
         const channelMemberNotifyProps = {
             desktop: NotificationLevels.NONE,
+            desktop_sound: 'false',
+            desktop_notification_sound: null,
             mark_unread: NotificationLevels.NONE,
             push: NotificationLevels.ALL,
         };
@@ -333,6 +338,8 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
 
         wrapper.instance().resetStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps);
         expect(wrapper.state('desktopNotifyLevel')).toEqual(NotificationLevels.NONE);
+        expect(wrapper.state('desktopSound')).toEqual('false');
+        expect(wrapper.state('desktopNotificationSound')).toBeNull();
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.NONE);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.ON);
@@ -346,4 +353,25 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         wrapper.instance().resetStateFromNotifyProps({...channelMemberNotifyProps, push: NotificationLevels.NONE}, currentUserNotifyProps);
         expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.NONE);
     });
+
+    test('should match state on handleUpdateDesktopSound', () => {
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...baseProps}/>,
+        );
+
+        wrapper.setState({desktopSound: 'false'});
+        wrapper.instance().handleUpdateDesktopSound('true');
+        expect(wrapper.state('desktopSound')).toEqual('true');
+    });
+
+    test('should match state on handleUpdateDesktopNotificationSound', () => {
+        const wrapper = shallow(
+            <ChannelNotificationsModal {...baseProps}/>,
+        );
+
+        wrapper.setState({desktopNotificationSound: 'Bing'});
+        wrapper.instance().handleUpdateDesktopNotificationSound('Crackle');
+        expect(wrapper.state('desktopNotificationSound')).toEqual('Crackle');
+    });
+
 });
