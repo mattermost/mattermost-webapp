@@ -172,7 +172,7 @@ export default class Bots extends React.PureComponent<Props, State> {
         );
     };
 
-    bots = (filter: string): Array<boolean | JSX.Element> => {
+    bots = (filter?: string): Array<boolean | JSX.Element> => {
         const bots = Object.values(this.props.bots).sort((a, b) => a.username.localeCompare(b.username));
         const match = (bot: BotType) => matchesFilter(bot, filter, this.props.owners[bot.user_id]);
         const enabledBots = bots.filter((bot) => bot.delete_at === 0).filter(match).map(this.botToJSX);

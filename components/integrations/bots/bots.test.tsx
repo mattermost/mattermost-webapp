@@ -49,7 +49,7 @@ describe('components/integrations/bots/Bots', () => {
             />,
         );
         wrapperFull.instance().setState({loading: false});
-        const wrapper = shallow(<div>{(wrapperFull.instance() as Bots).bots('filter')[0]}</div>);
+        const wrapper = shallow(<div>{(wrapperFull.instance() as Bots).bots()[0]}</div>);
 
         expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
@@ -123,7 +123,7 @@ describe('components/integrations/bots/Bots', () => {
             />,
         );
         wrapperFull.instance().setState({loading: false});
-        const wrapper = shallow(<div>{(wrapperFull.instance() as Bots).bots('filter')[0]}</div>);
+        const wrapper = shallow(<div>{(wrapperFull.instance() as Bots).bots()[0]}</div>);
 
         expect(wrapper.find('EnabledSection').shallow().contains(
             <Bot
