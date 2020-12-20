@@ -4,12 +4,16 @@ exports[`components/SettingItemMax should match snapshot 1`] = `
 <section
   className="section-max form-horizontal "
 >
-  <h4
-    className="col-sm-12 section-title"
-    id="settingTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </h4>
+    <h4
+      className="section-title"
+      id="settingTitle"
+    >
+      title
+    </h4>
+  </div>
   <div
     className="col-sm-12"
   >
@@ -65,12 +69,16 @@ exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
 <section
   className="section-max form-horizontal "
 >
-  <h4
-    className="col-sm-12 section-title"
-    id="settingTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </h4>
+    <h4
+      className="section-title"
+      id="settingTitle"
+    >
+      title
+    </h4>
+  </div>
   <div
     className="col-sm-12"
   >
@@ -136,12 +144,16 @@ exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
 <section
   className="section-max form-horizontal "
 >
-  <h4
-    className="col-sm-12 section-title"
-    id="settingTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </h4>
+    <h4
+      className="section-title"
+      id="settingTitle"
+    >
+      title
+    </h4>
+  </div>
   <div
     className="col-sm-12"
   >
@@ -207,12 +219,16 @@ exports[`components/SettingItemMax should match snapshot, with new saveTextButto
 <section
   className="section-max form-horizontal "
 >
-  <h4
-    className="col-sm-12 section-title"
-    id="settingTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </h4>
+    <h4
+      className="section-title"
+      id="settingTitle"
+    >
+      title
+    </h4>
+  </div>
   <div
     className="col-sm-12"
   >
@@ -263,12 +279,16 @@ exports[`components/SettingItemMax should match snapshot, without submit 1`] = `
 <section
   className="section-max form-horizontal "
 >
-  <h4
-    className="col-sm-12 section-title"
-    id="settingTitle"
+  <div
+    className="d-flex"
   >
-    title
-  </h4>
+    <h4
+      className="section-title"
+      id="settingTitle"
+    >
+      title
+    </h4>
+  </div>
   <div
     className="col-sm-12"
   >

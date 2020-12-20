@@ -95,6 +95,16 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
               className="divider-light"
             />
             <NotificationSection
+              desktopNotification={
+                Object {
+                  "globalDesktopNotificationSound": undefined,
+                  "globalDesktopSound": undefined,
+                  "handleUpdateDesktopNotificationSound": [Function],
+                  "handleUpdateDesktopSound": [Function],
+                  "memberDesktopNotificationSound": "Bing",
+                  "memberDesktopSound": "true",
+                }
+              }
               expand={false}
               globalNotificationLevel="all"
               memberNotificationLevel="all"

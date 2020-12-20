@@ -20,6 +20,16 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 
 exports[`components/channel_notifications_modal/NotificationSection should match snapshot, DESKTOP on expanded view 1`] = `
 <ExpandView
+  desktopNotification={
+    Object {
+      "globalDesktopNotificationSound": "Bing",
+      "globalDesktopSound": "false",
+      "handleUpdateDesktopNotificationSound": [Function],
+      "handleUpdateDesktopSound": [Function],
+      "memberDesktopNotificationSound": "Crackle",
+      "memberDesktopSound": "true",
+    }
+  }
   globalNotifyLevel="default"
   memberNotifyLevel="all"
   onChange={[Function]}
@@ -41,6 +51,16 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 
 exports[`components/channel_notifications_modal/NotificationSection should match snapshot, MARK_UNREAD on expanded view 1`] = `
 <ExpandView
+  desktopNotification={
+    Object {
+      "globalDesktopNotificationSound": "Bing",
+      "globalDesktopSound": "false",
+      "handleUpdateDesktopNotificationSound": [Function],
+      "handleUpdateDesktopSound": [Function],
+      "memberDesktopNotificationSound": "Crackle",
+      "memberDesktopSound": "true",
+    }
+  }
   globalNotifyLevel={null}
   memberNotifyLevel="all"
   onChange={[Function]}
@@ -62,6 +82,16 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 
 exports[`components/channel_notifications_modal/NotificationSection should match snapshot, PUSH on expanded view 1`] = `
 <ExpandView
+  desktopNotification={
+    Object {
+      "globalDesktopNotificationSound": "Bing",
+      "globalDesktopSound": "false",
+      "handleUpdateDesktopNotificationSound": [Function],
+      "handleUpdateDesktopSound": [Function],
+      "memberDesktopNotificationSound": "Crackle",
+      "memberDesktopSound": "true",
+    }
+  }
   globalNotifyLevel="default"
   memberNotifyLevel="all"
   onChange={[Function]}

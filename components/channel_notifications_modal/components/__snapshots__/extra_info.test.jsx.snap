@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/channel_notifications_modal/ExtraInfo should match snapshot, on DESKTOP 1`] = `
-<span>
-  <FormattedMessage
-    defaultMessage="Selecting an option other than \\"Default\\" will override the global notification settings. Desktop notifications are available on Firefox, Safari, and Chrome."
-    id="channel_notifications.override"
-  />
-</span>
-`;
+exports[`components/channel_notifications_modal/ExtraInfo should match snapshot, on DESKTOP 1`] = `""`;
 
 exports[`components/channel_notifications_modal/ExtraInfo should match snapshot, on MARK_UNREAD 1`] = `
 <span>

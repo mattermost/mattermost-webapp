@@ -1,0 +1,995 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_notifications_modal/DesktopNotificationSection should match snapshot default global settings 1`] = `
+<SettingItemMax
+  actionButton={null}
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
+      section="desktop"
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <React.Fragment>
+          <legend
+            className="form-legend"
+          >
+            <FormattedMessage
+              defaultMessage="Send desktop notifications"
+              id="channel.user.settings.notifications.desktop"
+            />
+          </legend>
+          <fieldset>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationAllActivity"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="all"
+                />
+                <Describe
+                  memberNotifyLevel="all"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationMentions"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="mention"
+                />
+                <Describe
+                  memberNotifyLevel="mention"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="channelNotificationNever"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="none"
+                />
+                <Describe
+                  memberNotifyLevel="none"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Desktop notifications are available on Firefox, Safari and Chrome."
+                id="channel.user.settings.notifications.info"
+              />
+            </div>
+          </fieldset>
+          <hr />
+        </React.Fragment>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  server_error=""
+  submit={[Function]}
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+  updateSection={[Function]}
+/>
+`;
+
+exports[`components/channel_notifications_modal/DesktopNotificationSection should not show notification options when browser not supported 1`] = `
+<SettingItemMax
+  actionButton={null}
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
+      section="desktop"
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <React.Fragment>
+          <legend
+            className="form-legend"
+          >
+            <FormattedMessage
+              defaultMessage="Send desktop notifications"
+              id="channel.user.settings.notifications.desktop"
+            />
+          </legend>
+          <fieldset>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={true}
+                  id="channelNotificationAllActivity"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="all"
+                />
+                <Describe
+                  memberNotifyLevel="all"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationMentions"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="mention"
+                />
+                <Describe
+                  memberNotifyLevel="mention"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="channelNotificationNever"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="none"
+                />
+                <Describe
+                  memberNotifyLevel="none"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Desktop notifications are available on Firefox, Safari and Chrome."
+                id="channel.user.settings.notifications.info"
+              />
+            </div>
+          </fieldset>
+          <hr />
+          <fieldset>
+            <legend
+              className="form-legend"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sound"
+                id="channel.user.settings.notifications.desktop.sound"
+              />
+            </legend>
+            <br />
+            <FormattedMessage
+              defaultMessage="Please configure notification sounds in your browser settings"
+              id="channel.user.settings.notifications.soundConfig"
+            />
+          </fieldset>
+        </React.Fragment>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  server_error=""
+  submit={[Function]}
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+  updateSection={[Function]}
+/>
+`;
+
+exports[`components/channel_notifications_modal/DesktopNotificationSection should not show notification section when notify level is none 1`] = `
+<SettingItemMax
+  actionButton={null}
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
+      section="desktop"
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <React.Fragment>
+          <legend
+            className="form-legend"
+          >
+            <FormattedMessage
+              defaultMessage="Send desktop notifications"
+              id="channel.user.settings.notifications.desktop"
+            />
+          </legend>
+          <fieldset>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationAllActivity"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="all"
+                />
+                <Describe
+                  memberNotifyLevel="all"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationMentions"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="mention"
+                />
+                <Describe
+                  memberNotifyLevel="mention"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  id="channelNotificationNever"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="none"
+                />
+                <Describe
+                  memberNotifyLevel="none"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Desktop notifications are available on Firefox, Safari and Chrome."
+                id="channel.user.settings.notifications.info"
+              />
+            </div>
+          </fieldset>
+          <hr />
+        </React.Fragment>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  server_error=""
+  submit={[Function]}
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+  updateSection={[Function]}
+/>
+`;
+
+exports[`components/channel_notifications_modal/DesktopNotificationSection should show notification options 1`] = `
+<SettingItemMax
+  actionButton={null}
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
+      section="desktop"
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <React.Fragment>
+          <legend
+            className="form-legend"
+          >
+            <FormattedMessage
+              defaultMessage="Send desktop notifications"
+              id="channel.user.settings.notifications.desktop"
+            />
+          </legend>
+          <fieldset>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={true}
+                  id="channelNotificationAllActivity"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="all"
+                />
+                <Describe
+                  memberNotifyLevel="all"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationMentions"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="mention"
+                />
+                <Describe
+                  memberNotifyLevel="mention"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="channelNotificationNever"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="none"
+                />
+                <Describe
+                  memberNotifyLevel="none"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Desktop notifications are available on Firefox, Safari and Chrome."
+                id="channel.user.settings.notifications.info"
+              />
+            </div>
+          </fieldset>
+          <hr />
+          <fieldset>
+            <legend
+              className="form-legend"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sound"
+                id="channel.user.settings.notifications.desktop.sound"
+              />
+            </legend>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  id="soundOn"
+                  name="notificationSounds"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="On"
+                  id="channel.user.settings.notifications.on"
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="soundOff"
+                  name="notificationSounds"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Off"
+                  id="channel.user.settings.notifications.off"
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="pt-2"
+            >
+              <StateManager
+                className="react-select notification-sound-dropdown"
+                classNamePrefix="react-select"
+                clearable={false}
+                defaultInputValue=""
+                defaultMenuIsOpen={false}
+                defaultValue={null}
+                id="displaySoundNotification"
+                isSearchable={false}
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "label": "Bing",
+                      "value": "Bing",
+                    },
+                    Object {
+                      "label": "Crackle",
+                      "value": "Crackle",
+                    },
+                    Object {
+                      "label": "Down",
+                      "value": "Down",
+                    },
+                    Object {
+                      "label": "Hello",
+                      "value": "Hello",
+                    },
+                    Object {
+                      "label": "Ripple",
+                      "value": "Ripple",
+                    },
+                    Object {
+                      "label": "Upstairs",
+                      "value": "Upstairs",
+                    },
+                  ]
+                }
+                value={
+                  Object {
+                    "label": "Bing",
+                    "value": "Bing",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
+                id="channel.user.settings.notifications.sounds_info"
+              />
+            </div>
+          </fieldset>
+        </React.Fragment>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  server_error=""
+  submit={[Function]}
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+  updateSection={[Function]}
+/>
+`;
+
+exports[`components/channel_notifications_modal/DesktopNotificationSection should show reset to defaults icon for mobile 1`] = `
+<SettingItemMax
+  actionButton={
+    <button
+      aria-labelledby="desktopTitle desktopAction"
+      className="color--link cursor--pointer style--none"
+      id="desktopAction"
+      onClick={[Function]}
+    >
+      <RepeatIcon />
+    </button>
+  }
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
+      section="desktop"
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <React.Fragment>
+          <legend
+            className="form-legend"
+          >
+            <FormattedMessage
+              defaultMessage="Send desktop notifications"
+              id="channel.user.settings.notifications.desktop"
+            />
+          </legend>
+          <fieldset>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationAllActivity"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="all"
+                />
+                <Describe
+                  memberNotifyLevel="all"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={true}
+                  id="channelNotificationMentions"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="mention"
+                />
+                <Describe
+                  memberNotifyLevel="mention"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="channelNotificationNever"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="none"
+                />
+                <Describe
+                  memberNotifyLevel="none"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Desktop notifications are available on Firefox, Safari and Chrome."
+                id="channel.user.settings.notifications.info"
+              />
+            </div>
+          </fieldset>
+          <hr />
+          <fieldset>
+            <legend
+              className="form-legend"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sound"
+                id="channel.user.settings.notifications.desktop.sound"
+              />
+            </legend>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  id="soundOn"
+                  name="notificationSounds"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="On"
+                  id="channel.user.settings.notifications.on"
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="soundOff"
+                  name="notificationSounds"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Off"
+                  id="channel.user.settings.notifications.off"
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="pt-2"
+            >
+              <StateManager
+                className="react-select notification-sound-dropdown"
+                classNamePrefix="react-select"
+                clearable={false}
+                defaultInputValue=""
+                defaultMenuIsOpen={false}
+                defaultValue={null}
+                id="displaySoundNotification"
+                isSearchable={false}
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "label": "Bing",
+                      "value": "Bing",
+                    },
+                    Object {
+                      "label": "Crackle",
+                      "value": "Crackle",
+                    },
+                    Object {
+                      "label": "Down",
+                      "value": "Down",
+                    },
+                    Object {
+                      "label": "Hello",
+                      "value": "Hello",
+                    },
+                    Object {
+                      "label": "Ripple",
+                      "value": "Ripple",
+                    },
+                    Object {
+                      "label": "Upstairs",
+                      "value": "Upstairs",
+                    },
+                  ]
+                }
+                value={
+                  Object {
+                    "label": "Bing",
+                    "value": "Bing",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
+                id="channel.user.settings.notifications.sounds_info"
+              />
+            </div>
+          </fieldset>
+        </React.Fragment>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  server_error=""
+  submit={[Function]}
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+  updateSection={[Function]}
+/>
+`;
+
+exports[`components/channel_notifications_modal/DesktopNotificationSection should show reset to defaults message 1`] = `
+<SettingItemMax
+  actionButton={
+    <button
+      aria-labelledby="desktopTitle desktopAction"
+      className="color--link cursor--pointer style--none text-left"
+      id="desktopAction"
+      onClick={[Function]}
+    >
+      <RepeatIcon />
+      <FormattedMessage
+        defaultMessage="Reset to defaults"
+        id="channel.user.settings.reset_defaults"
+      />
+    </button>
+  }
+  containerStyle=""
+  extraInfo={
+    <ExtraInfo
+      section="desktop"
+    />
+  }
+  infoPosition="bottom"
+  inputs={
+    Array [
+      <div>
+        <React.Fragment>
+          <legend
+            className="form-legend"
+          >
+            <FormattedMessage
+              defaultMessage="Send desktop notifications"
+              id="channel.user.settings.notifications.desktop"
+            />
+          </legend>
+          <fieldset>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={false}
+                  id="channelNotificationAllActivity"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="all"
+                />
+                <Describe
+                  memberNotifyLevel="all"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label
+                className=""
+              >
+                <input
+                  checked={true}
+                  id="channelNotificationMentions"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="mention"
+                />
+                <Describe
+                  memberNotifyLevel="mention"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="channelNotificationNever"
+                  name="channelDesktopNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                  value="none"
+                />
+                <Describe
+                  memberNotifyLevel="none"
+                  section="desktop"
+                />
+              </label>
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Desktop notifications are available on Firefox, Safari and Chrome."
+                id="channel.user.settings.notifications.info"
+              />
+            </div>
+          </fieldset>
+          <hr />
+          <fieldset>
+            <legend
+              className="form-legend"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sound"
+                id="channel.user.settings.notifications.desktop.sound"
+              />
+            </legend>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  id="soundOn"
+                  name="notificationSounds"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="On"
+                  id="channel.user.settings.notifications.on"
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="soundOff"
+                  name="notificationSounds"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Off"
+                  id="channel.user.settings.notifications.off"
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="pt-2"
+            >
+              <StateManager
+                className="react-select notification-sound-dropdown"
+                classNamePrefix="react-select"
+                clearable={false}
+                defaultInputValue=""
+                defaultMenuIsOpen={false}
+                defaultValue={null}
+                id="displaySoundNotification"
+                isSearchable={false}
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "label": "Bing",
+                      "value": "Bing",
+                    },
+                    Object {
+                      "label": "Crackle",
+                      "value": "Crackle",
+                    },
+                    Object {
+                      "label": "Down",
+                      "value": "Down",
+                    },
+                    Object {
+                      "label": "Hello",
+                      "value": "Hello",
+                    },
+                    Object {
+                      "label": "Ripple",
+                      "value": "Ripple",
+                    },
+                    Object {
+                      "label": "Upstairs",
+                      "value": "Upstairs",
+                    },
+                  ]
+                }
+                value={
+                  Object {
+                    "label": "Bing",
+                    "value": "Bing",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="mt-5"
+            >
+              <FormattedMessage
+                defaultMessage="Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps."
+                id="channel.user.settings.notifications.sounds_info"
+              />
+            </div>
+          </fieldset>
+        </React.Fragment>
+      </div>,
+    ]
+  }
+  saving={false}
+  section=""
+  server_error=""
+  submit={[Function]}
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+  updateSection={[Function]}
+/>
+`;

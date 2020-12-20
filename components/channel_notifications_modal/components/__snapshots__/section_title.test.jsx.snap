@@ -2,8 +2,8 @@
 
 exports[`components/channel_notifications_modal/ExtraInfo should match snapshot, on DESKTOP 1`] = `
 <FormattedMessage
-  defaultMessage="Send desktop notifications"
-  id="channel_notifications.sendDesktop"
+  defaultMessage="Desktop notifications"
+  id="channel_notifications.desktopNotifications"
 />
 `;
 
