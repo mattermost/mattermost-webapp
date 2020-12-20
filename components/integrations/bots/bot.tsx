@@ -59,7 +59,7 @@ type Props = {
     /**
     * String used for filtering bot items
     */
-    filter: string;
+    filter?: string;
 
     actions: {
 

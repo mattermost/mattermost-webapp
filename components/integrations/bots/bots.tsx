@@ -1,87 +1,97 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Bot as BotType} from 'mattermost-redux/types/bots';
+import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {getSiteURL} from 'utils/url';
-
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import Bot, {matchesFilter} from './bot.jsx';
+import Bot, {matchesFilter} from './bot';
 
-export default class Bots extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-        *  Map from botUserId to bot.
-        */
-        bots: PropTypes.object.isRequired,
+    /**
+    *  Map from botUserId to bot.
+    */
+    bots: Dictionary<BotType>;
 
-        /**
-        *  Map from botUserId to accessTokens.
-        */
-        accessTokens: PropTypes.object.isRequired,
+    /**
+    *  Map from botUserId to accessTokens.
+    */
+    accessTokens: RelationOneToOne<UserProfile, Dictionary<UserAccessToken>>;
 
-        /**
-        *  Map from botUserId to owner.
-        */
-        owners: PropTypes.object.isRequired,
+    /**
+    *  Map from botUserId to owner.
+    */
+    owners: Dictionary<UserProfile>;
 
-        /**
-        *  Map from botUserId to user.
-        */
-        users: PropTypes.object.isRequired,
+    /**
+    *  Map from botUserId to user.
+    */
+    users: Dictionary<UserProfile>;
+    createBots: boolean;
 
-        createBots: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /**
-            * Ensure we have bot accounts
-            */
-            loadBots: PropTypes.func.isRequired,
-
-            /**
-            * Load access tokens for bot accounts
-            */
-            getUserAccessTokensForUser: PropTypes.func.isRequired,
-
-            /**
-            * Access token managment
-            */
-            createUserAccessToken: PropTypes.func.isRequired,
-            revokeUserAccessToken: PropTypes.func.isRequired,
-            enableUserAccessToken: PropTypes.func.isRequired,
-            disableUserAccessToken: PropTypes.func.isRequired,
-
-            /**
-            * Load owner of bot account
-            */
-            getUser: PropTypes.func.isRequired,
-
-            /**
-            * Disable a bot
-            */
-            disableBot: PropTypes.func.isRequired,
-
-            /**
-            * Enable a bot
-            */
-            enableBot: PropTypes.func.isRequired,
-        }),
+    actions: {
 
         /**
-        *  Only used for routing since backstage is team based.
-        */
-        team: PropTypes.object.isRequired,
-    }
+         * Ensure we have bot accounts
+         */
+        loadBots: (page?: number, perPage?: number) => Promise<{data: BotType[]; error?: Error}>;
 
-    constructor(props) {
+        /**
+        * Load access tokens for bot accounts
+        */
+        getUserAccessTokensForUser: (userId: string, page?: number, perPage?: number) => void;
+
+        /**
+        * Access token managment
+        */
+        createUserAccessToken: (userId: string, description: string) => Promise<{
+            data: {token: string; description: string; id: string; is_active: boolean} | null;
+            error?: Error;
+        }>;
+
+        revokeUserAccessToken: (tokenId: string) => Promise<{data: string; error?: Error}>;
+        enableUserAccessToken: (tokenId: string) => Promise<{data: string; error?: Error}>;
+        disableUserAccessToken: (tokenId: string) => Promise<{data: string; error?: Error}>;
+
+        /**
+        * Load owner of bot account
+        */
+        getUser: (userId: string) => void;
+
+        /**
+        * Disable a bot
+        */
+        disableBot: (userId: string) => Promise<ActionResult>;
+
+        /**
+        * Enable a bot
+        */
+        enableBot: (userId: string) => Promise<ActionResult>;
+    };
+
+    /**
+    *  Only used for routing since backstage is team based.
+    */
+    team: Team;
+}
+
+type State = {
+    loading: boolean;
+}
+
+export default class Bots extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -89,10 +99,10 @@ export default class Bots extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.props.actions.loadBots(
             Constants.Integrations.START_PAGE_NUM,
-            Constants.Integrations.PAGE_SIZE,
+            Constants.Integrations.BOTS_PER_PAGE_DEFAULT,
         ).then(
             (result) => {
                 if (result.data) {
@@ -115,7 +125,7 @@ export default class Bots extends React.PureComponent {
         );
     }
 
-    DisabledSection(props) {
+    DisabledSection(props: {hasDisabled: boolean; disabledBots: JSX.Element[]; filter?: string}): JSX.Element | null {
         if (!props.hasDisabled) {
             return null;
         }
@@ -137,7 +147,7 @@ export default class Bots extends React.PureComponent {
         );
     }
 
-    EnabledSection(props) {
+    EnabledSection(props: {enabledBots: JSX.Element[]; filter?: string}): JSX.Element {
         const botsToDisplay = React.Children.map(props.enabledBots, (child) => {
             return React.cloneElement(child, {filter: props.filter});
         });
@@ -148,7 +158,7 @@ export default class Bots extends React.PureComponent {
         );
     }
 
-    botToJSX = (bot) => {
+    botToJSX = (bot: BotType): JSX.Element => {
         return (
             <Bot
                 key={bot.user_id}
@@ -162,9 +172,9 @@ export default class Bots extends React.PureComponent {
         );
     };
 
-    bots = (filter) => {
+    bots = (filter: string): Array<boolean | JSX.Element> => {
         const bots = Object.values(this.props.bots).sort((a, b) => a.username.localeCompare(b.username));
-        const match = (bot) => matchesFilter(bot, filter, this.props.owners[bot.user_id]);
+        const match = (bot: BotType) => matchesFilter(bot, filter, this.props.owners[bot.user_id]);
         const enabledBots = bots.filter((bot) => bot.delete_at === 0).filter(match).map(this.botToJSX);
         const disabledBots = bots.filter((bot) => bot.delete_at > 0).filter(match).map(this.botToJSX);
         const sections = (
@@ -182,7 +192,7 @@ export default class Bots extends React.PureComponent {
         return [sections, enabledBots.length > 0 || disabledBots.length > 0];
     }
 
-    render() {
+    public render(): JSX.Element {
         return (
             <BackstageList
                 header={
