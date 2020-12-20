@@ -38,7 +38,7 @@ type Props = {
     *  Map from botUserId to user.
     */
     users: Dictionary<UserProfile>;
-    createBots: boolean;
+    createBots?: boolean;
 
     actions: {
 
