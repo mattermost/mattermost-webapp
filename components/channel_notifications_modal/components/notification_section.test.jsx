@@ -14,6 +14,14 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
         expand: false,
         memberNotificationLevel: NotificationLevels.ALL,
         globalNotificationLevel: NotificationLevels.DEFAULT,
+        desktopNotification: {
+            memberDesktopSound: 'true',
+            globalDesktopSound: 'false',
+            memberDesktopNotificationSound: 'Crackle',
+            globalDesktopNotificationSound: 'Bing',
+            handleUpdateDesktopSound: () => {}, //eslint-disable-line no-empty-function
+            handleUpdateDesktopNotificationSound: () => {}, //eslint-disable-line no-empty-function
+        },
         onChange: () => {}, //eslint-disable-line no-empty-function
         onSubmit: () => {}, //eslint-disable-line no-empty-function
         onUpdateSection: () => {}, //eslint-disable-line no-empty-function

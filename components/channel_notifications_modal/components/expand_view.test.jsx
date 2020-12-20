@@ -13,6 +13,14 @@ describe('components/channel_notifications_modal/ExpandView', () => {
         section: NotificationSections.DESKTOP,
         memberNotifyLevel: NotificationLevels.ALL,
         globalNotifyLevel: NotificationLevels.DEFAULT,
+        desktopNotification: {
+            memberDesktopSound: undefined,
+            globalDesktopSound: 'true',
+            memberDesktopNotificationSound: undefined,
+            globalDesktopNotificationSound: 'Bing',
+            handleUpdateDesktopSound: () => {}, //eslint-disable-line no-empty-function
+            handleUpdateDesktopNotificationSound: () => {}, //eslint-disable-line no-empty-function
+        },
         serverError: '',
         onChange: () => {}, //eslint-disable-line no-empty-function
         onCollapseSection: () => {}, //eslint-disable-line no-empty-function
