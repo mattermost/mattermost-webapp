@@ -1031,7 +1031,6 @@
   "admin.oauth.office365": "Office 365",
   "admin.oauth.providerDescription": "활성화 시, Mattermost는 외부 애플리케이션의 API 요청을 승인 할 수있는 OAuth 2.0 서비스 제공 업체로 작동 할 수 있습니다. 자세한 내용은 [문서] (!https://docs.mattermost.com/developer/oauth-2-0-applications.html)을 참조하십시오.",
   "admin.oauth.providerTitle": "OAuth 2.0 서비스 제공자: ",
-  "admin.oauth.select": "OAuth 2.0 서비스 제공자 선택:",
   "admin.office365.authTitle": "인증 엔드포인트:",
   "admin.office365.clientIdExample": "예시 \"adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq\"",
   "admin.office365.clientIdTitle": "애플리케이션 ID:",
