@@ -26,6 +26,7 @@ describe('Bots in lists', () => {
     let team;
     let channel;
     let bots;
+    let createdUsers;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -47,14 +48,14 @@ describe('Bots in lists', () => {
             ]);
 
             // # Create users
-            const users = await Promise.all([
+            createdUsers = await Promise.all([
                 client.createUser(generateRandomUser()),
                 client.createUser(generateRandomUser()),
             ]);
 
             await Promise.all([
                 ...bots,
-                ...users,
+                ...createdUsers,
             ].map(async (user) => {
                 // * Verify username exists
                 cy.wrap(user).its('username');
@@ -154,13 +155,24 @@ describe('Bots in lists', () => {
 
         cy.visit(`/${team.name}/messages/@${bots[0].username}`);
 
-        cy.get('.SidebarChannel.active > .SidebarLink').then(($link) => {
+        cy.get('.dmCategory .SidebarChannel.active > .SidebarLink').then(($link) => {
             // * Verify DM label
             cy.wrap($link).find('.SidebarChannelLinkLabel').should('have.text', bots[0].username);
 
             // * Verify bot icon exists
             // (too many flaky scrolling conditions and floating elements to check if visible)
             cy.wrap($link).find('.icon.icon-robot-happy');
+        });
+
+        cy.postMessage('Bump bot chat recency');
+
+        // # Open a new DM
+        cy.visit(`/${team.name}/messages/@${createdUsers[0].username}`);
+        cy.postMessage('Hello, regular user');
+
+        // * Verify Bots and Regular users as siblings in DMs
+        cy.get('.dmCategory .SidebarChannel.active').siblings('.SidebarChannel').then(($siblings) => {
+            cy.wrap($siblings).contains('.SidebarChannelLinkLabel', bots[0].username);
         });
     });
 });
