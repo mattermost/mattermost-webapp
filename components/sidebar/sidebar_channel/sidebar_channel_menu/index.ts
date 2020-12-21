@@ -8,7 +8,7 @@ import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-
 import Permissions from 'mattermost-redux/constants/permissions';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {makeGetCategoriesForTeam, getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Action} from 'mattermost-redux/types/actions';
@@ -18,8 +18,11 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
-import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
+
+import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
+
 import {GlobalState} from 'types/store';
+
 import {getSiteURL} from 'utils/url';
 
 import SidebarChannelMenu from './sidebar_channel_menu';
@@ -30,38 +33,34 @@ type OwnProps = {
     isUnread: boolean;
 }
 
-function makeMapStateToProps() {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const member = getMyChannelMemberships(state)[ownProps.channel.id];
+    const currentTeam = getCurrentTeam(state);
 
-    return (state: GlobalState, ownProps: OwnProps) => {
-        const member = getMyChannelMemberships(state)[ownProps.channel.id];
-        const currentTeam = getCurrentTeam(state);
+    let managePublicChannelMembers = false;
+    let managePrivateChannelMembers = false;
+    let categories;
+    let currentCategory;
 
-        let managePublicChannelMembers = false;
-        let managePrivateChannelMembers = false;
-        let categories;
-        let currentCategory;
+    if (currentTeam) {
+        managePublicChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
+        managePrivateChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+        categories = getCategoriesForCurrentTeam(state);
+        currentCategory = getCategoryInTeamWithChannel(state, currentTeam.id, ownProps.channel.id);
+    }
 
-        if (currentTeam) {
-            managePublicChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
-            managePrivateChannelMembers = haveIChannelPermission(state, {channel: ownProps.channel.id, team: currentTeam.id, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
-            categories = getCategoriesForTeam(state, currentTeam.id);
-            currentCategory = getCategoryInTeamWithChannel(state, currentTeam.id, ownProps.channel.id);
-        }
-
-        return {
-            currentTeamId: currentTeam.id,
-            currentUserId: getCurrentUserId(state),
-            categories,
-            currentCategory,
-            isFavorite: isFavoriteChannel(state, ownProps.channel.id),
-            isMuted: isChannelMuted(member),
-            channelLink: `${getSiteURL()}${ownProps.channelLink}`,
-            managePublicChannelMembers,
-            managePrivateChannelMembers,
-            displayedChannels: getDisplayedChannels(state),
-            multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
-        };
+    return {
+        currentTeamId: currentTeam.id,
+        currentUserId: getCurrentUserId(state),
+        categories,
+        currentCategory,
+        isFavorite: isFavoriteChannel(state, ownProps.channel.id),
+        isMuted: isChannelMuted(member),
+        channelLink: `${getSiteURL()}${ownProps.channelLink}`,
+        managePublicChannelMembers,
+        managePrivateChannelMembers,
+        displayedChannels: getDisplayedChannels(state),
+        multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
     };
 }
 
@@ -89,4 +88,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarChannelMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelMenu);
