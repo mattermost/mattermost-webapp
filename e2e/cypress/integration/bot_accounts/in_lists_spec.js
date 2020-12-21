@@ -9,9 +9,10 @@
 
 // Group: @bot_accounts
 
-import {zip, orderBy} from 'lodash';
+import {zip, sortBy} from 'lodash';
 
 import {createBotPatch} from '../../support/api/bots';
+import {generateRandomUser} from '../../support/api/user';
 
 const STATUS_PRIORITY = {
     online: 0,
@@ -38,17 +39,29 @@ describe('Bots in lists', () => {
         });
 
         cy.makeClient().then(async (client) => {
-            // # Create 3 bots and add to current team and channel
+            // # Create bots
             bots = await Promise.all([
-                createBotPatch(),
-                createBotPatch(),
-                createBotPatch(),
-            ].map(async (botPatch) => {
-                const bot = await client.createBot(botPatch);
-                await client.addToTeam(team.id, bot.user_id);
-                await client.addToChannel(bot.user_id, channel.id);
-                cy.wrap(bot.username).should('not.be.undefined');
-                return bot;
+                client.createBot(createBotPatch()),
+                client.createBot(createBotPatch()),
+                client.createBot(createBotPatch()),
+            ]);
+
+            // # Create users
+            const users = await Promise.all([
+                client.createUser(generateRandomUser()),
+                client.createUser(generateRandomUser()),
+            ]);
+
+            await Promise.all([
+                ...bots,
+                ...users,
+            ].map(async (user) => {
+                // * Verify username exists
+                cy.wrap(user).its('username');
+
+                // # Add to team and channel
+                await client.addToTeam(team.id, user.user_id ?? user.id);
+                await client.addToChannel(user.user_id ?? user.id, channel.id);
             }));
         });
     });
@@ -81,37 +94,73 @@ describe('Bots in lists', () => {
             cy.get('button.member-popover__trigger').click();
 
             cy.get('#member-list-popover .more-modal__row .more-modal__name').then(async ($query) => {
-                // # Escape jQuery
-                const userEls = $query.toArray();
+                // # Extract usernames from jQuery collection
+                const usernames = $query.toArray().map(({innerText}) => innerText);
 
                 // # Get users
-                const profiles = await client.getProfilesByUsernames(userEls.map(({innerText}) => innerText));
+                const profiles = await client.getProfilesByUsernames(usernames);
                 const statuses = await client.getStatusesByIds(profiles.map((user) => user.id));
                 const users = zip(profiles, statuses).map(([profile, status]) => ({...profile, ...status}));
 
                 // # Sort 'em
-                const sortedUsers = orderBy(users, [
-                    ({is_bot: isBot}) => isBot,
+                const sortedUsers = sortBy(users, [
+                    ({is_bot: isBot}) => (isBot ? 1 : 0), // users first
                     ({status}) => STATUS_PRIORITY[status],
                     ({username}) => username,
-                ], [
-                    'desc',
-                    'asc',
-                    'asc',
                 ]);
 
-                // * Verify order of member-dropdown users against data-sorted version
-                cy.wrap(userEls.map(({innerText}) => innerText)).
-                    should('deep.equal', sortedUsers.map(({username}) => username));
+                // * Verify order of member-dropdown users against API-sourced/data-sorted version
+                cy.wrap(usernames).should('deep.equal', sortedUsers.map(({username}) => username));
             });
 
             // * Verify no statuses on bots
             cy.get('#member-list-popover .more-modal__row--bot .status-wrapper .status').should('not.exist');
 
             // * Verify bot badges
-            cy.get('#member-list-popover .more-modal__row--bot .Badge').each(($badge) => {
-                cy.wrap($badge).should('be.visible').and('have.text', 'BOT');
+            cy.get('#member-list-popover .more-modal__row--bot .Badge').then(($badges) => {
+                $badges.toArray().forEach((badgeEl) => {
+                    cy.wrap(badgeEl).then(() => badgeEl.scrollIntoView());
+                    cy.wrap(badgeEl).should('be.visible').and('have.text', 'BOT');
+                });
             });
+        });
+    });
+
+    it('MM-T1836_1 Bot accounts display (Legacy Sidebar)', () => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'disabled',
+            },
+        });
+
+        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
+
+        cy.get('li.active > .sidebar-item').then(($link) => {
+            $link[0]?.scrollIntoView();
+            cy.wrap($link).find('.sidebar-item__name').should('have.text', bots[0].username);
+
+            // * Verify bot icon exists
+            // (too many flaky scrolling conditions and floating elements to check if visible)
+            cy.wrap($link).find('.icon.icon__bot');
+        });
+    });
+
+    it('MM-T1836_2 Bot accounts display (New Sidebar)', () => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'always_on',
+            },
+        });
+
+        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
+
+        cy.get('.SidebarChannel.active > .SidebarLink').then(($link) => {
+            // * Verify DM label
+            cy.wrap($link).find('.SidebarChannelLinkLabel').should('have.text', bots[0].username);
+
+            // * Verify bot icon exists
+            // (too many flaky scrolling conditions and floating elements to check if visible)
+            cy.wrap($link).find('.icon.icon-robot-happy');
         });
     });
 });
