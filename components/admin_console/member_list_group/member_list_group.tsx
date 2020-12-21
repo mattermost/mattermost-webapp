@@ -17,7 +17,7 @@ import './member_list_group.scss';
 
 export type Props = {
     searchTerm: string;
-    users: Array<UserProfile>;
+    users: UserProfile[];
     groupID: string;
     total: number;
     actions: {

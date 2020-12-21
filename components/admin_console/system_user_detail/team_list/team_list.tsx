@@ -61,7 +61,7 @@ type Props = {
 }
 
 type State = {
-    teamsWithMemberships: Record<string, any>[];
+    teamsWithMemberships: Array<Record<string, any>>;
     serverError: string | null;
 }
 
@@ -102,7 +102,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
     }
 
     // check this out
-    private mergeTeamsWithMemberships = (data: Record<string, any>[]): TeamMembership[] => {
+    private mergeTeamsWithMemberships = (data: Array<Record<string, any>>): TeamMembership[] => {
         const teams = data[0].data;
         const memberships = data[1].data;
         let teamsWithMemberships = teams.map((object: {[x: string]: string}) => {
