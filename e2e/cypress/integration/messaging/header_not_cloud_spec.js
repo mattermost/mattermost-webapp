@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @not_cloud @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Header', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -37,9 +35,13 @@ describe('Header', () => {
         // # Create a bot
         cy.apiCreateBot().then(({bot}) => {
             // # Open a DM with the bot
-            cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
-            cy.focused().type(bot.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
-            cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+            cy.get('#addDirectChannel').click();
+            cy.get('.more-modal__list .more-modal__row');
+            cy.get('#moreDmModal input').
+                type(bot.username, {force: true}).
+                type('{enter}', {force: true});
+            cy.get('#selectItems').contains(bot.username);
+            cy.get('#saveItems').click();
 
             // * Verify Channel Header is visible
             cy.get('#channelHeaderInfo').should('be.visible');
@@ -54,14 +56,18 @@ describe('Header', () => {
         cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
 
         // # Upload and enable "matterpoll" plugin
-        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
+        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz', 0).then(() => {
             cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
         });
 
         // # Open a DM with the bot
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type('matterpoll', {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
-        cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#addDirectChannel').click();
+        cy.get('.more-modal__list .more-modal__row');
+        cy.get('#moreDmModal input').
+            type('matterpol', {force: true}).
+            type('{enter}', {force: true});
+        cy.get('#selectItems').contains('matterpol');
+        cy.get('#saveItems').click();
 
         // * Verify Channel Header is visible
         cy.get('#channelHeaderInfo').should('be.visible');
