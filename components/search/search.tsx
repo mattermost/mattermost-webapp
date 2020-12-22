@@ -81,9 +81,14 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     ]);
 
     useEffect((): void => {
-        setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
-        if (Utils.isMobile() && focussed && keepInputFocussed) {
-            setKeepInputFocussed(false);
+        if (!Utils.isMobile()) {
+            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
+        }
+    }, [searchTerms]);
+
+    useEffect((): void => {
+        if (!Utils.isMobile() && focussed && keepInputFocussed) {
+            handleBlur();
         }
     }, [searchTerms]);
 
@@ -174,8 +179,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         // `handleSubmit` function called from the `form`
         if (indexChangedViaKeyPress) {
             e.preventDefault();
-            handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
             setKeepInputFocussed(true);
+            handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
         }
 
         if (props.isMentionSearch) {
