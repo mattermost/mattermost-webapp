@@ -8,6 +8,8 @@ import {AppsBindings, AppCallResponseTypes} from 'mattermost-redux/constants/app
 
 import EmojiMap from 'utils/emoji_map';
 
+import {makeLookupCallPayload} from 'actions/apps';
+
 import AppsForm from './apps_form';
 
 const makeError = (errMessage: string) => {
@@ -112,7 +114,7 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
         }
     };
 
-    performLookupCall = async (field: AppField, values: AppFormValues, userInput: string): Promise<AppSelectOption[]> => {
+    performLookupCall = async (field: AppField, formValues: AppFormValues, userInput: string): Promise<AppSelectOption[]> => {
         if (!field.refresh) {
             return [];
         }
@@ -122,16 +124,11 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
             return [];
         }
 
+        const values = makeLookupCallPayload(field.name, userInput, formValues);
         const res = await this.props.actions.doAppCall({
             ...call,
             type: 'lookup',
-            values: {
-                user_input: userInput,
-                values,
-                name: field.name,
-
-                // form, // instead of including the form, just make sure any form elements that have a blank value in the `values` field here
-            },
+            values,
         });
 
         if (res.data.type === AppCallResponseTypes.ERROR) {
@@ -147,19 +144,19 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
     }
 
     getCall = (): AppCall | null => {
-        const {postID, channelID, teamID} = this.props;
         const {form} = this.state;
 
-        const propsCall = this.props.call;
-        const call = (form && form.call) || propsCall;
-
+        const {call, postID, channelID, teamID} = this.props;
         if (!call) {
             return null;
         }
 
         return {
             ...call,
+            ...form?.call,
             context: {
+                ...call.context,
+                ...form?.call?.context,
                 app_id: call.context.app_id,
                 location: postID ? AppsBindings.IN_POST : call.context.location,
                 post_id: postID || call.context.post_id,
@@ -190,7 +187,7 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
     };
 
     render() {
-        const {call} = this.props;
+        const call = this.getCall();
         if (!call) {
             return null;
         }

@@ -225,14 +225,17 @@ export default class CommandProvider extends Provider {
                     }
                 });
 
-                matches.sort((a, b) => {
-                    if (a.suggestion.toLowerCase() > b.suggestion.toLowerCase()) {
-                        return 1;
-                    } else if (a.suggestion.toLowerCase() < b.suggestion.toLowerCase()) {
-                        return -1;
-                    }
-                    return 0;
-                });
+                // sort only if we are looking at base commands
+                if (!pretext.includes(' ')) {
+                    matches.sort((a, b) => {
+                        if (a.suggestion.toLowerCase() > b.suggestion.toLowerCase()) {
+                            return 1;
+                        } else if (a.suggestion.toLowerCase() < b.suggestion.toLowerCase()) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }
 
                 if (this.shouldAddExecuteItem(data, pretext)) {
                     matches.unshift({

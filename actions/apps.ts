@@ -3,8 +3,8 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppCall, AppForm, AppBinding} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponse, AppCall, AppForm, AppBinding, AppFormValues} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppBindingPresentations} from 'mattermost-redux/constants/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';
@@ -49,14 +49,28 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
 
 export function doAppCallWithBinding<Res=unknown>(call: AppCall, binding: AppBinding): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        const res = await dispatch(doAppCall(call));
-        if (binding.presentation === 'modal' && 'data' in res) {
+        const res = await dispatch(doAppCall<Res>(call));
+        if (binding.presentation === AppBindingPresentations.MODAL && 'data' in res) {
             const form = res.data.form as AppForm;
             if (form) {
                 dispatch(openAppsModal(form, call));
             }
         }
         return res;
+    };
+}
+
+export type LookupCallValues = {
+    user_input: string;
+    values: AppFormValues;
+    name: string;
+}
+
+export function makeLookupCallPayload(name: string, userInput: string, formValues: AppFormValues): LookupCallValues {
+    return {
+        name,
+        user_input: userInput,
+        values: formValues,
     };
 }
 

@@ -8,7 +8,6 @@ import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} fro
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
@@ -23,7 +22,7 @@ import {browserHistory} from 'utils/browser_history';
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
 
-import {doAppCall} from './apps';
+import {doAppCallWithBinding} from './apps';
 
 export function executeCommand(message, args) {
     return async (dispatch, getState) => {
@@ -99,14 +98,17 @@ export function executeCommand(message, args) {
 
         const parser = new AppCommandParser({dispatch, getState}, args.root_id);
         if (parser.isAppCommand(msg)) {
-            const call = await parser.composeCallFromCommandString(message);
-            if (!call) {
-                return {error: new Error('Error submitting command')};
-            }
-
-            call.type = AppCallTypes.SUBMIT;
             try {
-                return dispatch(doAppCall(call));
+                const call = await parser.composeCallFromCommandString(msg);
+                if (!call) {
+                    return {error: new Error('Error composing command submission')};
+                }
+                const binding = await parser.getBindingWithForm(msg);
+                if (!binding) {
+                    return {error: new Error('Error fetching binding for command')};
+                }
+
+                return dispatch(doAppCallWithBinding(call, binding));
             } catch (err) {
                 return {error: err};
             }
