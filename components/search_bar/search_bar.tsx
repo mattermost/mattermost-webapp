@@ -20,22 +20,22 @@ const style: Record<string, CSSProperties> = {
 };
 
 type Props = {
-    searchTerms: string,
-    updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void,
-    handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleSubmit: (e: FormEvent<HTMLFormElement>) => void,
-    handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleClear: () => void,
-    handleFocus: () => void,
-    handleBlur: () => void,
-    keepFocussed: boolean,
-    isFocussed: boolean,
-    suggestionProviders: Provider[],
-    isSearchingTerm: boolean,
-    isFocus: boolean,
-    isSideBarRight?: boolean,
-    getFocus?: (searchBarFocus: () => void) => void,
-    children?: React.ReactNode,
+    searchTerms: string;
+    updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+    handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleClear: () => void;
+    handleFocus: () => void;
+    handleBlur: () => void;
+    keepFocussed: boolean;
+    isFocussed: boolean;
+    suggestionProviders: Provider[];
+    isSearchingTerm: boolean;
+    isFocus: boolean;
+    isSideBarRight?: boolean;
+    getFocus?: (searchBarFocus: () => void) => void;
+    children?: React.ReactNode;
 }
 
 const defaultProps: Partial<Props> = {

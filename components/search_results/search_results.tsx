@@ -48,9 +48,9 @@ const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
 );
 
 interface NoResultsProps {
-    variant: NoResultsVariant,
-    titleValues?: Record<string, React.ReactNode>
-    subtitleValues?: Record<string, React.ReactNode>
+    variant: NoResultsVariant;
+    titleValues?: Record<string, React.ReactNode>;
+    subtitleValues?: Record<string, React.ReactNode>;
 }
 
 const defaultProps: Partial<Props> = {

@@ -20,7 +20,7 @@ type Props = {
     onOptionHover?: (index: number) => void;
 }
 
-const SearchHint = (props: Props) => {
+const SearchHint = (props: Props): JSX.Element => {
     const handleOnOptionHover = (optionIndex: number) => {
         if (props.onOptionHover) {
             props.onOptionHover(optionIndex);

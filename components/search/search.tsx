@@ -24,11 +24,11 @@ import SearchUserProvider from 'components/suggestion/search_user_provider';
 import type {Props} from './types';
 
 interface SearchHintOption {
-    searchTerm: string,
+    searchTerm: string;
     message: {
-        id: string,
-        defaultMessage: string,
-    },
+        id: string;
+        defaultMessage: string;
+    };
 }
 
 const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOption[] => {
@@ -42,9 +42,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
     const pretext = pretextArray[pretextArray.length - 1];
     const penultimatePretext = pretextArray[pretextArray.length - 2];
 
-    const shouldShowHintOptions = penultimatePretext ?
-        !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) :
-        !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
@@ -323,7 +321,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         );
     };
 
-    const renderSearchBar = ():JSX.Element => (
+    const renderSearchBar = (): JSX.Element => (
         <>
             <div className='sidebar-collapse__container'>
                 <div
