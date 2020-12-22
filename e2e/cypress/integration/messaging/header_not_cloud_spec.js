@@ -64,9 +64,9 @@ describe('Header', () => {
         cy.get('#addDirectChannel').click();
         cy.get('.more-modal__list .more-modal__row');
         cy.get('#moreDmModal input').
-            type('matterpol', {force: true}).
+            type('matterpoll', {force: true}).
             type('{enter}', {force: true});
-        cy.get('#selectItems').contains('matterpol');
+        cy.get('#selectItems').contains('matterpoll');
         cy.get('#saveItems').click();
 
         // * Verify Channel Header is visible
