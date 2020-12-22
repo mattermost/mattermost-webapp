@@ -13,19 +13,19 @@ import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 type Props = {
-    isFollowing: boolean,
-    isSaved: boolean,
-    hasUnreads: boolean,
+    isFollowing: boolean;
+    isSaved: boolean;
+    hasUnreads: boolean;
     actions: {
-        follow: () => void,
-        unFollow: () => void,
-        save: () => void,
-        unSave: () => void,
-        markRead: () => void,
-        markUnread: () => void,
-        openInChannel: () => void,
-        copyLink: () => void,
-    }
+        follow: () => void;
+        unFollow: () => void;
+        save: () => void;
+        unSave: () => void;
+        markRead: () => void;
+        markUnread: () => void;
+        openInChannel: () => void;
+        copyLink: () => void;
+    };
 };
 
 function ThreadMenu({
