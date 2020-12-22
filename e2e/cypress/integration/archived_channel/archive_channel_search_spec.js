@@ -10,19 +10,17 @@
 
 // Group: @channel
 
-import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
+
+import {createArchivedChannel} from './helpers';
 
 describe('archive tests while preventing viewing archived channels', () => {
     let testTeam;
     let testChannel;
     let testUser;
-    let adminUser;
     const testArchivedMessage = `this is an archived post ${getRandomId()}`;
 
     before(() => {
-        adminUser = getAdminAccount();
-
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
@@ -39,21 +37,18 @@ describe('archive tests while preventing viewing archived channels', () => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
             });
             cy.visit(`/${team.name}/channels/${testChannel.name}`);
-            cy.postMessageAs({sender: testUser, message: testArchivedMessage, channelId: testChannel.id});
         });
     });
 
     it('MM-T1707 Unarchived channels can be searched the same as before they where archived', () => {
-        cy.apiLogin(adminUser);
-
         // # Post some text in the channel such as "Pineapple"
-        const messageText = `pineaple ${getRandomId()}`;
+        const messageText = `pineapple ${getRandomId()}`;
 
         // # Archive the channel
-        createArchivedChannel({prefix: 'pineaple-'}, [messageText]).then(() => {
-            // # Unarchive the channel:
+        createArchivedChannel({prefix: 'pineapple-'}, [messageText]).then(() => {
+            // # Unarchive the channel
             cy.uiUnarchiveChannel().then(() => {
-                // # remove search on archived channels
+                // # Remove search on archived channels
                 cy.apiUpdateConfig({
                     TeamSettings: {
                         ExperimentalViewArchivedChannels: false,
@@ -73,8 +68,9 @@ describe('archive tests while preventing viewing archived channels', () => {
             });
         });
     });
+
     it('MM-T1708 An archived channel can\'t be searched when "Allow users to view archived channels" is set to False in "Site Configuration > Users and Teams" in the System Console', () => {
-    // # First, as system admin, ensure that System Console > Users and Teams > Allow users to view archived channels is set to `false`.
+        // # First, as system admin, ensure that System Console > Users and Teams > Allow users to view archived channels is set to `false`.
         cy.apiUpdateConfig({
             TeamSettings: {
                 ExperimentalViewArchivedChannels: false,
@@ -87,16 +83,17 @@ describe('archive tests while preventing viewing archived channels', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
 
-        // next steps were performed previously
         // # Create or locate a channel you're a member of
-        // # Post distinctive text in the channel such as "I like pineapples"
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#channelHeaderTitle').should('be.visible');
+
+        // # Post distinctive text in the channel such as "I like pineapples"
+        cy.postMessageAs({sender: testUser, message: testArchivedMessage, channelId: testChannel.id});
 
         // # Select Archive Channel from the header menu
         cy.uiArchiveChannel();
 
-        // # Archive dialogue message reads"This will archive the channel from the team and make its contents inaccessible for all users" (Mobile dialogue makes no mention of the data will be accessible)
+        // # Archive dialogue message reads "This will archive the channel from the team and make its contents inaccessible for all users" (Mobile dialogue makes no mention of the data will be accessible)
         cy.get('#searchBox').focus().clear();
         cy.get('#searchBox').focus().type(`${testArchivedMessage}{enter}`);
 
@@ -106,7 +103,7 @@ describe('archive tests while preventing viewing archived channels', () => {
     });
 
     it('MM-T1709 Archive a channel while search results are displayed in RHS', () => {
-        const messageText = `search ${getRandomId()} pineaples`;
+        const messageText = `search ${getRandomId()} pineapples`;
 
         // # Post a unique string of text in a channel
         cy.uiCreateChannel({prefix: 'archive-while-searching'}).then(() => {
@@ -128,6 +125,7 @@ describe('archive tests while preventing viewing archived channels', () => {
             cy.get('.no-results__wrapper').should('be.visible');
         });
     });
+
     it('MM-T1710 archived channels are not listed on the "in:" autocomplete', () => {
         // # Archive a channel and make a mental note of the channel name
 
@@ -140,24 +138,3 @@ describe('archive tests while preventing viewing archived channels', () => {
     });
 });
 
-function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    let channelName;
-    return cy.uiCreateChannel(channelOptions).then((newChannel) => {
-        channelName = newChannel.name;
-        if (memberUsernames) {
-            cy.uiAddUsersToCurrentChannel(memberUsernames);
-        }
-        if (messages) {
-            let messageList = messages;
-            if (!Array.isArray(messages)) {
-                messageList = [messages];
-            }
-            messageList.forEach((message) => {
-                cy.postMessage(message);
-            });
-        }
-        cy.uiArchiveChannel();
-
-        return cy.wrap({name: channelName});
-    });
-}
