@@ -10,9 +10,9 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 type Props = {
-    isFollowing: boolean,
-    isSaved: boolean,
-    hasUnreads: boolean,
+    isFollowing: boolean;
+    isSaved: boolean;
+    hasUnreads: boolean;
     actions: {
         follow: () => void,
         unFollow: () => void,

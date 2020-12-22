@@ -9,7 +9,7 @@ import {t} from 'utils/i18n';
 
 type Props = {
     isFollowing: boolean;
-    follow: MouseEventHandler<HTMLButtonElement>,
+    follow: MouseEventHandler<HTMLButtonElement>;
     unFollow: MouseEventHandler<HTMLButtonElement>;
 }
 

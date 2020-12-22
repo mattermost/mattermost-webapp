@@ -398,6 +398,10 @@
             .post-code {
                 background: transparent;
 
+                .post-code__line-numbers {
+                    padding: 5px 0;
+                }
+
                 code {
                     margin: 0;
                     padding: 5px 0;
@@ -591,6 +595,11 @@
 }
 
 .more-modal {
+    .loading-screen{
+        padding: 1.9em 1em;
+        font-size: 1.25em;
+        height: auto;
+    }
     .Select-input {
         >input {
             padding: 8px 0;
@@ -923,7 +932,6 @@
     >div {
         flex: 1 1 auto;
     }
-
     .multi-select__wrapper {
         display: flex;
         flex-direction: column;

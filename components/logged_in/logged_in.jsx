@@ -7,7 +7,7 @@ import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 import semver from 'semver';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
@@ -62,6 +62,9 @@ export default class LoggedIn extends React.PureComponent {
         // Listen for focused tab/window state
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
+        if (!document.hasFocus()) {
+            GlobalActions.emitBrowserFocus(false);
+        }
 
         // Listen for messages from the desktop app
         window.addEventListener('message', this.onDesktopMessageListener);
