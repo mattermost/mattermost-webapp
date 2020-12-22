@@ -36,7 +36,7 @@ describe('Messaging', () => {
     it('MM-T3294 - CTRL/CMD+K - Open DM using mouse', () => {
         // # Type either cmd+K / ctrl+K depending on OS and type in the first character of the second user's name
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
-        cy.get('#quickSwitchInput').should('be.visible').type(secondUser.username.charAt(0));
+        cy.findByRole('textbox', {name: 'quick switch input'}).should('be.visible').type(secondUser.username.charAt(0));
 
         // # Scroll to the second user and click to start a DM
         cy.get(`#switchChannel_${secondUser.username}`).scrollIntoView().click();
