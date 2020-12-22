@@ -37,10 +37,7 @@ describe('Edit bot username', () => {
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue', {timeout: TIMEOUTS.ONE_MIN}).should('be.checked');
 
         // # Visit the integrations
-        cy.visit(`/${team.name}/integrations/bots`);
-
-        // * Assert that adding bots possible
-        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+        goToCreateBot();
 
         const initialBotName = `bot-${getRandomId()}`;
 
