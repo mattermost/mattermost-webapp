@@ -456,7 +456,7 @@ describe('AppCommandParser', () => {
             ].join(' ');
 
             const f = Client4.executeAppCall;
-            Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: [{label: 'special-label', value: 'special-value'}]}));
+            Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: {items: [{label: 'special-label', value: 'special-value'}]}}));
 
             res = await parser.getSuggestionsForCursorPosition(cmdStr);
             Client4.executeAppCall = f;
