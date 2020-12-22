@@ -3,6 +3,8 @@
 
 import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
 
+import {makeLookupCallPayload} from 'mattermost-redux/actions/apps';
+
 import {AppsBindings, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
@@ -32,7 +34,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
-import {doAppCall, makeLookupCallPayload} from 'actions/apps';
+import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;

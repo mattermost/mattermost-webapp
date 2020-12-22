@@ -13,7 +13,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {doAppCall} from 'actions/apps';
 import {getEmojiMap} from 'selectors/emojis';
 
-import AppsModal from './apps_form_container';
+import AppsFormContainer from './apps_form_container';
 
 type Actions = {
     doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>
@@ -53,4 +53,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppsModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AppsFormContainer);

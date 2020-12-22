@@ -14,6 +14,7 @@ exports[`components/apps_model/AppsFormContainer should match snapshot 1`] = `
       "context": Object {
         "app_id": "app",
         "channel_id": "channel",
+        "location": "/in_post",
         "post_id": "post",
         "team_id": "team",
       },
@@ -45,12 +46,7 @@ exports[`components/apps_model/AppsFormContainer should match snapshot 1`] = `
       "title": "Form Title",
     }
   }
-  introductionText="Form Header"
   isEmbedded={false}
   onHide={[Function]}
-  state=""
-  submitLabel=""
-  title="Form Title"
-  url="/form_url"
 />
 `;

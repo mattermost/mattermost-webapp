@@ -3,12 +3,11 @@
 
 import React from 'react';
 
+import {makeLookupCallPayload} from 'mattermost-redux/actions/apps';
 import {AppCall, AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppContext} from 'mattermost-redux/types/apps';
 import {AppsBindings, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
-
-import {makeLookupCallPayload} from 'actions/apps';
 
 import AppsForm from './apps_form';
 
@@ -16,7 +15,7 @@ const makeError = (errMessage: string) => {
     return {
         data: {
             type: 'error',
-            error: 'There has been an error submitting the dialog. Contact the app developer. Details: ' + errMessage,
+            error: 'There has been an error submitting the modal. Contact the app developer. Details: ' + errMessage,
         },
     };
 };
@@ -45,16 +44,16 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
         this.state = {form: props.form};
     }
 
-    submitDialog = async (submission: {values: AppFormValues}): Promise<{data: AppCallResponse<any>}> => {
+    submitForm = async (submission: {values: AppFormValues}): Promise<{data: AppCallResponse<any>}> => {
         //TODO use FormResponseData instead of Any
         const {form} = this.state;
         if (!form) {
-            return makeError('submitDialog state.form is not defined');
+            return makeError('submitForm state.form is not defined');
         }
 
         const call = this.getCall();
         if (!call) {
-            return makeError('submitDialog props.call is not defined');
+            return makeError('submitForm props.call is not defined');
         }
 
         const outCall: AppCall = {
@@ -197,25 +196,14 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
             return null;
         }
 
-        const dialogProps = {
-            url: call.url,
-            title: form.title || '',
-            introductionText: form.header || '',
-            iconUrl: form.icon,
-            submitLabel: '',
-            notifyOnCancel: form.submit_on_cancel,
-            state: '',
-        };
-
         return (
             <AppsForm
-                {...dialogProps}
                 form={form}
                 call={call}
                 onHide={this.onHide}
                 emojiMap={this.props.emojiMap}
                 actions={{
-                    submit: this.submitDialog,
+                    submit: this.submitForm,
                     performLookupCall: this.performLookupCall,
                     refreshOnSelect: this.refreshOnSelect,
                 }}

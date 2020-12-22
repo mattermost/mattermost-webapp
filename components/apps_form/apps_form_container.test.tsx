@@ -60,7 +60,7 @@ describe('components/apps_model/AppsFormContainer', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    describe('submitDialog', () => {
+    describe('submitForm', () => {
         test('should handle form submission result', async () => {
             const response = {
                 data: {},
@@ -75,7 +75,7 @@ describe('components/apps_model/AppsFormContainer', () => {
             };
 
             const wrapper = shallow<AppsFormContainer>(<AppsFormContainer {...props}/>);
-            const result = await wrapper.instance().submitDialog({
+            const result = await wrapper.instance().submitForm({
                 values: {
                     field1: 'value1',
                     field2: {label: 'label2', value: 'value2'},
