@@ -86,7 +86,7 @@ describe('Bot tags', () => {
     });
 
     it('MM-T3659 BOT tag is visible in Saved Posts', () => {
-        // # Open pinned posts
+        // # Open saved posts
         cy.get('#channelHeaderFlagButton').click();
 
         // * Verify bot badge
