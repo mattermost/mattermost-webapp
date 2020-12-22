@@ -1918,6 +1918,15 @@ const AdminDefinition = {
                 name_default: 'Users and Teams',
                 settings: [
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableCustomUserStatuses',
+                        label: t('admin.team.customUserStatusesTitle'),
+                        label_default: 'Enable Custom Statuses: ',
+                        help_text: t('admin.team.customUserStatusesDescription'),
+                        help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EnableTeamCreation',
                         label: t('admin.team.teamCreationTitle'),
