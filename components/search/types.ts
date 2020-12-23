@@ -37,7 +37,7 @@ export type DispatchProps = {
         autocompleteUsersInTeam: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
-    }
+    };
 }
 
 export type Props = StateProps & DispatchProps & OwnProps;
