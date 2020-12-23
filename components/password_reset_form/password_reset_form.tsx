@@ -51,7 +51,11 @@ export default class PasswordResetForm extends React.PureComponent<Props, State>
         this.setState({error: null});
 
         const token = (new URLSearchParams(this.props.location.search)).get('token');
-        const {data, error} = await this.props.actions.resetUserPassword(token, password);
+        if (typeof token === null) {
+          throw new Error('token must be a string')
+        }
+        let safeToken = token as string
+        const {data, error} = await this.props.actions.resetUserPassword(safeToken, password);
         if (data) {
             browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
             this.setState({error: null});
