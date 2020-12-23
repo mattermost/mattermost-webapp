@@ -58,19 +58,23 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
     <section
       className="section-max form-horizontal "
     >
-      <h4
-        className="col-sm-12 section-title"
-        id="settingTitle"
+      <div
+        className="d-flex"
       >
-        <FormattedMessage
-          defaultMessage="Automatic Direct Message Replies"
-          id="user.settings.notifications.autoResponder"
+        <h4
+          className="section-title"
+          id="settingTitle"
         >
-          <span>
-            Automatic Direct Message Replies
-          </span>
-        </FormattedMessage>
-      </h4>
+          <FormattedMessage
+            defaultMessage="Automatic Direct Message Replies"
+            id="user.settings.notifications.autoResponder"
+          >
+            <span>
+              Automatic Direct Message Replies
+            </span>
+          </FormattedMessage>
+        </h4>
+      </div>
       <div
         className="col-sm-10 col-sm-offset-2"
       >
@@ -272,19 +276,23 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
     <section
       className="section-max form-horizontal "
     >
-      <h4
-        className="col-sm-12 section-title"
-        id="settingTitle"
+      <div
+        className="d-flex"
       >
-        <FormattedMessage
-          defaultMessage="Automatic Direct Message Replies"
-          id="user.settings.notifications.autoResponder"
+        <h4
+          className="section-title"
+          id="settingTitle"
         >
-          <span>
-            Automatic Direct Message Replies
-          </span>
-        </FormattedMessage>
-      </h4>
+          <FormattedMessage
+            defaultMessage="Automatic Direct Message Replies"
+            id="user.settings.notifications.autoResponder"
+          >
+            <span>
+              Automatic Direct Message Replies
+            </span>
+          </FormattedMessage>
+        </h4>
+      </div>
       <div
         className="col-sm-10 col-sm-offset-2"
       >

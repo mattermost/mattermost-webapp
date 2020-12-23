@@ -94,12 +94,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     <section
       className="section-max form-horizontal "
     >
-      <h4
-        className="col-sm-12 section-title"
-        id="settingTitle"
+      <div
+        className="d-flex"
       >
-        Email Notifications
-      </h4>
+        <h4
+          className="section-title"
+          id="settingTitle"
+        >
+          Email Notifications
+        </h4>
+      </div>
       <div
         className="col-sm-9 col-sm-offset-3"
       >
@@ -446,12 +450,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     <section
       className="section-max form-horizontal "
     >
-      <h4
-        className="col-sm-12 section-title"
-        id="settingTitle"
+      <div
+        className="d-flex"
       >
-        Email Notifications
-      </h4>
+        <h4
+          className="section-title"
+          id="settingTitle"
+        >
+          Email Notifications
+        </h4>
+      </div>
       <div
         className="col-sm-9 col-sm-offset-3"
       >
