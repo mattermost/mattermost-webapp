@@ -4,14 +4,13 @@
 import {createCategory as createCategoryRedux, moveChannelsToCategory} from 'mattermost-redux/actions/channel_categories';
 import {General} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {getCategory, makeGetCategoriesForTeam, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getCategory, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {insertMultipleWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import {setItem} from 'actions/storage';
-import {getChannelsInCategoryOrder, getDisplayedChannels} from 'selectors/views/channel_sidebar';
+import {getCategoriesForCurrentTeam, getChannelsInCategoryOrder, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 import {DraggingState, GlobalState} from 'types/store';
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
 
@@ -86,9 +85,7 @@ export function moveChannelsInSidebar(categoryId: string, targetIndex: number, d
 
         // Multi channel case
         if (multiSelectedChannelIds.length && multiSelectedChannelIds.indexOf(draggableChannelId) !== -1) {
-            const getCategoriesForTeam = makeGetCategoriesForTeam();
-            const currentTeam = getCurrentTeam(state);
-            const categories = getCategoriesForTeam(state, currentTeam.id);
+            const categories = getCategoriesForCurrentTeam(state);
             const displayedChannels = getDisplayedChannels(state);
 
             let channelsToMove = [draggableChannelId];
