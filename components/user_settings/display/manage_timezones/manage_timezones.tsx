@@ -93,7 +93,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
 
         this.submitUser();
     };
-
+editPost
     submitUser = () => {
         const {user, actions} = this.props;
         const {

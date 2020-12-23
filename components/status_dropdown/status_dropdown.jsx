@@ -11,18 +11,21 @@ import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon';
 
 import Avatar from 'components/widgets/users/avatar';
+import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
+import {renderEmoji} from '../../utils/emoticons';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
-        userId: PropTypes.string.isRequired,
+        currentUser: PropTypes.object.isRequired,
         profilePicture: PropTypes.string,
         autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
@@ -32,7 +35,7 @@ export default class StatusDropdown extends React.PureComponent {
     }
 
     static defaultProps = {
-        userId: '',
+        currentUser: null,
         profilePicture: '',
         status: UserStatuses.OFFLINE,
     }
@@ -43,7 +46,7 @@ export default class StatusDropdown extends React.PureComponent {
 
     setStatus = (status) => {
         this.props.actions.setStatus({
-            user_id: this.props.userId,
+            user_id: this.props.currentUser.id,
             status,
         });
     }
@@ -77,6 +80,16 @@ export default class StatusDropdown extends React.PureComponent {
 
         this.props.actions.openModal(resetStatusModalData);
     };
+
+    showCustomStatusModal = () => {
+        const customStatusInputModalData = {
+            ModalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+            dialogProps: {userId: this.props.currentUser.id},
+        };
+
+        this.props.actions.openModal(customStatusInputModalData);
+    }
 
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
@@ -116,6 +129,21 @@ export default class StatusDropdown extends React.PureComponent {
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
+        let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+        let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
+        const userProps = this.props.currentUser.props;
+        if (userProps && userProps.custom_status) {
+            const customStatus = JSON.parse(this.props.currentUser.props.custom_status);
+            if (customStatus.emoji !== '') {
+                customStatusEmoji = renderEmoji(customStatus.emoji, customStatus.emoji);
+            }
+            if (customStatus.text.length > 24) {
+                customStatusText = customStatus.text.substring(0, 24) + '...';
+            } else {
+                customStatusText = customStatus.text;
+            }
+        }
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
@@ -154,6 +182,15 @@ export default class StatusDropdown extends React.PureComponent {
                             ariaLabel={localizeMessage('status_dropdown.set_ooo', 'Out of office').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_ooo', 'Out of office')}
                             extraText={localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled')}
+                        />
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemAction
+                            onClick={this.showCustomStatusModal}
+                            ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
+                            text={customStatusText}
+                            icon={customStatusEmoji}
+                            id={'status-menu-custom'}
                         />
                     </Menu.Group>
                     <Menu.Group>
