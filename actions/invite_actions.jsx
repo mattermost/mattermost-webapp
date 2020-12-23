@@ -59,7 +59,7 @@ export function sendMembersInvites(teamId, users, emails) {
                 }
             } else {
                 for (const email of emails) {
-                    const inviteWithError = invitesWithErrors.find((i) => email === i.email && i.error);
+                    const inviteWithError = invitesWithErrors.find((i) => email.toLowerCase() === i.email && i.error);
                     if (inviteWithError) {
                         notSent.push({email, reason: inviteWithError.error.message});
                     } else {
