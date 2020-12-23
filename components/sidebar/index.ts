@@ -9,13 +9,14 @@ import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import {Preferences} from 'mattermost-redux/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
+import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -24,9 +25,8 @@ import Sidebar from './sidebar';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
-    const config = getConfig(state);
-    const isDataPrefechEnabled = config.ExperimentalDataPrefetch === 'true';
     const currentChannelId = getCurrentChannelId(state);
+    const unreadFilterEnabled = isUnreadFilterEnabled(state);
 
     let canCreatePublicChannel = false;
     let canCreatePrivateChannel = false;
@@ -44,7 +44,6 @@ function mapStateToProps(state: GlobalState) {
         canCreatePublicChannel,
         canJoinPublicChannel,
         isOpen: getIsLhsOpen(state),
-        isDataPrefechEnabled,
         hasSeenModal: getBool(
             state,
             Preferences.CATEGORY_WHATS_NEW_MODAL,
@@ -52,6 +51,7 @@ function mapStateToProps(state: GlobalState) {
             false,
         ),
         isCloud: getLicense(state).Cloud === 'true',
+        unreadFilterEnabled,
     };
 }
 
@@ -66,7 +66,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             clearChannelSelection,
             createCategory,
             fetchMyCategories,
