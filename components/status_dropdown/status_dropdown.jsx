@@ -50,7 +50,7 @@ export default class StatusDropdown extends React.PureComponent {
         };
     }
 
-    getCurrentTimeInUTC = (tz, enable) => {
+    getCurrentDateTime = (tz, enable) => {
         let currentDate;
         if (enable) {
             if (tz.useAutomaticTimezone) {
@@ -94,7 +94,7 @@ export default class StatusDropdown extends React.PureComponent {
     setDnd = (event, index) => {
         event.preventDefault();
 
-        var currentTime = this.getCurrentTimeInUTC(this.props.userTimezone, this.props.enableTimezone).getTime();
+        var currentTime = this.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone).getTime();
         var endTime = new Date().getTime();
         switch (index) {
         case 0:
