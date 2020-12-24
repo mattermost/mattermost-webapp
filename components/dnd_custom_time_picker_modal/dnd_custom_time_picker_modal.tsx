@@ -91,10 +91,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             confirmButtonText,
         } = this.getText();
 
-        const modifiers = {
-            today: new Date(),
-        };
-
         let dateString: string;
         const handleDayClick = (day: Date) => {
             dateString = day.toISOString().split('T')[0];
@@ -146,7 +142,15 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         <div className='DndModal__input DndModal__input--no-border'>
                             <div className='DndModal__input__label'>{'Date'}</div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
-                            <DayPickerInput placeholder='Today'/>
+                            <DayPickerInput
+                                placeholder='Today'
+                                dayPickerProps={{
+                                    month: new Date(),
+                                    disabledDays: {
+                                        before: new Date(),
+                                    },
+                                }}
+                            />
                         </div>
                     </div>
                     <MenuWrapper
