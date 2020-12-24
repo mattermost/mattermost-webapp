@@ -17,13 +17,12 @@ type Props = {
 };
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
-    const customStatusControlRef = React.createRef();
+    const customStatusControlRef = useRef(null);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [emoji, setEmoji] = useState<string>('');
     const [customStatusText, setCustomStatusText] = useState<string>('');
     const dispatch = useDispatch();
     const handleSubmit = () => {
-        console.log("hi", emoji, customStatusText);
         const customStatus = {
             emoji: emoji || 'speech_balloon',
             text: customStatusText,

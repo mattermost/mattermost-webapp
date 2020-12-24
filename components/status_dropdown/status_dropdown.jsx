@@ -20,6 +20,7 @@ import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import {renderEmoji} from '../../utils/emoticons';
+import messageHtmlToComponent from '../../utils/message_html_to_component';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -132,11 +133,10 @@ export default class StatusDropdown extends React.PureComponent {
         let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
         const userProps = this.props.currentUser.props;
-        if (userProps && userProps.custom_status) {
-            const customStatus = JSON.parse(this.props.currentUser.props.custom_status);
-            console.log("custom status", customStatus);
+        if (userProps && userProps.customStatus) {
+            const customStatus = JSON.parse(this.props.currentUser.props.customStatus);
             if (customStatus.emoji !== '') {
-                customStatusEmoji = renderEmoji(customStatus.emoji, customStatus.emoji);
+                customStatusEmoji = messageHtmlToComponent(renderEmoji(customStatus.emoji, customStatus.emoji), false, {emoji: true});
             }
             if (customStatus.text.length > 24) {
                 customStatusText = customStatus.text.substring(0, 24) + '...';
