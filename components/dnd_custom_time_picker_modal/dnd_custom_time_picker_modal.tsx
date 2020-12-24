@@ -8,9 +8,10 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from 'mattermost-redux/types/users';
 
+import { UserTimezone } from 'mattermost-redux/src/types/users';
+
 import GenericModal from 'components/generic_modal';
 // import {localizeMessage} from 'utils/utils';
-
 
 import {UserStatuses} from 'utils/constants';
 import Menu from 'components/widgets/menu/menu';
@@ -21,6 +22,9 @@ import './dnd_custom_time_picker_modal.scss';
 type Props = {
     onHide: () => void;
     userId: string;
+    userTimezone: UserTimezone;
+    enableTimezone: boolean;
+    getCurrentDateTime: (tz: UserTimezone, enable: boolean) => Date;
     actions: {
         setStatus: (status: UserStatus) => ActionFunc;
     };
@@ -145,9 +149,9 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             <DayPickerInput
                                 placeholder='Today'
                                 dayPickerProps={{
-                                    month: new Date(),
+                                    month: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone),
                                     disabledDays: {
-                                        before: new Date(),
+                                        before: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone),
                                     },
                                 }}
                             />
