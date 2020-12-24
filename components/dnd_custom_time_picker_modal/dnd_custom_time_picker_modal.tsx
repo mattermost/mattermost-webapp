@@ -32,6 +32,8 @@ type Props = {
 
 type State = {
     userId: string;
+    dateString: string;
+    timeString: string;
 }
 
 export default class DndCustomTimePicker extends React.PureComponent<Props, State> {
@@ -40,6 +42,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         this.state = {
             userId: props.userId || '',
+            dateString: '',
+            timeString: '',
         };
     }
 
@@ -89,21 +93,24 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
+    handleDaySelection = (day: Date) => {
+        const dString = day.toISOString().split('T')[0];
+        this.setState({
+            dateString: dString,
+        });
+    };
+
+    handleTimeSelection = (time: any) => {
+        this.setState({
+            timeString: time,
+        });
+    };
+
     render() {
         const {
             modalHeaderText,
             confirmButtonText,
         } = this.getText();
-
-        let dateString: string;
-        const handleDayClick = (day: Date) => {
-            dateString = day.toISOString().split('T')[0];
-        };
-
-        let timeString: string;
-        const handleTimeSelect = (time: any) => {
-            timeString = time;
-        };
 
         const timeMenuItems = [];
 
@@ -113,7 +120,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 timeMenuItems.push(
                     <Menu.ItemAction
                         text={t}
-                        onClick={handleTimeSelect}
+                        onClick={this.handleTimeSelection}
                     >
                         {t}
                     </Menu.ItemAction>,
@@ -148,6 +155,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
                                 placeholder='Today'
+                                onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
                                     month: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone),
                                     disabledDays: {
