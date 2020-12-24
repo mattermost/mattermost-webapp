@@ -134,6 +134,7 @@ export default class StatusDropdown extends React.PureComponent {
         const userProps = this.props.currentUser.props;
         if (userProps && userProps.custom_status) {
             const customStatus = JSON.parse(this.props.currentUser.props.custom_status);
+            console.log("custom status", customStatus);
             if (customStatus.emoji !== '') {
                 customStatusEmoji = renderEmoji(customStatus.emoji, customStatus.emoji);
             }
