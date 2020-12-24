@@ -34,6 +34,7 @@ type State = {
     userId: string;
     dateString: string;
     timeString: string;
+    timeMenuList: string[];
 }
 
 export default class DndCustomTimePicker extends React.PureComponent<Props, State> {
@@ -42,8 +43,9 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         this.state = {
             userId: props.userId || '',
-            dateString: '',
+            dateString: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone).toDateString() || '',
             timeString: '',
+            timeMenuList: [],
         };
     }
 
@@ -94,17 +96,43 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
     }
 
     handleDaySelection = (day: Date) => {
-        const dString = day.toISOString().split('T')[0];
+        const dString = day.toDateString();
         this.setState({
             dateString: dString,
-        });
+        }, this.setTimeMenuList);
     };
 
-    handleTimeSelection = (time: any) => {
+    setTimeMenuList = () => {
+        const timeMenuItems = [];
+        let h = 0;
+        let m = 0;
+        const curr = this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone);
+        if (curr.toDateString() === this.state.dateString) {
+            h = curr.getHours();
+            m = curr.getMinutes();
+            if (m > 20) {
+                h++;
+                m = 0;
+            } else {
+                m = 30;
+            }
+        }
+        for (let i = h; i < 24; i++) {
+            for (let j = m / 30; j < 2; j++) {
+                const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
+                timeMenuItems.push(
+                    t,
+                );
+            }
+        }
         this.setState({
-            timeString: time,
+            timeMenuList: timeMenuItems,
         });
-    };
+    }
+
+    componentDidMount() {
+        this.setTimeMenuList();
+    }
 
     render() {
         const {
@@ -112,26 +140,27 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             confirmButtonText,
         } = this.getText();
 
-        const timeMenuItems = [];
-
-        for (let i = 0; i < 24; i++) {
-            for (let j = 0; j < 2; j++) {
-                const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
-                timeMenuItems.push(
-                    <Menu.ItemAction
-                        text={t}
-                        onClick={this.handleTimeSelection}
-                    >
-                        {t}
-                    </Menu.ItemAction>,
-                );
-            }
-        }
+        const {timeMenuList} = this.state;
+        const timeMenuItems = timeMenuList.map((time) => {
+            return (
+                <Menu.ItemAction
+                    key={time}
+                    text={time}
+                    onClick={() => {
+                        this.setState({
+                            timeString: time,
+                        });
+                    }}
+                >
+                    {time}
+                </Menu.ItemAction>
+            );
+        });
 
         const setStatus = () => {
-            const hours = parseInt(timeString.split(':')[0], 10);
-            const minutes = parseInt(timeString.split(':')[1], 10);
-            const endTime = new Date(dateString);
+            const hours = parseInt(this.state.timeString.split(':')[0], 10);
+            const minutes = parseInt(this.state.timeString.split(':')[1], 10);
+            const endTime = new Date(this.state.dateString);
             endTime.setHours(hours, minutes);
             this.props.actions.setStatus({
                 user_id: this.props.userId,
@@ -139,6 +168,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 dnd_end_time: endTime.toISOString(),
             });
         };
+
+        const now = this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone);
 
         return (
             <GenericModal
@@ -154,12 +185,12 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             <div className='DndModal__input__label'>{'Date'}</div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
-                                placeholder='Today'
+                                placeholder={this.state.dateString}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
-                                    month: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone),
+                                    month: now,
                                     disabledDays: {
-                                        before: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone),
+                                        before: now,
                                     },
                                 }}
                             />
@@ -174,7 +205,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         >
                             <div className='DndModal__input__label'>{'Time'}</div>
                             <i className='icon icon--no-spacing icon-clock-outline icon--xs icon-14'/>
-                            <span>{'12:30 PM'}</span>
+                            <span>{timeMenuList[0]}</span>
                         </button>
                         <Menu
                             openLeft={false}
