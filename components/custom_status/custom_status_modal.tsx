@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useRef, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage} from 'react-intl';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {updateUserCustomStatus} from 'actions/views/user';
 import GenericModal from 'components/generic_modal';
@@ -11,21 +12,27 @@ import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import './custom_status.scss';
+import {GlobalState} from 'types/store';
+import messageHtmlToComponent from '../../utils/message_html_to_component';
+import {renderEmoji} from '../../utils/emoticons';
 
 type Props = {
     onHide: () => void;
 };
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
+    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
+    const userProps = currentUser.props || {};
+    const currentCustomStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : {emoji: '', text: ''};
     const customStatusControlRef = useRef(null);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-    const [emoji, setEmoji] = useState<string>('');
-    const [customStatusText, setCustomStatusText] = useState<string>('');
+    const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
+    const [text, setText] = useState<string>(currentCustomStatus.text);
     const dispatch = useDispatch();
     const handleSubmit = () => {
         const customStatus = {
             emoji: emoji || 'speech_balloon',
-            text: customStatusText,
+            text,
         };
         dispatch(updateUserCustomStatus(customStatus));
     };
@@ -49,8 +56,12 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const handleTextChange = (event: any) => {
-        setCustomStatusText(event.target.value);
+        setText(event.target.value);
     };
+    let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
+    if (emoji) {
+        customStatusEmoji = messageHtmlToComponent(renderEmoji(emoji, ''), false, {emoji: true});
+    }
 
     return (
         <GenericModal
@@ -84,7 +95,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                             onHide={handleEmojiClose}
                             onEmojiClose={handleEmojiClose}
                             onEmojiClick={handleEmojiClick}
-                            topOffset={55}
                         />
                         <button
                             type='button'
@@ -93,14 +103,14 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 'StatusModal__emoji-button--active': showEmojiPicker,
                             })}
                         >
-                            <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
+                            {customStatusEmoji}
                         </button>
                     </div>
                     <input
                         className='form-control'
                         placeholder='Set a status'
                         type='text'
-                        value={customStatusText}
+                        value={text}
                         onChange={handleTextChange}
                     />
                 </div>
