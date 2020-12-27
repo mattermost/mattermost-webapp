@@ -141,7 +141,7 @@ export default class StatusDropdown extends React.PureComponent {
                 customStatusEmoji = messageHtmlToComponent(
                     `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
                     false,
-                    {emoji: true}
+                    {emoji: true},
                 );
             }
             if (customStatus.text.length > 24) {
