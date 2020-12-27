@@ -156,6 +156,14 @@ interface TextFormattingOptionsBase {
    */
     autolinkedUrlSchemes: string[];
 
+    /*
+     * An array of paths on the server that are managed by another server. Any path provided will be treated as an
+     * external link that will not by handled by react-router.
+     *
+     * Defaults to an empty array.
+     */
+    managedResourcePaths: string[];
+
     /**
    * A custom renderer object to use in the formatWithRenderer function.
    *

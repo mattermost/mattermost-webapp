@@ -12,7 +12,7 @@ import {deleteAndRemovePost} from 'actions/post_actions.jsx';
 import DeletePostModal from './delete_post_modal';
 
 type Actions = {
-    deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>
+    deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
