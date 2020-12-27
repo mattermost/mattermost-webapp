@@ -19,8 +19,10 @@ import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
-import {renderEmoji} from '../../utils/emoticons';
-import messageHtmlToComponent from '../../utils/message_html_to_component';
+
+import messageHtmlToComponent from 'utils/message_html_to_component';
+
+import './status_dropdown.scss';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -136,7 +138,11 @@ export default class StatusDropdown extends React.PureComponent {
         if (userProps && userProps.customStatus) {
             const customStatus = JSON.parse(this.props.currentUser.props.customStatus);
             if (customStatus.emoji !== '') {
-                customStatusEmoji = messageHtmlToComponent(renderEmoji(customStatus.emoji, customStatus.emoji), false, {emoji: true});
+                customStatusEmoji = messageHtmlToComponent(
+                    `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
+                    false,
+                    {emoji: true}
+                );
             }
             if (customStatus.text.length > 24) {
                 customStatusText = customStatus.text.substring(0, 24) + '...';
@@ -170,12 +176,6 @@ export default class StatusDropdown extends React.PureComponent {
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
                 >
-                    <Menu.Header>
-                        <FormattedMessage
-                            id='status_dropdown.set_your_status'
-                            defaultMessage='Status'
-                        />
-                    </Menu.Header>
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
@@ -187,6 +187,7 @@ export default class StatusDropdown extends React.PureComponent {
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction
+                            buttonClass={'custom-status-button'}
                             onClick={this.showCustomStatusModal}
                             ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
                             text={customStatusText}
