@@ -117,3 +117,4 @@ describe('Account Settings -> General -> Full Name', () => {
         cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + '_new ' + testUser.last_name);
     });
 });
+
