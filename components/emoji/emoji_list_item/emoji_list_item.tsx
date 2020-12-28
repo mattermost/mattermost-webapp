@@ -13,13 +13,13 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 export type Props = {
     emoji: CustomEmoji;
     emojiId?: string;
-    currentUserId: string
+    currentUserId: string;
     creatorDisplayName: string;
     creatorUsername?: string;
-    onDelete?: (emojiId: string) => void
+    onDelete?: (emojiId: string) => void;
     actions: {
-        deleteCustomEmoji: (emojiId: string) => ActionFunc
-    }
+        deleteCustomEmoji: (emojiId: string) => ActionFunc;
+    };
 }
 
 export default class EmojiListItem extends React.PureComponent<Props> {
