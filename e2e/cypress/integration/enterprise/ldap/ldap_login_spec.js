@@ -41,7 +41,7 @@ context('ldap', () => {
     });
 
     describe('LDAP Login flow - Admin Login', () => {
-        it('LDAP login new MM admin, create team', () => {
+        it('MM-T2821 LDAP Admin Filter', () => {
             testSettings.user = admin1;
             const ldapSetting = {
                 LdapSettings: {
