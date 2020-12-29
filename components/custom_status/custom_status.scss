@@ -1,12 +1,24 @@
 .StatusModal {
-    width: 600px;
+    width: 600px !important;
+    margin: 30px auto !important;
+
+    .modal-dialog {
+        margin: auto;
+    }
 
     .modal-content {
+        width: 600px;
         padding: 28px 24px 0 24px;
     }
 
     .modal-body {
         overflow: visible;
+        padding: 12px 12px 0px 12px;
+    }
+
+    .modal-footer {
+        margin-top: 0;
+        padding: 0px 12px 8px;
     }
 
     .GenericModal__header {
@@ -39,6 +51,12 @@
     position: absolute;
     top: 6px;
     left: 10px;
+}
+
+.StatusModal__clear-container {
+    position: absolute;
+    top: 14px;
+    right: 16px;
 }
 
 .StatusModal__emoji-button {
@@ -87,4 +105,19 @@
         height: 4rem;
         border-radius: 4px;
     }
+}
+
+.ic-clear-search, .ic-search {
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+}
+
+.ic-clear-search {
+    right: 12px;
+    top: 12px;
+    width: 2rem;
+    height: 2rem;
 }

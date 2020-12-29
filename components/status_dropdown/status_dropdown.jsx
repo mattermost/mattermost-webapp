@@ -133,7 +133,7 @@ export default class StatusDropdown extends React.PureComponent {
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
         let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
-        let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
+        let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
         const userProps = this.props.currentUser.props;
         if (userProps && userProps.customStatus) {
             const customStatus = JSON.parse(this.props.currentUser.props.customStatus);
