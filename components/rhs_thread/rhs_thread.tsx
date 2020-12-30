@@ -68,7 +68,7 @@ type State = {
     isScrolling: boolean;
     topRhsPostId: string;
     openTime: number;
-    postsArray?: Record<string, any>[];
+    postsArray?: Array<Record<string, any>>;
     isBusy?: boolean;
     postsContainerHeight: number;
     userScrolledToBottom: boolean;
@@ -78,7 +78,7 @@ export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
-    private postCreateContainerRef : React.RefObject<HTMLDivElement>;
+    private postCreateContainerRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};

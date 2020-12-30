@@ -11,7 +11,7 @@ import {Group} from 'mattermost-redux/types/groups';
 import OverlayTrigger from 'components/overlay_trigger';
 
 type ProfileWithGroups = Partial<UserProfile & {
-    groups: Partial<Group>[];
+    groups: Array<Partial<Group>>;
 }>;
 
 interface UsersToRemoveGroupsProps {
