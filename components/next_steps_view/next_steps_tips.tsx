@@ -95,7 +95,7 @@ type Props = {
     showFinalScreen: boolean;
     animating: boolean;
     currentUserId: string;
-    isFirstAdmin: boolean,
+    isFirstAdmin: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;

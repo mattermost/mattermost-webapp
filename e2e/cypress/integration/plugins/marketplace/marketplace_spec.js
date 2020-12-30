@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @plugin_marketplace @plugin
+// Group: @not_cloud @plugin_marketplace @plugin
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -17,6 +17,9 @@ describe('Plugin Marketplace', () => {
     let regularUser;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         cy.apiInitSetup().then(({team, user}) => {
             regularUser = user;
             townsquareLink = `/${team.name}/channels/town-square`;

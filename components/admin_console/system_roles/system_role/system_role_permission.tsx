@@ -13,7 +13,7 @@ import './system_role_permissions.scss';
 type Props = {
     readOnly?: boolean;
     setSectionVisible: (name: string, visible: boolean) => void;
-    section: SystemSection,
+    section: SystemSection;
     permissionsMap: Record<string, boolean>;
     visibleSections: Record<string, boolean>;
     permissionsToUpdate: PermissionsToUpdate;

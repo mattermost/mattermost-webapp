@@ -12,11 +12,15 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
-
-let config;
+import {
+    Constants,
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
 describe('Email notification', () => {
+    let config;
     let testUser;
     let mentionedUser;
     let testTeam;
@@ -57,10 +61,9 @@ describe('Email notification', () => {
         const mailUrl = getEmailUrl(baseUrl);
 
         cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            verifyEmailNotification(response, config.TeamSettings.SiteName, testTeam.display_name, 'Town Square', mentionedUser, testUser, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail, messageSeparator);
+            verifyEmailNotification(response, config.TeamSettings.SiteName, testTeam.display_name, 'Town Square', mentionedUser, testUser, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
 
-            const bodyText = response.data.body.text.split('\n');
+            const bodyText = splitEmailBodyText(response.data.body.text);
 
             const permalink = bodyText[9].match(reUrl)[0];
             const permalinkPostId = permalink.split('/')[6];
@@ -80,7 +83,7 @@ describe('Email notification', () => {
     });
 });
 
-function verifyEmailNotification(response, siteName, teamDisplayName, channelDisplayName, mentionedUser, byUser, message, feedbackEmail, supportEmail, messageSeparator) {
+function verifyEmailNotification(response, siteName, teamDisplayName, channelDisplayName, mentionedUser, byUser, message, feedbackEmail = Constants.FixedCloudConfig.EmailSettings.FEEDBACK_EMAIL, supportEmail) {
     const isoDate = new Date().toISOString().substring(0, 10);
     const {data, status} = response;
 
@@ -101,7 +104,7 @@ function verifyEmailNotification(response, siteName, teamDisplayName, channelDis
     expect(data.subject).to.contain(`[${siteName}] Notification in ${teamDisplayName}`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split(messageSeparator);
+    const bodyText = splitEmailBodyText(data.body.text);
     expect(bodyText.length).to.equal(16);
     expect(bodyText[1]).to.equal('You have a new notification.');
     expect(bodyText[4]).to.equal(`Channel: ${channelDisplayName}`);
