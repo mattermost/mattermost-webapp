@@ -24,7 +24,7 @@ type Props = {
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
             data: boolean;
         }>;
-        setCategoryMuted: (categoryId: string, muted: boolean) => Promise<void>,
+        setCategoryMuted: (categoryId: string, muted: boolean) => Promise<void>;
     };
 };
 

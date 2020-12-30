@@ -13,14 +13,14 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 import EmojiList from './emoji_list';
 
 type Props = {
-    teamId: string,
-    teamName?: string,
-    teamDisplayName?: string,
-    siteName?: string,
-    scrollToTop(): void,
+    teamId: string;
+    teamName?: string;
+    teamDisplayName?: string;
+    siteName?: string;
+    scrollToTop(): void;
     actions: {
-        loadRolesIfNeeded(roles: Iterable<string>): void
-    }
+        loadRolesIfNeeded(roles: Iterable<string>): void;
+    };
 }
 
 export default class EmojiPage extends React.PureComponent<Props> {

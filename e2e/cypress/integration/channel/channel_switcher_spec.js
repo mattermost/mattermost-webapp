@@ -35,7 +35,7 @@ describe('Channel Switcher', () => {
         // # Start typing channel name in the "Switch Channels" modal message box
         // # Use up/down arrow keys to highlight second channel
         // # Press ENTER
-        cy.get('#quickSwitchInput').type(`${channelDisplayNamePrefix} `).type('{downarrow}').type('{downarrow}').type('{enter}');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(`${channelDisplayNamePrefix} `).type('{downarrow}').type('{downarrow}').type('{enter}');
 
         // * Expect channel title to match title
         cy.get('#channelHeaderTitle').
@@ -51,7 +51,7 @@ describe('Channel Switcher', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing channel name in the "Switch Channels" modal message box
-        cy.get('#quickSwitchInput').type(`${channelDisplayNamePrefix} `);
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(`${channelDisplayNamePrefix} `);
 
         cy.get(`[data-testid^=${channelNamePrefix}-c] > span`).click();
 
@@ -69,7 +69,7 @@ describe('Channel Switcher', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Type invalid channel name in the "Switch Channels" modal message box
-        cy.get('#quickSwitchInput').type('there-is-no-spoon');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('there-is-no-spoon');
 
         // * Expect 'nothing found' message
         cy.get('.no-results__title > span').should('be.visible');
@@ -82,10 +82,10 @@ describe('Channel Switcher', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Press ESC
-        cy.get('#quickSwitchInput').type('{esc}');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('{esc}');
 
         // * Expect the dialog to be closed
-        cy.get('#quickSwitchInput').should('not.exist');
+        cy.findByRole('textbox', {name: 'quick switch input'}).should('not.exist');
 
         // * Expect staying in the same channel
         cy.url().should('contain', 'town-square');
@@ -97,7 +97,7 @@ describe('Channel Switcher', () => {
         cy.get('.modal').click({force: true});
 
         // * Expect the dialog to be closed
-        cy.get('#quickSwitchInput').should('not.exist');
+        cy.findByRole('textbox', {name: 'quick switch input'}).should('not.exist');
 
         // * Expect staying in the same channel
         cy.url().should('contain', 'town-square');
