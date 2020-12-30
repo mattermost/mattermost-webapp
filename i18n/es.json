@@ -3575,6 +3575,7 @@
   "quick_switch_modal.help": "Comienza a escribir, a continuación, usa la tecla TAB para cambiar de canales/equipos, **▲▼** para navegar, **INTRO** para seleccionar, **ESC** para descartar.",
   "quick_switch_modal.help_mobile": "Escribe para encontrar un canal.",
   "quick_switch_modal.help_no_team": "Escribe para buscar un canal. Usa **ARRIBA/ABAJO** para navegar, **INTRO** para seleccionar, **ESC** para descartar.",
+  "quick_switch_modal.input": "entrada de cambio rápido",
   "quick_switch_modal.switchChannels": "Cambiar Canales",
   "quick_switch_modal.teams": "Equipos",
   "quick_switch_modal.teamsShortcut.mac": "- ⌘⌥K",
