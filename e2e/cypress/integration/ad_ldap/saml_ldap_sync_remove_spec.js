@@ -18,6 +18,7 @@ import {getRandomId} from '../../utils';
 // assumes keycloak docker - uses api to update
 // assumes the CYPRESS_* variables are set (CYPRESS_keycloakBaseUrl / CYPRESS_keycloakAppName)
 // requires {"chromeWebSecurity": false}
+// copy ./mattermost-server/build/docker/keycloak/keycloak.crt -> ./mattermost-server/config/saml-idp.crt
 describe('ad_ldap', () => {
     const admin = getAdminAccount();
     const baseUrl = Cypress.config('baseUrl');

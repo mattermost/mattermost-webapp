@@ -39,19 +39,6 @@ Cypress.Commands.add('keycloakGetAccessTokenAPI', () => {
     });
 });
 
-// Cypress.Commands.add('keycloakGetRefreshTokenAPI', () => {
-//     cy.task('keycloakRequest', {
-//         baseUrl: loginUrl,
-//         path: '',
-//         method: 'post',
-//         headers: {'Content-type': 'application/x-www-form-urlencoded'},
-//         data: 'grant_type=password&username=mmuser&password=mostest&client_id=admin-cli',
-//     }).then((response) => {
-//         expect(response.status).to.equal(200);
-//         return cy.wrap(response.data.refresh_token);
-//     });
-// });
-
 /**
 * keycloakCreateUserAPI is a task wrapped as command with post-verification
 * that a user is successfully created in keycloak

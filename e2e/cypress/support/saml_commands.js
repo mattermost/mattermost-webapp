@@ -55,6 +55,5 @@ Cypress.Commands.add('setTestSettings', (loginButtonText, config) => {
         siteUrl: config.ServiceSettings.SiteURL,
         teamName: '',
         user: null,
-        token: '',
     };
 });
