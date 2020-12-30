@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {getAdminAccount} from '../support/env';
 
 Cypress.Commands.add('doLDAPExistingLogin', () => {
     cy.findByText('Click here to sign in.').should('be.visible').click();
@@ -123,5 +124,52 @@ Cypress.Commands.add('doSkipTutorial', () => {
         if (body.find('#tutorialSkipLink').length > 0) {
             cy.get('#tutorialSkipLink').click().wait(TIMEOUTS.HALF_SEC);
         }
+    });
+});
+
+Cypress.Commands.add('runLdapSync', (admin) => {
+    cy.externalRequest({user: admin, method: 'post', path: 'ldap/sync'}).then(() => {
+        cy.waitForSyncCompletion(Date.now(), 30000).then(() => {
+            return cy.wrap(true);
+        });
+    });
+});
+
+Cypress.Commands.add('getJobStatus', (start) => {
+    const admin = getAdminAccount();
+    cy.externalRequest({user: admin, method: 'get', path: 'jobs/type/ldap_sync'}).then((result) => {
+        const jobs = result.data;
+        if (jobs && jobs[0]) {
+            if (Math.abs(jobs[0].create_at - start) < 2000) {
+                switch (jobs[0].status) {
+                case 'success':
+                    return cy.wrap('success');
+                case 'pending':
+                case 'in_progress':
+                    return cy.wrap('pending');
+                default:
+                    return cy.wrap('unsuccessful');
+                }
+            }
+        }
+        return cy.wrap('not found');
+    });
+});
+
+Cypress.Commands.add('waitForSyncCompletion', (start, timeout) => {
+    cy.getJobStatus(start).then((status) => {
+        if (status === 'success') {
+            return;
+        }
+        if (status === 'unsuccessful') {
+            throw new Error('LdapSync Unsuccessful');
+        }
+        if (Date.now() - start > timeout) {
+            throw new Error('Timeout Waiting for LdapSync');
+        }
+
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(5000);
+        cy.waitForSyncCompletion(start, timeout);
     });
 });

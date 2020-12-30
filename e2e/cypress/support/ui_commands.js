@@ -55,6 +55,23 @@ Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => 
     cy.get('#accountSettingsHeader > .close').click();
 });
 
+/**
+ * verify the users name settings
+ * @param {String} firstname - expected user firstname
+ * @param {String} firstname - expected user lastname
+ */
+Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
+    // # Go to Account Settings
+    cy.toAccountSettingsModal();
+
+    // # Click General button
+    cy.get('#generalButton').click();
+
+    // * Check name value
+    cy.get('#nameDesc').should('have.text', `${firstname} ${lastname}`);
+    cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+});
+
 // ***********************************************************
 // Key Press
 // ***********************************************************
