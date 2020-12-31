@@ -117,93 +117,91 @@ describe('ad_ldap', () => {
         cy.addLDAPUsers();
     });
 
-    describe('SAML', () => {
-        it('MM-T3013 (Step 2) - SAML User, Not in LDAP, ', () => {
-            const testConfig = {
-                ...newConfig,
-                SamlSettings: {
-                    ...newConfig.SamlSettings,
-                    EnableSyncWithLdap: true,
-                },
-            };
-            cy.apiAdminLogin().then(() => {
-                cy.apiUpdateConfig(testConfig);
-            });
+    it('MM-T3013 (Step 2) - SAML User, Not in LDAP, ', () => {
+        const testConfig = {
+            ...newConfig,
+            SamlSettings: {
+                ...newConfig.SamlSettings,
+                EnableSyncWithLdap: true,
+            },
+        };
+        cy.apiAdminLogin().then(() => {
+            cy.apiUpdateConfig(testConfig);
+        });
 
-            testSettings.user = user4;
+        testSettings.user = user4;
 
-            // # MM Login via SAML
-            cy.doSamlLogin(testSettings).then(() => {
-                // # Login to Keycloak
-                cy.doKeycloakLogin(testSettings.user).then(() => {
-                    // * check for LDAP Error, if new user error expected
-                    cy.checkForLDAPError().then((found) => {
-                        if (found) {
-                            // # MM Login via SAML - Login Again to bypass error
-                            cy.doSamlLogin(testSettings).then(() => {
-                                // # Login to Keycloak
-                                cy.doKeycloakLogin(testSettings.user);
-                            });
-                        }
-                    }).then(() => {
-                        // # Create team if no membership
-                        cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                            // # run LDAP Sync
-                            // * check that it ran successfully
-                            cy.runLdapSync(admin, baseUrl).then(() => {
-                                // # Initiate browser activity
-                                cy.reload();
+        // # MM Login via SAML
+        cy.doSamlLogin(testSettings).then(() => {
+            // # Login to Keycloak
+            cy.doKeycloakLogin(testSettings.user).then(() => {
+                // * check for LDAP Error, if new user error expected
+                cy.checkForLDAPError().then((found) => {
+                    if (found) {
+                        // # MM Login via SAML - Login Again to bypass error
+                        cy.doSamlLogin(testSettings).then(() => {
+                            // # Login to Keycloak
+                            cy.doKeycloakLogin(testSettings.user);
+                        });
+                    }
+                }).then(() => {
+                    // # Create team if no membership
+                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+                        // # run LDAP Sync
+                        // * check that it ran successfully
+                        cy.runLdapSync(admin, baseUrl).then(() => {
+                            // # Initiate browser activity
+                            cy.reload();
 
-                                // * Verify the member is logged out and redirected to login page
-                                cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
-                                cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-                            });
+                            // * Verify the member is logged out and redirected to login page
+                            cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
+                            cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
                         });
                     });
                 });
             });
         });
+    });
 
-        it('MM-T3013 (Step 3) - Deactivate user in SAML', () => {
-            const testConfig = {
-                ...newConfig,
-                SamlSettings: {
-                    ...newConfig.SamlSettings,
-                    EnableSyncWithLdap: true,
-                },
-            };
-            cy.apiAdminLogin().then(() => {
-                cy.apiUpdateConfig(testConfig);
-            });
+    it('MM-T3013 (Step 3) - Deactivate user in SAML', () => {
+        const testConfig = {
+            ...newConfig,
+            SamlSettings: {
+                ...newConfig.SamlSettings,
+                EnableSyncWithLdap: true,
+            },
+        };
+        cy.apiAdminLogin().then(() => {
+            cy.apiUpdateConfig(testConfig);
+        });
 
-            testSettings.user = user2;
+        testSettings.user = user2;
 
-            // # MM Login via SAML
-            cy.doSamlLogin(testSettings).then(() => {
-                // # Login to Keycloak
-                cy.doKeycloakLogin(testSettings.user).then(() => {
-                    // # Create team if no membership
-                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                        // # Skip the tutorial
-                        cy.doSkipTutorial();
-                        cy.keycloakSuspendUser(testSettings.token, testSettings.user.keycloakId).then(() => {
-                            // refresh make sure not logged out.
-                            cy.reload();
+        // # MM Login via SAML
+        cy.doSamlLogin(testSettings).then(() => {
+            // # Login to Keycloak
+            cy.doKeycloakLogin(testSettings.user).then(() => {
+                // # Create team if no membership
+                cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+                    // # Skip the tutorial
+                    cy.doSkipTutorial();
+                    cy.keycloakSuspendUser(testSettings.token, testSettings.user.keycloakId).then(() => {
+                        // refresh make sure not logged out.
+                        cy.reload();
 
-                            // cy.doLDAPLogout(testSettings);
-                            cy.doSamlLogin(testSettings).then(() => {
-                                cy.doKeycloakLogin(testSettings.user).then(() => {
-                                    // * verify login failed.
-                                    cy.verifyKeycloakLoginFailed().then(() => {
-                                        // # activate user in keycloak
-                                        cy.keycloakUnsuspendUser(testSettings.token, testSettings.user.keycloakId).then(() => {
-                                            // # login again
-                                            cy.findByText('Password').type(testSettings.user.password);
-                                            cy.findAllByText('Log In').last().click();
+                        // cy.doLDAPLogout(testSettings);
+                        cy.doSamlLogin(testSettings).then(() => {
+                            cy.doKeycloakLogin(testSettings.user).then(() => {
+                                // * verify login failed.
+                                cy.verifyKeycloakLoginFailed().then(() => {
+                                    // # activate user in keycloak
+                                    cy.keycloakUnsuspendUser(testSettings.token, testSettings.user.keycloakId).then(() => {
+                                        // # login again
+                                        cy.findByText('Password').type(testSettings.user.password);
+                                        cy.findAllByText('Log In').last().click();
 
-                                            // * check the user settings
-                                            cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
-                                        });
+                                        // * check the user settings
+                                        cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
                                     });
                                 });
                             });

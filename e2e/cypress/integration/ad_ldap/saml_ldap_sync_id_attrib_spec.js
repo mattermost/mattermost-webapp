@@ -107,7 +107,6 @@ describe('ad_ldap', () => {
         cy.addLDAPUsers();
     });
 
-    describe('SAML', () => {
         it('MM-T3013 (Step 4) - SAML / LDAP sync with ID Attribute', () => {
             const testConfig = {
                 ...newConfig,
@@ -187,4 +186,3 @@ describe('ad_ldap', () => {
             });
         });
     });
-});

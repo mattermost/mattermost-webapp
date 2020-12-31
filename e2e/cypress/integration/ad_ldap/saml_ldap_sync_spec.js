@@ -107,71 +107,69 @@ describe('ad_ldap', () => {
         cy.addLDAPUsers();
     });
 
-    describe('SAML', () => {
-        it('MM-T3013 (Step 1) - SAML LDAP Sync Off,  user attributes pulled from SAML', () => {
-            testSettings.user = user1;
+    it('MM-T3013 (Step 1) - SAML LDAP Sync Off,  user attributes pulled from SAML', () => {
+        testSettings.user = user1;
 
-            // # MM Login via SAML
-            cy.doSamlLogin(testSettings).then(() => {
-                // # Login to Keycloak
-                cy.doKeycloakLogin(testSettings.user).then(() => {
-                    // # Create team if no membership
-                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+        // # MM Login via SAML
+        cy.doSamlLogin(testSettings).then(() => {
+            // # Login to Keycloak
+            cy.doKeycloakLogin(testSettings.user).then(() => {
+                // # Create team if no membership
+                cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+                    // * check the user settings
+                    cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+
+                    // # run LDAP Sync
+                    // * check that it ran successfully
+                    cy.runLdapSync(admin).then(() => {
+                        // refresh make sure user not logged out.
+                        cy.reload();
+
                         // * check the user settings
                         cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
 
-                        // # run LDAP Sync
-                        // * check that it ran successfully
-                        cy.runLdapSync(admin).then(() => {
-                            // refresh make sure user not logged out.
-                            cy.reload();
-
-                            // * check the user settings
-                            cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
-
-                            // # logout user
-                            cy.doSamlLogout(testSettings);
-                        });
+                        // # logout user
+                        cy.doSamlLogout(testSettings);
                     });
                 });
             });
         });
+    });
 
-        it('MM-T3013 (Step 1) - SAML LDAP Sync On - user attributes pulled from LDAP', () => {
-            const testConfig = {
-                ...newConfig,
-                SamlSettings: {
-                    ...newConfig.SamlSettings,
-                    EnableSyncWithLdap: true,
-                },
-            };
-            cy.apiAdminLogin().then(() => {
-                cy.apiUpdateConfig(testConfig);
-            });
+    it('MM-T3013 (Step 1) - SAML LDAP Sync On - user attributes pulled from LDAP', () => {
+        const testConfig = {
+            ...newConfig,
+            SamlSettings: {
+                ...newConfig.SamlSettings,
+                EnableSyncWithLdap: true,
+            },
+        };
+        cy.apiAdminLogin().then(() => {
+            cy.apiUpdateConfig(testConfig);
+        });
 
-            testSettings.user = user1;
+        testSettings.user = user1;
 
-            // # MM Login via SAML
-            cy.doSamlLogin(testSettings).then(() => {
-                // # Login to Keycloak
-                cy.doKeycloakLogin(testSettings.user).then(() => {
-                    // # Create team if no membership
-                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+        // # MM Login via SAML
+        cy.doSamlLogin(testSettings).then(() => {
+            // # Login to Keycloak
+            cy.doKeycloakLogin(testSettings.user).then(() => {
+                // # Create team if no membership
+                cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+                    // * check the user settings
+                    cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+
+                    // # run LDAP Sync
+                    // * check that it ran successfully
+                    cy.runLdapSync(admin).then(() => {
+                        // refresh make sure user not logged out.
+                        cy.reload();
+
                         // * check the user settings
-                        cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+                        cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
 
-                        // # run LDAP Sync
-                        // * check that it ran successfully
-                        cy.runLdapSync(admin).then(() => {
-                            // refresh make sure user not logged out.
-                            cy.reload();
-
-                            // * check the user settings
-                            cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
-
-                            // # logout user
-                            cy.doSamlLogout(testSettings);
-                        });
+                        // # logout user
+                        cy.doSamlLogout(testSettings);
                     });
                 });
             });
