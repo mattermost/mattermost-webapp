@@ -216,13 +216,13 @@ Cypress.Commands.add('keycloakResetUsers', (users) => {
     cy.keycloakGetAccessTokenAPI().then((accessToken) => {
         Object.values(users).forEach((_user) => {
             cy.keycloakGetUsersAPI(accessToken, `email=${_user.email}`).then((existingUsers) => {
-                if(existingUsers.length > 0){
+                if (existingUsers.length > 0) {
                     cy.keycloakDeleteUserAPI(accessToken, existingUsers[0].id);
                 }
             }).then(() => {
                 cy.keycloakCreateUser(accessToken, _user).then((_id) => {
                     _user.keycloakId = _id;
-                });    
+                });
             });
         });
     });
