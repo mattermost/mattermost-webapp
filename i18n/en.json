@@ -270,6 +270,8 @@
   "admin.billing.subscription.mattermostCloud": "Mattermost Cloud",
   "admin.billing.subscription.mostRecentPaymentFailed": "Your most recent payment failed",
   "admin.billing.subscription.nextBillingDate": "Starting {date} you will be charged based on the number of enabled users",
+  "admin.billing.subscription.otherBillingOption": "Need other billing options?",
+  "admin.billing.subscription.payamentBegins": "Payment begins: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Payment failed. Please try again or contact support.",
   "admin.billing.subscription.paymentVerificationFailed": "Sorry, the payment verification failed",
   "admin.billing.subscription.perUserPerMonth": " /user/month",
