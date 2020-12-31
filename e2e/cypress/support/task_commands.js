@@ -100,6 +100,7 @@ Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootI
         if (failOnStatus) {
             expect(status).to.equal(201);
         }
+
         // # Return the data so it can be interacted in a test
         return cy.wrap({id: data.id, status, data});
     });
