@@ -224,6 +224,28 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
         expect(selectionEnd).toBe(18);
     });
 
+    test('component adds link markdown when cursor is at the end of line', () => {
+        // Cursor is after "Sambharo" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 23, 23);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi Fafda & Sambharo [](url)');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(25);
+        expect(selectionEnd).toBe(25);
+    });
+
     test('component removes link markdown', () => {
         // "Fafda" is selected with ctrl + alt + K hotkey
         const input = 'Jalebi [Fafda](url) & Sambharo';

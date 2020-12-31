@@ -1925,7 +1925,6 @@ function applyLinkMarkdown(e) {
         // nothing is selected
         const spaceBefore = prefix.charAt(prefix.length - 1) === ' ';
         const spaceAfter = suffix.charAt(0) === ' ';
-
         const cursorBeforeWord = ((selectionStart !== 0 && spaceBefore && !spaceAfter) ||
                                   (selectionStart === 0 && !spaceAfter));
         const cursorAfterWord = ((selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
@@ -1937,12 +1936,23 @@ function applyLinkMarkdown(e) {
 
             newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
             newStart = selectionStart + word.length + urlShift;
+            newEnd = newStart + urlShift;
         } else if (cursorAfterWord) {
             // cursor after a word
-            const word = value.substring(findWordStart(value, selectionStart), selectionStart);
+            const cursorAtEndOfLine = (selectionStart === selectionEnd && selectionEnd === value.length);
+            if (cursorAtEndOfLine) {
+                // cursor at end of line
+                newValue = value + ' ' + delimiterStart + delimiterEnd;
+                newStart = selectionEnd + 1 + delimiterStart.length;
+                newEnd = newStart;
+            } else {
+                // cursor not at end of line
+                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
 
-            newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
-            newStart = selectionStart + urlShift;
+                newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
+                newStart = selectionStart + urlShift;
+                newEnd = newStart + urlShift;
+            }
         } else {
             // cursor is in between a word
             const wordStart = findWordStart(value, selectionStart);
@@ -1951,8 +1961,8 @@ function applyLinkMarkdown(e) {
 
             newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
             newStart = wordEnd + urlShift;
+            newEnd = newStart + urlShift;
         }
-        newEnd = newStart + urlShift;
     }
 
     return {
