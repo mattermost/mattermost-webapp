@@ -216,6 +216,7 @@ export default class PermissionSchemesSettings extends React.PureComponent {
                         </div>
 
                         <AdminPanelWithLink
+                            id='system-scheme'
                             titleId={t('admin.permissions.systemSchemeBannerTitle')}
                             titleDefault='System Scheme'
                             subtitleId={t('admin.permissions.systemSchemeBannerText')}
