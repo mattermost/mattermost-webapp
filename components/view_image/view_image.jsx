@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -27,7 +26,12 @@ export default class ViewImageModal extends React.PureComponent {
         /**
          * The post the files are attached to
          */
-        post: PropTypes.object.isRequired,
+        postId: PropTypes.string,
+
+        /**
+         * The post the files are attached to
+         */
+        post: PropTypes.object,
 
         /**
          * Set whether to show this modal or not
@@ -47,10 +51,10 @@ export default class ViewImageModal extends React.PureComponent {
         /**
          * The index number of starting image
          **/
-        startIndex: PropTypes.number.isRequired,
+        startIndex: PropTypes.number,
 
-        canDownloadFiles: PropTypes.bool.isRequired,
-        enablePublicLink: PropTypes.bool.isRequired,
+        canDownloadFiles: PropTypes.bool,
+        enablePublicLink: PropTypes.bool,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
     };
 
@@ -74,6 +78,7 @@ export default class ViewImageModal extends React.PureComponent {
             showZoomControls: false,
             scale: ZoomSettings.DEFAULT_SCALE,
         };
+        this.videoRef = React.createRef();
     }
 
     handleNext = (e) => {
@@ -115,8 +120,8 @@ export default class ViewImageModal extends React.PureComponent {
     onModalHidden = () => {
         document.removeEventListener('keyup', this.handleKeyPress);
 
-        if (this.refs.video) {
-            this.refs.video.stop();
+        if (this.videoRef.current) {
+            this.videoRef.current.stop();
         }
     }
 
@@ -130,7 +135,7 @@ export default class ViewImageModal extends React.PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const updatedProps = {};
-        if (props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
+        if (props.fileInfos[state.imageIndex] && props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
             updatedProps.showZoomControls = true;
         } else {
             updatedProps.showZoomControls = false;
@@ -328,7 +333,7 @@ export default class ViewImageModal extends React.PureComponent {
             leftArrow = (
                 <a
                     id='previewArrowLeft'
-                    ref='previewArrowLeft'
+                    ref={this.previewArrowLeft}
                     className='modal-prev-bar'
                     href='#'
                     onClick={this.handlePrev}
@@ -340,7 +345,7 @@ export default class ViewImageModal extends React.PureComponent {
             rightArrow = (
                 <a
                     id='previewArrowRight'
-                    ref='previewArrowRight'
+                    ref={this.previewArrowRight}
                     className='modal-next-bar'
                     href='#'
                     onClick={this.handleNext}
@@ -417,4 +422,3 @@ export default class ViewImageModal extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

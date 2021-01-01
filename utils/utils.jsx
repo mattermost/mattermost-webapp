@@ -22,7 +22,7 @@ import moment from 'moment';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
@@ -585,14 +585,11 @@ export function applyTheme(theme) {
     // Including 'mentionBj' for backwards compatability (old typo)
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
         changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator svg', 'fill:' + theme.mentionColor);
-        changeCss('.app__body .sidebar--left .nav-pills__unread-indicator', 'color:' + theme.mentionColor);
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
         changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
     }
@@ -1018,13 +1015,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
+
     const link = document.querySelector('link.code_theme');
     if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
-        var xmlHTTP = new XMLHttpRequest();
+
+        const xmlHTTP = new XMLHttpRequest();
+
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            link.attributes.href = cssPath;
+            link.href = cssPath;
+
             if (UserAgent.isFirefox()) {
                 link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
@@ -1033,6 +1034,7 @@ export function updateCodeTheme(userTheme) {
                 changeCss('code.hljs', 'visibility: visible');
             }
         };
+
         xmlHTTP.send();
     }
 }
@@ -1064,6 +1066,171 @@ export function getCaretPosition(el) {
     return 0;
 }
 
+export function createHtmlElement(el) {
+    return document.createElement(el);
+}
+
+export function getElementComputedStyle(el) {
+    return getComputedStyle(el);
+}
+
+export function addElementToDocument(el) {
+    document.body.appendChild(el);
+}
+
+export function copyTextAreaToDiv(textArea) {
+    if (!textArea) {
+        return null;
+    }
+    const copy = createHtmlElement('div');
+    copy.textContent = textArea.value;
+    const style = getElementComputedStyle(textArea);
+    [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'wordWrap',
+        'whiteSpace',
+        'borderLeftWidth',
+        'borderTopWidth',
+        'borderRightWidth',
+        'borderBottomWidth',
+        'paddingRight',
+        'paddingLeft',
+        'paddingTop',
+    ].forEach((key) => {
+        copy.style[key] = style[key];
+    });
+    copy.style.overflow = 'auto';
+    copy.style.width = textArea.offsetWidth + 'px';
+    copy.style.height = textArea.offsetHeight + 'px';
+    copy.style.position = 'absolute';
+    copy.style.left = textArea.offsetLeft + 'px';
+    copy.style.top = textArea.offsetTop + 'px';
+    addElementToDocument(copy);
+    return copy;
+}
+
+export function convertEmToPixels(el, remNum) {
+    if (isNaN(remNum)) {
+        return 0;
+    }
+    const styles = getElementComputedStyle(el);
+    return remNum * parseFloat(styles.fontSize);
+}
+
+export function getCaretXYCoordinate(textArea) {
+    if (!textArea) {
+        return {x: 0, y: 0};
+    }
+    const start = textArea.selectionStart;
+    const end = textArea.selectionEnd;
+    const copy = copyTextAreaToDiv(textArea);
+    const range = document.createRange();
+    range.setStart(copy.firstChild, start);
+    range.setEnd(copy.firstChild, end);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const rect = range.getClientRects();
+    document.body.removeChild(copy);
+    textArea.selectionStart = start;
+    textArea.selectionEnd = end;
+    textArea.focus();
+    return {
+        x: Math.floor(rect[0].left - textArea.scrollLeft),
+        y: Math.floor(rect[0].top - textArea.scrollTop),
+    };
+}
+
+export function getViewportSize(win) {
+    const w = win || window;
+    if (w.innerWidth != null) {
+        return {w: w.innerWidth, h: w.innerHeight};
+    }
+    const {clientWidth, clientHeight} = w.document.body;
+    return {w: clientWidth, h: clientHeight};
+}
+
+export function offsetTopLeft(el) {
+    if (!(el instanceof HTMLElement)) {
+        return {top: 0, left: 0};
+    }
+    const rect = el.getBoundingClientRect();
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
+}
+
+export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
+    if (!textArea || !(textArea instanceof HTMLElement)) {
+        return {
+            pixelsToMoveX: 0,
+            pixelsToMoveY: 0,
+        };
+    }
+    const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
+    const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
+    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
+    const viewportWidth = getViewportSize().w;
+
+    const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
+
+    // value in pixels for the offsetLeft for the textArea
+    const txtAreaOffsetLft = offsetTopLeft(textArea).left;
+
+    // how many pixels to the right should be moved the suggestion box
+    let pxToTheRight = (caretXCoordinateInTxtArea) - (pxToSubstract);
+
+    // the x coordinate in the viewport of the suggestion box border-right
+    const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
+
+    // if the right-border edge of the suggestion box will overflow the x-axis viewport
+    if (xBoxRightCoordinate > viewportWidth) {
+        // stick the suggestion list to the very right of the TextArea
+        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
+    }
+    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
+    if (boxLocation === 'bottom') {
+        // Add the line height and 4 extra px so it looks less tight
+        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
+    }
+    return {
+        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
+
+        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
+        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
+    };
+}
+
+export function getSuggestionBoxWidth(textArea) {
+    if (textArea.id === 'edit_textbox') {
+        // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
+        return textArea.offsetWidth;
+    }
+
+    // 496 - value in pixels used in suggestion-list__content class line 72 file _suggestion-list.scss
+
+    return Constants.SUGGESTION_LIST_MODAL_WIDTH;
+}
+
+export function getPxToSubstract(char = '@') {
+    // depending on the triggering character different values must be substracted
+    if (char === '@') {
+    // mention name padding-left 2.4rem as stated in suggestion-list__content .mentions__name
+        const mentionNamePaddingLft = convertEmToPixels(document.documentElement, Constants.MENTION_NAME_PADDING_LEFT);
+
+        // half of width of avatar stated in .Avatar.Avatar-sm (24px)
+        const avatarWidth = Constants.AVATAR_WIDTH * 0.5;
+        return 5 + avatarWidth + mentionNamePaddingLft;
+    } else if (char === '~') {
+        return 39;
+    } else if (char === ':') {
+        return 32;
+    }
+    return 0;
+}
+
 export function setSelectionRange(input, selectionStart, selectionEnd) {
     if (input.setSelectionRange) {
         input.focus();
@@ -1086,19 +1253,29 @@ export function scrollbarWidth(el) {
 }
 
 export function isValidUsername(name) {
-    var error = '';
+    let error;
     if (!name) {
-        error = 'This field is required';
+        error = {
+            id: ValidationErrors.USERNAME_REQUIRED,
+        };
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
-        error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
+        error = {
+            id: ValidationErrors.INVALID_LENGTH,
+        };
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = {
+            id: ValidationErrors.INVALID_CHARACTERS,
+        };
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
-        error = 'First character must be a letter.';
+        error = {
+            id: ValidationErrors.INVALID_FIRST_CHARACTER,
+        };
     } else {
-        for (var i = 0; i < Constants.RESERVED_USERNAMES.length; i++) {
-            if (name === Constants.RESERVED_USERNAMES[i]) {
-                error = 'Cannot use a reserved word as a username.';
+        for (const reserved of Constants.RESERVED_USERNAMES) {
+            if (name === reserved) {
+                error = {
+                    id: ValidationErrors.RESERVED_NAME,
+                };
                 break;
             }
         }
@@ -1114,7 +1291,9 @@ export function isValidBotUsername(name) {
     }
 
     if (name.endsWith('.')) {
-        error = "Username must not end with '.' symbol.";
+        error = {
+            id: ValidationErrors.INVALID_LAST_CHARACTER,
+        };
     }
 
     return error;
@@ -1378,16 +1557,25 @@ export function imageURLForTeam(team) {
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
 export function fileSizeToString(bytes) {
     // it's unlikely that we'll have files bigger than this
-    if (bytes > 1024 * 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024 * 1024)) + 'TB';
-    } else if (bytes > 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024)) + 'GB';
-    } else if (bytes > 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024)) + 'MB';
+    if (bytes > 1024 ** 4) {
+        // check if file is smaller than 10 to display fractions
+        if (bytes < (1024 ** 4) * 10) {
+            return (Math.round((bytes / (1024 ** 4)) * 10) / 10) + 'TB';
+        }
+        return Math.round(bytes / (1024 ** 4)) + 'TB';
+    } else if (bytes > 1024 ** 3) {
+        if (bytes < (1024 ** 3) * 10) {
+            return (Math.round((bytes / (1024 ** 3)) * 10) / 10) + 'GB';
+        }
+        return Math.round(bytes / (1024 ** 3)) + 'GB';
+    } else if (bytes > 1024 ** 2) {
+        if (bytes < (1024 ** 2) * 10) {
+            return (Math.round((bytes / (1024 ** 2)) * 10) / 10) + 'MB';
+        }
+        return Math.round(bytes / (1024 ** 2)) + 'MB';
     } else if (bytes > 1024) {
-        return Math.floor(bytes / 1024) + 'KB';
+        return Math.round(bytes / 1024) + 'KB';
     }
-
     return bytes + 'B';
 }
 
@@ -1878,4 +2066,12 @@ export function adjustSelection(inputBox, e) {
 export function getNextBillingDate() {
     const nextBillingDate = moment().add(1, 'months').startOf('month');
     return nextBillingDate.format('MMM D, YYYY');
+}
+
+export function stringToNumber(s) {
+    if (!s) {
+        return 0;
+    }
+
+    return parseInt(s, 10);
 }

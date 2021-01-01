@@ -101,15 +101,17 @@ class ToastWrapper extends React.PureComponent {
                 showMessageHistoryToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM || !props.atLatestPost;
             }
 
-            // show unread toast when a channel is marked as unread
-            if (props.channelMarkedAsUnread && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
-                showUnreadToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM;
-            }
+            if (!props.atBottom) {
+                // show unread toast when a channel is marked as unread
+                if (props.channelMarkedAsUnread && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
+                    showUnreadToast = true;
+                }
 
-            // show unread toast when a channel is remarked as unread using the change in lastViewedAt
-            // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
-            if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt) {
-                showUnreadToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM;
+                // show unread toast when a channel is remarked as unread using the change in lastViewedAt
+                // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
+                if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt) {
+                    showUnreadToast = true;
+                }
             }
         }
 

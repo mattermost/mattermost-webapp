@@ -48,6 +48,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={false}
@@ -169,6 +170,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={true}
@@ -388,8 +390,10 @@ Your subscription details are as follows:
           >
             <button
               className="btn btn-danger"
+              data-testid="remove-button"
               id="remove-button"
               onClick={[Function]}
+              type="button"
             >
               <FormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
@@ -537,8 +541,10 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             <button
               className="btn btn-danger"
+              data-testid="remove-button"
               id="remove-button"
               onClick={[Function]}
+              type="button"
             >
               <FormattedMessage
                 defaultMessage="Remove Enterprise License and Downgrade Server"
@@ -631,6 +637,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 <button
                   className="btn btn-primary"
                   onClick={[Function]}
+                  type="button"
                 >
                   <LoadingWrapper
                     loading={false}
@@ -692,6 +699,7 @@ See ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. S
             >
               <button
                 className="btn btn-primary"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Choose File"
@@ -781,6 +789,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                 <button
                   className="btn btn-primary"
                   onClick={[Function]}
+                  type="button"
                 >
                   <LoadingWrapper
                     loading={false}
@@ -847,6 +856,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
             >
               <button
                 className="btn btn-primary"
+                type="button"
               >
                 <FormattedMessage
                   defaultMessage="Choose File"
@@ -967,6 +977,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={false}
@@ -1106,6 +1117,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   <button
                     className="btn btn-primary"
                     onClick={[Function]}
+                    type="button"
                   >
                     <LoadingWrapper
                       loading={false}

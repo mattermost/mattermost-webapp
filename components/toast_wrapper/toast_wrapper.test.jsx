@@ -145,7 +145,7 @@ describe('components/ToastWrapper', () => {
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
-            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
         test('Should have unread toast channel is marked as unread again', () => {
@@ -170,12 +170,12 @@ describe('components/ToastWrapper', () => {
                 ],
             });
 
-            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.setProps({atBottom: true});
             expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({atBottom: false});
             wrapper.setProps({lastViewedAt: 12342});
-            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
         test('Should have archive toast if channel is not atLatestPost and focusedPostId exists', () => {

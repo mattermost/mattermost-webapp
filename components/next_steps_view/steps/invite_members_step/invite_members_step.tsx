@@ -23,6 +23,7 @@ import './invite_members_step.scss';
 
 type Props = StepComponentProps & {
     team: Team;
+    isEmailInvitesEnabled: boolean;
     actions: {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
@@ -103,11 +104,6 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             return;
         }
 
-        if (this.state.emails.length >= 10) {
-            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.')});
-            return;
-        }
-
         if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
             const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
@@ -118,7 +114,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                 emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined,
             });
         } else {
-            this.setState({emailInput: value, emailError: undefined});
+            this.setState({emailInput: value});
         }
     }
 
@@ -141,7 +137,8 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
     onBlur = () => {
         if (this.state.emailInput) {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
-            this.setState({emails: [...this.state.emails, ...emails], emailInput: '', emailError: undefined});
+            const newEmails = [...this.state.emails, ...emails];
+            this.setState({emails: newEmails, emailInput: '', emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined});
         }
     }
 
@@ -217,67 +214,77 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
-                    <div className='InviteMembersStep__emailInvitations'>
-                        <h3>
-                            <FormattedMessage
-                                id='next_steps_view.invite_members_step.sendInvitationsViaEmail'
-                                defaultMessage='Send invitations via email'
-                            />
-                        </h3>
-                        <FormattedMessage
-                            id='next_steps_view.invite_members_step.youCanInviteUpTo'
-                            defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
-                        />
-                        <MultiInput
-                            onBlur={this.onBlur}
-                            onInputChange={this.onInputChange}
-                            onChange={this.onChange}
-                            value={this.state.emails}
-                            inputValue={this.state.emailInput}
-                            legend={Utils.localizeMessage('next_steps_view.invite_members_step.emailAddresses', 'Email addresses')}
-                            placeholder={Utils.localizeMessage('next_steps_view.invite_members_step.enterEmailAddresses', 'Enter email addresses')}
-                            styles={styles}
-                            name='InviteMembersStep__membersListInput'
-                        />
-                        <div className='InviteMembersStep__send'>
-                            <button
-                                data-testid='InviteMembersStep__sendButton'
-                                className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
-                                disabled={!this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
-                                onClick={this.sendEmailInvites}
-                            >
-                                <i className='icon icon-send'/>
+                    {this.props.isEmailInvitesEnabled &&
+                        <div className='InviteMembersStep__emailInvitations'>
+                            <h3>
                                 <FormattedMessage
-                                    id='next_steps_view.invite_members_step.send'
-                                    defaultMessage='Send'
+                                    id='next_steps_view.invite_members_step.sendInvitationsViaEmail'
+                                    defaultMessage='Send invitations via email'
                                 />
-                            </button>
-                            <div className={classNames('InviteMembersStep__invitationResults', {error: this.state.emailError})}>
-                                {this.state.emailsSent &&
-                                    <>
-                                        <i className='icon icon-check'/>
-                                        <FormattedMarkdownMessage
-                                            id='next_steps_view.invite_members_step.invitationsSent'
-                                            defaultMessage='{num} invitations sent'
-                                            values={{num: this.state.emailsSent}}
-                                        />
-                                    </>
-                                }
-                                {this.state.emailError &&
-                                    <>
-                                        <i className='icon icon-alert-outline'/>
-                                        <span>{this.state.emailError}</span>
-                                    </>
-                                }
+                            </h3>
+                            <FormattedMessage
+                                id='next_steps_view.invite_members_step.youCanInviteUpTo'
+                                defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
+                            />
+                            <MultiInput
+                                onBlur={this.onBlur}
+                                onInputChange={this.onInputChange}
+                                onChange={this.onChange}
+                                value={this.state.emails}
+                                inputValue={this.state.emailInput}
+                                legend={Utils.localizeMessage('next_steps_view.invite_members_step.emailAddresses', 'Email addresses')}
+                                placeholder={Utils.localizeMessage('next_steps_view.invite_members_step.enterEmailAddresses', 'Enter email addresses')}
+                                styles={styles}
+                                name='InviteMembersStep__membersListInput'
+                            />
+                            <div className='InviteMembersStep__send'>
+                                <button
+                                    data-testid='InviteMembersStep__sendButton'
+                                    className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
+                                    disabled={!this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
+                                    onClick={this.sendEmailInvites}
+                                >
+                                    <i className='icon icon-send'/>
+                                    <FormattedMessage
+                                        id='next_steps_view.invite_members_step.send'
+                                        defaultMessage='Send'
+                                    />
+                                </button>
+                                <div className={classNames('InviteMembersStep__invitationResults', {error: this.state.emailError})}>
+                                    {this.state.emailsSent &&
+                                        <>
+                                            <i className='icon icon-check'/>
+                                            <FormattedMarkdownMessage
+                                                id='next_steps_view.invite_members_step.invitationsSent'
+                                                defaultMessage='{num} invitations sent'
+                                                values={{num: this.state.emailsSent}}
+                                            />
+                                        </>
+                                    }
+                                    {this.state.emailError &&
+                                        <>
+                                            <i className='icon icon-alert-outline'/>
+                                            <span>{this.state.emailError}</span>
+                                        </>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                     <div className='InviteMembersStep__shareInviteLink'>
                         <h3>
-                            <FormattedMessage
-                                id='next_steps_view.invite_members_step.orShareThisLink'
-                                defaultMessage='Or share this link to invite members'
-                            />
+                            {this.props.isEmailInvitesEnabled &&
+                                <FormattedMessage
+                                    id='next_steps_view.invite_members_step.orShareThisLink'
+                                    defaultMessage='Or share this link to invite members'
+                                />
+                            }
+                            {!this.props.isEmailInvitesEnabled &&
+                                <FormattedMessage
+                                    id='next_steps_view.invite_members_step.shareThisLink'
+                                    defaultMessage='Share this link to invite members'
+                                />
+                            }
                         </h3>
                         <div className='InviteMembersStep__shareLinkBlock'>
                             <input
