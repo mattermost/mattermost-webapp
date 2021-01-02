@@ -10,7 +10,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
 
-import EmojiList from './emoji_list.jsx';
+import EmojiList from './emoji_list';
 
 type Actions = {
     getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
