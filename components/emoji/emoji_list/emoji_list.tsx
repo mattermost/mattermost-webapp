@@ -26,7 +26,7 @@ interface Props {
     /**
      * Custom emojis on the system.
      */
-    emojiIds: Array<string>;
+    emojiIds: string[];
 
     /**
      * Function to scroll list to top.
@@ -37,12 +37,12 @@ interface Props {
         /**
          * Get pages of custom emojis.
          */
-        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
+        getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
 
         /**
          * Search custom emojis.
          */
-        searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
+        searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
     };
 
 }
@@ -51,7 +51,7 @@ interface State {
     loading: boolean;
     page: number;
     nextLoading: boolean;
-    searchEmojis: Array<string>;
+    searchEmojis: string[];
     missingPages: boolean;
 }
 

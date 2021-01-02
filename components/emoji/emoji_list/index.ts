@@ -13,8 +13,8 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import EmojiList from './emoji_list';
 
 type Actions = {
-    getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
-    searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => Promise<{ data: CustomEmoji[], error: ServerError }>;
+    getCustomEmojis: (page?: number, perPage?: number, sort?: string, loadUsers?: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
+    searchCustomEmojis: (term: string, options: any, loadUsers: boolean) => Promise<{ data: CustomEmoji[]; error: ServerError }>;
 }
 
 function mapStateToProps(state: GlobalState) {
