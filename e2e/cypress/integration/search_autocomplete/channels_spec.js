@@ -23,15 +23,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
     let testUser;
 
     before(() => {
-        // # Disable elastic search via API
-        cy.apiUpdateConfig({
-            ElasticsearchSettings: {
-                EnableAutocomplete: false,
-                EnableIndexing: false,
-                EnableSearching: false,
-                Sniff: false,
-            },
-        });
+        cy.shouldHaveElasticsearchDisabled();
 
         // # Login as test user and go to town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {

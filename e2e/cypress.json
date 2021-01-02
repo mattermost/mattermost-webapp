@@ -12,15 +12,20 @@
         "adminPassword": "Sys@dmin-sample1",
         "dbClient": "postgres",
         "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
+        "adminEmail": "sysadmin@sample.mattermost.com",
+        "ciBaseUrl": "",
         "enableApplitools": false,
         "enableVisualTest": false,
         "ldapServer": "localhost",
         "ldapPort": 389,
         "numberOfTrialUsers": 100,
         "runLDAPSync": true,
-        "runWithEELicense": false,
         "resetBeforeTest": false,
+        "smtpUrl": "http://localhost:10080",
         "storybookUrl": "http://localhost:6006/",
-        "webhookBaseUrl": "http://localhost:3000"
+        "webhookBaseUrl": "http://localhost:3000",
+        "AWS_S3_BUCKET": "",
+        "AWS_ACCESS_KEY_ID": "",
+        "AWS_SECRET_ACCESS_KEY": ""
     }
 }

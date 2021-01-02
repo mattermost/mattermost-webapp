@@ -33,7 +33,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
 
     const baseProps = {
         // eslint-disable-next-line @typescript-eslint/ban-types
-        actions: {updateUserPassword: jest.fn<ActionResult, {}[]>(() => ({data: ''}))},
+        actions: {updateUserPassword: jest.fn<ActionResult, Array<{}>>(() => ({data: ''}))},
         currentUserId: user.id,
         user,
         show: true,
@@ -65,7 +65,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
 
     test('should call updateUserPassword', () => {
         // eslint-disable-next-line @typescript-eslint/ban-types
-        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
+        const updateUserPassword = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
         const oldPassword = 'oldPassword123!';
         const newPassword = 'newPassword123!';
         const props = {...baseProps, actions: {updateUserPassword}};
@@ -82,7 +82,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
 
     test('should not call updateUserPassword when the old password is not provided', () => {
         // eslint-disable-next-line @typescript-eslint/ban-types
-        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
+        const updateUserPassword = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
         const newPassword = 'newPassword123!';
         const props = {...baseProps, actions: {updateUserPassword}};
         const wrapper = mountWithIntl(<ResetPasswordModal {...props}/>);
@@ -101,7 +101,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
 
     test('should call updateUserPassword', () => {
         // eslint-disable-next-line @typescript-eslint/ban-types
-        const updateUserPassword = jest.fn<ActionResult, {}[]>(() => ({data: ''}));
+        const updateUserPassword = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
         const password = 'Password123!';
 
         const props = {...baseProps, currentUserId: '2', actions: {updateUserPassword}};

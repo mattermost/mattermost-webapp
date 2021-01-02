@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable camelcase, no-console */
+
 const express = require('express');
 const axios = require('axios');
 var ClientOAuth2 = require('client-oauth2');
@@ -11,13 +13,20 @@ const postMessageAs = require('./cypress/plugins/post_message_as');
 
 const port = 3000;
 
+const {
+    CYPRESS_baseUrl,
+    CYPRESS_webhookBaseUrl,
+    CYPRESS_adminUsername,
+    CYPRESS_adminPassword,
+} = process.env;
+
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({extended: true}));
 
 process.title = process.argv[2];
 
-server.get('/', (req, res) => res.status(200).send('I\'m alive!\n'));
+server.get('/', ping);
 server.post('/message_menus', postMessageMenus);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
@@ -27,13 +36,23 @@ server.post('/boolean_dialog_request', onBooleanDialogRequest);
 server.post('/slack_compatible_message_response', postSlackCompatibleMessageResponse);
 server.post('/send_message_to_channel', postSendMessageToChannel);
 server.post('/post_outgoing_webhook', postOutgoingWebhook);
-
 server.post('/send_oauth_credentials', postSendOauthCredentials);
 server.get('/start_oauth', getStartOAuth);
 server.get('/complete_oauth', getCompleteOauth);
 server.post('/postOAuthMessage', postOAuthMessage);
 
-server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
+function ping(req, res) {
+    const baseUrl = CYPRESS_baseUrl || 'http://localhost:8065';
+    const webhookBaseUrl = CYPRESS_webhookBaseUrl || 'http://localhost:3000';
+
+    return res.json({
+        message: 'I\'m alive!',
+        baseUrl,
+        webhookBaseUrl,
+    });
+}
+
+server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`));
 
 let appID;
 let appSecret;
@@ -219,7 +238,7 @@ function postSendMessageToChannel(req, res) {
 }
 
 function getWebhookBaseUrl() {
-    return process.env.CYPRESS_webhookBaseUrl || 'http://localhost:3000';
+    return CYPRESS_webhookBaseUrl || 'http://localhost:3000';
 }
 
 function getBaseUrl() {
@@ -228,8 +247,8 @@ function getBaseUrl() {
 
 // Convenient way to send response in a channel by using sysadmin account
 function sendSysadminResponse(message, channelId) {
-    const username = process.env.CYPRESS_adminUsername || 'sysadmin';
-    const password = process.env.CYPRESS_adminPassword || 'Sys@dmin-sample1';
+    const username = CYPRESS_adminUsername || 'sysadmin';
+    const password = CYPRESS_adminPassword || 'Sys@dmin-sample1';
     const baseUrl = getBaseUrl();
     postMessageAs({sender: {username, password}, message, channelId, baseUrl});
 }
