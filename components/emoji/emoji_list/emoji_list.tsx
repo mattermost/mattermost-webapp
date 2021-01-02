@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Emoji} from 'mattermost-redux/constants';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
+import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
 import LoadingScreen from 'components/loading_screen';
 import SaveButton from 'components/save_button';
@@ -196,6 +197,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
                         key={'emoji_search_item' + emojiId}
                         emojiId={emojiId}
                         onDelete={this.deleteFromSearch}
+                        actions={{deleteCustomEmoji}}
                     />,
                 );
             });
@@ -209,6 +211,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
                     <EmojiListItem
                         key={'emoji_list_item' + emojiId}
                         emojiId={emojiId}
+                        actions={{deleteCustomEmoji}}
                     />,
                 );
             });
