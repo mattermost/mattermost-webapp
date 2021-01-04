@@ -18,7 +18,7 @@ export type UserProfileProps = {
     isBusy?: boolean;
     overwriteName?: React.ReactNode;
     overwriteIcon?: React.ReactNode;
-    user?:UserProfileType;
+    user?: UserProfileType;
     disablePopover?: boolean;
     displayUsername?: boolean;
     hasMention?: boolean;
