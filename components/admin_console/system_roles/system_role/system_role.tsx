@@ -77,6 +77,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
     }
 
     addUsersToRole = (users: UserProfile[]) => {
+        const {actions: {setNavigationBlocked}} = this.props;
         const usersToAdd = {
             ...this.state.usersToAdd,
         };
@@ -91,10 +92,13 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             }
         });
 
-        this.setState({usersToAdd, usersToRemove, saveNeeded: this.getSaveStateNeeded({usersToAdd, usersToRemove})});
+        const saveNeeded = this.getSaveStateNeeded({usersToAdd, usersToRemove});
+        setNavigationBlocked(saveNeeded);
+        this.setState({usersToAdd, usersToRemove, saveNeeded});
     }
 
     removeUserFromRole = (user: UserProfile) => {
+        const {actions: {setNavigationBlocked}} = this.props;
         const usersToAdd = {
             ...this.state.usersToAdd,
         };
@@ -106,7 +110,10 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         } else {
             usersToRemove[user.id] = user;
         }
-        this.setState({usersToRemove, usersToAdd, saveNeeded: this.getSaveStateNeeded({usersToAdd, usersToRemove})});
+
+        const saveNeeded = this.getSaveStateNeeded({usersToAdd, usersToRemove});
+        setNavigationBlocked(saveNeeded);
+        this.setState({usersToRemove, usersToAdd, saveNeeded});
     }
 
     handleSubmit = async () => {
