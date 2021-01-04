@@ -11,7 +11,7 @@ import {AdminConfig} from 'mattermost-redux/types/config';
 import OpenIdConvert from './openid_convert';
 
 type Actions = {
-    updateConfig:(config: AdminConfig) => ActionFunc;
+    updateConfig: (config: AdminConfig) => ActionFunc;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

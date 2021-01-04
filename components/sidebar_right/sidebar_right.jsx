@@ -9,11 +9,9 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
-import SearchBar from 'components/search_bar';
-import SearchResults from 'components/search_results';
+import Search from 'components/search/index.tsx';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
@@ -154,92 +152,41 @@ export default class SidebarRight extends React.PureComponent {
             rhsChannel,
             currentUserId,
             isFlaggedPosts,
-            isMentionSearch,
             isPinnedPosts,
             postRightVisible,
             postCardVisible,
             previousRhsState,
             searchVisible,
             isPluginView,
+            isOpen,
             isExpanded,
         } = this.props;
 
         let content = null;
-        let expandedClass = '';
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
 
-        if (this.props.isExpanded) {
-            expandedClass = 'sidebar--right--expanded';
-        }
-
-        var searchForm = null;
-        if (currentUserId) {
-            searchForm = (
-                <SearchBar
-                    isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
-                    isSideBarRight={true}
-                    getFocus={this.getSearchBarFocus}
+        switch (true) {
+        case postRightVisible:
+            content = (
+                <RhsThread
+                    previousRhsState={previousRhsState}
+                    currentUserId={currentUserId}
+                    toggleSize={this.toggleSize}
+                    shrink={this.onShrink}
                 />
             );
-        }
-
-        let channelDisplayName = '';
-        if (rhsChannel) {
-            channelDisplayName = rhsChannel.display_name;
-        }
-
-        if (searchVisible) {
-            content = (
-                <div className='sidebar--right__content'>
-                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
-                    <SearchResults
-                        isMentionSearch={isMentionSearch}
-                        isFlaggedPosts={isFlaggedPosts}
-                        isPinnedPosts={isPinnedPosts}
-                        toggleSize={this.toggleSize}
-                        shrink={this.onShrink}
-                        channelDisplayName={channelDisplayName}
-                        isOpened={this.state.isOpened}
-                        updateSearchTerms={this.handleUpdateSearchTerms}
-                        isSideBarExpanded={isExpanded}
-                    />
-                </div>
-            );
-        } else if (postRightVisible) {
-            content = (
-                <div className='post-right__container'>
-                    <FileUploadOverlay overlayType='right'/>
-                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
-                    <RhsThread
-                        previousRhsState={previousRhsState}
-                        currentUserId={currentUserId}
-                        toggleSize={this.toggleSize}
-                        shrink={this.onShrink}
-                    />
-                </div>
-            );
-        } else if (isPluginView) {
-            content = (
-                <div className='post-right__container'>
-                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
-                    <RhsPlugin/>
-                </div>
-            );
-        } else if (postCardVisible) {
-            content = (
-                <div className='post-right__container'>
-                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
-                    <RhsCard previousRhsState={previousRhsState}/>
-                </div>
-            );
-        }
-
-        if (!content) {
-            expandedClass = '';
+            break;
+        case postCardVisible:
+            content = <RhsCard previousRhsState={previousRhsState}/>;
+            break;
+        case isPluginView:
+            content = <RhsPlugin/>;
+            break;
         }
 
         return (
             <div
-                className={classNames('sidebar--right', expandedClass, {'move--left': this.props.isOpen})}
+                className={classNames('sidebar--right', {'sidebar--right--expanded': isSidebarRightExpanded}, {'move--left': isOpen})}
                 id='sidebar-right'
                 role='complementary'
                 ref={this.sidebarRight}
@@ -249,7 +196,15 @@ export default class SidebarRight extends React.PureComponent {
                     className='sidebar--right__bg'
                 />
                 <div className='sidebar-right-container'>
-                    {content}
+                    <Search
+                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
+                        isSideBarRight={true}
+                        isSideBarRightOpen={this.state.isOpened}
+                        getFocus={this.getSearchBarFocus}
+                        channelDisplayName={rhsChannel ? rhsChannel.display_name : ''}
+                    >
+                        {content}
+                    </Search>
                 </div>
             </div>
         );
