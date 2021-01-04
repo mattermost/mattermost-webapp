@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
-import {OAuthApp} from 'mattermost-redux/types/integrations';
-import {Team} from 'mattermost-redux/types/teams';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { OAuthApp } from 'mattermost-redux/types/integrations';
+import { Team } from 'mattermost-redux/types/teams';
 
 import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
+import { t } from 'utils/i18n';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CopyText from 'components/copy_text';
@@ -30,34 +30,34 @@ export type InstalledOAuthAppProps = {
     /**
      * The team data
      */
-    team: Partial<Team>,
+    team: Partial<Team>;
 
     /**
      * The oauthApp data
      */
-    oauthApp: OAuthApp,
+    oauthApp: OAuthApp;
 
-    creatorName: string,
+    creatorName: string;
 
     /**
      * The function to call when Regenerate Secret link is clicked
      */
-    onRegenerateSecret: (oauthAppId: string) => Promise<{error?: {message: string}}>,
+    onRegenerateSecret: (oauthAppId: string) => Promise<{ error?: { message: string } }>;
 
     /**
      * The function to call when Delete link is clicked
      */
-    onDelete: (oauthApp: OAuthApp) => void,
+    onDelete: (oauthApp: OAuthApp) => void;
 
     /**
      * Set to filter OAuthApp
      */
-    filter?: string | null,
+    filter?: string | null;
 }
 
 export type InstalleOAuthAppState = {
-    clientSecret: string,
-    error?: string | null
+    clientSecret: string;
+    error?: string | null;
 }
 
 export default class InstalledOAuthApp extends React.PureComponent<InstalledOAuthAppProps, InstalleOAuthAppState> {
@@ -73,22 +73,22 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
         if (e && e.preventDefault) {
             e.preventDefault();
         }
-        this.setState({clientSecret: this.props.oauthApp.client_secret});
+        this.setState({ clientSecret: this.props.oauthApp.client_secret });
     }
 
     handleHideClientSecret = (e: React.MouseEvent): void => {
         e.preventDefault();
-        this.setState({clientSecret: FAKE_SECRET});
+        this.setState({ clientSecret: FAKE_SECRET });
     }
 
     handleRegenerate = (e: React.MouseEvent): void => {
         e.preventDefault();
         this.props.onRegenerateSecret(this.props.oauthApp.id).then(
-            ({error}) => {
+            ({ error }) => {
                 if (error) {
-                    this.setState({error: error.message});
+                    this.setState({ error: error.message });
                 } else {
-                    this.setState({error: null});
+                    this.setState({ error: null });
                     this.handleShowClientSecret();
                 }
             },
@@ -100,7 +100,7 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
     }
 
     render(): React.ReactNode {
-        const {oauthApp, creatorName} = this.props;
+        const { oauthApp, creatorName } = this.props;
         let error;
 
         if (this.state.error) {
