@@ -4,6 +4,7 @@ exports[`components/QuickInput should render clear button with customized toolti
 <div
   className="input-clear visible"
   onMouseDown={[Function]}
+  onTouchEnd={[Function]}
 >
   <OverlayTrigger
     defaultOverlayShown={false}
@@ -72,6 +73,7 @@ exports[`components/QuickInput should render clear button with customized toolti
 <div
   className="input-clear visible"
   onMouseDown={[Function]}
+  onTouchEnd={[Function]}
 >
   <OverlayTrigger
     defaultOverlayShown={false}
@@ -136,6 +138,7 @@ exports[`components/QuickInput should render clear button with default tooltip t
 <div
   className="input-clear visible"
   onMouseDown={[Function]}
+  onTouchEnd={[Function]}
 >
   <OverlayTrigger
     defaultOverlayShown={false}
