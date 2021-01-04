@@ -9,8 +9,8 @@ export enum ShortcutKetVariant {
 }
 
 export type ShortcutKeyProps = {
-    variant?: ShortcutKetVariant,
-    children: React.ReactNode,
+    variant?: ShortcutKetVariant;
+    children: React.ReactNode;
 }
 
 export const ShortcutKey = ({children, variant}: ShortcutKeyProps) => {

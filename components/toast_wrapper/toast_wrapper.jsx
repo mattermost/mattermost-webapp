@@ -318,67 +318,85 @@ class ToastWrapper extends React.PureComponent {
         this.hideUnreadToast();
     }
 
-    render() {
+    getToastToRender() {
         const {atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast} = this.props;
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, unreadCount} = this.state;
 
-        let unreadToastProps = {
-            show: false,
+        const unreadToastProps = {
+            show: true,
             width,
-        };
-
-        const archiveToastProps = {
-            show: Boolean(showMessageHistoryToast),
-            width,
-            onDismiss: this.hideArchiveToast,
+            onDismiss: this.hideUnreadToast,
             onClick: this.scrollToLatestMessages,
             onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
-            showActions: true,
-            extraClasses: 'toast__history',
-        };
-
-        let searchHintToastProps = {
-            show: false,
-            onDismiss: this.hideSearchHintToast,
-            extraClasses: 'toast__hint',
+            showActions: !atLatestPost || (atLatestPost && !atBottom),
         };
 
         if (showUnreadToast && unreadCount > 0) {
-            unreadToastProps = {
-                ...unreadToastProps,
-                onDismiss: this.hideUnreadToast,
-                onClick: this.scrollToLatestMessages,
-                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
-                show: true,
-                showActions: !atLatestPost || (atLatestPost && !atBottom),
-            };
-        } else if (showNewMessagesToast) {
-            unreadToastProps = {
-                ...unreadToastProps,
-                onDismiss: this.hideNewMessagesToast,
-                onClick: this.scrollToNewMessage,
-                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
-                show: true,
-                showActions: !atLatestPost || (atLatestPost && !atBottom),
-            };
-        } else if (showSearchHintToast) {
-            searchHintToastProps = {
-                ...searchHintToastProps,
-                show: true,
-            };
-        }
-
-        return (
-            <React.Fragment>
+            return (
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>
+            );
+        }
+
+        if (showNewMessagesToast) {
+            const showNewMessagesToastOverrides = {
+                onDismiss: this.hideNewMessagesToast,
+                onClick: this.scrollToNewMessage,
+                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
+            };
+
+            return (
+                <Toast
+                    {...unreadToastProps}
+                    {...showNewMessagesToastOverrides}
+                >
+                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                </Toast>
+            );
+        }
+
+        if (showMessageHistoryToast) {
+            const archiveToastProps = {
+                show: true,
+                width,
+                onDismiss: this.hideArchiveToast,
+                onClick: this.scrollToLatestMessages,
+                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
+                showActions: true,
+                extraClasses: 'toast__history',
+            };
+
+            return (
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}
                 </Toast>
+            );
+        }
+
+        if (showSearchHintToast) {
+            const searchHintToastProps = {
+                show: true,
+                onDismiss: this.hideSearchHintToast,
+                extraClasses: 'toast__hint',
+            };
+
+            return (
                 <Toast {...searchHintToastProps}>
                     {this.getSearchHintToastText()}
                 </Toast>
+            );
+        }
+
+        return null;
+    }
+
+    render() {
+        const toastToRender = this.getToastToRender();
+
+        return (
+            <React.Fragment>
+                {toastToRender}
             </React.Fragment>
         );
     }
