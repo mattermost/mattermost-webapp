@@ -11,6 +11,7 @@ import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
+import messageHtmlToComponent from 'utils/message_html_to_component';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
@@ -50,6 +51,19 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
+        let statusEmoji = null;
+        const currentUser = this.props.currentUser;
+        if (currentUser && currentUser.props && currentUser.props.customStatus) {
+            const customStatus = JSON.parse(currentUser.props.customStatus);
+            if (customStatus.emoji !== '') {
+                statusEmoji = messageHtmlToComponent(
+                    `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
+                    false,
+                    {emoji: true},
+                );
+            }
+        }
+
         return (
             <div
                 className='SidebarHeaderDropdownButton'
@@ -61,11 +75,14 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                     className='header__info'
                 >
                     {teamNameWithToolTip}
-                    <div
-                        id='headerUsername'
-                        className='user__name'
-                    >
-                        {'@' + this.props.currentUser.username}
+                    <div>
+                        <div
+                            id='headerUsername'
+                            className='user__name'
+                        >
+                            {'@' + this.props.currentUser.username}
+                        </div>
+                        {statusEmoji}
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'

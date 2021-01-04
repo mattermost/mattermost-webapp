@@ -49,6 +49,7 @@
 
 .StatusModal__emoji-container {
     position: absolute;
+    margin-right: 2px;
     top: 6px;
     left: 10px;
 }
@@ -120,4 +121,56 @@
     top: 12px;
     width: 2rem;
     height: 2rem;
+}
+
+.statusSuggestion  {
+    height: 250px;
+    overflow: auto;
+    margin-top: 16px;
+}
+
+.statusSuggestion__content  {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    overflow: auto;
+}
+
+.statusSuggestion__row {
+    display: flex;
+    font-size: inherit;
+    height: 48px;
+    align-items: center;
+    padding: 0 24px;
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+
+    &:active {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        color: v(button-bg);
+    }
+}
+.statusSuggestion__icon{
+    margin-right: 10px;
+}
+
+.statusSuggestion__title{
+    font-weight: 700;
+}
+
+.statusSuggestion__text{
+    font-weight: 600;
+}
+
+.custom-status-button > span:first-child > span.icon {
+    display: flex;
+}
+
+.custom-status-emoji > span:first-child {
+    background-size: 20px;
 }
