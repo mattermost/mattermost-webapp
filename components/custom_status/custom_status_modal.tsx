@@ -18,6 +18,8 @@ import messageHtmlToComponent from 'utils/message_html_to_component';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 
+import CustomStatusSuggestion from './custom_status_suggestion';
+
 type Props = {
     onHide: () => void;
 };
@@ -119,26 +121,15 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                     {'Recent Statuses'}
                 </span>
             </div>
-            {recentCustomStatuses.map((status: any) => (
-                <div
-                    key={status.text}
-                    className='statusSuggestion__row cursor--pointer a11y--active'
-                    onClick={
-                        () => handleSuggestion(status)
-                    }
-                >
-                    <div className='statusSuggestion__icon'>
-                        {messageHtmlToComponent(
-                            `<span data-emoticon="${status.emoji}" class="custom-status-emoji"/>`,
-                            false,
-                            {emoji: true},
-                        )}
-                    </div>
-                    <span className='statusSuggestion__text'>
-                        {status.text}
-                    </span>
-                </div>
-            ))
+            {
+                recentCustomStatuses.map((status: any) => (
+                    <CustomStatusSuggestion
+                        key={text}
+                        handleSuggestion={handleSuggestion}
+                        emoji={status.emoji}
+                        text={status.text}
+                    />
+                ))
             }
         </>
     );
@@ -146,112 +137,32 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const suggestion = (
         <div className='statusSuggestion'>
             <div className='statusSuggestion__content'>
-                <div
-                    className='statusSuggestion__row cursor--pointer a11y--active'
-                    onClick={
-                        () => handleSuggestion(
-                            {
-                                emoji: 'calendar',
-                                text: 'In a meeting',
-                            })
-                    }
-                >
-                    <div className='statusSuggestion__icon'>
-                        {messageHtmlToComponent(
-                            '<span data-emoticon="calendar" class="custom-status-emoji"/>',
-                            false,
-                            {emoji: true},
-                        )}
-                    </div>
-                    <span className='statusSuggestion__text'>
-                        {'In a meeting'}
-                    </span>
-                </div>
-                <div
-                    className='statusSuggestion__row cursor--pointer a11y--active'
-                    onClick={
-                        () => handleSuggestion(
-                            {
-                                emoji: 'hamburger',
-                                text: 'Out for lunch',
-                            })
-                    }
-                >
-                    <div className='statusSuggestion__icon'>
-                        {messageHtmlToComponent(
-                            '<span data-emoticon="hamburger" class="custom-status-emoji"/>',
-                            false,
-                            {emoji: true},
-                        )}
-                    </div>
-                    <span className='statusSuggestion__text'>
-                        {'Out for lunch'}
-                    </span>
-                </div>
-                <div
-                    className='statusSuggestion__row cursor--pointer a11y--active'
-                    onClick={
-                        () => handleSuggestion(
-                            {
-                                emoji: 'sneezing_face',
-                                text: 'Out Sick',
-                            })
-                    }
-                >
-                    <div className='statusSuggestion__icon'>
-                        {messageHtmlToComponent(
-                            '<span data-emoticon="sneezing_face" class="custom-status-emoji"/>',
-                            false,
-                            {emoji: true},
-                        )}
-                    </div>
-                    <span className='statusSuggestion__text'>
-                        {'Out Sick'}
-                    </span>
-                </div>
-                <div
-                    className='statusSuggestion__row cursor--pointer a11y--active'
-                    onClick={
-                        () => handleSuggestion(
-                            {
-                                emoji: 'house',
-                                text: 'Working from home',
-                            })
-                    }
-                >
-                    <div className='statusSuggestion__icon'>
-                        {messageHtmlToComponent(
-                            '<span data-emoticon="house" class="custom-status-emoji"/>',
-                            false,
-                            {emoji: true},
-                        )}
-                    </div>
-                    <span className='statusSuggestion__text'>
-                        {'Working from home'}
-                    </span>
-                </div>
-                <div
-                    className='statusSuggestion__row cursor--pointer a11y--active'
-                    onClick={
-                        () => handleSuggestion(
-                            {
-                                emoji: 'palm_tree',
-                                text: 'On a vacation',
-                            })
-                    }
-                >
-                    <div className='statusSuggestion__icon'>
-                        {messageHtmlToComponent(
-                            '<span data-emoticon="palm_tree" class="custom-status-emoji"/>',
-                            false,
-                            {emoji: true},
-                        )}
-                    </div>
-                    <span className='statusSuggestion__text'>
-                        {'On a vacation'}
-                    </span>
-                </div>
-                {recentStatuses}
+                <CustomStatusSuggestion
+                    handleSuggestion={handleSuggestion}
+                    emoji={'calendar'}
+                    text={'In a meeting'}
+                />
+                <CustomStatusSuggestion
+                    handleSuggestion={handleSuggestion}
+                    emoji={'hamburger'}
+                    text={'Out for lunch'}
+                />
+                <CustomStatusSuggestion
+                    handleSuggestion={handleSuggestion}
+                    emoji={'sneezing_face'}
+                    text={'Out Sick'}
+                />
+                <CustomStatusSuggestion
+                    handleSuggestion={handleSuggestion}
+                    emoji={'house'}
+                    text={'Working from home'}
+                />
+                <CustomStatusSuggestion
+                    handleSuggestion={handleSuggestion}
+                    emoji={'palm_tree'}
+                    text={'On a vacation'}
+                />
+                {recentCustomStatuses.length > 0 && recentStatuses}
             </div>
         </div>
     );
