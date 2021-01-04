@@ -341,20 +341,6 @@
                 }
             }
 
-            .SubMenuItem > div {
-                padding-top: 2px;
-                padding-bottom: 2px;
-
-                @media screen and (max-width: 768px) {
-                    margin-left: 4px;
-                }
-            }
-
-            .SubMenu__icon-right {
-                margin-right: -32px;
-                padding-right: 20px;
-            }
-
             #SidebarChannelMenu-moveToDivider {
                 pointer-events: none;
 

@@ -2,19 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
-import EmojiListItem from './emoji_list_item.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 
-function mapStateToProps(state, ownProps) {
-    const emoji = state.entities.emojis.customEmoji[ownProps.emojiId];
+import {GlobalState} from '../../../types/store';
+
+import EmojiListItem, {Props} from './emoji_list_item';
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
+    const emoji = state.entities.emojis.customEmoji[ownProps.emojiId!];
     const creator = getUser(state, emoji.creator_id);
 
     return {
@@ -26,7 +30,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             deleteCustomEmoji,
