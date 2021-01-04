@@ -93,11 +93,13 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
 * @param {String} message - message in a post
 * @param {Object} channelId - where a post will be posted
 */
-Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt}) => {
+Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt, failOnStatus = true}) => {
     const baseUrl = Cypress.config('baseUrl');
 
     return cy.task('postBotMessage', {token, message, props, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
-        expect(status).to.equal(201);
+        if (failOnStatus) {
+            expect(status).to.equal(201);
+        }
 
         // # Return the data so it can be interacted in a test
         return cy.wrap({id: data.id, status, data});
