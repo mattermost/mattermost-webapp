@@ -16,7 +16,9 @@ import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {getItemFromStorage} from 'selectors/storage';
 import {GlobalState} from 'types/store';
@@ -35,18 +37,32 @@ export function isUnreadFilterEnabled(state: GlobalState) {
     return state.views.channelSidebar.unreadFilterEnabled;
 }
 
+export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategory[] = (() => {
+    const getCategoriesForTeam = makeGetCategoriesForTeam();
+
+    return memoizeResult((state: GlobalState) => {
+        const currentTeamId = getCurrentTeamId(state);
+        return getCategoriesForTeam(state, currentTeamId);
+    });
+})();
+
+export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => RelationOneToOne<ChannelCategory, Channel[]> = (() => {
+    const getChannelsByCategory = makeGetChannelsByCategory();
+
+    return memoizeResult((state: GlobalState) => {
+        const currentTeamId = getCurrentTeamId(state);
+        return getChannelsByCategory(state, currentTeamId);
+    });
+})();
+
 // getChannelsInCategoryOrder returns an array of channels on the current team that are currently visible in the sidebar.
 // Channels are returned in the same order as in the sidebar.
 export const getChannelsInCategoryOrder = (() => {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
-    const getChannelsByCategory = makeGetChannelsByCategory();
-
-    const getCollapsedStateForAllCategories = createSelector(
+    const getCollapsedStateForAllCategories = createIdsSelector(
         getPrefix,
-        (state: GlobalState) => getCategoriesForTeam(state, getCurrentTeamId(state)),
+        getCategoriesForCurrentTeam,
         (state: GlobalState) => state.storage.storage,
         (prefix, categories, storage) => {
-            // return categories.map((category: ChannelCategory) => isCategoryCollapsedFromStorage(prefix, storage, category.id));
             return categories.reduce((map: Record<string, boolean>, category: ChannelCategory) => {
                 map[category.id] = isCategoryCollapsedFromStorage(prefix, storage, category.id);
                 return map;
@@ -56,8 +72,8 @@ export const getChannelsInCategoryOrder = (() => {
 
     return createSelector(
         getCollapsedStateForAllCategories,
-        (state: GlobalState) => getCategoriesForTeam(state, getCurrentTeamId(state)),
-        (state: GlobalState) => getChannelsByCategory(state, getCurrentTeamId(state)),
+        getCategoriesForCurrentTeam,
+        getChannelsByCategoryForCurrentTeam,
         getCurrentChannelId,
         (state: GlobalState) => getUnreadChannelIds(state),
         (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds) => {

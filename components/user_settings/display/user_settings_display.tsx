@@ -91,7 +91,7 @@ type Props = {
     collapseDisplay: string;
     linkPreviewDisplay: string;
     actions: {
-        savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };

@@ -113,7 +113,7 @@ describe('Messaging', () => {
         cy.get('#quickSwitchHint').should('be.visible');
 
         //# Type channel name 'Off-Topic' and select it
-        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('Off-Topic').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         //* Verify that it redirected into selected channel 'Off-Topic'
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');

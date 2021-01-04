@@ -25,52 +25,34 @@ describe('Main menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.get('#lhsHeader').should('be.visible').within(() => {
-            cy.get('#sidebarHeaderDropdownButton').click();
-            cy.get('.dropdown-menu').should('be.visible');
-            cy.get('#accountSettings').should('be.visible').click();
-            cy.get('.dropdown-menu').should('not.be.visible');
-        });
+        cy.uiOpenMainMenu();
+        cy.findByRole('menu').should('exist').findByText('Account Settings').click();
+        cy.findByRole('menu').should('not.exist');
     });
 
     it('MM-T711_2 - Click on menu divider shouldn\'t toggle the menu', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        cy.get('#lhsHeader').should('be.visible').within(() => {
-            cy.get('#sidebarHeaderDropdownButton').click();
-            cy.get('.dropdown-menu').should('be.visible').within((el) => {
-                cy.get('.menu-divider:visible').first().click();
-                cy.wrap(el).should('be.visible');
-            });
-        });
+        cy.uiOpenMainMenu();
+
+        cy.findByRole('menu').should('exist').find('.menu-divider:visible').first().click();
+        cy.findByRole('menu').should('exist');
     });
 
-    describe('should show integrations option', () => {
-        it('for system administrator', () => {
-            cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+    it('should show integrations option for system administrator', () => {
+        cy.apiAdminLogin();
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
-                cy.get('#sidebarHeaderDropdownButton').click();
-                cy.get('.dropdown-menu').should('be.visible').within(() => {
-                    cy.get('#integrations').should('be.visible');
-                });
-            });
-        });
+        cy.uiOpenMainMenu();
+        cy.findByRole('menu').findByText('Integrations').should('be.visible');
     });
 
-    describe('should not show integrations option', () => {
-        it('for team member without permissions', () => {
-            cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+    it('should not show integrations option for team member without permissions', () => {
+        cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
-            cy.get('#lhsHeader').should('be.visible').within(() => {
-                cy.get('#sidebarHeaderDropdownButton').click();
-                cy.get('.dropdown-menu').should('be.visible').within(() => {
-                    cy.get('#integrations').should('not.be.visible');
-                });
-            });
-        });
+        cy.uiOpenMainMenu();
+        cy.findByRole('menu').findByText('Integrations').should('not.exist');
     });
 });
