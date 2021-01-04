@@ -185,7 +185,7 @@ describe('ad_ldap', () => {
                 cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
                     // # Skip the tutorial
                     cy.doSkipTutorial();
-                    cy.keycloakSuspendUser(testSettings.token, testSettings.user.keycloakId).then(() => {
+                    cy.keycloakSuspendUser(testSettings.user.keycloakId).then(() => {
                         // refresh make sure not logged out.
                         cy.reload();
 
@@ -195,7 +195,7 @@ describe('ad_ldap', () => {
                                 // * verify login failed.
                                 cy.verifyKeycloakLoginFailed().then(() => {
                                     // # activate user in keycloak
-                                    cy.keycloakUnsuspendUser(testSettings.token, testSettings.user.keycloakId).then(() => {
+                                    cy.keycloakUnsuspendUser(testSettings.user.keycloakId).then(() => {
                                         // # login again
                                         cy.findByText('Password').type(testSettings.user.password);
                                         cy.findAllByText('Log In').last().click();

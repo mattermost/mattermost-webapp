@@ -131,48 +131,45 @@ describe('ad_ldap', () => {
                 });
             }
         }).then(() => {
-            // # make sure no keycloak session exists
-            cy.keycloakDeleteSession(testSettings.token, testSettings.user.keycloakId).then(() => {
-                // # MM Login via SAML
-                cy.doSamlLogin(testSettings).then(() => {
-                    // # Login to Keycloak
-                    cy.doKeycloakLogin(testSettings.user).then(() => {
-                        // # Create team if no membership
-                        cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                            // # Skip the tutorial
-                            cy.doSkipTutorial();
+            // # MM Login via SAML
+            cy.doSamlLogin(testSettings).then(() => {
+                // # Login to Keycloak
+                cy.doKeycloakLogin(testSettings.user).then(() => {
+                    // # Create team if no membership
+                    cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
+                        // # Skip the tutorial
+                        cy.doSkipTutorial();
 
-                            // # run LDAP Sync
-                            // * check that it ran successfully
-                            cy.runLdapSync(admin, baseUrl).then(() => {
-                                // # User is not logged out, log out now
-                                cy.doLDAPLogout(testSettings);
+                        // # run LDAP Sync
+                        // * check that it ran successfully
+                        cy.runLdapSync(admin, baseUrl).then(() => {
+                            // # User is not logged out, log out now
+                            cy.doLDAPLogout(testSettings);
 
-                                // * Verify if the regular member is logged out and redirected to login page
-                                cy.doSamlLogin(testSettings).then(() => {
-                                    // # Login to Keycloak
-                                    cy.doKeycloakLogin(testSettings.user).then(() => {
-                                        // * Verify an error is received.
-                                        cy.findByText('An account with that email already exists.');
+                            // * Verify if the regular member is logged out and redirected to login page
+                            cy.doSamlLogin(testSettings).then(() => {
+                                // # Login to Keycloak
+                                cy.doKeycloakLogin(testSettings.user).then(() => {
+                                    // * Verify an error is received.
+                                    cy.findByText('An account with that email already exists.');
 
-                                        // # Back to login again
-                                        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
+                                    // # Back to login again
+                                    cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
 
-                                        // # update username in keycloak for successful login
-                                        cy.keycloakUpdateUserAPI(testSettings.token, testSettings.user.keycloakId, {username: 'e2etest.three.ldap'}).then(() => {
-                                            cy.doSamlLogin(testSettings).then(() => {
-                                                cy.doKeycloakLogin(testSettings.user).then(() => {
-                                                    cy.doSkipTutorial();
+                                    // # update username in keycloak for successful login
+                                    cy.keycloakUpdateUser(testSettings.user.keycloakId, {username: 'e2etest.three.ldap'}).then(() => {
+                                        cy.doSamlLogin(testSettings).then(() => {
+                                            cy.doKeycloakLogin(testSettings.user).then(() => {
+                                                cy.doSkipTutorial();
+
+                                                // * check the user settings
+                                                cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+                                                cy.runLdapSync(admin, baseUrl).then(() => {
+                                                    // # Initiate browser activity like visit on test channel
+                                                    cy.reload();
 
                                                     // * check the user settings
-                                                    cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
-                                                    cy.runLdapSync(admin, baseUrl).then(() => {
-                                                        // # Initiate browser activity like visit on test channel
-                                                        cy.reload();
-
-                                                        // * check the user settings
-                                                        cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
-                                                    });
+                                                    cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
                                                 });
                                             });
                                         });

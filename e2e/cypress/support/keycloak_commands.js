@@ -21,10 +21,6 @@ function buildProfile(user) {
     };
 }
 
-/**
-* keycloakGetAccessTokenAPI is a task wrapped as command with post-verification
-* that an Access Token is successfully retrieved
-*/
 Cypress.Commands.add('keycloakGetAccessTokenAPI', () => {
     cy.task('keycloakRequest', {
         baseUrl: loginUrl,
@@ -39,13 +35,7 @@ Cypress.Commands.add('keycloakGetAccessTokenAPI', () => {
     });
 });
 
-/**
-* keycloakCreateUserAPI is a task wrapped as command with post-verification
-* that a user is successfully created in keycloak
-* @param {String} token - a valid access token
-* @param {object} user - a user object to create
-*/
-Cypress.Commands.add('keycloakCreateUserAPI', (token, user = {}) => {
+Cypress.Commands.add('keycloakCreateUserAPI', (accessToken, user = {}) => {
     const profile = buildProfile(user);
     cy.task('keycloakRequest', {
         baseUrl,
@@ -54,21 +44,21 @@ Cypress.Commands.add('keycloakCreateUserAPI', (token, user = {}) => {
         data: profile,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
     });
 });
 
-Cypress.Commands.add('keycloakResetPasswordAPI', (token, userId, password) => {
+Cypress.Commands.add('keycloakResetPasswordAPI', (accessToken, userId, password) => {
     cy.task('keycloakRequest', {
         baseUrl,
         path: `users/${userId}/reset-password`,
         method: 'put',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
         },
         data: {type: 'password', temporary: false, value: password},
     }).then((response) => {
@@ -79,28 +69,14 @@ Cypress.Commands.add('keycloakResetPasswordAPI', (token, userId, password) => {
     });
 });
 
-Cypress.Commands.add('keycloakGetUsersAPI', (token, filter) => {
-    cy.task('keycloakRequest', {
-        baseUrl,
-        path: `users?${filter}`,
-        method: 'get',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-    }).then((response) => {
-        return response.data;
-    });
-});
-
-Cypress.Commands.add('keycloakGetUserAPI', (token, email) => {
+Cypress.Commands.add('keycloakGetUserAPI', (accessToken, email) => {
     cy.task('keycloakRequest', {
         baseUrl,
         path: 'users?email=' + email,
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
         },
     }).then((response) => {
         if (response.status === 200 && response.data.length > 0) {
@@ -125,99 +101,73 @@ Cypress.Commands.add('keycloakDeleteUserAPI', (accessToken, userId) => {
     });
 });
 
-Cypress.Commands.add('keycloakSuspendUserAPI', (token, userId) => {
-    cy.keycloakGetAccessTokenAPI(token).then((accessToken) => {
-        cy.task('keycloakRequest', {
-            baseUrl,
-            path: 'users/' + userId,
-            method: 'put',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            data: {enabled: false},
-        }).then((response) => {
-            expect(response.status).to.equal(204);
-            expect(response.data).is.empty;
-        });
+Cypress.Commands.add('keycloakUpdateUserAPI', (accessToken, userId, data) => {
+    cy.task('keycloakRequest', {
+        baseUrl,
+        path: 'users/' + userId,
+        method: 'put',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        data,
+    }).then((response) => {
+        expect(response.status).to.equal(204);
+        expect(response.data).is.empty;
     });
 });
 
-Cypress.Commands.add('keycloakUnsuspendUserAPI', (token, userId) => {
-    cy.keycloakGetAccessTokenAPI(token).then((accessToken) => {
-        cy.task('keycloakRequest', {
-            baseUrl,
-            path: 'users/' + userId,
-            method: 'put',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            data: {enabled: true},
-        }).then((response) => {
-            expect(response.status).to.equal(204);
-            expect(response.data).is.empty;
-        });
+Cypress.Commands.add('keycloakDeleteSessionAPI', (accessToken, sessionId) => {
+    cy.task('keycloakRequest', {
+        baseUrl,
+        path: `sessions/${sessionId}`,
+        method: 'delete',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    }).then((delResponse) => {
+        expect(delResponse.status).to.equal(204);
+        expect(delResponse.data).is.empty;
     });
 });
 
-Cypress.Commands.add('keycloakUpdateUserAPI', (token, userId, data) => {
-    cy.keycloakGetAccessTokenAPI(token).then((accessToken) => {
-        cy.task('keycloakRequest', {
-            baseUrl,
-            path: 'users/' + userId,
-            method: 'put',
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            data,
-        }).then((response) => {
-            expect(response.status).to.equal(204);
-            expect(response.data).is.empty;
-        });
+Cypress.Commands.add('keycloakGetUserSessionsAPI', (accessToken, userId) => {
+    cy.task('keycloakRequest', {
+        baseUrl,
+        path: `users/${userId}/sessions`,
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        expect(response.data);
+        return response.data;
     });
 });
 
-Cypress.Commands.add('keycloakDeleteSession', (token, userId) => {
-    cy.keycloakGetAccessTokenAPI(token).then((accessToken) => {
-        cy.task('keycloakRequest', {
-            baseUrl,
-            path: `users/${userId}/sessions`,
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-        }).then((response) => {
-            expect(response.status).to.equal(200);
-            expect(response.data);
-            if (response.data.length > 0) {
-                const sessionId = response.data[0].id;
-                cy.task('keycloakRequest', {
-                    baseUrl,
-                    path: `sessions/${sessionId}`,
-                    method: 'delete',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }).then((delResponse) => {
-                    expect(delResponse.status).to.equal(204);
-                    expect(delResponse.data).is.empty;
+Cypress.Commands.add('keycloakDeleteUserSessions', (accessToken, userId) => {
+    cy.keycloakGetUserSessionsAPI(accessToken, userId).then((responseData) => {
+        if (responseData.length > 0) {
+            Object.values(responseData).forEach((data) => {
+                const sessionId = data.id;
+                cy.keycloakDeleteSession(accessToken, sessionId);
+            });
 
-                    // Ensure we clear out these specific cookies
-                    ['JSESSIONID'].forEach((cookie) => {
-                        cy.clearCookie(cookie);
-                    });
-                });
-            }
-        });
+            // Ensure we clear out these specific cookies
+            ['JSESSIONID'].forEach((cookie) => {
+                cy.clearCookie(cookie);
+            });
+        }
     });
 });
 
 Cypress.Commands.add('keycloakResetUsers', (users) => {
     cy.keycloakGetAccessTokenAPI().then((accessToken) => {
         Object.values(users).forEach((_user) => {
-            cy.keycloakGetUsersAPI(accessToken, `email=${_user.email}`).then((existingUsers) => {
-                if (existingUsers.length > 0) {
-                    cy.keycloakDeleteUserAPI(accessToken, existingUsers[0].id);
+            cy.keycloakGetUserAPI(accessToken, _user.email).then((userId) => {
+                if (userId) {
+                    cy.keycloakDeleteUserAPI(accessToken, userId);
                 }
             }).then(() => {
                 cy.keycloakCreateUser(accessToken, _user).then((_id) => {
@@ -232,7 +182,7 @@ Cypress.Commands.add('keycloakCreateUser', (accessToken, user) => {
     cy.keycloakCreateUserAPI(accessToken, user).then(() => {
         cy.keycloakGetUserAPI(accessToken, user.email).then((newId) => {
             cy.keycloakResetPasswordAPI(accessToken, newId, user.password).then(() => {
-                cy.keycloakDeleteSession(accessToken, newId).then(() => {
+                cy.keycloakDeleteUserSessions(accessToken, newId).then(() => {
                     return newId;
                 });
             });
@@ -240,14 +190,20 @@ Cypress.Commands.add('keycloakCreateUser', (accessToken, user) => {
     });
 });
 
-Cypress.Commands.add('keycloakSuspendUser', (token, userId) => {
-    const data = {enabled: false};
-    cy.keycloakUpdateUserAPI(token, userId, data);
+Cypress.Commands.add('keycloakUpdateUser', (userId, data) => {
+    cy.keycloakGetAccessTokenAPI().then((accessToken) => {
+        return cy.keycloakUpdateUserAPI(accessToken, userId, data);
+    });
 });
 
-Cypress.Commands.add('keycloakUnsuspendUser', (token, userId) => {
+Cypress.Commands.add('keycloakSuspendUser', (userId) => {
+    const data = {enabled: false};
+    cy.keycloakUpdateUser(userId, data);
+});
+
+Cypress.Commands.add('keycloakUnsuspendUser', (userId) => {
     const data = {enabled: true};
-    cy.keycloakUpdateUserAPI(token, userId, data);
+    cy.keycloakUpdateUser(userId, data);
 });
 
 Cypress.Commands.add('checkKeycloakLoginPage', () => {

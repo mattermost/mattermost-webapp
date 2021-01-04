@@ -113,6 +113,22 @@ declare namespace Cypress {
         apiGetUserByEmail(email: string): Chainable<UserProfile>;
 
         /**
+         * Get a user by email, does not check for error. If user is not found,
+         * must be handled by the calling function.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1email~1{email}/get
+         * @param {String} email - email address of a user to get profile
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiGetUserByEmailNoError('email').then(({user}) => {
+         *      if(user){
+         *        // do something with user
+         *      }
+         *   });
+         */
+        apiGetUserByEmailNoError(email: string): Chainable<UserProfile>;
+
+        /**
          * Get users by usernames.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1usernames/post
          * @param {String[]} usernames - list of usernames to get profiles
@@ -340,5 +356,15 @@ declare namespace Cypress {
          *   cy.apiUpdateUserAuth('user-id', 'auth-data', 'password', 'auth-service');
          */
         apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
+
+        /**
+         * Update a user's auth data
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+         * @param {String} userId - ID of user to patch
+         * @param {String} authData - the new auth data to set
+         * @example
+         *   cy.apiUpdateAuthData('user-id', {auth_data: 'newdata', auth_service: 'saml'});
+         */
+        apiUpdateAuthData(userId: string, authData: string): Chainable<Response>;
     }
 }
