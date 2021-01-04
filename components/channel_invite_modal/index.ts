@@ -24,7 +24,7 @@ type Props = {
 }
 
 function makeMapStateToProps(initialState: GlobalState, initialProps: Props) {
-    let doGetProfilesNotInChannel: (state: GlobalState, channelId: string, filters?: any) => Array<UserProfile>;
+    let doGetProfilesNotInChannel: (state: GlobalState, channelId: string, filters?: any) => UserProfile[];
     if (initialProps.channelId && initialProps.teamId) {
         doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
     }

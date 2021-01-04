@@ -15,8 +15,8 @@ const PAGE_SIZE = 10;
 
 type Props = {
     userId: string;
-    headerLabels: Record<string, any>[];
-    data: Record<string, any>[];
+    headerLabels: Array<Record<string, any>>;
+    data: Array<Record<string, any>>;
     onPageChangedCallback?: (paging: Paging) => void;
     total: number;
     renderRow: (item: {[x: string]: string}) => JSX.Element;
