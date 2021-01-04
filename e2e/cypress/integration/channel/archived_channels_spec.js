@@ -13,8 +13,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
-import {createPrivateChannel} from '../enterprise/elasticsearch_autocomplete/helpers';
-
 describe('Leave an archived channel', () => {
     let testTeam;
     let testUser;
@@ -159,37 +157,6 @@ describe('Leave an archived channel', () => {
         });
     });
 
-    it('MM-T1696 - When clicking Browse Channels no options for archived channels are shown when the feature is disabled', () => {
-        cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-            TeamSettings: {
-                ExperimentalViewArchivedChannels: false,
-            },
-        });
-
-        // # Create public channel
-        cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
-            // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-
-            // # Archive the channel
-            cy.uiArchiveChannel();
-
-            // # Click on add channel button
-            cy.get('.AddChannelDropdown_dropdownButton').click();
-
-            // # Click on browse channels
-            cy.get('#showMoreChannels').click();
-
-            // # Modal should not contain the created channel
-            cy.get('#channelsMoreDropdown').should('not.be.visible');
-            cy.get('#moreChannelsList').should('not.contain', channel.name);
-        });
-    });
-
     it('MM-T1697 - Browse Public channels shows archived channels option', () => {
         // # Create public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
@@ -200,7 +167,7 @@ describe('Leave an archived channel', () => {
             cy.uiArchiveChannel();
 
             // # Click on add channel button
-            cy.get('.AddChannelDropdown_dropdownButton').click();
+            cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
 
             // # Click on browse channels
             cy.get('#showMoreChannels').click();
@@ -216,16 +183,17 @@ describe('Leave an archived channel', () => {
                 // # Modal should contain created channel
                 cy.get('#moreChannelsList').should('contain', channel.display_name);
             });
+
+            cy.get('body').type('{esc}', {force: true});
         });
     });
 
     it('MM-T1699 - Browse Channels for all channel types shows archived channels option', () => {
-        cy.apiAdminLogin();
         let archivedPrivateChannel;
         let archivedPublicChannel;
 
         // # Create private channel
-        createPrivateChannel(testTeam.id).then((channel) => {
+        cy.uiCreateChannel({isPrivate: true, isNewSidebar: true}).as('channel').then((channel) => {
             archivedPrivateChannel = channel;
 
             // # Visit the channel
@@ -247,7 +215,7 @@ describe('Leave an archived channel', () => {
         });
 
         // # Click on add channel button
-        cy.get('.AddChannelDropdown_dropdownButton').click();
+        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
 
         // # Click on browse channels
         cy.get('#showMoreChannels').click();
@@ -261,9 +229,10 @@ describe('Leave an archived channel', () => {
             cy.findByText('Archived Channels').click();
 
             // # Channel list should contain newly created channels
-            cy.get('#moreChannelsList').should('contain', archivedPrivateChannel.display_name);
+            cy.get('#moreChannelsList').should('contain', archivedPrivateChannel.name);
             cy.get('#moreChannelsList').should('contain', archivedPublicChannel.display_name);
         });
+        cy.get('body').type('{esc}', {force: true});
     });
 
     it('MM-T1700 - All archived public channels are shown Important', () => {
@@ -299,7 +268,7 @@ describe('Leave an archived channel', () => {
         });
 
         // # Click on add channel button
-        cy.get('.AddChannelDropdown_dropdownButton').click();
+        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
 
         // # Click on browse channels
         cy.get('#showMoreChannels').click();
@@ -316,15 +285,15 @@ describe('Leave an archived channel', () => {
             cy.get('#moreChannelsList').should('contain', archivedPublicChannel1.display_name);
             cy.get('#moreChannelsList').should('contain', archivedPublicChannel2.display_name);
         });
+        cy.get('body').type('{esc}', {force: true});
     });
 
     it('MM-T1701 - Only Private channels you are a member of are displayed', () => {
-        cy.apiAdminLogin();
         let archivedPrivateChannel1;
         let archivedPrivateChannel2;
 
         // # Create private channel
-        createPrivateChannel(testTeam.id).then((channel) => {
+        cy.uiCreateChannel({isPrivate: true, isNewSidebar: true}).as('channel').then((channel) => {
             archivedPrivateChannel1 = channel;
 
             // # Visit the channel
@@ -335,7 +304,7 @@ describe('Leave an archived channel', () => {
         });
 
         // # Create another private channel
-        createPrivateChannel(testTeam.id).then((channel) => {
+        cy.uiCreateChannel({isPrivate: true, isNewSidebar: true}).as('channel').then((channel) => {
             archivedPrivateChannel2 = channel;
 
             // # Visit the channel
@@ -353,7 +322,7 @@ describe('Leave an archived channel', () => {
         cy.get('#confirmModalButton').click();
 
         // # Click on add channel button
-        cy.get('.AddChannelDropdown_dropdownButton').click();
+        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
 
         // # Click on browse channels
         cy.get('#showMoreChannels').click();
@@ -367,9 +336,10 @@ describe('Leave an archived channel', () => {
             cy.findByText('Archived Channels').click();
 
             // # Channel list should contain only the private channel user is a member of
-            cy.get('#moreChannelsList').should('contain', archivedPrivateChannel1.display_name);
-            cy.get('#moreChannelsList').should('not.contain', archivedPrivateChannel2.display_name);
+            cy.get('#moreChannelsList').should('contain', archivedPrivateChannel1.name);
+            cy.get('#moreChannelsList').should('not.contain', archivedPrivateChannel2.name);
         });
+        cy.get('body').type('{esc}', {force: true});
     });
 
     it('MM-T1703 - User can open archived channels', () => {
@@ -387,7 +357,7 @@ describe('Leave an archived channel', () => {
         });
 
         // # Click on add channel button
-        cy.get('.AddChannelDropdown_dropdownButton').click();
+        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
 
         // # Click on browse channels
         cy.get('#showMoreChannels').click();
@@ -402,5 +372,38 @@ describe('Leave an archived channel', () => {
             // # More channels list should contain the archived channel
             cy.get('#moreChannelsList').should('contain', archivedChannel.display_name);
         });
+        cy.get('body').type('{esc}', {force: true});
+    });
+
+    it('MM-T1696 - When clicking Browse Channels no options for archived channels are shown when the feature is disabled', () => {
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ExperimentalChannelSidebarOrganization: 'default_on',
+            },
+            TeamSettings: {
+                ExperimentalViewArchivedChannels: false,
+            },
+        });
+
+        // # Create public channel
+        cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
+            // # Visit the channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            // # Archive the channel
+            cy.uiArchiveChannel();
+
+            // # Click on add channel button
+            cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
+
+            // # Click on browse channels
+            cy.get('#showMoreChannels').click();
+
+            // # Modal should not contain the created channel
+            cy.get('#channelsMoreDropdown').should('not.be.visible');
+            cy.get('#moreChannelsList').should('not.contain', channel.name);
+        });
+        cy.get('body').type('{esc}', {force: true});
     });
 });
