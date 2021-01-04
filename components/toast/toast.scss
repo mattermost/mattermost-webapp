@@ -76,61 +76,6 @@
         }
 }
 
-.toast__hint {
-    left: 50%;
-    z-index: 3;
-
-    width: auto;
-    height: auto;
-    margin-top: 16px;
-    margin-left: 0;
-    margin-right: 0;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border: 1px solid var(--center-channel-color-16);
-
-    font-size: 14px;
-    color: var(--center-channel-color);
-
-    background-color: var(--center-channel-bg);
-    transform: translateX(-50%);
-    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
-
-    .toast__message {
-        position: static;
-
-        display: inline-block;
-        height: auto;
-        padding-left: 12px;
-        vertical-align: middle;
-
-        line-height: 20px;
-    }
-
-    .toast__dismiss {
-        position: static;
-
-        display: inline-block;
-        height: auto;
-
-        &:hover {
-            background-color: var(--center-channel-bg);
-
-            svg {
-                fill: var(--center-channel-color-72);
-            }
-        }
-
-        svg {
-            fill: var(--center-channel-color-56);
-        }
-
-        .close-btn {
-            line-height: normal;
-        }
-    }
-}
-
 .toast__history {
     background-color: rgb(216, 216, 216);
     color: rgb(61, 60, 64);

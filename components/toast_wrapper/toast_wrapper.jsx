@@ -13,6 +13,7 @@ import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 import {SearchShortcut} from 'components/search_shortcut/search_shortcut';
+import {HintToast} from 'components/hint-toast/hint_toast';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 const THRESHOLD_FROM_BOTTOM = 1000;
@@ -375,16 +376,13 @@ class ToastWrapper extends React.PureComponent {
         }
 
         if (showSearchHintToast) {
-            const searchHintToastProps = {
-                show: true,
-                onDismiss: this.hideSearchHintToast,
-                extraClasses: 'toast__hint',
-            };
-
             return (
-                <Toast {...searchHintToastProps}>
+                <HintToast
+                    onDismiss={this.hideSearchHintToast}
+                    width={width}
+                >
                     {this.getSearchHintToastText()}
-                </Toast>
+                </HintToast>
             );
         }
 

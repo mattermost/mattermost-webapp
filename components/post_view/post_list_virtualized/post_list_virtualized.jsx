@@ -272,6 +272,7 @@ class PostList extends React.PureComponent {
             this.setState({
                 isMobile,
                 dynamicListStyle,
+                showSearchHint: !isMobile,
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
