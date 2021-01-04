@@ -10,15 +10,22 @@
     "env": {
         "adminUsername": "sysadmin",
         "adminPassword": "Sys@dmin-sample1",
-        "dbClient": "mysql",
-        "dbConnection": "mysql://mmuser:mostest@localhost:3306/mattermost_test?charset=utf8mb4&readTimeout=30s&writeTimeout=30s",
+        "dbClient": "postgres",
+        "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
+        "adminEmail": "sysadmin@sample.mattermost.com",
+        "ciBaseUrl": "",
         "enableApplitools": false,
         "enableVisualTest": false,
         "ldapServer": "localhost",
         "ldapPort": 389,
+        "numberOfTrialUsers": 100,
         "runLDAPSync": true,
         "resetBeforeTest": false,
+        "smtpUrl": "http://localhost:10080",
         "storybookUrl": "http://localhost:6006/",
-        "webhookBaseUrl": "http://localhost:3000"
+        "webhookBaseUrl": "http://localhost:3000",
+        "AWS_S3_BUCKET": "",
+        "AWS_ACCESS_KEY_ID": "",
+        "AWS_SECRET_ACCESS_KEY": ""
     }
 }

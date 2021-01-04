@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import {toggleShortcutsModal} from 'actions/global_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 import Card from 'components/card/card';
@@ -95,7 +95,7 @@ type Props = {
     showFinalScreen: boolean;
     animating: boolean;
     currentUserId: string;
-    isFirstAdmin: boolean,
+    isFirstAdmin: boolean;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;

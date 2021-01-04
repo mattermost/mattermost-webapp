@@ -19,7 +19,7 @@ import SizeAwareImage from 'components/size_aware_image';
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
@@ -478,6 +478,7 @@ export default class MessageAttachment extends React.PureComponent {
             <div
                 className={'attachment ' + preTextClass}
                 ref='attachment'
+                onClick={this.handleFormattedTextClick}
             >
                 {preText}
                 <div className='attachment__content'>
@@ -490,7 +491,6 @@ export default class MessageAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                                onClick={this.handleFormattedTextClick}
                             >
                                 {attachmentText}
                                 {image}

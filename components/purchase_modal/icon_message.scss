@@ -1,0 +1,94 @@
+.IconMessage {
+    display: block;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0px; left: 0; bottom: 0; right: 0;
+    .content {
+        &.success {
+            padding-left: 7px;
+            padding-bottom: 2px;
+        }
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        .IconMessage-h3 {
+            font-size: 24px;
+            line-height: 32px;
+            color: var(--center-channel-color);
+            margin-top: 43px;
+            font-weight: 600;
+
+            @media screen and (max-width: 600px) {
+                font-size: 36px;
+                line-height: 42px;
+                letter-spacing: -0.13px;
+            }
+        }
+
+        .IconMessage-sub {
+            &.error {
+                color: #DB3214;
+            }
+
+            margin-top: 16px;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 20px;
+            color: var(--center-channel-color);
+        }
+
+        .IconMessage-img {
+        }
+
+        .IconMessage-progress {
+            margin: 0 auto;
+            margin-top: 90px;
+            height: 4px;
+            width: 387px;
+            background: rgba(34, 64, 109, 0.12);
+            border-radius: 4px;
+        }
+
+        .IconMessage-progress-fill {
+            height: 100%;
+            background: #0058CC;
+            border-radius: 4px;
+        }
+
+        .IconMessage-button {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 16px;
+            align-self: center;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
+            height: 40px;
+            width: 95px;
+
+            &.error {
+                width: 176px;
+            }
+        }
+
+        .IconMessage-link {
+            margin-top: 21px;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
+            text-align: center;
+            color: #0058CC;
+            margin-left: -10px;
+        }
+
+    }
+}
+

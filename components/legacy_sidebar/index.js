@@ -41,7 +41,7 @@ function mapStateToProps(state) {
     }
 
     const sidebarPrefs = getSidebarPreferences(state);
-    const lastUnreadChannel = state.views.channel.keepChannelIdAsUnread;
+    const lastUnreadChannel = state.views.channel.lastUnreadChannel;
     const unreadChannelIds = getSortedUnreadChannelIds(state, lastUnreadChannel);
     const orderedChannelIds = getOrderedChannelIds(
         state,
@@ -72,7 +72,6 @@ function mapStateToProps(state) {
         isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
         viewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
-        isDataPrefechEnabled: config.ExperimentalDataPrefetch === 'true',
     };
 }
 

@@ -14,7 +14,7 @@ import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import UserGrid from 'components/admin_console/user_grid/user_grid';
@@ -144,7 +144,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         this.props.onAddCallback(users);
     }
 
-    private search = async (term: string) => {
+    private onSearch = async (term: string) => {
         this.props.actions.setUserGridSearch(term);
     }
 
@@ -285,7 +285,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     totalCount={totalCount}
                     memberships={channelMembers}
                     updateMembership={this.updateMembership}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     term={searchTerm}

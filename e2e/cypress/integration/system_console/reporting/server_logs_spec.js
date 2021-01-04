@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -19,7 +20,7 @@ describe('System Console > Server Logs', () => {
         cy.get('#reporting\\/server_logs').click().wait(TIMEOUTS.TWO_SEC);
     });
 
-    it('MM-T906 Logs - Verify content categories', () => {
+    it('MM-T908 Logs - Verify content categories', () => {
         // * Verify the banner is showed.
         cy.get('.banner__content span').should('not.empty');
 

@@ -49,7 +49,8 @@ const dbGetActiveUserSessions = async ({dbConfig, params: {username, userId, lim
             sessions: sessions.map((session) => convertKeysToLowercase(session)),
         };
     } catch (error) {
-        return {errorMessage: 'Failed to get active user sessions from the database'};
+        const errorMessage = 'Failed to get active user sessions from the database.';
+        return {error, errorMessage};
     }
 };
 
@@ -63,7 +64,8 @@ const dbGetUser = async ({dbConfig, params: {username}}) => {
 
         return {user: convertKeysToLowercase(user)};
     } catch (error) {
-        return {errorMessage: 'Failed to get a user from the database'};
+        const errorMessage = 'Failed to get a user from the database.';
+        return {error, errorMessage};
     }
 };
 
@@ -79,7 +81,8 @@ const dbGetUserSession = async ({dbConfig, params: {sessionId}}) => {
 
         return {session: convertKeysToLowercase(session)};
     } catch (error) {
-        return {errorMessage: 'Failed to get a user session from the database'};
+        const errorMessage = 'Failed to get a user session from the database.';
+        return {error, errorMessage};
     }
 };
 
@@ -91,7 +94,7 @@ const dbUpdateUserSession = async ({dbConfig, params: {sessionId, userId, fields
     try {
         let user = await knexClient(toLowerCase(dbConfig, 'Users')).where('id', userId).first();
         if (!user) {
-            return {errorMessage: 'No user found with id:', userId};
+            return {errorMessage: `No user found with id: ${userId}.`};
         }
 
         delete fieldsToUpdate.id;
@@ -111,7 +114,8 @@ const dbUpdateUserSession = async ({dbConfig, params: {sessionId, userId, fields
 
         return {session: convertKeysToLowercase(session)};
     } catch (error) {
-        return {errorMessage: 'Failed to update a user session from the database'};
+        const errorMessage = 'Failed to update a user session from the database.';
+        return {error, errorMessage};
     }
 };
 

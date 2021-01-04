@@ -6,8 +6,8 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
@@ -67,15 +67,12 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                             defaultMessage='Select Team Icon'
                         >
                             {(title) => {
-                                if (typeof title === 'string') {
-                                    return (
-                                        <i
-                                            className='fa fa-exchange'
-                                            title={title}
-                                        />
-                                    );
-                                }
-                                return title;
+                                return (
+                                    <i
+                                        className='fa fa-exchange'
+                                        title={title as string}
+                                    />
+                                );
                             }}
                         </FormattedMessage>
                     }

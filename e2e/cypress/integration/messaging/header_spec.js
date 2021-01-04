@@ -28,7 +28,7 @@ describe('Header', () => {
         });
     });
 
-    it('MM-T88 An elipsis indicates the channel header is too long - public or private channel Quote icon displays at beginning of channel header', () => {
+    it('MM-T88 An ellipsis indicates the channel header is too long - public or private channel Quote icon displays at beginning of channel header', () => {
         // * Verify with short channel header
         updateAndVerifyChannelHeader('>', 'newheader');
 

@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -19,9 +18,11 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
+import moment from 'moment';
+
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
@@ -44,7 +45,7 @@ export function isLinux() {
 
 export function createSafeId(prop) {
     if (prop === null) {
-        return null;
+        return undefined;
     }
 
     var str = '';
@@ -507,38 +508,21 @@ export function applyTheme(theme) {
 
     if (theme.sidebarText) {
         changeCss('.app__body .team-sidebar .a11y--focused, .app__body .sidebar--left .a11y--focused', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.sidebarText, 0.5) + ', inset 0 0 0 1px ' + theme.sidebarText);
-        changeCss('.multi-select__focused > div', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.sidebarText, 0.5) + ', inset 0 0 0 1px ' + theme.sidebarText);
-        changeCss('.app__body .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y', 'background:' + theme.sidebarText);
-        changeCss('.app__body .ps-container:hover .ps-scrollbar-y-rail:hover, .app__body .sidebar__switcher button:hover', 'background:' + changeOpacity(theme.sidebarText, 0.15));
-        changeCss('.app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>a, .app__body .sidebar--menu', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.sidebar--left .status .offline--icon, .app__body .sidebar--menu svg, .app__body .sidebar-item .icon', 'fill:' + theme.sidebarText);
-        changeCss('.sidebar--left .status.status--group', 'background:' + changeOpacity(theme.sidebarText, 0.3));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body #sidebarDropdownMenu .menu-divider', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body .modal .settings-modal .settings-table .nav>li.active>button', 'color:' + theme.sidebarText);
-        changeCss('.app__body .sidebar--left .sidebar__switcher', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
-        changeCss('.app__body .team-sidebar .team-btn .badge', 'border-color:' + changeOpacity(theme.sidebarText, 0.5));
         changeCss('@media(max-width: 768px){.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + changeOpacity(theme.sidebarText, 0.6));
-        changeCss('.app__body .sidebar--left .sidebar__switcher span', 'color:' + theme.sidebarText);
-        changeCss('.app__body .sidebar--left .sidebar__switcher button svg', 'fill:' + theme.sidebarText);
         changeCss('.channel-header .channel-header_plugin-dropdown a, .app__body .sidebar__switcher button', 'background:' + changeOpacity(theme.sidebarText, 0.08));
-        changeCss('.app__body .icon__bot', 'fill:' + theme.sidebarText);
     }
 
     if (theme.sidebarTextHoverBg) {
         changeCss('.sidebar--left .nav-pills__container li .sidebar-item:hover, .sidebar--left .nav-pills__container li > .nav-more:hover, .app__body .modal .settings-modal .nav-pills>li:hover button', 'background:' + theme.sidebarTextHoverBg);
     }
 
-    if (theme.sidebarTextActiveBorder) {
-        changeCss('.multi-teams .team-sidebar .team-wrapper .team-container:before', 'background:' + theme.sidebarTextActiveBorder);
-        changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.active:before', 'background:' + theme.sidebarTextActiveBorder);
-        changeCss('.multi-teams .team-sidebar .team-wrapper .team-container.unread:before', 'background:' + theme.sidebarTextActiveBorder);
-    }
-
     if (theme.sidebarTextActiveColor) {
         changeCss('.sidebar--left .nav-pills__container li.active .sidebar-item, .sidebar--left .nav-pills__container li.active .sidebar-item:hover, .sidebar--left .nav-pills__container li.active .sidebar-item:focus, .app__body .modal .settings-modal .nav-pills>li.active button, .app__body .modal .settings-modal .nav-pills>li.active button:hover, .app__body .modal .settings-modal .nav-pills>li.active button:active', 'color:' + theme.sidebarTextActiveColor);
         changeCss('.sidebar--left .nav li.active .sidebar-item, .sidebar--left .nav li.active .sidebar-item:hover, .sidebar--left .nav li.active .sidebar-item:focus', 'background:' + changeOpacity(theme.sidebarTextActiveColor, 0.1));
-        changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .nav-pills > li.active button', 'color:' + changeOpacity(theme.sidebarText, 0.8));
     }
 
     if (theme.sidebarHeaderBg) {
@@ -563,7 +547,6 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
         changeCss('.app__body .navbar-right__icon:hover, .app__body .navbar-right__icon:focus', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
-        changeCss('.team-sidebar .fa', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.emoji-picker .emoji-picker__header, .emoji-picker .emoji-picker__header .emoji-picker__header-close-button', 'color:' + theme.sidebarHeaderTextColor);
     }
 
@@ -602,14 +585,11 @@ export function applyTheme(theme) {
     // Including 'mentionBj' for backwards compatability (old typo)
     const mentionBg = theme.mentionBg || theme.mentionBj;
     if (mentionBg) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
         changeCss('.multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator svg', 'fill:' + theme.mentionColor);
-        changeCss('.app__body .sidebar--left .nav-pills__unread-indicator', 'color:' + theme.mentionColor);
         changeCss('.app__body .sidebar--left .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
         changeCss('.app__body .multi-teams .team-sidebar .badge, .app__body .list-group-item.active > .badge, .nav-pills > .active > a > .badge', 'color:' + theme.mentionColor);
     }
@@ -617,12 +597,10 @@ export function applyTheme(theme) {
     if (theme.centerChannelBg) {
         changeCss('.app__body #channel_view.channel-view', `background: ${theme.centerChannelBg}`);
         changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
-        changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .popover.bottom>.arrow:after', 'border-bottom-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
@@ -821,7 +799,6 @@ export function applyTheme(theme) {
 
     if (theme.linkColor) {
         changeCss('.app__body .more-modal__list .a11y--focused, .app__body .post.a11y--focused, .app__body .channel-header.a11y--focused, .app__body .post-create.a11y--focused, .app__body .user-popover.a11y--focused, .app__body .post-message__text.a11y--focused, #archive-link-home>a.a11y--focused', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', inset 0 0 0 1px ' + theme.linkColor);
-        changeCss('.multi-select__focused > div', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
         changeCss('.app__body .a11y--focused', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
         changeCss('.app__body .DayPicker-Day--today, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
@@ -984,7 +961,6 @@ export function applyTheme(theme) {
             'error-text-12': changeOpacity(theme.errorTextColor, 0.12),
             'mention-highlight-bg': theme.mentionHighlightBg,
             'mention-highlight-link': theme.mentionHighlightLink,
-            'mention-highlight-bg-12': changeOpacity(theme.mentionHighlightBg, 0.12),
         },
     });
 }
@@ -1039,21 +1015,26 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
-    const $link = $('link.code_theme');
-    if (cssPath !== $link.attr('href')) { // eslint-disable-line jquery/no-attr
+
+    const link = document.querySelector('link.code_theme');
+    if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
-        var xmlHTTP = new XMLHttpRequest();
+
+        const xmlHTTP = new XMLHttpRequest();
+
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            $link.attr('href', cssPath); // eslint-disable-line jquery/no-attr
+            link.href = cssPath;
+
             if (UserAgent.isFirefox()) {
-                $link.one('load', () => {
+                link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
-                });
+                }, {once: true});
             } else {
                 changeCss('code.hljs', 'visibility: visible');
             }
         };
+
         xmlHTTP.send();
     }
 }
@@ -1085,6 +1066,171 @@ export function getCaretPosition(el) {
     return 0;
 }
 
+export function createHtmlElement(el) {
+    return document.createElement(el);
+}
+
+export function getElementComputedStyle(el) {
+    return getComputedStyle(el);
+}
+
+export function addElementToDocument(el) {
+    document.body.appendChild(el);
+}
+
+export function copyTextAreaToDiv(textArea) {
+    if (!textArea) {
+        return null;
+    }
+    const copy = createHtmlElement('div');
+    copy.textContent = textArea.value;
+    const style = getElementComputedStyle(textArea);
+    [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'wordWrap',
+        'whiteSpace',
+        'borderLeftWidth',
+        'borderTopWidth',
+        'borderRightWidth',
+        'borderBottomWidth',
+        'paddingRight',
+        'paddingLeft',
+        'paddingTop',
+    ].forEach((key) => {
+        copy.style[key] = style[key];
+    });
+    copy.style.overflow = 'auto';
+    copy.style.width = textArea.offsetWidth + 'px';
+    copy.style.height = textArea.offsetHeight + 'px';
+    copy.style.position = 'absolute';
+    copy.style.left = textArea.offsetLeft + 'px';
+    copy.style.top = textArea.offsetTop + 'px';
+    addElementToDocument(copy);
+    return copy;
+}
+
+export function convertEmToPixels(el, remNum) {
+    if (isNaN(remNum)) {
+        return 0;
+    }
+    const styles = getElementComputedStyle(el);
+    return remNum * parseFloat(styles.fontSize);
+}
+
+export function getCaretXYCoordinate(textArea) {
+    if (!textArea) {
+        return {x: 0, y: 0};
+    }
+    const start = textArea.selectionStart;
+    const end = textArea.selectionEnd;
+    const copy = copyTextAreaToDiv(textArea);
+    const range = document.createRange();
+    range.setStart(copy.firstChild, start);
+    range.setEnd(copy.firstChild, end);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const rect = range.getClientRects();
+    document.body.removeChild(copy);
+    textArea.selectionStart = start;
+    textArea.selectionEnd = end;
+    textArea.focus();
+    return {
+        x: Math.floor(rect[0].left - textArea.scrollLeft),
+        y: Math.floor(rect[0].top - textArea.scrollTop),
+    };
+}
+
+export function getViewportSize(win) {
+    const w = win || window;
+    if (w.innerWidth != null) {
+        return {w: w.innerWidth, h: w.innerHeight};
+    }
+    const {clientWidth, clientHeight} = w.document.body;
+    return {w: clientWidth, h: clientHeight};
+}
+
+export function offsetTopLeft(el) {
+    if (!(el instanceof HTMLElement)) {
+        return {top: 0, left: 0};
+    }
+    const rect = el.getBoundingClientRect();
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
+}
+
+export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
+    if (!textArea || !(textArea instanceof HTMLElement)) {
+        return {
+            pixelsToMoveX: 0,
+            pixelsToMoveY: 0,
+        };
+    }
+    const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
+    const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
+    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
+    const viewportWidth = getViewportSize().w;
+
+    const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
+
+    // value in pixels for the offsetLeft for the textArea
+    const txtAreaOffsetLft = offsetTopLeft(textArea).left;
+
+    // how many pixels to the right should be moved the suggestion box
+    let pxToTheRight = (caretXCoordinateInTxtArea) - (pxToSubstract);
+
+    // the x coordinate in the viewport of the suggestion box border-right
+    const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
+
+    // if the right-border edge of the suggestion box will overflow the x-axis viewport
+    if (xBoxRightCoordinate > viewportWidth) {
+        // stick the suggestion list to the very right of the TextArea
+        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
+    }
+    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
+    if (boxLocation === 'bottom') {
+        // Add the line height and 4 extra px so it looks less tight
+        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
+    }
+    return {
+        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
+
+        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
+        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
+    };
+}
+
+export function getSuggestionBoxWidth(textArea) {
+    if (textArea.id === 'edit_textbox') {
+        // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
+        return textArea.offsetWidth;
+    }
+
+    // 496 - value in pixels used in suggestion-list__content class line 72 file _suggestion-list.scss
+
+    return Constants.SUGGESTION_LIST_MODAL_WIDTH;
+}
+
+export function getPxToSubstract(char = '@') {
+    // depending on the triggering character different values must be substracted
+    if (char === '@') {
+    // mention name padding-left 2.4rem as stated in suggestion-list__content .mentions__name
+        const mentionNamePaddingLft = convertEmToPixels(document.documentElement, Constants.MENTION_NAME_PADDING_LEFT);
+
+        // half of width of avatar stated in .Avatar.Avatar-sm (24px)
+        const avatarWidth = Constants.AVATAR_WIDTH * 0.5;
+        return 5 + avatarWidth + mentionNamePaddingLft;
+    } else if (char === '~') {
+        return 39;
+    } else if (char === ':') {
+        return 32;
+    }
+    return 0;
+}
+
 export function setSelectionRange(input, selectionStart, selectionEnd) {
     if (input.setSelectionRange) {
         input.focus();
@@ -1107,19 +1253,29 @@ export function scrollbarWidth(el) {
 }
 
 export function isValidUsername(name) {
-    var error = '';
+    let error;
     if (!name) {
-        error = 'This field is required';
+        error = {
+            id: ValidationErrors.USERNAME_REQUIRED,
+        };
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
-        error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
+        error = {
+            id: ValidationErrors.INVALID_LENGTH,
+        };
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = {
+            id: ValidationErrors.INVALID_CHARACTERS,
+        };
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
-        error = 'First character must be a letter.';
+        error = {
+            id: ValidationErrors.INVALID_FIRST_CHARACTER,
+        };
     } else {
-        for (var i = 0; i < Constants.RESERVED_USERNAMES.length; i++) {
-            if (name === Constants.RESERVED_USERNAMES[i]) {
-                error = 'Cannot use a reserved word as a username.';
+        for (const reserved of Constants.RESERVED_USERNAMES) {
+            if (name === reserved) {
+                error = {
+                    id: ValidationErrors.RESERVED_NAME,
+                };
                 break;
             }
         }
@@ -1135,7 +1291,9 @@ export function isValidBotUsername(name) {
     }
 
     if (name.endsWith('.')) {
-        error = "Username must not end with '.' symbol.";
+        error = {
+            id: ValidationErrors.INVALID_LAST_CHARACTER,
+        };
     }
 
     return error;
@@ -1399,16 +1557,25 @@ export function imageURLForTeam(team) {
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
 export function fileSizeToString(bytes) {
     // it's unlikely that we'll have files bigger than this
-    if (bytes > 1024 * 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024 * 1024)) + 'TB';
-    } else if (bytes > 1024 * 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024 * 1024)) + 'GB';
-    } else if (bytes > 1024 * 1024) {
-        return Math.floor(bytes / (1024 * 1024)) + 'MB';
+    if (bytes > 1024 ** 4) {
+        // check if file is smaller than 10 to display fractions
+        if (bytes < (1024 ** 4) * 10) {
+            return (Math.round((bytes / (1024 ** 4)) * 10) / 10) + 'TB';
+        }
+        return Math.round(bytes / (1024 ** 4)) + 'TB';
+    } else if (bytes > 1024 ** 3) {
+        if (bytes < (1024 ** 3) * 10) {
+            return (Math.round((bytes / (1024 ** 3)) * 10) / 10) + 'GB';
+        }
+        return Math.round(bytes / (1024 ** 3)) + 'GB';
+    } else if (bytes > 1024 ** 2) {
+        if (bytes < (1024 ** 2) * 10) {
+            return (Math.round((bytes / (1024 ** 2)) * 10) / 10) + 'MB';
+        }
+        return Math.round(bytes / (1024 ** 2)) + 'MB';
     } else if (bytes > 1024) {
-        return Math.floor(bytes / 1024) + 'KB';
+        return Math.round(bytes / 1024) + 'KB';
     }
-
     return bytes + 'B';
 }
 
@@ -1468,11 +1635,11 @@ export function importSlack(teamId, file, success, error) {
 }
 
 export function windowWidth() {
-    return $(window).width();
+    return window.innerWidth;
 }
 
 export function windowHeight() {
-    return $(window).height();
+    return window.innerHeight;
 }
 
 // Should be refactored, seems to make most sense to wrap TextboxLinks in a connect(). To discuss
@@ -1894,4 +2061,17 @@ export function adjustSelection(inputBox, e) {
     if (firstUnderscore && lastUnderscore && (spaceBefore || spaceAfter)) {
         setSelectionRange(inputBox, selectionStart + 1, selectionEnd - 1);
     }
+}
+
+export function getNextBillingDate() {
+    const nextBillingDate = moment().add(1, 'months').startOf('month');
+    return nextBillingDate.format('MMM D, YYYY');
+}
+
+export function stringToNumber(s) {
+    if (!s) {
+        return 0;
+    }
+
+    return parseInt(s, 10);
 }

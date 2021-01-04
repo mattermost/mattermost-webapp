@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {trackEvent} from 'actions/diagnostics_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import * as GlobalActions from 'actions/global_actions';
 
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link';
@@ -32,7 +32,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
     }
 
     handleLeavePrivateChannel = () => {
-        GlobalActions.showLeavePrivateChannelModal({id: this.props.channel.id, display_name: this.props.channel.display_name});
+        GlobalActions.showLeavePrivateChannelModal({id: this.props.channel.id, display_name: this.props.channel.display_name} as Channel);
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
     }
 

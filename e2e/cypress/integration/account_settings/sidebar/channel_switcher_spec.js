@@ -73,10 +73,10 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
-        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+L
-        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
+        cy.findByRole('textbox', {name: 'quick switch input'}).cmdOrCtrlShortcut('{shift}L');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('not.be.visible');
@@ -93,10 +93,10 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
-        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+m
-        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
+        cy.findByRole('textbox', {name: 'quick switch input'}).cmdOrCtrlShortcut('{shift}M');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('not.be.visible');
@@ -129,17 +129,17 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
 function verifyChannelSwitch(team, channel) {
     // * Channel switcher hint should be visible
-    cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ▲▼ to browse, ENTER to select, ESC to dismiss.');
+    cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
 
     // # Type channel display name on Channel switcher input
-    cy.get('#quickSwitchInput').type(channel.display_name);
+    cy.findByRole('textbox', {name: 'quick switch input'}).type(channel.display_name);
     cy.wait(TIMEOUTS.HALF_SEC);
 
     // * Suggestion list should be visible
     cy.get('#suggestionList').should('be.visible');
 
     // # Press enter
-    cy.get('#quickSwitchInput').type('{enter}');
+    cy.findByRole('textbox', {name: 'quick switch input'}).type('{enter}');
 
     // * Verify that it redirected into "channel-switcher" as selected channel
     cy.url().should('include', `/${team.name}/channels/${channel.name}`);

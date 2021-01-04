@@ -10,7 +10,7 @@ import SidebarChannel from './sidebar_channel';
 
 /* eslint-disable global-require */
 
-jest.mock('actions/diagnostics_actions.jsx', () => {
+jest.mock('actions/telemetry_actions.jsx', () => {
     return {
         trackEvent: jest.fn(),
     };
@@ -34,8 +34,8 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-jest.mock('actions/global_actions.jsx', () => {
-    const original = jest.requireActual('actions/global_actions.jsx');
+jest.mock('actions/global_actions', () => {
+    const original = jest.requireActual('actions/global_actions');
     return {
         ...original,
         showLeavePrivateChannelModal: jest.fn(),
@@ -322,7 +322,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should leave the direct channel', () => {
         const savePreferences = jest.fn(() => Promise.resolve());
-        const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
+        const trackEvent = require('actions/telemetry_actions.jsx').trackEvent;
 
         const props = {
             ...defaultProps,
@@ -343,7 +343,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should leave the group channel', () => {
         const savePreferences = jest.fn(() => Promise.resolve());
-        const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
+        const trackEvent = require('actions/telemetry_actions.jsx').trackEvent;
         const props = {
             ...defaultProps,
             channelType: Constants.GM_CHANNEL,
@@ -364,7 +364,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should leave the active channel', () => {
         const savePreferences = jest.fn(() => Promise.resolve());
-        const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
+        const trackEvent = require('actions/telemetry_actions.jsx').trackEvent;
         const browserHistory = require('utils/browser_history').browserHistory;
         const props = {
             ...defaultProps,
@@ -409,7 +409,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should leave the public channel', () => {
         const leaveChannel = jest.fn();
-        const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
+        const trackEvent = require('actions/telemetry_actions.jsx').trackEvent;
         const props = {
             ...defaultProps,
             channelType: Constants.OPEN_CHANNEL,
@@ -428,8 +428,8 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('should leave the private channel', () => {
-        const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
-        const showLeavePrivateChannelModal = require('actions/global_actions.jsx').showLeavePrivateChannelModal;
+        const trackEvent = require('actions/telemetry_actions.jsx').trackEvent;
+        const showLeavePrivateChannelModal = require('actions/global_actions').showLeavePrivateChannelModal;
         const props = {
             ...defaultProps,
             channelId: 'test-channel-id',

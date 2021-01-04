@@ -209,7 +209,7 @@
 
                 .MenuGroup {
                     &.menu-divider {
-                        background: $white;
+                        background: var(--center-channel-bg);
                     }
                 }
             }
@@ -220,7 +220,7 @@
         .dropdown-menu {
             >li {
                 >div {
-                    border-top-color: var(--center-channel-color-08) !important;
+                    border-top-color: rgba(var(--center-channel-color-rgb), 0.08) !important;
 
                     .SubMenu__icon {
                         padding: 0 5px 0 8px !important;
@@ -286,7 +286,7 @@
 
                 .MenuItem {
                     z-index: 9999;
-                    background: $white;
+                    background: var(--center-channel-bg);
 
                     &:last-child button {
                         border-bottom: 0px;
@@ -1190,7 +1190,7 @@
             }
 
             .dropdown-menu {
-                background: $white;
+                background: var(--center-channel-bg);
                 left: auto;
                 position: absolute;
                 right: 0;
@@ -1381,7 +1381,7 @@
         .search__form {
             @include single-transition(all, .2s, linear);
             @include translateX(0);
-            background: $white;
+            background: var(--center-channel-bg);
             border-color: transparent;
             margin-top: 9px;
             width: 100%;
@@ -1394,7 +1394,7 @@
 
             .form-control {
                 @include border-radius(3px);
-                background: $white;
+                background: var(--center-channel-bg);
                 border: none;
                 color: $dark-gray;
                 padding: 0 31px;
@@ -1448,10 +1448,6 @@
             @include translate3d(0, 0, 0);
         }
 
-        .nav-pills__unread-indicator {
-            width: 260px;
-        }
-
         .team__header {
             @include clearfix;
             pointer-events: none;
@@ -1481,7 +1477,7 @@
                     padding-bottom: 25px;
 
                     ul {
-                        background: $white;
+                        background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
                         position: relative;
@@ -1547,10 +1543,6 @@
             @include translate3d(0, 0, 0);
         }
 
-        .nav-pills__unread-indicator {
-            width: 260px;
-        }
-
         .team__header {
             @include clearfix;
             pointer-events: none;
@@ -1584,7 +1576,7 @@
                     padding-bottom: 25px;
 
                     ul {
-                        background: $white;
+                        background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
                         position: relative;
@@ -2230,10 +2222,6 @@
     #SidebarContainer {
         @include translate3d(-260px, 0, 0);
         width: 260px;
-
-        .nav-pills__unread-indicator {
-            width: 230px;
-        }
     }
 
     .inner-wrap {
@@ -2344,14 +2332,9 @@
     }
 
     .multi-teams {
-
         .sidebar--left,
         #SidebarContainer {
             width: 220px;
-
-            .nav-pills__unread-indicator {
-                width: 190px;
-            }
         }
     }
 
@@ -2366,6 +2349,7 @@
     }
 
     .tutorial-steps__container {
+        background: v(center-channel-bg);
         left: 0;
         position: fixed;
         top: 0;
