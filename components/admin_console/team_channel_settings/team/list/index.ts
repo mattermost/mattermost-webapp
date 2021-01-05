@@ -17,8 +17,8 @@ import {GlobalState} from 'types/store';
 import TeamList from './team_list';
 
 type Actions = {
-    searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>,
-    getData(page: number, size: number): void
+    searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>;
+    getData(page: number, size: number): void;
 }
 const getSortedListOfTeams = createSelector(
     getTeams,

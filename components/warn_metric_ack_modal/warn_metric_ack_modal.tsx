@@ -105,7 +105,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             return '';
         }
 
-        const mailRecipient = 'support@mattermost.com';
+        const mailRecipient = 'support-advisor@mattermost.com';
         const mailSubject = 'Mattermost Contact Us request';
         let mailBody = 'Mattermost Contact Us request.';
         if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {
