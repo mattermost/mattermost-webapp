@@ -5,6 +5,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
+import {ClientConfig} from 'mattermost-redux/types/config';
+
 import AboutBuildModal from 'components/about_build_modal/about_build_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
@@ -24,17 +26,7 @@ describe('components/AboutBuildModal', () => {
         global.Date = mock as any;
     }
 
-    let config: {
-        BuildEnterpriseReady: string;
-        Version: string;
-        BuildNumber: string;
-        SQLDriverName: string;
-        BuildHash: string;
-        BuildHashEnterprise: string;
-        BuildDate: string;
-        TermsOfServiceLink: string;
-        PrivacyPolicyLink: string;
-    } | null = null;
+    let config: Partial<ClientConfig> = {};
     let license: {
         IsLicensed: string;
         Company: string;
@@ -43,7 +35,7 @@ describe('components/AboutBuildModal', () => {
 
     afterEach(() => {
         global.Date = RealDate;
-        config = null;
+        config = {};
         license = null;
     });
 

@@ -5,6 +5,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ClientConfig} from 'mattermost-redux/types/config';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import Nbsp from 'components/html_entities/nbsp';
@@ -23,7 +25,7 @@ type Props = {
     /**
      * Global config object
      */
-    config: any;
+    config: Partial<ClientConfig>;
 
     /**
      * Global license object
@@ -196,12 +198,12 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                 <span id='buildnumberString'>{'\u00a0' + config.BuildNumber}</span>
             </div>
         );
-        if (isNaN(config.BuildNumber)) {
+        if (isNaN(Number(config.BuildNumber))) {
             buildnumber = null;
         }
 
-        let mmversion: string = config.BuildNumber;
-        if (!isNaN(config.BuildNumber)) {
+        let mmversion: string | undefined = config.BuildNumber;
+        if (!isNaN(Number(config.BuildNumber))) {
             mmversion = 'ci';
         }
 
