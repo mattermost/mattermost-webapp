@@ -76,7 +76,7 @@ export default class PasswordSettings extends AdminSettings {
         config.PasswordSettings.Number = this.state.passwordNumber;
         config.PasswordSettings.Symbol = this.state.passwordSymbol;
 
-        config.ServiceSettings.MaximumLoginAttempts = this.parseIntNonZero(this.state.maximumLoginAttempts);
+        config.ServiceSettings.MaximumLoginAttempts = this.parseIntNonZero(this.state.maximumLoginAttempts, Constants.MAXIMUM_LOGIN_ATTEMPTS_DEFAULT);
 
         return config;
     }
