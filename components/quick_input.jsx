@@ -150,6 +150,7 @@ export default class QuickInput extends React.PureComponent {
                 <div
                     className='input-clear visible'
                     onMouseDown={this.onClear}
+                    onTouchEnd={this.onClear}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
