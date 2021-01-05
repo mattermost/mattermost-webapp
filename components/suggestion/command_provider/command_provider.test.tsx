@@ -10,6 +10,13 @@ import configureStore from 'redux-mock-store';
 import {Client4} from 'mattermost-redux/client';
 import {AppBinding} from 'mattermost-redux/types/apps';
 
+import {getState} from 'stores/redux_store';
+
+jest.mock('stores/redux_store', () => ({
+    dispatch: jest.fn(),
+    getState: jest.fn(),
+}));
+
 import globalStore from 'stores/redux_store';
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
@@ -151,29 +158,6 @@ describe('CommandProvider', () => {
         return testStore;
     };
 
-    describe('constructor', () => {
-        test('should set passed in store', async () => {
-            const store = await makeStore([]);
-            const provider = new CommandProvider({isInRHS: false}, store as any);
-            expect(provider.store).toBe(store);
-        });
-
-        test('should set store to default if not provided', () => {
-            const props = {isInRHS: false};
-            const provider = new CommandProvider(props);
-            expect(provider.store).toBe(globalStore);
-        });
-
-        test('should set store to default if wrong type is provided', () => {
-            const props = {isInRHS: true};
-            let provider = new CommandProvider(props, {dispatch: () => {}} as any);
-            expect(provider.store).toBe(globalStore);
-
-            provider = new CommandProvider(props, {getState: () => {}} as any);
-            expect(provider.store).toBe(globalStore);
-        });
-    });
-
     describe('handlePretextChanged', () => {
         test('should fetch results from the server', async () => {
             const f = Client4.getCommandAutocompleteSuggestionsList;
@@ -188,7 +172,9 @@ describe('CommandProvider', () => {
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
             const store = await makeStore([]);
-            const provider = new CommandProvider({isInRHS: false}, store as any);
+            getState.mockImplementation(store.getState);
+
+            const provider = new CommandProvider({isInRHS: false});
 
             const callback = jest.fn();
             provider.handlePretextChanged('/jira issue', callback);

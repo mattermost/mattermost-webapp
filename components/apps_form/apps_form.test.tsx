@@ -27,11 +27,6 @@ describe('components/apps_form/AppsForm', () => {
         call: {
             url: '/submit_url',
         } as AppCall,
-        title: 'test title',
-        iconUrl: 'http://example.com/icon.png',
-        submitLabel: 'Yes',
-        notifyOnCancel: true,
-        state: 'some state',
         onHide: () => {},
         actions: {
             performLookupCall: jest.fn(),
