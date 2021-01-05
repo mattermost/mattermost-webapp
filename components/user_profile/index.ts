@@ -5,14 +5,20 @@ import {connect} from 'react-redux';
 
 import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import UserProfile from './user_profile';
+
+type OwnProps = {
+    userId: string;
+}
 
 function makeMapStateToProps() {
     const getDisplayName = makeGetDisplayName();
 
-    return (state, ownProps) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         return {
-            displayName: getDisplayName(state, ownProps.userId),
+            displayName: getDisplayName(state, ownProps.userId, true),
             user: getUser(state, ownProps.userId),
         };
     };

@@ -57,7 +57,6 @@ export default class ChannelMentionProvider extends Provider {
         this.lastPrefixTrimmed = '';
         this.lastPrefixWithNoResults = '';
         this.lastCompletedWord = '';
-        this.triggerCharacter = '~';
 
         this.autocompleteChannels = channelSearchFunc;
     }
