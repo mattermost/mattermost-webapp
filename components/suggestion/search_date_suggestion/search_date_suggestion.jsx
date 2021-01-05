@@ -22,28 +22,28 @@ export default class SearchDateSuggestion extends Suggestion {
     }
 
     componentDidMount() {
-        
         //the naming scheme of momentjs packages are all lowercases
-        let locale = this.props.locale.toLowerCase();
+        const locale = this.props.locale.toLowerCase();
 
         // Momentjs use en as defualt, no need to import en
-        if (locale && locale!== 'en' && !loadedLocales[locale]) {
+        if (locale && locale !== 'en' && !loadedLocales[locale]) {
+            /* eslint-disable global-require */
             loadedLocales[locale] = require(`moment/locale/${locale}`);
+            /* eslint-disable global-require */
         }
     }
-    
-    componentDidUpdate(prevProps) {
-        let locale = this.props.locale.toLowerCase();
 
-        if(locale && locale!== 'en' && locale !== prevProps.locale  && !loadedLocales[locale]){
-            loadedLocales[props.locale] = require(`moment/locale/${locale}`);
+    componentDidUpdate(prevProps) {
+        const locale = this.props.locale.toLowerCase();
+
+        if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
+            /* eslint-disable global-require */
+            loadedLocales[locale] = require(`moment/locale/${locale}`);
+            /* eslint-disable global-require */
         }
     }
 
     render() {
-        console.log(this.props);
-
-
         let modifiers;
         if (this.props.currentDate) {
             modifiers = {
@@ -51,7 +51,7 @@ export default class SearchDateSuggestion extends Suggestion {
             };
         }
 
-        let locale = this.props.locale.toLowerCase();
+        const locale = this.props.locale.toLowerCase();
 
         return (
             <DayPicker
