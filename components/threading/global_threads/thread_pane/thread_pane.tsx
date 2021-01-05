@@ -29,7 +29,7 @@ type Props = {
     isFollowing: boolean;
     isSaved: boolean;
     children: ReactNode;
-} & Omit<ComponentProps<typeof ThreadMenu>, 'children'>;
+} & Omit<ComponentProps<typeof ThreadMenu>, 'children' | 'threadId'>;
 
 const ThreadPane = ({
     thread,
@@ -43,6 +43,7 @@ const ThreadPane = ({
         currentTeamId,
         currentUserId,
         goToInChannel,
+        select,
     } = useThreadRouting();
     const dispatch = useDispatch();
 
@@ -60,22 +61,30 @@ const ThreadPane = ({
             <Header
                 className='ThreadPane___header'
                 heading={(
-                    <h3>
-                        <span className='separated'>
-                            {formatMessage({
-                                id: 'threading.header.heading',
-                                defaultMessage: 'Thread',
-                            })}
-                        </span>
+                    <>
                         <Button
-                            className='separated'
-                            onClick={useCallback(() => {
-                                goToInChannel();
-                            }, [goToInChannel])}
+                            className='Button___icon Button___large back'
+                            onClick={useCallback(() => select(), [])}
                         >
-                            {channel.display_name}
+                            <i className='icon icon-arrow-back-ios'/>
                         </Button>
-                    </h3>
+                        <h3>
+                            <span className='separated'>
+                                {formatMessage({
+                                    id: 'threading.header.heading',
+                                    defaultMessage: 'Thread',
+                                })}
+                            </span>
+                            <Button
+                                className='separated'
+                                onClick={useCallback(() => {
+                                    goToInChannel(threadId);
+                                }, [goToInChannel])}
+                            >
+                                {channel.display_name}
+                            </Button>
+                        </h3>
+                    </>
                 )}
                 right={(
                     <>

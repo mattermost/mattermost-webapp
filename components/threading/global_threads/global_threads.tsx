@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-
 import classNames from 'classnames';
 
 import {
@@ -45,13 +44,13 @@ const GlobalThreads = () => {
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
     const [filter, setFilter] = useStickyState<ThreadFilter>('', 'globalThreads_filter');
-    const {currentTeamId, currentUserId} = useThreadRouting();
+    const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const threadIds = useSelector(getThreadOrderInCurrentTeam);
     const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
-    const numUnread = (counts && Math.max(counts.total_unread_mentions, counts.total_unread_replies)) || 0; // TODO incorrect: sum of unreads vs num of unread threads
+    const numUnread = counts?.total_unread_replies || 0; // TODO incorrect: sum of unreads vs num of unread threads
     const [page, setPage] = useState(0);
     useEffect(() => {
         dispatch(getThreads(currentUserId, currentTeamId, {page}));
@@ -59,7 +58,10 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         dispatch(selectChannel(''));
-        dispatch(setSelectedThreadId(currentUserId, currentTeamId, threadIdentifier));
+        dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
+        if (!selectedThread) {
+            clear();
+        }
     }, [currentUserId, currentTeamId, threadIdentifier]);
 
     return (

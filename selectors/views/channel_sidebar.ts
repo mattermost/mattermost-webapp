@@ -116,8 +116,7 @@ export const getUnreadChannels = (() => {
 
                 unreadChannels.push(channel);
             }
-
-            if (unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
+            if (currentChannelId && unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
                 unreadChannels.push(allChannels[currentChannelId]);
             }
 

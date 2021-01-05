@@ -4,6 +4,8 @@
 import React, {memo, ComponentProps} from 'react';
 import {useIntl} from 'react-intl';
 
+import classNames from 'classnames';
+
 import Button from '../button';
 import {t} from 'utils/i18n';
 
@@ -19,6 +21,7 @@ function FollowButton({
     return (
         <Button
             {...props}
+            className={classNames(props.className, 'FollowButton')}
             disabled={props.disabled ?? isFollowing == null}
             isActive={isFollowing ?? false}
         >

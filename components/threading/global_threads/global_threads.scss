@@ -3,6 +3,7 @@
 
 .GlobalThreads {
     --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
+    overflow: hidden;
 
     .GlobalThreads___header {
         grid-area: header;
@@ -51,13 +52,13 @@
 
     // 2-column
     grid-template-columns: var(--list) var(--pane);
-    grid-template-rows: 63px auto;
+    grid-template-rows: 63px 1fr;
     grid-template-areas:
         'header header'
         'list pane';
 
+    // single column
     @media screen and (max-width: 1020px) {
-        // single column
         grid-template-areas:
             'header header'
             'main main';
@@ -79,12 +80,18 @@
             }
             .ThreadPane {
                 grid-area: main;
+                .Header {
+                    padding-left: 5px;
+                }
+                .back {
+                    display: unset;
+                }
             }
         }
     }
 
     @media screen and (min-width: 1021px) {
-        --list: minmax(min-content, 250px);
+        --list: minmax(min-content, 350px);
     }
 
     @media screen and (min-width: 1267px) {

@@ -1,9 +1,10 @@
 .ThreadList {
     display: grid;
+    overflow: hidden;
     grid-template-areas:
         'header'
         'list';
-    grid-template-rows: 56px auto;
+    grid-template-rows: 56px 1fr;
 
     .Header {
         grid-area: header;
@@ -19,6 +20,7 @@
 
     .threads {
         grid-area: list;
+        overflow: auto;
 
         .no-results__wrapper {
             position: relative;

@@ -65,6 +65,7 @@ const ThreadList = ({
                     <div className='right-anchor'>
                         <SimpleTooltip
                             id='threadListMarkRead'
+                            disabled={!someUnread}
                             content={formatMessage({
                                 id: 'threading.threadList.markRead',
                                 defaultMessage: 'Mark all as read',

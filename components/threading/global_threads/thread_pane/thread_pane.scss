@@ -1,10 +1,11 @@
 
 .ThreadPane {
     display: grid;
+    overflow: hidden;
     grid-template-areas:
         'header'
         'pane';
-    grid-template-rows: 56px auto;
+    grid-template-rows: 56px 1fr;
 
     .Header {
         grid-area: header;
@@ -16,14 +17,22 @@
         border-bottom: var(--border);
         --button-separator-height: 24px;
 
-        .Button {
+
+        .back {
+            display: none;
+
+        }
+
+        .FollowButton,
+        h3 .Button {
             padding: 4px 8px;
             font-size: 12px;
             height: 24px;
         }
 
         h3 {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             margin: 0;
             color: rgba(var(--center-channel-color-rgb), 1);
 
@@ -52,6 +61,7 @@
 
     .ThreadViewer {
         grid-area: pane;
+        overflow: hidden;
         .post-right__scroll {
             padding-top: 0; // remove excess padding in relative time (no zero-height date separators)
         }
