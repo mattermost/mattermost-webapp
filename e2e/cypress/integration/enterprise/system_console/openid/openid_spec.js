@@ -40,7 +40,7 @@ const verifyOAuthLogin = (id, text, color, href) => {
     });
 };
 
-describe('MM-27688 - System console-OpenId Connect', () => {
+describe.skip('MM-27688 - System console-OpenId Connect', () => {
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
