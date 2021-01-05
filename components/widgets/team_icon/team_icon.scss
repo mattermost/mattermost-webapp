@@ -35,45 +35,35 @@
 
 .TeamIcon {
     font-weight: 600;
-    height: 40px;
-    width: 40px;
+    height: 34px;
+    width: 34px;
     text-align: center;
     text-transform: uppercase;
-    background-color: rgba(255, 255, 255, 0.16);
-    border: 3px solid #0E4289;
-    border-radius: 11px;
+    background-color: rgb(61, 101, 159); /* #0E4289 + rgba(255, 255, 255, 0.16) on top */
+    border: 3px solid rgb(61, 101, 159);
+    border-radius: 8px;
     box-sizing: content-box;
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.32);
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    transition: transform 0.1s, box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
     transform: translate(0, 0);
     transform-origin: center center;
     position: relative;
 
     &:hover {
-        transform: scale(0.9);
-        margin: auto;
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
+        border-color: #0E4289;
         background-color: rgba(255, 255, 255, 0.32);
-        
-        .TeamIcon__initials {
-            transform: scale(1);
-        }
     }
 
     &:active {
+        border-color: #0E4289;
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
-        transform: translate(0, 2px) scale(0.9px);
+        transform: translate(0, 2px);
     }
 
     &.active {
-        transform: scale(0.9);
-        margin: auto;
+        border-color: #0E4289;
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
         background-color: rgba(255, 255, 255, 0.32);
-       
-        .TeamIcon__initials {
-            transform: scale(1);
-        }
     }
 
     &.TeamIcon__lg {
@@ -82,8 +72,8 @@
     }
 
     &.TeamIcon__sm {
-        width: 40px;
-        height: 40px;
+        height: 34px;
+        width: 34px;
     }
 
     .TeamIcon__image {
@@ -98,7 +88,7 @@
         }
 
         &.TeamIcon__sm {
-            width: 40px;
+            width: 34px;
         }
 
     }

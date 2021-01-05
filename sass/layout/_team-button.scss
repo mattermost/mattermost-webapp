@@ -1,13 +1,11 @@
 .team-btn {
     @include border-radius(8px);
     font-weight: bold;    
-    height: 47px;
     letter-spacing: -.5px;
     position: relative;
     text-align: center;
     text-transform: capitalize;
     vertical-align: top;
-    width: 47px;
 
     &.team-btn__add {
         font-size: 25px;
@@ -16,14 +14,27 @@
 
         .TeamIcon {
             background-color: transparent;
-            transform-origin: center center;
-            transition: transform 0.2s, background-color 0.2s;
+            transform-origin: center bottom;
+            border-color: transparent;
+            transition: transform 0.1s, background-color 0.2s;
+                 
+            .TeamIcon__initials {
+                transition: transform 0.2s;
+            }
 
             &:hover {
-                transform: scale(1);
-                border: none;
+                border-color: transparent;
                 box-shadow: none;
                 background-color: rgba(255, 255, 255, 0.08);
+            }
+
+            &:active {
+                transform: scale(0.9);
+                background-color: rgba(255, 255, 255, 0.16);
+                
+                .TeamIcon__initials {
+                    transform: scale(1.1);
+                }
             }
         }
     }
