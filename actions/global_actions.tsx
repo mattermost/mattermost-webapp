@@ -68,12 +68,11 @@ export function emitChannelClickEvent(channel: Channel) {
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
-        if (chan.delete_at === 0) {
-            const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
-            if (penultimate !== chan.name) {
-                LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
-                LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
-            }
+
+        const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        if (penultimate !== chan.name) {
+            LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
+            LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
         }
 
         // When switching to a different channel if the pinned posts is showing
