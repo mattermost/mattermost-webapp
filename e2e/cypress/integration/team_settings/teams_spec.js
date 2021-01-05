@@ -11,7 +11,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
-import {ignoreUncaughtException} from '../../support/notification';
 
 function removeTeamMember(teamName, username) {
     cy.apiAdminLogin();
@@ -316,7 +315,6 @@ describe('Teams Suite', () => {
 
         // # Select test team name
         cy.findByText(testTeam.display_name, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
-        ignoreUncaughtException();
 
         // # Verify Town square is visible
         cy.url().should('include', `/${testTeam.name}/channels/town-square`);
