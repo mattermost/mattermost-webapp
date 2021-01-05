@@ -26,17 +26,17 @@ type Props = {
     textColor: string;
     type: string;
     message: React.ReactNode;
-    handleClose?: (e?:any)=>void;
+    handleClose?: (e?: any) => void;
     announcementBarCount?: number;
-    showModal?: ()=> void;
+    showModal?: (() => void) | boolean;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
     warnMetricStatus?: Dictionary<WarnMetricStatus>;
     isTallBanner: boolean;
     actions: {
-        incrementAnnouncementBarCount: ()=>void;
-        decrementAnnouncementBarCount: ()=>void;
+        incrementAnnouncementBarCount: () => void;
+        decrementAnnouncementBarCount: () => void;
     };
 }
 
@@ -177,7 +177,6 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                         {
                             this.props.showLinkAsButton &&
                             <button
-                                onClick={this.props.showModal}
                                 className='upgrade-button'
                             >
                                 <FormattedMessage

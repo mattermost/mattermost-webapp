@@ -60,7 +60,7 @@ export type AdminConsolePluginComponent = {
 export type PostWillRenderEmbedPluginComponent = {
     id: string;
     pluginId: string;
-    component: React.ComponentType<{ embed: PostEmbed; }>;
+    component: React.ComponentType<{ embed: PostEmbed }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }
