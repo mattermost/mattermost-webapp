@@ -25,6 +25,7 @@ export type StateProps = {
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     currentChannel: Channel;
+    userName: string;
 }
 
 export type DispatchProps = {

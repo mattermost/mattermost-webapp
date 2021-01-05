@@ -41,6 +41,7 @@ type Props = {
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
     currentChannel: Channel;
+    userName: string;
 }
 
 const defaultProps: Partial<Props> = {
@@ -50,7 +51,7 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-    const {isFocussed, keepFocussed, searchTerms, suggestionProviders, currentChannel} = props;
+    const {isFocussed, keepFocussed, searchTerms, suggestionProviders, currentChannel, userName} = props;
 
     const searchRef = useRef<SuggestionBox>();
     const intl = useIntl();
@@ -87,9 +88,12 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
             let searchKey = '';
 
             // Space added at end to make sure channel/user related hint is not shown.
-            if (currentChannel && currentChannel?.team_id) {
+            if (['O', 'P'].includes(currentChannel.type)) {
                 searchKey = `in: ${currentChannel.display_name} `;
-            } else if (currentChannel) {
+            } else if (currentChannel.type === 'G') {
+                // For group we need to remove the whitespaces in displayname and append the currentUsername
+                searchKey = `in:@${currentChannel.display_name.replace(/\s/g, '')},${userName} `;
+            } else {
                 searchKey = `in:@${currentChannel.display_name} `;
             }
             props.updateSearchTerms(searchKey);

@@ -353,6 +353,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 currentChannel={props.currentChannel}
+                userName={props.userName}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>

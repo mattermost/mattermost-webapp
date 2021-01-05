@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {
     updateSearchTerms, showSearchResults, showMentions, showFlaggedPosts, closeRightHandSide, updateRhsState, setRhsExpanded,
@@ -22,6 +23,7 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const currentChannel = getCurrentChannel(state);
+    const userName = getCurrentUser(state).username;
     return {
         isRhsExpanded: getIsRhsExpanded(state),
         isRhsOpen: getIsRhsOpen(state),
@@ -31,6 +33,7 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         currentChannel,
+        userName,
         isPinnedPosts: rhsState === RHSStates.PIN,
     };
 }
