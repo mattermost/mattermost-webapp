@@ -209,7 +209,7 @@
 
                 .MenuGroup {
                     &.menu-divider {
-                        background: $white;
+                        background: var(--center-channel-bg);
                     }
                 }
             }
@@ -286,7 +286,7 @@
 
                 .MenuItem {
                     z-index: 9999;
-                    background: $white;
+                    background: var(--center-channel-bg);
 
                     &:last-child button {
                         border-bottom: 0px;
@@ -1190,7 +1190,7 @@
             }
 
             .dropdown-menu {
-                background: $white;
+                background: var(--center-channel-bg);
                 left: auto;
                 position: absolute;
                 right: 0;
@@ -1381,7 +1381,7 @@
         .search__form {
             @include single-transition(all, .2s, linear);
             @include translateX(0);
-            background: $white;
+            background: var(--center-channel-bg);
             border-color: transparent;
             margin-top: 9px;
             width: 100%;
@@ -1394,7 +1394,7 @@
 
             .form-control {
                 @include border-radius(3px);
-                background: $white;
+                background: var(--center-channel-bg);
                 border: none;
                 color: $dark-gray;
                 padding: 0 31px;
@@ -1477,7 +1477,7 @@
                     padding-bottom: 25px;
 
                     ul {
-                        background: $white;
+                        background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
                         position: relative;
@@ -1576,7 +1576,7 @@
                     padding-bottom: 25px;
 
                     ul {
-                        background: $white;
+                        background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
                         position: relative;

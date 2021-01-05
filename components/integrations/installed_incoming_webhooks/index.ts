@@ -2,21 +2,29 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as Actions from 'mattermost-redux/actions/integrations';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+import {removeIncomingHook} from 'mattermost-redux/actions/integrations';
+
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getIncomingHooks} from 'mattermost-redux/selectors/entities/integrations';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {loadIncomingHooksAndProfilesForTeam} from 'actions/integration_actions';
+import {loadIncomingHooksAndProfilesForTeam} from 'actions/integration_actions.jsx';
 
-import InstalledIncomingWebhooks from './installed_incoming_webhooks.jsx';
+import InstalledIncomingWebhooks from './installed_incoming_webhooks';
 
-function mapStateToProps(state) {
+type Actions = {
+    removeIncomingHook: (hookId: string) => Promise<ActionResult>;
+    loadIncomingHooksAndProfilesForTeam: (teamId: string, startPageNumber: number, pageSize: string) => Promise<ActionResult>;
+}
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const teamId = getCurrentTeamId(state);
     const canManageOthersWebhooks = haveITeamPermission(state, {team: teamId, permission: Permissions.MANAGE_OTHERS_INCOMING_WEBHOOKS});
@@ -30,17 +38,16 @@ function mapStateToProps(state) {
         incomingWebhooks,
         channels: getAllChannels(state),
         users: getUsers(state),
-        teamId,
         canManageOthersWebhooks,
         enableIncomingWebhooks,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             loadIncomingHooksAndProfilesForTeam,
-            removeIncomingHook: Actions.removeIncomingHook,
+            removeIncomingHook,
         }, dispatch),
     };
 }
