@@ -89,14 +89,10 @@ export default class CommandProvider extends Provider {
     private parser: AppCommandParser;
     store: Store;
 
-    constructor(props: Props, store?: Store) {
+    constructor(props: Props) {
         super();
 
         this.store = globalStore;
-        if (store && store.getState && store.dispatch) {
-            this.store = store;
-        }
-
         this.isInRHS = props.isInRHS;
         let rootId;
         if (this.isInRHS) {
