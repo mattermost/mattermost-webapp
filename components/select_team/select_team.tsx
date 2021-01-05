@@ -47,7 +47,7 @@ type Props = {
     currentUserIsGuest?: boolean;
     customDescriptionText?: string;
     isMemberOfTeam: boolean;
-    listableTeams: Array<Team>;
+    listableTeams: Team[];
     siteName?: string;
     canCreateTeams: boolean;
     canManageSystem: boolean;
@@ -64,7 +64,7 @@ type State = {
     error: any;
     endofTeamsData: boolean;
     currentPage: number;
-    currentListableTeams: Array<Team>;
+    currentListableTeams: Team[];
 }
 
 export default class SelectTeam extends React.PureComponent<Props, State> {

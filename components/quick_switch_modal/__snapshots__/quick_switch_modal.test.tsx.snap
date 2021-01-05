@@ -66,6 +66,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         className="icon icon-magnify icon-16"
       />
       <SuggestionBox
+        aria-label="quick switch input"
         className="form-control focused"
         completeOnTab={false}
         containerClass=""

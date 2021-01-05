@@ -50,7 +50,7 @@ type Props = {
     formatOptions: Partial<TextFormattingOptions>;
     intl: IntlShape;
     postType: string;
-    usernames: Array<string>;
+    usernames: string[];
 }
 
 type State = {
