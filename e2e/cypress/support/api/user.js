@@ -105,22 +105,14 @@ Cypress.Commands.add('apiGetUserById', (userId) => {
     });
 });
 
-Cypress.Commands.add('apiGetUserByEmail', (email) => {
+Cypress.Commands.add('apiGetUserByEmail', (email, failOnStatusCode = true) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/email/' + email,
     }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap({user: response.body});
-    });
-});
-
-Cypress.Commands.add('apiGetUserByEmailNoError', (email) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/email/' + email,
-        failOnStatusCode: false,
-    }).then((response) => {
+        if (failOnStatusCode) {
+            expect(response.status).to.equal(200);
+        }
         return cy.wrap({user: response.body});
     });
 });
@@ -450,18 +442,6 @@ Cypress.Commands.add('apiUpdateUserAuth', (userId, authData, password, authServi
             password,
             auth_service: authService,
         },
-    }).then((response) => {
-        expect(response.status).to.equal(200);
-        return cy.wrap(response);
-    });
-});
-
-Cypress.Commands.add('apiUpdateAuthData', (userId, authdata) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/users/${userId}/auth`,
-        method: 'PUT',
-        body: authdata,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);

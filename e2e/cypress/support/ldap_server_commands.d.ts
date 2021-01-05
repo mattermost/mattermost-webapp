@@ -22,6 +22,6 @@ declare namespace Cypress {
         * against a local docker installation of OpenLdap.
         * @returns {string} - access token
         */
-       addLDAPUsers(): Chainable;
+        addLDAPUsers(): Chainable;
     }
 }

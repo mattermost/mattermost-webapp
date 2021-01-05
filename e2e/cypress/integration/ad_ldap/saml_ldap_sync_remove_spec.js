@@ -12,38 +12,19 @@
 import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
+import testusers from '../../fixtures/saml_ldap_users.json';
 
 // assumes that E20 license is uploaded
 // assumes openldap docker available on config default http://localhost:389
 // assumes keycloak docker - uses api to update
 // assumes the CYPRESS_* variables are set (CYPRESS_keycloakBaseUrl / CYPRESS_keycloakAppName)
 // requires {"chromeWebSecurity": false}
-// copy ./mattermost-server/build/docker/keycloak/keycloak.crt -> ./mattermost-server/config/saml-idp.crt
-describe('ad_ldap', () => {
+// copy ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt -> ./mattermost-server/config/keycloak.crt
+describe('AD / LDAP', () => {
     const admin = getAdminAccount();
     const baseUrl = Cypress.config('baseUrl');
     const loginButtonText = 'SAML';
-
-    const user2 = {
-        username: 'e2etest.two',
-        password: 'Password1',
-        email: 'e2etest.two@mmtest.com',
-        firstname: 'TestSaml',
-        lastname: 'TwoSaml',
-        ldapfirstname: 'TestLDAP',
-        ldaplastname: 'TwoLDAP',
-        keycloakId: '',
-    };
-
-    const user4 = {
-        username: 'e2etest.four',
-        password: 'Password1',
-        email: 'e2etest.four@mmtest.com',
-        firstname: 'TestSaml',
-        lastname: 'FourSaml',
-        keycloakId: '',
-    };
-    const users = {user2, user4};
+    const users = [testusers.user2, testusers.user4];
 
     const {
         keycloakBaseUrl,
@@ -64,8 +45,8 @@ describe('ad_ldap', () => {
             IdpUrl: idpUrl,
             IdpDescriptorUrl: idpDescriptorUrl,
             IdpMetadataUrl: '',
-            ServiceProviderIdentifier: `${Cypress.config('baseUrl')}/login/sso/saml`,
-            AssertionConsumerServiceURL: `${Cypress.config('baseUrl')}/login/sso/saml`,
+            ServiceProviderIdentifier: `${baseUrl}/login/sso/saml`,
+            AssertionConsumerServiceURL: `${baseUrl}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA256',
             CanonicalAlgorithm: 'Canonical1.0',
             IdpCertificateFile: 'saml-idp.crt',
@@ -96,14 +77,8 @@ describe('ad_ldap', () => {
         // * Check if server has license for LDAP
         cy.apiRequireLicenseForFeature('LDAP');
 
-        // # Get certificates status and upload as necessary
-        cy.apiGetSAMLCertificateStatus().then((resp) => {
-            const data = resp.body;
-
-            if (!data.idp_certificate_file) {
-                cy.apiUploadSAMLIDPCert('saml-idp.crt');
-            }
-        });
+        // # Upload certificate, overwrite existing
+        cy.apiUploadSAMLIDPCert('keycloak.crt');
 
         // # Update Configs
         cy.apiUpdateConfig(newConfig).then(({config}) => {
@@ -117,7 +92,7 @@ describe('ad_ldap', () => {
         cy.addLDAPUsers();
     });
 
-    it('MM-T3013 (Step 2) - SAML User, Not in LDAP, ', () => {
+    it('MM-T3013_2 - SAML User, Not in LDAP, ', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
@@ -129,7 +104,7 @@ describe('ad_ldap', () => {
             cy.apiUpdateConfig(testConfig);
         });
 
-        testSettings.user = user4;
+        testSettings.user = users[1];
 
         // # MM Login via SAML
         cy.doSamlLogin(testSettings).then(() => {
@@ -163,7 +138,7 @@ describe('ad_ldap', () => {
         });
     });
 
-    it('MM-T3013 (Step 3) - Deactivate user in SAML', () => {
+    it('MM-T3013_3 - Deactivate user in SAML', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
@@ -175,7 +150,7 @@ describe('ad_ldap', () => {
             cy.apiUpdateConfig(testConfig);
         });
 
-        testSettings.user = user2;
+        testSettings.user = users[0];
 
         // # MM Login via SAML
         cy.doSamlLogin(testSettings).then(() => {

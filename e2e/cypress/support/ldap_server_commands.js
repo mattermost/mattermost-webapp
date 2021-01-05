@@ -2,6 +2,6 @@
 // See LICENSE.txt for license information.
 
 Cypress.Commands.add('addLDAPUsers', () => {
-    cy.exec('ldapmodify -x -D "cn=admin,dc=mm,dc=test,dc=com" -w mostest -H ldap:// -f cypress/fixtures/test-data.ldif -c', {failOnNonZeroExit: false});
+    cy.exec(`ldapmodify -x -D "cn=admin,dc=mm,dc=test,dc=com" -w mostest -H ldap://${Cypress.env('ldapServer')}:${Cypress.env('ldapPort')} -f cypress/fixtures/test-data.ldif -c`, {failOnNonZeroExit: false});
 });
 

@@ -20,6 +20,6 @@ declare namespace Cypress {
         * checkForLDAPError verifies that an LDAP error is displayed.
         * @returns {boolean} - true if error successfully found.
         */
-       checkForLDAPError(): Chainable;
+        checkForLDAPError(): Chainable;
     }
 }

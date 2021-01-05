@@ -129,7 +129,7 @@ Cypress.Commands.add('doSkipTutorial', () => {
 
 Cypress.Commands.add('runLdapSync', (admin) => {
     cy.externalRequest({user: admin, method: 'post', path: 'ldap/sync'}).then(() => {
-        cy.waitForSyncCompletion(Date.now(), 30000).then(() => {
+        cy.waitForSyncCompletion(Date.now(), TIMEOUTS.HALF_MIN).then(() => {
             return cy.wrap(true);
         });
     });
@@ -140,7 +140,7 @@ Cypress.Commands.add('getJobStatus', (start) => {
     cy.externalRequest({user: admin, method: 'get', path: 'jobs/type/ldap_sync'}).then((result) => {
         const jobs = result.data;
         if (jobs && jobs[0]) {
-            if (Math.abs(jobs[0].create_at - start) < 2000) {
+            if (Math.abs(jobs[0].create_at - start) < TIMEOUTS.TWO_SEC) {
                 switch (jobs[0].status) {
                 case 'success':
                     return cy.wrap('success');
@@ -169,7 +169,7 @@ Cypress.Commands.add('waitForSyncCompletion', (start, timeout) => {
         }
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(5000);
+        cy.wait(TIMEOUTS.FIVE_SEC);
         cy.waitForSyncCompletion(start, timeout);
     });
 });
