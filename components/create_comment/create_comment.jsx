@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {Locations} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
@@ -297,6 +297,12 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+
+        if (this.saveDraftFrame) {
+            cancelAnimationFrame(this.saveDraftFrame);
+
+            this.props.onUpdateCommentDraft(this.state.draft);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -697,7 +703,12 @@ class CreateComment extends React.PureComponent {
 
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
-        this.props.onUpdateCommentDraft(updatedDraft);
+
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.onUpdateCommentDraft(updatedDraft);
+        });
+
         this.setState({draft: updatedDraft, serverError}, () => {
             this.scrollToBottom();
         });
