@@ -665,16 +665,27 @@
             top: -3px;
             position: relative;
         }
-        .custom-status-emoji {
-            height: 18px;
-            width: 18px;
+        .custom-status {
             display: flex;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .custom-status-text {
+            margin-left: 4px;
+        }
+
+        .custom-status-emoji {
+            display: flex;
+            height: 16px;
+            margin-left: 4px;
+            min-width: 16px;
         }
         .custom-status-emoji > span:first-child {
             height: 16px;
             width: 16px;
             min-height: 16px;
-            max-width: 16px;
+            min-width: 16px;
         }
     }
 

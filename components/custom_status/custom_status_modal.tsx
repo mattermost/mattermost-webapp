@@ -89,7 +89,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
+                    placement='top'
                     overlay={
                         <Tooltip id='clear-custom-status'>
                             {'Clear'}
@@ -115,54 +115,57 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const recentStatuses = (
-        <>
-            <div className='statusSuggestion__row'>
-                <span className='statusSuggestion__title'>
-                    {'Recent Statuses'}
-                </span>
+        <div>
+            <div className='statusSuggestion__title'>
+                {'RECENT'}
             </div>
             {
                 recentCustomStatuses.map((status: any) => (
                     <CustomStatusSuggestion
-                        key={text}
+                        key={status.text}
                         handleSuggestion={handleSuggestion}
                         emoji={status.emoji}
                         text={status.text}
                     />
                 ))
             }
-        </>
+        </div>
     );
 
     const suggestion = (
         <div className='statusSuggestion'>
             <div className='statusSuggestion__content'>
-                <CustomStatusSuggestion
-                    handleSuggestion={handleSuggestion}
-                    emoji={'calendar'}
-                    text={'In a meeting'}
-                />
-                <CustomStatusSuggestion
-                    handleSuggestion={handleSuggestion}
-                    emoji={'hamburger'}
-                    text={'Out for lunch'}
-                />
-                <CustomStatusSuggestion
-                    handleSuggestion={handleSuggestion}
-                    emoji={'sneezing_face'}
-                    text={'Out Sick'}
-                />
-                <CustomStatusSuggestion
-                    handleSuggestion={handleSuggestion}
-                    emoji={'house'}
-                    text={'Working from home'}
-                />
-                <CustomStatusSuggestion
-                    handleSuggestion={handleSuggestion}
-                    emoji={'palm_tree'}
-                    text={'On a vacation'}
-                />
                 {recentCustomStatuses.length > 0 && recentStatuses}
+                <div>
+                    <div className='statusSuggestion__title'>
+                        {'SUGGESTIONS'}
+                    </div>
+                    <CustomStatusSuggestion
+                        handleSuggestion={handleSuggestion}
+                        emoji={'calendar'}
+                        text={'In a meeting'}
+                    />
+                    <CustomStatusSuggestion
+                        handleSuggestion={handleSuggestion}
+                        emoji={'hamburger'}
+                        text={'Out for lunch'}
+                    />
+                    <CustomStatusSuggestion
+                        handleSuggestion={handleSuggestion}
+                        emoji={'sneezing_face'}
+                        text={'Out Sick'}
+                    />
+                    <CustomStatusSuggestion
+                        handleSuggestion={handleSuggestion}
+                        emoji={'house'}
+                        text={'Working from home'}
+                    />
+                    <CustomStatusSuggestion
+                        handleSuggestion={handleSuggestion}
+                        emoji={'palm_tree'}
+                        text={'On a vacation'}
+                    />
+                </div>
             </div>
         </div>
     );

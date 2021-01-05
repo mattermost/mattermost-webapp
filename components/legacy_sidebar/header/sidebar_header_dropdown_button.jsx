@@ -51,17 +51,33 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
-        let statusEmoji = null;
+        let status = null;
         const currentUser = this.props.currentUser;
         if (currentUser && currentUser.props && currentUser.props.customStatus) {
             const customStatus = JSON.parse(currentUser.props.customStatus);
-            if (customStatus.emoji !== '') {
-                statusEmoji = messageHtmlToComponent(
-                    `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
-                    false,
-                    {emoji: true},
-                );
-            }
+            const statusEmoji = (messageHtmlToComponent(
+                `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
+                false,
+                {emoji: true},
+            ));
+            status = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={
+                        <Tooltip id='custom-status'>
+                            <div className='custom-status'>
+                                {statusEmoji}
+                                <span className='custom-status-text'>
+                                    {customStatus.text}
+                                </span>
+                            </div>
+                        </Tooltip>
+                    }
+                >
+                    {statusEmoji}
+                </OverlayTrigger>
+            );
         }
 
         return (
@@ -85,7 +101,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        {statusEmoji}
+                        {status}
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'

@@ -126,13 +126,13 @@
 .statusSuggestion  {
     height: 250px;
     overflow: auto;
-    margin-top: 16px;
+    margin-top: 8px;
 }
 
 .statusSuggestion__content  {
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: 100%;
     width: 100%;
     box-shadow: none;
     border: none;
@@ -142,12 +142,12 @@
 .statusSuggestion__row {
     display: flex;
     font-size: inherit;
-    height: 48px;
+    min-height: 44px;
     align-items: center;
-    padding: 0 24px;
+    padding: 0 20px;
+    color: var(--center-channel-color);
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
-        color: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     &:active {
@@ -160,7 +160,10 @@
 }
 
 .statusSuggestion__title{
-    font-weight: 700;
+    display: flex;
+    font-weight: 600;
+    height: 24px;
+    margin-top: 8px;
 }
 
 .statusSuggestion__text{
