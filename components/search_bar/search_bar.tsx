@@ -4,6 +4,9 @@
 import React, {ChangeEvent, CSSProperties, FormEvent, useEffect, useRef} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
+import {Action} from 'redux';
+
+import {Channel} from 'mattermost-redux/src/types/channels';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -22,6 +25,7 @@ const style: Record<string, CSSProperties> = {
 type Props = {
     searchTerms: string;
     updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void;
+    updateSearchTerms: (term: string) => Action;
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
     handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -36,6 +40,7 @@ type Props = {
     isSideBarRight?: boolean;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
+    currentChannel: Channel;
 }
 
 const defaultProps: Partial<Props> = {
@@ -45,11 +50,49 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-    const {isFocussed, keepFocussed, searchTerms, suggestionProviders} = props;
+    const {isFocussed, keepFocussed, searchTerms, suggestionProviders, currentChannel} = props;
 
     const searchRef = useRef<SuggestionBox>();
     const intl = useIntl();
+    useEffect(() => {
+        if (!Utils.isMobile()) {
+            document.addEventListener('keydown', searchCurrentChannel);
+        }
+        return () => {
+            document.removeEventListener('keydown', searchCurrentChannel);
+        };
+    }, [currentChannel]);
 
+    /**
+      * On HotKey CMD/Ctrl + Shift + F prefill the search box with "in: {current channel}" or "in: @username"
+      * @param {KeyboardEvent} e Event
+      */
+    const searchCurrentChannel = (e: KeyboardEvent) => {
+        if (
+            !e.altKey &&
+            (e.ctrlKey || e.metaKey) &&
+            e.shiftKey &&
+            Utils.isKeyPressed(e, Constants.KeyCodes.F)
+        ) {
+            e.preventDefault();
+
+            // To prevent event from executing on holding down.
+            // https://stackoverflow.com/a/38241109
+            if (e.repeat) {
+                return;
+            }
+            setTimeout(() => searchRef.current?.focus(), 0);
+            let searchKey = '';
+
+            // Space added at end to make sure channel/user related hint is not shown.
+            if (currentChannel && currentChannel?.team_id) {
+                searchKey = `in: ${currentChannel.display_name} `;
+            } else if (currentChannel) {
+                searchKey = `in:@${currentChannel.display_name} `;
+            }
+            props.updateSearchTerms(searchKey);
+        }
+    };
     useEffect((): void => {
         const shouldFocus = isFocussed || keepFocussed;
         if (shouldFocus) {

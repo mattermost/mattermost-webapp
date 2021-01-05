@@ -337,6 +337,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
             <SearchBar
                 updateHighlightedSearchHint={updateHighlightedSearchHint}
+                updateSearchTerms={actions.updateSearchTerms}
                 handleEnterKey={handleEnterKey}
                 handleClear={handleClear}
                 handleChange={handleChange}
@@ -351,6 +352,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 isFocus={props.isFocus}
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
+                currentChannel={props.currentChannel}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>
