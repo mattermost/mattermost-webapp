@@ -124,7 +124,7 @@
 }
 
 .statusSuggestion  {
-    height: 250px;
+    height: 280px;
     overflow: auto;
     margin-top: 8px;
 }
@@ -164,16 +164,17 @@
     font-weight: 600;
     height: 24px;
     margin-top: 8px;
+    color: rgba(var(--center-channel-color-rgb), 0.55);
 }
 
 .statusSuggestion__text{
     font-weight: 600;
 }
 
-.custom-status-button > span:first-child > span.icon {
-    display: flex;
+.custom-status-suggestion-emoji > span:first-child {
+    background-size: 20px;
 }
 
-.custom-status-emoji > span:first-child {
-    background-size: 20px;
+.suggestion-clear{
+   margin-left: auto;
 }

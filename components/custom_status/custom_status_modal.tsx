@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Tooltip} from 'react-bootstrap';
 
-import {unsetUserCustomStatus, updateUserCustomStatus} from 'actions/views/user';
+import {removeRecentCustomStatus, unsetUserCustomStatus, updateUserCustomStatus} from 'actions/views/user';
 import GenericModal from 'components/generic_modal';
 import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -68,6 +68,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const handleTextChange = (event: any) => {
         setText(event.target.value);
     };
+
+    const handleRecentCustomStatusClear = (status: any) => {
+        dispatch(removeRecentCustomStatus(status));
+    };
+
     let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
     if (emoji || text) {
         customStatusEmoji = messageHtmlToComponent(
@@ -107,9 +112,10 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             </div>
         ) : null;
 
-    const disableSetStatus = currentCustomStatus.text === text && currentCustomStatus.emoji === emoji;
+    const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
+    (text === '' && emoji === '');
 
-    const handleSuggestion = (status: any) => {
+    const handleSuggestionClick = (status: any) => {
         setEmoji(status.emoji);
         setText(status.text);
     };
@@ -123,7 +129,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                 recentCustomStatuses.map((status: any) => (
                     <CustomStatusSuggestion
                         key={status.text}
-                        handleSuggestion={handleSuggestion}
+                        handleSuggestionClick={handleSuggestionClick}
+                        handleClear={handleRecentCustomStatusClear}
                         emoji={status.emoji}
                         text={status.text}
                     />
@@ -141,27 +148,27 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         {'SUGGESTIONS'}
                     </div>
                     <CustomStatusSuggestion
-                        handleSuggestion={handleSuggestion}
+                        handleSuggestionClick={handleSuggestionClick}
                         emoji={'calendar'}
                         text={'In a meeting'}
                     />
                     <CustomStatusSuggestion
-                        handleSuggestion={handleSuggestion}
+                        handleSuggestionClick={handleSuggestionClick}
                         emoji={'hamburger'}
                         text={'Out for lunch'}
                     />
                     <CustomStatusSuggestion
-                        handleSuggestion={handleSuggestion}
+                        handleSuggestionClick={handleSuggestionClick}
                         emoji={'sneezing_face'}
                         text={'Out Sick'}
                     />
                     <CustomStatusSuggestion
-                        handleSuggestion={handleSuggestion}
+                        handleSuggestionClick={handleSuggestionClick}
                         emoji={'house'}
                         text={'Working from home'}
                     />
                     <CustomStatusSuggestion
-                        handleSuggestion={handleSuggestion}
+                        handleSuggestionClick={handleSuggestionClick}
                         emoji={'palm_tree'}
                         text={'On a vacation'}
                     />

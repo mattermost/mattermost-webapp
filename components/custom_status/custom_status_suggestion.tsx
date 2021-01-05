@@ -1,8 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useState} from 'react';
+import {Tooltip} from 'react-bootstrap';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import messageHtmlToComponent from 'utils/message_html_to_component';
+import Constants from 'utils/constants';
 import './custom_status.scss';
 
 type CustomStatus = {
@@ -11,18 +14,66 @@ type CustomStatus = {
 }
 
 type Props = {
-    handleSuggestion: (status: CustomStatus) => void;
+    handleSuggestionClick: (status: CustomStatus) => void;
     emoji: string;
     text: string;
+    handleClear? : (status: CustomStatus) => void;
 };
 
 const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
-    const {handleSuggestion, emoji, text} = props;
+    const {handleSuggestionClick, emoji, text, handleClear} = props;
+    const [show, setShow] = useState(false);
+
+    const showClearButton = () => {
+        setShow(true);
+    };
+
+    const hideClearButton = () => {
+        setShow(false);
+    };
+
+    const handleRecentCustomStatusClear = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        if (handleClear) {
+            handleClear({
+                emoji,
+                text,
+            });
+        }
+    };
+
+    const clearButton = handleClear ?
+        (
+            <div
+                className='suggestion-clear'
+            >
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='clear-recent-custom-status'>
+                            {'Clear'}
+                        </Tooltip>
+                    }
+                >
+                    <span
+                        className='input-clear-x'
+                        aria-hidden='true'
+                        onClick={handleRecentCustomStatusClear}
+                    >
+                        <i className='icon icon-close-circle'/>
+                    </span>
+                </OverlayTrigger>
+            </div>
+        ) : null;
+
     return (
         <div
             className='statusSuggestion__row cursor--pointer a11y--active'
+            onMouseEnter={showClearButton}
+            onMouseLeave={hideClearButton}
             onClick={
-                () => handleSuggestion(
+                () => handleSuggestionClick(
                     {
                         emoji,
                         text,
@@ -31,7 +82,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
         >
             <div className='statusSuggestion__icon'>
                 {messageHtmlToComponent(
-                    `<span data-emoticon=${emoji} class="custom-status-emoji"/>`,
+                    `<span data-emoticon=${emoji} class="custom-status-suggestion-emoji"/>`,
                     false,
                     {emoji: true},
                 )}
@@ -39,6 +90,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             <span className='statusSuggestion__text'>
                 {text}
             </span>
+            {show && clearButton}
         </div>
     );
 };
