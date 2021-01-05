@@ -199,6 +199,7 @@ export default class SuggestionBox extends React.PureComponent {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
+            suggestionBoxAlgn: {},
         };
 
         this.inputRef = React.createRef();
@@ -543,6 +544,7 @@ export default class SuggestionBox extends React.PureComponent {
                 items: [],
                 components: [],
                 selection: '',
+                suggestionBoxAlgn: {},
             });
             this.handlePretextChanged('');
         }
@@ -655,6 +657,18 @@ export default class SuggestionBox extends React.PureComponent {
             handled = provider.handlePretextChanged(pretext, callback) || handled;
 
             if (handled) {
+                if (this.state.suggestionBoxAlgn.pixelsToMoveX === undefined &&
+                    this.state.suggestionBoxAlgn.pixelsToMoveY === undefined) {
+                    const char = provider.triggerCharacter || '@';
+                    const pxToSubstract = Utils.getPxToSubstract(char);
+
+                    // get the alignment for the box and set it in the component state
+                    const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(this.getTextbox(), pxToSubstract, this.props.listStyle);
+                    this.setState({
+                        suggestionBoxAlgn,
+                    });
+                }
+
                 this.setState({
                     presentationType: provider.presentationType(),
                     allowDividers: provider.allowDividers(),
@@ -785,6 +799,7 @@ export default class SuggestionBox extends React.PureComponent {
                             matchedPretext={this.state.matchedPretext}
                             items={this.state.items}
                             terms={this.state.terms}
+                            suggestionBoxAlgn={this.state.suggestionBoxAlgn}
                             selection={this.state.selection}
                             components={this.state.components}
                             wrapperHeight={this.props.wrapperHeight}
