@@ -212,6 +212,12 @@
         }
     }
 }
+.post-right__container {
+    height: 100%;
+    .ThreadViewer {
+        height: 100%;
+    }
+}
 
 .post-right-header {
     border-bottom: $border-gray;
