@@ -61,7 +61,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isLicensed: license.IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
-        shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, post, channel),
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,

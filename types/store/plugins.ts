@@ -31,7 +31,14 @@ export type PluginsState = {
 export type PluginComponent = {
     id: string;
     pluginId: string;
-    component: React.Component;
+    component?: React.Component;
+    subMenu?: any[]; // TODO Add more concrete type
+    text?: string;
+    dropdownText?: string;
+    tooltipText?: string;
+    icon?: React.ReactElement;
+    filter?: (id: string) => boolean;
+    action?: (...args: any) => void; // TODO Add more concrete types?
 };
 
 export type PostPluginComponent = {
@@ -53,7 +60,7 @@ export type AdminConsolePluginComponent = {
 export type PostWillRenderEmbedPluginComponent = {
     id: string;
     pluginId: string;
-    component: React.ComponentType<{ embed: PostEmbed; }>;
+    component: React.ComponentType<{ embed: PostEmbed }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }

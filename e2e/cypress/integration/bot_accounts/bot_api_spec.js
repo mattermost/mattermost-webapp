@@ -18,9 +18,11 @@ describe('Bot accounts ownership and API', () => {
     let newUser;
     let newChannel;
     let newBot;
-
+    let adminUser;
     beforeEach(() => {
-        cy.apiAdminLogin();
+        cy.apiAdminLogin().then(({user}) => {
+            adminUser = user;
+        });
 
         cy.apiInitSetup().then(({team, user, channel}) => {
             newTeam = team;
@@ -33,61 +35,16 @@ describe('Bot accounts ownership and API', () => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
+                EnforceMultifactorAuthentication: false,
                 EnableBotAccountCreation: true,
-                DisableBotsWhenOwnerIsDeactivated: true,
-            },
-            PluginSettings: {
-                Enable: true,
-                RequirePluginSignature: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
 
         // # Create a test bot
-        cy.apiCreateBot(botName, 'Test Bot', 'test bot').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             newBot = bot;
             cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
-        });
-    });
-
-    it('MM-T1861 Bots do not re-enable if the owner is re-activated', () => {
-        // # Create another admin account
-        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
-            // # Login as the new admin
-            cy.apiLogin(sysadmin);
-
-            // # Create a new bot as the new admin
-            const botName3 = 'stay-enabled-bot-' + Date.now();
-            cy.apiCreateBot(botName3, 'Bot that should get disabled', 'hello bot');
-
-            // # Login again as main admin
-            cy.apiAdminLogin();
-
-            // # Deactivate the newly created admin
-            cy.apiDeactivateUser(sysadmin.id);
-
-            // # Get bot list
-            cy.visit(`/${newTeam.name}/integrations/bots`);
-
-            // # Search for the other bot
-            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(botName3);
-
-            // * Validate that the plugin is disabled since it's owner is deactivate
-            cy.get('.bot-list__disabled').scrollIntoView().should('be.visible');
-
-            // # Re-activate the newly created admin
-            cy.apiActivateUser(sysadmin.id);
-
-            // # Repeat the test to confirm it stays disabled
-
-            // # Get bot list
-            cy.visit(`/${newTeam.name}/integrations/bots`);
-
-            // # Search for the other bot
-            cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(botName3);
-
-            // * Validate that the plugin is disabled even though it's owner is activate
-            cy.get('.bot-list__disabled').scrollIntoView().should('be.visible');
         });
     });
 
@@ -148,11 +105,8 @@ describe('Bot accounts ownership and API', () => {
         // # Login as admin
         cy.apiAdminLogin();
 
-        // # Create a new bot as the new admin
-        const botName3 = 'stay-enabled-bot-' + Date.now();
-
         // * This call will fail if bot was not created
-        cy.apiCreateBot(botName3, 'Bot that should get disabled', 'hello bot');
+        cy.apiCreateBot();
     });
 
     it('MM-T1865 Create post as bot', () => {
@@ -233,17 +187,16 @@ describe('Bot accounts ownership and API', () => {
     it('MM-T1868 BOT has a member role and is not in target channel and team', () => {
         // # Login as admin
         cy.apiAdminLogin();
-        const botName3 = 'stay-enabled-bot-' + Date.now();
 
         // # Create a test bot (member)
-        cy.apiCreateBot(botName3, 'Test Bot', 'test bot').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             // # Create token for the bot
             cy.apiCreateToken(bot.user_id).then(({token}) => {
                 // # Logout to allow posting as bot
                 cy.apiLogout();
 
                 // # Try posting
-                cy.apiCreatePost(newChannel.id, 'this is a bot message ' + botName3, '', {}, token, false).then((response) => {
+                cy.apiCreatePost(newChannel.id, 'this is a bot message ' + bot.username, '', {}, token, false).then((response) => {
                     // * Validate that posting was not allowed
                     expect(response.status).to.equal(403);
                 });
@@ -293,6 +246,237 @@ describe('Bot accounts ownership and API', () => {
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
                     cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
+                });
+            });
+        });
+    });
+    it('MM-T1872 Bot can post to DM channel', () => {
+        // # Create DM channel that bot doesn't belong to
+        cy.apiCreateDirectChannel([newUser.id, adminUser.id]).then(({channel}) => {
+            // # Create token for the bot
+            cy.apiAccessToken(newBot.user_id, 'some text').then(({token}) => {
+                const msg1 = 'this is a bot message ' + botName;
+
+                // # Post test message
+                cy.postBotMessage({message: msg1, token, channelId: channel.id});
+
+                // # Validate post presence
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
+
+                cy.getLastPostId().then((postId) => {
+                    // * Validate post was created
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
+                });
+            });
+        });
+    });
+
+    it('MM-T1874 Bots can post when MFA is enforced', () => {
+        // # Create token for the bot
+        cy.apiAccessToken(newBot.user_id, 'some text').then(({token}) => {
+            const msg1 = 'this is a bot message ' + botName;
+            cy.postBotMessage({channelId: newChannel.id, message: msg1, props: {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token});
+
+            // # Visit test channel
+            cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
+
+            // * Validate post was created
+            cy.findByText(msg1).should('be.visible');
+
+            const newSettings = {
+                ServiceSettings: {
+                    EnforceMultifactorAuthentication: true,
+                },
+            };
+            cy.apiUpdateConfig(newSettings);
+
+            const msg2 = 'this is a bot message2 ' + botName;
+            cy.postBotMessage({channelId: newChannel.id, message: msg2, props: {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token});
+
+            cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
+
+            // * Validate post was created
+            cy.findByText(msg2).should('be.visible');
+        });
+    });
+
+    it('MM-T1875 A bot cannot create another bot', () => {
+        // # Create token for the bot
+        cy.apiAccessToken(newBot.user_id, 'some text').then(({token}) => {
+            // # Logout to allow posting as bot
+            cy.apiLogout();
+
+            // # Try to create a new bot
+            cy.request({
+                headers: {'X-Requested-With': 'XMLHttpRequest', Authorization: `Bearer ${token}`},
+                url: '/api/v4/bots',
+                method: 'POST',
+                failOnStatusCode: false,
+                body: {
+                    username: botName + '333',
+                    display_name: 'some text',
+                    description: 'some text',
+                },
+            }).then((response) => {
+                // * Validate that request was denied
+                expect(response.status).to.equal(403);
+            });
+        });
+    });
+
+    it('MM-T1877 Reactivate a deactivated bot', () => {
+        // # Create private channel that bot doesn't belong to
+        cy.apiCreateDirectChannel([newUser.id, adminUser.id]).then(({channel}) => {
+            // # Create token for the bot
+            cy.apiAccessToken(newBot.user_id, 'some text').then(({token}) => {
+                const msg1 = 'this is a bot message ' + botName;
+
+                // # Create a post
+                cy.postBotMessage({channelId: channel.id, message: msg1, token});
+
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
+
+                cy.getLastPostId().then((postId) => {
+                    // * Validate post was created
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
+                });
+
+                // # Disable the bot
+                cy.visit(`/${newTeam.name}/integrations/bots`);
+
+                cy.findByText(`Test Bot (@${botName})`).scrollIntoView().parent().findByText('Disable').click();
+
+                // # Try to post again
+                const msg2 = 'this is a bot message2 ' + botName;
+
+                // # Logout to allow posting as bot
+                cy.apiLogout();
+
+                // # Create a post
+                cy.postBotMessage({channelId: channel.id, message: msg2, token, failOnStatus: false}).then(({status}) => {
+                    // * Validate that posting failed
+                    expect(status, 403);
+                });
+
+                cy.apiAdminLogin();
+
+                // # Enable the bot again
+                cy.visit(`/${newTeam.name}/integrations/bots`);
+                cy.findByText(`Test Bot (@${botName})`).scrollIntoView().parent().findByText('Enable').click();
+
+                // # Try to post again
+
+                // * Validate that posting works
+                cy.postBotMessage({channelId: channel.id, message: msg2, token});
+
+                // * Validate post presence
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
+
+                cy.getLastPostId().then((postId) => {
+                    // * Validate post was created
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg2);
+                });
+            });
+        });
+    });
+
+    it('MM-T1878 Disable token can not be used to post', () => {
+        // # Create DM channel that bot doesn't belong to
+        cy.apiCreateDirectChannel([newUser.id, adminUser.id]).then(({channel}) => {
+            // # Create token for the bot
+            cy.apiAccessToken(newBot.user_id, 'some text').then(({token, id}) => {
+                const msg1 = 'this is a bot message ' + botName;
+
+                // # Create a post
+                cy.postBotMessage({channelId: channel.id, message: msg1, token});
+
+                // # Validate post presence
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
+
+                cy.getLastPostId().then((postId) => {
+                    // * Validate post was created
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
+                });
+
+                // # Disable the bot token
+                cy.visit(`/${newTeam.name}/integrations/bots`);
+
+                cy.findByText(`Test Bot (@${botName})`).then((el) => {
+                    // # Make sure it's on the screen
+                    cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+                    cy.get(`[name="${id}_deactivate"]`).click();
+                });
+
+                // # Try to post again
+                const msg2 = 'this is a bot message2 ' + botName;
+
+                // # Create a post
+                cy.postBotMessage({channelId: channel.id, message: msg2, token, failOnStatus: false}).then(({status}) => {
+                    // * Validate that posting failed
+                    expect(status, 403);
+                });
+
+                // # Enable the bot token again
+                cy.visit(`/${newTeam.name}/integrations/bots`);
+
+                cy.findByText(`Test Bot (@${botName})`).then((el) => {
+                    // # Make sure it's on the screen
+                    cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+                    cy.get(`[name="${id}_activate"]`).click();
+                });
+
+                // # Try to post again
+                // * Validate that posting works
+                cy.postBotMessage({channelId: channel.id, message: msg2, token});
+
+                // # Validate post presence
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
+
+                cy.getLastPostId().then((postId) => {
+                    // * Validate post was created
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg2);
+                });
+            });
+        });
+    });
+
+    it('MM-T1880 Deleted token can not be used to post', () => {
+        // # Create private channel that bot doesn't belong to
+        cy.apiCreateDirectChannel([newUser.id, adminUser.id]).then(({channel}) => {
+            // # Create token for the bot
+            cy.apiAccessToken(newBot.user_id, 'some text').then(({token, id}) => {
+                const msg1 = 'this is a bot message ' + botName;
+
+                // # Create a post
+                cy.postBotMessage({channelId: channel.id, message: msg1, token});
+
+                // # Validate post presence
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
+
+                cy.getLastPostId().then((postId) => {
+                    // * Validate post was created
+                    cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
+                });
+
+                // # Disable the bot token
+                cy.visit(`/${newTeam.name}/integrations/bots`);
+
+                cy.findByText(`Test Bot (@${botName})`).then((el) => {
+                    // # Make sure it's on the screen
+                    cy.wrap(el[0].parentElement.parentElement).scrollIntoView();
+
+                    // # Delete token
+                    cy.get(`[name="${id}_delete"]`).click();
+                    cy.get('#confirmModalButton').click();
+
+                    // # Try to post again
+                    const msg2 = 'this is a bot message2 ' + botName;
+
+                    // # Create a post
+                    cy.postBotMessage({channelId: channel.id, message: msg2, token, failOnStatus: false}).then(({status}) => {
+                        // * Validate that posting failed
+                        expect(status, 403);
+                    });
                 });
             });
         });

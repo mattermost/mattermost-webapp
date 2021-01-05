@@ -8,8 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @team_settings
+// Group: @te_only @team_settings
 
 import {generateRandomUser} from '../../support/api/user';
 
@@ -21,11 +20,9 @@ describe('Team Settings', () => {
     const emailDomain = 'sample.mattermost.com';
 
     before(() => {
-        // # Delete license
-        cy.apiDeleteLicense();
+        cy.shouldRunOnTeamEdition();
 
-        // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+        // # Do email test if setup properly
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {

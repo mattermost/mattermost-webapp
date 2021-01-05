@@ -8,13 +8,15 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @signin_authentication
+// Group: @not_cloud @signin_authentication
 
 describe('Cookie with Subpath', () => {
     let testUser;
     let townsquareLink;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Create new team and user
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;

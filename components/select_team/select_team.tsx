@@ -9,7 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {Team} from 'mattermost-redux/types/teams';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import * as UserAgent from 'utils/user_agent';
@@ -36,35 +36,35 @@ export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 type Actions = {
-    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => any,
-    loadRolesIfNeeded: (roles: Iterable<string>) => any,
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => any;
+    loadRolesIfNeeded: (roles: Iterable<string>) => any;
     addUserToTeam: (teamId: string, userId?: string) => any;
 }
 
 type Props = {
-    currentUserId: string,
-    currentUserRoles: string,
-    currentUserIsGuest?: boolean,
-    customDescriptionText?: string,
-    isMemberOfTeam: boolean,
-    listableTeams: Array<Team>,
-    siteName?: string,
-    canCreateTeams: boolean,
-    canManageSystem: boolean,
-    canJoinPublicTeams: boolean,
-    canJoinPrivateTeams: boolean,
-    history?: any,
-    siteURL?: string,
-    actions: Actions,
-    totalTeamsCount: number,
+    currentUserId: string;
+    currentUserRoles: string;
+    currentUserIsGuest?: boolean;
+    customDescriptionText?: string;
+    isMemberOfTeam: boolean;
+    listableTeams: Team[];
+    siteName?: string;
+    canCreateTeams: boolean;
+    canManageSystem: boolean;
+    canJoinPublicTeams: boolean;
+    canJoinPrivateTeams: boolean;
+    history?: any;
+    siteURL?: string;
+    actions: Actions;
+    totalTeamsCount: number;
 };
 
 type State = {
-    loadingTeamId?: string,
-    error: any,
-    endofTeamsData: boolean,
-    currentPage: number,
-    currentListableTeams: Array<Team>,
+    loadingTeamId?: string;
+    error: any;
+    endofTeamsData: boolean;
+    currentPage: number;
+    currentListableTeams: Team[];
 }
 
 export default class SelectTeam extends React.PureComponent<Props, State> {

@@ -5,21 +5,21 @@ import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
 import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
-import {addChannelToCategory} from 'mattermost-redux/actions/channel_categories';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {ActionFunc} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
+import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 
-import {getCategoriesForCurrentTeam} from 'selectors/views/channel_sidebar';
+import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
 import {GlobalState} from 'types/store';
 
@@ -59,6 +59,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         channelLink: `${getSiteURL()}${ownProps.channelLink}`,
         managePublicChannelMembers,
         managePrivateChannelMembers,
+        displayedChannels: getDisplayedChannels(state),
+        multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
     };
 }
 
@@ -69,19 +71,19 @@ type Actions = {
     muteChannel: (userId: string, channelId: string) => void;
     unmuteChannel: (userId: string, channelId: string) => void;
     openModal: (modalData: any) => void;
-    addChannelToCategory: (categoryId: string, channelId: string) => void;
+    addChannelsInSidebar: (categoryId: string, channelId: string) => void;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             markChannelAsRead,
             favoriteChannel,
             unfavoriteChannel,
             muteChannel,
             unmuteChannel,
             openModal,
-            addChannelToCategory,
+            addChannelsInSidebar,
         }, dispatch),
     };
 }
