@@ -4,7 +4,7 @@
 import React from 'react';
 import {Action} from 'redux';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import { Channel } from 'mattermost-redux/types/channels';
+import {Channel} from 'mattermost-redux/types/channels';
 
 export type OwnProps = {
     isSideBarRight?: boolean;

@@ -74,6 +74,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
             e.shiftKey &&
             Utils.isKeyPressed(e, Constants.KeyCodes.F)
         ) {
+            props.handleFocus();
+            e.stopPropagation();
             e.preventDefault();
 
             // To prevent event from executing on holding down.
@@ -81,7 +83,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
             if (e.repeat) {
                 return;
             }
-            setTimeout(() => searchRef.current?.focus(), 0);
+
             let searchKey = '';
 
             // Space added at end to make sure channel/user related hint is not shown.
