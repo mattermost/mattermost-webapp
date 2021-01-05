@@ -23,9 +23,9 @@ import UserGuideDropdown from './components/user_guide_dropdown';
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 type Props = {
-    rhsState: typeof RHSStates[keyof typeof RHSStates];
+    rhsState: typeof RHSStates[keyof typeof RHSStates] | null;
     rhsOpen: boolean;
-    isQuickSwitcherOpen: boolean;
+    isQuickSwitcherOpen?: boolean;
     actions: {
         showFlaggedPosts: () => void;
         showMentions: () => void;

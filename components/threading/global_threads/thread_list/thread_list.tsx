@@ -3,6 +3,9 @@
 
 import React, {memo, useCallback, PropsWithChildren} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
+import {useDispatch} from 'react-redux';
+
+import {markThreadsRead} from 'mattermost-redux/actions/threads';
 
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Header from 'components/widgets/header';
@@ -10,28 +13,25 @@ import Header from 'components/widgets/header';
 import Button from '../../common/button';
 
 import './thread_list.scss';
+import {useThreadRouting} from '../../hooks';
 
-type Filter = '' | 'unread';
+export type ThreadFilter = '' | 'unread';
 
 type Props = {
-    currentFilter: Filter,
-    someUnread: boolean
-    actions: {
-        setFilter: (filter: Filter) => void,
-        markAllRead: () => void,
-    },
+    currentFilter: ThreadFilter;
+    someUnread: boolean;
+    setFilter: (filter: ThreadFilter) => void;
 };
 
 const ThreadList = ({
     currentFilter = '',
     someUnread,
-    actions: {
-        setFilter,
-        markAllRead,
-    },
     children,
+    setFilter,
 }: PropsWithChildren<Props>) => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
+    const {currentTeamId, currentUserId} = useThreadRouting();
 
     return (
         <div className={'ThreadList'}>
@@ -41,7 +41,7 @@ const ThreadList = ({
                         <Button
                             className={'Button___large Margined'}
                             isActive={currentFilter === ''}
-                            onClick={useCallback(() => setFilter(''), [setFilter])}
+                            onClick={useCallback(() => setFilter(''), [])}
                         >
                             <FormattedMessage
                                 id='threading.filters.allThreads'
@@ -72,7 +72,10 @@ const ThreadList = ({
                         >
                             <Button
                                 className={'Button___large Button___icon'}
-                                onClick={useCallback(markAllRead, [markAllRead])}
+                                disabled={!someUnread}
+                                onClick={useCallback(() => {
+                                    dispatch(markThreadsRead(currentUserId, currentTeamId));
+                                }, [currentTeamId, currentUserId])}
                             >
                                 <span className='Icon'>
                                     <i className='icon-playlist-check'/>

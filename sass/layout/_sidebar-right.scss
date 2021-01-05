@@ -66,70 +66,8 @@
         }
     }
 
-    .post-body {
-        img {
-            max-height: 200px;
-        }
-    }
-
-    .post {
-        &.post--compact {
-            .card-icon__container {
-                margin: 0px 0 0 6px;
-            }
-        }
-
-        &.post--comment {
-            .post__body {
-                border-left: none;
-            }
-        }
-
-        .post__content {
-            padding: 0 10px 0 0;
-        }
-
-        .post__header {
-            .col__name {
-                &.Badge {
-                    flex: none;
-                }
-            }
-        }
-    }
-
-    .post-create__container {
-        form {
-            padding: 0;
-        }
-
-        .post-create {
-            padding: .5em 15px 0;
-        }
-
-        .msg-typing {
-            margin: 0;
-        }
-
-        .post-create-footer {
-            .post-error {
-                @include opacity(.55);
-                display: inline-block;
-                font-size: .85em;
-                font-weight: normal;
-                margin-bottom: 0;
-                position: relative;
-                top: 0;
-            }
-        }
-    }
-
     .channel-archived-warning {
         padding: 20px;
-    }
-
-    .help__format-text {
-        display: none;
     }
 
     .sidebar--right__content {

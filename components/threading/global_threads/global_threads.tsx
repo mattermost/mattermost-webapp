@@ -1,74 +1,71 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {getThreads} from 'mattermost-redux/actions/threads';
+import classNames from 'classnames';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getThreadOrder} from 'mattermost-redux/selectors/entities/threads';
+import {
+    getThreadOrderInCurrentTeam,
+    getUnreadThreadOrderInCurrentTeam,
+    getThreadCountsInCurrentTeam,
+    getThread,
+} from 'mattermost-redux/selectors/entities/threads';
+
+import {getThreads} from 'mattermost-redux/actions/threads';
+import {selectChannel} from 'mattermost-redux/actions/channels';
+
+import {GlobalState} from 'types/store/index';
 
 import {useStickyState} from 'stores/hooks';
-
-import {GlobalState} from 'types/store';
+import {setSelectedThreadId} from 'actions/views/threads';
 
 import RHSNavigation from 'components/rhs_navigation';
-
 import Header from 'components/widgets/header';
-import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
+import LoadingScreen from 'components/loading_screen';
+import NoResultsIndicator from 'components/no_results_indicator';
 
-import ChatIllustration from '../common/chat_illustration.svg';
+import {useThreadRouting} from '../hooks';
+import {ChatIllustrationImg, BalloonIllustrationImg} from '../common/graphics';
 
 import ThreadViewer from './thread_viewer';
-
-const ChatIllustrationImg = (
-    <img
-        draggable={false}
-        src={ChatIllustration}
-    />
-);
-
-import ThreadList from './thread_list';
+import ThreadList, {ThreadFilter} from './thread_list';
 import ThreadPane from './thread_pane';
 import ThreadItem from './thread_item';
 
 import './global_threads.scss';
 
-type Props = {
-    numUnread: number;
-    actions: {
-
-    };
-} & Pick<ComponentProps<typeof ThreadItem & typeof ThreadPane>, 'actions'>;
-
-const GlobalThreads = ({
-    numUnread = 1,
-    actions = {},
-}: Props) => {
+const GlobalThreads = () => {
     const {formatMessage} = useIntl();
-    const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
-    const [filter, setFilter] = useStickyState('', 'globalThreads_filter');
-    const currentUserId = useSelector(getCurrentUserId);
-    const currentTeamId = useSelector(getCurrentTeamId);
-    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier ?? ''));
-    const threadIds = useSelector(getThreadOrder);
-
     const dispatch = useDispatch();
 
+    const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
+    const [filter, setFilter] = useStickyState<ThreadFilter>('', 'globalThreads_filter');
+    const {currentTeamId, currentUserId} = useThreadRouting();
+
+    const counts = useSelector(getThreadCountsInCurrentTeam);
+    const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
+    const threadIds = useSelector(getThreadOrderInCurrentTeam);
+    const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
+    const numUnread = (counts && Math.max(counts.total_unread_mentions, counts.total_unread_replies)) || 0; // TODO incorrect: sum of unreads vs num of unread threads
+    const [page, setPage] = useState(0);
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId));
-    }, [getThreads]);
+        dispatch(getThreads(currentUserId, currentTeamId, {page}));
+    }, [currentUserId, currentTeamId, page, filter]);
+
+    useEffect(() => {
+        dispatch(selectChannel(''));
+        dispatch(setSelectedThreadId(currentUserId, currentTeamId, threadIdentifier));
+    }, [currentUserId, currentTeamId, threadIdentifier]);
 
     return (
         <div
             id='app-content'
-            className='GlobalThreads app__content'
+            className={classNames('GlobalThreads app__content', {'thread-selected': Boolean(selectedThread)})}
         >
             <Header
                 level={2}
@@ -79,38 +76,51 @@ const GlobalThreads = ({
             />
             {isEmpty(threadIds) ? (
                 <div className='no-results__holder'>
-                    <NoResultsIndicator
-                        iconGraphic={ChatIllustrationImg}
-                        title={'No followed threads yet'}
-                        subtitle={'Any threads you are mentioned in or have participated in will show here along with any threads you have followed.'}
-                    />
+                    {counts?.total == null ? (
+                        <LoadingScreen/>
+                    ) : (
+                        <div className='no-results__holder'>
+                            <NoResultsIndicator
+                                iconGraphic={ChatIllustrationImg}
+                                title={'No followed threads yet'}
+                                subtitle={'Any threads you are mentioned in or have participated in will show here along with any threads you have followed.'}
+                            />
+                        </div>
+                    )}
                 </div>
             ) : (
                 <>
                     <ThreadList
-                        someUnread={false}
                         currentFilter={filter}
-                        actions={{...actions, setFilter}}
+                        setFilter={setFilter}
+                        someUnread={Boolean(numUnread)}
                     >
-                        {threadIds?.map((id) => (
+                        {(filter === 'unread' ? unreadThreadIds : threadIds).map((id) => (
                             <ThreadItem
                                 key={id}
                                 threadId={id}
                                 isSelected={threadIdentifier === id}
                             />
                         ))}
+                        {filter === 'unread' && !numUnread && (
+                            <div className='no-results__holder'>
+                                <NoResultsIndicator
+                                    iconGraphic={BalloonIllustrationImg}
+                                    title={'No unread threads'}
+                                />
+                            </div>
+                        )}
                     </ThreadList>
-                    {selectedPost ? (
+                    {selectedThread ? (
                         <ThreadPane
-                            post={selectedPost}
-                            hasUnreads={false}
-                            isFollowing={true}
+                            thread={selectedThread}
+                            isFollowing={selectedThread.is_following ?? false}
                             isSaved={false}
-                            actions={actions}
+                            hasUnreads={!isEmpty(unreadThreadIds)}
                         >
                             <ThreadViewer
                                 currentUserId={currentUserId}
-                                rootPostId={selectedPost.id}
+                                rootPostId={selectedThread.id}
                                 useRelativeTimestamp={true}
                             />
                         </ThreadPane>
@@ -125,20 +135,20 @@ const GlobalThreads = ({
                                 subtitle={formatMessage({
                                     id: 'globalThreads.threadPane.unreadMessageLink',
                                     defaultMessage: `
-                                    You have
-                                    {numUnread, plural,
-                                        =0 {no unread threads}
-                                        =1 {<link>{numUnread} thread</link>}
-                                        other {<link>{numUnread} threads</link>}
-                                    }
-                                    {numUnread, plural,
-                                        =0 {}
-                                        other {with unread messages}
-                                    }
+                                        You have
+                                        {numUnread, plural,
+                                            =0 {no unread threads}
+                                            =1 {<link>{numUnread} thread</link>}
+                                            other {<link>{numUnread} threads</link>}
+                                        }
+                                        {numUnread, plural,
+                                            =0 {}
+                                            other {with unread messages}
+                                        }
                                     `,
                                 }, {
                                     numUnread,
-                                    link: (...chunks) => (
+                                    link: (chunks) => (
                                         <Link
                                             key='single'
                                             to={url}

@@ -63,7 +63,7 @@ export function renderThumbVertical(props: Record<string, any>) {
     );
 }
 
-type Attrs = 'className' | 'id';
+type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 
 type Props = {
     posts: Post[];
@@ -81,16 +81,16 @@ type Props = {
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
-} & Pick<HTMLAttributes<HTMLDivElement>, Attrs>;
+} & Attrs;
 
 type State = {
-    selected?: Record<string, any>;
+    selected?: Post | FakePost;
     windowWidth?: number;
     windowHeight?: number;
     isScrolling: boolean;
     topRhsPostId: string;
     openTime: number;
-    postsArray?: Record<string, any>[];
+    postsArray?: Array<Post | FakePost>;
     isBusy?: boolean;
     postsContainerHeight: number;
     userScrolledToBottom: boolean;
@@ -100,7 +100,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
-    private postCreateContainerRef : React.RefObject<HTMLDivElement>;
+    private postCreateContainerRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -152,7 +152,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         this.scrollToBottom();
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
-        if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
+        if (this.morePostsToFetch()) {
             this.props.actions.getPostThread(this.props.selected.id, true);
         }
     }
@@ -161,11 +161,18 @@ export default class ThreadViewer extends React.Component<Props, State> {
         window.removeEventListener('resize', this.handleResize);
     }
 
+    public morePostsToFetch() {
+        return this.props.posts.length <= 1 || this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1);
+    }
+
     public componentDidUpdate(prevProps: Props) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
-        if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
+        const reconnected = this.props.socketConnectionStatus && !prevProps.socketConnectionStatus;
+        const selectedChanged = this.props.selected.id !== prevProps.selected.id;
+
+        if (reconnected || selectedChanged) {
             this.props.actions.getPostThread(this.props.selected.id);
         }
 
@@ -434,64 +441,64 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
 
         return (
-            <div
-                className={classNames('ThreadViewer', this.props.className)}
-                ref={this.containerRef}
-            >
-                {!this.props.useRelativeTimestamp && (
-                    <FloatingTimestamp
-                        isScrolling={this.state.isScrolling}
-                        isMobile={Utils.isMobile()}
-                        postId={this.state.topRhsPostId}
-                        isRhsPost={true}
-                    />
-                )}
-                <Scrollbars
-                    autoHide={true}
-                    autoHideTimeout={500}
-                    autoHideDuration={500}
-                    renderThumbHorizontal={renderThumbHorizontal}
-                    renderThumbVertical={renderThumbVertical}
-                    autoHeightMax={this.state.postsContainerHeight}
-                    renderView={renderView}
-                    onScroll={this.handleScroll}
+            <>
+                <div
+                    className={classNames('ThreadViewer', this.props.className)}
+                    ref={this.containerRef}
                 >
-                    <div className='post-right__scroll'>
-                        <div
-                            role='application'
-                            id='rhsContent'
-                            aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
-                            className='post-right__content a11y__region'
-                            data-a11y-sort-order='3'
-                            data-a11y-focus-child={true}
-                            data-a11y-order-reversed={true}
-                        >
-                            {!this.props.useRelativeTimestamp && !isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
-                            <RhsRootPost
-                                post={selected}
-                                commentCount={postsLength}
-                                teamId={this.props.channel!.team_id}
-                                currentUserId={this.props.currentUserId}
-                                previewCollapsed={this.props.previewCollapsed}
-                                previewEnabled={this.props.previewEnabled}
-                                isBusy={this.state.isBusy}
-                                handleCardClick={this.handleCardClick}
-                                isLastPost={isRhsRootLastPost}
-                                timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
-                            />
-                            {!this.props.useRelativeTimestamp && isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
+                    {!this.props.useRelativeTimestamp && (
+                        <FloatingTimestamp
+                            isScrolling={this.state.isScrolling}
+                            isMobile={Utils.isMobile()}
+                            postId={this.state.topRhsPostId}
+                            isRhsPost={true}
+                        />
+                    )}
+                    <Scrollbars
+                        autoHide={true}
+                        autoHideTimeout={500}
+                        autoHideDuration={500}
+                        renderThumbHorizontal={renderThumbHorizontal}
+                        renderThumbVertical={renderThumbVertical}
+                        autoHeightMax={this.state.postsContainerHeight}
+                        renderView={renderView}
+                        onScroll={this.handleScroll}
+                    >
+                        <div className='post-right__scroll'>
                             <div
-                                ref={this.rhspostlistRef}
-                                className='post-right-comments-container'
-                                id='rhsPostList'
+                                role='application'
+                                aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
+                                className='post-right__content a11y__region'
+                                data-a11y-sort-order='3'
+                                data-a11y-focus-child={true}
+                                data-a11y-order-reversed={true}
                             >
-                                {commentsLists}
+                                {!this.props.useRelativeTimestamp && !isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                                <RhsRootPost
+                                    post={selected}
+                                    commentCount={postsLength}
+                                    teamId={this.props.channel!.team_id}
+                                    currentUserId={this.props.currentUserId}
+                                    previewCollapsed={this.props.previewCollapsed}
+                                    previewEnabled={this.props.previewEnabled}
+                                    isBusy={this.state.isBusy}
+                                    handleCardClick={this.handleCardClick}
+                                    isLastPost={isRhsRootLastPost}
+                                    timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
+                                />
+                                {!this.props.useRelativeTimestamp && isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
+                                <div
+                                    ref={this.rhspostlistRef}
+                                    className='post-right-comments-container'
+                                >
+                                    {commentsLists}
+                                </div>
                             </div>
+                            {createComment}
                         </div>
-                        {createComment}
-                    </div>
-                </Scrollbars>
-            </div>
+                    </Scrollbars>
+                </div>
+            </>
         );
     }
 }

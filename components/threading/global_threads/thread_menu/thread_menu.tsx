@@ -1,48 +1,36 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactNode} from 'react';
+import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+import {UserThread} from 'mattermost-redux/types/threads';
 
 import {t} from 'utils/i18n';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
+import {useThreadRouting} from '../../hooks';
+
 type Props = {
+    threadId: $ID<UserThread>;
     isFollowing: boolean;
     isSaved: boolean;
     hasUnreads: boolean;
-    actions: {
-        follow: () => void,
-        unFollow: () => void,
-        save: () => void,
-        unSave: () => void,
-        markRead: () => void,
-        markUnread: () => void,
-        openInChannel: () => void,
-        copyLink: () => void,
-    },
     children: ReactNode;
 };
 
 function ThreadMenu({
+    threadId,
     isFollowing,
     isSaved,
     hasUnreads,
-    actions: {
-        follow,
-        unFollow,
-        save,
-        unSave,
-        markRead,
-        markUnread,
-        openInChannel,
-        copyLink,
-    },
     children,
 }: Props) {
     const {formatMessage} = useIntl();
+    const {goToInChannel} = useThreadRouting();
 
     return (
         <MenuWrapper
@@ -64,11 +52,13 @@ function ThreadMenu({
                             id: t('threading.threadMenu.unfollowExtra'),
                             defaultMessage: 'You won’t be notified about replies',
                         })}
-                        onClick={unFollow}
+
+                        //onClick={unFollow}
                     />
                 ) : (
                     <Menu.ItemAction
-                        onClick={follow}
+
+                        //onClick={follow}
                         text={formatMessage({
                             id: t('threading.threadMenu.follow'),
                             defaultMessage: 'Follow thread',
@@ -80,7 +70,9 @@ function ThreadMenu({
                     />
                 )}
                 <Menu.ItemAction
-                    onClick={openInChannel}
+                    onClick={useCallback(() => {
+                        goToInChannel(threadId);
+                    }, [threadId])}
                     text={formatMessage({
                         id: t('threading.threadMenu.openInChannel'),
                         defaultMessage: 'Open in channel',
@@ -88,7 +80,8 @@ function ThreadMenu({
                 />
                 {hasUnreads ? (
                     <Menu.ItemAction
-                        onClick={markRead}
+
+                        //onClick={markRead}
                         text={formatMessage({
                             id: t('threading.threadMenu.markRead'),
                             defaultMessage: 'Mark as read',
@@ -96,7 +89,8 @@ function ThreadMenu({
                     />
                 ) : (
                     <Menu.ItemAction
-                        onClick={markUnread}
+
+                        //onClick={markUnread}
                         text={formatMessage({
                             id: t('threading.threadMenu.markUnread'),
                             defaultMessage: 'Mark as unread',
@@ -105,7 +99,8 @@ function ThreadMenu({
                 )}
                 {isSaved ? (
                     <Menu.ItemAction
-                        onClick={unSave}
+
+                        //onClick={unSave}
                         text={formatMessage({
                             id: t('threading.threadMenu.unsave'),
                             defaultMessage: 'Unsave',
@@ -113,7 +108,8 @@ function ThreadMenu({
                     />
                 ) : (
                     <Menu.ItemAction
-                        onClick={save}
+
+                        //onClick={save}
                         text={formatMessage({
                             id: t('threading.threadMenu.save'),
                             defaultMessage: 'Save',
@@ -121,7 +117,8 @@ function ThreadMenu({
                     />
                 )}
                 <Menu.ItemAction
-                    onClick={copyLink}
+
+                    //onClick={copyLink}
                     text={formatMessage({
                         id: t('threading.threadMenu.copy'),
                         defaultMessage: 'Copy link',

@@ -1,5 +1,12 @@
 @charset 'UTF-8';
 
+.no-results__holder {
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 100%;
+}
+
 .no-results__wrapper {
     display: flex;
     flex-direction: column;
@@ -8,7 +15,6 @@
     text-align: center;
     word-break: break-word;
     max-width: 500px;
-    margin: auto;
 }
 
 .no-results__variant-wrapper {
@@ -25,8 +31,12 @@
 .no-results__title {
     font-weight: 600;
     font-size: 20px;
+    line-height: 20px;
     color: var(--center-channel-color);
     margin-bottom: 15px;
+    &.only-title {
+        font-size: 14px;
+    }
 }
 
 .no-results__icon {

@@ -24,6 +24,7 @@ type Props = {
     src: string;
     status?: string;
     userId?: string;
+    channelId?: string;
     username?: string;
     wrapperClass?: string;
     overwriteIcon?: string;
@@ -71,6 +72,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                             isBusy={this.props.isBusy}
                             hide={this.hideProfilePopover}
                             isRHS={this.props.isRHS}
+                            channelId={this.props.channelId}
                             hasMention={this.props.hasMention}
                             overwriteIcon={this.props.overwriteIcon}
                             overwriteName={this.props.overwriteName}

@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+
 import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
@@ -26,6 +28,7 @@ function mapStateToProps(state) {
 
     const selectedPostId = getSelectedPostId(state);
     const selectedPostCardId = getSelectedPostCardId(state);
+    const selectedThreadId = getSelectedThreadIdInCurrentTeam(state);
 
     return {
         isExpanded: getIsRhsExpanded(state),
@@ -33,6 +36,7 @@ function mapStateToProps(state) {
         channel,
         currentUserId: getCurrentUserId(state),
         postRightVisible: Boolean(selectedPostId),
+        postRightSameAsSelectedThread: selectedPostId === selectedThreadId,
         postCardVisible: Boolean(selectedPostCardId),
         searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         previousRhsState: getPreviousRhsState(state),

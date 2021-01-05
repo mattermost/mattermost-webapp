@@ -24,6 +24,7 @@ export default class SidebarRight extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        postRightSameAsSelectedThread: PropTypes.bool,
         postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
@@ -157,12 +158,17 @@ export default class SidebarRight extends React.PureComponent {
             isMentionSearch,
             isPinnedPosts,
             postRightVisible,
+            postRightSameAsSelectedThread,
             postCardVisible,
             previousRhsState,
             searchVisible,
             isPluginView,
             isExpanded,
         } = this.props;
+
+        if (postRightSameAsSelectedThread) {
+            return null;
+        }
 
         let content = null;
         let expandedClass = '';

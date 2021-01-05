@@ -24,6 +24,7 @@ export default class UserProfile extends PureComponent {
         overwriteIcon: PropTypes.node,
         user: PropTypes.object,
         userId: PropTypes.string,
+        channelId: PropTypes.string,
     };
 
     static defaultProps = {
@@ -59,6 +60,7 @@ export default class UserProfile extends PureComponent {
             overwriteIcon,
             user,
             userId,
+            channelId,
         } = this.props;
 
         let name;
@@ -93,6 +95,7 @@ export default class UserProfile extends PureComponent {
                         <ProfilePopover
                             className='user-profile-popover'
                             userId={userId}
+                            channelId={channelId}
                             src={profileImg}
                             isBusy={isBusy}
                             hide={this.hideProfilePopover}

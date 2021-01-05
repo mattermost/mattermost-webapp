@@ -3,7 +3,11 @@
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Dictionary, RelationOneToOne, $ID} from 'mattermost-redux/types/utilities';
+
+import {Team} from 'mattermost-redux/types/teams';
+
+import {UserThread} from 'mattermost-redux/types/threads';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
@@ -136,5 +140,8 @@ export type ViewsState = {
 
     nextSteps: {
         show: boolean;
+    };
+    threads: {
+        selectedThreadIdInTeam: RelationOneToOne<Team, $ID<UserThread> | null>;
     };
 };

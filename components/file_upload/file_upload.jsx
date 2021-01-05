@@ -75,9 +75,9 @@ class FileUpload extends PureComponent {
     static propTypes = {
 
         /**
-         * Current channel's ID
+         * ChannelID
          */
-        currentChannelId: PropTypes.string.isRequired,
+        channelId: PropTypes.string.isRequired,
 
         /**
          * Current root post's ID
@@ -240,7 +240,7 @@ class FileUpload extends PureComponent {
     }
 
     uploadFiles = (sortedFiles) => {
-        const {currentChannelId, rootId} = this.props;
+        const {channelId, rootId} = this.props;
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
@@ -265,7 +265,7 @@ class FileUpload extends PureComponent {
             const request = this.props.actions.uploadFile(
                 sortedFiles[i],
                 sortedFiles[i].name,
-                currentChannelId,
+                channelId,
                 rootId,
                 clientId,
             );
@@ -283,16 +283,16 @@ class FileUpload extends PureComponent {
                 const {error, data} = this.props.actions.handleFileUploadEnd(
                     sortedFiles[i],
                     sortedFiles[i].name,
-                    currentChannelId,
+                    channelId,
                     rootId,
                     clientId,
                     {err, res},
                 );
 
                 if (error) {
-                    this.fileUploadFail(error, clientId, currentChannelId, rootId);
+                    this.fileUploadFail(error, clientId, channelId, rootId);
                 } else if (data) {
-                    this.fileUploadSuccess(data, currentChannelId, rootId);
+                    this.fileUploadSuccess(data, channelId, rootId);
                 }
             });
 
@@ -302,7 +302,7 @@ class FileUpload extends PureComponent {
             numUploads += 1;
         }
 
-        this.props.onUploadStart(clientIds, currentChannelId);
+        this.props.onUploadStart(clientIds, channelId);
 
         const {formatMessage} = this.props.intl;
         const errors = [];

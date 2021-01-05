@@ -3,22 +3,28 @@
 @mixin leveled-bg($hover, $active) {
     &:hover,
     &:focus {
-        background: rgba($hover, .08);
+        &:not(:disabled) {
+            background: rgba($hover, .08);
+        }
     }
     &:active,
     &.is-active {
-        background: rgba($active, .08);
+        &:not(:disabled) {
+            background: rgba($active, .08);
+        }
     }
     &.is-active {
         &:active,
         &:hover,
         &:focus {
-            background: rgba($active, .16);
+            &:not(:disabled) {
+                background: rgba($active, .16);
+            }
         }
 
         &:hover,
         &:focus {
-            &:active {
+            &:active:not(:disabled) {
                 background: rgba($active, .24);
             }
         }
@@ -29,12 +35,16 @@
 @mixin leveled-color($hover, $active) {
     &:hover,
     &:focus {
-        color: rgba($hover, .72);
+        &:not(:disabled) {
+            color: rgba($hover, .72);
+        }
     }
 
     &:active,
     &.is-active {
-        color: rgba($active, 1);
+        &:not(:disabled) {
+            color: rgba($active, 1);
+        }
     }
 };
 
@@ -50,6 +60,10 @@
 
     &:hover {
         text-decoration: none;
+    }
+
+    &:disabled {
+        opacity: 32%;
     }
 
     &.Button___transparent {

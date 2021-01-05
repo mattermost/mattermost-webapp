@@ -13,12 +13,12 @@ import {canUploadFiles} from 'utils/file_utils';
 
 import FileUpload from './file_upload.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
     const maxFileSize = parseInt(config.MaxFileSize, 10);
 
     return {
-        currentChannelId: getCurrentChannelId(state),
+        channelId: ownProps.channelId ?? getCurrentChannelId(state),
         maxFileSize,
         canUploadFiles: canUploadFiles(config),
         locale: getCurrentLocale(state),

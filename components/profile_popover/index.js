@@ -36,15 +36,19 @@ function mapStateToProps(state, ownProps) {
     }
 
     const selectedPost = getSelectedPost(state);
-    let channelId;
-    if (selectedPost.exists === false) {
-        const currentChannel = getCurrentChannel(state) || {};
-        channelId = currentChannel.id;
-    } else {
-        channelId = selectedPost.channel_id;
+
+    let channelId = ownProps.channelId;
+
+    if (!channelId) {
+        if (selectedPost.exists === false) {
+            const currentChannel = getCurrentChannel(state) || {};
+            channelId = currentChannel.id;
+        } else {
+            channelId = selectedPost.channel_id;
+        }
     }
 
-    const channelMember = getChannelMembersInChannels(state)[channelId][userId];
+    const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
 
     let isChannelAdmin = false;
     if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
@@ -62,6 +66,7 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
+        channelId,
         modals: state.views.modals.modalState,
     };
 }

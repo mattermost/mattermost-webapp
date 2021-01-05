@@ -1,6 +1,12 @@
 .ThreadList {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'list';
+    grid-template-rows: 56px auto;
+
     .Header {
-        height: 56px;
+        grid-area: header;
         padding-left: 14px;
         padding-right: 12px;
         border-bottom: var(--border);
@@ -8,6 +14,15 @@
 
         .Button + .Button {
             margin-left: 4px;
+        }
+    }
+
+    .threads {
+        grid-area: list;
+
+        .no-results__wrapper {
+            position: relative;
+            top: -28px;
         }
     }
 

@@ -22,6 +22,7 @@ import marketplace from './marketplace';
 import channelSidebar from './channel_sidebar';
 import textbox from './textbox';
 import nextSteps from './next_steps';
+import threads from './threads';
 
 export default combineReducers({
     admin,
@@ -43,4 +44,5 @@ export default combineReducers({
     textbox,
     channelSidebar,
     nextSteps,
+    threads,
 });

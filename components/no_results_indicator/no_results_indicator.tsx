@@ -3,6 +3,8 @@
 
 import React, {ReactNode, CSSProperties} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
+import classNames from 'classnames';
+
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {t} from 'utils/i18n';
@@ -22,7 +24,7 @@ interface Props {
     variant?: NoResultsVariant;
     titleValues?: Dictionary<ReactNode>;
 
-    subtitleValues?: Dictionary<ReactNode>
+    subtitleValues?: Dictionary<ReactNode>;
 
     style?: CSSProperties;
 }
@@ -35,7 +37,7 @@ const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
 };
 
-const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
+const titleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
     [NoResultsVariant.ChannelSearch]: {
         id: t('no_results.channel_search.title'),
     },
@@ -50,7 +52,7 @@ const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     },
 };
 
-const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
+const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
     [NoResultsVariant.ChannelSearch]: {
         id: t('no_results.channel_search.subtitle'),
     },
@@ -65,42 +67,52 @@ const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     },
 };
 
+import './no_results_indicator.scss';
+
 const NoResultsIndicator = ({
-    iconGraphic,
-    title,
-    subtitle,
-    variant,
-    titleValues,
-    subtitleValues,
     style,
+    variant,
+
+    iconGraphic = variant ? (
+        <div className='no-results__variant-wrapper'>
+            {iconMap[variant]}
+        </div>
+    ) : null,
+
+    titleValues,
+    title = variant ? (
+        <FormattedMessage
+            {...titleMap[variant]}
+            values={titleValues}
+        />
+    ) : null,
+
+    subtitleValues,
+    subtitle = variant ? (
+        <FormattedMessage
+            {...subtitleMap[variant]}
+            values={subtitleValues}
+        />
+    ) : null,
 }: Props) => {
     return (
         <div
             className='no-results__wrapper'
             style={style}
         >
+            {iconGraphic}
 
-            {iconGraphic ?? (variant && (
-                <div className='no-results__variant-wrapper'>
-                    {iconMap[variant]}
+            {title ? (
+                <div className={classNames('no-results__title', {'only-title': !subtitle})}>
+                    {title}
                 </div>
-            ))}
-            <div className='no-results__title'>
-                {title ?? (variant && (
-                    <FormattedMessage
-                        {...titleMap[variant]}
-                        values={titleValues}
-                    />
-                ))}
-            </div>
-            <div className='no-results__subtitle'>
-                {subtitle ?? (variant && (
-                    <FormattedMessage
-                        {...subtitleMap[variant]}
-                        values={subtitleValues}
-                    />
-                ))}
-            </div>
+            ) : null}
+
+            {subtitle ? (
+                <div className='no-results__subtitle'>
+                    {subtitle}
+                </div>
+            ) : null}
 
         </div>
     );

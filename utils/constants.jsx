@@ -407,6 +407,10 @@ export const RecommendedNextSteps = {
     SKIP: 'skip',
 };
 
+export const Threads = {
+    CHANGED_SELECTED_THREAD: 'changed_selected_thread',
+};
+
 export const CloudBanners = {
     HIDE: 'hide',
 };

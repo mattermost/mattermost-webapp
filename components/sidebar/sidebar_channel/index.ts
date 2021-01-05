@@ -1,8 +1,8 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -21,11 +21,11 @@ type OwnProps = {
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
 
-    return (state: GlobalState, {channelId, location}: OwnProps & RouteComponentProps) => {
-        const channel = getChannel(state, {id: channelId});
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const channel = getChannel(state, {id: ownProps.channelId});
         const currentTeam = getCurrentTeam(state);
 
-        const member = getMyChannelMemberships(state)[channelId];
+        const member = getMyChannelMemberships(state)[ownProps.channelId];
         const currentChannelId = getCurrentChannelId(state);
 
         // Unread counts
@@ -46,7 +46,7 @@ function makeMapStateToProps() {
 
         return {
             channel,
-            isCurrentChannel: channel.id === currentChannelId && location?.pathname.includes('/channels/'),
+            isCurrentChannel: channel.id === currentChannelId,
             currentTeamName: currentTeam.name,
             unreadMentions,
             unreadMsgs,
@@ -58,4 +58,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps)(SidebarChannel));
+export default connect(makeMapStateToProps)(SidebarChannel);

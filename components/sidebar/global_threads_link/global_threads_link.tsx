@@ -1,39 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
-import {Link, useRouteMatch, useLocation} from 'react-router-dom';
+import React, {memo} from 'react';
+import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
-
-import {useStickyState} from 'stores/hooks';
 
 import ThreadsIcon from './threads_icon';
 
 import './global_threads_link.scss';
 
 const GlobalThreadsLink = () => {
-    const {path, url, params: {threadIdentifier}} = useRouteMatch<{team: string; threadIdentifier?: string;}>();
+    const {url} = useRouteMatch<{team: string}>();
     const {pathname} = useLocation();
+
+    const threadsMatch = matchPath<{team: string; threadIdentifier?: string}>(pathname, '/:team/threads');
+
     const {formatMessage} = useIntl();
-    const [lastThread, setLastThread] = useStickyState(null, 'globalThreads_lastThread');
-    useEffect(() => {
-        if (threadIdentifier) {
-            setLastThread(threadIdentifier);
-        }
-    });
 
     return (
         <ul className='NavGroupContent'>
             <li
                 className={classNames('SidebarChannel', {
-                    active: path === '/:team' && pathname.includes(`${url}/threads`),
+                    active: Boolean(threadsMatch),
                 })}
             >
                 <Link
-                    to={`${url}/threads` + (lastThread ? `/${lastThread}` : '')}
+                    to={`${url}/threads`}
                     draggable='false'
                     className='SidebarLink SidebarGlobalThreads'
                     role='listitem'

@@ -38,7 +38,7 @@ type Props = {
      */
     postId: string;
     teamUrl: string;
-    timestampProps: ComponentProps<typeof Timestamp>;
+    timestampProps?: ComponentProps<typeof Timestamp>;
 }
 
 export default class PostTime extends React.PureComponent<Props> {

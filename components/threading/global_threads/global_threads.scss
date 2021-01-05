@@ -4,20 +4,6 @@
 .GlobalThreads {
     --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
 
-    display: grid;
-    grid-template-columns: minmax(350px, 450px) minmax(500px, auto);
-    grid-template-rows: 63px auto;
-    grid-template-areas:
-        "header header"
-        "list pane";
-
-    @media screen and (max-width: 1020px) {
-        grid-template-columns: auto;
-        grid-template-areas:
-            "header header"
-            "main main";
-    }
-
     .GlobalThreads___header {
         grid-area: header;
         border-bottom: var(--border);
@@ -31,24 +17,20 @@
     .ThreadList {
         grid-area: list;
         border-right: var(--border);
-        /* @media screen and (min-width: 1021px) {
-            width: 400px;
-        }
-        @media screen and (min-width: 1680px) {
-            width: 500px;
-        } */
     }
+
+    .ThreadPane,
     .ThreadList + .no-results__holder {
         grid-area: pane;
     }
 
-    .no-results__holder {
+    > .no-results__holder {
         grid-area: list/list/pane/pane;
         @media screen and (max-width: 1020px) {
             grid-area: main;
         }
-        display: grid;
     }
+
     .no-results__wrapper img {
         margin-bottom: 20px;
     }
@@ -56,14 +38,61 @@
         max-width: 378px;
     }
 
-    .no-results__holder,
     .ThreadPane {
-        transition: padding-right .25s ease-in;
+        overflow: hidden;
     }
 
 
-    .ThreadViewer {
-        height: 100%;
+    /* === Responsiveness */
+    --list: minmax(min-content, 300px);
+    --pane: minmax(min-content, auto);
+
+    display: grid;
+
+    // 2-column
+    grid-template-columns: var(--list) var(--pane);
+    grid-template-rows: 63px auto;
+    grid-template-areas:
+        'header header'
+        'list pane';
+
+    @media screen and (max-width: 1020px) {
+        // single column
+        grid-template-areas:
+            'header header'
+            'main main';
+
+
+        &:not(.thread-selected) {
+            .ThreadList {
+                grid-area: main;
+            }
+            .ThreadPane,
+            .ThreadList + .no-results__holder {
+                display: none;
+            }
+        }
+
+        &.thread-selected {
+            .ThreadList {
+                display: none;
+            }
+            .ThreadPane {
+                grid-area: main;
+            }
+        }
+    }
+
+    @media screen and (min-width: 1021px) {
+        --list: minmax(min-content, 250px);
+    }
+
+    @media screen and (min-width: 1267px) {
+        --list: minmax(min-content, 400px);
+    }
+
+    @media screen and (min-width: 1680px) {
+        --list: minmax(min-content, 500px);
     }
 }
 
@@ -79,9 +108,8 @@
         }
 
         #app-content.GlobalThreads {
-            .no-results__holder,
+            .ThreadList + .no-results__holder,
             .ThreadPane {
-
                 padding-right: var(--rhs-width);
             }
         }

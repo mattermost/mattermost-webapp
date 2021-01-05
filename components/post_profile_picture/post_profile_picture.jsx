@@ -113,6 +113,7 @@ export default class PostProfilePicture extends React.PureComponent {
                 isEmoji={isEmoji}
                 status={status}
                 userId={user ? user.id : null}
+                channelId={post.channel_id}
                 username={user ? user.username : null}
                 overwriteIcon={this.props.overwriteIcon}
                 overwriteName={overwriteName}
