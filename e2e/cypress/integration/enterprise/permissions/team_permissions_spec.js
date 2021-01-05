@@ -91,7 +91,7 @@ describe('Team Permissions', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open hamburger menu
-        cy.findByLabelText('main menu').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiOpenMainMenu().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify dropdown menu opens
         cy.get('#sidebarDropdownMenu .Menu__content.dropdown-menu').should('be.visible');
@@ -117,7 +117,7 @@ describe('Team Permissions', () => {
         cy.visit(`/${testTeam.name}/channels/${testPrivateCh.name}`);
 
         // # Open channel header menu
-        cy.get('#channelHeaderDropdownIcon').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify dropdown opens
         cy.get('#channelHeaderDropdownMenu .Menu__content.dropdown-menu').should('be.visible');
@@ -159,7 +159,7 @@ describe('Team Permissions', () => {
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Open channel header menu
-            cy.get('#channelHeaderDropdownIcon').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify dropdown opens
             cy.get('#channelHeaderDropdownMenu .Menu__content.dropdown-menu').should('be.visible');
@@ -175,7 +175,7 @@ describe('Team Permissions', () => {
             cy.get('#saveItems').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
 
             // # Open channel header menu
-            cy.get('#channelHeaderDropdownIcon').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify dropdown opens
             cy.get('#channelHeaderDropdownMenu .Menu__content.dropdown-menu').should('be.visible');
@@ -204,7 +204,7 @@ describe('Team Permissions', () => {
             cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Open channel header menu
-            cy.get('#channelHeaderDropdownIcon').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify dropdown opens
             cy.get('#channelHeaderDropdownMenu .Menu__content.dropdown-menu').should('be.visible');

@@ -19,7 +19,6 @@ describe('Team Scheme', () => {
         cy.apiCreateTeam('team-scheme-test', 'Scheme Test').then(({team}) => {
             testTeam = team;
         });
-        cy.apiAdminLogin();
         deleteExistingTeamOverrideSchemes();
     });
 

@@ -14,7 +14,6 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('System Scheme', () => {
     before(() => {
         cy.apiRequireLicense();
-        cy.apiAdminLogin();
     });
 
     beforeEach(() => {
@@ -26,7 +25,7 @@ describe('System Scheme', () => {
 
     it('MM-T2862 Default permissions set inherited from system scheme', () => {
         // # Click on `Edit Scheme` under `System Scheme`
-        cy.findByTestId('system-scheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('systemScheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Make a few scheme changes
         cy.findByTestId('all_users-public_channel-create_public_channel-checkbox').should('have.class', 'checked').click();
@@ -50,7 +49,7 @@ describe('System Scheme', () => {
 
     it('MM-T2863 Reset system scheme defaults will revert permissions to defaults', () => {
         // # Click on `Edit Scheme` under `System Scheme`
-        cy.findByTestId('system-scheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('systemScheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Click on `Reset to defaults`
         cy.findByTestId('resetPermissionsToDefault').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
@@ -70,7 +69,7 @@ describe('System Scheme', () => {
         cy.visit('/admin_console/user_management/permissions');
 
         // # Click on `Edit Scheme` under `System Scheme`
-        cy.findByTestId('system-scheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+        cy.findByTestId('systemScheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify previous scheme changes have been saved
         cy.findByTestId('guests-guest_create_private_channel-checkbox').should('have.class', 'checked');
