@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
 import AboutBuildModal from 'components/about_build_modal/about_build_modal';
 
@@ -27,16 +27,12 @@ describe('components/AboutBuildModal', () => {
     }
 
     let config: Partial<ClientConfig> = {};
-    let license: {
-        IsLicensed: string;
-        Company: string;
-        Cloud?: string;
-    } | null = null;
+    let license: Partial<ClientLicense> = {};
 
     afterEach(() => {
         global.Date = RealDate;
         config = {};
-        license = null;
+        license = {};
     });
 
     beforeEach(() => {

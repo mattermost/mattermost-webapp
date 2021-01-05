@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
@@ -30,7 +30,7 @@ type Props = {
     /**
      * Global license object
      */
-    license: any;
+    license: Partial<ClientLicense>;
 
     /**
      * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
