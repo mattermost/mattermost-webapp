@@ -1367,7 +1367,8 @@ const AdminDefinition = {
                         label: t('admin.rate.enableLimiterTitle'),
                         label_default: 'Enable Rate Limiting:',
                         help_text: t('admin.rate.enableLimiterDescription'),
-                        help_text_default: 'When true, APIs are throttled at rates specified below.',
+                        help_text_default: 'When true, APIs are throttled at rates specified below.\n \nRate limiting prevents server overload from too many requests. This is useful to prevent 3rd party applications or malicous attacks from impacting your server.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
