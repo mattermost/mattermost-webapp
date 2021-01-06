@@ -9,6 +9,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {getEmojiMap} from 'selectors/emojis';
 
 import {Preferences, TutorialSteps} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -19,8 +20,10 @@ function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
     const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+    const emojiMap = getEmojiMap(state);
     return {
         currentUser,
+        emojiMap,
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
         teamId: currentTeam.id,

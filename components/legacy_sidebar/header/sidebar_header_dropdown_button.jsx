@@ -11,7 +11,7 @@ import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
-import messageHtmlToComponent from 'utils/message_html_to_component';
+import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
@@ -55,11 +55,18 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         const currentUser = this.props.currentUser;
         if (currentUser && currentUser.props && currentUser.props.customStatus) {
             const customStatus = JSON.parse(currentUser.props.customStatus);
-            const statusEmoji = (messageHtmlToComponent(
-                `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
-                false,
-                {emoji: true},
-            ));
+            const imgURI = getEmojiImageUrl(this.props.emojiMap.get(customStatus.emoji));
+            const statusEmoji = (
+                <span data-emoticon={customStatus.emoji} className="custom-status-emoji">
+                    <span
+                        alt={customStatus.emoji}
+                        className='emoticon'
+                        style={{backgroundImage: 'url(' + imgURI + ')'}}
+                    >
+                        {customStatus.emoji}
+                    </span>
+                </span>
+            );
             status = (
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
