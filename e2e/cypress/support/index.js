@@ -90,6 +90,11 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
+// Turn off all uncaught exception handling
+Cypress.on('uncaught:exception', () => {
+    return false;
+});
+
 before(() => {
     // # Try to login using existing sysadmin account
     cy.apiAdminLogin({failOnStatusCode: false}).then((response) => {
