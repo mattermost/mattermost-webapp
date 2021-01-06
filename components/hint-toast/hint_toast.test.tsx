@@ -6,23 +6,13 @@ import {shallow} from 'enzyme';
 import {HintToast} from './hint_toast';
 
 describe('components/HintToast', () => {
-    test('should match snapshot for regular width', () => {
+    test('should match snapshot', () => {
         const wrapper = shallow(
             <HintToast
-                width={1200}
                 onDismiss={jest.fn()}
             >{'A hint'}</HintToast>,
         );
-        expect(wrapper).toMatchSnapshot();
-    });
 
-    test('should match snapshot for full width', () => {
-        const wrapper = shallow(
-            <HintToast
-                width={400}
-                onDismiss={jest.fn()}
-            >{'A hint'}</HintToast>,
-        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -30,7 +20,6 @@ describe('components/HintToast', () => {
         const dismissHandler = jest.fn();
         const wrapper = shallow(
             <HintToast
-                width={1200}
                 onDismiss={dismissHandler}
             >{'A hint'}</HintToast>,
         );

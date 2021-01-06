@@ -1,10 +1,6 @@
 @import 'compass/css3';
 
 .hint-toast {
-  position: absolute;
-  left: 50%;
-  z-index: 3;
-
   margin-top: 16px;
   margin-left: 0;
   margin-right: 0;
@@ -18,7 +14,6 @@
 
   background-color: var(--center-channel-bg);
   @include border-radius(4px);
-  transform: translateX(-50%);
   box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
 
   .hint-toast__message {
@@ -54,16 +49,12 @@
   }
 }
 
-.hint-toast--expanded {
-  left: auto;
+.hint-toast__wrapper {
+  position: absolute;
+  z-index: 3;
 
   display: flex;
-  width: calc(100% - 30px);
-  margin: 10px 15px 0px;
-
-  transform: none;
-
-  .hint-toast__dismiss {
-    margin-left: auto;
-  }
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

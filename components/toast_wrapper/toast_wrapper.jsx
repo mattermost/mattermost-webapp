@@ -379,7 +379,6 @@ class ToastWrapper extends React.PureComponent {
             return (
                 <HintToast
                     onDismiss={this.hideSearchHintToast}
-                    width={width}
                 >
                     {this.getSearchHintToastText()}
                 </HintToast>
