@@ -4115,7 +4115,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: true,
+                        isHidden: () => true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -4367,7 +4367,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: true,
+            isHidden: () => true,
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
