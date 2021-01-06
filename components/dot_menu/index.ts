@@ -13,6 +13,8 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
+
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
@@ -77,6 +79,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             unpinPost,
             openModal,
             markPostAsUnread,
+            setThreadFollow,
         }, dispatch),
     };
 }

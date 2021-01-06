@@ -54,10 +54,10 @@ const ThreadItem = ({
     const {select, goToInChannel} = useThreadRouting();
     const dispatch = useDispatch();
 
-    const selectedThread = useSelector((state: GlobalState) => getThread(state, threadId));
+    const thread = useSelector((state: GlobalState) => getThread(state, threadId));
 
-    if (!selectedThread) {
-        return '';
+    if (!thread) {
+        return null;
     }
 
     const {
@@ -71,7 +71,7 @@ const ThreadItem = ({
             user_id: userId,
             message,
         },
-    } = selectedThread;
+    } = thread;
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
 
     useEffect(() => {
@@ -104,7 +104,7 @@ const ThreadItem = ({
                         )}
                     </div>
                 )}
-                {displayName}
+                <span>{displayName}</span>
                 {Boolean(channel) && (
                     <Badge
                         onClick={useCallback((e: MouseEvent) => {

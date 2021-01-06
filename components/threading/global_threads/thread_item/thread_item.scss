@@ -10,7 +10,7 @@
     position: relative;
 
     .alt-visible {
-        display: none;
+        visibility: hidden;
     }
 
     &:hover,
@@ -19,10 +19,10 @@
         background: rgba(var(--center-channel-color-rgb), .04);
 
         .alt-visible {
-            display: unset;
+            visibility: unset;
         }
         .alt-hidden {
-            display: none;
+            visibility: hidden;
         }
     }
 
@@ -80,13 +80,17 @@
         font-size: 14px;
         line-height: 20px;
         font-weight: 600;
-        display: flex;
         position: relative;
         white-space: nowrap;
+        display: grid;
+        overflow: hidden;
+        grid-template-columns: min-content 1fr min-content;
     }
 
     .Badge {
-        margin-left: 10px;
+        margin: 0 10px;
+        min-width: 0;
+        max-width: 30rem;
     }
 
     .Badge__box{
@@ -97,6 +101,9 @@
         padding: 0px 4px;
         background: rgba(var(--center-channel-color-rgb), .08);
         color: rgba(var(--center-channel-color-rgb), 1);
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         &:hover,
         &:focus {
             cursor: pointer;
@@ -113,7 +120,6 @@
         font-weight: normal;
         font-size: 12px;
         line-height: 20px;
-        margin-left: auto;
         color: rgba(var(--center-channel-color-rgb), .64)
     }
 

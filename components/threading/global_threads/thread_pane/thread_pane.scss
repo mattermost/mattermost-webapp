@@ -17,31 +17,37 @@
         border-bottom: var(--border);
         --button-separator-height: 24px;
 
+        .left {
+            display: flex;
+        }
 
         .back {
             display: none;
-
+            flex-shrink: 0;
         }
 
         .FollowButton,
         h3 .Button {
             padding: 4px 8px;
             font-size: 12px;
+            line-height: 16px;
             height: 24px;
         }
 
         h3 {
-            display: inline-flex;
+            display: inline-grid;
+            grid-template-columns: min-content 1fr;
             align-items: center;
-            margin: 0;
             color: rgba(var(--center-channel-color-rgb), 1);
+            margin: 0 10px 0 0;
 
             > span {
                 font-size: 16px;
                 line-height: 32px;
                 font-weight: 600;
                 vertical-align: top;
-                padding: 0 8px;
+                padding-left: 4px;
+                padding-right: 8px;
             }
 
             .Button {

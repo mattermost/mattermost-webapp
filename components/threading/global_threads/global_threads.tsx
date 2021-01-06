@@ -59,10 +59,10 @@ const GlobalThreads = () => {
     useEffect(() => {
         dispatch(selectChannel(''));
         dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
-        if (!selectedThread) {
+        if (!selectedThread && counts?.total) {
             clear();
         }
-    }, [currentUserId, currentTeamId, threadIdentifier]);
+    }, [currentUserId, currentTeamId, threadIdentifier, counts]);
 
     return (
         <div

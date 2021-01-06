@@ -13,7 +13,7 @@ type Props = {
     right?: ReactNode;
 };
 
-const Headings: (keyof JSX.IntrinsicElements | typeof Fragment)[] = [Fragment, 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+const Headings: Array<keyof JSX.IntrinsicElements | typeof Fragment> = [Fragment, 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 const Header = ({
     level = 0,
@@ -30,7 +30,7 @@ const Header = ({
         >
             <div className='left'>
                 <H>{heading}</H>
-                {subtitle && <p>{subtitle}</p>}
+                {subtitle ? <p>{subtitle}</p> : null}
             </div>
             <div className='spacer'/>
             {right}

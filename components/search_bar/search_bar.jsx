@@ -343,7 +343,7 @@ export default class SearchBar extends React.PureComponent {
             flagBtn = (
                 <HeaderIconWrapper
                     iconComponent={
-                        <FlagIcon className='icon icon--standard'/>
+                        <FlagIcon className='icon icon__flag icon--standard'/>
                     }
                     ariaLabel={true}
                     buttonClass={'channel-header__icon ' + flagBtnClass}

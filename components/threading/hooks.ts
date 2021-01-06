@@ -14,6 +14,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {markThreadsRead} from 'mattermost-redux/actions/threads';
 
+import {} from 'utils/url';
+
 export function useThreadRouting() {
     const {params} = useRouteMatch<{team: string; threadIdentifier?: $ID<UserThread>}>();
     const history = useHistory();

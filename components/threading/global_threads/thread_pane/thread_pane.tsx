@@ -77,6 +77,7 @@ const ThreadPane = ({
                             </span>
                             <Button
                                 className='separated'
+                                clamp={true}
                                 onClick={useCallback(() => {
                                     goToInChannel(threadId);
                                 }, [goToInChannel])}

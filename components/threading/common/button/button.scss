@@ -58,6 +58,15 @@
 
     color: rgba(var(--center-channel-color-rgb), .56);
 
+    &.clamp {
+        min-width: 4rem;
+        .Button_label {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
     &:hover {
         text-decoration: none;
     }
@@ -91,6 +100,11 @@
             font-size: 18px;
             line-height: 18px;
         }
+    }
+
+    .Button_label {
+        display: inline-block;
+        max-width: 100%;
     }
 
     .Button_prepended {
