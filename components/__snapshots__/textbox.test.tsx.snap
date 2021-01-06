@@ -60,7 +60,6 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
-          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -72,14 +71,12 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": ":",
         },
       ]
     }
@@ -171,7 +168,6 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
-          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -183,14 +179,12 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": ":",
         },
       ]
     }
@@ -267,7 +261,6 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
-          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -279,14 +272,12 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": ":",
         },
       ]
     }
@@ -363,7 +354,6 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
-          "triggerCharacter": "@",
           "useChannelMentions": true,
         },
         ChannelMentionProvider {
@@ -375,14 +365,12 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": "~",
         },
         EmoticonProvider {
           "disableDispatches": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
-          "triggerCharacter": ":",
         },
       ]
     }

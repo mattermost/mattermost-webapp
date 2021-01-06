@@ -301,7 +301,7 @@
   "admin.billing.subscription.questions": "Questions?",
   "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscriptions",
-  "admin.billing.subscription.updatePaymentInfo": "",
+  "admin.billing.subscription.updatePaymentInfo": "Update Payment Information",
   "admin.billing.subscription.upgrade": "Upgrade",
   "admin.billing.subscription.upgradeCloudSubscription": "Upgrade your Mattermost Cloud Subscription",
   "admin.billing.subscription.upgradedSuccess": "Great! You're now upgraded",
