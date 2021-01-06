@@ -27,7 +27,7 @@ describe('components/AboutBuildModal', () => {
     }
 
     let config: Partial<ClientConfig> = {};
-    let license: Partial<ClientLicense> = {};
+    let license: ClientLicense = {};
 
     afterEach(() => {
         global.Date = RealDate;

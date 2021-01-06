@@ -30,7 +30,7 @@ type Props = {
     /**
      * Global license object
      */
-    license: Partial<ClientLicense>;
+    license: ClientLicense;
 
     /**
      * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
