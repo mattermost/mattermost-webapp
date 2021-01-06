@@ -658,8 +658,9 @@ export default class SuggestionBox extends React.PureComponent {
 
             if (handled) {
                 if (this.state.suggestionBoxAlgn.pixelsToMoveX === undefined &&
-                    this.state.suggestionBoxAlgn.pixelsToMoveY === undefined) {
-                    const char = provider.triggerCharacter || '@';
+                    this.state.suggestionBoxAlgn.pixelsToMoveY === undefined &&
+                    provider.triggerCharacter && ['@', ':', '~'].indexOf(provider.triggerCharacter) !== -1) {
+                    const char = provider.triggerCharacter;
                     const pxToSubstract = Utils.getPxToSubstract(char);
 
                     // get the alignment for the box and set it in the component state
