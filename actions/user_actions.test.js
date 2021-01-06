@@ -124,6 +124,11 @@ describe('Actions.User', () => {
                     },
                 },
             },
+            general: {
+                config: {
+                    ExperimentalChannelSidebarOrganization: 'default_on',
+                },
+            },
             preferences: {
                 myPreferences: {
                     'theme--team_1': {
@@ -348,6 +353,12 @@ describe('Actions.User', () => {
                 },
                 teams: {
                     currentTeamId: 'team_1',
+                },
+                posts: {
+                    posts: {
+                        post_id: {id: 'post_id'},
+                    },
+                    postsInChannel: {},
                 },
                 channels: {
                     channels,
