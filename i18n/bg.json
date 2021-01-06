@@ -330,6 +330,7 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Превишаване броя на членствата",
   "admin.billing.subscription.planDetails.startDate": "Начална дата: ",
   "admin.billing.subscription.planDetails.tiers.free": "Безплатен",
+  "admin.billing.subscription.planDetails.upToXUsers": "",
   "admin.billing.subscription.planDetails.userCount": "{userCount} потребители",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} потребители",
   "admin.billing.subscription.price.contactSales": "връзка продажби",
