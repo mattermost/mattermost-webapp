@@ -1,74 +1,44 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class InstalledIncomingWebhooks extends React.PureComponent {
-    static propTypes = {
+import Constants from 'utils/constants';
+import * as Utils from 'utils/utils.jsx';
 
-        /**
-        *  Data used in passing down as props for webhook modifications
-        */
-        team: PropTypes.object,
+type Props = {
+    team: Team;
+    user: UserProfile;
+    canManageOthersWebhooks: boolean;
+    incomingWebhooks: IncomingWebhook[];
+    channels: IDMappedObjects<Channel>;
+    users: IDMappedObjects<UserProfile>;
+    enableIncomingWebhooks: boolean;
+    actions: {
+        removeIncomingHook: (hookId: string) => Promise<ActionResult>;
+        loadIncomingHooksAndProfilesForTeam: (teamId: string, startPageNumber: number,
+            pageSize: string) => Promise<ActionResult>;
+    };
+}
 
-        /**
-        * Data used for checking if webhook is created by current user
-        */
-        user: PropTypes.object,
+type State = {
+    loading: boolean;
+}
 
-        /**
-        *  Data used for checking modification privileges
-        */
-        canManageOthersWebhooks: PropTypes.bool,
-
-        /**
-        * Data used in passing down as props for showing webhook details
-        */
-        incomingWebhooks: PropTypes.array,
-
-        /**
-        * Data used in sorting for displaying list and as props channel details
-        */
-        channels: PropTypes.object,
-
-        /**
-        *  Data used in passing down as props for webhook -created by label
-        */
-        users: PropTypes.object,
-
-        /**
-        *  Data used in passing as argument for loading webhooks
-        */
-
-        teamId: PropTypes.string,
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call for removing incomingWebhook
-            */
-            removeIncomingHook: PropTypes.func,
-
-            /**
-            * The function to call for incomingWebhook List and for the status of api
-            */
-            loadIncomingHooksAndProfilesForTeam: PropTypes.func,
-        }),
-
-        /**
-        * Whether or not incoming webhooks are enabled.
-        */
-        enableIncomingWebhooks: PropTypes.bool,
-    }
-
-    constructor(props) {
+export default class InstalledIncomingWebhooks extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -79,7 +49,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
     componentDidMount() {
         if (this.props.enableIncomingWebhooks) {
             this.props.actions.loadIncomingHooksAndProfilesForTeam(
-                this.props.teamId,
+                this.props.team.id,
                 Constants.Integrations.START_PAGE_NUM,
                 Constants.Integrations.PAGE_SIZE,
             ).then(
@@ -88,11 +58,11 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         }
     }
 
-    deleteIncomingWebhook = (incomingWebhook) => {
+    deleteIncomingWebhook = (incomingWebhook: IncomingWebhook) => {
         this.props.actions.removeIncomingHook(incomingWebhook.id);
     }
 
-    incomingWebhookCompare = (a, b) => {
+    incomingWebhookCompare = (a: IncomingWebhook, b: IncomingWebhook) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
             const channelA = this.props.channels[a.channel_id];
@@ -108,10 +78,10 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         return displayNameA.localeCompare(displayNameB);
     }
 
-    incomingWebhooks = (filter) => this.props.incomingWebhooks.
+    incomingWebhooks = (filter: string) => this.props.incomingWebhooks.
         sort(this.incomingWebhookCompare).
-        filter((incomingWebhook) => matchesFilter(incomingWebhook, this.props.channels[incomingWebhook.channel_id], filter)).
-        map((incomingWebhook) => {
+        filter((incomingWebhook: IncomingWebhook) => matchesFilter(incomingWebhook, this.props.channels[incomingWebhook.channel_id], filter)).
+        map((incomingWebhook: IncomingWebhook) => {
             const canChange = this.props.canManageOthersWebhooks || this.props.user.id === incomingWebhook.user_id;
             const channel = this.props.channels[incomingWebhook.channel_id];
             return (
@@ -191,7 +161,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
                 loading={this.state.loading}
             >
-                {(filter) => {
+                {(filter: string) => {
                     const children = this.incomingWebhooks(filter);
                     return [children, children.length > 0];
                 }}
