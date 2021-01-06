@@ -14,6 +14,21 @@
             box-sizing: border-box;
             border-radius: 4px;
             height: 40px;
+
+            &.has-error {
+                border-color: var(--error-text);
+            }
+        }
+
+        .max-length {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            color: var(--error-text);
+            position: absolute;
+            right: 56px;
+            top: 11px;
         }
 
         .input-clear {

@@ -8,10 +8,13 @@ import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import QuickInput from 'components/quick_input';
+import MaxLengthInput from 'components/maxlength_input';
 import {localizeMessage} from 'utils/utils';
 
 import '../category_modal.scss';
 import GenericModal from 'components/generic_modal';
+
+const MAX_LENGTH = 22;
 
 type Props = {
     onHide: () => void;
@@ -61,7 +64,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
 
     isConfirmDisabled = () => {
         return !this.state.categoryName ||
-            (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName);
+            (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName) || this.state.categoryName.length > MAX_LENGTH;
     }
 
     getText = () => {
@@ -128,6 +131,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 id='editCategoryModal'
             >
                 <QuickInput
+                    inputComponent={MaxLengthInput}
                     autoFocus={true}
                     className='form-control filter-textbox'
                     type='text'
@@ -136,7 +140,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                     clearable={true}
                     onClear={this.handleClear}
                     onChange={this.handleChange}
-                    maxLength={22}
+                    maxLength={MAX_LENGTH}
                 />
                 {Boolean(helpText) && <span className='edit-category__helpText'>
                     {helpText}

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MaxLengthInput should match snapshot 1`] = `
+<Fragment>
+  <input
+    className="input"
+  />
+</Fragment>
+`;
+
+exports[`components/MaxLengthInput should match snapshot 2`] = `
+<Fragment>
+  <input
+    className="input"
+    defaultValue="less than 20"
+  />
+</Fragment>
+`;
+
+exports[`components/MaxLengthInput should match snapshot 3`] = `
+<Fragment>
+  <input
+    className="input has-error"
+    defaultValue="Where is Jessica Hyde?"
+  />
+  <span
+    className="max-length"
+  >
+    -
+    2
+  </span>
+</Fragment>
+`;
