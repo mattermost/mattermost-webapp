@@ -144,12 +144,12 @@ const ThreadItem = ({
                     </SimpleTooltip>
                 </ThreadMenu>
             </span>
-            <p>
+            <div className='preview'>
                 <Markdown
                     message={message}
                     options={markdownPreviewOptions}
                 />
-            </p>
+            </div>
             {Boolean(totalReplies) && (
                 <div className='activity'>
                     <Avatars

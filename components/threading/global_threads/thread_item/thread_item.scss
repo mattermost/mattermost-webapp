@@ -111,9 +111,10 @@
         }
     }
 
-    p {
+    div.preview {
         color: rgba(var(--center-channel-color-rgb), 1);
         @include text-clamp(2, 20);
+        margin: 0 0 10px;
     }
 
     time {
