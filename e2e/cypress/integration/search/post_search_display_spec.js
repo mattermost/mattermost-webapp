@@ -226,7 +226,6 @@ describe('Post search display', () => {
     });
 
     it('MM-T2291 - Wildcard Search', () => {
-        cy.wait(TIMEOUTS.HALF_SEC);
         const testMessage = 'Hello World!!!';
 
         // # Post message
