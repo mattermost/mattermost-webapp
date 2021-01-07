@@ -33,6 +33,7 @@ Cypress.Commands.add('uiCreateChannel', ({
         cy.get('#newChannelHeader').clear().type(header);
     }
     cy.get('#submitNewChannel').click();
+    cy.get('#newChannelModalLabel').should('not.be.visible');
     cy.get('#channelIntro').should('be.visible');
     return cy.wrap({name: channelName});
 });

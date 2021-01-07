@@ -1822,12 +1822,22 @@ const BOLD_MD = '**';
 const ITALIC_MD = '*';
 
 /**
- * Applies bold/italic markdown on textbox associated with event and returns
+ * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
 export function applyHotkeyMarkdown(e) {
     e.preventDefault();
 
+    if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
+        return applyBoldItalicMarkdown(e);
+    } else if (e.keyCode === Constants.KeyCodes.K[1]) {
+        return applyLinkMarkdown(e);
+    }
+
+    throw Error('Unsupported key code: ' + e.keyCode);
+}
+
+function applyBoldItalicMarkdown(e) {
     const el = e.target;
     const {selectionEnd, selectionStart, value} = el;
 
@@ -1839,6 +1849,7 @@ export function applyHotkeyMarkdown(e) {
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
     let delimiter = '';
+
     if (e.keyCode === Constants.KeyCodes.B[1]) {
         delimiter = BOLD_MD;
     } else if (e.keyCode === Constants.KeyCodes.I[1]) {
@@ -1861,6 +1872,7 @@ export function applyHotkeyMarkdown(e) {
         newStart = selectionStart - delimiter.length;
         newEnd = selectionEnd - delimiter.length;
     } else {
+        // Add italic or bold markdown
         newValue = prefix + delimiter + selection + delimiter + suffix;
         newStart = selectionStart + delimiter.length;
         newEnd = selectionEnd + delimiter.length;
@@ -1871,6 +1883,103 @@ export function applyHotkeyMarkdown(e) {
         selectionStart: newStart,
         selectionEnd: newEnd,
     };
+}
+
+function applyLinkMarkdown(e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    const delimiterStart = '[';
+    const delimiterEnd = '](url)';
+
+    // Does the selection have link markdown?
+    const hasMarkdown = prefix.endsWith(delimiterStart) && suffix.startsWith(delimiterEnd);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+
+    // When url is to be selected in [...](url), selection cursors need to shift by this much.
+    const urlShift = delimiterStart.length + 2; // ']'.length + ']('.length
+    if (hasMarkdown) {
+        // message already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiterStart.length) + selection + suffix.substring(delimiterEnd.length);
+        newStart = selectionStart - delimiterStart.length;
+        newEnd = selectionEnd - delimiterStart.length;
+    } else if (value.length === 0) {
+        // no input; Add [|](url)
+        newValue = delimiterStart + delimiterEnd;
+        newStart = delimiterStart.length;
+        newEnd = delimiterStart.length;
+    } else if (selectionStart < selectionEnd) {
+        // there is something selected; put markdown around it and preserve selection
+        newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
+        newStart = selectionEnd + urlShift;
+        newEnd = newStart + urlShift;
+    } else {
+        // nothing is selected
+        const spaceBefore = prefix.charAt(prefix.length - 1) === ' ';
+        const spaceAfter = suffix.charAt(0) === ' ';
+        const cursorBeforeWord = ((selectionStart !== 0 && spaceBefore && !spaceAfter) ||
+                                  (selectionStart === 0 && !spaceAfter));
+        const cursorAfterWord = ((selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
+                                 (selectionEnd === value.length && !spaceBefore));
+
+        if (cursorBeforeWord) {
+            // cursor before a word
+            const word = value.substring(selectionStart, findWordEnd(value, selectionStart));
+
+            newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
+            newStart = selectionStart + word.length + urlShift;
+            newEnd = newStart + urlShift;
+        } else if (cursorAfterWord) {
+            // cursor after a word
+            const cursorAtEndOfLine = (selectionStart === selectionEnd && selectionEnd === value.length);
+            if (cursorAtEndOfLine) {
+                // cursor at end of line
+                newValue = value + ' ' + delimiterStart + delimiterEnd;
+                newStart = selectionEnd + 1 + delimiterStart.length;
+                newEnd = newStart;
+            } else {
+                // cursor not at end of line
+                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
+
+                newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
+                newStart = selectionStart + urlShift;
+                newEnd = newStart + urlShift;
+            }
+        } else {
+            // cursor is in between a word
+            const wordStart = findWordStart(value, selectionStart);
+            const wordEnd = findWordEnd(value, selectionStart);
+            const word = value.substring(wordStart, wordEnd);
+
+            newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
+            newStart = wordEnd + urlShift;
+            newEnd = newStart + urlShift;
+        }
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+function findWordEnd(text, start) {
+    const wordEnd = text.indexOf(' ', start);
+    return wordEnd === -1 ? text.length : wordEnd;
+}
+
+function findWordStart(text, start) {
+    const wordStart = text.lastIndexOf(' ', start - 1) + 1;
+    return wordStart === -1 ? 0 : wordStart;
 }
 
 /**
