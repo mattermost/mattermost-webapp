@@ -15,8 +15,9 @@ import {getRandomId} from '../../utils';
 import testusers from '../../fixtures/saml_ldap_users.json';
 
 // assumes that E20 license is uploaded
-// assumes openldap docker available on config default http://localhost:389
-// assumes keycloak docker - uses api to update
+// Update config.mk to make sure docker images for openldap and keycloak
+//  - assumes openldap docker available on config default http://localhost:389
+//  - assumes keycloak docker - uses api to update
 // assumes the CYPRESS_* variables are set (CYPRESS_keycloakBaseUrl / CYPRESS_keycloakAppName)
 // requires {"chromeWebSecurity": false}
 // copy ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt -> ./mattermost-server/config/keycloak.crt

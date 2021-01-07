@@ -109,6 +109,7 @@ Cypress.Commands.add('apiGetUserByEmail', (email, failOnStatusCode = true) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/email/' + email,
+        failOnStatusCode: false,
     }).then((response) => {
         if (failOnStatusCode) {
             expect(response.status).to.equal(200);
