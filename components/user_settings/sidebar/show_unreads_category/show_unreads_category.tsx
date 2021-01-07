@@ -13,7 +13,7 @@ import SettingItemMin from 'components/setting_item_min';
 type Props = {
     active: boolean;
     currentUserId: string;
-    savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean;}>;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     showUnreadsCategory: boolean;
     updateSection: (section: string) => void;
 }

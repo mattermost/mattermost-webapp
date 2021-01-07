@@ -210,7 +210,7 @@ function maxDefined(a: number, b?: number) {
 export const getDisplayedChannels = (() => {
     const memoizedConcat = memoizeResult((unreadChannels: Channel[], channelsInCategoryOrder: Channel[]) => {
         return [...unreadChannels, ...channelsInCategoryOrder];
-    });
+    }) as (a: Channel[], b: Channel[]) => Channel[];
 
     return (state: GlobalState) => {
         // If the unread filter is enabled, only unread channels are shown
