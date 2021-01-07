@@ -1066,171 +1066,6 @@ export function getCaretPosition(el) {
     return 0;
 }
 
-export function createHtmlElement(el) {
-    return document.createElement(el);
-}
-
-export function getElementComputedStyle(el) {
-    return getComputedStyle(el);
-}
-
-export function addElementToDocument(el) {
-    document.body.appendChild(el);
-}
-
-export function copyTextAreaToDiv(textArea) {
-    if (!textArea) {
-        return null;
-    }
-    const copy = createHtmlElement('div');
-    copy.textContent = textArea.value;
-    const style = getElementComputedStyle(textArea);
-    [
-        'fontFamily',
-        'fontSize',
-        'fontWeight',
-        'wordWrap',
-        'whiteSpace',
-        'borderLeftWidth',
-        'borderTopWidth',
-        'borderRightWidth',
-        'borderBottomWidth',
-        'paddingRight',
-        'paddingLeft',
-        'paddingTop',
-    ].forEach((key) => {
-        copy.style[key] = style[key];
-    });
-    copy.style.overflow = 'auto';
-    copy.style.width = textArea.offsetWidth + 'px';
-    copy.style.height = textArea.offsetHeight + 'px';
-    copy.style.position = 'absolute';
-    copy.style.left = textArea.offsetLeft + 'px';
-    copy.style.top = textArea.offsetTop + 'px';
-    addElementToDocument(copy);
-    return copy;
-}
-
-export function convertEmToPixels(el, remNum) {
-    if (isNaN(remNum)) {
-        return 0;
-    }
-    const styles = getElementComputedStyle(el);
-    return remNum * parseFloat(styles.fontSize);
-}
-
-export function getCaretXYCoordinate(textArea) {
-    if (!textArea) {
-        return {x: 0, y: 0};
-    }
-    const start = textArea.selectionStart;
-    const end = textArea.selectionEnd;
-    const copy = copyTextAreaToDiv(textArea);
-    const range = document.createRange();
-    range.setStart(copy.firstChild, start);
-    range.setEnd(copy.firstChild, end);
-    const selection = document.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-    const rect = range.getClientRects();
-    document.body.removeChild(copy);
-    textArea.selectionStart = start;
-    textArea.selectionEnd = end;
-    textArea.focus();
-    return {
-        x: Math.floor(rect[0].left - textArea.scrollLeft),
-        y: Math.floor(rect[0].top - textArea.scrollTop),
-    };
-}
-
-export function getViewportSize(win) {
-    const w = win || window;
-    if (w.innerWidth != null) {
-        return {w: w.innerWidth, h: w.innerHeight};
-    }
-    const {clientWidth, clientHeight} = w.document.body;
-    return {w: clientWidth, h: clientHeight};
-}
-
-export function offsetTopLeft(el) {
-    if (!(el instanceof HTMLElement)) {
-        return {top: 0, left: 0};
-    }
-    const rect = el.getBoundingClientRect();
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
-}
-
-export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
-    if (!textArea || !(textArea instanceof HTMLElement)) {
-        return {
-            pixelsToMoveX: 0,
-            pixelsToMoveY: 0,
-        };
-    }
-    const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
-    const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
-    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
-    const viewportWidth = getViewportSize().w;
-
-    const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
-
-    // value in pixels for the offsetLeft for the textArea
-    const txtAreaOffsetLft = offsetTopLeft(textArea).left;
-
-    // how many pixels to the right should be moved the suggestion box
-    let pxToTheRight = (caretXCoordinateInTxtArea) - (pxToSubstract);
-
-    // the x coordinate in the viewport of the suggestion box border-right
-    const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
-
-    // if the right-border edge of the suggestion box will overflow the x-axis viewport
-    if (xBoxRightCoordinate > viewportWidth) {
-        // stick the suggestion list to the very right of the TextArea
-        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
-    }
-    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
-    if (boxLocation === 'bottom') {
-        // Add the line height and 4 extra px so it looks less tight
-        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
-    }
-    return {
-        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
-
-        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
-        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
-    };
-}
-
-export function getSuggestionBoxWidth(textArea) {
-    if (textArea.id === 'edit_textbox') {
-        // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
-        return textArea.offsetWidth;
-    }
-
-    // 496 - value in pixels used in suggestion-list__content class line 72 file _suggestion-list.scss
-
-    return Constants.SUGGESTION_LIST_MODAL_WIDTH;
-}
-
-export function getPxToSubstract(char = '@') {
-    // depending on the triggering character different values must be substracted
-    if (char === '@') {
-    // mention name padding-left 2.4rem as stated in suggestion-list__content .mentions__name
-        const mentionNamePaddingLft = convertEmToPixels(document.documentElement, Constants.MENTION_NAME_PADDING_LEFT);
-
-        // half of width of avatar stated in .Avatar.Avatar-sm (24px)
-        const avatarWidth = Constants.AVATAR_WIDTH * 0.5;
-        return 5 + avatarWidth + mentionNamePaddingLft;
-    } else if (char === '~') {
-        return 39;
-    } else if (char === ':') {
-        return 32;
-    }
-    return 0;
-}
-
 export function setSelectionRange(input, selectionStart, selectionEnd) {
     if (input.setSelectionRange) {
         input.focus();
@@ -1987,12 +1822,22 @@ const BOLD_MD = '**';
 const ITALIC_MD = '*';
 
 /**
- * Applies bold/italic markdown on textbox associated with event and returns
+ * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
 export function applyHotkeyMarkdown(e) {
     e.preventDefault();
 
+    if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
+        return applyBoldItalicMarkdown(e);
+    } else if (e.keyCode === Constants.KeyCodes.K[1]) {
+        return applyLinkMarkdown(e);
+    }
+
+    throw Error('Unsupported key code: ' + e.keyCode);
+}
+
+function applyBoldItalicMarkdown(e) {
     const el = e.target;
     const {selectionEnd, selectionStart, value} = el;
 
@@ -2004,6 +1849,7 @@ export function applyHotkeyMarkdown(e) {
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
     let delimiter = '';
+
     if (e.keyCode === Constants.KeyCodes.B[1]) {
         delimiter = BOLD_MD;
     } else if (e.keyCode === Constants.KeyCodes.I[1]) {
@@ -2026,6 +1872,7 @@ export function applyHotkeyMarkdown(e) {
         newStart = selectionStart - delimiter.length;
         newEnd = selectionEnd - delimiter.length;
     } else {
+        // Add italic or bold markdown
         newValue = prefix + delimiter + selection + delimiter + suffix;
         newStart = selectionStart + delimiter.length;
         newEnd = selectionEnd + delimiter.length;
@@ -2036,6 +1883,103 @@ export function applyHotkeyMarkdown(e) {
         selectionStart: newStart,
         selectionEnd: newEnd,
     };
+}
+
+function applyLinkMarkdown(e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    const delimiterStart = '[';
+    const delimiterEnd = '](url)';
+
+    // Does the selection have link markdown?
+    const hasMarkdown = prefix.endsWith(delimiterStart) && suffix.startsWith(delimiterEnd);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+
+    // When url is to be selected in [...](url), selection cursors need to shift by this much.
+    const urlShift = delimiterStart.length + 2; // ']'.length + ']('.length
+    if (hasMarkdown) {
+        // message already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiterStart.length) + selection + suffix.substring(delimiterEnd.length);
+        newStart = selectionStart - delimiterStart.length;
+        newEnd = selectionEnd - delimiterStart.length;
+    } else if (value.length === 0) {
+        // no input; Add [|](url)
+        newValue = delimiterStart + delimiterEnd;
+        newStart = delimiterStart.length;
+        newEnd = delimiterStart.length;
+    } else if (selectionStart < selectionEnd) {
+        // there is something selected; put markdown around it and preserve selection
+        newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
+        newStart = selectionEnd + urlShift;
+        newEnd = newStart + urlShift;
+    } else {
+        // nothing is selected
+        const spaceBefore = prefix.charAt(prefix.length - 1) === ' ';
+        const spaceAfter = suffix.charAt(0) === ' ';
+        const cursorBeforeWord = ((selectionStart !== 0 && spaceBefore && !spaceAfter) ||
+                                  (selectionStart === 0 && !spaceAfter));
+        const cursorAfterWord = ((selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
+                                 (selectionEnd === value.length && !spaceBefore));
+
+        if (cursorBeforeWord) {
+            // cursor before a word
+            const word = value.substring(selectionStart, findWordEnd(value, selectionStart));
+
+            newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
+            newStart = selectionStart + word.length + urlShift;
+            newEnd = newStart + urlShift;
+        } else if (cursorAfterWord) {
+            // cursor after a word
+            const cursorAtEndOfLine = (selectionStart === selectionEnd && selectionEnd === value.length);
+            if (cursorAtEndOfLine) {
+                // cursor at end of line
+                newValue = value + ' ' + delimiterStart + delimiterEnd;
+                newStart = selectionEnd + 1 + delimiterStart.length;
+                newEnd = newStart;
+            } else {
+                // cursor not at end of line
+                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
+
+                newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
+                newStart = selectionStart + urlShift;
+                newEnd = newStart + urlShift;
+            }
+        } else {
+            // cursor is in between a word
+            const wordStart = findWordStart(value, selectionStart);
+            const wordEnd = findWordEnd(value, selectionStart);
+            const word = value.substring(wordStart, wordEnd);
+
+            newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
+            newStart = wordEnd + urlShift;
+            newEnd = newStart + urlShift;
+        }
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+function findWordEnd(text, start) {
+    const wordEnd = text.indexOf(' ', start);
+    return wordEnd === -1 ? text.length : wordEnd;
+}
+
+function findWordStart(text, start) {
+    const wordStart = text.lastIndexOf(' ', start - 1) + 1;
+    return wordStart === -1 ? 0 : wordStart;
 }
 
 /**
