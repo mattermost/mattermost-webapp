@@ -6,10 +6,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {updateMe} from 'mattermost-redux/actions/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-type CustomStatus = {
-    emoji: string;
-    text: string;
-}
+import {CustomStatus} from 'types/store/custom_status';
 
 export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
