@@ -103,7 +103,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                 >
                     <span
                         className='input-clear-x'
-                        aria-hidden='true'
                         onClick={clearHandle}
                     >
                         <i className='icon icon-close-circle'/>

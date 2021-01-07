@@ -55,7 +55,6 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 >
                     <span
                         className='input-clear-x'
-                        aria-hidden='true'
                         onClick={handleRecentCustomStatusClear}
                     >
                         <i className='icon icon-close-circle'/>
