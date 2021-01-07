@@ -15,6 +15,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Post search display', () => {
     let testTeam;
     let testUser;
+    let adminUser;
 
     before(() => {
         // Initialise a user.
@@ -25,7 +26,9 @@ describe('Post search display', () => {
     });
 
     beforeEach(() => {
-        cy.apiAdminLogin();
+        cy.apiAdminLogin().then((res) => {
+            adminUser = res.user;
+        });
 
         // Visit town square as an admin
         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -154,7 +157,6 @@ describe('Post search display', () => {
 
         // # Click on searchbox
         cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.wait(TIMEOUTS.HALF_SEC);
             cy.get('input#searchBox').should('be.visible').click();
         });
 
@@ -226,7 +228,6 @@ describe('Post search display', () => {
     });
 
     it('MM-T2291 - Wildcard Search', () => {
-        cy.wait(TIMEOUTS.HALF_SEC);
         const testMessage = 'Hello World!!!';
 
         // # Post message
@@ -241,6 +242,176 @@ describe('Post search display', () => {
         // * Assert search results are present and correct
         cy.get('[data-testid="search-item-container"]').should('be.visible');
         cy.get('.search-highlight').first().should('contain.text', 'Hell');
+    });
+
+    it('MM-T2293 - Jump link shows archived view in center', () => {
+        const testMessage = 'Hello World!!!';
+
+        // # Post messages that can offset the initial mesage
+        cy.postMessage(testMessage);
+
+        for (let i = 0; i < 5; i++) {
+            cy.postMessage('other Message');
+        }
+
+        // # Search for search term in:town-square{space}
+        cy.get('input#searchBox').type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+
+        // # RHS should be visible with search results
+        cy.get('#search-items-container').should('be.visible');
+
+        // # Click Jump on the search result
+        cy.get('.search-item__jump').first().click().wait(TIMEOUTS.HALF_SEC);
+
+        // * Assert that jump is at the center
+        cy.contains('[data-testid="postView"]', testMessage).then(($post) => {
+            const coordinates = $post[0].getBoundingClientRect();
+            expect(coordinates.bottom - coordinates.top - coordinates.height).to.eq(0);
+        });
+    });
+
+    it('MM-T2294 - `in:` only returns results from specified channel Click to select auto-complete option', () => {
+        const testMessage = 'inchannel';
+
+        // # Post messages that can offset the initial mesage
+        cy.postMessage(testMessage + ' #verify');
+
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                // # Have another user send a post
+                cy.postMessageAs({sender: testUser, message: testMessage, channelId: channel.id});
+            });
+        });
+
+        // # Search for search term
+        cy.get('input#searchBox').type(`${testMessage} in:town-square{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
+
+        // # RHS should be visible with search results
+        cy.get('#search-items-container').should('be.visible');
+
+        // * Assert that results include only the verify message
+        cy.get('.search-item__container .post.post--thread').each(($item) => {
+            cy.wrap($item).should('contain.text', '#verify');
+        });
+    });
+
+    it('MM-T2295 - `from:` only returns results posted by specified user Combine with search term Click to select auto-complete option', () => {
+        const testMessage = 'fromuser';
+
+        // # Post messages that can offset the initial mesage
+        cy.postMessage(testMessage + ' #verify');
+
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                // # Have another user send a post
+                cy.postMessageAs({sender: testUser, message: testMessage, channelId: channel.id});
+            });
+        });
+
+        // # Search for search term
+        cy.get('input#searchBox').type(`fromuser from:${adminUser.username}{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
+
+        // # RHS should be visible with search results
+        cy.get('#search-items-container').should('be.visible');
+
+        // * Assert that results include only the verify message
+        cy.get('.search-item__container .post.post--thread').each(($item) => {
+            cy.wrap($item).should('contain.text', '#verify');
+        });
+    });
+
+    it('MM-T2298 - @ icon displays @-mentions of current user: - Public channel - DM - GM @ icon does not display @channel messages', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, testUser.id);
+
+            const groupMembers = [adminUser, user, testUser];
+
+            // GM case with @mention
+            cy.apiCreateGroupChannel(groupMembers.map((member) => member.id)).then(({channel}) => {
+                cy.visit(`/${testTeam.name}/messages/${channel.name}`);
+
+                const message = `Group message @${testUser.username}`;
+
+                // # Post a GM message
+                cy.postMessage(message);
+            });
+        });
+
+        // Public channel @channel case
+        cy.apiCreateChannel(testTeam.id, 'channel-mentions', 'channel-mentions').then(({channel}) => {
+            cy.postMessageAs({sender: adminUser, message: '@channel', channelId: channel.id});
+        });
+
+        // Off-Topic with @mention
+        cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+            // # Have another user send a post
+            cy.postMessageAs({sender: adminUser, message: `@${testUser.username} greetings`, channelId: channel.id});
+        });
+
+        // DM case
+        cy.apiCreateDirectChannel([testUser.id, adminUser.id]).then(({channel}) => {
+            // # Send a DM with @mention
+            cy.postMessageAs({sender: adminUser, message: `@${testUser.username} direct`, channelId: channel.id});
+        });
+
+        cy.apiLogin(testUser).then(() => {
+            // # Visit town square as an admin
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+
+            // # Click the @ mention filter on search
+            cy.get('#channelHeaderMentionButton').click();
+
+            // # RHS should be visible with search results
+            cy.get('#search-items-container').should('be.visible');
+
+            // * Assert that results include all messages apart from the @channel one
+            cy.get('.search-item__container .post.post--thread .post__content .post__body').each(($item) => {
+                expect($item.text()).to.match(new RegExp(`@${testUser.username} (direct|greetings)|Group message @${testUser.username}`));
+            });
+        });
+    });
+
+    it('MM-T2299 - Search results include matches in DMs', () => {
+        cy.apiCreateDirectChannel([testUser.id, adminUser.id]).then(({channel}) => {
+            // # Send a DM to another user
+            cy.postMessageAs({sender: adminUser, message: 'This is direct', channelId: channel.id});
+        });
+
+        cy.apiLogin(testUser).then(() => {
+            // # Search for search term
+            cy.get('#searchbarContainer').should('be.visible').within(() => {
+                cy.get('input#searchBox').type('This is{enter}').wait(TIMEOUTS.HALF_SEC);
+
+                // # RHS should be visible with search results
+                cy.get('#search-items-container').should('be.visible');
+
+                // * Assert that results include only the verify message
+                cy.get('.search-item__container .post.post--thread').each(($item) => {
+                    cy.wrap($item).should('contain.text', 'This is direct');
+                });
+            });
+        });
+    });
+
+    it('MM-T2306 - Quotes cause exact phrase search', () => {
+        cy.postMessage('hello to the whole world');
+
+        // # Search for search term
+        cy.get('#searchbarContainer').should('be.visible').within(() => {
+            cy.get('input#searchBox').type('"hello world"{enter}').wait(TIMEOUTS.HALF_SEC);
+
+            // # RHS should be visible with search results
+            cy.get('#search-items-container').should('be.visible');
+
+            // * Assert that results are not present
+            cy.get('.search-item__container .post.post--thread').should('not.be.visible');
+        });
     });
 });
 
