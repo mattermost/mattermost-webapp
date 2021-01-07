@@ -36,6 +36,25 @@ const wrapIntl = (component) => (
 );
 
 describe('components/search_bar/SearchBar', () => {
+    const testChannel = {
+        id: '123',
+        team_name: 'team',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        team_id: 'id_123',
+        type: 'O',
+        display_name: 'name',
+        name: 'DN',
+        header: 'header',
+        purpose: 'purpose',
+        last_post_at: 0,
+        total_msg_count: 0,
+        extra_update_at: 0,
+        creator_id: 'id',
+        scheme_id: 'id',
+        group_constrained: false,
+    };
     const baseProps = {
         suggestionProviders,
         searchTerms: '',
@@ -45,7 +64,10 @@ describe('components/search_bar/SearchBar', () => {
         isSearchingTerm: false,
         isFocus: false,
         children: null,
+        currentChannel: testChannel,
+        userName: 'user-1',
         updateHighlightedSearchHint: jest.fn(),
+        updateSearchTerms: jest.fn(),
         handleChange: jest.fn(),
         handleSubmit: jest.fn(),
         handleEnterKey: jest.fn(),

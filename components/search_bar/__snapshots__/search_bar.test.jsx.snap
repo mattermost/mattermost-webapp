@@ -37,6 +37,27 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
   }
 >
   <SearchBar
+    currentChannel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "extra_update_at": 0,
+        "group_constrained": false,
+        "header": "header",
+        "id": "123",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "id_123",
+        "team_name": "team",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
+      }
+    }
     getFocus={[Function]}
     handleBlur={[MockFunction]}
     handleChange={[MockFunction]}
@@ -75,6 +96,8 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       ]
     }
     updateHighlightedSearchHint={[MockFunction]}
+    updateSearchTerms={[MockFunction]}
+    userName="user-1"
   />
 </ContextProvider>
 `;
@@ -116,6 +139,27 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
   }
 >
   <SearchBar
+    currentChannel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "extra_update_at": 0,
+        "group_constrained": false,
+        "header": "header",
+        "id": "123",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "id_123",
+        "team_name": "team",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
+      }
+    }
     getFocus={[Function]}
     handleBlur={[MockFunction]}
     handleChange={[MockFunction]}
@@ -154,6 +198,8 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       ]
     }
     updateHighlightedSearchHint={[MockFunction]}
+    updateSearchTerms={[MockFunction]}
+    userName="user-1"
   />
 </ContextProvider>
 `;
@@ -195,6 +241,27 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
   }
 >
   <SearchBar
+    currentChannel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "extra_update_at": 0,
+        "group_constrained": false,
+        "header": "header",
+        "id": "123",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "id_123",
+        "team_name": "team",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
+      }
+    }
     getFocus={[Function]}
     handleBlur={[MockFunction]}
     handleChange={[MockFunction]}
@@ -233,6 +300,8 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       ]
     }
     updateHighlightedSearchHint={[MockFunction]}
+    updateSearchTerms={[MockFunction]}
+    userName="user-1"
   />
 </ContextProvider>
 `;
@@ -274,6 +343,27 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
   }
 >
   <SearchBar
+    currentChannel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "extra_update_at": 0,
+        "group_constrained": false,
+        "header": "header",
+        "id": "123",
+        "last_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "id_123",
+        "team_name": "team",
+        "total_msg_count": 0,
+        "type": "O",
+        "update_at": 0,
+      }
+    }
     getFocus={[Function]}
     handleBlur={[MockFunction]}
     handleChange={[MockFunction]}
@@ -312,6 +402,8 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       ]
     }
     updateHighlightedSearchHint={[MockFunction]}
+    updateSearchTerms={[MockFunction]}
+    userName="user-1"
   />
 </ContextProvider>
 `;
