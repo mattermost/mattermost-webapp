@@ -6,10 +6,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {updateMe} from 'mattermost-redux/actions/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-interface CustomStatus{
-    emoji: string;
-    text: string;
-}
+import {CustomStatus} from 'types/store/custom_status';
 
 export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -31,6 +28,17 @@ export function unsetUserCustomStatus() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const userProps = Object.assign({}, getCurrentUser(getState()).props);
         delete userProps.customStatus;
+        const user = Object.assign({}, getCurrentUser(getState()), {props: userProps});
+        await dispatch(updateMe(user));
+    };
+}
+
+export function removeRecentCustomStatus(status: CustomStatus) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const userProps = Object.assign({}, getCurrentUser(getState()).props);
+        const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
+        const updatedRecentCustomStatuses = recentCustomStatuses.filter((recentStatus: CustomStatus) => recentStatus.text !== status.text);
+        userProps.recentCustomStatuses = JSON.stringify(updatedRecentCustomStatuses);
         const user = Object.assign({}, getCurrentUser(getState()), {props: userProps});
         await dispatch(updateMe(user));
     };
