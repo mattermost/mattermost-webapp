@@ -4,9 +4,11 @@
 import {connect} from 'react-redux';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import SystemAnalytics from './system_analytics.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-function mapStateToProps(state) {
+import SystemAnalytics from './system_analytics';
+
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
 
