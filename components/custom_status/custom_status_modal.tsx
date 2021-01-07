@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Tooltip} from 'react-bootstrap';
 
-import {removeRecentCustomStatus, unsetUserCustomStatus, updateUserCustomStatus} from 'actions/views/user';
+import {removeRecentCustomStatus, unsetUserCustomStatus, updateUserCustomStatus} from 'actions/views/custom_status';
 import GenericModal from 'components/generic_modal';
 import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';

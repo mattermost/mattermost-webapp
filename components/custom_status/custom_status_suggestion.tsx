@@ -6,12 +6,9 @@ import {Tooltip} from 'react-bootstrap';
 import OverlayTrigger from 'components/overlay_trigger';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import Constants from 'utils/constants';
-import './custom_status.scss';
+import {CustomStatus} from 'types/store/custom_status';
 
-type CustomStatus = {
-    emoji: string;
-    text: string;
-}
+import './custom_status.scss';
 
 type Props = {
     handleSuggestionClick: (status: CustomStatus) => void;
