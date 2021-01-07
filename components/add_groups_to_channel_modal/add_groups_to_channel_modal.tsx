@@ -132,11 +132,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
         });
     }
 
-    handleSubmit = async (e: Event | GroupValue[] | undefined) => {
-        if (e) {
-            (e as Event).preventDefault();
-        }
-
+    handleSubmit = async () => {
         const groupIDs = this.state.values.map((v) => v.id);
         if (groupIDs.length === 0) {
             return;
