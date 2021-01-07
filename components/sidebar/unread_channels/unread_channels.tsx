@@ -18,6 +18,10 @@ type Props = {
 export default function UnreadChannels(props: Props) {
     const intl = useIntl();
 
+    if (props.unreadChannels.length === 0) {
+        return null;
+    }
+
     return (
         <div className='SidebarChannelGroup a11y__section'>
             <SidebarCategoryHeaderStatic displayName={intl.formatMessage({id: 'sidebar.types.all_unreads', defaultMessage: 'ALL UNREADS'})}/>
