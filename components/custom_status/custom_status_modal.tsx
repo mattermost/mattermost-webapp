@@ -16,7 +16,7 @@ import './custom_status.scss';
 import {GlobalState} from 'types/store';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
-import ShowEmoji from 'components/emoji/show_emoji';
+import RenderEmoji from 'components/emoji/render_emoji';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
 
@@ -76,7 +76,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
     if (emoji || text) {
         customStatusEmoji = (
-            <ShowEmoji
+            <RenderEmoji
                 emoji={emoji || 'speech_balloon'}
             />
         );

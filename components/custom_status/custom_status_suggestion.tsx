@@ -6,7 +6,7 @@ import {Tooltip} from 'react-bootstrap';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import {CustomStatus} from 'types/store/custom_status';
-import ShowEmoji from 'components/emoji/show_emoji';
+import RenderEmoji from 'components/emoji/render_emoji';
 
 import './custom_status.scss';
 
@@ -77,7 +77,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             }
         >
             <div className='statusSuggestion__icon'>
-                <ShowEmoji
+                <RenderEmoji
                     emoji={emoji}
                     size={20}
                 />

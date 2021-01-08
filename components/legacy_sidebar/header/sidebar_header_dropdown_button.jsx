@@ -11,7 +11,7 @@ import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
-import CustomStatusEmoji from 'components/custom_status/emoji';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {

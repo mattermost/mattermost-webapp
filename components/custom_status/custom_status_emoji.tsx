@@ -2,29 +2,31 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
+import {useSelector} from 'react-redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import ShowEmoji from 'components/emoji/show_emoji';
+import RenderEmoji from 'components/emoji/render_emoji';
 
 import Constants from 'utils/constants';
+import {GlobalState} from 'types/store';
 
 interface ComponentProps {
-    currentUser: UserProfile;
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
 }
 
-const CustomStatusEmoji = ({currentUser, tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16}: ComponentProps) => {
+const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16}: ComponentProps) => {
+    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     if (!(currentUser && currentUser.props && currentUser.props.customStatus)) {
         return null;
     }
 
     const customStatus = JSON.parse(currentUser.props.customStatus);
     const statusEmoji = (
-        <ShowEmoji
+        <RenderEmoji
             emoji={customStatus.emoji}
             size={emojiSize}
         />

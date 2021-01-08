@@ -13,7 +13,7 @@ import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import CustomStatusEmoji from 'components/custom_status/emoji';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
