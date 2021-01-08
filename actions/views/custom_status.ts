@@ -11,7 +11,7 @@ import {CustomStatus} from 'types/store/custom_status';
 export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
-        const userProps = user.props || {};
+        const userProps = {...user.props};
         const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
         const updatedRecentCustomStatuses = [
             newCustomStatus,
@@ -29,7 +29,7 @@ export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
 export function unsetUserCustomStatus() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
-        const userProps = user.props || {};
+        const userProps = {...user.props};
         delete userProps.customStatus;
         user.props = userProps;
         await dispatch(updateMe(user));
@@ -39,7 +39,7 @@ export function unsetUserCustomStatus() {
 export function removeRecentCustomStatus(status: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
-        const userProps = user.props || {};
+        const userProps = {...user.props};
         const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
         const updatedRecentCustomStatuses = recentCustomStatuses.filter((recentStatus: CustomStatus) => recentStatus.text !== status.text);
         userProps.recentCustomStatuses = JSON.stringify(updatedRecentCustomStatuses);
