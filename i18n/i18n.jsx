@@ -133,7 +133,7 @@ const languages = {
         name: '日本語',
         order: 17,
         url: ja,
-    }
+    },
 };
 
 export function getAllLanguages() {
