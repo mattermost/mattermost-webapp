@@ -4,7 +4,7 @@
 import {getEmailUrl} from '../../utils';
 import {spyNotificationAs} from '../../support/notification';
 import {getAdminAccount} from '../../support/env';
-import {timeouts} from '../../fixtures/timeouts';
+import timeouts from '../../fixtures/timeouts';
 
 const authenticator = require('authenticator');
 
@@ -129,7 +129,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // # Verify focus is in first login field
-        cy.findByPlaceholderText('Email or Username');//.should('have.class', 'a11y--active a11y--focused');
+        cy.focused().should('have.id', 'loginId');
 
         // # Click "I forgot my password"
         cy.findByText('I forgot my password.').should('be.visible').click();
