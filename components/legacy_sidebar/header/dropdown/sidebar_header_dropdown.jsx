@@ -15,7 +15,6 @@ import UserSettingsModal from 'components/user_settings/modal';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import MainMenu from 'components/main_menu';
-import StatusDropdown from "../../../status_dropdown";
 
 export default class SidebarHeaderDropdown extends React.PureComponent {
     static propTypes = {
@@ -64,13 +63,11 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
             return null;
         }
 
-        console.log(this.props.emojiMap, "$$$$$$$$$$$$$$$$$$");
         return (
             <MenuWrapper
                 className='main-menu'
             >
                 <SidebarHeaderDropdownButton
-                    emojiMap={this.props.emojiMap}
                     showTutorialTip={this.props.showTutorialTip}
                     teamDescription={this.props.teamDescription}
                     currentUser={this.props.currentUser}

@@ -22,8 +22,6 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 
-import './status_dropdown.scss';
-
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,

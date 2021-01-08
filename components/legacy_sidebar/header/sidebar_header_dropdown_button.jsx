@@ -11,7 +11,7 @@ import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import CustomStatusEmoji from 'components/custom_status/emoji';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
@@ -51,42 +51,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
-        let status = null;
-        const currentUser = this.props.currentUser;
-        if (currentUser && currentUser.props && currentUser.props.customStatus) {
-            const customStatus = JSON.parse(currentUser.props.customStatus);
-            const imgURI = getEmojiImageUrl(this.props.emojiMap.get(customStatus.emoji));
-            const statusEmoji = (
-                <span data-emoticon={customStatus.emoji} className="custom-status-emoji">
-                    <span
-                        alt={customStatus.emoji}
-                        className='emoticon'
-                        style={{backgroundImage: 'url(' + imgURI + ')'}}
-                    >
-                        {customStatus.emoji}
-                    </span>
-                </span>
-            );
-            status = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={
-                        <Tooltip id='custom-status'>
-                            <div className='custom-status'>
-                                {statusEmoji}
-                                <span className='custom-status-text'>
-                                    {customStatus.text}
-                                </span>
-                            </div>
-                        </Tooltip>
-                    }
-                >
-                    {statusEmoji}
-                </OverlayTrigger>
-            );
-        }
-
         return (
             <div
                 className='SidebarHeaderDropdownButton'
@@ -108,7 +72,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        {status}
+                        <CustomStatusEmoji/>
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'
