@@ -20,7 +20,7 @@ interface Props {
     btnClass?: string;
     url: string;
     displayName?: string;
-    content?: string;
+    content?: string | JSX.Element;
     tip: string | JSX.Element;
     order?: number;
     showOrder?: boolean;
@@ -107,7 +107,7 @@ class TeamButton extends React.PureComponent<Props> {
             <TeamIcon
                 className={teamClass}
                 withHover={true}
-                name={this.props.content || displayName || ''}
+                content={this.props.content || displayName || ''}
                 url={teamIconUrl}
             />
         );

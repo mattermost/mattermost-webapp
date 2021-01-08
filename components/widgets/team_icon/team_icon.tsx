@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 import {imageURLForTeam} from 'utils/utils.jsx';
 
@@ -13,7 +14,7 @@ type Props = {
     url?: string | null;
 
     /** Team display name (used for the initials) if icon URL is not set */
-    name: string;
+    content: string | JSX.Element;
 
     /**
      * Size of the icon, "sm", "md" or "lg".
@@ -39,34 +40,38 @@ export class TeamIcon extends React.PureComponent<Props> {
     };
 
     public render() {
-        const {name, url, size, withHover, className} = this.props;
+        const {content, url, size, withHover, className} = this.props;
         const hoverCss = withHover ? '' : 'no-hover';
 
         // FIXME Nowhere does imageURLForTeam seem to check for display_name.
-        const teamIconUrl = url || imageURLForTeam({display_name: name});
+        const teamIconUrl = url || imageURLForTeam({display_name: content});
         let icon;
-        if (teamIconUrl) {
-            icon = (
-                <div
-                    data-testid='teamIconImage'
-                    className={`TeamIcon__image TeamIcon__${size}`}
-                    aria-label={'Team Icon'}
-                    style={{backgroundImage: `url('${teamIconUrl}')`}}
-                />
-            );
+        if (typeof content === 'string') {
+            if (teamIconUrl) {
+                icon = (
+                    <div
+                        data-testid='teamIconImage'
+                        className={`TeamIcon__image TeamIcon__${size}`}
+                        aria-label={'Team Icon'}
+                        style={{backgroundImage: `url('${teamIconUrl}')`}}
+                    />
+                );
+            } else {
+                icon = (
+                    <div
+                        data-testid='teamIconInitial'
+                        className={`TeamIcon__initials TeamIcon__initials__${size}`}
+                        aria-label={'Team Initials'}
+                    >
+                        {content ? content.replace(/\s/g, '').substring(0, 2) : '??'}
+                    </div>
+                );
+            }
         } else {
-            icon = (
-                <div
-                    data-testid='teamIconInitial'
-                    className={`TeamIcon__initials TeamIcon__initials__${size}`}
-                    aria-label={'Team Initials'}
-                >
-                    {name ? name.replace(/\s/g, '').substring(0, 2) : '??'}
-                </div>
-            );
+            icon = content;
         }
         return (
-            <div className={`TeamIcon ${hoverCss} TeamIcon__${size} ${className}`} >
+            <div className={classNames(`TeamIcon ${hoverCss} TeamIcon__${size} ${className}`, {withImage: teamIconUrl})}>
                 <div className={`TeamIcon__content ${hoverCss}`}>
                     {icon}
                 </div>

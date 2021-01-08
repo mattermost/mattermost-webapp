@@ -19,8 +19,6 @@
 }
 
 .TeamIcon__initials {
-    transition: transform 0.2s;
-
     &.TeamIcon__initials__lg {
         font-size: 3em;
         width: 94px;
@@ -39,8 +37,8 @@
     width: 34px;
     text-align: center;
     text-transform: uppercase;
-    background-color: rgb(61, 101, 159); /* #0E4289 + rgba(255, 255, 255, 0.16) on top */
-    border: 3px solid rgb(61, 101, 159);
+    background-color: rgba(255, 255, 255, 0.16);
+    border: 3px solid rgba(255, 255, 255, 0);
     border-radius: 8px;
     box-sizing: content-box;
     transition: transform 0.1s, box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
@@ -76,12 +74,18 @@
         width: 34px;
     }
 
+    &.withImage {
+        border: none;
+        width: 40px;
+        height: 40px;
+    }
+
     .TeamIcon__image {
         @include clearfix;
         @include background-size(100% 100%);
         background-color: $white;
         background-repeat: no-repeat;
-        width: 45px;
+        width: 100%;
         height: 100%;
         &.TeamIcon__lg {
             width: 94px;
