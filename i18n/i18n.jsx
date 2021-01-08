@@ -26,12 +26,6 @@ import store from 'stores/redux_store.jsx';
 
 // should match the values in model/config.go
 const languages = {
-    bg: {
-        value: 'bg',
-        name: 'български (Beta)',
-        order: 16,
-        url: bg,
-    },
     de: {
         value: 'de',
         name: 'Deutsch',
@@ -62,18 +56,6 @@ const languages = {
         order: 4,
         url: it,
     },
-    ja: {
-        value: 'ja',
-        name: '日本語',
-        order: 15,
-        url: ja,
-    },
-    ko: {
-        value: 'ko',
-        name: '한국어 (Alpha)',
-        order: 12,
-        url: ko,
-    },
     nl: {
         value: 'nl',
         name: 'Nederlands',
@@ -98,42 +80,60 @@ const languages = {
         order: 8,
         url: ro,
     },
-    ru: {
-        value: 'ru',
-        name: 'Pусский',
-        order: 10,
-        url: ru,
-    },
     sv: {
         value: 'sv',
         name: 'Svenska (Beta)',
-        order: 17,
+        order: 9,
         url: sv,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
-        order: 9,
+        order: 10,
         url: tr,
+    },
+    bg: {
+        value: 'bg',
+        name: 'Български',
+        order: 11,
+        url: bg,
+    },
+    ru: {
+        value: 'ru',
+        name: 'Pусский',
+        order: 12,
+        url: ru,
     },
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Alpha)',
-        order: 11,
+        order: 13,
         url: uk,
     },
-    'zh-TW': {
-        value: 'zh-TW',
-        name: '中文 (繁體)',
+    ko: {
+        value: 'ko',
+        name: '한국어 (Alpha)',
         order: 14,
-        url: zhTW,
+        url: ko,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 13,
+        order: 15,
         url: zhCN,
     },
+    'zh-TW': {
+        value: 'zh-TW',
+        name: '中文 (繁體)',
+        order: 16,
+        url: zhTW,
+    },
+    ja: {
+        value: 'ja',
+        name: '日本語',
+        order: 17,
+        url: ja,
+    }
 };
 
 export function getAllLanguages() {
