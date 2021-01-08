@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOAuthApp from 'components/integrations/installed_oauth_app/installed_oauth_app.jsx';
+import InstalledOAuthApp from 'components/integrations/installed_oauth_app/installed_oauth_app';
 import DeleteIntegration from 'components/integrations/delete_integration.jsx';
 
 describe('components/integrations/InstalledOAuthApp', () => {
