@@ -18,7 +18,7 @@ const shouldTruncate = new Map<Unit, boolean>([
 export function isWithin(
     a: Date,
     b: Date,
-    timeZone: string | undefined,
+    timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
     unit: Unit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
@@ -32,7 +32,7 @@ export function isWithin(
 export function isEqual(
     a: Date,
     b: Date,
-    timeZone: string | undefined,
+    timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
     unit: Unit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
@@ -43,7 +43,7 @@ export function isEqual(
 export function getDiff(
     a: Date,
     b: Date,
-    timeZone: string | undefined,
+    timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
     unit: Unit,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): number {
