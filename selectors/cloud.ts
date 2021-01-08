@@ -10,7 +10,8 @@ import {GlobalState} from 'types/store';
 export enum InquiryType {
     Technical = 'technical',
     Sales = 'sales',
-    Billing = 'billing'
+    Billing = 'billing',
+    Support = 'support'
 }
 
 export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType): string {

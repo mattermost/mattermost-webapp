@@ -60,6 +60,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const contactSupportLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Support));
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -185,6 +186,37 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </div>
     );
 
+    const customerCancelSubscription = () => (
+        <div className='customerCancelSubscriptionSection'>
+            <div className='customerCancelSubscriptionSection__text'>
+                <div className='customerCancelSubscriptionSection__text-title'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.customerCancelSubscriptionSection.title'
+                        defaultMessage='Cancel your subscription'
+                    />
+                </div>
+                <div className='customerCancelSubscriptionSection__text-description'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.customerCancelSubscriptionSection.description'
+                        defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
+                    />
+                </div>
+                <a
+                    href={contactSupportLink}
+                    rel='noopener noreferrer'
+                    target='_new'
+                    className='customerCancelSubscriptionSection__contactSupport'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_support')}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.customerCancelSubscriptionSection.contactSupport'
+                        defaultMessage='Contact Support'
+                    />
+                </a>
+            </div>
+        </div>
+    );
+
     if (!subscription || !products) {
         return null;
     }
@@ -278,6 +310,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
                     {privateCloudCard()}
+                    {customerCancelSubscription()}
                 </div>
             </div>
         </div>
