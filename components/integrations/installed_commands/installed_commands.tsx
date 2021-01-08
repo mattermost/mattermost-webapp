@@ -18,9 +18,13 @@ type Props = {
     team: Team;
     user: UserProfile;
     users: RelationOneToOne<UserProfile, UserProfile>;
-    commands: Command[]; // Installed slash commands to display
+
+    // Installed slash commands to display
+    commands: Command[];
     loading: boolean;
-    canManageOthersSlashCommands: boolean; // Set to allow changes to installed slash commands
+
+    // Set to allow changes to installed slash commands
+    canManageOthersSlashCommands: boolean;
     actions: {
 
         // The function to call when Regenerate Token link is clicked
