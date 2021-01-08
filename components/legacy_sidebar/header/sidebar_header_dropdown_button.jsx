@@ -11,7 +11,7 @@ import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
-import messageHtmlToComponent from 'utils/message_html_to_component';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
@@ -51,35 +51,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
-        let status = null;
-        const currentUser = this.props.currentUser;
-        if (currentUser && currentUser.props && currentUser.props.customStatus) {
-            const customStatus = JSON.parse(currentUser.props.customStatus);
-            const statusEmoji = (messageHtmlToComponent(
-                `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
-                false,
-                {emoji: true},
-            ));
-            status = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={
-                        <Tooltip id='custom-status'>
-                            <div className='custom-status'>
-                                {statusEmoji}
-                                <span className='custom-status-text'>
-                                    {customStatus.text}
-                                </span>
-                            </div>
-                        </Tooltip>
-                    }
-                >
-                    {statusEmoji}
-                </OverlayTrigger>
-            );
-        }
-
         return (
             <div
                 className='SidebarHeaderDropdownButton'
@@ -101,7 +72,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        {status}
+                        <CustomStatusEmoji/>
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'

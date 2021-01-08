@@ -4,9 +4,9 @@ import React, {useState} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import messageHtmlToComponent from 'utils/message_html_to_component';
 import Constants from 'utils/constants';
 import {CustomStatus} from 'types/store/custom_status';
+import RenderEmoji from 'components/emoji/render_emoji';
 
 import './custom_status.scss';
 
@@ -77,11 +77,10 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             }
         >
             <div className='statusSuggestion__icon'>
-                {messageHtmlToComponent(
-                    `<span data-emoticon=${emoji} class="custom-status-suggestion-emoji"/>`,
-                    false,
-                    {emoji: true},
-                )}
+                <RenderEmoji
+                    emoji={emoji}
+                    size={20}
+                />
             </div>
             <span className='statusSuggestion__text'>
                 {text}
