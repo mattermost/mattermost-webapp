@@ -20,12 +20,11 @@ function mapStateToProps(state) {
         return {};
     }
 
-    const userId = currentUser.id;
     return {
-        userId,
-        profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
-        status: getStatusForUserId(state, userId),
+        currentUser,
+        profilePicture: Client4.getProfilePictureUrl(currentUser.id, currentUser.last_picture_update),
+        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUser.id, ''),
+        status: getStatusForUserId(state, currentUser.id),
     };
 }
 

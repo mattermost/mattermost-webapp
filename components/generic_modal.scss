@@ -9,13 +9,6 @@
         max-height: 100%;
         padding: 0;
 
-        .form-control {
-            border: 2px solid var(--button-bg);
-            box-sizing: border-box;
-            border-radius: 4px;
-            height: 40px;
-        }
-
         .input-clear {
             font-style: normal;
             font-weight: normal;
@@ -32,6 +25,7 @@
 
     .modal-content {
         border-radius: 8px;
+        padding: 16px 15px;
     }
 
     .modal-header {

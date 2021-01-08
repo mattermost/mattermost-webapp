@@ -636,12 +636,16 @@
             }
         }
 
+        .header__info__content{
+            display: flex;
+            max-width: 120px;
+        }
+
         .team__name,
         .user__name {
             display: block;
             font-size: 14px;
             font-weight: 600;
-            max-width: 120px;
             overflow: hidden;
             text-decoration: none;
             text-overflow: ellipsis;
@@ -660,6 +664,28 @@
             font-weight: 400;
             top: -3px;
             position: relative;
+        }
+        .custom-status {
+            display: flex;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .custom-status-text {
+            margin-left: 4px;
+        }
+
+        .custom-status-emoji {
+            display: flex;
+            height: 16px;
+            margin-left: 4px;
+            min-width: 16px;
+        }
+        .custom-status-emoji > span:first-child {
+            height: 16px;
+            width: 16px;
+            min-height: 16px;
+            min-width: 16px;
         }
     }
 
