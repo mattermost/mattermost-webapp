@@ -39,13 +39,13 @@ const ThreadPane = ({
     children,
 }: Props) => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
     const {
         currentTeamId,
         currentUserId,
         goToInChannel,
         select,
     } = useThreadRouting();
-    const dispatch = useDispatch();
 
     const {
         id: threadId,
@@ -80,7 +80,7 @@ const ThreadPane = ({
                                 clamp={true}
                                 onClick={useCallback(() => {
                                     goToInChannel(threadId);
-                                }, [goToInChannel])}
+                                }, [goToInChannel, threadId])}
                             >
                                 {channel.display_name}
                             </Button>

@@ -3,9 +3,12 @@
 
 import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
+import {useDispatch} from 'react-redux';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
+
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
@@ -30,7 +33,12 @@ function ThreadMenu({
     children,
 }: Props) {
     const {formatMessage} = useIntl();
-    const {goToInChannel} = useThreadRouting();
+    const dispatch = useDispatch();
+    const {
+        currentTeamId,
+        currentUserId,
+        goToInChannel,
+    } = useThreadRouting();
 
     return (
         <MenuWrapper
@@ -42,33 +50,30 @@ function ThreadMenu({
                 ariaLabel={''}
                 openLeft={true}
             >
-                {isFollowing ? (
-                    <Menu.ItemAction
-                        text={formatMessage({
+                <Menu.ItemAction
+                    {...isFollowing ? {
+                        text: formatMessage({
                             id: t('threading.threadMenu.unfollow'),
                             defaultMessage: 'Unfollow thread',
-                        })}
-                        extraText={formatMessage({
+                        }),
+                        extraText: formatMessage({
                             id: t('threading.threadMenu.unfollowExtra'),
                             defaultMessage: 'You won’t be notified about replies',
-                        })}
-
-                        //onClick={unFollow}
-                    />
-                ) : (
-                    <Menu.ItemAction
-
-                        //onClick={follow}
-                        text={formatMessage({
+                        }),
+                    } : {
+                        text: formatMessage({
                             id: t('threading.threadMenu.follow'),
                             defaultMessage: 'Follow thread',
-                        })}
-                        extraText={formatMessage({
+                        }),
+                        extraText: formatMessage({
                             id: t('threading.threadMenu.followExtra'),
                             defaultMessage: 'You will be notified about replies',
-                        })}
-                    />
-                )}
+                        }),
+                    }}
+                    onClick={useCallback(() => {
+                        dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
+                    }, [currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow])}
+                />
                 <Menu.ItemAction
                     onClick={useCallback(() => {
                         goToInChannel(threadId);

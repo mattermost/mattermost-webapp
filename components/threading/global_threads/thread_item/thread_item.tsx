@@ -65,6 +65,7 @@ const ThreadItem = ({
         unread_mentions: newMentions,
         last_reply_at: lastReplyAt,
         reply_count: totalReplies,
+        is_following: isFollowing,
         participants,
         post: {
             channel_id: channelId,
@@ -126,7 +127,7 @@ const ThreadItem = ({
                 <ThreadMenu
                     threadId={threadId}
                     isSaved={false}
-                    isFollowing={true}
+                    isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
                 >
                     <SimpleTooltip
