@@ -61,10 +61,6 @@ export default class EditOAuthApp extends React.PureComponent<Props, State> {
             app.id = this.props.oauthApp.id;
         }
 
-        if (this.props.oauthApp.client_secret) {
-            app.client_secret = this.props.oauthApp.client_secret;
-        }
-
         const callbackUrlsSame = (this.props.oauthApp.callback_urls.length === app.callback_urls.length) &&
             this.props.oauthApp.callback_urls.every((v, i) => v === app.callback_urls[i]);
 

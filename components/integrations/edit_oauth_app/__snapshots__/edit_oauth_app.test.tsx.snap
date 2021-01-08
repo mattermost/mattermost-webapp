@@ -97,21 +97,8 @@ exports[`components/integrations/EditOAuthApp should match snapshot 1`] = `
   serverError=""
   team={
     Object {
-      "allow_open_invite": true,
-      "allowed_domains": "allowed_domains",
-      "company_name": "company",
-      "create_at": 1501365458934,
-      "delete_at": 1501365458934,
-      "description": "desc",
-      "display_name": "display",
-      "email": "email",
-      "group_constrained": true,
       "id": "dbcxd9wpzpbpfp8pad78xj12pr",
-      "invite_id": "invite_id",
       "name": "test",
-      "scheme_id": "scheme_id",
-      "type": "I",
-      "update_at": 1501365458934,
     }
   }
 />
@@ -186,21 +173,8 @@ exports[`components/integrations/EditOAuthApp should match snapshot when EnableO
   serverError=""
   team={
     Object {
-      "allow_open_invite": true,
-      "allowed_domains": "allowed_domains",
-      "company_name": "company",
-      "create_at": 1501365458934,
-      "delete_at": 1501365458934,
-      "description": "desc",
-      "display_name": "display",
-      "email": "email",
-      "group_constrained": true,
       "id": "dbcxd9wpzpbpfp8pad78xj12pr",
-      "invite_id": "invite_id",
       "name": "test",
-      "scheme_id": "scheme_id",
-      "type": "I",
-      "update_at": 1501365458934,
     }
   }
 />
@@ -275,21 +249,8 @@ exports[`components/integrations/EditOAuthApp should match snapshot, loading 1`]
   serverError=""
   team={
     Object {
-      "allow_open_invite": true,
-      "allowed_domains": "allowed_domains",
-      "company_name": "company",
-      "create_at": 1501365458934,
-      "delete_at": 1501365458934,
-      "description": "desc",
-      "display_name": "display",
-      "email": "email",
-      "group_constrained": true,
       "id": "dbcxd9wpzpbpfp8pad78xj12pr",
-      "invite_id": "invite_id",
       "name": "test",
-      "scheme_id": "scheme_id",
-      "type": "I",
-      "update_at": 1501365458934,
     }
   }
 />

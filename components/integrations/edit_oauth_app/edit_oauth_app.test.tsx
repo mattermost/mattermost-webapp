@@ -29,20 +29,7 @@ describe('components/integrations/EditOAuthApp', () => {
     const team: Team = {
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
         name: 'test',
-        create_at: 1501365458934,
-        update_at: 1501365458934,
-        delete_at: 1501365458934,
-        display_name: 'display',
-        description: 'desc',
-        email: 'email',
-        type: 'I',
-        company_name: 'company',
-        allowed_domains: 'allowed_domains',
-        invite_id: 'invite_id',
-        allow_open_invite: true,
-        scheme_id: 'scheme_id',
-        group_constrained: true,
-    };
+    } as Team;
     const editOAuthAppRequest = {
         status: 'not_started',
         error: null,
@@ -90,45 +77,45 @@ describe('components/integrations/EditOAuthApp', () => {
 
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
         wrapper.setState({showConfirmModal: false});
-        (wrapper.instance() as EditOAuthApp).handleConfirmModal();
+        wrapper.instance().handleConfirmModal();
         expect(wrapper.state('showConfirmModal')).toEqual(true);
     });
 
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
         wrapper.setState({showConfirmModal: true});
-        (wrapper.instance() as EditOAuthApp).confirmModalDismissed();
+        wrapper.instance().confirmModalDismissed();
         expect(wrapper.state('showConfirmModal')).toEqual(false);
     });
 
     test('should have match renderExtra', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
-        expect((wrapper.instance() as EditOAuthApp).renderExtra()).toMatchSnapshot();
+        expect(wrapper.instance().renderExtra()).toMatchSnapshot();
     });
 
     test('should have match when editOAuthApp is called', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
-        const instance = wrapper.instance() as EditOAuthApp;
+        const instance = wrapper.instance();
         instance.handleConfirmModal = jest.fn();
         instance.submitOAuthApp = jest.fn();
-        (wrapper.instance() as EditOAuthApp).editOAuthApp(oauthApp);
+        instance.editOAuthApp(oauthApp);
 
         expect(instance.handleConfirmModal).not.toBeCalled();
         expect(instance.submitOAuthApp).toBeCalled();
@@ -148,11 +135,11 @@ describe('components/integrations/EditOAuthApp', () => {
 
         browserHistory.push = jest.fn();
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
-        const instance = wrapper.instance() as EditOAuthApp;
+        const instance = wrapper.instance();
         wrapper.setState({showConfirmModal: true});
         await instance.submitOAuthApp();
 
@@ -172,11 +159,11 @@ describe('components/integrations/EditOAuthApp', () => {
             },
         );
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
-        const instance = wrapper.instance() as EditOAuthApp;
+        const instance = wrapper.instance();
         wrapper.setState({showConfirmModal: true});
         await instance.submitOAuthApp();
 
