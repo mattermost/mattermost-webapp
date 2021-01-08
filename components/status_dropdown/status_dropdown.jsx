@@ -13,14 +13,13 @@ import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import CustomStatusEmoji from 'components/custom_status/emoji';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
-
-import messageHtmlToComponent from 'utils/message_html_to_component';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -136,10 +135,12 @@ export default class StatusDropdown extends React.PureComponent {
         if (userProps && userProps.customStatus) {
             const customStatus = JSON.parse(this.props.currentUser.props.customStatus);
             if (customStatus.emoji !== '') {
-                customStatusEmoji = messageHtmlToComponent(
-                    `<span data-emoticon="${customStatus.emoji}" class="custom-status-emoji" />`,
-                    false,
-                    {emoji: true},
+                customStatusEmoji = (
+                    <span style={{display: 'flex'}}>
+                        <CustomStatusEmoji
+                            showTooltip={false}
+                        />
+                    </span>
                 );
             }
             if (customStatus.text.length > 24) {

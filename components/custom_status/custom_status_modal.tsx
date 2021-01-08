@@ -14,9 +14,9 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import './custom_status.scss';
 import {GlobalState} from 'types/store';
-import messageHtmlToComponent from 'utils/message_html_to_component';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
+import ShowEmoji from 'components/emoji/show_emoji';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
 
@@ -75,10 +75,10 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
     if (emoji || text) {
-        customStatusEmoji = messageHtmlToComponent(
-            `<span data-emoticon="${emoji || 'speech_balloon'}" />`,
-            false,
-            {emoji: true},
+        customStatusEmoji = (
+            <ShowEmoji
+                emoji={emoji || 'speech_balloon'}
+            />
         );
     }
 

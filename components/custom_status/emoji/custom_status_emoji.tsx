@@ -4,37 +4,29 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import ShowEmoji from 'components/emoji/show_emoji';
 
 import Constants from 'utils/constants';
-import EmojiMap from 'utils/emoji_map';
 
 interface ComponentProps {
     currentUser: UserProfile;
-    emojiMap: EmojiMap;
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
 }
 
-const CustomStatusEmoji = ({currentUser, emojiMap, tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16}: ComponentProps) => {
+const CustomStatusEmoji = ({currentUser, tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16}: ComponentProps) => {
     if (!(currentUser && currentUser.props && currentUser.props.customStatus)) {
         return null;
     }
 
     const customStatus = JSON.parse(currentUser.props.customStatus);
-    const emojiImageUrl = getEmojiImageUrl(emojiMap.get(customStatus.emoji));
     const statusEmoji = (
-        <span
-            className='emoticon'
-            alt={`:${customStatus.emoji}:`}
-            data-emoticon={customStatus.emoji}
-            style={{
-                backgroundImage: `url(${emojiImageUrl})`,
-                backgroundSize: emojiSize,
-            }}
+        <ShowEmoji
+            emoji={customStatus.emoji}
+            size={emojiSize}
         />
     );
 

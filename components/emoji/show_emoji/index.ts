@@ -3,17 +3,16 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
-
+import {getEmojiMap} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
 
-import CustomStatusEmoji from './custom_status_emoji';
+import Emoji from './emoji';
 
 function mapStateToProps(state: GlobalState) {
-    const currentUser = getCurrentUser(state);
+    const emojiMap = getEmojiMap(state);
     return {
-        currentUser,
+        emojiMap,
     };
 }
 
-export default connect(mapStateToProps)(CustomStatusEmoji);
+export default connect(mapStateToProps)(Emoji);
