@@ -31,6 +31,8 @@ type Props = {
 
 /* eslint-disable camelcase */
 
+const getProfilesInChannelOptions = {active: true};
+
 const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
     const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
@@ -44,7 +46,7 @@ const makeMapStateToProps = () => {
             permission: Permissions.USE_GROUP_MENTIONS,
         });
         const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
-        const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, {active: true});
+        const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, getProfilesInChannelOptions);
         const profilesWithLastViewAtInChannel = addLastViewAtToProfiles(state, profilesInChannel);
 
         return {

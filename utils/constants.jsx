@@ -916,6 +916,9 @@ export const Constants = {
         POST: 5,
     },
 
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
+    MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
+
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
 
@@ -961,7 +964,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 5,
+    MAX_UPLOAD_FILES: 10,
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
@@ -1006,6 +1009,9 @@ export const Constants = {
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
     SUGGESTION_LIST_SPACE_RHS: 420,
+    SUGGESTION_LIST_MODAL_WIDTH: 496,
+    MENTION_NAME_PADDING_LEFT: 2.4,
+    AVATAR_WIDTH: 24,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
