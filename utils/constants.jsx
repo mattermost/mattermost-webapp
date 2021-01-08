@@ -1490,7 +1490,6 @@ export const Constants = {
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
-        BOTS_PER_PAGE_DEFAULT: 20,
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {

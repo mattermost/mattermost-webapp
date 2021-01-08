@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, SyntheticEvent} from 'react';
+import React, {ChangeEvent, SyntheticEvent, ReactNode} from 'react';
 import {Link} from 'react-router-dom';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Bot as BotType} from 'mattermost-redux/types/bots';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -54,7 +53,7 @@ type Props = {
     /**
     * The access tokens of the bot user
     */
-    accessTokens: Dictionary<UserAccessToken>;
+    accessTokens: Record<string, UserAccessToken>;
 
     /**
     * String used for filtering bot items
@@ -96,7 +95,7 @@ type State = {
     confirmingId: string;
     creatingTokenState: string;
     token: UserAccessToken | Record<string, any>;
-    error: string | JSX.Element;
+    error: string | ReactNode;
 }
 
 export default class Bot extends React.PureComponent<Props, State> {

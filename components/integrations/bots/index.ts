@@ -11,7 +11,6 @@ import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
 import {Bot as BotType} from 'mattermost-redux/types/bots';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import Bots from './bots';
@@ -22,12 +21,12 @@ function mapStateToProps(state: GlobalState) {
     const bots = getExternalBotAccounts(state);
     const botValues = Object.values(bots);
     const owners = botValues.
-        reduce((result: Dictionary<UserProfile>, bot: BotType) => {
+        reduce((result: Record<string, UserProfile>, bot: BotType) => {
             result[bot.user_id] = UserSelectors.getUser(state, bot.owner_id);
             return result;
         }, {});
     const users = botValues.
-        reduce((result: Dictionary<UserProfile>, bot: BotType) => {
+        reduce((result: Record<string, UserProfile>, bot: BotType) => {
             result[bot.user_id] = UserSelectors.getUser(state, bot.user_id);
             return result;
         }, {});

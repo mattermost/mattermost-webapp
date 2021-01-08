@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Bot as BotType} from 'mattermost-redux/types/bots';
-import {Dictionary, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
@@ -22,22 +22,22 @@ type Props = {
     /**
     *  Map from botUserId to bot.
     */
-    bots: Dictionary<BotType>;
+    bots: Record<string, BotType>;
 
     /**
     *  Map from botUserId to accessTokens.
     */
-    accessTokens?: RelationOneToOne<UserProfile, Dictionary<UserAccessToken>>;
+    accessTokens?: RelationOneToOne<UserProfile, Record<string, UserAccessToken>>;
 
     /**
     *  Map from botUserId to owner.
     */
-    owners: Dictionary<UserProfile>;
+    owners: Record<string, UserProfile>;
 
     /**
     *  Map from botUserId to user.
     */
-    users: Dictionary<UserProfile>;
+    users: Record<string, UserProfile>;
     createBots?: boolean;
 
     actions: {
@@ -102,7 +102,7 @@ export default class Bots extends React.PureComponent<Props, State> {
     public componentDidMount(): void {
         this.props.actions.loadBots(
             Constants.Integrations.START_PAGE_NUM,
-            Constants.Integrations.BOTS_PER_PAGE_DEFAULT,
+            parseInt(Constants.Integrations.PAGE_SIZE, 10),
         ).then(
             (result) => {
                 if (result.data) {
