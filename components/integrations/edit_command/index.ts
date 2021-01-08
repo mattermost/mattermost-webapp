@@ -17,7 +17,7 @@ type Props = {
 }
 
 type Actions = {
-    getCustomTeamCommands: (teamId: string) => Promise<any>;
+    getCustomTeamCommands: (teamId: string) => Promise<Command[]>;
     editCommand: (command?: Command) => Promise<{data?: Command; error?: Error}>;
 }
 

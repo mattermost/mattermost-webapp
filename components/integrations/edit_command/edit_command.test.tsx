@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Team} from 'mattermost-redux/types/teams';
+import {Command} from 'mattermost-redux/types/integrations';
 
 import {TestHelper} from 'utils/test_helper';
 import EditCommand from 'components/integrations/edit_command/edit_command';
@@ -11,8 +12,8 @@ import EditCommand from 'components/integrations/edit_command/edit_command';
 describe('components/integrations/EditCommand', () => {
     const getCustomTeamCommands = jest.fn(
         () => {
-            return new Promise((resolve) => {
-                process.nextTick(() => resolve({}));
+            return new Promise<Command[]>((resolve) => {
+                process.nextTick(() => resolve([]));
             });
         },
     );
