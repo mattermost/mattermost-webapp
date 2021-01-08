@@ -60,7 +60,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const contactSupportLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Support));
+    const contactSupportLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Technical));
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -186,18 +186,18 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </div>
     );
 
-    const customerCancelSubscription = () => (
-        <div className='customerCancelSubscriptionSection'>
-            <div className='customerCancelSubscriptionSection__text'>
-                <div className='customerCancelSubscriptionSection__text-title'>
+    const cancelSubscription = () => (
+        <div className='cancelSubscriptionSection'>
+            <div className='cancelSubscriptionSection__text'>
+                <div className='cancelSubscriptionSection__text-title'>
                     <FormattedMessage
-                        id='admin.billing.subscription.customerCancelSubscriptionSection.title'
+                        id='admin.billing.subscription.cancelSubscriptionSection.title'
                         defaultMessage='Cancel your subscription'
                     />
                 </div>
-                <div className='customerCancelSubscriptionSection__text-description'>
+                <div className='cancelSubscriptionSection__text-description'>
                     <FormattedMessage
-                        id='admin.billing.subscription.customerCancelSubscriptionSection.description'
+                        id='admin.billing.subscription.cancelSubscriptionSection.description'
                         defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
                     />
                 </div>
@@ -205,11 +205,11 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     href={contactSupportLink}
                     rel='noopener noreferrer'
                     target='_new'
-                    className='customerCancelSubscriptionSection__contactSupport'
+                    className='cancelSubscriptionSection__contactSupport'
                     onClick={() => trackEvent('cloud_admin', 'click_contact_support')}
                 >
                     <FormattedMessage
-                        id='admin.billing.subscription.customerCancelSubscriptionSection.contactSupport'
+                        id='admin.billing.subscription.cancelSubscriptionSection.contactSupport'
                         defaultMessage='Contact Support'
                     />
                 </a>
@@ -310,7 +310,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
                     {privateCloudCard()}
-                    {customerCancelSubscription()}
+                    {cancelSubscription()}
                 </div>
             </div>
         </div>
