@@ -31,6 +31,8 @@ describe('Authentication', () => {
             testUser2 = user2;
             cy.apiAddUserToTeam(testTeam.id, testUser2.id);
         });
+
+        cy.apiLogout();
     });
 
     afterEach(() => {
@@ -98,7 +100,7 @@ describe('Authentication', () => {
             cy.apiLogout();
 
             // # Sign in with an account using Email Authentication and MFA
-            cy.visit('/login').wait(timeouts.ONE_SEC);
+            cy.visit('/login');
             fillCredentialsForUser(testUser);
             token = authenticator.generateToken(res.code.secret);
             fillMFACode(token);
@@ -126,7 +128,7 @@ describe('Authentication', () => {
     it('MM-T406 Sign In Forgot password - Email address not on server (but valid) Focus in login field on login page', () => {
         // # On a server with site URL and email settings configured (such as rc.test.mattermost.com):
         // # Go to the login page where you enter username & password
-        cy.visit('/login');
+        cy.visit('/login').wait(timeouts.FIVE_SEC);
 
         // # Verify focus is in first login field
         cy.focused().should('have.id', 'loginId');
@@ -197,6 +199,20 @@ describe('Authentication', () => {
     });
 
     it('MM-T419 Desktop session expires when the focus is on the tab', () => {
+        Cypress.on('window:before:load', (win) => {
+            function Notification(title, opts) {
+                this.title = title;
+                this.opts = opts;
+            }
+
+            Notification.requestPermission = () => 'granted';
+            Notification.close = () => true;
+
+            win.Notification = Notification;
+
+            cy.stub(win, 'Notification').as('withNotification');
+        });
+
         cy.visit('/login');
         fillCredentialsForUser(testUser);
 
@@ -242,7 +258,7 @@ describe('Authentication', () => {
         //cy.get('@withNotification').should('have.been.calledOnce');
 
         // * Login page shows a message above the login box that the session has expired.
-        cy.get('#login_section .alert-warning').should('contain.text', 'Your session has expired. Please log in again.');
+        cy.get('#login_section .alert-warning', {timeout: timeouts.ONE_MIN}).should('contain.text', 'Your session has expired. Please log in again.');
     });
 });
 
@@ -272,12 +288,14 @@ function getUserSecret(user) {
 }
 
 function fillCredentialsForUser(user) {
-    cy.findByPlaceholderText('Email or Username').clear().type(user.username);
-    cy.findByPlaceholderText('Password').clear().type(user.password);
+    cy.wait(timeouts.TWO_SEC);
+    cy.get('#loginId').should('be.visible').clear().type(user.username).wait(timeouts.ONE_SEC);
+    cy.get('#loginPassword').should('be.visible').clear().type(user.password).wait(timeouts.ONE_SEC);
     cy.findByText('Sign in').click().wait(timeouts.ONE_SEC);
 }
 
 function fillMFACode(code) {
-    cy.findByPlaceholderText('MFA Token').clear().type(code);
+    cy.wait(timeouts.TWO_SEC);
+    cy.findByPlaceholderText('MFA Token').clear().type(code).wait(timeouts.ONE_SEC);
     cy.get('#saveSetting').should('be.visible').click().wait(timeouts.ONE_SEC);
 }
