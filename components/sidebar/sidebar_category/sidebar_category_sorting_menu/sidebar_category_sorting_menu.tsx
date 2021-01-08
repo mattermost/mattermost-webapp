@@ -51,7 +51,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         const {category} = this.props;
 
         this.props.actions.setCategorySorting(category.id, sorting);
-        console.log(category.sorting);
         trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
     }
 
