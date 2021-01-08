@@ -38,7 +38,7 @@ exports[`components/widgets/team-icon icon with hover 1`] = `
 
 exports[`components/widgets/team-icon image icon 1`] = `
 <div
-  className="TeamIcon no-hover TeamIcon__md undefined"
+  className="TeamIcon no-hover TeamIcon__md undefined withImage"
 >
   <div
     className="TeamIcon__content no-hover"
