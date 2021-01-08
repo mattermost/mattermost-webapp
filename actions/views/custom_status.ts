@@ -9,36 +9,40 @@ import {CustomStatus} from 'types/store/custom_status';
 
 export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const userProps = Object.assign({}, getCurrentUser(getState()).props);
+        const user = {...getCurrentUser(getState())};
+        const userProps = {...user.props};
         const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
-        const updatedRecentCustomStatuses = recentCustomStatuses.filter((status: CustomStatus) => status.text !== newCustomStatus.text);
-        updatedRecentCustomStatuses.unshift(newCustomStatus);
-        if (updatedRecentCustomStatuses.length > 5) {
-            updatedRecentCustomStatuses.pop();
-        }
+        const updatedRecentCustomStatuses = [
+            newCustomStatus,
+            ...recentCustomStatuses.
+                filter((status: CustomStatus) => status.text !== newCustomStatus.text).
+                slice(0, 4),
+        ];
         userProps.customStatus = JSON.stringify(newCustomStatus);
         userProps.recentCustomStatuses = JSON.stringify(updatedRecentCustomStatuses);
-        const user = Object.assign({}, getCurrentUser(getState()), {props: userProps});
+        user.props = userProps;
         await dispatch(updateMe(user));
     };
 }
 
 export function unsetUserCustomStatus() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const userProps = Object.assign({}, getCurrentUser(getState()).props);
+        const user = {...getCurrentUser(getState())};
+        const userProps = {...user.props};
         delete userProps.customStatus;
-        const user = Object.assign({}, getCurrentUser(getState()), {props: userProps});
+        user.props = userProps;
         await dispatch(updateMe(user));
     };
 }
 
 export function removeRecentCustomStatus(status: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const userProps = Object.assign({}, getCurrentUser(getState()).props);
+        const user = {...getCurrentUser(getState())};
+        const userProps = {...user.props};
         const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
         const updatedRecentCustomStatuses = recentCustomStatuses.filter((recentStatus: CustomStatus) => recentStatus.text !== status.text);
         userProps.recentCustomStatuses = JSON.stringify(updatedRecentCustomStatuses);
-        const user = Object.assign({}, getCurrentUser(getState()), {props: userProps});
+        user.props = userProps;
         await dispatch(updateMe(user));
     };
 }
