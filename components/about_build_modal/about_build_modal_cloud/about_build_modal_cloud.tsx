@@ -115,6 +115,34 @@ export default function AboutBuildModalCloud(props: Props) {
                     </div>
                     <div/>
                 </div>
+                <div className='about-modal__hash'>
+                    <p>
+                        <FormattedMessage
+                            id='about.hash'
+                            defaultMessage='Build Hash:'
+                        />
+                        {config.BuildHash}
+                        <br/>
+                        <FormattedMessage
+                            id='about.hashee'
+                            defaultMessage='EE Build Hash:'
+                        />
+                        {config.BuildHashEnterprise}
+                        <br/>
+                        <FormattedMessage
+                            id='about.hashwebapp'
+                            defaultMessage='Webapp Build Hash:'
+                        />
+                        {(typeof COMMIT_HASH === 'undefined' ? '' : COMMIT_HASH)}
+                    </p>
+                    <p>
+                        <FormattedMessage
+                            id='about.date'
+                            defaultMessage='Build Date:'
+                        />
+                        {config.BuildDate}
+                    </p>
+                </div>
             </Modal.Body>
         </Modal>
     );
