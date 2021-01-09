@@ -4,13 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+
 import UserProfile from './user_profile';
 
 describe('components/UserProfile', () => {
     const baseProps = {
         displayName: 'nickname',
         isBusy: false,
-        user: {username: 'username'},
+        user: {username: 'username'} as UserProfileType,
         userId: 'user_id',
     };
 
