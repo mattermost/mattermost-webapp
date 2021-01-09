@@ -328,7 +328,7 @@ export default function NextStepsTips(props: Props) {
                     <FormattedMessage
                         id='next_steps_view.tips.createChannels.text'
                         defaultMessage={
-                            "Think of a topic you' like to organize a conversation around."
+                            "Think of a topic you'd like to organize a conversation around."
                         }
                     />
                     <button
