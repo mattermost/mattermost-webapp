@@ -32,8 +32,8 @@ type Props = {
     handleClear: () => void;
     handleFocus: () => void;
     handleBlur: () => void;
-    keepFocussed: boolean;
-    isFocussed: boolean;
+    keepFocused: boolean;
+    isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
     isFocus: boolean;
@@ -100,17 +100,17 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         }
     };
     useEffect((): void => {
-        const shouldFocus = isFocussed || keepFocussed;
+        const shouldFocus = isFocused || keepFocused;
         if (shouldFocus) {
             // let redux handle changes before focussing the input
             setTimeout(() => searchRef.current?.focus(), 0);
         } else {
             setTimeout(() => searchRef.current?.blur(), 0);
         }
-    }, [isFocussed, keepFocussed]);
+    }, [isFocused, keepFocused]);
 
     useEffect((): void => {
-        if (isFocussed && !keepFocussed && searchTerms.endsWith('""')) {
+        if (isFocused && !keepFocused && searchTerms.endsWith('""')) {
             setTimeout(() => searchRef.current?.focus(), 0);
         }
     }, [searchTerms]);
@@ -151,7 +151,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         >
             <form
                 role='application'
-                className={classNames(['search__form', {'search__form--focused': isFocussed}])}
+                className={classNames(['search__form', {'search__form--focused': isFocused}])}
                 onSubmit={props.handleSubmit}
                 style={style.searchForm}
                 autoComplete='off'

@@ -3,12 +3,13 @@
 
 import {connect} from 'react-redux';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getDisplayNameByUser} from 'utils/utils';
 
-import InstalledOAuthApp from './installed_oauth_app.jsx';
+import InstalledOAuthApp, {InstalledOAuthAppProps} from './installed_oauth_app';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: InstalledOAuthAppProps) {
     const oauthApp = ownProps.oauthApp || {};
     return {
         creatorName: getDisplayNameByUser(state, getUser(state, oauthApp.creator_id)),
