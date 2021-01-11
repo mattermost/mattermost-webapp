@@ -187,7 +187,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -1161,7 +1161,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)}};
+        instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -1290,7 +1290,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1338,7 +1338,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1389,7 +1389,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
         wrapper.setState({
             draft: {
                 ...draft,
