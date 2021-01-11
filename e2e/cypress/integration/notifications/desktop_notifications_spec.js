@@ -8,7 +8,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @notifications
 
 import * as MESSAGES from '../../fixtures/messages';
