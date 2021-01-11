@@ -139,7 +139,7 @@ describe('AD / LDAP', () => {
         });
     });
 
-    it('MM-T3013_3 - Deactivate user in SAML', () => {
+    it('MM-T3665 - Deactivate user in SAML', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
