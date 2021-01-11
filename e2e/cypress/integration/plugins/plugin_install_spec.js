@@ -24,13 +24,12 @@ describe('Plugins Management', () => {
 
     before(() => {
         cy.apiInitSetup();
-        cy.apiAdminLogin();
 
-        cy.apiRemovePluginById(pluginID, '');
+        cy.apiRemovePluginById(pluginID);
     });
 
     after(() => {
-        cy.apiRemovePluginById(pluginID, '');
+        cy.apiRemovePluginById(pluginID);
     });
 
     it('MM-T2400 Plugins Management', () => {
