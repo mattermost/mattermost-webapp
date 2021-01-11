@@ -120,7 +120,7 @@ describe('AD / LDAP', () => {
         });
     });
 
-    it('MM-T3013_1 - SAML LDAP Sync On - user attributes pulled from LDAP', () => {
+    it('MM-T3013_2 - SAML LDAP Sync On, user attributes pulled from LDAP', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
