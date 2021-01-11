@@ -57,14 +57,11 @@ Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => 
 
 Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
     // # Go to Account Settings
-    cy.toAccountSettingsModal();
-
-    // # Click General button
-    cy.get('#generalButton').click();
+    cy.uiOpenAccountSettingsModal();
 
     // * Check name value
     cy.get('#nameDesc').should('have.text', `${firstname} ${lastname}`);
-    cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+    cy.uiClose();
 });
 
 // ***********************************************************

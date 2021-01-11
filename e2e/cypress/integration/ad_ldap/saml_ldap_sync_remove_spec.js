@@ -93,7 +93,7 @@ describe('AD / LDAP', () => {
         cy.addLDAPUsers();
     });
 
-    it('MM-T3013_2 - SAML User, Not in LDAP, ', () => {
+    it('MM-T3664 - SAML User, Not in LDAP', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
@@ -139,7 +139,7 @@ describe('AD / LDAP', () => {
         });
     });
 
-    it('MM-T3013_3 - Deactivate user in SAML', () => {
+    it('MM-T3665 - Deactivate user in SAML', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
@@ -165,7 +165,6 @@ describe('AD / LDAP', () => {
                         // refresh make sure not logged out.
                         cy.reload();
 
-                        // cy.doLDAPLogout(testSettings);
                         cy.doSamlLogin(testSettings).then(() => {
                             cy.doKeycloakLogin(testSettings.user).then(() => {
                                 // * verify login failed.

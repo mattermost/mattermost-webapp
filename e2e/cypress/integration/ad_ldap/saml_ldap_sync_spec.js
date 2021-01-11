@@ -91,7 +91,7 @@ describe('AD / LDAP', () => {
         cy.addLDAPUsers();
     });
 
-    it('MM-T3013_1 - SAML LDAP Sync Off,  user attributes pulled from SAML', () => {
+    it('MM-T3013_1 - SAML LDAP Sync Off, user attributes pulled from SAML', () => {
         testSettings.user = users[0];
 
         // # MM Login via SAML
@@ -120,7 +120,7 @@ describe('AD / LDAP', () => {
         });
     });
 
-    it('MM-T3013_1 - SAML LDAP Sync On - user attributes pulled from LDAP', () => {
+    it('MM-T3013_2 - SAML LDAP Sync On, user attributes pulled from LDAP', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
@@ -160,4 +160,3 @@ describe('AD / LDAP', () => {
         });
     });
 });
-
