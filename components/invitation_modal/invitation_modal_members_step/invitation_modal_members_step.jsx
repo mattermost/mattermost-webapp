@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {compose} from 'redux';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
@@ -15,6 +16,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
+import withGetCloudSubscription from '../../common/hocs/with_get_cloud_subcription';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
@@ -178,9 +180,6 @@ class InvitationModalMembersStep extends React.PureComponent {
     componentDidMount() {
         if (!this.props.analytics) {
             this.props.actions.getStandardAnalytics();
-        }
-        if (!this.props.subscription) {
-            this.props.actions.getCloudSubscription();
         }
     }
 
@@ -374,4 +373,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(InvitationModalMembersStep);
+export default compose(
+    injectIntl,
+    withGetCloudSubscription,
+)(InvitationModalMembersStep);

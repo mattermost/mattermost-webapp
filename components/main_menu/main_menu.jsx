@@ -3,10 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {compose} from 'redux';
 import {injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
-
-import {isEmpty} from 'lodash';
 
 import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -32,6 +31,8 @@ import MarketplaceModal from 'components/plugin_marketplace';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
+
+import withGetCloudSubscription from '../common/hocs/with_get_cloud_subcription';
 
 class MainMenu extends React.PureComponent {
     static propTypes = {
@@ -94,9 +95,10 @@ class MainMenu extends React.PureComponent {
 
     async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
-        if (isEmpty(this.props.subscription)) {
-            await this.props.actions.getCloudSubscription();
-        }
+        // const { subscription, actions, isCloud } = this.props;
+        // if (isEmpty(subscription) && isCloud) {
+        //     await actions.getCloudSubscription();
+        // }
     }
 
     componentWillUnmount() {
@@ -427,4 +429,7 @@ class MainMenu extends React.PureComponent {
     }
 }
 
-export default injectIntl(MainMenu);
+export default compose(
+    injectIntl,
+    withGetCloudSubscription,
+)(MainMenu);
