@@ -165,7 +165,6 @@ describe('AD / LDAP', () => {
                         // refresh make sure not logged out.
                         cy.reload();
 
-                        // cy.doLDAPLogout(testSettings);
                         cy.doSamlLogin(testSettings).then(() => {
                             cy.doKeycloakLogin(testSettings.user).then(() => {
                                 // * verify login failed.
