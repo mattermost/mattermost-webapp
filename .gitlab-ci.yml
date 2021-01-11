@@ -56,6 +56,7 @@ test: #todo check on how to create junit.xml, there currently is none
   extends: .check
   script:
     - npm run test-ci
+  timeout: 3 hours
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $ONLY_BUILD != "yes"'
 
