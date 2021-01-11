@@ -86,7 +86,7 @@ const saveReport = async () => {
     }
 
     // Create test cycle to Test Management
-    let testCycle;
+    let testCycle = {};
     if (TM4J_ENABLE === 'true') {
         const {start, end} = jsonReport.stats;
         testCycle = await createTestCycle(start, end);
