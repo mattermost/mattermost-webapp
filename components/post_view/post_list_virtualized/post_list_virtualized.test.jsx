@@ -272,6 +272,40 @@ describe('PostList', () => {
 
             screenHeightSpy.mockRestore();
         });
+
+        test('should hide search channel hint in case of resize to mobile', () => {
+            const screenHeightSpy = jest.spyOn(window.screen, 'height', 'get').mockImplementation(() => 500);
+
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            const instance = wrapper.instance();
+
+            const scrollHeight = 3000;
+            const clientHeight = 500;
+            const scrollOffset = 500;
+
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(wrapper.state('showSearchHint')).toBe(true);
+
+            wrapper.setState({isMobile: true});
+            instance.onScroll({
+                scrollDirection: 'forward',
+                scrollOffset,
+                scrollUpdateWasRequested: false,
+                scrollHeight,
+                clientHeight,
+            });
+
+            expect(wrapper.state('showSearchHint')).toBe(false);
+
+            screenHeightSpy.mockRestore();
+        });
     });
 
     describe('isAtBottom', () => {
