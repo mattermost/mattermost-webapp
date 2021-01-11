@@ -93,7 +93,7 @@ describe('AD / LDAP', () => {
         cy.addLDAPUsers();
     });
 
-    it('MM-T3013_2 - SAML User, Not in LDAP, ', () => {
+    it('MM-T3664 - SAML User, Not in LDAP', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
