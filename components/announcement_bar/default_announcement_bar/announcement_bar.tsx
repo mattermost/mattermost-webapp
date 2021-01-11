@@ -28,7 +28,7 @@ type Props = {
     message: React.ReactNode;
     handleClose?: (e?: any) => void;
     announcementBarCount?: number;
-    handleButtonClick?: () => void;
+    onButtonClick?: () => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
