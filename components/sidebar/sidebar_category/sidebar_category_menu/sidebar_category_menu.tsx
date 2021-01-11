@@ -174,6 +174,20 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
             break;
         }
 
+        let icon;
+
+        switch (category.sorting) {
+        case CategorySorting.Alphabetical:
+            icon = <i className='icon-sort-alphabetical-ascending'/>;
+            break;
+        case CategorySorting.Recency:
+            icon = <i className='icon-clock-outline'/>;
+            break;
+        case CategorySorting.Manual:
+            icon = <i className='icon-format-list-bulleted'/>;
+            break;
+        }
+
         return (
             <React.Fragment>
                 <Menu.Group>
@@ -187,7 +201,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                         subMenu={sortMenuItems}
                         text={intl.formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
                         selectedValueText={selectedValueText}
-                        icon={category.sorting === CategorySorting.Alphabetical ? <i className='icon-sort-alphabetical-ascending'/> : <i className='icon-clock-outline'/>}
+                        icon={icon}
                         direction={'right' as any}
                         openUp={this.state.openUp}
                         xOffset={this.state.width}
@@ -221,6 +235,7 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <SidebarMenu
+                    refCallback={this.refCallback}
                     id={`SidebarCategoryMenu-${category.id}`}
                     ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                     buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
