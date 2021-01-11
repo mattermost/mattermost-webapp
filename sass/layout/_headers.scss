@@ -663,6 +663,7 @@
             font-size: 14px;
             font-weight: 400;
             top: -3px;
+            padding-right: 4px;
             position: relative;
         }
         .custom-status {
@@ -678,7 +679,6 @@
         .custom-status-emoji {
             display: flex;
             height: 16px;
-            margin-left: 4px;
             min-width: 16px;
         }
         .custom-status-emoji > span:first-child {

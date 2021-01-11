@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserStatuses, ModalIdentifiers} from 'utils/constants';
+import {Tooltip} from 'react-bootstrap';
+
+import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon';
@@ -21,6 +23,9 @@ import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 
+import OverlayTrigger from 'components/overlay_trigger';
+import './status_dropdown.scss';
+
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
@@ -31,6 +36,7 @@ export default class StatusDropdown extends React.PureComponent {
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
+            unsetUserCustomStatus: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -118,6 +124,10 @@ export default class StatusDropdown extends React.PureComponent {
             </FormattedMessage>
         );
     }
+    handleClearStatus = (e) => {
+        e.stopPropagation();
+        this.props.actions.unsetUserCustomStatus();
+    };
 
     render() {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
@@ -132,8 +142,10 @@ export default class StatusDropdown extends React.PureComponent {
         let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
         const userProps = this.props.currentUser.props;
+        let isStatusSet = false;
         if (userProps && userProps.customStatus) {
             const customStatus = JSON.parse(this.props.currentUser.props.customStatus);
+            isStatusSet = customStatus.text || customStatus.emoji;
             if (customStatus.emoji !== '') {
                 customStatusEmoji = (
                     <span style={{display: 'flex'}}>
@@ -149,6 +161,29 @@ export default class StatusDropdown extends React.PureComponent {
                 customStatusText = customStatus.text;
             }
         }
+        const clearButton = isStatusSet &&
+            (
+                <div
+                    className='custom_status__clear'
+                >
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='clear-custom-status'>
+                                {'Clear'}
+                            </Tooltip>
+                        }
+                    >
+                        <span
+                            className='input-clear-x'
+                            onClick={this.handleClearStatus}
+                        >
+                            <i className='icon icon-close-circle'/>
+                        </span>
+                    </OverlayTrigger>
+                </div>
+            );
 
         return (
             <MenuWrapper
@@ -184,16 +219,18 @@ export default class StatusDropdown extends React.PureComponent {
                             extraText={localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled')}
                         />
                     </Menu.Group>
-                    <Menu.Group>
-                        <Menu.ItemAction
-                            buttonClass={'custom-status-button'}
-                            onClick={this.showCustomStatusModal}
-                            ariaLabel={localizeMessage('status_dropdown.set_custom', 'Set a Custom Status').toLowerCase()}
-                            text={customStatusText}
-                            icon={customStatusEmoji}
-                            id={'status-menu-custom'}
-                        />
-                    </Menu.Group>
+                    <div
+                        className='custom_status__row cursor--pointer a11y--active'
+                        onClick={this.showCustomStatusModal}
+                    >
+                        <div className='custom_status__icon'>
+                            {customStatusEmoji}
+                        </div>
+                        <span className='custom_status__text'>
+                            {customStatusText}
+                        </span>
+                        {clearButton}
+                    </div>
                     <Menu.Group>
                         <Menu.ItemAction
                             onClick={setOnline}

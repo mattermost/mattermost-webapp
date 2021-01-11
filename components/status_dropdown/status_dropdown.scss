@@ -1,0 +1,34 @@
+.custom_status__row {
+    display: flex;
+    font-size: inherit;
+    padding: 0px 24px;
+    align-items: center;
+    height: 34px;
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    &:active {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        color: v(button-bg);
+    }
+}
+.custom_status__icon{
+    margin-right: 10px;
+}
+
+.custom_status__text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-status-suggestion-emoji > span:first-child {
+    background-size: 20px;
+}
+
+.custom_status__clear{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    color: rgba(var(--center-channel-color-rgb), 0.52);
+}

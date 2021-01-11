@@ -12,6 +12,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {openModal} from 'actions/views/modals';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
+import {unsetUserCustomStatus} from 'actions/views/custom_status';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
@@ -33,6 +34,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             openModal,
             setStatus,
+            unsetUserCustomStatus,
         }, dispatch),
     };
 }
