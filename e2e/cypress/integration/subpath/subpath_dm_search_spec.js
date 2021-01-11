@@ -54,7 +54,7 @@ describe('Subpath Direct Message Search', () => {
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // # Click on More... section
-                cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+                cy.get('#moreDirectMessage', {timeout: TIMEOUTS.ONE_MIN}).click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Search for username from other subpath server
                 cy.get('#selectItems input').

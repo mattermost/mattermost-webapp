@@ -8,6 +8,7 @@
 // ***************************************************************
 
 // Group: @subpath
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Subpath Channel routing', () => {
@@ -37,7 +38,7 @@ describe('Subpath Channel routing', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Check if the channel is loaded correctly
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'Town Square');
     });
 
     it('MM-T987 - Rejoin channel with permalink', () => {
@@ -69,7 +70,7 @@ describe('Subpath Channel routing', () => {
                 cy.visit(permalink);
 
                 // * Check that we have rejoined the channel
-                cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'subpath-channel');
+                cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'subpath-channel');
 
                 // * Check that the post message is the correct one
                 cy.get(`#postMessageText_${id}`).should('contain', 'Subpath Test Message');
@@ -94,7 +95,7 @@ describe('Subpath Channel routing', () => {
             cy.findByText('Sign in').click();
 
             // * Check that we in are in DM channel
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', otherUser.username);
+            cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', otherUser.username);
         });
     });
 });

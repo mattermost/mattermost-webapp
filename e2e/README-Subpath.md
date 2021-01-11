@@ -1,5 +1,5 @@
 # Testing with subpath servers
-Some tests need multiple servers running in subpath mode. These tests have the cypress `Group: @subpath` metadata near the top of the test file. Instructions on running a server under subpath can be found here: https://developers.mattermost.com/blog/subpath/
+Some tests need multiple servers running in subpath mode. These tests have the cypress `Group: @subpath` metadata near the top of the test file. Instructions on running a server under subpath can be found here: [https://developers.mattermost.com/blog/subpath/](https://developers.mattermost.com/blog/subpath/)
 
 In the `cypress.json` configuration file, the `baseURL` setting will need to be updated with the subpath URL of the first server, and the `secondServerURL` setting with the subpath URL of the second server.
 
