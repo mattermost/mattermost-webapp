@@ -28,7 +28,7 @@ type Props = {
     message: React.ReactNode;
     handleClose?: (e?: any) => void;
     announcementBarCount?: number;
-    showModal?: (() => void) | boolean;
+    handleButtonClick?: () => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
@@ -150,7 +150,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                         {
                             !this.props.showLinkAsButton &&
                             <span className='announcement-bar__link'>
-                                {this.props.showModal &&
+                                {(typeof this.props.showModal === 'function') &&
                                 <FormattedMessage
                                     id={this.props.modalButtonText}
                                     defaultMessage={this.props.modalButtonDefaultText}
@@ -178,6 +178,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                             this.props.showLinkAsButton &&
                             <button
                                 className='upgrade-button'
+                                onClick={this.props.handleButtonClick}
                             >
                                 <FormattedMessage
                                     id={this.props.modalButtonText}
