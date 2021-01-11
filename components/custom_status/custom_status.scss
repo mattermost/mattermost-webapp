@@ -13,12 +13,12 @@
 
     .modal-body {
         overflow: visible;
-        padding: 12px 12px 0px 12px;
+        padding: 12px 12px 0 12px;
     }
 
     .modal-footer {
         margin-top: 0;
-        padding: 0px 12px 8px;
+        padding: 0 12px 8px;
     }
 
     .GenericModal__header {
@@ -171,10 +171,6 @@
     font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.custom-status-suggestion-emoji > span:first-child {
-    background-size: 20px;
 }
 
 .suggestion-clear{
