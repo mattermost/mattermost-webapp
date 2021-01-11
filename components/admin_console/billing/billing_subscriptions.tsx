@@ -204,12 +204,12 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     href={contactSalesLink}
                     rel='noopener noreferrer'
                     target='_new'
-                    className='cancelSubscriptionSection__contactSupport'
-                    onClick={() => trackEvent('cloud_admin', 'click_contact_support')}
+                    className='cancelSubscriptionSection__contactUs'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
                 >
                     <FormattedMessage
-                        id='admin.billing.subscription.cancelSubscriptionSection.contactSupport'
-                        defaultMessage='Contact Support'
+                        id='admin.billing.subscription.cancelSubscriptionSection.contactUs'
+                        defaultMessage='Contact Us'
                     />
                 </a>
             </div>
