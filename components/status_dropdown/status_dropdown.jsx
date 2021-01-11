@@ -30,7 +30,7 @@ export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
-        currentUser: PropTypes.object.isRequired,
+        userId: PropTypes.string.isRequired,
         profilePicture: PropTypes.string,
         autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
@@ -38,12 +38,14 @@ export default class StatusDropdown extends React.PureComponent {
             setStatus: PropTypes.func.isRequired,
             unsetUserCustomStatus: PropTypes.func.isRequired,
         }).isRequired,
+        customStatus: PropTypes.object,
     }
 
     static defaultProps = {
-        currentUser: null,
+        userId: '',
         profilePicture: '',
         status: UserStatuses.OFFLINE,
+        customStatus: {},
     }
 
     isUserOutOfOffice = () => {
@@ -52,7 +54,7 @@ export default class StatusDropdown extends React.PureComponent {
 
     setStatus = (status) => {
         this.props.actions.setStatus({
-            user_id: this.props.currentUser.id,
+            user_id: this.props.userId,
             status,
         });
     }
@@ -91,7 +93,7 @@ export default class StatusDropdown extends React.PureComponent {
         const customStatusInputModalData = {
             ModalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.currentUser.id},
+            dialogProps: {userId: this.props.userId},
         };
 
         this.props.actions.openModal(customStatusInputModalData);
@@ -141,25 +143,19 @@ export default class StatusDropdown extends React.PureComponent {
 
         let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
-        const userProps = this.props.currentUser.props;
-        let isStatusSet = false;
-        if (userProps && userProps.customStatus) {
-            const customStatus = JSON.parse(this.props.currentUser.props.customStatus);
-            isStatusSet = customStatus.text || customStatus.emoji;
+        const customStatus = this.props.customStatus;
+        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+        if (isStatusSet) {
             if (customStatus.emoji !== '') {
                 customStatusEmoji = (
-                    <span style={{display: 'flex'}}>
+                    <span className='d-flex'>
                         <CustomStatusEmoji
                             showTooltip={false}
                         />
                     </span>
                 );
             }
-            if (customStatus.text.length > 24) {
-                customStatusText = customStatus.text.substring(0, 24) + '...';
-            } else {
-                customStatusText = customStatus.text;
-            }
+            customStatusText = customStatus.text;
         }
         const clearButton = isStatusSet &&
             (

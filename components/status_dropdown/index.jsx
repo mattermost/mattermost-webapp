@@ -13,6 +13,7 @@ import {openModal} from 'actions/views/modals';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 import {unsetUserCustomStatus} from 'actions/views/custom_status';
+import {getCustomStatus} from '../../selectors/views/custom_status';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
@@ -21,11 +22,13 @@ function mapStateToProps(state) {
         return {};
     }
 
+    const userId = currentUser.id;
     return {
-        currentUser,
-        profilePicture: Client4.getProfilePictureUrl(currentUser.id, currentUser.last_picture_update),
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUser.id, ''),
-        status: getStatusForUserId(state, currentUser.id),
+        userId,
+        profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
+        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
+        status: getStatusForUserId(state, userId),
+        customStatus: getCustomStatus(state),
     };
 }
 

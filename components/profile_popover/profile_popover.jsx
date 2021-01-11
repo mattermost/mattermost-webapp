@@ -24,6 +24,7 @@ import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -80,6 +81,7 @@ class ProfilePopover extends React.PureComponent {
          * @internal
          */
         currentUserId: PropTypes.string.isRequired,
+        customStatus: PropTypes.object,
 
         /**
          * @internal
@@ -138,6 +140,7 @@ class ProfilePopover extends React.PureComponent {
         isRHS: false,
         hasMention: false,
         status: UserStatuses.OFFLINE,
+        customStatus: {},
     }
 
     constructor(props) {
@@ -379,6 +382,37 @@ class ProfilePopover extends React.PureComponent {
                         userTimezone={this.props.user.timezone}
                         useTime={{hour: 'numeric', minute: 'numeric', timeZoneName: 'short'}}
                     />
+                </div>,
+            );
+        }
+
+        const customStatus = this.props.customStatus;
+        if (customStatus) {
+            const customStatusEmoji = (
+                <span className='d-flex'>
+                    <CustomStatusEmoji
+                        showTooltip={false}
+                    />
+                </span>
+            );
+
+            dataContent.push(
+                <div
+                    key='user-popover-status'
+                    className='pb-1'
+                >
+                    <FormattedMessage
+                        id='user_profile.custom-status'
+                        defaultMessage='Status: '
+                    />
+                    <div className='d-flex'>
+                        {customStatusEmoji}
+                        <div
+                            className='text-nowrap user-popover__email pb-1'
+                        >
+                            {customStatus.text}
+                        </div>
+                    </div>
                 </div>,
             );
         }
