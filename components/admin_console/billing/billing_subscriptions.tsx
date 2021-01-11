@@ -21,7 +21,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
 import {
     Preferences,
@@ -60,6 +60,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const contactUsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -201,7 +202,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     />
                 </div>
                 <a
-                    href={contactSalesLink}
+                    href={contactUsLink}
                     rel='noopener noreferrer'
                     target='_new'
                     className='cancelSubscriptionSection__contactUs'
