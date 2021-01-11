@@ -88,27 +88,15 @@ describe('components/ToastWrapper', () => {
     });
 
     describe('toasts state', () => {
-        test('Should have unread toast if unreadCount > 0  and initScrollOffsetFromBottom is greater than 1000', () => {
+        test('Should have unread toast if unreadCount > 0', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
-                initScrollOffsetFromBottom: 1100,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
-        });
-        test('Should have not have unread toast if initScrollOffsetFromBottom is less than 1000', () => {
-            const props = {
-                ...baseProps,
-                unreadCountInChannel: 10,
-                newRecentMessagesCount: 5,
-                initScrollOffsetFromBottom: 850,
-            };
-
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
         test('Should set state of have unread toast when atBottom changes from undefined', () => {
@@ -117,7 +105,6 @@ describe('components/ToastWrapper', () => {
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
                 atBottom: null,
-                initScrollOffsetFromBottom: 1100,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -254,7 +241,6 @@ describe('components/ToastWrapper', () => {
                     'post4',
                     'post5',
                 ],
-                initScrollOffsetFromBottom: 1220,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -312,7 +298,6 @@ describe('components/ToastWrapper', () => {
                     'post4',
                     'post5',
                 ],
-                initScrollOffsetFromBottom: 1005,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -360,7 +345,6 @@ describe('components/ToastWrapper', () => {
                     'post4',
                     'post5',
                 ],
-                initScrollOffsetFromBottom: 1500,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
@@ -421,7 +405,6 @@ describe('components/ToastWrapper', () => {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
-                initScrollOffsetFromBottom: 1008,
             };
             const updateToastStatus = baseProps.actions.updateToastStatus;
 
