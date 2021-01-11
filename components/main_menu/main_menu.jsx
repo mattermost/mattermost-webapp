@@ -95,10 +95,6 @@ class MainMenu extends React.PureComponent {
 
     async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
-        // const { subscription, actions, isCloud } = this.props;
-        // if (isEmpty(subscription) && isCloud) {
-        //     await actions.getCloudSubscription();
-        // }
     }
 
     componentWillUnmount() {
