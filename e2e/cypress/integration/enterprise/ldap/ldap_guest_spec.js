@@ -39,20 +39,20 @@ describe('LDAP guest', () => {
             testSettings = setLDAPTestSettings(config);
         });
 
-        // # Get user1 & user2 data and remove them from all the teams
-        cy.apiGetUsersByUsernames([user1.username, user2.username]).then(({users}) => {
-            users.forEach((user) => {
-                if (user.username === user1.username) {
-                    user1Data = user;
-                } else {
-                    user2Data = user;
-                }
-                cy.apiGetTeamsForUser(user.id).then(({teams}) => {
-                    teams.forEach((team) => {
-                        cy.apiDeleteUserFromTeam(team.id, user.id);
-                    });
-                });
-            });
+        // # Get user1 data
+        cy.apiLogin(user1).then(({user}) => {
+            user1Data = user;
+
+            // # Remove user1 from all the teams
+            removeUserFromAllTeams(user1Data);
+        });
+
+        // # Get user2 data
+        cy.apiLogin(user2).then(({user}) => {
+            user2Data = user;
+
+            // # Remove user2 fromm all the teams
+            removeUserFromAllTeams(user2Data);
         });
     });
 
@@ -211,12 +211,13 @@ describe('LDAP guest', () => {
                     testSettings.user = userBoard1;
                     cy.doLDAPLogin(testSettings);
 
+                    cy.wait(TIMEOUTS.TWO_SEC);
+
                     // # Goto the new team
                     cy.visit(`/${team.name}/channels/town-square`);
-                    cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                     // # Open Invite People
-                    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+                    cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
                     cy.get('#invitePeople').should('be.visible').click();
 
                     cy.wait(TIMEOUTS.TWO_SEC);
@@ -258,6 +259,16 @@ function demoteUserToGuest(user) {
         method: 'post',
         baseUrl: Cypress.config('baseUrl'),
         path: `users/${user.id}/demote`,
+    });
+}
+
+function removeUserFromAllTeams(user) {
+    // # Get all teams of a user
+    cy.apiGetTeamsForUser(user.id).then(({teams}) => {
+        // # Remove user from all the teams
+        teams.forEach((team) => {
+            cy.apiDeleteUserFromTeam(team.id, user.id);
+        });
     });
 }
 
