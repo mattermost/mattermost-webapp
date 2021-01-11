@@ -145,7 +145,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         id="UseExperimentalGossip"
         label={
           <FormattedMessage
-            defaultMessage="Use Experimental Gossip:"
+            defaultMessage="Use Gossip:"
             id="admin.cluster.UseExperimentalGossip"
           />
         }
@@ -418,7 +418,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         id="UseExperimentalGossip"
         label={
           <FormattedMessage
-            defaultMessage="Use Experimental Gossip:"
+            defaultMessage="Use Gossip:"
             id="admin.cluster.UseExperimentalGossip"
           />
         }

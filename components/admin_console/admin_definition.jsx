@@ -1368,7 +1368,8 @@ const AdminDefinition = {
                         label: t('admin.rate.enableLimiterTitle'),
                         label_default: 'Enable Rate Limiting:',
                         help_text: t('admin.rate.enableLimiterDescription'),
-                        help_text_default: 'When true, APIs are throttled at rates specified below.',
+                        help_text_default: 'When true, APIs are throttled at rates specified below.\n \nRate limiting prevents server overload from too many requests. This is useful to prevent third-party applications or malicous attacks from impacting your server.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -4061,11 +4062,10 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: () => true,
+                shouldDisplay: () => false,
             },
             isHidden: it.any(
                 it.not(it.licensed),
-                it.not(usesLegacyOauth),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4117,11 +4117,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: it.any(
-                            it.not(it.licensedForFeature('GoogleOAuth')),
-                            it.not(it.licensedForFeature('Office365OAuth')),
-                            it.not(usesLegacyOauth),
-                        ),
+                        isHidden: () => true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -4373,7 +4369,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.not(it.licensedForFeature('OpenId')),
+            isHidden: () => true,
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
