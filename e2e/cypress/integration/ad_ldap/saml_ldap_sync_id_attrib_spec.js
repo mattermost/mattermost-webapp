@@ -92,7 +92,7 @@ describe('AD / LDAP', () => {
         cy.addLDAPUsers();
     });
 
-    it('MM-T3013_4) - SAML / LDAP sync with ID Attribute', () => {
+    it('MM-T3666 - SAML / LDAP sync with ID Attribute', () => {
         const testConfig = {
             ...newConfig,
             SamlSettings: {
