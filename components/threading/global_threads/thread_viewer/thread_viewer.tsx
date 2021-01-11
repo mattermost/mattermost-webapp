@@ -65,7 +65,7 @@ export function renderThumbVertical(props: Record<string, any>) {
 
 type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 
-type Props = {
+type Props = Attrs & {
     posts: Post[];
     channel: Channel | null;
     selected: Post | FakePost;
@@ -81,7 +81,7 @@ type Props = {
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
-} & Attrs;
+};
 
 type State = {
     selected?: Post | FakePost;
@@ -354,7 +354,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         const rootPostDay = Utils.getDateForUnixTicks(createAt);
         let previousPostDay = rootPostDay;
 
-        const commentsLists = [];
+        const items = [];
         let a11yIndex = 1;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
@@ -364,7 +364,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                 const currentPostDay = Utils.getDateForUnixTicks(comPost.create_at);
                 if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                     previousPostDay = currentPostDay;
-                    commentsLists.push(
+                    items.push(
                         <DateSeparator
                             key={currentPostDay.toString()}
                             date={currentPostDay}
@@ -374,7 +374,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
 
-            commentsLists.push(
+            items.push(
                 <RhsComment
                     key={keyPrefix + 'commentKey'}
                     post={comPost}
@@ -491,7 +491,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                                     ref={this.rhspostlistRef}
                                     className='post-right-comments-container'
                                 >
-                                    {commentsLists}
+                                    {items}
                                 </div>
                             </div>
                             {createComment}

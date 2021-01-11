@@ -305,7 +305,7 @@ function goToGroupChannelByGroupId(match: Match, history: History): ActionFunc {
     };
 }
 
-function doChannelChange(channel?: Channel) {
+function doChannelChange(channel: Channel) {
     GlobalActions.emitChannelClickEvent(channel);
 }
 

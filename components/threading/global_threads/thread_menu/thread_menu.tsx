@@ -3,49 +3,65 @@
 
 import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {Preferences} from 'mattermost-redux/constants';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {Post} from 'mattermost-redux/types/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {setThreadFollow} from 'mattermost-redux/actions/threads';
+import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
 
+import {
+    flagPost as savePost,
+    unflagPost as unsavePost,
+} from 'actions/post_actions';
+
+import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
+import {copyToClipboard} from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+
+import {GlobalState} from 'types/store';
 
 import {useThreadRouting} from '../../hooks';
 
 type Props = {
     threadId: $ID<UserThread>;
+    postTimestamp: Post['edit_at'] | Post['create_at'];
     isFollowing: boolean;
-    isSaved: boolean;
     hasUnreads: boolean;
     children: ReactNode;
 };
 
 function ThreadMenu({
     threadId,
+    postTimestamp,
     isFollowing,
-    isSaved,
     hasUnreads,
     children,
 }: Props) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const {
+        params: {
+            team,
+        },
         currentTeamId,
         currentUserId,
         goToInChannel,
     } = useThreadRouting();
+
+    const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null);
 
     return (
         <MenuWrapper
             stopPropagationOnToggle={true}
         >
             {children}
-
             <Menu
                 ariaLabel={''}
                 openLeft={true}
@@ -75,59 +91,47 @@ function ThreadMenu({
                     }, [currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow])}
                 />
                 <Menu.ItemAction
-                    onClick={useCallback(() => {
-                        goToInChannel(threadId);
-                    }, [threadId])}
                     text={formatMessage({
                         id: t('threading.threadMenu.openInChannel'),
                         defaultMessage: 'Open in channel',
                     })}
+                    onClick={useCallback(() => {
+                        goToInChannel(threadId);
+                    }, [threadId])}
                 />
-                {hasUnreads ? (
-                    <Menu.ItemAction
-
-                        //onClick={markRead}
-                        text={formatMessage({
-                            id: t('threading.threadMenu.markRead'),
-                            defaultMessage: 'Mark as read',
-                        })}
-                    />
-                ) : (
-                    <Menu.ItemAction
-
-                        //onClick={markUnread}
-                        text={formatMessage({
-                            id: t('threading.threadMenu.markUnread'),
-                            defaultMessage: 'Mark as unread',
-                        })}
-                    />
-                )}
-                {isSaved ? (
-                    <Menu.ItemAction
-
-                        //onClick={unSave}
-                        text={formatMessage({
-                            id: t('threading.threadMenu.unsave'),
-                            defaultMessage: 'Unsave',
-                        })}
-                    />
-                ) : (
-                    <Menu.ItemAction
-
-                        //onClick={save}
-                        text={formatMessage({
-                            id: t('threading.threadMenu.save'),
-                            defaultMessage: 'Save',
-                        })}
-                    />
-                )}
                 <Menu.ItemAction
+                    text={formatMessage(hasUnreads ? {
+                        id: t('threading.threadMenu.markRead'),
+                        defaultMessage: 'Mark as read',
+                    } : {
+                        id: t('threading.threadMenu.markUnread'),
+                        defaultMessage: 'Mark as unread',
+                    })}
+                    onClick={useCallback(() => {
+                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : postTimestamp));
+                    }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead])}
+                />
 
-                    //onClick={copyLink}
+                <Menu.ItemAction
+                    text={formatMessage(isSaved ? {
+                        id: t('threading.threadMenu.unsave'),
+                        defaultMessage: 'Unsave',
+                    } : {
+                        id: t('threading.threadMenu.save'),
+                        defaultMessage: 'Save',
+                    })}
+                    onClick={useCallback(() => {
+                        dispatch(isSaved ? unsavePost(threadId) : savePost(threadId));
+                    }, [threadId, isSaved])}
+                />
+                <Menu.ItemAction
                     text={formatMessage({
                         id: t('threading.threadMenu.copy'),
                         defaultMessage: 'Copy link',
                     })}
+                    onClick={useCallback(() => {
+                        copyToClipboard(`${getSiteURL()}/${team}/pl/${threadId}`);
+                    }, [team, threadId])}
                 />
             </Menu>
         </MenuWrapper>

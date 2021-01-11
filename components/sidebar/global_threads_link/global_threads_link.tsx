@@ -23,14 +23,14 @@ const GlobalThreadsLink = () => {
     return (
         <ul className='NavGroupContent'>
             <li
-                className={classNames('SidebarChannel', {
+                className={classNames('SidebarChannel SidebarGlobalThreads', {
                     active: Boolean(threadsMatch),
                 })}
             >
                 <Link
                     to={`${url}/threads`}
                     draggable='false'
-                    className='SidebarLink SidebarGlobalThreads'
+                    className='SidebarLink'
                     role='listitem'
                     tabIndex={-1}
                 >

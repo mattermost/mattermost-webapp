@@ -4,6 +4,7 @@
 @import "sass/utils/_mixins";
 
 .ThreadItem {
+    --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
     padding: 18px 18px 18px 28px;
     text-align: left;
     cursor: pointer;

@@ -22,6 +22,7 @@ import {GlobalState} from 'types/store/index';
 
 import {useStickyState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 
 import RHSNavigation from 'components/rhs_navigation';
 import Header from 'components/widgets/header';
@@ -52,12 +53,16 @@ const GlobalThreads = () => {
     const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
     const numUnread = counts?.total_unread_replies || 0; // TODO incorrect: sum of unreads vs num of unread threads
     const [page, setPage] = useState(0);
+
+    useEffect(() => {
+        dispatch(selectChannel(''));
+        loadProfilesForSidebar();
+    }, []);
     useEffect(() => {
         dispatch(getThreads(currentUserId, currentTeamId, {page}));
     }, [currentUserId, currentTeamId, page, filter]);
 
     useEffect(() => {
-        dispatch(selectChannel(''));
         dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
         if (!selectedThread && counts?.total) {
             clear();
@@ -104,21 +109,21 @@ const GlobalThreads = () => {
                                 isSelected={threadIdentifier === id}
                             />
                         ))}
-                        {filter === 'unread' && !numUnread && (
+                        {filter === 'unread' && !numUnread ? (
                             <div className='no-results__holder'>
                                 <NoResultsIndicator
                                     iconGraphic={BalloonIllustrationImg}
                                     title={'No unread threads'}
                                 />
                             </div>
-                        )}
+                        ) : null}
                     </ThreadList>
                     {selectedThread ? (
                         <ThreadPane
                             thread={selectedThread}
                             isFollowing={selectedThread.is_following ?? false}
-                            isSaved={false}
                             hasUnreads={!isEmpty(unreadThreadIds)}
+                            postTimestamp={selectedThread.post.update_at || selectedThread.post.create_at}
                         >
                             <ThreadViewer
                                 currentUserId={currentUserId}

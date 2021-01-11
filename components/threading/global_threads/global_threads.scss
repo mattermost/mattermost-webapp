@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 .GlobalThreads {
-    --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
-    overflow: hidden;
+    --border: 1px solid rgba(var(--center-channel-color-rgb), .16);
 
     .GlobalThreads___header {
         grid-area: header;
@@ -44,11 +43,12 @@
     }
 
 
-    /* === Responsiveness */
+    /* === Responsiveness === */
     --list: minmax(min-content, 300px);
     --pane: minmax(min-content, auto);
 
     display: grid;
+    overflow: hidden;
 
     // 2-column
     grid-template-columns: var(--list) var(--pane);
@@ -63,6 +63,10 @@
             'header header'
             'main main';
 
+        grid-template-rows: 0 1fr;
+        > .Header {
+            display: none;
+        }
 
         &:not(.thread-selected) {
             .ThreadList {

@@ -90,7 +90,7 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                 <div className='container-fluid theme'>
                     <div className='navbar-header'>
                         <CollapseLhsButton/>
-                        {channel && (
+                        {channel ? (
                             <div className='navbar-brand'>
                                 <MobileChannelHeaderDropdown/>
                                 {isMuted && (
@@ -99,6 +99,10 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                                         channel={channel}
                                     />
                                 )}
+                            </div>
+                        ) : (
+                            <div className='navbar-brand'>
+                                {'Threads'}
                             </div>
                         )}
                         <div className='spacer'/>

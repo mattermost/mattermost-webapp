@@ -27,14 +27,12 @@ const getChannel = makeGetChannel();
 type Props = {
     thread: UserThread;
     isFollowing: boolean;
-    isSaved: boolean;
     children: ReactNode;
 } & Omit<ComponentProps<typeof ThreadMenu>, 'children' | 'threadId'>;
 
 const ThreadPane = ({
     thread,
     isFollowing,
-    isSaved,
     hasUnreads,
     children,
 }: Props) => {
@@ -51,6 +49,8 @@ const ThreadPane = ({
         id: threadId,
         post: {
             channel_id: channelId,
+            edit_at: editAt,
+            create_at: createAt,
         },
     } = thread;
 
@@ -98,8 +98,8 @@ const ThreadPane = ({
                         />
                         <ThreadMenu
                             threadId={threadId}
+                            postTimestamp={editAt || createAt}
                             isFollowing={isFollowing}
-                            isSaved={isSaved}
                             hasUnreads={hasUnreads}
                         >
                             <SimpleTooltip

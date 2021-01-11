@@ -1575,6 +1575,14 @@
             width: 100%;
         }
 
+        .SidebarGlobalThreads {
+            &,
+            .SidebarLink {
+                height: 45px;
+            }
+        }
+
+
         .SidebarChannelGroup {
             div {
                 &.dropdown.open {

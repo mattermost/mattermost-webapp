@@ -27,14 +27,14 @@ const Avatar = ({
     ...attrs
 }: Props & Attrs) => {
     const classes = classNames(`Avatar Avatar-${size}`, attrs.className);
-    const theme = useSelector(getTheme);
+    const {centerChannelBg, centerChannelColor} = useSelector(getTheme);
 
     if (text) {
         return (
             <div
                 {...attrs}
                 style={{
-                    background: tinycolor.mix(theme.centerChannelBg, theme.centerChannelColor, 8).toRgbString(),
+                    background: tinycolor.mix(centerChannelBg, centerChannelColor, 8).toRgbString(),
                     ...attrs.style,
                 }}
                 className={classes + ' Avatar-plain'}

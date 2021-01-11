@@ -972,7 +972,7 @@
 
     .SidebarChannel.active .SidebarLink::before {
         content: '';
-        height: 32px;
+        height: 100%;
         position: absolute;
         left: -2px;
         top: 0;

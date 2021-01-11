@@ -8,10 +8,10 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
-import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
+import {getUser as fetchUser} from 'mattermost-redux/actions/users';
+
+import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID} from 'mattermost-redux/types/utilities';
 
@@ -32,6 +32,7 @@ import {GlobalState} from 'types/store';
 import {useThreadRouting} from '../../hooks';
 import {UserProfile} from '../../../../../mattermost-mobile/app/mm-redux/types/users';
 import {imageURLForUser} from 'utils/utils';
+import {getDirectTeammate} from 'utils/utils.jsx';
 
 type Props = {
     threadId: $ID<UserThread>;
@@ -71,15 +72,24 @@ const ThreadItem = ({
             channel_id: channelId,
             user_id: userId,
             message,
+            edit_at: editAt,
+            create_at: createAt,
         },
     } = thread;
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
+    const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, channelId));
 
     useEffect(() => {
         if (!channel) {
             dispatch(fetchChannel(channelId));
         }
     }, [channel, channelId]);
+
+    useEffect(() => {
+        if (channel?.teammate_id && !directTeammate) {
+            dispatch(fetchUser(channel.teammate_id));
+        }
+    }, [channel, directTeammate]);
 
     const displayName = useSelector((state: GlobalState) => getDisplayName(state, userId, true));
 
@@ -126,7 +136,7 @@ const ThreadItem = ({
             <span className='menu-anchor alt-visible'>
                 <ThreadMenu
                     threadId={threadId}
-                    isSaved={false}
+                    postTimestamp={editAt || createAt}
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
                 >
@@ -154,11 +164,17 @@ const ThreadItem = ({
             {Boolean(totalReplies) && (
                 <div className='activity'>
                     <Avatars
-                        users={participants.map((user) => {
+                        users={(participants as UserProfile[]).map(({
+                            username,
+                            first_name: first,
+                            last_name: last,
+                            id,
+                            last_picture_update: lastPictureUpdate,
+                        }) => {
                             return {
-                                username: (user as UserProfile).username,
-                                name: `${(user as UserProfile).first_name} ${(user as UserProfile).last_name}`,
-                                url: imageURLForUser(user.id, (user as UserProfile).last_picture_update),
+                                username,
+                                name: first && last ? `${first} ${last}` : username,
+                                url: imageURLForUser(id, lastPictureUpdate),
                             };
                         })}
                         totalUsers={0}
