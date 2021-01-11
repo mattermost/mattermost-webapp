@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @enterprise @guest_account
+// Group: @not_cloud @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
@@ -31,12 +30,13 @@ describe('Guest Accounts', () => {
     const username = 'g' + getRandomId(); // username has to start with a letter.
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.apiRequireLicenseForFeature('GuestAccounts');
+
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
         });
-
-        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         // # Log in as a team admin.
         cy.apiAdminLogin().then((res) => {
