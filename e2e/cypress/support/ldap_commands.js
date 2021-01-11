@@ -129,13 +129,13 @@ Cypress.Commands.add('doSkipTutorial', () => {
 
 Cypress.Commands.add('runLdapSync', (admin) => {
     cy.externalRequest({user: admin, method: 'post', path: 'ldap/sync'}).then(() => {
-        cy.waitForSyncCompletion(Date.now(), TIMEOUTS.HALF_MIN).then(() => {
+        cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.HALF_MIN).then(() => {
             return cy.wrap(true);
         });
     });
 });
 
-Cypress.Commands.add('getJobStatus', (start) => {
+Cypress.Commands.add('getLdapSyncJobStatus', (start) => {
     const admin = getAdminAccount();
     cy.externalRequest({user: admin, method: 'get', path: 'jobs/type/ldap_sync'}).then((result) => {
         const jobs = result.data;
@@ -156,20 +156,21 @@ Cypress.Commands.add('getJobStatus', (start) => {
     });
 });
 
-Cypress.Commands.add('waitForSyncCompletion', (start, timeout) => {
-    cy.getJobStatus(start).then((status) => {
+Cypress.Commands.add('waitForLdapSyncCompletion', (start, timeout) => {
+    if (Date.now() - start > timeout) {
+        throw new Error('Timeout Waiting for LdapSync');
+    }
+    
+    cy.getLdapSyncJobStatus(start).then((status) => {
         if (status === 'success') {
             return;
         }
         if (status === 'unsuccessful') {
             throw new Error('LdapSync Unsuccessful');
         }
-        if (Date.now() - start > timeout) {
-            throw new Error('Timeout Waiting for LdapSync');
-        }
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(TIMEOUTS.FIVE_SEC);
-        cy.waitForSyncCompletion(start, timeout);
+        cy.waitForLdapSyncCompletion(start, timeout);
     });
 });

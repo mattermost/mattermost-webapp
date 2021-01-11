@@ -25,7 +25,9 @@ describe('AD / LDAP', () => {
     const admin = getAdminAccount();
     const baseUrl = Cypress.config('baseUrl');
     const loginButtonText = 'SAML';
-    const users = [testusers.user2, testusers.user4];
+    const ldapUser = testusers.user2;
+    const nonLdapUser = testusers.user4;
+    const users = [ldapUser, nonLdapUser];
 
     const {
         keycloakBaseUrl,
@@ -105,7 +107,7 @@ describe('AD / LDAP', () => {
             cy.apiUpdateConfig(testConfig);
         });
 
-        testSettings.user = users[1];
+        testSettings.user = nonLdapUser;
 
         // # MM Login via SAML
         cy.doSamlLogin(testSettings).then(() => {
@@ -151,7 +153,7 @@ describe('AD / LDAP', () => {
             cy.apiUpdateConfig(testConfig);
         });
 
-        testSettings.user = users[0];
+        testSettings.user = ldapUser;
 
         // # MM Login via SAML
         cy.doSamlLogin(testSettings).then(() => {
@@ -165,6 +167,7 @@ describe('AD / LDAP', () => {
                         // refresh make sure not logged out.
                         cy.reload();
 
+                        // # MM Login via SAML
                         cy.doSamlLogin(testSettings).then(() => {
                             cy.doKeycloakLogin(testSettings.user).then(() => {
                                 // * verify login failed.

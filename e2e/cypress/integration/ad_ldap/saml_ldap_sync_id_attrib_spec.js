@@ -108,7 +108,7 @@ describe('AD / LDAP', () => {
 
         testSettings.user = users[0];
 
-        // # reset mattermost user if exists
+        // # Reset Mattermost user if exists
         cy.apiGetUserByEmail(testSettings.user.email, false).then(({user}) => {
             if (user && user.username && user.username !== testSettings.user.username) {
                 cy.apiPatchUser(user.id, {username: testSettings.user.username}).then(() => {

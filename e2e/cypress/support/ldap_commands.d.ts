@@ -25,18 +25,18 @@ declare namespace Cypress {
         runLdapSync(admin: {UserProfile}): boolean;
 
         /**
-        * getJobStatus is a task that runs an external request for ldap_sync job status
+        * getLdapSyncJobStatus is a task that runs an external request for ldap_sync job status
         * @param {number} start - start time of the job.
         * @returns {string} - current status of job
         */
-        getJobStatus(start: number): string;
+       getLdapSyncJobStatus(start: number): string;
 
         /**
-        * waitForSyncCompletion is a task that runs recursively
-        * until getJobStatus completes or timeouts.
+        * waitForLdapSyncCompletion is a task that runs recursively
+        * until getLdapSyncJobStatus completes or timeouts.
         * @param {number} start - start time of the job.
         * @param {number} timeout - the maxmimum time to wait for the job to complete
         */
-        waitForSyncCompletion(start: number, timeout: number): void;
+       waitForLdapSyncCompletion(start: number, timeout: number): void;
     }
 }
