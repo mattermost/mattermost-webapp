@@ -92,7 +92,7 @@ describe('AD / LDAP', () => {
         });
 
         // # Add/refresh LDAP Test users
-        cy.addLDAPUsers();
+        cy.resetLDAPUsers();
     });
 
     it('MM-T3664 - SAML User, Not in LDAP', () => {
@@ -130,10 +130,34 @@ describe('AD / LDAP', () => {
                         cy.runLdapSync(admin, baseUrl).then(() => {
                             // # Initiate browser activity
                             cy.reload();
+                            cy.modifyLDAPUsers('ldap-add-user.ldif');
 
                             // * Verify the member is logged out and redirected to login page
                             cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
                             cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+
+
+                            // # MM Login via SAML
+                            cy.doSamlLogin(testSettings).then(() => {
+                                // # Login to Keycloak
+                                cy.doKeycloakLogin(testSettings.user).then(() => {
+                                    // * check the user settings
+                                    cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+
+                                    // # run LDAP Sync
+                                    // * check that it ran successfully
+                                    cy.runLdapSync(admin).then(() => {
+                                        // refresh make sure user not logged out.
+                                        cy.reload();
+
+                                        // * check the user settings
+                                        cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
+
+                                        // # logout user
+                                        cy.doSamlLogout(testSettings);
+                                    });
+                                });
+                            });
                         });
                     });
                 });

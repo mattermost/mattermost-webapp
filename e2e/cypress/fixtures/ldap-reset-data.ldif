@@ -7,6 +7,9 @@ changetype: delete
 dn: uid=e2etest.three,ou=e2etest,dc=mm,dc=test,dc=com
 changetype: delete
 
+dn: uid=e2etest.four,ou=e2etest,dc=mm,dc=test,dc=com
+changetype: delete
+
 dn: ou=e2etest,dc=mm,dc=test,dc=com
 changetype: add
 objectclass: organizationalunit

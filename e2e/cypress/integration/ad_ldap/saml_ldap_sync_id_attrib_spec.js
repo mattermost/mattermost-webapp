@@ -89,7 +89,7 @@ describe('AD / LDAP', () => {
         });
 
         // # Add/refresh LDAP Test users
-        cy.addLDAPUsers();
+        cy.resetLDAPUsers();
     });
 
     it('MM-T3666 - SAML / LDAP sync with ID Attribute', () => {

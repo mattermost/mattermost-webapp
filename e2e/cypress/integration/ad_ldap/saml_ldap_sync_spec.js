@@ -88,7 +88,7 @@ describe('AD / LDAP', () => {
         });
 
         // # Add/refresh LDAP Test users
-        cy.addLDAPUsers();
+        cy.resetLDAPUsers();
     });
 
     it('MM-T3013_1 - SAML LDAP Sync Off, user attributes pulled from SAML', () => {

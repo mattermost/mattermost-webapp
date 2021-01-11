@@ -35,6 +35,8 @@
         "email": "e2etest.four@mmtest.com",
         "firstname": "TestSaml",
         "lastname": "FourSaml",
+        "ldapfirstname": "TestLDAP",
+        "ldaplastname": "FourLDAP",
         "keycloakId": ""
     }
 }
