@@ -179,7 +179,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                             this.props.showLinkAsButton &&
                             <button
                                 className='upgrade-button'
-                                onClick={this.props.handleButtonClick}
+                                onClick={this.props.onButtonClick}
                             >
                                 <FormattedMessage
                                     id={this.props.modalButtonText}
