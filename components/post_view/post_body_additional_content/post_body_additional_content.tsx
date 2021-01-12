@@ -167,7 +167,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     }
 }
 
-function hasValidEmbeddedForm(props) {
+function hasValidEmbeddedForm(props: Record<string, any>) {
+    if (!props) {
+        return false;
+    }
+
     if (!props.form) {
         return false;
     }

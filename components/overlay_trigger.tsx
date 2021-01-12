@@ -2,21 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {OverlayTrigger as BaseOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
+import {OverlayTrigger as OriginalOverlayTrigger, OverlayTriggerProps} from 'react-bootstrap';
 import {IntlContext, IntlShape} from 'react-intl';
 
 import {Provider} from 'react-redux';
 
 import store from 'stores/redux_store.jsx';
 
-export {BaseOverlayTrigger};
+export type BaseOverlayTrigger = OriginalOverlayTrigger & {
+    hide: () => void;
+}
 
 type Props = OverlayTriggerProps & {
     disabled?: boolean;
     className?: string;
 };
 
-const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverlayTrigger>) => {
+const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<OriginalOverlayTrigger>) => {
     const {
         overlay,
         disabled,
@@ -25,7 +27,7 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
 
     // The overlay is rendered outside of the regular React context, and our version react-bootstrap can't forward
     // that context itself, so we have to manually forward the react-intl context to this component's child.
-    const OverlayWrapper = ({intl, ...overlayProps}: {intl: IntlShape}) => (
+    const OverlayWrapper = ({intl, ...overlayProps}: { intl: IntlShape }) => (
         <Provider store={store}>
             <IntlContext.Provider value={intl}>
                 {React.cloneElement(overlay, overlayProps)}
@@ -41,7 +43,7 @@ const OverlayTrigger = React.forwardRef((props: Props, ref?: React.Ref<BaseOverl
                     overlayProps.style = {visibility: 'hidden', ...overlayProps.style};
                 }
                 return (
-                    <BaseOverlayTrigger
+                    <OriginalOverlayTrigger
                         {...otherProps}
                         ref={ref}
                         overlay={
