@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {ComponentType} from 'react';
-import PropTypes from 'prop-types';
 
 import {isEmpty} from 'lodash';
 
@@ -21,13 +20,6 @@ interface UsedHocProps {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): any {
     return class extends React.Component<P & UsedHocProps> {
-        static propTypes = {
-            subscription: PropTypes.object,
-            isCloud: PropTypes.bool,
-            actions: PropTypes.shape({
-                getCloudSubscription: PropTypes.func,
-            }).isRequired,
-        };
         async componentDidMount() {
             const {subscription, actions, isCloud} = this.props;
             if (isEmpty(subscription) && isCloud) {
