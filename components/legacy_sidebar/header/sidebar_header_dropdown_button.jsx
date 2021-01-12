@@ -12,6 +12,8 @@ import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
+import Markdown from 'components/markdown';
+
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
         showTutorialTip: PropTypes.bool.isRequired,
@@ -50,6 +52,14 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
+        let statusEmoji = null;
+        if (this.props.currentUser.props && 'custom_status' in this.props.currentUser.props) {
+            const customStatus = JSON.parse(this.props.currentUser.props.custom_status);
+            if (customStatus.emoji !== '') {
+                statusEmoji = customStatus.emoji;
+            }
+        }
+
         return (
             <div
                 className='SidebarHeaderDropdownButton'
@@ -66,6 +76,22 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         className='user__name'
                     >
                         {'@' + this.props.currentUser.username}
+                        {statusEmoji &&
+                            <span
+                                id='headerStatusEmoji'
+                                className='user__custom__status__emoji'
+                            >
+                                <Markdown
+                                    message={'  :' + statusEmoji + ':'}
+                                    options={{
+                                        mentionHighlight: false,
+                                        markdown: false,
+                                        emoji: true,
+                                        autolinkedUrlSchemes: [],
+                                    }}
+                                />
+                            </span>
+                        }
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'

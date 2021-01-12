@@ -34,6 +34,7 @@ import upstairs from 'sounds/upstairs.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import Markdown from 'components/markdown/markdown';
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -1338,10 +1339,21 @@ export function displayEntireNameForUser(user) {
         displayName = displayName + ' - ' + user.position;
     }
 
+    const cs = getCustomStatusIfExist(user);
+
     displayName = (
         <span id={'displayedUserName' + user.username}>
             {'@' + user.username}
             <span className='light'>{displayName}</span>
+            {cs && cs.emoji !== '' &&
+                <FormattedMessage
+                    id='custom_status_emoji'
+                    defaultMessage=' {emoji} '
+                    values={{
+                        emoji: ':' + cs.emoji + ':',
+                    }}
+                />
+            }
         </span>
     );
 
@@ -2018,4 +2030,11 @@ export function stringToNumber(s) {
     }
 
     return parseInt(s, 10);
+}
+
+export function getCustomStatusIfExist(user) {
+    if (user.props && 'custom_status' in user.props) {
+        return JSON.parse(user.props.custom_status);
+    }
+    return null;
 }
