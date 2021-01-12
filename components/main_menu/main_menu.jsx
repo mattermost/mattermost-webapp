@@ -32,7 +32,7 @@ import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-import withGetCloudSubscription from '../common/hocs/with_get_cloud_subcription';
+import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subcription';
 
 class MainMenu extends React.PureComponent {
     static propTypes = {

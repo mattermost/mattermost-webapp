@@ -6,18 +6,20 @@ import PropTypes from 'prop-types';
 
 import {isEmpty} from 'lodash';
 
+import {Subscription} from 'mattermost-redux/types/cloud';
+
 interface Actions {
     getCloudSubscription: () => void;
 }
 
 interface UsedHocProps {
-    subscription: object | null;
+    subscription: Subscription;
     isCloud: boolean;
     actions: Actions;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): any {
     return class extends React.Component<P & UsedHocProps> {
         static propTypes = {
             subscription: PropTypes.object,

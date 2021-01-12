@@ -16,7 +16,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
-import withGetCloudSubscription from '../../common/hocs/with_get_cloud_subcription';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';

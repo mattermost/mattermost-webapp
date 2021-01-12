@@ -13,7 +13,7 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import withGetCloudSubscription from '../../common/hocs/with_get_cloud_subcription';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import './invitation_modal_guests_step.scss';
 
