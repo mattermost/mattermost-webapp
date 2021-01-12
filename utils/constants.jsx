@@ -279,6 +279,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    COMMERCIAL_SUPPORT: 'commercial_support',
 };
 
 export const UserStatuses = {

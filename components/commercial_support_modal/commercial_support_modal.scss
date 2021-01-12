@@ -1,0 +1,29 @@
+.CommercialSupportModal {
+    padding: 20px 20px;
+
+    .DownloadSupportPacket {
+        padding: 13px 20px;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .DebugLevelNotSet {
+        margin-top: 20px;
+        margin-bottom: 0px;
+        background: rgba(87, 158, 255, 0.08);
+        border: 1px solid rgba(87, 158, 255, 0.16);
+        color: #3D3C40;
+        display: flex;
+
+        i {
+            color: #579EFF;
+            height: 18px;
+            width: 18px;
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+    }
+}
+

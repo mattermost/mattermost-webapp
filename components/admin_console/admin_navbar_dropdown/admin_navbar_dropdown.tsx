@@ -13,6 +13,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
 
 import AboutBuildModal from 'components/about_build_modal';
+import CommercialSupportModal from 'components/commercial_support_modal';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -27,6 +28,7 @@ type Props = {
     actions: {
         deferNavigation: (onNavigationConfirmed: any) => any;
     };
+    isLicensed: boolean;
 };
 
 class AdminNavbarDropdown extends React.PureComponent<Props> {
@@ -40,11 +42,11 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
     };
 
     render(): JSX.Element {
-        const {locale, teams, siteName} = this.props;
+        const {locale, teams, siteName, isLicensed} = this.props;
         const {formatMessage} = this.props.intl;
         const teamToRender = []; // Array of team components
         let switchTeams;
-
+        console.log(isLicensed);
         if (teams && teams.length > 0) {
             const teamsArray = filterAndSortTeamsByDisplayName(teams, locale);
 
@@ -81,6 +83,24 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
             );
         }
 
+        let commercialSupport = (
+            <Menu.ItemExternalLink
+                onClick={() => trackEvent('admin', 'click_administrators_support')}
+                url='https://about.mattermost.com/commercial-support/'
+                text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
+            />
+        );
+
+        if (isLicensed) {
+            commercialSupport = (
+                <Menu.ItemToggleModalRedux
+                    modalId={ModalIdentifiers.COMMERCIAL_SUPPORT}
+                    dialogType={CommercialSupportModal}
+                    text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
+                />
+            );
+        }
+
         return (
             <Menu ariaLabel={formatMessage({id: 'admin.nav.menuAriaLabel', defaultMessage: 'Admin Console Menu'})}>
                 <Menu.Group>
@@ -98,11 +118,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                         url='https://about.mattermost.com/troubleshooting-forum/'
                         text={formatMessage({id: 'admin.nav.troubleshootingForum', defaultMessage: 'Troubleshooting Forum'})}
                     />
-                    <Menu.ItemExternalLink
-                        onClick={() => trackEvent('admin', 'click_administrators_support')}
-                        url='https://about.mattermost.com/commercial-support/'
-                        text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
-                    />
+                    {commercialSupport}
                     <Menu.ItemToggleModalRedux
                         onClick={() => trackEvent('admin', 'click_administrators_about')}
                         modalId={ModalIdentifiers.ABOUT}
