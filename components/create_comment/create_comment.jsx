@@ -915,7 +915,7 @@ class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.fileUploadRef.current && this.fileUploadRef.current) {
+                if (this.fileUploadRef.current) {
                     this.fileUploadRef.current.cancelUpload(id);
                 }
             }
