@@ -3,6 +3,8 @@
 .no-results__holder {
     display: grid;
     place-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .no-results__wrapper {
@@ -43,7 +45,7 @@
     svg {
         width: 62px;
         height: 62px;
-        fill: v(button-bg);
+        fill: var(--button-bg);
     }
 }
 
