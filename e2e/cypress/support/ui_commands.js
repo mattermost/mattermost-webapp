@@ -107,6 +107,10 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
+    // Add explicit wait to let the page load freely since `cy.get` seemed to block
+    // some operation which caused to prolong complete page loading.
+    cy.wait(TIMEOUTS.THREE_SEC);
+
     cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
