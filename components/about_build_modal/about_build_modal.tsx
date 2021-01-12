@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
@@ -14,35 +15,41 @@ import {AboutLinks} from 'utils/constants';
 
 import AboutBuildModalCloud from './about_build_modal_cloud/about_build_modal_cloud';
 
-export default class AboutBuildModal extends React.PureComponent {
-    static defaultProps = {
-        show: false,
-    };
+type Props = {
 
-    static propTypes = {
+    /**
+     * Function that is called when the modal is dismissed
+     */
+    onHide: () => void;
 
-        /**
-         * Function that is called when the modal is dismissed
-         */
-        onHide: PropTypes.func.isRequired,
+    /**
+     * Global config object
+     */
+    config: Partial<ClientConfig>;
 
-        /**
-         * Global config object
-         */
-        config: PropTypes.object.isRequired,
+    /**
+     * Global license object
+     */
+    license: ClientLicense;
 
-        /**
-         * Global license object
-         */
-        license: PropTypes.object.isRequired,
+    /**
+     * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
+     */
+    webappBuildHash?: string;
 
-        /**
-         * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
-         */
-        webappBuildHash: PropTypes.string,
-    };
+    show?: boolean;
+};
 
-    constructor(props) {
+type State = {
+    show: boolean;
+};
+
+export default class AboutBuildModal extends React.PureComponent<Props, State> {
+    // static defaultProps = {
+    //     show: false,
+    // };
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -182,7 +189,7 @@ export default class AboutBuildModal extends React.PureComponent {
         );
 
         // Only show build number if it's a number (so only builds from Jenkins)
-        let buildnumber = (
+        let buildnumber: JSX.Element | null = (
             <div>
                 <FormattedMessage
                     id='about.buildnumber'
@@ -191,12 +198,12 @@ export default class AboutBuildModal extends React.PureComponent {
                 <span id='buildnumberString'>{'\u00a0' + config.BuildNumber}</span>
             </div>
         );
-        if (isNaN(config.BuildNumber)) {
+        if (isNaN(Number(config.BuildNumber))) {
             buildnumber = null;
         }
 
-        let mmversion = config.BuildNumber;
-        if (!isNaN(config.BuildNumber)) {
+        let mmversion: string | undefined = config.BuildNumber;
+        if (!isNaN(Number(config.BuildNumber))) {
             mmversion = 'ci';
         }
 
