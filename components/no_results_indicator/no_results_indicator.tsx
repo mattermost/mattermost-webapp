@@ -17,15 +17,13 @@ import SearchIcon from 'components/widgets/icons/search_icon';
 import {NoResultsVariant} from './types';
 
 interface Props {
+    expanded?: boolean;
     iconGraphic?: ReactNode;
     title?: ReactNode;
     subtitle?: ReactNode;
-
     variant?: NoResultsVariant;
     titleValues?: Dictionary<ReactNode>;
-
     subtitleValues?: Dictionary<ReactNode>;
-
     style?: CSSProperties;
 }
 
@@ -70,15 +68,14 @@ const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor} = {
 import './no_results_indicator.scss';
 
 const NoResultsIndicator = ({
+    expanded,
     style,
     variant,
-
     iconGraphic = variant ? (
         <div className='no-results__variant-wrapper'>
             {iconMap[variant]}
         </div>
     ) : null,
-
     titleValues,
     title = variant ? (
         <FormattedMessage
@@ -86,7 +83,6 @@ const NoResultsIndicator = ({
             values={titleValues}
         />
     ) : null,
-
     subtitleValues,
     subtitle = variant ? (
         <FormattedMessage
@@ -95,7 +91,7 @@ const NoResultsIndicator = ({
         />
     ) : null,
 }: Props) => {
-    return (
+    let content = (
         <div
             className='no-results__wrapper'
             style={style}
@@ -116,6 +112,16 @@ const NoResultsIndicator = ({
 
         </div>
     );
+
+    if (expanded) {
+        content = (
+            <div className='no-results__holder'>
+                {content}
+            </div>
+        );
+    }
+
+    return content;
 };
 
 export default NoResultsIndicator;

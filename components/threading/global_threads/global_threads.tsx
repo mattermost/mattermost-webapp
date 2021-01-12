@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -52,15 +52,14 @@ const GlobalThreads = () => {
     const threadIds = useSelector(getThreadOrderInCurrentTeam);
     const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
     const numUnread = counts?.total_unread_replies || 0; // TODO incorrect: sum of unreads vs num of unread threads
-    const [page, setPage] = useState(0);
 
     useEffect(() => {
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
     }, []);
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {page}));
-    }, [currentUserId, currentTeamId, page, filter]);
+        dispatch(getThreads(currentUserId, currentTeamId));
+    }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
         dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
@@ -92,13 +91,12 @@ const GlobalThreads = () => {
                     {counts?.total == null ? (
                         <LoadingScreen/>
                     ) : (
-                        <div className='no-results__holder'>
-                            <NoResultsIndicator
-                                iconGraphic={ChatIllustrationImg}
-                                title={'No followed threads yet'}
-                                subtitle={'Any threads you are mentioned in or have participated in will show here along with any threads you have followed.'}
-                            />
-                        </div>
+                        <NoResultsIndicator
+                            expanded={true}
+                            iconGraphic={ChatIllustrationImg}
+                            title={'No followed threads yet'}
+                            subtitle={'Any threads you are mentioned in or have participated in will show here along with any threads you have followed.'}
+                        />
                     )}
                 </div>
             ) : (
@@ -116,12 +114,14 @@ const GlobalThreads = () => {
                             />
                         ))}
                         {filter === 'unread' && !numUnread ? (
-                            <div className='no-results__holder'>
-                                <NoResultsIndicator
-                                    iconGraphic={BalloonIllustrationImg}
-                                    title={'No unread threads'}
-                                />
-                            </div>
+                            <NoResultsIndicator
+                                expanded={true}
+                                iconGraphic={BalloonIllustrationImg}
+                                title={formatMessage({
+                                    id: 'globalThreads.threadList.noUnreadThreads',
+                                    defaultMessage: 'No unread threads',
+                                })}
+                            />
                         ) : null}
                     </ThreadList>
                     {selectedThread ? (
@@ -138,40 +138,39 @@ const GlobalThreads = () => {
                             />
                         </ThreadPane>
                     ) : (
-                        <div className='no-results__holder'>
-                            <NoResultsIndicator
-                                iconGraphic={ChatIllustrationImg}
-                                title={formatMessage({
-                                    id: 'globalThreads.threadPane.unselectedTitle',
-                                    defaultMessage: '{numUnread, plural, =0 {Looks like you’re all caught up} other {Catch up on your threads}}',
-                                }, {numUnread})}
-                                subtitle={formatMessage({
-                                    id: 'globalThreads.threadPane.unreadMessageLink',
-                                    defaultMessage: `
-                                        You have
-                                        {numUnread, plural,
-                                            =0 {no unread threads}
-                                            =1 {<link>{numUnread} thread</link>}
-                                            other {<link>{numUnread} threads</link>}
-                                        }
-                                        {numUnread, plural,
-                                            =0 {}
-                                            other {with unread messages}
-                                        }
-                                    `,
-                                }, {
-                                    numUnread,
-                                    link: (chunks) => (
-                                        <Link
-                                            key='single'
-                                            to={url}
-                                        >
-                                            {chunks}
-                                        </Link>
-                                    ),
-                                })}
-                            />
-                        </div>
+                        <NoResultsIndicator
+                            expanded={true}
+                            iconGraphic={ChatIllustrationImg}
+                            title={formatMessage({
+                                id: 'globalThreads.threadPane.unselectedTitle',
+                                defaultMessage: '{numUnread, plural, =0 {Looks like you’re all caught up} other {Catch up on your threads}}',
+                            }, {numUnread})}
+                            subtitle={formatMessage({
+                                id: 'globalThreads.threadPane.unreadMessageLink',
+                                defaultMessage: `
+                                    You have
+                                    {numUnread, plural,
+                                        =0 {no unread threads}
+                                        =1 {<link>{numUnread} thread</link>}
+                                        other {<link>{numUnread} threads</link>}
+                                    }
+                                    {numUnread, plural,
+                                        =0 {}
+                                        other {with unread messages}
+                                    }
+                                `,
+                            }, {
+                                numUnread,
+                                link: (chunks) => (
+                                    <Link
+                                        key='single'
+                                        to={url}
+                                    >
+                                        {chunks}
+                                    </Link>
+                                ),
+                            })}
+                        />
                     )}
                 </>
             )}
