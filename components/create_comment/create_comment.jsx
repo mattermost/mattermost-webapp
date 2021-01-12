@@ -359,7 +359,7 @@ class CreateComment extends React.PureComponent {
     }
 
     setCaretPosition = (newCaretPosition) => {
-        const textbox = this.textboxRef.current.getInputBox();
+        const textbox = this.textboxRef.current && this.textboxRef.current.getInputBox();
 
         this.setState({
             caretPosition: newCaretPosition,
