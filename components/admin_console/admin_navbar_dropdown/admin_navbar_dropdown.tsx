@@ -46,7 +46,6 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
         const {formatMessage} = this.props.intl;
         const teamToRender = []; // Array of team components
         let switchTeams;
-        console.log(isLicensed);
         if (teams && teams.length > 0) {
             const teamsArray = filterAndSortTeamsByDisplayName(teams, locale);
 

@@ -9,7 +9,7 @@ import CommercialSupportModal from 'components/commercial_support_modal/commerci
 describe('components/CommercialSupportModal', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <CommercialSupportModal 
+            <CommercialSupportModal
                 show={true}
                 onHide={jest.fn()}
             />,

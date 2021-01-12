@@ -11,6 +11,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import './commercial_support_modal.scss';
 
 type Props = {
+
     /**
      * Function that is called when the modal is dismissed
      */
@@ -45,7 +46,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
     }
 
     render() {
-        const descriptionText = `If you\'re experiencing issues, [submit a support ticket.](!https://support.mattermost.com/hc/en-us/requests/new)\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.`
+        const descriptionText = 'If you\'re experiencing issues, [submit a support ticket.](!https://support.mattermost.com/hc/en-us/requests/new)\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.';
         return (
             <Modal
                 id='commercialSupportModal'
@@ -79,7 +80,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                                 defaultMessage='Download Support Packet'
                             />
                         </a>
-                        <div className="alert alert-info DebugLevelNotSet">
+                        <div className='alert alert-info DebugLevelNotSet'>
                             <i className='fa  fa-exclamation-circle'/>
                             <FormattedMarkdownMessage
                                 id='commercial_support.warning.banner'
