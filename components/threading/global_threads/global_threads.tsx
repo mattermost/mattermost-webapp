@@ -24,7 +24,7 @@ import {useStickyState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 
-import RHSNavigation from 'components/rhs_navigation';
+import RHSSearchNav from 'components/rhs_search_nav';
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
@@ -77,9 +77,15 @@ const GlobalThreads = () => {
             <Header
                 level={2}
                 className={'GlobalThreads___header'}
-                heading={formatMessage({id: 'globalThreads.heading', defaultMessage: 'Followed threads'})}
-                subtitle={formatMessage({id: 'globalThreads.subtitle', defaultMessage: 'Threads you’re participating in will automatically show here'})}
-                right={<RHSNavigation/>}
+                heading={formatMessage({
+                    id: 'globalThreads.heading',
+                    defaultMessage: 'Followed threads',
+                })}
+                subtitle={formatMessage({
+                    id: 'globalThreads.subtitle',
+                    defaultMessage: 'Threads you’re participating in will automatically show here',
+                })}
+                right={<RHSSearchNav/>}
             />
             {isEmpty(threadIds) ? (
                 <div className='no-results__holder'>

@@ -24,9 +24,9 @@ import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {GlobalState} from 'types/store/index';
 
-import RHSNavigation from './rhs_navigation';
+import RHSSearchNav from './rhs_search_nav';
 
-type Props = ComponentProps<typeof RHSNavigation>;
+type Props = ComponentProps<typeof RHSSearchNav>;
 
 function mapStateToProps(state: GlobalState): Omit<Props, 'actions'> {
     return {
@@ -47,4 +47,4 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>): Pick<Props, 'act
     }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RHSNavigation);
+export default connect(mapStateToProps, mapDispatchToProps)(RHSSearchNav);
