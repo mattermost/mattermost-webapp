@@ -49,32 +49,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
-    // handleClear = () => {
-    //     this.setState({categoryName: '' });
-    // }
-
-    // handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     this.setState({categoryName: e.target.value });
-    // }
-
-    // handleCancel = () => {
-    //     this.handleClear();
-    // }
-
-    // handleConfirm = () => {
-    //     if (this.props.categoryId) {
-    //         this.props.actions.renameCategory(this.props.categoryId, this.state.categoryName);
-    //     } else {
-    //         this.props.actions.createCategory(this.props.currentTeamId, this.state.categoryName, this.props.channelIdsToAdd);
-    //         trackEvent('ui', 'ui_sidebar_created_category');
-    //     }
-    // }
-
-    // isConfirmDisabled = () => {
-    //     return !this.state.categoryName ||
-    //         (Boolean(this.props.initialCategoryName) && this.props.initialCategoryName === this.state.categoryName);
-    // }
-
     getText = () => {
         const modalHeaderText = (
             <FormattedMessage
