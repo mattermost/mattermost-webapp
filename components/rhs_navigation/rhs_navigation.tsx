@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import SearchBar from 'components/search_bar';
+import Search from 'components/search';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
@@ -67,7 +67,7 @@ class RHSNavigation extends React.PureComponent<Props, State> {
     }
 
     static getShowSearchBar(props: Props) {
-        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
+        return !Utils.isMobile() && (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE || props.rhsOpen);
     }
 
     handleResize = () => {
@@ -151,12 +151,8 @@ class RHSNavigation extends React.PureComponent<Props, State> {
                         id='searchbarContainer'
                         className='flex-child search-bar__container'
                     >
-                        <SearchBar
-                            showMentionFlagBtns={false}
-                            isFocus={
-                                Utils.isMobile() ||
-                                (rhsOpen && Boolean(rhsState))
-                            }
+                        <Search
+                            isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
                         />
                     </div>
                 ) : (
