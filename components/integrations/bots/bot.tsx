@@ -95,7 +95,7 @@ type State = {
     confirmingId: string;
     creatingTokenState: string;
     token: UserAccessToken | Record<string, any>;
-    error: string | ReactNode;
+    error: ReactNode;
 }
 
 export default class Bot extends React.PureComponent<Props, State> {
