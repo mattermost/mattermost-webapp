@@ -1152,7 +1152,7 @@
   "admin.log.locationPlaceholder": "Enter your file location",
   "admin.log.locationTitle": "File Log Directory:",
   "admin.log.logLevel": "Log Level",
-  "admin.logs.bannerDesc": "To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter.",
+  "admin.logs.bannerDesc": "To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter.",
   "admin.logs.next": "Next",
   "admin.logs.prev": "Previous",
   "admin.logs.reload": "Reload",
