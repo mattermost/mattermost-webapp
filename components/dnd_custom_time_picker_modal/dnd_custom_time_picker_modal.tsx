@@ -9,6 +9,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from 'mattermost-redux/types/users';
 
 import {UserTimezone} from 'mattermost-redux/src/types/users';
+import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import GenericModal from 'components/generic_modal';
 
@@ -51,14 +52,14 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
     getText = () => {
         const modalHeaderText = (
             <FormattedMessage
-                id='dnd_custom_time_picker_modal.'
-                defaultMessage='Disable notifications till'
+                id='dnd_custom_time_picker_modal.defautlMsg'
+                defaultMessage={localizeMessage('dnd_custom_time_picker_modal.defaultMsg', 'Disable notifications till')}
             />
         );
         const confirmButtonText = (
             <FormattedMessage
                 id='rename_category_modal.rename'
-                defaultMessage='Rename'
+                defaultMessage={localizeMessage('dnd_custom_time_picker_modal.rename', 'Rename')}
             />
         );
 
