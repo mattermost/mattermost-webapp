@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @ldap
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -403,7 +402,7 @@ context('ldap', () => {
                 cy.wait(TIMEOUTS.THREE_SEC);
 
                 // # Type channel display name on Channel switcher input
-                cy.get('#quickSwitchInput').type(publicChannel.display_name);
+                cy.findByRole('textbox', {name: 'quick switch input'}).type(publicChannel.display_name);
                 cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Should open up suggestion list for channels
@@ -428,7 +427,7 @@ context('ldap', () => {
                 cy.wait(TIMEOUTS.THREE_SEC);
 
                 // # Type channel display name on Channel switcher input
-                cy.get('#quickSwitchInput').type(publicChannel.display_name);
+                cy.findByRole('textbox', {name: 'quick switch input'}).type(publicChannel.display_name);
                 cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Should open up suggestion list for channels

@@ -11,7 +11,7 @@
 // Group: @messaging
 
 import {getAdminAccount} from '../../support/env';
-import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
+import {spyNotificationAs} from '../../support/notification';
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
     // Navigate to settings modal
@@ -109,8 +109,6 @@ describe('at-mention', () => {
     });
 
     it('N14571 still triggers notification if username is not listed in words that trigger mentions', () => {
-        ignoreUncaughtException();
-
         // # Set Notification settings
         setNotificationSettings({first: false, username: true, shouts: true, custom: true}, otherChannel);
 
@@ -160,8 +158,6 @@ describe('at-mention', () => {
     });
 
     it('N14570 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
-        ignoreUncaughtException();
-
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: true, custom: true}, otherChannel);
 
@@ -200,8 +196,6 @@ describe('at-mention', () => {
     });
 
     it('N14572 does not trigger notifications with "channel-wide mentions" unchecked', () => {
-        ignoreUncaughtException();
-
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: false, custom: true}, otherChannel);
 
@@ -243,8 +237,6 @@ describe('at-mention', () => {
     });
 
     it('MM-T184 Words that trigger mentions support Chinese', () => {
-        ignoreUncaughtException();
-
         var customText = '番茄';
 
         // # Set Notification settings

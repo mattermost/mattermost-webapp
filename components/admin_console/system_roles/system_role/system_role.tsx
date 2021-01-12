@@ -35,7 +35,7 @@ type Props = {
         editRole(role: Role): Promise<ActionResult>;
         updateUserRoles(userId: string, roles: string): Promise<ActionResult>;
         setNavigationBlocked: (blocked: boolean) => void;
-    }
+    };
 }
 
 type State = {
@@ -77,6 +77,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
     }
 
     addUsersToRole = (users: UserProfile[]) => {
+        const {actions: {setNavigationBlocked}} = this.props;
         const usersToAdd = {
             ...this.state.usersToAdd,
         };
@@ -91,10 +92,13 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             }
         });
 
-        this.setState({usersToAdd, usersToRemove, saveNeeded: this.getSaveStateNeeded({usersToAdd, usersToRemove})});
+        const saveNeeded = this.getSaveStateNeeded({usersToAdd, usersToRemove});
+        setNavigationBlocked(saveNeeded);
+        this.setState({usersToAdd, usersToRemove, saveNeeded});
     }
 
     removeUserFromRole = (user: UserProfile) => {
+        const {actions: {setNavigationBlocked}} = this.props;
         const usersToAdd = {
             ...this.state.usersToAdd,
         };
@@ -106,7 +110,10 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         } else {
             usersToRemove[user.id] = user;
         }
-        this.setState({usersToRemove, usersToAdd, saveNeeded: this.getSaveStateNeeded({usersToAdd, usersToRemove})});
+
+        const saveNeeded = this.getSaveStateNeeded({usersToAdd, usersToRemove});
+        setNavigationBlocked(saveNeeded);
+        this.setState({usersToRemove, usersToAdd, saveNeeded});
     }
 
     handleSubmit = async () => {
@@ -129,7 +136,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
         const userIdsToRemove = Object.keys(usersToRemove);
         if (userIdsToRemove.length > 0) {
-            const removeUserPromises: Promise<ActionResult>[] = [];
+            const removeUserPromises: Array<Promise<ActionResult>> = [];
             userIdsToRemove.forEach((userId) => {
                 const user = usersToRemove[userId];
                 const updatedRoles = uniq(user.roles.split(' ').filter((r) => r !== role.name)).join(' ');
@@ -147,7 +154,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
         const userIdsToAdd = Object.keys(usersToAdd);
         if (userIdsToAdd.length > 0 && serverError == null) {
-            const addUserPromises: Promise<ActionResult>[] = [];
+            const addUserPromises: Array<Promise<ActionResult>> = [];
             userIdsToAdd.forEach((userId) => {
                 const user = usersToAdd[userId];
                 const updatedRoles = uniq([...user.roles.split(' '), role.name]).join(' ');
