@@ -314,28 +314,61 @@ export default function NextStepsTips(props: Props) {
         );
     }
 
-    let channelSection = {
-        titleId: 'next_steps_view.tips.exploreChannels',
-        titleDefault: 'Explore channels',
-        bodyId: 'next_steps_view.tips.exploreChannels.text',
-        bodyDefault:
-            'See the channels in your workspace or create a new channel.',
-        buttonId: 'next_steps_view.tips.exploreChannels.button',
-        buttonDefault: 'Browse channels',
-        buttonAction: () => openMoreChannels(dispatch),
-    };
-
+    let channelsSection;
     if (props.isFirstAdmin) {
-        channelSection = {
-            titleId: 'next_steps_view.tips.createChannels',
-            titleDefault: 'Create a new channel',
-            bodyId: 'next_steps_view.tips.createChannels.text',
-            bodyDefault:
-            "Think of a topic you'd like to organize a conversation around.",
-            buttonId: 'next_steps_view.tips.createChannels.button',
-            buttonDefault: 'Create a channel',
-            buttonAction: () => openNewChannels(dispatch),
-        };
+        channelsSection = (
+            <Card expanded={true}>
+                <div className='Card__body'>
+                    <h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.createChannels'
+                            defaultMessage='Create a new channel'
+                        />
+                    </h3>
+                    <FormattedMessage
+                        id='next_steps_view.tips.createChannels.text'
+                        defaultMessage={
+                            "Think of a topic you'd like to organize a conversation around."
+                        }
+                    />
+                    <button
+                        className='NextStepsView__button NextStepsView__finishButton primary'
+                        onClick={() => openNewChannels(dispatch)}
+                    >
+                        <FormattedMessage
+                            id='next_steps_view.tips.createChannels.button'
+                            defaultMessage='Create a channel'
+                        />
+                    </button>
+                </div>
+            </Card>
+        );
+    } else {
+        channelsSection = (
+            <Card expanded={true}>
+                <div className='Card__body'>
+                    <h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.exploreChannels'
+                            defaultMessage='Explore channels'
+                        />
+                    </h3>
+                    <FormattedMessage
+                        id='next_steps_view.tips.exploreChannels.text'
+                        defaultMessage='See the channels in your workspace or create a new channel.'
+                    />
+                    <button
+                        className='NextStepsView__button NextStepsView__finishButton primary'
+                        onClick={() => openMoreChannels(dispatch)}
+                    >
+                        <FormattedMessage
+                            id='next_steps_view.tips.exploreChannels.button'
+                            defaultMessage='Browse channels'
+                        />
+                    </button>
+                </div>
+            </Card>
+        );
     }
 
     return (
@@ -372,29 +405,7 @@ export default function NextStepsTips(props: Props) {
             </header>
             <div className='NextStepsView__body'>
                 <div className='NextStepsView__nextStepsCards'>
-                    <Card expanded={true}>
-                        <div className='Card__body'>
-                            <h3>
-                                <FormattedMessage
-                                    id={channelSection.titleId}
-                                    defaultMessage={channelSection.titleDefault}
-                                />
-                            </h3>
-                            <FormattedMessage
-                                id={channelSection.bodyId}
-                                defaultMessage={channelSection.bodyDefault}
-                            />
-                            <button
-                                className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={channelSection.buttonAction}
-                            >
-                                <FormattedMessage
-                                    id={channelSection.buttonId}
-                                    defaultMessage={channelSection.buttonDefault}
-                                />
-                            </button>
-                        </div>
-                    </Card>
+                    {channelsSection}
                     {nonMobileTips}
                 </div>
                 {downloadSection}

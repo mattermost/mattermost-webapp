@@ -39,8 +39,8 @@ describe('components/search_bar/SearchBar', () => {
     const baseProps = {
         suggestionProviders,
         searchTerms: '',
-        keepFocussed: false,
-        isFocussed: false,
+        keepFocused: false,
+        isFocused: false,
         isSideBarRight: false,
         isSearchingTerm: false,
         isFocus: false,
