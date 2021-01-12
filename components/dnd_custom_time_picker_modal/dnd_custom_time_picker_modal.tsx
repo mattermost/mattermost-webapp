@@ -157,7 +157,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             );
         });
 
-        const setStatus = () => {
+        const setStatus = (event: any) => {
+            event.preventDefault();
             const hours = parseInt(this.state.timeString.split(':')[0], 10);
             const minutes = parseInt(this.state.timeString.split(':')[1], 10);
             const endTime = new Date(this.state.dateString);
@@ -198,6 +199,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                     </div>
                     <MenuWrapper
                         id='dropdown-no-caret'
+                        stopPropagationOnToggle={true}
                     >
                         <button
                             className='DndModal__input'
