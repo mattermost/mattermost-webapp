@@ -247,9 +247,9 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         this.props.handleDelete(values);
     }
 
-    MultiValueRemove = ({children, innerProps}: any) => (
+    MultiValueRemove = ({children, innerProps}) => (
         <div {...innerProps}>
-            {children && <CloseCircleSolidIcon/>}
+            {children || <CloseCircleSolidIcon/>}
         </div>
     );
 
