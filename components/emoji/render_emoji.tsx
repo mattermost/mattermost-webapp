@@ -11,9 +11,10 @@ import {GlobalState} from 'types/store';
 interface ComponentProps {
     emoji: string;
     size?: number;
+    emojiStyle?: React.CSSProperties,
 }
 
-const RenderEmoji = ({emoji, size = 16}: ComponentProps) => {
+const RenderEmoji = ({emoji, emojiStyle = {}, size = 16}: ComponentProps) => {
     if (!emoji) {
         return null;
     }
@@ -28,6 +29,7 @@ const RenderEmoji = ({emoji, size = 16}: ComponentProps) => {
             style={{
                 backgroundImage: `url(${emojiImageUrl})`,
                 backgroundSize: size,
+                ...emojiStyle,
             }}
         />
     );
