@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -1132,7 +1131,6 @@ class CreateComment extends React.PureComponent {
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}
-                    ref='preview'
                 />
             );
         }
@@ -1165,7 +1163,7 @@ class CreateComment extends React.PureComponent {
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
-                    ref='fileUpload'
+                    ref={this.fileUploadRef}
                     fileCount={this.getFileCount()}
                     getTarget={this.getFileUploadTarget}
                     onFileUploadChange={this.handleFileUploadChange}
@@ -1266,7 +1264,7 @@ class CreateComment extends React.PureComponent {
                                 isRHS={true}
                                 popoverMentionKeyClick={true}
                                 id='reply_textbox'
-                                ref='textbox'
+                                ref={this.textboxRef}
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
@@ -1276,7 +1274,7 @@ class CreateComment extends React.PureComponent {
                                 useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
-                                ref='createCommentControls'
+                                ref={this.createCommentControlsRef}
                                 className='post-body__actions'
                             >
                                 {fileUpload}
@@ -1337,4 +1335,3 @@ class CreateComment extends React.PureComponent {
 }
 
 export default injectIntl(CreateComment);
-/* eslint-enable react/no-string-refs */
