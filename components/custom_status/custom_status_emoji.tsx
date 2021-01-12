@@ -16,9 +16,10 @@ interface ComponentProps {
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
+    emojiStyle?: React.CSSProperties,
 }
 
-const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16}: ComponentProps) => {
+const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16, emojiStyle = {}}: ComponentProps) => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     if (!(currentUser && currentUser.props && currentUser.props.customStatus)) {
         return null;
@@ -29,6 +30,7 @@ const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, em
         <RenderEmoji
             emoji={customStatus.emoji}
             size={emojiSize}
+            emojiStyle={emojiStyle}
         />
     );
 
@@ -39,7 +41,7 @@ const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, em
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement={tooltipDirection}
                 overlay={
-                    <Tooltip id='custom-status'>
+                    <Tooltip id='custom-status-tooltip'>
                         <div className='custom-status'>
                             {statusEmoji}
                             <span className='custom-status-text'>
