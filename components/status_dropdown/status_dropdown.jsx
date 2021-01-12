@@ -18,7 +18,7 @@ import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal/dnd_custom_time_picker_modal';
-import { getCurrentDateTimeForTimezone } from 'utils/timezone';
+import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -68,11 +68,11 @@ export default class StatusDropdown extends React.PureComponent {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
 
-    setStatus = (status, dnd_end_time) => {
+    setStatus = (status, dndEndTime) => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
-            dnd_end_time,
+            dndEndTime,
         });
     }
 
@@ -119,8 +119,8 @@ export default class StatusDropdown extends React.PureComponent {
             break;
         }
 
-        var dnd_end_time = endTime.toISOString();
-        this.setStatus(UserStatuses.DND, dnd_end_time);
+        var dndEndTime = endTime.toISOString();
+        this.setStatus(UserStatuses.DND, dndEndTime);
     }
 
     setCustomTimedDnd = () => {
@@ -176,7 +176,7 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
-    refCallback = (menuRef: Menu) => {
+    refCallback = (menuRef) => {
         if (menuRef) {
             this.setState({
                 width: menuRef.rect()?.width - 12,

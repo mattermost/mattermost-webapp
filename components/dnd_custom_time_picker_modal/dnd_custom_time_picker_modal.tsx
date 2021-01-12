@@ -8,10 +8,9 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from 'mattermost-redux/types/users';
 
-import { UserTimezone } from 'mattermost-redux/src/types/users';
+import {UserTimezone} from 'mattermost-redux/src/types/users';
 
 import GenericModal from 'components/generic_modal';
-// import {localizeMessage} from 'utils/utils';
 
 import {UserStatuses} from 'utils/constants';
 import Menu from 'components/widgets/menu/menu';

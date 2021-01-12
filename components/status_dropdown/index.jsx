@@ -9,11 +9,13 @@ import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/ent
 import {Preferences} from 'mattermost-redux/constants';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
+import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+
 import {openModal} from 'actions/views/modals';
 
+import {areTimezonesEnabledAndSupported} from 'selectors/general';
+
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
-import { getUserTimezone } from 'mattermost-redux/selectors/entities/timezone';
-import { areTimezonesEnabledAndSupported } from 'selectors/general';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
