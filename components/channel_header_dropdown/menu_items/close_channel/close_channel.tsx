@@ -8,10 +8,10 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 
 type Props = {
-    isArchived: boolean,
+    isArchived: boolean;
     actions: {
-        goToLastViewedChannel: () => () => void,
-    },
+        goToLastViewedChannel: () => () => void;
+    };
 }
 
 export default class CloseChannel extends React.PureComponent<Props> {

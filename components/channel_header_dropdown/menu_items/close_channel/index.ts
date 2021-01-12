@@ -4,10 +4,9 @@
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
-import {goToLastViewedChannel} from 'actions/views/channel';
-
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {goToLastViewedChannel} from 'actions/views/channel';
 
 import CloseChannel from './close_channel';
 
