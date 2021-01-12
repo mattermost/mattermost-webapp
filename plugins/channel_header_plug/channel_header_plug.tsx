@@ -98,7 +98,7 @@ type ChannelHeaderPlugProps = {
     theme: Theme;
     actions: {
         doAppCall: (call: AppCall) => void;
-    }
+    };
 }
 
 type ChannelHeaderPlugState = {

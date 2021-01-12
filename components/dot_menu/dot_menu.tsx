@@ -49,8 +49,8 @@ type Props = {
      * Components for overriding provided by plugins
      */
     components: {
-        [componentName: string]: PluginComponent[],
-    }
+        [componentName: string]: PluginComponent[];
+    };
 
     actions?: {
 
@@ -92,7 +92,7 @@ type Props = {
         /**
          * Function to perform an app call
          */
-        doAppCall: (call: AppCall) => void,
+        doAppCall: (call: AppCall) => void;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;

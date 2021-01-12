@@ -128,7 +128,7 @@ export function appFormToInteractiveDialog(form: AppForm & {app_id: string; url:
 type SubDialogElement = {
     type: string;
     subtype: string;
-    options: {text: string; value: string}[];
+    options: Array<{text: string; value: string}>;
     data_source: string;
 }
 
@@ -168,7 +168,7 @@ const makeBooleanField: SubDialogMaker = () => {
 // };
 
 const makeStaticSelectField: SubDialogMaker = (field, submitField?: string) => {
-    let options: {text: string; value: string}[] = [];
+    let options: Array<{text: string; value: string}> = [];
     if (field.options) {
         options = field.options?.map((opt) => ({
             text: opt.label,

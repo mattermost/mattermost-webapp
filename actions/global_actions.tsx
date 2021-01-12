@@ -246,14 +246,6 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
     return dispatch(userTyping);
 }
 
-function stringToNumber(s?: string): number {
-    if (!s) {
-        return 0;
-    }
-
-    return parseInt(s, 10);
-}
-
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true, userAction = true) {
     // If the logout was intentional, discard knowledge about having previously been logged in.
     // This bit is otherwise used to detect session expirations on the login page.

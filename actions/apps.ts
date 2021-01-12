@@ -13,7 +13,7 @@ import AppsModal from 'components/apps_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (call && call.context.channel_id) || '', call && call.context.root_id);
+const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (call && call.context.channel_id) || '', (call && call.context.root_id) || '');
 
 export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
     return async (dispatch: DispatchFunc) => {

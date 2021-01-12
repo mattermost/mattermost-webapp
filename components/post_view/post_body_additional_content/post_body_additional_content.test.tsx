@@ -256,6 +256,7 @@ describe('PostBodyAdditionalContent', () => {
                 message: mp3Url,
                 metadata: {
                     embeds: [{
+                        type: 'link',
                         url: mp3Url,
                     }],
                 } as PostMetadata,

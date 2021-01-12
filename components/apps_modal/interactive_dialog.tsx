@@ -26,29 +26,29 @@ export type Props = {
     appID?: string;
     url: string;
     callbackId?: string;
-    elements: DialogElementProps[],
+    elements: DialogElementProps[];
     title: string;
     introductionText?: string;
     iconUrl?: string;
     submitLabel?: string;
     notifyOnCancel?: boolean;
     state?: string;
-    onHide: () => void,
+    onHide: () => void;
     actions: {
         submit: (dialog: {
             values: {
                 [name: string]: string;
             };
         }) => Promise<{data: AppCallResponse<FormResponseData>}>;
-    },
+    };
     emojiMap: EmojiMap;
     isEmbedded?: boolean;
 }
 
 type FormResponseData = {
     errors: {
-        [field: string]: string
-    }
+        [field: string]: string;
+    };
 }
 
 type State = {
