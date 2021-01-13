@@ -20,7 +20,7 @@ import testusers from '../../fixtures/saml_ldap_users.json';
 //  - assumes keycloak docker - uses api to update
 // assumes the CYPRESS_* variables are set (CYPRESS_keycloakBaseUrl / CYPRESS_keycloakAppName)
 // requires {"chromeWebSecurity": false}
-// copy ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt -> ./mattermost-server/config/keycloak.crt
+// copy ./mattermost-server/build/docker/keycloak/keycloak.crt -> ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt
 describe('AD / LDAP', () => {
     const admin = getAdminAccount();
     const baseUrl = Cypress.config('baseUrl');
