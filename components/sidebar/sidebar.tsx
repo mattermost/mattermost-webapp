@@ -14,6 +14,8 @@ import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import GlobalThreadsLink from '../threading/global_threads_link';
+
 import AddChannelDropdown from './add_channel_dropdown';
 import ChannelNavigator from './channel_navigator';
 import ChannelFilter from './channel_filter';
@@ -21,7 +23,6 @@ import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
 import SidebarWhatsNewModal from './sidebar_whats_new_modal';
-import GlobalThreadsLink from './global_threads_link';
 
 type Props = {
     teamId: string;

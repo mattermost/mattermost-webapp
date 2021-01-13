@@ -14,7 +14,7 @@ import {t} from 'utils/i18n';
 
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 
-import {useThreadRouting} from 'components/threading/hooks';
+import {useThreadRouting} from '../hooks';
 
 import ThreadsIcon from './threads_icon';
 
