@@ -7,7 +7,6 @@
     "ignoreTestFiles": "**/node_modules/**/*",
     "integrationFolder": "..",
     "testFiles": "**/*_spec.js",
-    "chromeWebSecurity": false,
     "env": {
         "adminUsername": "sysadmin",
         "adminPassword": "Sys@dmin-sample1",
