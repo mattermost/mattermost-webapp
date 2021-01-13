@@ -51,14 +51,6 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
     };
 }
 
-export function makeLookupCallPayload(name: string, userInput: string, formValues: AppFormValues): AppLookupCallValues {
-    return {
-        name,
-        user_input: userInput,
-        values: formValues,
-    };
-}
-
 export function openAppsModal(form: AppForm, call: AppCall): Action {
     return openModal({
         modalId: ModalIdentifiers.APPS_MODAL,

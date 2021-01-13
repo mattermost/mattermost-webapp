@@ -20,6 +20,7 @@ import {
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
     AutocompleteSuggestionWithComplete,
+    AppLookupCallValues,
 } from 'mattermost-redux/types/apps';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -32,7 +33,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
-import {doAppCall, makeLookupCallPayload} from 'actions/apps';
+import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -479,7 +480,12 @@ export class AppCommandParser {
         }
 
         const formValues = this.getFormValues(cmdStr, binding);
-        const payload = makeLookupCallPayload(field.name, userInput, formValues);
+
+        const values: AppLookupCallValues = {
+            name: field.name,
+            user_input: userInput,
+            values: formValues,
+        };
 
         const fullCall: AppCall = {
             ...call,
@@ -488,7 +494,7 @@ export class AppCommandParser {
                 ...this.getAppContext(),
                 app_id: binding.app_id,
             },
-            values: payload,
+            values,
             raw_command: cmdStr,
         };
 

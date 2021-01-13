@@ -3,10 +3,8 @@
 
 import React from 'react';
 
-import {AppCall, AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppContext} from 'mattermost-redux/types/apps';
+import {AppCall, AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppContext, AppLookupCallValues} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-
-import {makeLookupCallPayload} from 'actions/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -116,7 +114,11 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
             return [];
         }
 
-        const values = makeLookupCallPayload(field.name, userInput, formValues);
+        const values: AppLookupCallValues = {
+            name: field.name,
+            user_input: userInput,
+            values: formValues,
+        };
         const res = await this.props.actions.doAppCall({
             ...call,
             type: AppCallTypes.LOOKUP,
