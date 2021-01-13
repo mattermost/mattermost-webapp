@@ -35,11 +35,14 @@ const GlobalThreadsLink = () => {
 
     useEffect(() => {
         if (!threadsMatch) {
+            // load initial counts when not in /:team/threads
+            // else, /:team/threads will take care of first counts on initial load of threads
             dispatch(getThreadCounts(currentUserId, currentTeamId));
         }
     }, [team, Boolean(threadsMatch)]);
 
     if (unreadsOnly && !threadsMatch && !someUnreadThreads) {
+        // hide link if filtering unreads and there are no unread threads
         return null;
     }
 
