@@ -52,6 +52,7 @@ const GlobalThreads = () => {
     const threadIds = useSelector(getThreadOrderInCurrentTeam);
     const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
     const numUnread = counts?.total_unread_replies || 0; // TODO incorrect: sum of unreads vs num of unread threads
+    const isLoading = !counts?.total || (counts.total && isEmpty(threadIds));
 
     useEffect(() => {
         dispatch(selectChannel(''));
@@ -88,14 +89,20 @@ const GlobalThreads = () => {
             />
             {isEmpty(threadIds) ? (
                 <div className='no-results__holder'>
-                    {counts?.total == null ? (
+                    {isLoading ? (
                         <LoadingScreen/>
                     ) : (
                         <NoResultsIndicator
                             expanded={true}
                             iconGraphic={ChatIllustrationImg}
-                            title={'No followed threads yet'}
-                            subtitle={'Any threads you are mentioned in or have participated in will show here along with any threads you have followed.'}
+                            title={formatMessage({
+                                id: 'globalThreads.noThreads.title',
+                                defaultMessage: 'No followed threads yet',
+                            })}
+                            subtitle={formatMessage({
+                                id: 'globalThreads.noThreads.subtitle',
+                                defaultMessage: 'Any threads you are mentioned in or have participated in will show here along with any threads you have followed.',
+                            })}
                         />
                     )}
                 </div>

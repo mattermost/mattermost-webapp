@@ -1,30 +1,54 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
+import {useSelector, useDispatch} from 'react-redux';
+
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+import {getThreadCounts} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
+
+import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
+
+import {useThreadRouting} from 'components/threading/hooks';
 
 import ThreadsIcon from './threads_icon';
 
 import './global_threads_link.scss';
 
 const GlobalThreadsLink = () => {
-    const {url} = useRouteMatch<{team: string}>();
-    const {pathname} = useLocation();
-
-    const threadsMatch = matchPath<{team: string; threadIdentifier?: string}>(pathname, '/:team/threads');
-
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
+
+    const {url, params: {team}} = useRouteMatch<{team: string}>();
+    const {pathname} = useLocation();
+    const threadsMatch = matchPath<{team: string; threadIdentifier?: string}>(pathname, '/:team/threads');
+    const {currentTeamId, currentUserId} = useThreadRouting();
+
+    const counts = useSelector(getThreadCountsInCurrentTeam);
+    const unreadsOnly = useSelector(isUnreadFilterEnabled);
+    const someUnreadThreads = counts?.total_unread_replies;
+
+    useEffect(() => {
+        if (!threadsMatch) {
+            dispatch(getThreadCounts(currentUserId, currentTeamId));
+        }
+    }, [team, Boolean(threadsMatch)]);
+
+    if (unreadsOnly && !threadsMatch && !someUnreadThreads) {
+        return null;
+    }
 
     return (
         <ul className='NavGroupContent'>
             <li
                 className={classNames('SidebarChannel SidebarGlobalThreads', {
                     active: Boolean(threadsMatch),
+                    unread: someUnreadThreads,
                 })}
             >
                 <Link
@@ -45,7 +69,6 @@ const GlobalThreadsLink = () => {
                 </Link>
             </li>
         </ul>
-
     );
 };
 
