@@ -43,6 +43,8 @@ import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+
 import HeaderIconWrapper from './components/header_icon_wrapper';
 import UserGuideDropdown from './components/user_guide_dropdown';
 
@@ -417,10 +419,24 @@ class ChannelHeader extends React.PureComponent {
 
         let dmHeaderIconStatus;
         let dmHeaderTextStatus;
+        let dmHeaderCustomStatus;
         if (isDirect && !dmUser.delete_at && !dmUser.is_bot) {
             dmHeaderIconStatus = (
                 <StatusIcon
                     status={channel.status}
+                />
+            );
+
+            dmHeaderCustomStatus = (
+                <CustomStatusEmoji
+                    showTooltip={true}
+                    showText={true}
+                    emojiSize={14}
+                    emojiStyle={{
+                        verticalAlign: 'text-top',
+                        marginLeft: '4px',
+                        marginRight: '4px',
+                    }}
                 />
             );
 
@@ -430,6 +446,7 @@ class ChannelHeader extends React.PureComponent {
                         id={`status_dropdown.set_${channel.status}`}
                         defaultMessage={Utils.toTitleCase(channel.status)}
                     />
+                    {dmHeaderCustomStatus}
                 </span>
             );
         }

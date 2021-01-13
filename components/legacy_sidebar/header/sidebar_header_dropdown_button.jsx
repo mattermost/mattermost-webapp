@@ -74,10 +74,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         </div>
                         <CustomStatusEmoji
                             showTooltip={true}
-                            emojiStyle={{
-                                height: 16,
-                                minHeight: 16,
-                            }}
+                            size={16}
                         />
                     </div>
                     <button

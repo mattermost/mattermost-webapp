@@ -29,6 +29,10 @@ const RenderEmoji = ({emoji, emojiStyle = {}, size = 16}: ComponentProps) => {
             style={{
                 backgroundImage: `url(${emojiImageUrl})`,
                 backgroundSize: size,
+                height: size,
+                width: size,
+                minHeight: size,
+                minWidth: size,
                 ...emojiStyle,
             }}
         />

@@ -16,27 +16,35 @@ interface ComponentProps {
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
-    emojiStyle?: React.CSSProperties,
+    emojiStyle?: React.CSSProperties;
+    showText? : boolean;
 }
 
-const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16, emojiStyle = {}}: ComponentProps) => {
+const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16, emojiStyle = {}, showText = false}: ComponentProps) => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     if (!(currentUser && currentUser.props && currentUser.props.customStatus)) {
         return null;
     }
 
     const customStatus = JSON.parse(currentUser.props.customStatus);
-    const statusEmoji = (
+    let statusEmoji = (
         <RenderEmoji
             emoji={customStatus.emoji}
             size={emojiSize}
             emojiStyle={emojiStyle}
         />
     );
+    let statusText = null;
+    if (showText) {
+        statusText = (
+            <span>
+                {customStatus.text}
+            </span>
+        );
+    }
 
-    let status = statusEmoji;
     if (showTooltip) {
-        status = (
+        statusEmoji = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement={tooltipDirection}
@@ -55,8 +63,12 @@ const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, em
             </OverlayTrigger>
         );
     }
-
-    return status;
+    return (
+        <>
+            {statusEmoji}
+            {statusText}
+        </>
+    );
 };
 
 export default CustomStatusEmoji;
