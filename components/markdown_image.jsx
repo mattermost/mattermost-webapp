@@ -6,6 +6,7 @@ import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 
+import MarkdownImageExpand from 'components/markdown_image_expand';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import ViewImageModal from 'components/view_image';
@@ -142,7 +143,7 @@ export default class MarkdownImage extends React.PureComponent {
 
                     const {height, width, title} = this.props;
                     return (
-                        <>
+                        <MarkdownImageExpand imageMetadata={imageMetadata} alt={alt || safeSrc}>
                             <SizeAwareImage
                                 alt={alt}
                                 className={className}
@@ -170,7 +171,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 }]}
                             />
                             }
-                        </>
+                        </MarkdownImageExpand>
                     );
                 }}
             </ExternalImage>
