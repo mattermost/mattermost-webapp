@@ -130,6 +130,35 @@ exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] 
       </div>
       <div />
     </div>
+    <div
+      className="about-modal__hash"
+    >
+      <p>
+        <FormattedMessage
+          defaultMessage="Build Hash:"
+          id="about.hash"
+        />
+        abcdef1234567890
+        <br />
+        <FormattedMessage
+          defaultMessage="EE Build Hash:"
+          id="about.hashee"
+        />
+        0123456789abcdef
+        <br />
+        <FormattedMessage
+          defaultMessage="Webapp Build Hash:"
+          id="about.hashwebapp"
+        />
+      </p>
+      <p>
+        <FormattedMessage
+          defaultMessage="Build Date:"
+          id="about.date"
+        />
+        21 January 2017
+      </p>
+    </div>
   </ModalBody>
 </Modal>
 `;
