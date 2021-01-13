@@ -183,7 +183,7 @@ const PlanDetails: React.FC = () => {
         planDetailsDescription = (
             <div className='PlanDetails__description'>
                 <div className='PlanDetails__planDetailsName'>
-                        {`$${product.price_per_seat.toFixed(2)}`}
+                    {`$${product.price_per_seat.toFixed(2)}`}
                 </div>
                 <div className='PlanDetails__planDetailsName'>
                     <FormattedMessage
