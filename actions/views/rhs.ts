@@ -63,7 +63,7 @@ function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, prev
 }
 
 export function updateRhsState(rhsState: string, channelId?: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
             state: rhsState,
@@ -75,9 +75,7 @@ export function updateRhsState(rhsState: string, channelId?: string) {
 
         dispatch(action);
 
-        return {
-            data: true,
-        };
+        return {data: true};
     };
 }
 
@@ -347,7 +345,7 @@ export function openRHSSearch() {
     };
 }
 
-export function openAtPrevious(previous: any) { // Could not find the proper type. Seems to be in several props around
+export function openAtPrevious(previous: any) { // TODO Could not find the proper type. Seems to be in several props around
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (!previous) {
             return openRHSSearch()(dispatch);

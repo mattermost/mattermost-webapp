@@ -6,7 +6,11 @@ import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
+import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
+import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {Command} from 'mattermost-redux/types/integrations';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -70,7 +74,7 @@ export class TestHelper {
         return Object.assign({}, defaultBot, override);
     }
 
-    public static getChannelMock(override: Partial<Channel>): Channel {
+    public static getChannelMock(override?: Partial<Channel>): Channel {
         const defaultChannel: Channel = {
             id: 'channel_id',
             create_at: 0,
@@ -90,6 +94,20 @@ export class TestHelper {
             group_constrained: false,
         };
         return Object.assign({}, defaultChannel, override);
+    }
+
+    public static getCategoryMock(override?: Partial<ChannelCategory>): ChannelCategory {
+        const defaultCategory: ChannelCategory = {
+            id: 'category_id',
+            team_id: 'team_id',
+            user_id: 'user_id',
+            type: CategoryTypes.CUSTOM,
+            display_name: 'category_name',
+            sorting: CategorySorting.Alphabetical,
+            channel_ids: ['channel_id'],
+            muted: false,
+        };
+        return Object.assign({}, defaultCategory, override);
     }
 
     public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps: Partial<ChannelNotifyProps>): ChannelMembership {
@@ -215,5 +233,47 @@ export class TestHelper {
             user_id: 'user_id',
         };
         return Object.assign({}, defaultPost, override);
+    }
+
+    public static getFileInfoMock(override: Partial<FileInfo>): FileInfo {
+        const defaultFileInfo: FileInfo = {
+            id: 'file_info_id',
+            user_id: 'user_id',
+            create_at: 1,
+            update_at: 1,
+            delete_at: 1,
+            name: 'name',
+            extension: 'jpg',
+            size: 1,
+            mime_type: 'mime_type',
+            has_preview_image: true,
+            width: 350,
+            height: 200,
+            clientId: 'client_id',
+        };
+        return Object.assign({}, defaultFileInfo, override);
+    }
+
+    public static getCommandMock(override: Partial<Command>): Command {
+        const defaultCommand: Command = {
+            id: 'command_id',
+            display_name: 'command_display_name',
+            description: 'command_description',
+            token: 'token',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            creator_id: 'creator_id',
+            team_id: 'team_id',
+            trigger: 'trigger',
+            method: 'G',
+            username: 'username',
+            icon_url: '',
+            auto_complete: true,
+            auto_complete_desc: 'auto_complete_hint',
+            auto_complete_hint: 'auto_complete_desc',
+            url: '',
+        };
+        return Object.assign({}, defaultCommand, override);
     }
 }

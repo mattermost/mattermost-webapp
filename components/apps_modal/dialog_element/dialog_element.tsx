@@ -39,11 +39,11 @@ export type Props = {
     maxLength?: number;
     dataSource?: string;
     optional?: boolean;
-    options: {text: string; value: string}[] | null;
+    options: Array<{text: string; value: string}> | null;
     value: string | boolean | number | null;
     onChange: (name: string, value: any) => void;
     autoFocus?: boolean;
-    listComponent?: React.ComponentClass,
+    listComponent?: React.ComponentClass;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;

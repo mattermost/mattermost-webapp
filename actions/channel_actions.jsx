@@ -125,6 +125,7 @@ export function autocompleteChannels(term, success, error) {
         } else if (err && error) {
             error({id: err.server_error_id, ...err});
         }
+
         return {data: true};
     };
 }

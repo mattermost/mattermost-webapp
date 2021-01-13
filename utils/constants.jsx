@@ -206,6 +206,10 @@ export const ActionTypes = keyMirror({
     SIDEBAR_DRAGGING_SET_STATE: null,
     SIDEBAR_DRAGGING_STOP: null,
     ADD_NEW_CATEGORY_ID: null,
+    MULTISELECT_CHANNEL: null,
+    MULTISELECT_CHANNEL_ADD: null,
+    MULTISELECT_CHANNEL_TO: null,
+    MULTISELECT_CHANNEL_CLEAR: null,
 
     TRACK_ANNOUNCEMENT_BAR: null,
     DISMISS_ANNOUNCEMENT_BAR: null,
@@ -382,6 +386,8 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
     SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
+    USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
+    CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
 };
 
 export const TutorialSteps = {
@@ -670,6 +676,7 @@ export const DraggingStateTypes = {
     CATEGORY: 'category',
     CHANNEL: 'channel',
     DM: 'DM',
+    MIXED_CHANNELS: 'mixed_channels',
 };
 
 export const AboutLinks = {
@@ -678,7 +685,7 @@ export const AboutLinks = {
 };
 
 export const CloudLinks = {
-    BILLING_DOCS: 'https://docs.mattermost.com/overview/mattermost-cloud-overview.html#how-billing-works',
+    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
 };
 
 export const PermissionsScope = {
@@ -749,6 +756,8 @@ export const PermissionsScope = {
     [Permissions.READ_PRIVATE_CHANNEL_GROUPS]: 'channel_scope',
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
+    [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
+    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
@@ -864,6 +873,13 @@ export const exportFormats = {
     EXPORT_FORMAT_GLOBALRELAY: 'globalrelay',
 };
 
+export const ZoomSettings = {
+    DEFAULT_SCALE: 1,
+    SCALE_DELTA: 0.25,
+    MIN_SCALE: 0.25,
+    MAX_SCALE: 3.0,
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,
@@ -900,6 +916,9 @@ export const Constants = {
         NEW_MESSAGE: 4,
         POST: 5,
     },
+
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
+    MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
 
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
@@ -946,7 +965,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 5,
+    MAX_UPLOAD_FILES: 10,
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
@@ -966,7 +985,9 @@ export const Constants = {
     GITLAB_SERVICE: 'gitlab',
     GOOGLE_SERVICE: 'google',
     OFFICE365_SERVICE: 'office365',
-    OAUTH_SERVICES: ['gitlab', 'google', 'office365'],
+    OAUTH_SERVICES: ['gitlab', 'google', 'office365', 'openid'],
+    OPENID_SERVICE: 'openid',
+    OPENID_SCOPES: 'profile openid email',
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
     SAML_SERVICE: 'saml',
@@ -1420,6 +1441,7 @@ export const Constants = {
         json: {name: 'JSON', extensions: ['json']},
         julia: {name: 'Julia', extensions: ['jl'], aliases: ['jl']},
         kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts']},
+        latex: {name: 'LaTeX', extensions: ['tex'], aliases: ['tex']},
         less: {name: 'Less', extensions: ['less']},
         lisp: {name: 'Lisp', extensions: ['lisp']},
         lua: {name: 'Lua', extensions: ['lua']},
@@ -1444,7 +1466,6 @@ export const Constants = {
         sql: {name: 'SQL', extensions: ['sql']},
         stylus: {name: 'Stylus', extensions: ['styl'], aliases: ['styl']},
         swift: {name: 'Swift', extensions: ['swift']},
-        tex: {name: 'TeX', extensions: ['tex'], aliases: ['latex']},
         text: {name: 'Text', extensions: ['txt', 'log']},
         typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
@@ -1516,6 +1537,9 @@ export const Constants = {
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_READ_ONLY_ADMIN: 'system_read_only_admin',
+    PERMISSIONS_SYSTEM_USER_MANAGER: 'system_user_manager',
+    PERMISSIONS_SYSTEM_MANAGER: 'system_manager',
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
@@ -1549,6 +1573,15 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+};
+
+export const ValidationErrors = {
+    USERNAME_REQUIRED: 'USERNAME_REQUIRED',
+    INVALID_LENGTH: 'INVALID_LENGTH',
+    INVALID_CHARACTERS: 'INVALID_CHARACTERS',
+    INVALID_FIRST_CHARACTER: 'INVALID_FIRST_CHARACTER',
+    RESERVED_NAME: 'RESERVED_NAME',
+    INVALID_LAST_CHARACTER: 'INVALID_LAST_CHARACTER',
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];

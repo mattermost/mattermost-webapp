@@ -40,6 +40,17 @@ declare namespace Cypress {
          *       testChannel = channel;
          *   });
          */
-        apiInitSetup(options: Record<string, any>): Chainable<Record<string, any>>;
+        apiInitSetup(
+            options: {
+                loginAfter: boolean;
+                userPrefix: string;
+                teamPrefix: string;
+                channelPrefix: string;
+            }
+        ): Chainable<{
+            user: UserProfile;
+            team: Team;
+            channel: Channel;
+        }>;
     }
 }

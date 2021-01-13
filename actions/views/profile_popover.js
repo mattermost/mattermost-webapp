@@ -14,7 +14,7 @@ export function getMembershipForCurrentEntities(userId) {
         const currentTeamId = getCurrentTeamId(state);
 
         const selectedPost = getSelectedPost(state);
-        const currentChannel = getCurrentChannel(state);
+        const currentChannel = getCurrentChannel(state) || {};
 
         let channelId;
         if (selectedPost.exists === false) {

@@ -12,8 +12,8 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 class BrowserStoreClass {
-    hasCheckedLocalStorage?: boolean;
-    localStorageSupported?: boolean;
+    private hasCheckedLocalStorage?: boolean;
+    private localStorageSupported?: boolean;
 
     setItem(name: string, value: string) {
         dispatch(Actions.setItem(name, value));
@@ -31,7 +31,7 @@ class BrowserStoreClass {
         dispatch(Actions.setGlobalItem(name, value));
     }
 
-    getGlobalItem(name: string, defaultValue = null) {
+    getGlobalItem(name: string, defaultValue: string | null = null) {
         return Selectors.makeGetGlobalItem(name, defaultValue)(getState());
     }
 
@@ -71,7 +71,7 @@ class BrowserStoreClass {
         return loginId === sessionStorage.getItem(StoragePrefixes.LOGIN);
     }
 
-    clear(options?: {exclude: any}) {
+    clear(options?: {exclude: any}) { // TODO add more specific types
         dispatch(Actions.clear(options));
     }
 
@@ -110,8 +110,7 @@ class BrowserStoreClass {
     }
 
     setLandingPageSeen(landingPageSeen: boolean) {
-        const value = landingPageSeen ? 'true' : 'false';
-        localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, value);
+        localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, String(landingPageSeen));
     }
 
     getLandingPreference(siteUrl?: string) {

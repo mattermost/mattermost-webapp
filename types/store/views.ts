@@ -35,7 +35,7 @@ export type ViewsState = {
         };
         focusedPostId: string;
         mobileView: boolean;
-        keepChannelIdAsUnread: Channel | null;
+        lastUnreadChannel: (Channel & {hadMentions: boolean}) | null; // Actually only an object with {id: string, hadMentions: boolean}
         lastGetPosts: {
             [channelId: string]: number;
         };
@@ -101,7 +101,9 @@ export type ViewsState = {
     };
 
     notice: {
-        [noticeType: string]: boolean;
+        hasBeenDismissed: {
+            [message: string]: boolean;
+        };
     };
 
     system: {
@@ -128,6 +130,8 @@ export type ViewsState = {
         unreadFilterEnabled: boolean;
         draggingState: DraggingState;
         newCategoryIds: string[];
+        multiSelectedChannelIds: string[];
+        lastSelectedChannel: string;
     };
 
     nextSteps: {

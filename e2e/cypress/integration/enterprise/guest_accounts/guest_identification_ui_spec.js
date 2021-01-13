@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @guest_account
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
@@ -153,7 +153,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#sidebarSwitcherButton').click();
 
         // # Type the guest user name on Channel switcher input
-        cy.get('#quickSwitchInput').type(guest.username).wait(TIMEOUTS.HALF_SEC);
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(guest.username).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify if Guest badge is displayed for the guest user in the Switch Channel Dialog
         cy.get('#suggestionList').should('be.visible');

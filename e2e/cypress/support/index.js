@@ -15,6 +15,7 @@ import addContext from 'mochawesome/addContext';
 
 import './api';
 import './api_commands'; // soon to deprecate
+import './client';
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';
@@ -27,8 +28,6 @@ import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
 import './external_commands';
-
-import {getAdminAccount} from './env';
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -91,13 +90,16 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
-before(() => {
-    const admin = getAdminAccount();
+// Turn off all uncaught exception handling
+Cypress.on('uncaught:exception', () => {
+    return false;
+});
 
-    cy.dbGetUser({username: admin.username}).then(({user}) => {
-        if (user.id) {
-            // # Login existing sysadmin
-            cy.apiAdminLogin().then(() => sysadminSetup(user));
+before(() => {
+    // # Try to login using existing sysadmin account
+    cy.apiAdminLogin({failOnStatusCode: false}).then((response) => {
+        if (response.user) {
+            sysadminSetup(response.user);
         } else {
             // # Create and login a newly created user as sysadmin
             cy.apiCreateAdmin().then(({sysadmin}) => {
@@ -105,8 +107,20 @@ before(() => {
             });
         }
 
-        // * Verify that the server database matches with the DB client and config at "cypress.json"
-        cy.apiRequireServerDBToMatch();
+        switch (Cypress.env('serverEdition')) {
+        case 'Cloud':
+            cy.apiRequireLicenseForFeature('Cloud');
+            break;
+        case 'E20':
+            cy.apiRequireLicense();
+            break;
+        default:
+            break;
+        }
+
+        // Log license status and server details before test
+        printLicenseStatus();
+        printServerDetails();
     });
 });
 
@@ -114,6 +128,22 @@ before(() => {
 beforeEach(() => {
     Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
 });
+
+function printLicenseStatus() {
+    cy.apiGetClientLicense().then(({isLicensed, license}) => {
+        if (isLicensed) {
+            cy.log(`Server has license: ${license.SkuName}`);
+        } else {
+            cy.log('Server is without license.');
+        }
+    });
+}
+
+function printServerDetails() {
+    cy.apiGetConfig(true).then(({config}) => {
+        cy.log(`Build Number: ${config.BuildNumber} | Version: ${config.Version} | Hash: ${config.BuildHash}`);
+    });
+}
 
 function sysadminSetup(user) {
     if (!user.email_verified) {
@@ -139,9 +169,14 @@ function sysadminSetup(user) {
     });
 
     // # Reset roles
-    cy.apiGetClientLicense().then(({license}) => {
-        if (license.IsLicensed === 'true') {
+    cy.apiGetClientLicense().then(({isLicensed, isCloudLicensed}) => {
+        if (isLicensed) {
             cy.apiResetRoles();
+        }
+
+        if (isCloudLicensed) {
+            // # Modify sysadmin role for Cloud edition
+            cy.apiPatchUserRoles(user.id, ['system_admin', 'system_manager', 'system_user']);
         }
     });
 
