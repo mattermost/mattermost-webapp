@@ -3,8 +3,8 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppCall, AppForm, AppBinding, AppFormValues, AppLookupCallValues} from 'mattermost-redux/types/apps';
-import {AppCallTypes, AppCallResponseTypes, AppBindingPresentations} from 'mattermost-redux/constants/apps';
+import {AppCallResponse, AppCall, AppForm, AppFormValues, AppLookupCallValues} from 'mattermost-redux/types/apps';
+import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';

@@ -10,14 +10,12 @@ import configureStore from 'redux-mock-store';
 import {Client4} from 'mattermost-redux/client';
 import {AppBinding} from 'mattermost-redux/types/apps';
 
-import {getState} from 'stores/redux_store';
+import globalStore from 'stores/redux_store';
 
 jest.mock('stores/redux_store', () => ({
     dispatch: jest.fn(),
     getState: jest.fn(),
 }));
-
-import globalStore from 'stores/redux_store';
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
 
@@ -172,7 +170,7 @@ describe('CommandProvider', () => {
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
             const store = await makeStore([]);
-            getState.mockImplementation(store.getState);
+            globalStore.getState.mockImplementation(store.getState);
 
             const provider = new CommandProvider({isInRHS: false});
 
