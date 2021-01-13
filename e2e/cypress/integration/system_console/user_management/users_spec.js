@@ -258,7 +258,12 @@ describe('System Console > User Management > Deactivation', () => {
                 cy.uiSearchPosts(message);
 
                 // * Verify GM message is returned in RHS
-                cy.get('#search-items-container').children().should('have.length', 1).get('#search-items-container .post-message__text-container').should('have.text', message);
+                cy.get('#search-items-container').then((items) => {
+                    cy.wrap(items).findByTestId('basicSeparator').should('have.length', 1);
+                    cy.wrap(items).find('.post').should('have.length', 1).within(() => {
+                        cy.get('.post-message__text-container').should('have.text', message);
+                    });
+                });
             });
         });
     });
