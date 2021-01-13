@@ -287,7 +287,7 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        
+
         cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
             // * Verify that hover shows "Help" text
             cy.get('#channelHeaderUserGuideButton').trigger('mouseover', {force: true});
@@ -348,7 +348,7 @@ describe('SupportSettings', () => {
             // # Click on keyboard shortcuts
             cy.get('#keyboardShortcuts').click();
         });
-        
+
         // * Verify link opens keyboard shortcuts modal
         cy.get('#shortcutsModalLabel').should('be.visible');
     });
