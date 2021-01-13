@@ -499,7 +499,7 @@ export class AppCommandParser {
         };
 
         type ResponseType = {items: AppSelectOption[]};
-        let res: {data?: AppCallResponse<ResponseType>, error?: any};
+        let res: {data?: AppCallResponse<ResponseType>; error?: any};
         try {
             res = await this.store.dispatch(doAppCall<ResponseType>(fullCall));
         } catch (e) {

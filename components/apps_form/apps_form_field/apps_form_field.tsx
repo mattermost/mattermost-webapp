@@ -31,7 +31,7 @@ export type Props = {
     value: AppSelectOption | string | boolean | number | null;
     onChange: (name: string, value: any) => void;
     autoFocus?: boolean;
-    listComponent?: React.ComponentClass,
+    listComponent?: React.ComponentClass;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
     isSubmit: boolean;
     actions: {
