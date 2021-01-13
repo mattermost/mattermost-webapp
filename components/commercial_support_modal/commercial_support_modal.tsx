@@ -6,6 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
+import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import './commercial_support_modal.scss';
@@ -18,10 +19,13 @@ type Props = {
     onHide: () => void;
 
     show?: boolean;
+
+    showBannerWarning: boolean;
 };
 
 type State = {
     show: boolean;
+    showBannerWarning: boolean;
 };
 
 export default class CommercialSupportModal extends React.PureComponent<Props, State> {
@@ -34,6 +38,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
 
         this.state = {
             show: true,
+            showBannerWarning: props.showBannerWarning,
         };
     }
 
@@ -45,7 +50,12 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
         this.props.onHide();
     }
 
+    hideBannerWarning = () => {
+        this.setState({showBannerWarning: false});
+    }
+
     render() {
+        const {showBannerWarning} = this.state;
         return (
             <Modal
                 id='commercialSupportModal'
@@ -70,7 +80,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                         />
                         <a
                             className='btn btn-primary DownloadSupportPacket'
-                            href={`${Client4.getBaseRoute()}/system/generate_support_packet`}
+                            href={`${Client4.getBaseRoute()}/system/support_packet`}
                             target='_blank'
                             rel='noopener noreferrer'
                         >
@@ -79,13 +89,18 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                                 defaultMessage='Download Support Packet'
                             />
                         </a>
-                        <div className='alert alert-info DebugLevelNotSet'>
-                            <i className='fa  fa-exclamation-circle'/>
-                            <FormattedMarkdownMessage
-                                id='commercial_support.warning.banner'
-                                defaultMessage='Before downloading the support packet, set **Output Logs to File** to **true** and set **File Log Level** to **DEBUG** [here](!/admin_console/environment/logging). Afterwards, please recreate the issue with these settings before submitting.'
+                        {showBannerWarning && 
+                            <AlertBanner
+                                mode='info'
+                                message={         
+                                    <FormattedMarkdownMessage
+                                        id='commercial_support.warning.banner'
+                                        defaultMessage='Before downloading the support packet, set **Output Logs to File** to **true** and set **File Log Level** to **DEBUG** [here](!/admin_console/environment/logging).'
+                                    />
+                                }
+                                onDismiss={this.hideBannerWarning}
                             />
-                        </div>
+                        }
                     </div>
                 </Modal.Body>
             </Modal>

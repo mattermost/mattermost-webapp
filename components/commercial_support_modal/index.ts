@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 
@@ -12,8 +13,12 @@ import CommercialSupportModal from './commercial_support_modal';
 
 function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.COMMERCIAL_SUPPORT;
+    const config = getConfig(state);
+    const showBannerWarning = config.EnableFile !== 'true' || config.FileLevel !== 'DEBUG';
+
     return {
         show: isModalOpen(state, modalId),
+        showBannerWarning,
     };
 }
 
