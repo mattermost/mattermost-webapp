@@ -436,6 +436,7 @@ class ChannelHeader extends React.PureComponent {
                         verticalAlign: 'text-top',
                         marginLeft: '4px',
                         marginRight: '4px',
+                        marginTop: '2px',
                     }}
                 />
             );
