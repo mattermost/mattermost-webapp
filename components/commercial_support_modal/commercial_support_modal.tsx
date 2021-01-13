@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -46,7 +47,6 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
     }
 
     render() {
-        const descriptionText = 'If you\'re experiencing issues, [submit a support ticket.](!https://support.mattermost.com/hc/en-us/requests/new)\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.';
         return (
             <Modal
                 id='commercialSupportModal'
@@ -67,7 +67,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                     <div className='CommercialSupportModal'>
                         <FormattedMarkdownMessage
                             id='commercial_support.description'
-                            defaultMessage={descriptionText}
+                            defaultMessage={'If you\'re experiencing issues, [submit a support ticket.](!https://support.mattermost.com/hc/en-us/requests/new)\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.'}
                         />
                         <a
                             className='btn btn-primary DownloadSupportPacket'
