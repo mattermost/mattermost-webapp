@@ -48,7 +48,7 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
       "auto_complete": true,
       "auto_complete_desc": "auto_complete_desc",
       "auto_complete_hint": "auto_complete_hint",
-      "create_at": "1499722850203",
+      "create_at": 1499722850203,
       "creator_id": "88oybd1dwfdoxpkpw1h5kpbyco",
       "delete_at": 0,
       "description": "description",
@@ -100,8 +100,21 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
   serverError=""
   team={
     Object {
+      "allow_open_invite": false,
+      "allowed_domains": "",
+      "company_name": "",
+      "create_at": 0,
+      "delete_at": 0,
+      "description": "",
+      "display_name": "name",
+      "email": "",
+      "group_constrained": false,
       "id": "m5gix3oye3du8ghk4ko6h9cq7y",
+      "invite_id": "",
       "name": "test",
+      "scheme_id": "id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 />

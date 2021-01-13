@@ -488,7 +488,8 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should not open the emoji picker by shortcut if RHS is fully expanded for search results, recent mentions, saved and pinned posts', () => {
         // # Open the saved message
-        cy.findByLabelText('Saved posts').click();
+        cy.findByRole('banner', {name: 'channel header region'}).should('be.visible').
+            findByRole('button', {name: 'Saved posts'}).should('be.visible').click();
 
         // # Expand the saved message
         cy.findByLabelText('Expand Sidebar Icon').click();
