@@ -17,7 +17,7 @@ import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 function mapStateToProps() {
     return (state: GlobalState) => {
-        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS);
+        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, 20);
 
         return {
             selectedDmNumber,
