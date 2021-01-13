@@ -14,7 +14,7 @@ type Props = {
     url?: string | null;
 
     /** Team display name (used for the initials) if icon URL is not set */
-    content: string | JSX.Element;
+    content: React.ReactNode;
 
     /**
      * Size of the icon, "sm", "md" or "lg".
@@ -71,7 +71,7 @@ export class TeamIcon extends React.PureComponent<Props> {
             icon = content;
         }
         return (
-            <div className={classNames(`TeamIcon ${hoverCss} TeamIcon__${size} ${className}`, {withImage: teamIconUrl})}>
+            <div className={classNames(`TeamIcon TeamIcon__${size}`, {withImage: teamIconUrl}, className, hoverCss)}>
                 <div className={`TeamIcon__content ${hoverCss}`}>
                     {icon}
                 </div>

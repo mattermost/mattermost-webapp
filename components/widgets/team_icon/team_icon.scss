@@ -78,6 +78,29 @@
         border: none;
         width: 40px;
         height: 40px;
+
+        .TeamIcon__image {
+            transition: transform 200ms;
+            transform-origin: center center;
+            transform: scale(1);
+            border-radius: 8px;
+        }
+
+        &:hover {
+            box-shadow: inset 0 0 0 3px #0E4289, 0 0 0 3px rgba(255, 255, 255, 0.32);
+
+            .TeamIcon__image {
+                transform: scale(0.85);
+            }
+        }
+    }
+
+    &.withImage.active {
+        box-shadow: inset 0 0 0 3px #0E4289, 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
+
+        .TeamIcon__image {
+            transform: scale(0.85);
+        }
     }
 
     .TeamIcon__image {
