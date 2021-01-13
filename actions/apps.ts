@@ -3,8 +3,8 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppCall, AppForm, AppBinding, AppFormValues} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppBindingPresentations} from 'mattermost-redux/constants/apps';
+import {AppCallResponse, AppCall, AppForm, AppBinding, AppFormValues, AppLookupCallValues} from 'mattermost-redux/types/apps';
+import {AppCallTypes, AppCallResponseTypes, AppBindingPresentations} from 'mattermost-redux/constants/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';
@@ -16,7 +16,7 @@ import {ModalIdentifiers} from 'utils/constants';
 const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (call && call.context.channel_id) || '', call && call.context.root_id);
 
 export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
-    return async () => {
+    return async (dispatch: DispatchFunc) => {
         const res = await Client4.executeAppCall(call) as AppCallResponse<Res>;
 
         const responseType = res.type || AppCallResponseTypes.OK;
@@ -40,6 +40,10 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
                 return {data: res};
             }
 
+            if (call.type === AppCallTypes.SUBMIT) {
+                dispatch(openAppsModal(res.form, call));
+            }
+
             return {data: res};
         }
 
@@ -47,26 +51,7 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
     };
 }
 
-export function doAppCallWithBinding<Res=unknown>(call: AppCall, binding: AppBinding): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const res = await dispatch(doAppCall<Res>(call));
-        if (binding.presentation === AppBindingPresentations.MODAL && 'data' in res) {
-            const form = res.data.form as AppForm;
-            if (form) {
-                dispatch(openAppsModal(form, call));
-            }
-        }
-        return res;
-    };
-}
-
-export type LookupCallValues = {
-    user_input: string;
-    values: AppFormValues;
-    name: string;
-}
-
-export function makeLookupCallPayload(name: string, userInput: string, formValues: AppFormValues): LookupCallValues {
+export function makeLookupCallPayload(name: string, userInput: string, formValues: AppFormValues): AppLookupCallValues {
     return {
         name,
         user_input: userInput,

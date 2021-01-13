@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
+import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
-import {makeLookupCallPayload} from 'mattermost-redux/actions/apps';
-
-import {AppsBindings, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
     AppCall,
@@ -34,7 +32,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
-import {doAppCall} from 'actions/apps';
+import {doAppCall, makeLookupCallPayload} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -116,14 +114,14 @@ export class AppCommandParser {
     // getCommandBindings returns the commands in the redux store.
     // They are grouped by app id since each app has one base command
     getCommandBindings = (): AppBinding[] => {
-        const bindings = getAppsBindings(this.store.getState(), AppsBindings.COMMAND);
+        const bindings = getAppBindings(this.store.getState(), AppBindingLocations.COMMAND);
         const grouped: {[appID: string]: AppBinding} = {};
 
         for (const b of bindings) {
             grouped[b.app_id] = grouped[b.app_id] || {
                 app_id: b.app_id,
                 label: b.app_id,
-                location: AppsBindings.COMMAND,
+                location: AppBindingLocations.COMMAND,
                 bindings: [],
             };
 
@@ -182,7 +180,7 @@ export class AppCommandParser {
             channel_id: channel.id,
             team_id: teamID,
             root_id: this.rootPostID,
-            location: AppsBindings.COMMAND,
+            location: AppBindingLocations.COMMAND,
         };
     }
 

@@ -3,9 +3,10 @@
 
 import React from 'react';
 
-import {makeLookupCallPayload} from 'mattermost-redux/actions/apps';
 import {AppCall, AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppContext} from 'mattermost-redux/types/apps';
-import {AppsBindings, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCallTypes, AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+
+import {makeLookupCallPayload} from 'actions/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -56,14 +57,12 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
             return makeError('submitForm props.call is not defined');
         }
 
-        const outCall: AppCall = {
-            ...call,
-            type: '',
-            values: submission.values,
-        };
-
         try {
-            const res = await this.props.actions.doAppCall(outCall);
+            const res = await this.props.actions.doAppCall({
+                ...call,
+                type: AppCallTypes.SUBMIT,
+                values: submission.values,
+            });
             return res;
         } catch (e) {
             return {data: {type: 'error', error: e.message}};
@@ -90,18 +89,16 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
             };
         }
 
-        const outCall: AppCall = {
-            ...call,
-            type: 'form',
-            values: {
-                name: field.name,
-                values,
-                value,
-            },
-        };
-
         try {
-            const res = await this.props.actions.doAppCall(outCall);
+            const res = await this.props.actions.doAppCall({
+                ...call,
+                type: AppCallTypes.FORM,
+                values: {
+                    name: field.name,
+                    values,
+                    value,
+                },
+            });
 
             if (res?.data?.form) {
                 this.setState({form: res.data.form});
@@ -114,10 +111,6 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
     };
 
     performLookupCall = async (field: AppField, formValues: AppFormValues, userInput: string): Promise<AppSelectOption[]> => {
-        if (!field.refresh) {
-            return [];
-        }
-
         const call = this.getCall();
         if (!call) {
             return [];
@@ -126,7 +119,7 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
         const values = makeLookupCallPayload(field.name, userInput, formValues);
         const res = await this.props.actions.doAppCall({
             ...call,
-            type: 'lookup',
+            type: AppCallTypes.LOOKUP,
             values,
         });
 
@@ -157,7 +150,7 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
                 ...call.context,
                 ...form?.call?.context,
                 app_id: call.context.app_id,
-                location: postID ? AppsBindings.IN_POST : call.context.location,
+                location: postID ? AppBindingLocations.IN_POST : call.context.location,
                 post_id: postID || call.context.post_id,
                 team_id: postID ? teamID : call.context.team_id,
                 channel_id: postID ? channelID : call.context.channel_id,
@@ -174,7 +167,7 @@ export default class AppsFormContainer extends React.PureComponent<Props, State>
 
         return {
             app_id: call.context.app_id,
-            location: postID ? AppsBindings.IN_POST : call.context.location,
+            location: postID ? AppBindingLocations.IN_POST : call.context.location,
             post_id: postID,
             team_id: postID ? teamID : call.context.team_id,
             channel_id: postID ? channelID : call.context.channel_id,

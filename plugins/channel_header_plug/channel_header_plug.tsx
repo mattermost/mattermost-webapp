@@ -11,6 +11,7 @@ import {FormattedMessage} from 'react-intl';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
 import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -96,7 +97,7 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCallWithBinding: (call: AppCall, binding: AppBinding) => void;
+        doAppCall: (call: AppCall) => void;
     }
 }
 
@@ -144,15 +145,16 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
             return;
         }
 
-        this.props.actions.doAppCallWithBinding({
+        this.props.actions.doAppCall({
             ...binding.call,
+            type: AppCallTypes.SUBMIT,
             context: {
                 app_id: binding.app_id,
                 location: binding.location,
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
-        }, binding);
+        });
     }
 
     createAppBindingButton = (binding: AppBinding) => {
@@ -201,15 +203,16 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                     <a
                         href='#'
                         className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCallWithBinding({
-                            url: binding.call!.url,
+                        onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
+                            ...binding.call,
+                            type: AppCallTypes.SUBMIT,
                             context: {
                                 app_id: binding.app_id,
                                 location: binding.location,
                                 team_id: this.props.channel.team_id,
                                 channel_id: this.props.channel.id,
                             },
-                        }, binding))}
+                        }))}
                     >
                         <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
                         <span>{binding.label}</span>

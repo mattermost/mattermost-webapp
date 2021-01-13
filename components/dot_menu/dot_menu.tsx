@@ -9,6 +9,7 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -99,7 +100,7 @@ export type Props = {
          * Function to set the unread mark at given post
          */
         markPostAsUnread: (post: Post) => void,
-        doAppCallWithBinding: (call: AppCall, binding: AppBinding) => void,
+        doAppCall: (call: AppCall) => void,
     }
 }
 
@@ -288,8 +289,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         if (!binding.call) {
             return;
         }
-        this.props.actions.doAppCallWithBinding({
+        this.props.actions.doAppCall({
             ...binding.call,
+            type: AppCallTypes.SUBMIT,
             context: {
                 app_id: binding.app_id,
                 location: binding.location,
@@ -298,7 +300,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 post_id: this.props.post.id,
                 root_id: this.props.post.root_id,
             },
-        }, binding);
+        });
     }
 
     render() {

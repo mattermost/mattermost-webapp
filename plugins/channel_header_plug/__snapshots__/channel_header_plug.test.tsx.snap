@@ -4,7 +4,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
 <ChannelHeaderPlug
   actions={
     Object {
-      "doAppCallWithBinding": [MockFunction],
+      "doAppCall": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -19,7 +19,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
 <ChannelHeaderPlug
   actions={
     Object {
-      "doAppCallWithBinding": [MockFunction],
+      "doAppCall": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -124,7 +124,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
 <ChannelHeaderPlug
   actions={
     Object {
-      "doAppCallWithBinding": [MockFunction],
+      "doAppCall": [MockFunction],
     }
   }
   appBindings={Array []}
