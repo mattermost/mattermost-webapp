@@ -3,19 +3,20 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {Tooltip} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Tooltip } from 'react-bootstrap';
 
-import {localizeMessage} from 'utils/utils.jsx';
-import {browserHistory} from 'utils/browser_history';
-import {mark, trackEvent} from 'actions/telemetry_actions.jsx';
-import {isDesktopApp} from 'utils/user_agent';
+import { localizeMessage } from 'utils/utils.jsx';
+import { browserHistory } from 'utils/browser_history';
+import { mark, trackEvent } from 'actions/telemetry_actions.jsx';
+import { isDesktopApp } from 'utils/user_agent';
 import Constants from 'utils/constants';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji.tsx';
 
 export default class SidebarChannelButtonOrLink extends React.PureComponent {
     static propTypes = {
@@ -63,9 +64,9 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     enableToolTipIfNeeded = () => {
         const element = this.displayNameRef.current;
         if (element && element.offsetWidth < element.scrollWidth) {
-            this.setState({showTooltip: true});
+            this.setState({ showTooltip: true });
         } else {
-            this.setState({showTooltip: false});
+            this.setState({ showTooltip: false });
         }
     }
 
@@ -97,6 +98,16 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
+        let customStatus = null;
+        if (this.props.channelType === Constants.DM_CHANNEL) {
+            customStatus = (
+                <CustomStatusEmoji
+                    userID={this.props.teammateId}
+                    showTooltip={true}
+                />
+            )
+        }
+
         const content = (
             <React.Fragment>
                 <SidebarChannelButtonOrLinkIcon
@@ -115,6 +126,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                         {this.props.displayName}
                     </span>
                 </span>
+                {customStatus}
                 {badge}
                 <SidebarChannelButtonOrLinkCloseButton
                     handleClose={this.props.handleClose}
@@ -207,5 +219,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
 const style = {
     channelTooltip: {
         paddingLeft: '8px',
-        maxWidth: '228px'},
+        maxWidth: '228px'
+    },
 };

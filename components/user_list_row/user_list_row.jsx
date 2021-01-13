@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Client4} from 'mattermost-redux/client';
+import { Client4 } from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture';
@@ -11,6 +11,7 @@ import UserProfile from 'components/user_profile';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Nbsp from 'components/html_entities/nbsp';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class UserListRow extends React.PureComponent {
     static propTypes = {
@@ -108,13 +109,15 @@ export default class UserListRow extends React.PureComponent {
                             hasMention={true}
                             displayUsername={true}
                         />
-                        <Nbsp/>
+                        <Nbsp />
                         {
                             this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
                                 '-' : null
                         }
-                        <Nbsp/>
+                        <Nbsp />
                         {Utils.displayFullAndNicknameForUser(this.props.user)}
+                        <Nbsp />
+                        <CustomStatusEmoji userID={this.props.user.id} showTooltip={true} />
                     </div>
                     <div
                         id={userCountEmail}

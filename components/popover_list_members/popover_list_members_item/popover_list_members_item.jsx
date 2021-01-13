@@ -4,14 +4,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {Client4} from 'mattermost-redux/client';
+import { Client4 } from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
 import MessageIcon from 'components/widgets/icons/message_icon';
-import {UserStatuses} from 'utils/constants';
+import { UserStatuses } from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class PopoverListMembersItem extends React.PureComponent {
     static propTypes = {
@@ -42,7 +43,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
         let messageIcon;
         if (this.props.showMessageIcon) {
             messageIcon = (
-                <MessageIcon aria-hidden='true'/>
+                <MessageIcon aria-hidden='true' />
             );
         }
 
@@ -66,15 +67,16 @@ export default class PopoverListMembersItem extends React.PureComponent {
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
                         {this.props.displayName}
+                        <BotBadge
+                            show={Boolean(this.props.user.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={Utils.isGuest(this.props.user)}
+                            className='badge-popoverlist'
+                        />
+                        <CustomStatusEmoji userID={this.props.user.id} showTooltip={true} />
                     </div>
-                    <BotBadge
-                        show={Boolean(this.props.user.is_bot)}
-                        className='badge-popoverlist'
-                    />
-                    <GuestBadge
-                        show={Utils.isGuest(this.props.user)}
-                        className='badge-popoverlist'
-                    />
                 </div>
                 <div className='more-modal__actions'>
                     {messageIcon}
