@@ -12,6 +12,7 @@ describe('components/CommercialSupportModal', () => {
             <CommercialSupportModal
                 show={true}
                 onHide={jest.fn()}
+                showBannerWarning={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();
