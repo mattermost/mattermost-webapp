@@ -20,7 +20,7 @@ interface Props {
     btnClass?: string;
     url: string;
     displayName?: string;
-    content?: string | JSX.Element;
+    content?: React.ReactNode;
     tip: string | JSX.Element;
     order?: number;
     showOrder?: boolean;
