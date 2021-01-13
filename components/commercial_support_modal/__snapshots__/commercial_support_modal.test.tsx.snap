@@ -61,7 +61,7 @@ We recommend that you download additional environment details about your Matterm
       />
       <a
         className="btn btn-primary DownloadSupportPacket"
-        href="/api/v4/system/generate_support_packet"
+        href="/api/v4/system/support_packet"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -70,17 +70,16 @@ We recommend that you download additional environment details about your Matterm
           id="commercial_support.download_support_packet"
         />
       </a>
-      <div
-        className="alert alert-info DebugLevelNotSet"
-      >
-        <i
-          className="fa  fa-exclamation-circle"
-        />
-        <injectIntl(FormattedMarkdownMessage)
-          defaultMessage="Before downloading the support packet, set **Output Logs to File** to **true** and set **File Log Level** to **DEBUG** [here](!/admin_console/environment/logging). Afterwards, please recreate the issue with these settings before submitting."
-          id="commercial_support.warning.banner"
-        />
-      </div>
+      <AlertBanner
+        message={
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Before downloading the support packet, set **Output Logs to File** to **true** and set **File Log Level** to **DEBUG** [here](!/admin_console/environment/logging)."
+            id="commercial_support.warning.banner"
+          />
+        }
+        mode="info"
+        onDismiss={[Function]}
+      />
     </div>
   </ModalBody>
 </Modal>
