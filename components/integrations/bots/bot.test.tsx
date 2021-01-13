@@ -3,30 +3,36 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-
 import {FormattedMessage} from 'react-intl';
 
 import Markdown from 'components/markdown';
-
 import TestHelper from 'tests/helpers/client-test-helper';
+import {TestHelper as UtilsTestHelper} from 'utils/test_helper';
 
-import Bot from './bot.jsx';
+import Bot from './bot';
 
 describe('components/integrations/bots/Bot', () => {
-    const team = TestHelper.fakeTeam();
+    const team = UtilsTestHelper.getTeamMock();
+    const actions = {
+        disableBot: jest.fn(),
+        enableBot: jest.fn(),
+        createUserAccessToken: jest.fn(),
+        revokeUserAccessToken: jest.fn(),
+        enableUserAccessToken: jest.fn(),
+        disableUserAccessToken: jest.fn(),
+    };
 
     it('regular bot', () => {
-        const bot = TestHelper.fakeBot();
-        const user = {
-            id: bot.user_id,
-        };
+        const bot = UtilsTestHelper.getBotMock({user_id: '1'});
+        const user = UtilsTestHelper.getUserMock({id: bot.user_id});
         const wrapper = shallow(
             <Bot
                 bot={bot}
                 user={user}
-                owner={null}
+                owner={undefined}
                 accessTokens={{}}
                 team={team}
+                actions={actions}
             />,
         );
 
@@ -62,18 +68,17 @@ describe('components/integrations/bots/Bot', () => {
     });
 
     it('disabled bot', () => {
-        const bot = TestHelper.fakeBot();
+        const bot = UtilsTestHelper.getBotMock({user_id: '1'});
         bot.delete_at = 100; // disabled
-        const user = {
-            id: bot.user_id,
-        };
+        const user = UtilsTestHelper.getUserMock({id: bot.user_id});
         const wrapper = shallow(
             <Bot
                 bot={bot}
                 user={user}
-                owner={null}
+                owner={undefined}
                 accessTokens={{}}
                 team={team}
+                actions={actions}
             />,
         );
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
@@ -106,11 +111,9 @@ describe('components/integrations/bots/Bot', () => {
     });
 
     it('bot with owner', () => {
-        const bot = TestHelper.fakeBot();
-        const owner = TestHelper.fakeUser();
-        const user = {
-            id: bot.user_id,
-        };
+        const bot = UtilsTestHelper.getBotMock({user_id: '1', owner_id: '1'});
+        const owner = UtilsTestHelper.getUserMock({id: bot.owner_id});
+        const user = UtilsTestHelper.getUserMock({id: bot.user_id});
         const wrapper = shallow(
             <Bot
                 bot={bot}
@@ -118,6 +121,7 @@ describe('components/integrations/bots/Bot', () => {
                 user={user}
                 accessTokens={{}}
                 team={team}
+                actions={actions}
             />,
         );
         expect(wrapper.contains(owner.username)).toEqual(true);
@@ -145,27 +149,24 @@ describe('components/integrations/bots/Bot', () => {
     });
 
     it('bot with access tokens', () => {
-        const bot = TestHelper.fakeBot();
+        const bot = UtilsTestHelper.getBotMock({user_id: '1'});
         const tokenId = TestHelper.generateId();
-        const user = {
-            id: bot.user_id,
-        };
+        const user = UtilsTestHelper.getUserMock({id: bot.user_id});
         const accessTokens = {
-            tokenId: {
+            tokenId: UtilsTestHelper.getUserAccessTokenMock({
                 id: tokenId,
                 user_id: bot.user_id,
-                description: 'tokendesc1',
-                is_active: true,
-            },
+            }),
         };
 
         const wrapper = shallow(
             <Bot
                 bot={bot}
-                owner={null}
+                owner={undefined}
                 user={user}
                 accessTokens={accessTokens}
                 team={team}
+                actions={actions}
             />,
         );
 
@@ -185,28 +186,26 @@ describe('components/integrations/bots/Bot', () => {
     });
 
     it('bot with disabled access tokens', () => {
-        const bot = TestHelper.fakeBot();
+        const bot = UtilsTestHelper.getBotMock({user_id: '1'});
         const tokenId = TestHelper.generateId();
-        const user = {
-            id: bot.user_id,
-        };
+        const user = UtilsTestHelper.getUserMock({id: bot.user_id});
 
         const accessTokens = {
-            tokenId: {
+            tokenId: UtilsTestHelper.getUserAccessTokenMock({
                 id: tokenId,
                 user_id: bot.user_id,
-                description: 'tokendesc1',
                 is_active: false,
-            },
+            }),
         };
 
         const wrapper = shallow(
             <Bot
                 bot={bot}
-                owner={null}
+                owner={undefined}
                 user={user}
                 accessTokens={accessTokens}
                 team={team}
+                actions={actions}
             />,
         );
 
