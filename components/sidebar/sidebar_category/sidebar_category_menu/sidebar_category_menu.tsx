@@ -169,9 +169,8 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         case CategorySorting.Recency:
             selectedValueText = intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'});
             break;
-        case CategorySorting.Manual:
+        default:
             selectedValueText = intl.formatMessage({id: 'sidebar.sortedManually', defaultMessage: 'Manually'});
-            break;
         }
 
         let icon;
@@ -183,9 +182,8 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         case CategorySorting.Recency:
             icon = <i className='icon-clock-outline'/>;
             break;
-        case CategorySorting.Manual:
+        default:
             icon = <i className='icon-format-list-bulleted'/>;
-            break;
         }
 
         return (
