@@ -29,7 +29,7 @@ declare namespace Cypress {
         * @param {number} start - start time of the job.
         * @returns {string} - current status of job
         */
-       getLdapSyncJobStatus(start: number): string;
+        getLdapSyncJobStatus(start: number): string;
 
         /**
         * waitForLdapSyncCompletion is a task that runs recursively
@@ -37,6 +37,6 @@ declare namespace Cypress {
         * @param {number} start - start time of the job.
         * @param {number} timeout - the maxmimum time to wait for the job to complete
         */
-       waitForLdapSyncCompletion(start: number, timeout: number): void;
+        waitForLdapSyncCompletion(start: number, timeout: number): void;
     }
 }

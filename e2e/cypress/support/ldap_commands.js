@@ -160,7 +160,7 @@ Cypress.Commands.add('waitForLdapSyncCompletion', (start, timeout) => {
     if (Date.now() - start > timeout) {
         throw new Error('Timeout Waiting for LdapSync');
     }
-    
+
     cy.getLdapSyncJobStatus(start).then((status) => {
         if (status === 'success') {
             return;

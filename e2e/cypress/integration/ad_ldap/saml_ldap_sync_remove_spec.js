@@ -136,7 +136,6 @@ describe('AD / LDAP', () => {
                             cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
                             cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
 
-
                             // # MM Login via SAML
                             cy.doSamlLogin(testSettings).then(() => {
                                 // # Login to Keycloak

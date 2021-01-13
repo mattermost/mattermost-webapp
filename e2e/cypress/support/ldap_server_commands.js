@@ -6,5 +6,5 @@ Cypress.Commands.add('modifyLDAPUsers', (filename) => {
 });
 
 Cypress.Commands.add('resetLDAPUsers', () => {
-    cy.modifyLDAPUsers("ldap-reset-data.ldif");
+    cy.modifyLDAPUsers('ldap-reset-data.ldif');
 });
