@@ -28,14 +28,16 @@ const AlertBanner: React.FC<Props> = (props: Props) => {
                 }
             </div>
             <div className='AlertBanner__body'>
-                {title && 
+                {title &&
                     <div className='AlertBanner__title'>
                         {title}
                     </div>
                 }
-                <div className={classNames({
-                    AlertBanner__message: Boolean(title)
-                })}>
+                <div
+                    className={classNames({
+                        AlertBanner__message: Boolean(title),
+                    })}
+                >
                     {message}
                 </div>
             </div>

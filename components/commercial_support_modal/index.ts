@@ -3,9 +3,10 @@
 
 import {connect} from 'react-redux';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 

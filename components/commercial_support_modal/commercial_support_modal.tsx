@@ -89,10 +89,10 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                                 defaultMessage='Download Support Packet'
                             />
                         </a>
-                        {showBannerWarning && 
+                        {showBannerWarning &&
                             <AlertBanner
                                 mode='info'
-                                message={         
+                                message={
                                     <FormattedMarkdownMessage
                                         id='commercial_support.warning.banner'
                                         defaultMessage='Before downloading the support packet, set **Output Logs to File** to **true** and set **File Log Level** to **DEBUG** [here](!/admin_console/environment/logging).'
