@@ -316,7 +316,7 @@ Cypress.Commands.add('apiActivateUser', (userId) => {
         },
     };
 
-    // # Deactivate a user account
+    // # Activate a user account
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);

@@ -109,7 +109,7 @@ const getDefaultConfig = () => {
             LdapPort: cypressEnv.ldapPort,
         },
         ServiceSettings: {
-            AllowedUntrustedInternalConnections: `localhost,${cypressEnv.ciBaseUrl}`,
+            AllowedUntrustedInternalConnections: 'localhost',
             SiteURL: Cypress.config('baseUrl'),
         },
     };
