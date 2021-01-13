@@ -7,11 +7,15 @@ declare namespace Cypress {
     type AdminConfig = import('mattermost-redux/types/config').AdminConfig;
     type AnalyticsRow = import('mattermost-redux/types/admin').AnalyticsRow;
     type Bot = import('mattermost-redux/types/bots').Bot;
+    type BotPatch = import('mattermost-redux/types/bots').BotPatch;
     type Channel = import('mattermost-redux/types/channels').Channel;
+    type Client = import('./client-impl').E2EClient;
     type ClientLicense = import('mattermost-redux/types/config').ClientLicense;
     type ChannelMembership = import('mattermost-redux/types/channels').ChannelMembership;
     type ChannelType = import('mattermost-redux/types/channels').ChannelType;
-    type Permissions = Array<string>;
+    type IncomingWebhook = import('mattermost-redux/types/integrations').IncomingWebhook;
+    type OutgoingWebhook = import('mattermost-redux/types/integrations').OutgoingWebhook;
+    type Permissions = string[];
     type PluginManifest = import('mattermost-redux/types/plugins').PluginManifest;
     type PluginsResponse = import('mattermost-redux/types/plugins').PluginsResponse;
     type PreferenceType = import('mattermost-redux/types/preferences').PreferenceType;
@@ -23,4 +27,5 @@ declare namespace Cypress {
     type TermsOfService = import('mattermost-redux/types/terms_of_service').TermsOfService;
     type UserProfile = import('mattermost-redux/types/users').UserProfile;
     type UserStatus = import('mattermost-redux/types/users').UserStatus;
+    type UserAccessToken = import('mattermost-redux/types/users').UserAccessToken;
 }

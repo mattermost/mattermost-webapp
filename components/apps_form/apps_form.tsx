@@ -25,6 +25,8 @@ export type Props = {
     call: AppCall;
     form: AppForm;
     isEmbedded?: boolean;
+    modal: AppModalState;
+    appID?: string;
     onHide: () => void;
     actions: {
         submit: (submission: {
@@ -40,8 +42,8 @@ export type Props = {
 
 type FormResponseData = {
     errors: {
-        [field: string]: string
-    }
+        [field: string]: string;
+    };
 }
 
 type State = {

@@ -10,8 +10,12 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {Post} from 'mattermost-redux/types/posts';
+
+import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
 import {doAppCall} from 'actions/apps';
@@ -23,27 +27,27 @@ import {
     setEditingPost,
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
-import {GlobalState} from 'types/store';
 import * as PostUtils from 'utils/post_utils.jsx';
+
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import DotMenu, {Location} from './dot_menu';
+import DotMenu from './dot_menu';
 
-type OwnProps = {
+type Props = {
     post: Post;
     commentCount?: number;
     isFlagged?: boolean;
-    handleCommentClick?: () => void;
-    handleDropdownOpened?: () => void;
-    handleAddReactionClick?: () => void;
-    isMenuOpen?: boolean;
-    isReadOnly?: boolean;
-    enableEmojiPicker: boolean;
-    location: Location,
-}
+    handleCommentClick: React.EventHandler<React.MouseEvent>;
+    handleCardClick?: (post: Post) => void;
+    handleDropdownOpened: (open: boolean) => void;
+    handleAddReactionClick: () => void;
+    isMenuOpen: boolean;
+    isReadOnly: boolean | null;
+    enableEmojiPicker?: boolean;
+};
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
     const license = getLicense(state);
@@ -55,16 +59,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const appBindings = getAppBindings(state, AppBindingLocations.POST_MENU_ITEM);
 
-    let postEditTimeLimit;
-    if (config.PostEditTimeLimit) {
-        postEditTimeLimit = parseInt(config.PostEditTimeLimit, 10);
-    }
-
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
-        postEditTimeLimit,
-        isLicensed: getLicense(state).IsLicensed === 'true',
+        postEditTimeLimit: config.PostEditTimeLimit,
+        isLicensed: license.IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),

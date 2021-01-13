@@ -202,7 +202,7 @@ export class AppCommandParser {
 
         let callResponse: AppCallResponse | undefined;
         try {
-            const res = await this.store.dispatch(doAppCall(payload)) as {data?: AppCallResponse, error?: Error};
+            const res = await this.store.dispatch(doAppCall(payload)) as {data?: AppCallResponse; error?: Error};
             if (res.error) {
                 this.displayError(res.error);
                 return null;
@@ -226,7 +226,7 @@ export class AppCommandParser {
         if (err.message) {
             errStr = err.message;
         }
-        sendEphemeralPost(errStr, '');
+        sendEphemeralPost(errStr, '', '');
 
         // TODO display error under the command line
     }

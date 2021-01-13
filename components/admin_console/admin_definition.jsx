@@ -23,6 +23,7 @@ import CustomPluginSettings from 'components/admin_console/custom_plugin_setting
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
+import OpenIdConvert from './openid_convert';
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
 import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
@@ -30,6 +31,8 @@ import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
 import PermissionTeamSchemeSettings from './permission_schemes_settings/permission_team_scheme_settings';
+import SystemRoles from './system_roles';
+import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
@@ -47,6 +50,7 @@ import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
 import BleveSettings from './bleve_settings.jsx';
+import FeatureFlags from './feature_flags.tsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
@@ -79,7 +83,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 // name_default), the section in the config file (id), and a list of options to
 // configure (settings).
 //
-// All text fiels contains a transation key, and the <field>_default string are the
+// All text fields contains a translation key, and the <field>_default string are the
 // default text when the translation is still not avaiable (the english version
 // of the text).
 //
@@ -147,20 +151,20 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, consoleAccess) => {
-        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func;
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func;
     },
-    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess) : !func) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func) {
                 return false;
             }
         }
         return true;
     },
-    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess) : func) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud) : func) {
                 return true;
             }
         }
@@ -172,11 +176,44 @@ export const it = {
     stateIsFalse: (key) => (config, state) => !state[key],
     configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
     configIsFalse: (group, setting) => (config) => !config[group][setting],
+    configContains: (group, setting, word) => (config) => Boolean(config[group][setting].includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
+    isPaidTier: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        if (!cloud?.subscription) {
+            return false;
+        }
+        return cloud.subscription.is_paid_tier === 'true';
+    },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
+};
+
+const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    return it.any(
+        it.all(
+            it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
+            it.any(
+                it.configIsTrue('GitLabSettings', 'Id'),
+                it.configIsTrue('GitLabSettings', 'Secret'),
+            ),
+        ),
+        it.all(
+            it.not(it.configContains('GoogleSettings', 'Scope', 'openid')),
+            it.any(
+                it.configIsTrue('GoogleSettings', 'Id'),
+                it.configIsTrue('GoogleSettings', 'Secret'),
+            ),
+        ),
+        it.all(
+            it.not(it.configContains('Office365Settings', 'Scope', 'openid')),
+            it.any(
+                it.configIsTrue('Office365Settings', 'Id'),
+                it.configIsTrue('Office365Settings', 'Secret'),
+            ),
+        ),
+    )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
 
 const AdminDefinition = {
@@ -216,6 +253,7 @@ const AdminDefinition = {
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
             it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
+            it.not(it.userHasReadPermissionOnResource('billing')),
         ),
         subscription: {
             url: 'billing/subscription',
@@ -228,6 +266,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         billing_history: {
             url: 'billing/billing_history',
@@ -240,6 +279,7 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info: {
             url: 'billing/company_info',
@@ -252,6 +292,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info_edit: {
             url: 'billing/company_info_edit',
@@ -259,11 +300,13 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info: {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
+            isHidden: it.not(it.isPaidTier),
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -271,6 +314,7 @@ const AdminDefinition = {
                 id: 'PaymentInfo',
                 component: PaymentInfo,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info_edit: {
             url: 'billing/payment_info_edit',
@@ -278,6 +322,7 @@ const AdminDefinition = {
                 id: 'PaymentInfoEdit',
                 component: PaymentInfoEdit,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
     },
     reporting: {
@@ -498,6 +543,29 @@ const AdminDefinition = {
                 component: PermissionSchemesSettings,
             },
         },
+        system_role: {
+            url: 'user_management/system_roles/:role_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            schema: {
+                id: 'SystemRole',
+                component: SystemRole,
+            },
+        },
+        system_roles: {
+            url: 'user_management/system_roles',
+            title: t('admin.sidebar.systemRoles'),
+            title_default: 'System Roles (Beta)',
+            searchableStrings: [],
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAPGroups')),
+                it.not(it.userHasReadPermissionOnResource('user_management.system_roles')),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            schema: {
+                id: 'SystemRoles',
+                component: SystemRoles,
+            },
+        },
     },
     environment: {
         icon: 'fa-server',
@@ -693,6 +761,16 @@ const AdminDefinition = {
                         label_default: 'Enable Insecure Outgoing Connections: ',
                         help_text: t('admin.service.insecureTlsDesc'),
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.ManagedResourcePaths',
+                        label: t('admin.service.managedResourcePaths'),
+                        label_default: 'Managed Resource Paths:',
+                        help_text: t('admin.service.managedResourcePathsDescription'),
+                        help_text_default: 'A comma-separated list of paths on the Mattermost server that are managed by another service. See [here](!https://docs.mattermost.com/install/desktop-managed-resources.html) for more information.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -1289,7 +1367,8 @@ const AdminDefinition = {
                         label: t('admin.rate.enableLimiterTitle'),
                         label_default: 'Enable Rate Limiting:',
                         help_text: t('admin.rate.enableLimiterDescription'),
-                        help_text_default: 'When true, APIs are throttled at rates specified below.',
+                        help_text_default: 'When true, APIs are throttled at rates specified below.\n \nRate limiting prevents server overload from too many requests. This is useful to prevent third-party applications or malicous attacks from impacting your server.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -2412,6 +2491,7 @@ const AdminDefinition = {
                         help_text: t('admin.notices.enableAdminNoticesDescription'),
                         help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2421,6 +2501,7 @@ const AdminDefinition = {
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
                         help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
                         help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
             },
@@ -3368,6 +3449,19 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'SamlSettings.IgnoreGuestsLdapSync',
+                        label: t('admin.saml.ignoreGuestsLdapSyncTitle'),
+                        label_default: 'Ignore Guest Users when  Synchronizing with AD/LDAP',
+                        help_text: t('admin.saml.ignoreGuestsLdapSyncDesc'),
+                        help_text_default: 'When true, Mattermost will ignore Guest Users who are identified by the Guest Attribute, when synchronizing with AD/LDAP for user deactivation and removal and Guest deactivation will need to be managed manually via System Console > Users.',
+                        isDisabled: it.any(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'SamlSettings.EnableSyncWithLdapIncludeAuth',
                         label: t('admin.saml.enableSyncWithLdapIncludeAuthTitle'),
                         label_default: 'Override SAML bind data with AD/LDAP information:',
@@ -3960,7 +4054,18 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            isHidden: it.not(it.licensed),
+            tag: {
+                value: (
+                    <FormattedMessage
+                        id='admin.sidebar.oauth.tag'
+                        defaultMessage='deprecated'
+                    />
+                ),
+                shouldDisplay: () => false,
+            },
+            isHidden: it.any(
+                it.not(it.licensed),
+            ),
             schema: {
                 id: 'OAuthSettings',
                 name: t('admin.authentication.oauth'),
@@ -3986,10 +4091,12 @@ const AdminDefinition = {
                     newConfig.GitLabSettings = config.GitLabSettings || {};
                     newConfig.Office365Settings = config.Office365Settings || {};
                     newConfig.GoogleSettings = config.GoogleSettings || {};
+                    newConfig.OpenIdSettings = config.OpenIdSettings || {};
 
                     newConfig.GitLabSettings.Enable = false;
                     newConfig.Office365Settings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
+                    newConfig.OpenIdSettings.Enable = false;
                     newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
 
                     if (config.oauthType === Constants.GITLAB_SERVICE) {
@@ -4006,10 +4113,17 @@ const AdminDefinition = {
                 },
                 settings: [
                     {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: OpenIdConvert,
+                        key: 'OpenIdConvert',
+                        isHidden: () => true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'oauthType',
-                        label: t('admin.oauth.select'),
-                        label_default: 'Select OAuth 2.0 Service Provider:',
+                        label: t('admin.openid.select'),
+                        label_default: 'Select service provider:',
                         options: [
                             {
                                 value: 'off',
@@ -4246,6 +4360,335 @@ const AdminDefinition = {
                         },
                         isDisabled: true,
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
+                    },
+                ],
+            },
+        },
+        openid: {
+            url: 'authentication/openid',
+            title: t('admin.sidebar.openid'),
+            title_default: 'OpenID Connect',
+            isHidden: () => true,
+            schema: {
+                id: 'OpenIdSettings',
+                name: t('admin.authentication.openid'),
+                name_default: 'OpenID Connect',
+                onConfigLoad: (config) => {
+                    const newState = {};
+                    if (config.Office365Settings && config.Office365Settings.Enable) {
+                        newState.openidType = Constants.OFFICE365_SERVICE;
+                    }
+                    if (config.GoogleSettings && config.GoogleSettings.Enable) {
+                        newState.openidType = Constants.GOOGLE_SERVICE;
+                    }
+                    if (config.GitLabSettings && config.GitLabSettings.Enable) {
+                        newState.openidType = Constants.GITLAB_SERVICE;
+                    }
+                    if (config.OpenIdSettings && config.OpenIdSettings.Enable) {
+                        newState.openidType = Constants.OPENID_SERVICE;
+                    }
+                    if (config.GitLabSettings.UserApiEndpoint) {
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    } else if (config.GitLabSettings.DiscoveryEndpoint) {
+                        newState['GitLabSettings.Url'] = config.GitLabSettings.DiscoveryEndpoint.replace('/.well-known/openid-configuration', '');
+                    }
+
+                    return newState;
+                },
+                onConfigSave: (config) => {
+                    const newConfig = {...config};
+                    newConfig.Office365Settings = config.Office365Settings || {};
+                    newConfig.GoogleSettings = config.GoogleSettings || {};
+                    newConfig.GitLabSettings = config.GitLabSettings || {};
+                    newConfig.OpenIdSettings = config.OpenIdSettings || {};
+
+                    newConfig.Office365Settings.Enable = false;
+                    newConfig.GoogleSettings.Enable = false;
+                    newConfig.GitLabSettings.Enable = false;
+                    newConfig.OpenIdSettings.Enable = false;
+
+                    let configSetting = '';
+                    if (config.openidType === Constants.OFFICE365_SERVICE) {
+                        configSetting = 'Office365Settings';
+                    } else if (config.openidType === Constants.GOOGLE_SERVICE) {
+                        configSetting = 'GoogleSettings';
+                    } else if (config.openidType === Constants.GITLAB_SERVICE) {
+                        configSetting = 'GitLabSettings';
+                    } else if (config.openidType === Constants.OPENID_SERVICE) {
+                        configSetting = 'OpenIdSettings';
+                    }
+
+                    if (configSetting !== '') {
+                        newConfig[configSetting].Enable = true;
+                        newConfig[configSetting].Scope = Constants.OPENID_SCOPES;
+                        newConfig[configSetting].UserApiEndpoint = '';
+                        newConfig[configSetting].AuthEndpoint = '';
+                        newConfig[configSetting].TokenEndpoint = '';
+                    }
+
+                    delete newConfig.openidType;
+                    return newConfig;
+                },
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: OpenIdConvert,
+                        key: 'OpenIdConvert',
+                        isHidden: it.any(
+                            it.not(it.licensed),
+                            it.not(usesLegacyOauth),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'openidType',
+                        label: t('admin.openid.select'),
+                        label_default: 'Select service provider:',
+                        options: [
+                            {
+                                value: 'off',
+                                display_name: t('admin.openid.off'),
+                                display_name_default: 'Do not allow sign-in via an OpenID provider.',
+                            },
+                            {
+                                value: Constants.GITLAB_SERVICE,
+                                display_name: t('admin.openid.gitlab'),
+                                display_name_default: 'GitLab',
+                                isHidden: it.not(it.licensedForFeature('OpenId')),
+                                help_text: t('admin.gitlab.EnableMarkdownDesc'),
+                                help_text_default: '1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
+                                help_text_markdown: true,
+                            },
+                            {
+                                value: Constants.GOOGLE_SERVICE,
+                                display_name: t('admin.openid.google'),
+                                display_name_default: 'Google Apps',
+                                isHidden: it.not(it.licensedForFeature('OpenId')),
+                                help_text: t('admin.google.EnableMarkdownDesc'),
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
+                                help_text_markdown: true,
+                            },
+                            {
+                                value: Constants.OFFICE365_SERVICE,
+                                display_name: t('admin.openid.office365'),
+                                display_name_default: 'Office 365',
+                                isHidden: it.not(it.licensedForFeature('OpenId')),
+                                help_text: t('admin.office365.EnableMarkdownDesc'),
+                                help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
+                                help_text_markdown: true,
+                            },
+                            {
+                                value: Constants.OPENID_SERVICE,
+                                display_name: t('admin.oauth.openid'),
+                                display_name_default: 'OpenID Connect (Other)',
+                                isHidden: it.not(it.licensedForFeature('OpenId')),
+                                help_text: t('admin.openid.EnableMarkdownDesc'),
+                                help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
+                                help_text_markdown: true,
+                            },
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitLabSettings.Url',
+                        label: t('admin.gitlab.siteUrl'),
+                        label_default: 'GitLab Site URL:',
+                        help_text: t('admin.gitlab.siteUrlDescription'),
+                        help_text_default: 'Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.',
+                        placeholder: t('admin.gitlab.siteUrlExample'),
+                        placeholder_default: 'E.g.: https://',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitLabSettings.DiscoveryEndpoint',
+                        label: t('admin.openid.discoveryEndpointTitle'),
+                        label_default: 'Discovery Endpoint:',
+                        help_text: t('admin.gitlab.discoveryEndpointDesc'),
+                        help_text_default: 'The URL of the discovery document for OpenID Connect with GitLab.',
+                        help_text_markdown: false,
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitLabSettings.Url']) {
+                                return state['GitLabSettings.Url'].replace(/\/$/, '') + '/.well-known/openid-configuration';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitLabSettings.Id',
+                        label: t('admin.openid.clientIdTitle'),
+                        label_default: 'Client ID:',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.gitlab.clientIdExample'),
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitLabSettings.Secret',
+                        label: t('admin.openid.clientSecretTitle'),
+                        label_default: 'Client Secret:',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.gitlab.clientSecretExample'),
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx442pnqMxQY"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GoogleSettings.DiscoveryEndpoint',
+                        label: t('admin.openid.discoveryEndpointTitle'),
+                        label_default: 'Discovery Endpoint:',
+                        help_text: t('admin.google.discoveryEndpointDesc'),
+                        help_text_default: 'The URL of the discovery document for OpenID Connect with Google.',
+                        help_text_markdown: false,
+                        dynamic_value: () => 'https://accounts.google.com/.well-known/openid-configuration',
+                        isDisabled: true,
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GoogleSettings.Id',
+                        label: t('admin.openid.clientIdTitle'),
+                        label_default: 'Client ID:',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.google.clientIdExample'),
+                        placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GoogleSettings.Secret',
+                        label: t('admin.openid.clientSecretTitle'),
+                        label_default: 'Client Secret:',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.google.clientSecretExample'),
+                        placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.DirectoryId',
+                        label: t('admin.office365.directoryIdTitle'),
+                        label_default: 'Directory (tenant) ID:',
+                        help_text: t('admin.office365.directoryIdDescription'),
+                        help_text_default: 'The Directory (tenant) ID you received when registering your application with Microsoft.',
+                        placeholder: t('admin.office365.directoryIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.DiscoveryEndpoint',
+                        label: t('admin.openid.discoveryEndpointTitle'),
+                        label_default: 'Discovery Endpoint:',
+                        help_text: t('admin.office365.discoveryEndpointDesc'),
+                        help_text_default: 'The URL of the discovery document for OpenID Connect with Office 365.',
+                        help_text_markdown: false,
+                        dynamic_value: (value, config, state) => {
+                            if (state['Office365Settings.DirectoryId']) {
+                                return 'https://login.microsoftonline.com/' + state['Office365Settings.DirectoryId'] + '/v2.0/.well-known/openid-configuration';
+                            }
+                            return 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration';
+                        },
+                        isDisabled: true,
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.Id',
+                        label: t('admin.openid.clientIdTitle'),
+                        label_default: 'Client ID:',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.office365.clientIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'Office365Settings.Secret',
+                        label: t('admin.openid.clientSecretTitle'),
+                        label_default: 'Client Secret:',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.office365.clientSecretExample'),
+                        placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'OpenIdSettings.ButtonText',
+                        label: t('admin.openid.buttonTextTitle'),
+                        label_default: 'Button Name:',
+                        placeholder: t('admin.openid.buttonTextEx'),
+                        placeholder_default: 'Custom Button Name',
+                        help_text: t('admin.openid.buttonTextDesc'),
+                        help_text_default: 'The text that will show on the login button.',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_COLOR,
+                        key: 'OpenIdSettings.ButtonColor',
+                        label: t('admin.openid.buttonColorTitle'),
+                        label_default: 'Button Color:',
+                        help_text: t('admin.openid.buttonColorDesc'),
+                        help_text_default: 'Specify the color of the OpenID login button for white labeling purposes. Use a hex code with a #-sign before the code.',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'OpenIdSettings.DiscoveryEndpoint',
+                        label: t('admin.openid.discoveryEndpointTitle'),
+                        label_default: 'Discovery Endpoint:',
+                        placeholder: t('admin.openid.discovery.placeholder'),
+                        placeholder_default: 'https://id.mydomain.com/.well-known/openid-configuration',
+                        help_text: t('admin.openid.discoveryEndpointDesc'),
+                        help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'OpenIdSettings.Id',
+                        label: t('admin.openid.clientIdTitle'),
+                        label_default: 'Client ID:',
+                        help_text: t('admin.openid.clientIdDescription'),
+                        help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.openid.clientIdExample'),
+                        placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'OpenIdSettings.Secret',
+                        label: t('admin.openid.clientSecretTitle'),
+                        label_default: 'Client Secret:',
+                        help_text: t('admin.openid.clientSecretDescription'),
+                        help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
+                        placeholder: t('admin.openid.clientSecretExample'),
+                        placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
                     },
                 ],
             },
@@ -4754,7 +5197,7 @@ const AdminDefinition = {
                 name_default: 'Experimental Features',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonColor.title'),
                         label_default: 'AD/LDAP Login Button Color:',
@@ -4765,7 +5208,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonBorderColor.title'),
                         label_default: 'AD/LDAP Login Button Border Color:',
@@ -4776,7 +5219,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'LdapSettings.LoginButtonTextColor',
                         label: t('admin.experimental.ldapSettingsLoginButtonTextColor.title'),
                         label_default: 'AD/LDAP Login Button Text Color:',
@@ -4844,7 +5287,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonColor',
                         label: t('admin.experimental.emailSettingsLoginButtonColor.title'),
                         label_default: 'Email Login Button Color:',
@@ -4854,7 +5297,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.emailSettingsLoginButtonBorderColor.title'),
                         label_default: 'Email Login Button Border Color:',
@@ -4864,7 +5307,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'EmailSettings.LoginButtonTextColor',
                         label: t('admin.experimental.emailSettingsLoginButtonTextColor.title'),
                         label_default: 'Email Login Button Text Color:',
@@ -5111,7 +5554,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonColor',
                         label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
                         label_default: 'SAML Login Button Color:',
@@ -5122,7 +5565,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonBorderColor',
                         label: t('admin.experimental.samlSettingsLoginButtonBorderColor.title'),
                         label_default: 'SAML Login Button Border Color:',
@@ -5133,7 +5576,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        type: Constants.SettingsTypes.TYPE_COLOR,
                         key: 'SamlSettings.LoginButtonTextColor',
                         label: t('admin.experimental.samlSettingsLoginButtonTextColor.title'),
                         label_default: 'SAML Login Button Text Color:',
@@ -5183,16 +5626,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
                         help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ExperimentalDataPrefetch',
-                        label: t('admin.experimental.experimentalDataPrefetch.title'),
-                        label_default: 'Preload messages in unread channels:',
-                        help_text: t('admin.experimental.experimentalDataPrefetch.desc'),
-                        help_text_default: 'When true, messages in unread channels are preloaded to reduce channel loading time. When false, messages are not loaded from the server until users switch channels.',
-                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
@@ -5280,17 +5713,21 @@ const AdminDefinition = {
                     //     placeholder: t('admin.experimental.replyToAddress.example'),
                     //     placeholder_default: 'E.g.: "reply-to@example.com"',
                     // },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ExperimentalSettings.CloudBilling',
-                        label: t('admin.experimental.cloudBilling.title'),
-                        label_default: 'Cloud Billing:',
-                        help_text: t('admin.experimental.cloudBilling.desc'),
-                        help_text_default: 'Show the new billing view for Cloud',
-                        help_text_markdown: false,
-                        isHidden: it.not(it.licensedForFeature('Cloud')),
-                    },
                 ],
+            },
+        },
+        feature_flags: {
+            url: 'experimental/feature_flags',
+            title: t('admin.feature_flags.title'),
+            title_default: 'Feature Flags',
+            isHidden: it.configIsTrue('ExperimentalSettings'),
+            isDisabled: true,
+            searchableStrings: [
+                'admin.feature_flags.title',
+            ],
+            schema: {
+                id: 'Feature Flags',
+                component: FeatureFlags,
             },
         },
         bleve: {

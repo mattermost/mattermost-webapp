@@ -132,7 +132,7 @@ export default class CommandProvider extends Provider {
         return true;
     }
 
-    handleCompleteWord(term: string, pretext: string, callback: (s: string)=>void) {
+    handleCompleteWord(term: string, pretext: string, callback: (s: string) => void) {
         callback(term + ' ');
     }
 

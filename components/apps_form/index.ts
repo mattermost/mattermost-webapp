@@ -16,10 +16,10 @@ import {getEmojiMap} from 'selectors/emojis';
 import AppsFormContainer from './apps_form_container';
 
 type Actions = {
-    doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>
+    doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>;
 };
 
-function mapStateToProps(state: GlobalState, ownProps: {modal?: AppModalState, postID?: string}) {
+function mapStateToProps(state: GlobalState, ownProps: {modal?: AppModalState; postID?: string}) {
     let postID: string | undefined;
     let channelID: string | undefined;
     let teamID: string | undefined;

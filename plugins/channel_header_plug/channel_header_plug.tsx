@@ -3,7 +3,7 @@
 
 /* eslint-disable react/no-multi-comp */
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage} from 'react-intl';
@@ -21,11 +21,12 @@ import {PluginComponent} from 'types/store/plugins';
 
 type CustomMenuProps = {
     open?: boolean;
-    children?: ReactNode;
+    children?: React.ReactNode;
     onClose: () => void;
     rootCloseEvent?: 'click' | 'mousedown';
     bsRole: string;
 }
+
 class CustomMenu extends React.PureComponent<CustomMenuProps> {
     handleRootClose = () => {
         this.props.onClose();
@@ -56,7 +57,7 @@ class CustomMenu extends React.PureComponent<CustomMenuProps> {
 }
 
 type CustomToggleProps = {
-    children?: ReactNode;
+    children?: React.ReactNode;
     dropdownOpen?: boolean;
     onClick?: (e: React.MouseEvent) => void;
     bsRole: string;
@@ -91,14 +92,14 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 }
 
 type ChannelHeaderPlugProps = {
-    components?: PluginComponent[];
+    components: PluginComponent[];
     appBindings: AppBinding[];
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
         doAppCall: (call: AppCall) => void;
-    }
+    };
 }
 
 type ChannelHeaderPlugState = {

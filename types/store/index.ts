@@ -18,5 +18,6 @@ export type GlobalState = BaseGlobalState & {
     storage: {
         storage: Dictionary<any>;
     };
+
     views: ViewsState;
 };

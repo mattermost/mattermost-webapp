@@ -4,7 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {
+    getConfig,
+    getLicense,
+} from 'mattermost-redux/selectors/entities/general';
 import {
     getMyTeams,
     getJoinableTeamIds,
@@ -105,6 +108,7 @@ function mapStateToProps(state) {
         showNextStepsTips: showNextStepsTips(state),
         showNextSteps: showNextSteps(state),
         subscription: state.entities.cloud.subscription,
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 

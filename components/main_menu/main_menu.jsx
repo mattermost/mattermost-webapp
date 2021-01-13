@@ -69,6 +69,7 @@ class MainMenu extends React.PureComponent {
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
         subscription: PropTypes.object,
+        isCloud: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -134,7 +135,7 @@ class MainMenu extends React.PureComponent {
             return false;
         }
 
-        return (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+        return this.props.isCloud && (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
     }
 
     render() {
