@@ -81,7 +81,7 @@ describe('Bot tags', () => {
         cy.get('#channelHeaderPinButton').click();
 
         // * Verify bot badge
-        cy.get('.sidebar--right__title').should('contain.text', 'Pinned posts');
+        cy.get('.sidebar--right__title').should('contain.text', 'Pinned Posts');
         rhsPostHasBotBadge(postId);
     });
 
