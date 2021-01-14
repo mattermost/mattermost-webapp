@@ -23,24 +23,31 @@ export default function UnreadChannels(props: Props) {
     }
 
     return (
-        <div className='SidebarChannelGroup a11y__section'>
+        <div className='SidebarChannelGroup dropDisabled a11y__section'>
             <SidebarCategoryHeaderStatic displayName={intl.formatMessage({id: 'sidebar.types.unreads', defaultMessage: 'UNREADS'})}/>
-            {props.unreadChannels.map((channel, index) => {
-                return (
-                    <SidebarChannel
-                        key={channel.id}
-                        channelIndex={index}
-                        channelId={channel.id}
-                        setChannelRef={props.setChannelRef}
-                        getChannelRef={props.getChannelRef}
-                        isCategoryCollapsed={false}
-                        isCategoryDragged={false}
-                        isDraggable={false}
-                        isDropDisabled={true}
-                        isDMCategory={false}
-                    />
-                );
-            })}
+            <div className='SidebarChannelGroup_content'>
+                <ul
+                    role='list'
+                    className='NavGroupContent'
+                >
+                    {props.unreadChannels.map((channel, index) => {
+                        return (
+                            <SidebarChannel
+                                key={channel.id}
+                                channelIndex={index}
+                                channelId={channel.id}
+                                setChannelRef={props.setChannelRef}
+                                getChannelRef={props.getChannelRef}
+                                isCategoryCollapsed={false}
+                                isCategoryDragged={false}
+                                isDraggable={false}
+                                isDropDisabled={true}
+                                isDMCategory={false}
+                            />
+                        );
+                    })}
+                </ul>
+            </div>
         </div>
     );
 }
