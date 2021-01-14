@@ -49,7 +49,7 @@ describe('Keyboard Shortcuts', () => {
             });
 
             // # In the "Switch Channels" modal type the first character of the username
-            cy.get('#quickSwitchInput').should('be.focused').type(tempUser.username.substring(0, 1)).wait(TIMEOUTS.HALF_SEC);
+            cy.findByRole('textbox', {name: 'quick switch input'}).should('be.focused').type(tempUser.username.substring(0, 1)).wait(TIMEOUTS.HALF_SEC);
 
             // # Verify that the list of users and channels suggestions is present
             cy.get('#suggestionList').should('be.visible').within(() => {
@@ -82,7 +82,7 @@ describe('Keyboard Shortcuts', () => {
             cy.apiAddUserToTeam(testTeam.id, tempUser.id);
 
             // # In the "Switch Channels" modal type the first chars of the test channel name
-            cy.get('#quickSwitchInput').should('be.focused').type(testChannel.name.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
+            cy.findByRole('textbox', {name: 'quick switch input'}).should('be.focused').type(testChannel.name.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
 
             // # Verify that the list of users and channels suggestions is present
             cy.get('#suggestionList').should('be.visible').within(() => {
@@ -424,7 +424,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').cmdOrCtrlShortcut('K').then(() => {
             // * Channel switcher hint should be visible and focused on
             cy.get('#quickSwitchHint').should('be.visible');
-            cy.get('#quickSwitchInput').should('be.focused');
+            cy.findByRole('textbox', {name: 'quick switch input'}).should('be.focused');
         });
 
         // # Type CTRL/CMD+K to close 'Switch Channels' modal
@@ -514,21 +514,21 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#suggestionList').find('.mentions__name').eq(0).within(() => {
                 cy.get('.badge').should('be.visible').and('have.text', baseCount + noMentions);
             });
-            cy.get('#quickSwitchInput').type('{downarrow}');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
 
             cy.get('#suggestionList').find('.mentions__name').eq(1).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[1].display_name);
             cy.get('#suggestionList').find('.mentions__name').eq(1).within(() => {
                 cy.get('.badge').should('be.visible').and('have.text', baseCount);
             });
-            cy.get('#quickSwitchInput').type('{downarrow}');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
 
             cy.get('#suggestionList').find('.mentions__name').eq(2).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[2].display_name);
             cy.get('#suggestionList').find('.mentions__name').eq(2).within(() => {
                 cy.get('.badge').should('be.visible').and('have.text', baseCount + noMentions);
             });
-            cy.get('#quickSwitchInput').type('{downarrow}');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
 
-            cy.get('#quickSwitchInput').type(team1Channels[1].display_name).wait(TIMEOUTS.HALF_SEC);
+            cy.findByRole('textbox', {name: 'quick switch input'}).type(team1Channels[1].display_name).wait(TIMEOUTS.HALF_SEC);
 
             // # Verify that the channels of this team are displayed
             cy.get('#suggestionList').should('be.visible').children().within((el) => {

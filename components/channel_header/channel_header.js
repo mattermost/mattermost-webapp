@@ -18,7 +18,7 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import OverlayTrigger from 'components/overlay_trigger';
 import PopoverListMembers from 'components/popover_list_members';
-import SearchBar from 'components/search_bar';
+import Search from 'components/search/index.tsx';
 import StatusIcon from 'components/status_icon';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
@@ -134,7 +134,7 @@ class ChannelHeader extends React.PureComponent {
     }
 
     static getShowSearchBar(props) {
-        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
+        return !Utils.isMobile() && (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE || props.rhsOpen);
     }
 
     handleResize = () => {
@@ -765,14 +765,12 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-
                     {this.state.showSearchBar ? (
                         <div
                             id='searchbarContainer'
                             className='flex-child search-bar__container'
                         >
-                            <SearchBar
-                                showMentionFlagBtns={false}
+                            <Search
                                 isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
                             />
                         </div>

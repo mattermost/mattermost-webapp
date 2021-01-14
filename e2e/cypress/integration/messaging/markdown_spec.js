@@ -23,6 +23,8 @@ describe('Markdown', () => {
     let townsquareLink;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Enable latex
         cy.apiUpdateConfig({
             ServiceSettings: {
