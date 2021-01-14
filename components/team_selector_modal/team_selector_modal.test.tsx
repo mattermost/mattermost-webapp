@@ -72,4 +72,3 @@ describe('components/TeamSelectorModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 });
-
