@@ -36,5 +36,12 @@ declare namespace Cypress {
          *   cy.uiCloseAccountSettingsModal();
          */
         uiCloseAccountSettingsModal(): Chainable;
+
+        /**
+         * Navigate to account settings and verify the user's first, last name
+         * @param {String} firstname - expected user firstname
+         * @param {String} lastname - expected user lastname
+         */
+        verifyAccountNameSettings(firstname: string, lastname: string): Chainable;
     }
 }
