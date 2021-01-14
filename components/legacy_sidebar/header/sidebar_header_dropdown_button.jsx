@@ -3,9 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Tooltip } from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
-import { localizeMessage } from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants';
@@ -26,7 +26,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         let tutorialTip = null;
         if (this.props.showTutorialTip) {
             tutorialTip = (
-                <MenuTutorialTip onBottom={false} />
+                <MenuTutorialTip onBottom={false}/>
             );
         }
 
@@ -72,13 +72,16 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        <CustomStatusEmoji showTooltip={true} tooltipDirection="bottom"/>
+                        <CustomStatusEmoji
+                            showTooltip={true}
+                            tooltipDirection='bottom'
+                        />
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'
                         aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </button>
                 </div>
             </div>

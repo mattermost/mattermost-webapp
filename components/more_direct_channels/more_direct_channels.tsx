@@ -2,26 +2,27 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { Modal } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
-import { Client4 } from 'mattermost-redux/client';
-import { Channel } from 'mattermost-redux/types/channels';
-import { RelationOneToOne } from 'mattermost-redux/types/utilities';
-import { UserProfile } from 'mattermost-redux/types/users';
-import { GenericAction } from 'mattermost-redux/types/actions';
+import {Client4} from 'mattermost-redux/client';
+import {Channel} from 'mattermost-redux/types/channels';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
-import { browserHistory } from 'utils/browser_history';
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
-import { displayEntireNameForUser, localizeMessage, isGuest } from 'utils/utils.jsx';
-import MultiSelect, { Value } from 'components/multiselect/multiselect';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
-import GroupMessageOption from './group_message_option';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+
+import GroupMessageOption from './group_message_option';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -138,8 +139,8 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 this.searchTimeoutId = setTimeout(
                     async () => {
                         this.setUsersLoadingState(true);
-                        const [{ data: profilesData }, { data: groupChannelsData }] = await Promise.all([
-                            this.props.actions.searchProfiles(searchTerm, { team_id: teamId }),
+                        const [{data: profilesData}, {data: groupChannelsData}] = await Promise.all([
+                            this.props.actions.searchProfiles(searchTerm, {team_id: teamId}),
                             this.props.actions.searchGroupChannels(searchTerm),
                         ]);
                         if (profilesData) {
@@ -180,7 +181,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
 
     handleHide = () => {
         this.props.actions.setModalSearchTerm('');
-        this.setState({ show: false });
+        this.setState({show: false});
 
         if (this.props.bodyOnly) {
             this.handleExit();
@@ -208,7 +209,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     }
 
     handleSubmit = (values = this.state.values) => {
-        const { actions } = this.props;
+        const {actions} = this.props;
         if (this.state.saving) {
             return;
         }
@@ -218,11 +219,11 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             return;
         }
 
-        this.setState({ saving: true });
+        this.setState({saving: true});
 
         const done = (result: any) => {
-            const { data, error } = result;
-            this.setState({ saving: false });
+            const {data, error} = result;
+            this.setState({saving: false});
 
             if (!error) {
                 this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
@@ -249,7 +250,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 values.push(value);
             }
 
-            this.setState({ values });
+            this.setState({values});
         }
     };
 
@@ -263,7 +264,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             values.push(user as OptionType);
         }
 
-        this.setState({ values });
+        this.setState({values});
     };
 
     getUserProfiles = (page?: number) => {
@@ -297,7 +298,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     }
 
     handleDelete = (values: OptionType[]) => {
-        this.setState({ values });
+        this.setState({values});
     }
 
     renderAriaLabel = (option: OptionType) => {
@@ -380,7 +381,10 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                             show={isGuest(option)}
                             className='badge-popoverlist'
                         />
-                        <CustomStatusEmoji userID={option.id} showTooltip={true} />
+                        <CustomStatusEmoji
+                            userID={option.id}
+                            showTooltip={true}
+                        />
                     </div>
                     <div className='more-modal__description'>
                         {email}
@@ -388,7 +392,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
-                        <AddIcon />
+                        <AddIcon/>
                     </div>
                 </div>
             </div>
@@ -462,12 +466,12 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         });
 
         const usersValues = users.map((user) => {
-            return { label: user.username, value: user.id, ...user };
+            return {label: user.username, value: user.id, ...user};
         });
 
         const groupChannels = this.props.groupChannels || [];
         const groupChannelsValues = groupChannels.map((group) => {
-            return { label: group.display_name, value: group.id, ...group };
+            return {label: group.display_name, value: group.id, ...group};
         });
 
         const options: OptionType[] = [...usersValues, ...groupChannelsValues];
