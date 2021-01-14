@@ -1,10 +1,7 @@
-import { PostImage } from 'mattermost-redux/types/posts';
 import React, { useState } from 'react';
-import Constants from 'utils/constants';
 import './markdown_image_expand.scss';
 
 type Props = {
-  imageMetadata: PostImage;
   alt: string;
   children: React.ReactNode;
   collapseDisplay: boolean;
@@ -14,7 +11,7 @@ type State = {
   isExpanded: boolean;
 };
 
-const MarkdownImageExpand: React.FC<Props> = ({children, imageMetadata, alt, collapseDisplay}: Props) => {
+const MarkdownImageExpand: React.FC<Props> = ({children, alt, collapseDisplay}: Props) => {
   const [state, setState] = useState<State>({
     isExpanded: !collapseDisplay,
   });
@@ -23,11 +20,6 @@ const MarkdownImageExpand: React.FC<Props> = ({children, imageMetadata, alt, col
   const handleToggleButtonClick = () => {
     setState((oldState) => ({...oldState, isExpanded: !oldState.isExpanded}));
   };
-
-  const { height } = imageMetadata;
-  if (height < Constants.MAX_INLINE_IMAGE_HEIGHT) {
-    return <>{children}</>;
-  }
 
   const wrapperClassName = `markdown-image-expand ${isExpanded ? 'markdown-image-expand--expanded' : ''}`;
 
@@ -45,12 +37,13 @@ const MarkdownImageExpand: React.FC<Props> = ({children, imageMetadata, alt, col
           )
           : (
             <>
-              <button className="style--none markdown-image-expand__expand-button" type="button" onClick={handleToggleButtonClick}>
-                <span className="fa fa-caret-right"></span>
+              <button className="markdown-image-expand__expand-button" type="button" onClick={handleToggleButtonClick}>
+                <span className="fa fa-caret-right markdown-image-expand__expand-icon"></span>
+
+                <span className="markdown-image-expand__alt-text">
+                  {alt}
+                </span>
               </button>
-              <span className="markdown-image-expand__alt-text">
-                {alt}
-              </span>
             </>
           )
       }

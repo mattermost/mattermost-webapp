@@ -30,18 +30,48 @@
   .markdown-image-expand--expanded:hover & {
     display: block;
   }
+
+  &:hover {
+    border: 1px solid var(--center-channel-color-24);
+
+    @include box-shadow($elevation-2);
+  }
 }
 
 .markdown-image-expand__expand-button {
   margin-right: 6px;
+  padding: 3px;
+  border: none;
 
   font-size: 18px;
   line-height: 21px;
   color: var(--center-channel-color-56);
+
+  background: transparent;
+  border-radius: 4px;
+
+  --markdown-image-expand-expand-icon-color: var(--center-channel-color-56);
+  --markdown-image-expand-alt-text-color: var(--center-channel-color-64);
+
+  &:hover {
+    background-color: var(--center-channel-color-08);
+
+    --markdown-image-expand-expand-icon-color: var(--center-channel-color-72);
+    --markdown-image-expand-alt-text-color: var(--center-channel-color-72);
+  }
+}
+
+.markdown-image-expand__expand-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+
+  color: var(--markdown-image-expand-expand-icon-color);
 }
 
 .markdown-image-expand__alt-text {
+  vertical-align: middle;
+
   font-size: 12px;
   line-height: 16px;
-  color: var(--center-channel-color-64);
+  color: var(--markdown-image-expand-alt-text-color);
 }
