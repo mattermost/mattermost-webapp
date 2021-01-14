@@ -24,6 +24,8 @@ type Props = {
     onHide: () => void;
 };
 
+const EMOJI_PICKER_WIDTH_OFFSET = 308;
+
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
@@ -119,6 +121,20 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         setText(status.text);
     };
 
+    const calculateRightOffSet = () => {
+        let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+        const target = getCustomStatusControlRef();
+        if (target) {
+            const anyTarget: any = target;
+            rightOffset = window.innerWidth - anyTarget.getBoundingClientRect().left - EMOJI_PICKER_WIDTH_OFFSET;
+            if (rightOffset < 0) {
+                rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+            }
+        }
+
+        return rightOffset;
+    };
+
     const recentStatuses = (
         <div>
             <div className='statusSuggestion__title'>
@@ -211,13 +227,16 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         ref={customStatusControlRef}
                         className='StatusModal__emoji-container'
                     >
+                        {showEmojiPicker &&
                         <EmojiPickerOverlay
                             target={getCustomStatusControlRef}
                             show={showEmojiPicker}
                             onHide={handleEmojiClose}
                             onEmojiClose={handleEmojiClose}
                             onEmojiClick={handleEmojiClick}
+                            rightOffset={calculateRightOffSet()}
                         />
+                        }
                         <button
                             type='button'
                             onClick={toggleEmojiPicker}
