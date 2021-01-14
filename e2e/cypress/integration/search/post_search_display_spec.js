@@ -59,7 +59,7 @@ describe('Post search display', () => {
         assertSearchHint();
     });
 
-    it('MM-T350, MM-T2283 - Searching displays results in RHS', () => {
+    it('MM-T350 - Searching displays results in RHS', () => {
         enableTestCommands(testTeam);
 
         const testSearch = '/test url test-search';
