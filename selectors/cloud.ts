@@ -22,7 +22,7 @@ export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType, 
     const cwsUrl = getConfig(state).CWSUrl;
     const user = getCurrentUser(state);
     const fullName = `${user.first_name} ${user.last_name}`;
-    const inquiryIssueQuery = inquiryIssue !== undefined ? `&inquiry-issue=${inquiryIssue}` : '';
+    const inquiryIssueQuery = inquiryIssue ? `&inquiry-issue=${inquiryIssue}` : '';
 
     return `${cwsUrl}/cloud/contact-us?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(fullName)}&inquiry=${inquiry}${inquiryIssueQuery}`;
 }
