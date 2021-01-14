@@ -60,7 +60,7 @@
                     border-radius: 100%;
                     width: 8px;
                     height: 8px;
-                    box-shadow: 0 0 0 3px #0E4289;
+                    box-shadow: 0 0 0 3px var(--sidebar-header-bg);
                     z-index: 1;
                 }
             }
@@ -114,8 +114,9 @@
 
             &.isDragging {
                 cursor: grab;
-        
+
                 .TeamIcon {
+                    background-color: rgba(255, 255, 255, 0.32);
                     transform: scale(0.9);        
                 }
             }
