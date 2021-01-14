@@ -4061,10 +4061,11 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: () => false,
+                shouldDisplay: () => true,
             },
             isHidden: it.any(
                 it.not(it.licensed),
+                it.not(usesLegacyOauth),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4116,7 +4117,11 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: () => true,
+                        isHidden: it.any(
+                            it.not(it.licensedForFeature('GoogleOAuth')),
+                            it.not(it.licensedForFeature('Office365OAuth')),
+                            it.not(usesLegacyOauth),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -4368,7 +4373,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: () => true,
+            isHidden: it.not(it.licensedForFeature('OpenId')),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
