@@ -109,7 +109,7 @@ const getDefaultConfig = () => {
             LdapPort: cypressEnv.ldapPort,
         },
         ServiceSettings: {
-            AllowedUntrustedInternalConnections: `localhost,${cypressEnv.ciBaseUrl}`,
+            AllowedUntrustedInternalConnections: 'localhost',
             SiteURL: Cypress.config('baseUrl'),
         },
     };
@@ -142,10 +142,8 @@ const expectConfigToBeUpdatable = (currentConfig, newConfig) => {
 };
 
 Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
-    // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
-        const currentConfig = response.body;
-
+    // # Get current config
+    return cy.apiGetConfig().then(({config: currentConfig}) => {
         // * Check if config can be updated
         expectConfigToBeUpdatable(currentConfig, newConfig);
 

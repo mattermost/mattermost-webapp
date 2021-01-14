@@ -30,7 +30,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         super(props);
 
         this.state = {
-            teamDisplayName: this.props.state.team.display_name,
+            teamDisplayName: this.props.state.team?.display_name || '', // eslint-disable-line camelcase
         };
     }
 
