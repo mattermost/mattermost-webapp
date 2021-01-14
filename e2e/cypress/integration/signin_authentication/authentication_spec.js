@@ -169,7 +169,7 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').should('be.visible').click();
+        cy.uiOpenMainMenu('Log Out');
 
         // # Login as user A again, observe you're viewing the team/channel you switched to in step 1
         cy.visit('/login');
@@ -243,9 +243,6 @@ describe('Authentication', () => {
 
         cy.visit(`/${testTeam.name}/channels/town-square`).wait(timeouts.ONE_SEC);
 
-        // Visit the town-square with the notification API stubbed.
-        spyNotificationAs('withNotification', 'granted');
-
         // # From a separate browser session, login to the same server as the same user
         // # Click the hamburger menu and select Account Settings ➜ Security
         // # Click "View and Logout of Active Sessions", then find and close the session created in step 1
@@ -255,7 +252,11 @@ describe('Authentication', () => {
 
         // # Go back and view the original session app/browser, and wait until you see a desktop notification (may take up to a minute)
         // * Desktop notification is sent (may take up to 1 min)
-        //cy.get('@withNotification').should('have.been.calledOnce');
+        cy.get('@withNotification').should('have.been.calledOnce').and('have.been.calledWithMatch', 'Mattermost', ({body}) => {
+            const expected = 'Session Expired: Please sign in to continue receiving notifications.';
+            expect(body, `Notification body: "${body}" should match: "${expected}"`).to.equal(expected);
+            return true;
+        });
 
         // * Login page shows a message above the login box that the session has expired.
         cy.get('#login_section .alert-warning', {timeout: timeouts.ONE_MIN}).should('contain.text', 'Your session has expired. Please log in again.');
