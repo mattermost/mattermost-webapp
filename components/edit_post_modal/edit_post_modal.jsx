@@ -299,9 +299,11 @@ class EditPostModal extends React.PureComponent {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlEnterKeyCombo = (ctrlSend || codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
+        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -311,7 +313,7 @@ class EditPostModal extends React.PureComponent {
             this.handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !this.state.showEmojiPicker) {
             this.handleHide();
-        } else if (ctrlKeyCombo && markdownHotkey) {
+        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
             this.applyHotkeyMarkdown(e);
         }
     }
