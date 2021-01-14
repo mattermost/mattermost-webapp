@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @not_cloud @system_console
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('SupportSettings', () => {
