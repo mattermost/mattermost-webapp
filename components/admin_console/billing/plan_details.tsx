@@ -146,7 +146,7 @@ const PlanDetails: React.FC = () => {
     let userCountDisplay;
 
     const showSeatsAndSubscriptionDates = false;
-    const goneBackUnderThreshold = userCount <= userLimit && (userCount + userInactiveCount) > userLimit;
+    const goneBackUnderThreshold = userCount <= userLimit;
     switch (subscription.is_paid_tier) {
     case 'false':
         planPricing = (
@@ -224,8 +224,8 @@ const PlanDetails: React.FC = () => {
                 <div className='PlanDetails__planDetailsName'>
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.planDetailsName.freeUpTo'
-                        defaultMessage='Free for up to {aboveUserLimit} users.'
-                        values={{aboveUserLimit}}
+                        defaultMessage='Free for up to {userLimit} users.'
+                        values={{userLimit}}
                     />
                 </div>
                 {howBillingWorksLink}
