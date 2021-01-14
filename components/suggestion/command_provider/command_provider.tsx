@@ -89,14 +89,10 @@ export default class CommandProvider extends Provider {
     private parser: AppCommandParser;
     store: Store;
 
-    constructor(props: Props, store?: Store) {
+    constructor(props: Props) {
         super();
 
         this.store = globalStore;
-        if (store && store.getState && store.dispatch) {
-            this.store = store;
-        }
-
         this.isInRHS = props.isInRHS;
         let rootId;
         if (this.isInRHS) {
@@ -225,14 +221,17 @@ export default class CommandProvider extends Provider {
                     }
                 });
 
-                matches.sort((a, b) => {
-                    if (a.suggestion.toLowerCase() > b.suggestion.toLowerCase()) {
-                        return 1;
-                    } else if (a.suggestion.toLowerCase() < b.suggestion.toLowerCase()) {
-                        return -1;
-                    }
-                    return 0;
-                });
+                // sort only if we are looking at base commands
+                if (!pretext.includes(' ')) {
+                    matches.sort((a, b) => {
+                        if (a.suggestion.toLowerCase() > b.suggestion.toLowerCase()) {
+                            return 1;
+                        } else if (a.suggestion.toLowerCase() < b.suggestion.toLowerCase()) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }
 
                 if (this.shouldAddExecuteItem(data, pretext)) {
                     matches.unshift({

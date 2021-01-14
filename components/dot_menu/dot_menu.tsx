@@ -9,6 +9,7 @@ import {Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -279,6 +280,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         }
         this.props.actions?.doAppCall({
             ...binding.call,
+            type: AppCallTypes.SUBMIT,
             context: {
                 app_id: binding.app_id,
                 location: binding.location,

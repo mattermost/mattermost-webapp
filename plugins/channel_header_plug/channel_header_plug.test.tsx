@@ -29,7 +29,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
                 actions={{
-                    doAppCall: jest.fn,
+                    doAppCall: jest.fn(),
                 }}
                 appBindings={[]}
             />,
@@ -45,7 +45,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
                 actions={{
-                    doAppCall: jest.fn,
+                    doAppCall: jest.fn(),
                 }}
                 appBindings={[]}
             />,
@@ -68,7 +68,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
                 actions={{
-                    doAppCall: jest.fn,
+                    doAppCall: jest.fn(),
                 }}
                 appBindings={[]}
             />,

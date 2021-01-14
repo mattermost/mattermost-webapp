@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
+import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
-import {AppsBindings, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
     AppCall,
@@ -20,6 +20,7 @@ import {
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
     AutocompleteSuggestionWithComplete,
+    AppLookupCallValues,
 } from 'mattermost-redux/types/apps';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -53,6 +54,44 @@ export class AppCommandParser {
         this.rootPostID = rootPostID;
     }
 
+    // composeCallFromCommandString creates the form submission call
+    public composeCallFromCommandString = async (cmdStr: string): Promise<AppCall | null> => {
+        const binding = await this.getBindingWithForm(cmdStr);
+        if (!binding || !binding.call) {
+            return null;
+        }
+
+        const missing = this.getMissingFields(cmdStr, binding);
+        if (missing.length > 0) {
+            const missingStr = missing.map((f) => f.label).join(', ');
+            this.displayError('Required fields missing: ' + missingStr);
+            return null;
+        }
+
+        const values = this.getFormValues(cmdStr, binding);
+
+        const form = this.getFormFromBinding(binding);
+        if (!form) {
+            return null;
+        }
+        const call = form.call || binding.call;
+        if (!call) {
+            return null;
+        }
+
+        const payload: AppCall = {
+            ...call,
+            type: AppCallTypes.SUBMIT,
+            context: {
+                ...this.getAppContext(),
+                app_id: binding.app_id,
+            },
+            values,
+            raw_command: cmdStr,
+        };
+        return payload;
+    }
+
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
     decorateSuggestionComplete = (pretext: string, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
         if (choice.complete && choice.complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
@@ -76,14 +115,14 @@ export class AppCommandParser {
     // getCommandBindings returns the commands in the redux store.
     // They are grouped by app id since each app has one base command
     getCommandBindings = (): AppBinding[] => {
-        const bindings = getAppsBindings(this.store.getState(), AppsBindings.COMMAND);
+        const bindings = getAppBindings(this.store.getState(), AppBindingLocations.COMMAND);
         const grouped: {[appID: string]: AppBinding} = {};
 
         for (const b of bindings) {
             grouped[b.app_id] = grouped[b.app_id] || {
                 app_id: b.app_id,
                 label: b.app_id,
-                location: AppsBindings.COMMAND,
+                location: AppBindingLocations.COMMAND,
                 bindings: [],
             };
 
@@ -142,7 +181,7 @@ export class AppCommandParser {
             channel_id: channel.id,
             team_id: teamID,
             root_id: this.rootPostID,
-            location: AppsBindings.COMMAND,
+            location: AppBindingLocations.COMMAND,
         };
     }
 
@@ -253,34 +292,6 @@ export class AppCommandParser {
         }
 
         return suggestions;
-    }
-
-    // composeCallFromCommandString creates the form submission call
-    public composeCallFromCommandString = async (cmdStr: string): Promise<AppCall | null> => {
-        const binding = await this.getBindingWithForm(cmdStr);
-        if (!binding || !binding.call) {
-            return null;
-        }
-
-        const missing = this.getMissingFields(cmdStr, binding);
-        if (missing.length > 0) {
-            const missingStr = missing.map((f) => f.label).join(', ');
-            this.displayError('Required fields missing: ' + missingStr);
-            return null;
-        }
-
-        const values = this.getFormValues(cmdStr, binding);
-
-        const payload: AppCall = {
-            ...binding.call,
-            context: {
-                ...this.getAppContext(),
-                app_id: binding.app_id,
-            },
-            values,
-            raw_command: cmdStr,
-        };
-        return payload;
     }
 
     // getMissingFields collects the required fields that were not supplied in a submission
@@ -433,7 +444,7 @@ export class AppCommandParser {
         }
 
         return [{
-            complete: '',
+            complete: userInput,
             suggestion: '',
             description: field.description,
             hint: field.hint,
@@ -458,10 +469,27 @@ export class AppCommandParser {
             return [];
         }
 
-        const values = this.getFormValues(cmdStr, binding);
+        const form = this.getFormFromBinding(binding);
+        if (!form) {
+            return [];
+        }
 
-        const payload: AppCall = {
-            url: field.source_url || '',
+        const call = form.call || binding.call;
+        if (!call) {
+            return [];
+        }
+
+        const formValues = this.getFormValues(cmdStr, binding);
+
+        const values: AppLookupCallValues = {
+            name: field.name,
+            user_input: userInput,
+            values: formValues,
+        };
+
+        const fullCall: AppCall = {
+            ...call,
+            type: 'lookup',
             context: {
                 ...this.getAppContext(),
                 app_id: binding.app_id,
@@ -470,18 +498,20 @@ export class AppCommandParser {
             raw_command: cmdStr,
         };
 
-        let res: {data?: AppCallResponse<AppSelectOption[]>; error?: any};
+        type ResponseType = {items: AppSelectOption[]};
+        let res: {data?: AppCallResponse<ResponseType>; error?: any};
         try {
-            res = await this.store.dispatch(doAppCall<AppSelectOption[]>(payload));
+            res = await this.store.dispatch(doAppCall<ResponseType>(fullCall));
         } catch (e) {
             return [{suggestion: `Error: ${e.message}`}];
         }
 
-        if (!res?.data?.data?.length) {
+        const items = res?.data?.data?.items;
+        if (!items) {
             return [{suggestion: 'Received no data for dynamic suggestions'}];
         }
 
-        return res.data.data.map((s): AutocompleteSuggestion => ({
+        return items.map((s): AutocompleteSuggestion => ({
             description: s.label,
             suggestion: s.value,
             hint: '',

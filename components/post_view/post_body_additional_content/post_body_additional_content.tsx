@@ -11,7 +11,7 @@ import MessageAttachmentList from 'components/post_view/message_attachments/mess
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
-import AppsModal from 'components/apps_modal';
+import AppsForm from 'components/apps_form';
 
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
 
@@ -136,11 +136,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
             return (
                 <React.Fragment>
                     {this.props.children}
-                    <AppsModal
-                        modal={{
-                            form: this.props.post.props.form,
-                            call: this.props.post.props.call,
-                        }}
+                    <AppsForm
+                        form={this.props.post.props.form}
+                        call={this.props.post.props.call}
                         postID={this.props.post.id}
                         isEmbedded={true}
                         onHide={() => { /* Do nothing */ }}

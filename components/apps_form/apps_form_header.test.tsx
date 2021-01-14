@@ -6,9 +6,9 @@ import {mount} from 'enzyme';
 
 import EmojiMap from 'utils/emoji_map';
 
-import DialogIntroductionText from './dialog_introduction_text';
+import AppsFormHeader from './apps_form_header';
 
-describe('components/DialogIntroductionText', () => {
+describe('components/apps_form/AppsFormHeader', () => {
     const emojiMap = new EmojiMap(new Map());
 
     test('should render message with supported values', () => {
@@ -17,7 +17,7 @@ describe('components/DialogIntroductionText', () => {
             value: '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
             emojiMap,
         };
-        const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
+        const wrapper = mount(<AppsFormHeader {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -27,7 +27,7 @@ describe('components/DialogIntroductionText', () => {
             value: '',
             emojiMap,
         };
-        const wrapper = mount(<DialogIntroductionText {...descriptor}/>);
+        const wrapper = mount(<AppsFormHeader {...descriptor}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

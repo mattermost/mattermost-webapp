@@ -4,12 +4,12 @@
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppCall, AppForm} from 'mattermost-redux/types/apps';
-import {AppsBindings, AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';
 
-import AppsModal from 'components/apps_modal';
+import AppsForm from 'components/apps_form';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -40,11 +40,10 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
                 return {data: res};
             }
 
-            if (call.context.location === AppsBindings.COMMAND && call.type === AppCallTypes.FORM) {
-                return {data: res};
+            if (call.type === AppCallTypes.SUBMIT) {
+                dispatch(openAppsModal(res.form, call));
             }
 
-            dispatch(openAppsModal(res.form, call));
             return {data: res};
         }
 
@@ -55,12 +54,10 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
 export function openAppsModal(form: AppForm, call: AppCall): Action {
     return openModal({
         modalId: ModalIdentifiers.APPS_MODAL,
-        dialogType: AppsModal,
+        dialogType: AppsForm,
         dialogProps: {
-            modal: {
-                form,
-                call,
-            },
+            form,
+            call,
         },
     });
 }

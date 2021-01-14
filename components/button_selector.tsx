@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {AppSelectOption} from 'mattermost-redux/types/apps';
 
 type Props = {
     id: string;
-    value: string | number | boolean | null;
-    onChange?: (id: string, value: string) => void;
+    value: string | null;
+    onChange?: (value: AppSelectOption) => void;
     label?: React.ReactNode;
     labelClassName?: string;
     inputClassName?: string;
@@ -14,7 +15,7 @@ type Props = {
     footer?: React.ReactNode;
     disabled?: boolean;
     shouldSubmit?: boolean;
-    options: Array<{text: string; value: string}> | null;
+    options?: AppSelectOption[] | null;
 }
 
 const defaultProps: Partial<Props> = {
@@ -24,9 +25,9 @@ const defaultProps: Partial<Props> = {
 };
 
 const ButtonSelector: React.FC<Props> = (props: Props) => {
-    const onClick = (value: string) => {
+    const onClick = (value: AppSelectOption) => {
         if (props.onChange) {
-            props.onChange(props.id, value);
+            props.onChange(value);
         }
     };
 
@@ -76,10 +77,10 @@ const ButtonSelector: React.FC<Props> = (props: Props) => {
                 key={opt.value}
                 type={type}
                 className={className}
-                onClick={() => onClick(opt.value)}
+                onClick={() => onClick(opt)}
                 disabled={disabled}
             >
-                {opt.text}
+                {opt.label}
             </button>
         );
     });

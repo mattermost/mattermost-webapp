@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppModalState} from 'mattermost-redux/types/apps';
-import {DialogElement as DialogElementProps} from 'mattermost-redux/types/integrations';
+import {AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {DialogElement} from 'mattermost-redux/types/integrations';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import SpinnerButton from 'components/spinner_button';
@@ -18,31 +18,24 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 import EmojiMap from 'utils/emoji_map';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import DialogElement from './dialog_element';
-import DialogIntroductionText from './dialog_introduction_text';
+import AppsFormField from './apps_form_field';
+import AppsFormHeader from './apps_form_header';
 
 export type Props = {
-    modal: AppModalState;
-    appID?: string;
-    url: string;
-    callbackId?: string;
-    elements: DialogElementProps[];
-    title: string;
-    introductionText?: string;
-    iconUrl?: string;
-    submitLabel?: string;
-    notifyOnCancel?: boolean;
-    state?: string;
+    call: AppCall;
+    form: AppForm;
+    isEmbedded?: boolean;
     onHide: () => void;
     actions: {
-        submit: (dialog: {
+        submit: (submission: {
             values: {
                 [name: string]: string;
             };
         }) => Promise<{data: AppCallResponse<FormResponseData>}>;
+        performLookupCall: (field: AppField, values: AppFormValues, userInput: string) => Promise<AppSelectOption[]>;
+        refreshOnSelect: (field: AppField, values: AppFormValues, value: AppFormValue) => Promise<{data: AppCallResponse<any>}>;
     };
     emojiMap: EmojiMap;
-    isEmbedded?: boolean;
 }
 
 type FormResponseData = {
@@ -57,15 +50,26 @@ type State = {
     error: string | null;
     errors: {[name: string]: React.ReactNode};
     submitting: boolean;
+    form: AppForm;
 }
 
-export default class InteractiveDialog extends React.PureComponent<Props, State> {
+const initFormValues = (form: AppForm): {[name: string]: string} => {
+    const values: {[name: string]: any} = {};
+    if (form && form.fields) {
+        form.fields.forEach((f) => {
+            values[f.name] = f.value || null;
+        });
+    }
+
+    return values;
+};
+
+export default class AppsForm extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        const {form} = props.modal;
-
-        const values = this.initFormValues(form);
+        const {form} = props;
+        const values = initFormValues(form);
 
         this.state = {
             show: true,
@@ -73,34 +77,41 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
             error: null,
             errors: {},
             submitting: false,
+            form,
         };
     }
 
-    initFormValues = (form: AppForm): {[name: string]: string} => {
-        const values: {[name: string]: any} = {};
-        if (form && form.fields) {
-            form.fields.forEach((f) => {
-                values[f.name] = f.value || null;
-            });
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+        if (nextProps.form !== prevState.form) {
+            return {
+                values: initFormValues(nextProps.form),
+                form: nextProps.form,
+            };
         }
 
-        return values;
+        return null;
     }
 
     handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const {elements} = this.props;
+        const {fields} = this.props.form;
         const values = this.state.values;
         const errors: {[name: string]: React.ReactNode} = {};
-        if (elements) {
-            elements.forEach((elem) => {
-                const error = checkDialogElementForError(
-                    elem,
-                    values[elem.name],
+        if (fields) {
+            fields.forEach((field) => {
+                const element = {
+                    name: field.name,
+                    type: field.type,
+                    subtype: field.subtype,
+                    optional: !field.is_required,
+                } as DialogElement;
+                const error = checkDialogElementForError( // TODO: make sure all required values are present in `element`
+                    element,
+                    values[field.name],
                 );
                 if (error) {
-                    errors[elem.name] = (
+                    errors[field.name] = (
                         <FormattedMessage
                             id={error.id}
                             defaultMessage={error.defaultMessage}
@@ -117,18 +128,18 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
             return;
         }
 
-        const dialog = {
+        const submission = {
             values,
         };
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submit(dialog);
+        const {data} = await this.props.actions.submit(submission);
 
         this.setState({submitting: false});
 
         if (data?.type === 'form' && data.form) {
-            this.setState({values: this.initFormValues(data.form)});
+            this.setState({values: initFormValues(data.form)});
             return;
         }
 
@@ -142,6 +153,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
 
             const newErrors = data.data?.errors;
 
+            const elements = fields.map((field) => ({name: field.name})) as DialogElement[];
             if (
                 newErrors &&
                 Object.keys(newErrors).length >= 0 &&
@@ -157,14 +169,23 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
         }
     };
 
+    performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
+        const field = this.props.form.fields.find((f) => f.name === name);
+        if (!field) {
+            return [];
+        }
+
+        return this.props.actions.performLookupCall(field, this.state.values, userInput);
+    }
+
     onHide = () => {
         this.handleHide(false);
     };
 
     handleHide = (submitted = false) => {
-        const {notifyOnCancel} = this.props;
+        const {form} = this.props;
 
-        if (!submitted && notifyOnCancel) {
+        if (!submitted && form.submit_on_cancel) {
             // const dialog = {
             //     url,
             //     callback_id: callbackId,
@@ -179,42 +200,47 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     };
 
     onChange = (name: string, value: any) => {
-        this.setState((state) => {
-            const values = {...state.values, [name]: value};
-            return {values};
-        });
+        const field = this.props.form.fields.find((f) => f.name === name);
+        if (!field) {
+            return;
+        }
+
+        const values = {...this.state.values, [name]: value};
+
+        if (field.refresh) {
+            this.props.actions.refreshOnSelect(field, values, value);
+        }
+
+        this.setState({values});
     };
 
     renderModal() {
-        const {
-            elements,
-            introductionText,
-        } = this.props;
+        const {fields, header} = this.props.form;
 
         return (
             <Modal
-                id='interactiveDialogModal'
+                id='appsModal'
                 dialogClassName='a11y__modal about-modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 backdrop='static'
                 role='dialog'
-                aria-labelledby='interactiveDialogModalLabel'
+                aria-labelledby='appsModalLabel'
             >
                 <form onSubmit={this.handleSubmit}>
                     <Modal.Header
                         closeButton={true}
-                        style={{borderBottom: elements && elements.length ? '' : '0px'}}
+                        style={{borderBottom: fields && fields.length ? '' : '0px'}}
                     >
                         <Modal.Title
                             componentClass='h1'
-                            id='interactiveDialogModalLabel'
+                            id='appsModalLabel'
                         >
                             {this.renderHeader()}
                         </Modal.Title>
                     </Modal.Header>
-                    {(elements || introductionText) && (
+                    {(fields || header) && (
                         <Modal.Body>
                             {this.renderBody()}
                         </Modal.Body>
@@ -228,17 +254,14 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     }
 
     renderEmbedded() {
-        const {
-            elements,
-            introductionText,
-        } = this.props;
+        const {fields, header} = this.props.form;
 
         return (
             <form onSubmit={this.handleSubmit}>
                 <div>
                     {this.renderHeader()}
                 </div>
-                {(elements || introductionText) && (
+                {(fields || header) && (
                     <div>
                         {this.renderBody()}
                     </div>
@@ -253,74 +276,68 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     renderHeader() {
         const {
             title,
-            iconUrl,
-        } = this.props;
+            icon,
+        } = this.props.form;
 
-        let icon;
-        if (iconUrl) {
-            icon = (
+        let iconComponent;
+        if (icon) {
+            iconComponent = (
                 <img
-                    id='interactiveDialogIconUrl'
+                    id='appsModalIconUrl'
                     alt={'modal title icon'}
                     className='more-modal__image'
                     width='36'
                     height='36'
-                    src={iconUrl}
+                    src={icon}
                 />
             );
         }
 
         return (
             <React.Fragment>
-                {icon}
+                {iconComponent}
                 {title}
             </React.Fragment>
         );
     }
 
     renderElements() {
-        const {elements, isEmbedded} = this.props;
+        const {isEmbedded, form} = this.props;
 
-        return (elements &&
-        elements.map((e, index) => {
-            const field = this.props.modal.form.fields.find((f) => f.name === e.name) as AppField & {key?: string};
+        const {fields} = form;
+        if (!fields) {
+            return null;
+        }
+
+        return fields.map((field, index) => {
+            const isSubmit = field.name === form.submit_buttons;
+
             return (
-                <DialogElement
+                <AppsFormField
                     field={field}
-                    key={field.key || field.name}
+                    isSubmit={isSubmit}
+                    key={field.name}
                     autoFocus={index === 0}
-                    displayName={e.display_name}
-                    name={e.name}
-                    type={e.type}
-                    subtype={e.subtype}
-                    helpText={e.help_text}
-                    errorText={this.state.errors[e.name]}
-                    placeholder={e.placeholder}
-                    minLength={e.min_length}
-                    maxLength={e.max_length}
-                    dataSource={e.data_source}
-                    optional={e.optional}
-                    options={e.options}
-                    value={this.state.values[e.name]}
+                    name={field.name}
+                    errorText={this.state.errors[field.name]}
+                    value={this.state.values[field.name]}
+                    performLookup={this.performLookup}
                     onChange={this.onChange}
                     listComponent={isEmbedded ? SuggestionList : ModalSuggestionList}
                 />
             );
-        }));
+        });
     }
 
     renderBody() {
-        const {
-            introductionText,
-            elements,
-        } = this.props;
+        const {fields, header} = this.props.form;
 
-        return (elements || introductionText) && (
+        return (fields || header) && (
             <React.Fragment>
-                {introductionText && (
-                    <DialogIntroductionText
-                        id='interactiveDialogModalIntroductionText'
-                        value={introductionText}
+                {header && (
+                    <AppsFormHeader
+                        id='appsModalHeader'
+                        value={header}
                         emojiMap={this.props.emojiMap}
                     />
                 )}
@@ -330,20 +347,14 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
     }
 
     renderFooter() {
-        const {
-            elements,
-            submitLabel,
-        } = this.props;
+        const {fields} = this.props.form;
 
-        let submitText: React.ReactNode = (
+        const submitText: React.ReactNode = (
             <FormattedMessage
                 id='interactive_dialog.submit'
                 defaultMessage='Submit'
             />
         );
-        if (submitLabel) {
-            submitText = submitLabel;
-        }
 
         return (
             <React.Fragment>
@@ -351,7 +362,7 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                     <div className='error-text'>{this.state.error}</div>
                 )}
                 <button
-                    id='interactiveDialogCancel'
+                    id='appsModalCancel'
                     type='button'
                     className='btn btn-link cancel-button'
                     onClick={this.onHide}
@@ -362,9 +373,9 @@ export default class InteractiveDialog extends React.PureComponent<Props, State>
                     />
                 </button>
                 <SpinnerButton
-                    id='interactiveDialogSubmit'
+                    id='appsModalSubmit'
                     type='submit'
-                    autoFocus={!elements || elements.length === 0}
+                    autoFocus={!fields || fields.length === 0}
                     className='btn btn-primary save-button'
                     spinning={this.state.submitting}
                     spinningText={localizeMessage(

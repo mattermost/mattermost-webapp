@@ -8,8 +8,8 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
-import {AppsBindings} from 'mattermost-redux/constants/apps';
+import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -57,7 +57,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appBindings = getAppsBindings(state, AppsBindings.POST_MENU_ITEM);
+    const appBindings = getAppBindings(state, AppBindingLocations.POST_MENU_ITEM);
 
     return {
         channelIsArchived: isArchivedChannel(channel),

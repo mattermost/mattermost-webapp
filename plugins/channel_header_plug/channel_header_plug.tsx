@@ -11,6 +11,7 @@ import {FormattedMessage} from 'react-intl';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
 import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -147,6 +148,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
         this.props.actions.doAppCall({
             ...binding.call,
+            type: AppCallTypes.SUBMIT,
             context: {
                 app_id: binding.app_id,
                 location: binding.location,
@@ -203,7 +205,9 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                         href='#'
                         className='d-flex align-items-center'
                         onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
-                            url: binding.call!.url,
+                            ...binding.call,
+                            url: binding?.call?.url || '',
+                            type: AppCallTypes.SUBMIT,
                             context: {
                                 app_id: binding.app_id,
                                 location: binding.location,

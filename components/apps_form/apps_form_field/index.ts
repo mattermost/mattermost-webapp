@@ -11,7 +11,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {autocompleteChannels} from 'actions/channel_actions';
 import {autocompleteUsers} from 'actions/user_actions';
 
-import DialogElement from './dialog_element';
+import AppsFormField from './apps_form_field';
 
 type Actions = {
     autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
@@ -27,4 +27,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(DialogElement);
+export default connect(null, mapDispatchToProps)(AppsFormField);

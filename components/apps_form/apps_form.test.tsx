@@ -8,31 +8,29 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import {AppCall, AppCallResponse, AppField, AppForm} from 'mattermost-redux/types/apps';
-import {DialogElement} from 'mattermost-redux/types/integrations';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import InteractiveDialog, {Props as DialogProps} from './interactive_dialog';
+import AppsForm, {Props as AppsFormProps} from './apps_form';
 
-describe('components/apps_modal/InteractiveDialog', () => {
-    const baseProps: DialogProps = {
-        modal: {
-            form: {} as AppForm,
-            call: {} as AppCall,
-        },
-        url: 'http://example.com',
-        callbackId: 'abc',
-        elements: [],
-        title: 'test title',
-        iconUrl: 'http://example.com/icon.png',
-        submitLabel: 'Yes',
-        notifyOnCancel: true,
-        state: 'some state',
+describe('components/apps_form/AppsForm', () => {
+    const baseProps: AppsFormProps = {
+        form: {
+            fields: [{
+                name: 'field1',
+                type: 'text',
+            }],
+        } as AppForm,
+        call: {
+            url: '/submit_url',
+        } as AppCall,
         onHide: () => {},
         actions: {
+            performLookupCall: jest.fn(),
+            refreshOnSelect: jest.fn(),
             submit: jest.fn().mockResolvedValue({
                 data: {
                     type: '',
@@ -47,12 +45,13 @@ describe('components/apps_modal/InteractiveDialog', () => {
             const props = {
                 ...baseProps,
                 actions: {
+                    ...baseProps.actions,
                     submit: jest.fn().mockResolvedValue({
                         data: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
                     }),
                 },
             };
-            const wrapper = shallow<InteractiveDialog>(<InteractiveDialog {...props}/>);
+            const wrapper = shallow<AppsForm>(<AppsForm {...props}/>);
 
             await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
@@ -65,58 +64,51 @@ describe('components/apps_modal/InteractiveDialog', () => {
         });
 
         test('should not appear when submit does not return an error', async () => {
-            const wrapper = shallow<InteractiveDialog>(<InteractiveDialog {...baseProps}/>);
+            const wrapper = shallow<AppsForm>(<AppsForm {...baseProps}/>);
             await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
 
             expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
         });
     });
 
-    describe('default select element in Interactive Dialog', () => {
+    describe('default select element', () => {
         const mockStore = configureStore();
 
         test('should be enabled by default', () => {
-            const selectElement: DialogElement = {
-                data_source: '',
-                default: 'opt3',
-                display_name: 'Option Selector',
+            const selectField: AppField = {
+                type: 'static_select',
+                value: {label: 'Option3', value: 'opt3'},
+                modal_label: 'Option Selector',
                 name: 'someoptionselector',
-                optional: false,
+                is_required: true,
                 options: [
-                    {text: 'Option1', value: 'opt1'},
-                    {text: 'Option2', value: 'opt2'},
-                    {text: 'Option3', value: 'opt3'},
+                    {label: 'Option1', value: 'opt1'},
+                    {label: 'Option2', value: 'opt2'},
+                    {label: 'Option3', value: 'opt3'},
                 ],
-                type: 'select',
                 min_length: 2,
                 max_length: 1024,
-                placeholder: '',
+                hint: '',
                 subtype: '',
-                help_text: '',
+                description: '',
             };
 
-            const {elements, ...rest} = baseProps;
-            elements.push(selectElement);
-            const props: DialogProps = {
-                ...rest,
-                elements,
-                modal: {
-                    call: {} as AppCall,
-                    form: {
-                        fields: [
-                            {name: selectElement.name, value: selectElement.default} as AppField,
-                        ],
-                    },
+            const fields = [selectField];
+            const props: AppsFormProps = {
+                ...baseProps,
+                call: {} as AppCall,
+                form: {
+                    fields,
                 },
             };
 
             const store = mockStore({});
             const wrapper = mountWithIntl(
                 <Provider store={store}>
-                    <InteractiveDialog {...props}/>
+                    <AppsForm {...props}/>
                 </Provider>,
             );
-            expect(wrapper.find(Modal.Body).find('input').find({defaultValue: 'Option3'}).exists()).toBe(true);
+            expect(wrapper.find(Modal.Body).find('.react-select__single-value').text()).toEqual('Option3');
         });
     });
 });
