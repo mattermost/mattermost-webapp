@@ -331,10 +331,6 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             );
         }
 
-        // const reactSelectProps = {
-        //     formatOptionLabel: this.props.valueWithImage ? this.formatOptionLabel : undefined
-        // }
-
         const valueMap: Record<string, boolean> = {};
         for (let i = 0; i < values.length; i++) {
             valueMap[values[i].id] = true;
@@ -383,42 +379,21 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             optionsToDisplay = options;
         }
 
-        let multiSelectList;
-        if (this.props.saveButtonPosition === 'bottom') {
-            if (this.state.input) {
-                multiSelectList = (
-                    <MultiSelectList
-                        ref={this.listRef}
-                        options={optionsToDisplay}
-                        optionRenderer={this.props.optionRenderer}
-                        ariaLabelRenderer={this.props.ariaLabelRenderer}
-                        page={this.state.page}
-                        perPage={this.props.perPage}
-                        onPageChange={this.props.handlePageChange}
-                        onAdd={this.onAdd}
-                        onSelect={this.onSelect}
-                        loading={this.props.loading}
-                        selectedItemRef={this.props.selectedItemRef}
-                    />
-                );
-            }
-        } else {
-            multiSelectList = (
-                <MultiSelectList
-                    ref={this.listRef}
-                    options={optionsToDisplay}
-                    optionRenderer={this.props.optionRenderer}
-                    ariaLabelRenderer={this.props.ariaLabelRenderer}
-                    page={this.state.page}
-                    perPage={this.props.perPage}
-                    onPageChange={this.props.handlePageChange}
-                    onAdd={this.onAdd}
-                    onSelect={this.onSelect}
-                    loading={this.props.loading}
-                    selectedItemRef={this.props.selectedItemRef}
-                />
-            );
-        }
+        const multiSelectList = (
+            <MultiSelectList
+                ref={this.listRef}
+                options={optionsToDisplay}
+                optionRenderer={this.props.optionRenderer}
+                ariaLabelRenderer={this.props.ariaLabelRenderer}
+                page={this.state.page}
+                perPage={this.props.perPage}
+                onPageChange={this.props.handlePageChange}
+                onAdd={this.onAdd}
+                onSelect={this.onSelect}
+                loading={this.props.loading}
+                selectedItemRef={this.props.selectedItemRef}
+            />
+        );
 
         let memberCount;
         if (users && users.length && totalCount) {
