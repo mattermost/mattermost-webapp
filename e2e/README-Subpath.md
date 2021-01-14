@@ -84,7 +84,6 @@ server {
                 proxy_set_header X-Real-IP $remote_addr;
         }
 
-
         location ~ /company/mattermost2/api/v[0-9]+/(users/)?websocket$ {
                client_body_timeout 60;
                client_max_body_size 50M;
@@ -126,7 +125,8 @@ server {
 }
 ```
 
-
 5. Restart NGINX to reload the configuration. Exact steps depend on your OS/distribution. On most Linux distributions you can run `sudo systemctl restart nginx`
+
 6. In the `cypress.json` file, set `baseURL` to  `"http://localhost/company/mattermost1"` and `secondServerURL` to `"http://localhost/company/mattermost2"`
+
 7. Start both Mattermost tests and run the e2e tests.
