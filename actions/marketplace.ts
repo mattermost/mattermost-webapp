@@ -75,7 +75,7 @@ export function installPlugin(id: string, version: string) {
 }
 
 // filterPlugins sets a search filter for marketplace plugins, fetching the latest data.
-export function filterPlugins(filter:string): ActionFunc {
+export function filterPlugins(filter: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         dispatch({
             type: ActionTypes.FILTER_MARKETPLACE_PLUGINS,
