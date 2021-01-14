@@ -28,7 +28,7 @@ function mapStateToProps(state) {
         profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
         autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
         status: getStatusForUserId(state, userId),
-        customStatus: getCustomStatus(state),
+        customStatus: getCustomStatus(state, userId),
     };
 }
 

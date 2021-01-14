@@ -4,6 +4,7 @@
     padding: 0px 24px;
     align-items: center;
     height: 34px;
+    max-width: 238px;
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
     }
@@ -19,6 +20,7 @@
 
 .custom_status__text{
     overflow: hidden;
+    height: 20px;
     text-overflow: ellipsis;
 }
 

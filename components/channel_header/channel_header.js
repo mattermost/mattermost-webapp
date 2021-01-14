@@ -91,6 +91,7 @@ class ChannelHeader extends React.PureComponent {
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         newSideBarPreference: PropTypes.bool,
         announcementBarCount: PropTypes.number,
+        customStatus: PropTypes.object,
     };
 
     constructor(props) {
@@ -428,17 +429,18 @@ class ChannelHeader extends React.PureComponent {
             );
 
             dmHeaderCustomStatus = (
-                <CustomStatusEmoji
-                    showTooltip={true}
-                    showText={true}
-                    emojiSize={14}
-                    emojiStyle={{
-                        verticalAlign: 'text-top',
-                        marginLeft: '4px',
-                        marginRight: '4px',
-                        marginTop: '2px',
-                    }}
-                />
+                <>
+                    <CustomStatusEmoji
+                        showTooltip={true}
+                        emojiSize={14}
+                        emojiStyle={{
+                            verticalAlign: 'text-top',
+                            marginLeft: '4px',
+                            marginRight: '4px',
+                            marginTop: '2px',
+                        }}
+                    />
+                </>
             );
 
             dmHeaderTextStatus = (

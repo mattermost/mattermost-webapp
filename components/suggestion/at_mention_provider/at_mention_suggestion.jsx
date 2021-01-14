@@ -12,6 +12,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
@@ -21,6 +22,7 @@ export default class AtMentionSuggestion extends Suggestion {
         let itemname;
         let description;
         let icon;
+        let customStatus;
         if (item.username === 'all') {
             itemname = 'all';
             description = (
@@ -124,6 +126,16 @@ export default class AtMentionSuggestion extends Suggestion {
                     url={Utils.imageURLForUser(item.id, item.last_picture_update)}
                 />
             );
+
+            customStatus = (
+                <CustomStatusEmoji
+                    showTooltip={true}
+                    emojiSize={15}
+                    emojiStyle={{
+                        marginLeft: 2,
+                    }}
+                />
+            );
         }
 
         let youElement = null;
@@ -159,6 +171,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
                     />
+                    {customStatus}
                     <span className='light ml-2'>
                         {description}
                         {youElement}

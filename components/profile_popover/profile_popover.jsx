@@ -387,7 +387,7 @@ class ProfilePopover extends React.PureComponent {
         }
 
         const customStatus = this.props.customStatus;
-        if (customStatus) {
+        if (customStatus && (customStatus.text || customStatus.emoji)) {
             const customStatusEmoji = (
                 <span className='d-flex'>
                     <CustomStatusEmoji

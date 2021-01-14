@@ -37,6 +37,7 @@ import {
     openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {getCustomStatus} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -55,9 +56,11 @@ function makeMapStateToProps() {
 
         let dmUser;
         let gmMembers;
+        let customStatus;
         if (channel && channel.type === General.DM_CHANNEL) {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
+            customStatus = getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
@@ -83,6 +86,7 @@ function makeMapStateToProps() {
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
             newSideBarPreference: getNewSidebarPreference(state),
             announcementBarCount: getAnnouncementBarCount(state),
+            customStatus,
         };
     };
 }
