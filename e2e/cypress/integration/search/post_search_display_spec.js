@@ -230,7 +230,7 @@ describe('Post search display', () => {
         // # Post message
         cy.postMessage(testMessage);
 
-        // # Search for search term in:town-square{space}
+        // # Search for `Hell*`
         cy.get('input#searchBox').type('Hell*{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // # RHS should be visible with search results
