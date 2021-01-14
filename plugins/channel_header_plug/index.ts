@@ -9,7 +9,6 @@ import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
 import {doAppCall} from 'actions/apps';
 
@@ -19,7 +18,6 @@ function mapStateToProps(state: GlobalState) {
     return {
         appBindings: getAppBindings(state, AppBindingLocations.CHANNEL_HEADER_ICON),
         components: state.plugins.components.ChannelHeaderButton || [],
-        appBindings: getAppsBindings(state, AppsBindings.CHANNEL_HEADER_ICON),
         theme: getTheme(state),
     };
 }
