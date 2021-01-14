@@ -108,6 +108,11 @@
                 color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
             }
 
+            .team__name,
+            .user__name {
+                max-width: 140px;
+            }
+
             &:hover .user__name {
                 color: var(--sidebar-header-text-color);
             }
@@ -334,16 +339,6 @@
                 .MenuItem {
                     text-transform: capitalize;
                 }
-            }
-
-            .SubMenuItem > div {
-                padding-top: 2px;
-                padding-bottom: 2px;
-            }
-
-            .SubMenu__icon-right {
-                margin-right: -32px;
-                padding-right: 20px;
             }
 
             #SidebarChannelMenu-moveToDivider {

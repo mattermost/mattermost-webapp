@@ -34,7 +34,7 @@ type Props = {
     channel: Channel;
     fullWidth: boolean;
     locale: string;
-    channelProfiles: Array<UserProfileRedux>;
+    channelProfiles: UserProfileRedux[];
     enableUserCreation?: boolean;
     isReadOnly?: boolean;
     teamIsGroupConstrained?: boolean;
@@ -79,7 +79,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
     }
 }
 
-function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: Array<UserProfileRedux>, currentUserId: string) {
+function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], currentUserId: string) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
