@@ -72,7 +72,10 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        <CustomStatusEmoji/>
+                        <CustomStatusEmoji
+                            showTooltip={true}
+                            tooltipDirection='bottom'
+                        />
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'

@@ -14,6 +14,8 @@ import Constants from 'utils/constants';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import OverlayTrigger from 'components/overlay_trigger';
 
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji.tsx';
+
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
 
@@ -97,6 +99,16 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
+        let customStatus = null;
+        if (this.props.channelType === Constants.DM_CHANNEL) {
+            customStatus = (
+                <CustomStatusEmoji
+                    userID={this.props.teammateId}
+                    showTooltip={true}
+                />
+            );
+        }
+
         const content = (
             <React.Fragment>
                 <SidebarChannelButtonOrLinkIcon
@@ -115,6 +127,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                         {this.props.displayName}
                     </span>
                 </span>
+                {customStatus}
                 {badge}
                 <SidebarChannelButtonOrLinkCloseButton
                     handleClose={this.props.handleClose}
@@ -207,5 +220,6 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
 const style = {
     channelTooltip: {
         paddingLeft: '8px',
-        maxWidth: '228px'},
+        maxWidth: '228px',
+    },
 };

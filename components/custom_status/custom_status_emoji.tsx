@@ -4,7 +4,7 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
@@ -16,10 +16,14 @@ interface ComponentProps {
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
+    userID?: string;
 }
 
-const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, emojiSize = 16}: ComponentProps) => {
-    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
+const CustomStatusEmoji = (props: ComponentProps) => {
+    const {emojiSize, showTooltip, tooltipDirection, userID} = props;
+    const currentUser = useSelector((state: GlobalState) => {
+        return userID ? getUser(state, userID) : getCurrentUser(state);
+    });
     if (!(currentUser && currentUser.props && currentUser.props.customStatus)) {
         return null;
     }
@@ -28,7 +32,7 @@ const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, em
     const statusEmoji = (
         <RenderEmoji
             emoji={customStatus.emoji}
-            size={emojiSize}
+            size={emojiSize || 16}
         />
     );
 
@@ -37,7 +41,7 @@ const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, em
         status = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement={tooltipDirection}
+                placement={tooltipDirection || 'top'}
                 overlay={
                     <Tooltip id='custom-status'>
                         <div className='custom-status'>
@@ -49,7 +53,9 @@ const CustomStatusEmoji = ({tooltipDirection = 'bottom', showTooltip = false, em
                     </Tooltip>
                 }
             >
-                {statusEmoji}
+                <span className='custom-status-emoticon'>
+                    {statusEmoji}
+                </span>
             </OverlayTrigger>
         );
     }
