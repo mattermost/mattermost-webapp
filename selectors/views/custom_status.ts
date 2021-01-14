@@ -7,7 +7,7 @@ import {GlobalState} from 'types/store';
 export function getCustomStatus(state: GlobalState, userID: string) {
     const user = getUser(state, userID);
     const userProps = user.props || {};
-    return userProps.customStatus ? JSON.parse(userProps.customStatus) : {emoji: '', text: ''};
+    return userProps.customStatus ? JSON.parse(userProps.customStatus) : {};
 }
 
 export function getRecentCustomStatuses(state: GlobalState, userID: string) {

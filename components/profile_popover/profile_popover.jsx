@@ -391,10 +391,10 @@ class ProfilePopover extends React.PureComponent {
             const customStatusEmoji = (
                 <span className='d-flex'>
                     <CustomStatusEmoji
-                        size={14}
+                        userID={this.props.user.id}
                         showTooltip={false}
                         emojiStyle={{
-                            marginRight: '4px',
+                            marginRight: 4,
                         }}
                     />
                 </span>

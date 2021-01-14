@@ -130,9 +130,10 @@ export default class AtMentionSuggestion extends Suggestion {
             customStatus = (
                 <CustomStatusEmoji
                     showTooltip={true}
+                    userID={item.id}
                     emojiSize={15}
                     emojiStyle={{
-                        marginLeft: 2,
+                        marginLeft: 4,
                     }}
                 />
             );

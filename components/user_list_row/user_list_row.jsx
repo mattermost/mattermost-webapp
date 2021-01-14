@@ -11,6 +11,7 @@ import UserProfile from 'components/user_profile';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Nbsp from 'components/html_entities/nbsp';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class UserListRow extends React.PureComponent {
     static propTypes = {
@@ -115,6 +116,12 @@ export default class UserListRow extends React.PureComponent {
                         }
                         <Nbsp/>
                         {Utils.displayFullAndNicknameForUser(this.props.user)}
+                        <Nbsp/>
+                        <CustomStatusEmoji
+                            userID={this.props.user.id}
+                            emojiSize={15}
+                            showTooltip={true}
+                        />
                     </div>
                     <div
                         id={userCountEmail}

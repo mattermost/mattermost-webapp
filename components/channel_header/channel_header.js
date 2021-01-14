@@ -431,15 +431,14 @@ class ChannelHeader extends React.PureComponent {
             dmHeaderCustomStatus = (
                 <>
                     <CustomStatusEmoji
-                        showTooltip={true}
-                        emojiSize={14}
+                        userID={this.props.dmUser.id}
+                        emojiSize={15}
                         emojiStyle={{
-                            verticalAlign: 'text-top',
-                            marginLeft: '4px',
-                            marginRight: '4px',
-                            marginTop: '2px',
+                            verticalAlign: 'top',
+                            margin: '0px 4px',
                         }}
                     />
+                    {this.props.customStatus.text}
                 </>
             );
 
