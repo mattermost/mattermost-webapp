@@ -37,6 +37,14 @@ describe('components/TeamSelectorModal', () => {
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 4',
+                group_constrained: false,
+            }),
+            TestHelper.getTeamMock({
+                id: 'id5',
+                delete_at: 0,
+                scheme_id: '',
+                display_name: 'Team 5',
+                group_constrained: true,
             }),
         ],
         onModalDismissed: jest.fn(),
@@ -53,4 +61,15 @@ describe('components/TeamSelectorModal', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should hide group constrained teams when excludeGroupConstrained is true', () => {
+        const wrapper = shallow(
+            <TeamSelectorModal {...defaultProps}/>
+        );
+
+        wrapper.setProps({excludeGroupConstrained: true});
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
+
