@@ -121,6 +121,7 @@ export default class ShowUnreadsCategory extends React.PureComponent<Props, Stat
                         <div className='radio'>
                             <label>
                                 <input
+                                    data-testid='showUnreadsCategoryOn'
                                     type='radio'
                                     name='showUnreadsCategory'
                                     checked={this.state.checked}
@@ -136,6 +137,7 @@ export default class ShowUnreadsCategory extends React.PureComponent<Props, Stat
                         <div className='radio'>
                             <label>
                                 <input
+                                    data-testid='showUnreadsCategoryOff'
                                     type='radio'
                                     name='showUnreadsCategory'
                                     checked={!this.state.checked}
