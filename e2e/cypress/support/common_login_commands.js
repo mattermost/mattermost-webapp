@@ -98,3 +98,14 @@ Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
         return cy.wrap(teamName);
     });
 });
+
+Cypress.Commands.add('checkForLDAPError', () => {
+    cy.wait(TIMEOUTS.FIVE_SEC);
+    return cy.get('body').then((body) => {
+        if (body.text().includes('User not registered on AD/LDAP server.')) {
+            cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+            return cy.wrap(true);
+        }
+        return cy.wrap(false);
+    });
+});

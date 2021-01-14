@@ -204,7 +204,7 @@ export default class ClusterSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.cluster.UseExperimentalGossip'
-                            defaultMessage='Use Experimental Gossip:'
+                            defaultMessage='Use Gossip:'
                         />
                     }
                     helpText={

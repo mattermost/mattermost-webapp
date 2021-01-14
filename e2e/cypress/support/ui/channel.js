@@ -33,6 +33,7 @@ Cypress.Commands.add('uiCreateChannel', ({
         cy.get('#newChannelHeader').clear().type(header);
     }
     cy.get('#submitNewChannel').click();
+    cy.get('#newChannelModalLabel').should('not.be.visible');
     cy.get('#channelIntro').should('be.visible');
     return cy.wrap({name: channelName});
 });
@@ -54,6 +55,12 @@ Cypress.Commands.add('uiArchiveChannel', () => {
     cy.get('#channelHeaderDropdownIcon').click();
     cy.get('#channelArchiveChannel').click();
     return cy.get('#deleteChannelModalDeleteButton').click();
+});
+
+Cypress.Commands.add('uiUnarchiveChannel', () => {
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelUnarchiveChannel').click();
+    return cy.get('#unarchiveChannelModalDeleteButton').click();
 });
 
 Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
