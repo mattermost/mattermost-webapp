@@ -30,7 +30,6 @@ export default class SuggestionList extends React.PureComponent {
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
         wrapperHeight: PropTypes.number,
-        suggestionBoxAlgn: PropTypes.object,
     };
 
     static defaultProps = {
@@ -224,15 +223,13 @@ export default class SuggestionList extends React.PureComponent {
         }
 
         const contentStyle = {maxHeight};
-        const {pixelsToMoveX, pixelsToMoveY} = this.props.suggestionBoxAlgn;
-        const boxAlignment = {transform: `translate(${pixelsToMoveX}px, ${pixelsToMoveY}px)`};
 
         return (<div className={mainClass}>
             <div
                 id='suggestionList'
                 role='list'
                 ref={this.contentRef}
-                style={{...contentStyle, ...boxAlignment}}
+                style={{...contentStyle}}
                 className={contentClass}
                 onMouseDown={this.props.preventClose}
             >

@@ -36,8 +36,6 @@ Object.defineProperty(document, 'execCommand', {
     value: (cmd) => supportedCommands.includes(cmd),
 });
 
-document.documentElement.style.fontSize = '12px';
-
 let logs;
 let warns;
 let errors;

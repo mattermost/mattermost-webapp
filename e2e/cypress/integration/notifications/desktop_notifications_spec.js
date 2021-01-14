@@ -13,7 +13,7 @@
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getEmailUrl} from '../../utils';
-import {spyNotificationAs, ignoreUncaughtException} from '../../support/notification';
+import {spyNotificationAs} from '../../support/notification';
 
 describe('Desktop notifications', () => {
     let testTeam;
@@ -272,8 +272,6 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T488 Desktop Notifications - Teammate name display set to username', () => {
-        ignoreUncaughtException();
-
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
@@ -307,8 +305,6 @@ describe('Desktop notifications', () => {
 
     describe('MM-T489 Desktop Notifications - Teammate name display set to nickname', () => {
         it('displays teammates nickname when nickname exists', () => {
-            ignoreUncaughtException();
-
             const nickname = 'the rock';
 
             // # Ensure user has a nickname set up
@@ -348,8 +344,6 @@ describe('Desktop notifications', () => {
         });
 
         it('displays teammates first and last name when nickname does not exists', () => {
-            ignoreUncaughtException();
-
             // # Ensure user has a nickname set up
             cy.apiPatchUser(testUser.id, {nickname: ''});
 
@@ -386,8 +380,6 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T490 Desktop Notifications - Teammate name display set to first and last name', () => {
-        ignoreUncaughtException();
-
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
@@ -475,7 +467,6 @@ describe('Desktop notifications', () => {
                 // # Have another user post a direct message
                 cy.apiCreateDirectChannel([user.id, testUser.id]).then(({channel: dmChannel}) => {
                     cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
-                    ignoreUncaughtException();
 
                     // * DM notification is received
                     cy.get('@withNotification').should('have.been.called');
@@ -508,7 +499,6 @@ describe('Desktop notifications', () => {
                 // # Have another user post a direct message
                 cy.apiCreateDirectChannel([user.id, testUser.id]).then(({channel: dmChannel}) => {
                     cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
-                    ignoreUncaughtException();
 
                     // * DM notification is not received
                     cy.get('@withNotification').should('not.have.been.called');
@@ -521,7 +511,6 @@ describe('Desktop notifications', () => {
         cy.apiCreateUser().then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
-            ignoreUncaughtException();
 
             // # Visit town-square.
             cy.visit(`/${testTeam.name}/channels/town-square`);
