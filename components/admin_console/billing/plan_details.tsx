@@ -126,7 +126,6 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
 const PlanDetails: React.FC = () => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
-    const userInactiveCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_INACTIVE_USERS) as number;
     const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
     const aboveUserLimit = userLimit + 1;
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
