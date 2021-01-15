@@ -767,13 +767,14 @@
 
     /* Channels */
     .SidebarChannel {
-        display: block;
+        display: flex;
         height: 32px; /* height required for transition animation */
         list-style-type: none;
         /* border: solid 2px transparent; */
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        transform: scaleY(100%);
-        transform-origin: top;
+        opacity: 1;
+        visibility: visible;
+        align-items: center;
 
         &:hover {
             .btn-close {
@@ -856,9 +857,13 @@
 
 
     .SidebarChannel.animating {
-        transition-property: height, padding, color, transform;
-        transition-duration: 0.15s; /* collapse animation speed */
-        transition-timing-function: ease-out;
+        transition-property: height, padding, color, opacity, visibility;
+        transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
+        transition-timing-function: ease-in, ease-in, ease-in, ease-in, step-start;
+
+        &.collapsed {
+            transition-timing-function: ease-out, ease-out, ease-out, ease-out, step-end;
+        }
     }
 
     .SidebarChannel.invisible {
@@ -866,7 +871,8 @@
     }
 
     .SidebarChannel.collapsed {
-        transform: scaleY(0);
+        opacity: 0;
+        visibility: hidden;
         height: 0 !important;
         padding-top: 0;
         padding-bottom: 0;
