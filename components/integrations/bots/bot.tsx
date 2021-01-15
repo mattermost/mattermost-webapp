@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {ChangeEvent, SyntheticEvent, ReactNode} from 'react';
 import {Link} from 'react-router-dom';
-
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {Bot as BotType} from 'mattermost-redux/types/bots';
+import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
+import {Team} from 'mattermost-redux/types/teams';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -13,7 +15,7 @@ import SaveButton from 'components/save_button';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import * as Utils from 'utils/utils.jsx';
 
-export function matchesFilter(bot, filter, owner) {
+export function matchesFilter(bot: BotType, filter?: string, owner?: UserProfile): boolean {
     if (!filter) {
         return true;
     }
@@ -31,62 +33,73 @@ export function matchesFilter(bot, filter, owner) {
         ownerUsername.toLowerCase().indexOf(filter) === -1);
 }
 
-export default class Bot extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+    *  Bot that we are displaying
+    */
+    bot: BotType;
+
+    /**
+    * Owner of the bot we are displaying
+    */
+    owner?: UserProfile;
+
+    /**
+    * User of the bot we are displaying
+    */
+    user: UserProfile;
+
+    /**
+    * The access tokens of the bot user
+    */
+    accessTokens: Record<string, UserAccessToken>;
+
+    /**
+    * String used for filtering bot items
+    */
+    filter?: string;
+
+    actions: {
 
         /**
-        *  Bot that we are displaying
+        * Disable a bot
         */
-        bot: PropTypes.object.isRequired,
+        disableBot: (userId: string) => Promise<ActionResult>;
 
         /**
-        * Owner of the bot we are displaying
+        * Enable a bot
         */
-        owner: PropTypes.object,
+        enableBot: (userId: string) => Promise<ActionResult>;
 
         /**
-        * User of the bot we are displaying
+        * Access token managment
         */
-        user: PropTypes.object,
+        createUserAccessToken: (userId: string, description: string) => Promise<{
+            data: {token: string; description: string; id: string; is_active: boolean} | null;
+            error?: Error;
+        }>;
 
-        /**
-        * The access tokens of the bot user
-        */
-        accessTokens: PropTypes.object.isRequired,
-
-        /**
-        * String used for filtering bot items
-        */
-        filter: PropTypes.string,
-
-        actions: PropTypes.shape({
-
-            /**
-            * Disable a bot
-            */
-            disableBot: PropTypes.func.isRequired,
-
-            /**
-            * Enable a bot
-            */
-            enableBot: PropTypes.func.isRequired,
-
-            /**
-            * Access token managment
-            */
-            createUserAccessToken: PropTypes.func.isRequired,
-            revokeUserAccessToken: PropTypes.func.isRequired,
-            enableUserAccessToken: PropTypes.func.isRequired,
-            disableUserAccessToken: PropTypes.func.isRequired,
-        }),
-
-        /**
-        *  Only used for routing since backstage is team based.
-        */
-        team: PropTypes.object.isRequired,
+        revokeUserAccessToken: (tokenId: string) => Promise<{data: string; error?: Error}>;
+        enableUserAccessToken: (tokenId: string) => Promise<{data: string; error?: Error}>;
+        disableUserAccessToken: (tokenId: string) => Promise<{data: string; error?: Error}>;
     };
 
-    constructor(props) {
+    /**
+    *  Only used for routing since backstage is team based.
+    */
+    team: Team;
+}
+
+type State = {
+    confirmingId: string;
+    creatingTokenState: string;
+    token: UserAccessToken | Record<string, any>;
+    error: ReactNode;
+}
+
+export default class Bot extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -97,36 +110,36 @@ export default class Bot extends React.PureComponent {
         };
     }
 
-    enableBot = () => {
+    enableBot = (): void => {
         this.props.actions.enableBot(this.props.bot.user_id);
     }
 
-    disableBot = () => {
+    disableBot = (): void => {
         this.props.actions.disableBot(this.props.bot.user_id);
     }
 
-    enableUserAccessToken = (id) => {
+    enableUserAccessToken = (id: string): void => {
         this.props.actions.enableUserAccessToken(id);
     }
 
-    disableUserAccessToken = (id) => {
+    disableUserAccessToken = (id: string): void => {
         this.props.actions.disableUserAccessToken(id);
     }
 
-    confirmRevokeToken = (id) => {
+    confirmRevokeToken = (id: string): void => {
         this.setState({confirmingId: id});
     }
 
-    revokeTokenConfirmed = () => {
+    revokeTokenConfirmed = (): void => {
         this.props.actions.revokeUserAccessToken(this.state.confirmingId);
         this.closeConfirm();
     }
 
-    closeConfirm = () => {
+    closeConfirm = (): void => {
         this.setState({confirmingId: ''});
     }
 
-    openCreateToken = () => {
+    openCreateToken = (): void => {
         this.setState({
             creatingTokenState: 'OPEN',
             token: {
@@ -135,7 +148,7 @@ export default class Bot extends React.PureComponent {
         });
     }
 
-    closeCreateToken = () => {
+    closeCreateToken = (): void => {
         this.setState({
             creatingTokenState: 'CLOSED',
             token: {
@@ -144,13 +157,14 @@ export default class Bot extends React.PureComponent {
         });
     }
 
-    handleUpdateDescription = (e) => {
+    handleUpdateDescription = (e: ChangeEvent<HTMLInputElement>): void => {
+        const target = e.target as HTMLInputElement;
         this.setState({
-            token: Object.assign({}, this.state.token, {description: e.target.value}),
+            token: Object.assign({}, this.state.token, {description: target.value}),
         });
     }
 
-    handleCreateToken = async (e) => {
+    handleCreateToken = async (e: SyntheticEvent): Promise<void> => {
         e.preventDefault();
 
         if (this.state.token.description === '') {
@@ -171,7 +185,7 @@ export default class Bot extends React.PureComponent {
         }
     }
 
-    render() {
+    public render(): JSX.Element | null {
         const username = this.props.bot.username || '';
         const description = this.props.bot.description || '';
         const displayName = this.props.bot.display_name || '';
@@ -194,7 +208,7 @@ export default class Bot extends React.PureComponent {
             if (token.is_active) {
                 activeLink = (
                     <a
-                        name={token.id + '_deactivate'}
+                        id={token.id + '_deactivate'}
                         href='#'
                         onClick={(e) => {
                             e.preventDefault();
@@ -218,7 +232,7 @@ export default class Bot extends React.PureComponent {
                 );
                 activeLink = (
                     <a
-                        name={token.id + '_activate'}
+                        id={token.id + '_activate'}
                         href='#'
                         onClick={(e) => {
                             e.preventDefault();
@@ -264,7 +278,7 @@ export default class Bot extends React.PureComponent {
                             {activeLink}
                             {' - '}
                             <a
-                                name={token.id + '_delete'}
+                                id={token.id + '_delete'}
                                 href='#'
                                 onClick={(e) => {
                                     e.preventDefault();
