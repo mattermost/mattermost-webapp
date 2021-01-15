@@ -37,7 +37,7 @@ import {
     openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {getCustomStatus} from 'selectors/views/custom_status';
+import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -87,6 +87,7 @@ function makeMapStateToProps() {
             newSideBarPreference: getNewSidebarPreference(state),
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
+            isCustomStatusEnabled: isCustomStatusEnabled(state),
         };
     };
 }

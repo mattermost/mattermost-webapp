@@ -23,7 +23,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getSelectedPost, getRhsState} from 'selectors/rhs';
 
-import {getCustomStatus} from 'selectors/views/custom_status';
+import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 
 import ProfilePopover from './profile_popover.jsx';
 
@@ -66,6 +66,7 @@ function mapStateToProps(state, ownProps) {
         user: getUser(state, userId),
         modals: state.views.modals.modalState,
         customStatus: getCustomStatus(state, userId),
+        isCustomStatusEnabled: isCustomStatusEnabled(state),
     };
 }
 

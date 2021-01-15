@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 interface ComponentProps {
     emoji: string;
     size?: number;
-    emojiStyle?: React.CSSProperties,
+    emojiStyle?: React.CSSProperties;
 }
 
 const RenderEmoji = ({emoji, emojiStyle = {}, size = 16}: ComponentProps) => {

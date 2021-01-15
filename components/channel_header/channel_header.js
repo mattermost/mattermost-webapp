@@ -92,6 +92,7 @@ class ChannelHeader extends React.PureComponent {
         newSideBarPreference: PropTypes.bool,
         announcementBarCount: PropTypes.number,
         customStatus: PropTypes.object,
+        isCustomStatusEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -428,7 +429,7 @@ class ChannelHeader extends React.PureComponent {
                 />
             );
 
-            dmHeaderCustomStatus = (
+            dmHeaderCustomStatus = this.props.isCustomStatusEnabled && (
                 <>
                     <CustomStatusEmoji
                         userID={this.props.dmUser.id}
