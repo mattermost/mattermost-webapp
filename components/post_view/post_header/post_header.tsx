@@ -206,7 +206,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     showTooltip={true}
                     emojiSize={14}
                     emojiStyle={{
-                        margin: 4,
+                        margin: '4px 0px 0px 4px',
                     }}
                 />
             );
