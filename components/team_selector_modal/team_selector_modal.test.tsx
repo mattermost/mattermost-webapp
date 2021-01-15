@@ -64,7 +64,7 @@ describe('components/TeamSelectorModal', () => {
 
     test('should hide group constrained teams when excludeGroupConstrained is true', () => {
         const wrapper = shallow(
-            <TeamSelectorModal {...defaultProps}/>
+            <TeamSelectorModal {...defaultProps}/>,
         );
 
         wrapper.setProps({excludeGroupConstrained: true});
