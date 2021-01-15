@@ -4,7 +4,7 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug/mobile_channel_header_plug.jsx';
+import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug/mobile_channel_header_plug';
 
 describe('plugins/MobileChannelHeaderPlug', () => {
     const testPlug = {

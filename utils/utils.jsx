@@ -22,7 +22,7 @@ import moment from 'moment';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
+import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import bing from 'sounds/bing.mp3';
@@ -1015,13 +1015,17 @@ export function updateCodeTheme(userTheme) {
             });
         }
     });
+
     const link = document.querySelector('link.code_theme');
     if (link && cssPath !== link.attributes.href) {
         changeCss('code.hljs', 'visibility: hidden');
-        var xmlHTTP = new XMLHttpRequest();
+
+        const xmlHTTP = new XMLHttpRequest();
+
         xmlHTTP.open('GET', cssPath, true);
         xmlHTTP.onload = function onLoad() {
-            link.attributes.href = cssPath;
+            link.href = cssPath;
+
             if (UserAgent.isFirefox()) {
                 link.addEventListener('load', () => {
                     changeCss('code.hljs', 'visibility: visible');
@@ -1030,6 +1034,7 @@ export function updateCodeTheme(userTheme) {
                 changeCss('code.hljs', 'visibility: visible');
             }
         };
+
         xmlHTTP.send();
     }
 }
@@ -1083,19 +1088,29 @@ export function scrollbarWidth(el) {
 }
 
 export function isValidUsername(name) {
-    var error = '';
+    let error;
     if (!name) {
-        error = 'This field is required';
+        error = {
+            id: ValidationErrors.USERNAME_REQUIRED,
+        };
     } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
-        error = 'Must be between ' + Constants.MIN_USERNAME_LENGTH + ' and ' + Constants.MAX_USERNAME_LENGTH + ' characters';
+        error = {
+            id: ValidationErrors.INVALID_LENGTH,
+        };
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        error = "Username must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+        error = {
+            id: ValidationErrors.INVALID_CHARACTERS,
+        };
     } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
-        error = 'First character must be a letter.';
+        error = {
+            id: ValidationErrors.INVALID_FIRST_CHARACTER,
+        };
     } else {
-        for (var i = 0; i < Constants.RESERVED_USERNAMES.length; i++) {
-            if (name === Constants.RESERVED_USERNAMES[i]) {
-                error = 'Cannot use a reserved word as a username.';
+        for (const reserved of Constants.RESERVED_USERNAMES) {
+            if (name === reserved) {
+                error = {
+                    id: ValidationErrors.RESERVED_NAME,
+                };
                 break;
             }
         }
@@ -1111,7 +1126,9 @@ export function isValidBotUsername(name) {
     }
 
     if (name.endsWith('.')) {
-        error = "Username must not end with '.' symbol.";
+        error = {
+            id: ValidationErrors.INVALID_LAST_CHARACTER,
+        };
     }
 
     return error;
@@ -1805,12 +1822,22 @@ const BOLD_MD = '**';
 const ITALIC_MD = '*';
 
 /**
- * Applies bold/italic markdown on textbox associated with event and returns
+ * Applies bold/italic/link markdown on textbox associated with event and returns
  * modified text alongwith modified selection positions.
  */
 export function applyHotkeyMarkdown(e) {
     e.preventDefault();
 
+    if (e.keyCode === Constants.KeyCodes.B[1] || e.keyCode === Constants.KeyCodes.I[1]) {
+        return applyBoldItalicMarkdown(e);
+    } else if (e.keyCode === Constants.KeyCodes.K[1]) {
+        return applyLinkMarkdown(e);
+    }
+
+    throw Error('Unsupported key code: ' + e.keyCode);
+}
+
+function applyBoldItalicMarkdown(e) {
     const el = e.target;
     const {selectionEnd, selectionStart, value} = el;
 
@@ -1822,6 +1849,7 @@ export function applyHotkeyMarkdown(e) {
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
     let delimiter = '';
+
     if (e.keyCode === Constants.KeyCodes.B[1]) {
         delimiter = BOLD_MD;
     } else if (e.keyCode === Constants.KeyCodes.I[1]) {
@@ -1844,6 +1872,7 @@ export function applyHotkeyMarkdown(e) {
         newStart = selectionStart - delimiter.length;
         newEnd = selectionEnd - delimiter.length;
     } else {
+        // Add italic or bold markdown
         newValue = prefix + delimiter + selection + delimiter + suffix;
         newStart = selectionStart + delimiter.length;
         newEnd = selectionEnd + delimiter.length;
@@ -1854,6 +1883,103 @@ export function applyHotkeyMarkdown(e) {
         selectionStart: newStart,
         selectionEnd: newEnd,
     };
+}
+
+function applyLinkMarkdown(e) {
+    const el = e.target;
+    const {selectionEnd, selectionStart, value} = el;
+
+    // <prefix> <selection> <suffix>
+    const prefix = value.substring(0, selectionStart);
+    const selection = value.substring(selectionStart, selectionEnd);
+    const suffix = value.substring(selectionEnd);
+
+    const delimiterStart = '[';
+    const delimiterEnd = '](url)';
+
+    // Does the selection have link markdown?
+    const hasMarkdown = prefix.endsWith(delimiterStart) && suffix.startsWith(delimiterEnd);
+
+    let newValue = '';
+    let newStart = 0;
+    let newEnd = 0;
+
+    // When url is to be selected in [...](url), selection cursors need to shift by this much.
+    const urlShift = delimiterStart.length + 2; // ']'.length + ']('.length
+    if (hasMarkdown) {
+        // message already has the markdown; remove it
+        newValue = prefix.substring(0, prefix.length - delimiterStart.length) + selection + suffix.substring(delimiterEnd.length);
+        newStart = selectionStart - delimiterStart.length;
+        newEnd = selectionEnd - delimiterStart.length;
+    } else if (value.length === 0) {
+        // no input; Add [|](url)
+        newValue = delimiterStart + delimiterEnd;
+        newStart = delimiterStart.length;
+        newEnd = delimiterStart.length;
+    } else if (selectionStart < selectionEnd) {
+        // there is something selected; put markdown around it and preserve selection
+        newValue = prefix + delimiterStart + selection + delimiterEnd + suffix;
+        newStart = selectionEnd + urlShift;
+        newEnd = newStart + urlShift;
+    } else {
+        // nothing is selected
+        const spaceBefore = prefix.charAt(prefix.length - 1) === ' ';
+        const spaceAfter = suffix.charAt(0) === ' ';
+        const cursorBeforeWord = ((selectionStart !== 0 && spaceBefore && !spaceAfter) ||
+                                  (selectionStart === 0 && !spaceAfter));
+        const cursorAfterWord = ((selectionEnd !== value.length && spaceAfter && !spaceBefore) ||
+                                 (selectionEnd === value.length && !spaceBefore));
+
+        if (cursorBeforeWord) {
+            // cursor before a word
+            const word = value.substring(selectionStart, findWordEnd(value, selectionStart));
+
+            newValue = prefix + delimiterStart + word + delimiterEnd + suffix.substring(word.length);
+            newStart = selectionStart + word.length + urlShift;
+            newEnd = newStart + urlShift;
+        } else if (cursorAfterWord) {
+            // cursor after a word
+            const cursorAtEndOfLine = (selectionStart === selectionEnd && selectionEnd === value.length);
+            if (cursorAtEndOfLine) {
+                // cursor at end of line
+                newValue = value + ' ' + delimiterStart + delimiterEnd;
+                newStart = selectionEnd + 1 + delimiterStart.length;
+                newEnd = newStart;
+            } else {
+                // cursor not at end of line
+                const word = value.substring(findWordStart(value, selectionStart), selectionStart);
+
+                newValue = prefix.substring(0, prefix.length - word.length) + delimiterStart + word + delimiterEnd + suffix;
+                newStart = selectionStart + urlShift;
+                newEnd = newStart + urlShift;
+            }
+        } else {
+            // cursor is in between a word
+            const wordStart = findWordStart(value, selectionStart);
+            const wordEnd = findWordEnd(value, selectionStart);
+            const word = value.substring(wordStart, wordEnd);
+
+            newValue = prefix.substring(0, wordStart) + delimiterStart + word + delimiterEnd + value.substring(wordEnd);
+            newStart = wordEnd + urlShift;
+            newEnd = newStart + urlShift;
+        }
+    }
+
+    return {
+        message: newValue,
+        selectionStart: newStart,
+        selectionEnd: newEnd,
+    };
+}
+
+function findWordEnd(text, start) {
+    const wordEnd = text.indexOf(' ', start);
+    return wordEnd === -1 ? text.length : wordEnd;
+}
+
+function findWordStart(text, start) {
+    const wordStart = text.lastIndexOf(' ', start - 1) + 1;
+    return wordStart === -1 ? 0 : wordStart;
 }
 
 /**
@@ -1884,4 +2010,12 @@ export function adjustSelection(inputBox, e) {
 export function getNextBillingDate() {
     const nextBillingDate = moment().add(1, 'months').startOf('month');
     return nextBillingDate.format('MMM D, YYYY');
+}
+
+export function stringToNumber(s) {
+    if (!s) {
+        return 0;
+    }
+
+    return parseInt(s, 10);
 }

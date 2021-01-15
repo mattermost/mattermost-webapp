@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -28,6 +29,9 @@ describe('System Console > Team Statistics', () => {
 
             // # Select created team.
             cy.get('select.team-statistics__team-filter__dropdown').select(team.id);
+
+            // # Explicit wait to allow stats to get loaded
+            cy.wait(TIMEOUTS.TWO_SEC);
         });
     });
 

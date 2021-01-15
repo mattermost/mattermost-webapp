@@ -7,31 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @emoji
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-function deleteCustomEmoji(townsquareLink) {
-    cy.visit(townsquareLink);
-
-    // # Delete the custom emoji
-    // * Open sidebar
-    cy.get('#sidebarHeaderDropdownButton').click();
-
-    // * Click on custom emojis
-    cy.findByText('Custom Emoji').should('be.visible').click();
-
-    // * Select delete custom emoji
-    cy.get('.emoji-list-item_actions').within(() => {
-        // # Click on Delete
-        cy.findByText('Delete').should('exist').and('be.visible').click();
-    }).then(() => {
-        cy.get('#confirmModalButton').should('be.visible').click();
-
-        // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click();
-    });
-}
+import {getRandomId} from '../../utils';
 
 describe('Custom emojis', () => {
     let testTeam;
@@ -39,11 +19,9 @@ describe('Custom emojis', () => {
     let otherUser;
     let townsquareLink;
 
+    const builtinEmoji = 'taco';
     const builtinEmojiWithColons = ':taco:';
     const builtinEmojiUppercaseWithColons = ':TAco:';
-    const builtinEmojiWithoutColons = 'taco';
-    const customEmojiWithoutColons = 'emoji';
-    const customEmojiWithColons = ':emoji:';
     const largeEmojiFile = 'gif-image-file.gif';
     const largeEmojiFileResized = 'gif-image-file-resized.gif';
 
@@ -76,7 +54,7 @@ describe('Custom emojis', () => {
         });
     });
 
-    it('MM-9777 User cant add custom emoji with the same name as a system one', () => {
+    it('MM-T3668 User cant add custom emoji with the same name as a system one', () => {
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -97,6 +75,8 @@ describe('Custom emojis', () => {
     });
 
     it('MM-T2180 Custom emoji - cancel out of add', () => {
+        const {customEmoji} = getCustomEmoji();
+
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -107,7 +87,7 @@ describe('Custom emojis', () => {
         cy.findByText('Add Custom Emoji').should('be.visible').click();
 
         // # Type emoji name
-        cy.get('#name').type(customEmojiWithoutColons);
+        cy.get('#name').type(customEmoji);
 
         // # Select emoji image
         cy.get('input#select-emoji').attachFile('mattermost-icon.png').then(() => {
@@ -123,14 +103,16 @@ describe('Custom emojis', () => {
             cy.get('#emojiPickerButton').should('exist').and('be.visible').click();
 
             // # Search emoji name text in emoji searching input
-            cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithoutColons);
+            cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmoji);
 
             // # Validate that we cannot find the emoji name in the search result list
-            cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmojiWithoutColons + '"');
+            cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');
         });
     });
 
     it('MM-T2181 Custom emoji - add large', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -166,7 +148,7 @@ describe('Custom emojis', () => {
         });
 
         // # Post a message with the emoji
-        cy.get('#post_textbox').clear().type(customEmojiWithColons.substring(0, 4));
+        cy.get('#post_textbox').clear().type(customEmojiWithColons.substring(0, 10));
 
         // * Suggestion list should appear
         cy.get('#suggestionList').should('be.visible');
@@ -213,11 +195,11 @@ describe('Custom emojis', () => {
                 });
             });
         });
-
-        deleteCustomEmoji(townsquareLink);
     });
 
     it('MM-T2182 Custom emoji - animated gif', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -254,11 +236,11 @@ describe('Custom emojis', () => {
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
             cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
         });
-
-        deleteCustomEmoji(townsquareLink);
     });
 
     it('MM-T2183 Custom emoji - try to add too large', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -286,6 +268,8 @@ describe('Custom emojis', () => {
     });
 
     it('MM-T2184 Custom emoji - filter list', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
         const emojiNameForSearch1 = 'alabala';
         const emojiNameForSearch2 = customEmojiWithColons;
 
@@ -329,11 +313,11 @@ describe('Custom emojis', () => {
             cy.findAllByTestId('emojiItem').children().should('have.length', 1);
             cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
         });
-
-        deleteCustomEmoji(townsquareLink);
     });
 
     it('MM-T2185 Custom emoji - renders immediately for other user Custom emoji - renders after logging out and back in', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -404,10 +388,11 @@ describe('Custom emojis', () => {
                 });
             });
         });
-        deleteCustomEmoji(townsquareLink);
     });
 
     it('MM-T2186 Emoji picker - default and custom emoji reaction, case-insensitive', () => {
+        const {customEmoji, customEmojiWithColons} = getCustomEmoji();
+
         const messageText = 'test message';
 
         // # Open sidebar
@@ -457,7 +442,7 @@ describe('Custom emojis', () => {
                 cy.clickPostReactionIcon(postId);
 
                 // * Search first three letters of the emoji name text in emoji searching input
-                cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithoutColons.substring(0, 4));
+                cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmoji.substring(0, 10));
 
                 // # Get list of emojis based on the search text
                 cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -468,21 +453,22 @@ describe('Custom emojis', () => {
             });
 
             cy.getLastPostId().then((postId) => {
-                cy.get(`#postReaction-${postId}-` + builtinEmojiWithoutColons).should('be.visible');
-                cy.get(`#postReaction-${postId}-` + customEmojiWithoutColons).should('be.visible');
+                cy.get(`#postReaction-${postId}-` + builtinEmoji).should('be.visible');
+                cy.get(`#postReaction-${postId}-` + customEmoji).should('be.visible');
             });
 
             cy.reload();
 
             cy.getLastPostId().then((postId) => {
-                cy.get(`#postReaction-${postId}-` + builtinEmojiWithoutColons).should('be.visible');
-                cy.get(`#postReaction-${postId}-` + customEmojiWithoutColons).should('be.visible');
+                cy.get(`#postReaction-${postId}-` + builtinEmoji).should('be.visible');
+                cy.get(`#postReaction-${postId}-` + customEmoji).should('be.visible');
             });
         });
-        deleteCustomEmoji(townsquareLink);
     });
 
     it('MM-T2187 Custom emoji reaction', () => {
+        const {customEmoji, customEmojiWithColons} = getCustomEmoji();
+
         const messageText = 'test message';
 
         // # Open sidebar
@@ -514,7 +500,7 @@ describe('Custom emojis', () => {
                 cy.clickPostReactionIcon(postId);
 
                 // * Search for the emoji name text in emoji searching input
-                cy.get('#emojiPickerSearch').should('be.visible').type(customEmojiWithoutColons);
+                cy.get('#emojiPickerSearch').should('be.visible').type(customEmoji);
 
                 // # Get list of emojis based on the search text
                 cy.findAllByTestId('emojiItem').children().should('have.length', 1);
@@ -524,10 +510,11 @@ describe('Custom emojis', () => {
                 cy.findAllByTestId('emojiItem').children().click();
             });
         });
-        deleteCustomEmoji(townsquareLink);
     });
 
     it('MM-T2188 Custom emoji - delete emoji after using in post and reaction', () => {
+        const {customEmoji, customEmojiWithColons} = getCustomEmoji();
+
         // # Open sidebar
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -561,13 +548,12 @@ describe('Custom emojis', () => {
             cy.findByText('Custom Emoji').should('be.visible').click();
 
             // * Select delete new emoji
-            cy.get('.emoji-list-item_actions').within(() => {
-                // * Click on Delete
-                cy.findByText('Delete').should('exist').and('be.visible').click();
-            }).then(() => {
-                cy.get('#confirmModalButton').should('be.visible').click();
-                cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
-            });
+            cy.findByRoleExtended('cell', {name: customEmojiWithColons}).scrollIntoView().should('be.visible').
+                parent().findByText('Delete').click();
+
+            // # Confirm deletion and back to main channel view
+            cy.get('#confirmModalButton').should('be.visible').click();
+            cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
         });
 
         cy.reload();
@@ -580,13 +566,21 @@ describe('Custom emojis', () => {
         cy.findByTestId('emojiInputSearch').should('be.visible').type(customEmojiWithColons);
 
         // * Get list of emojis based on search text
-        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmojiWithoutColons + '"');
+        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');
 
         // # Navigate to a channel
         cy.visit(townsquareLink).wait(TIMEOUTS.ONE_SEC);
 
         // * Verify that only the message renders in the post and the emoji has been deleted
-        cy.getLastPost().find('p').should('have.html', '<span data-emoticon="' + customEmojiWithoutColons + '">' + customEmojiWithColons + '</span>');
+        cy.getLastPost().find('p').should('have.html', '<span data-emoticon="' + customEmoji + '">' + customEmojiWithColons + '</span>');
     });
 });
 
+function getCustomEmoji() {
+    const customEmoji = `emoji${getRandomId()}`;
+
+    return {
+        customEmoji,
+        customEmojiWithColons: `:${customEmoji}:`,
+    };
+}

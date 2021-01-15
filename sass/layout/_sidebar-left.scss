@@ -48,6 +48,14 @@
             .SidebarChannelGroupHeader_groupButton, .SidebarLink {
                 opacity: 0.4;
             }
+
+            .SidebarLink {
+                cursor: no-drop !important;
+
+                &:hover {
+                    background: none;
+                }
+            }
         }
 
         .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
@@ -106,6 +114,11 @@
 
             .user__name {
                 color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
+            }
+
+            .team__name,
+            .user__name {
+                max-width: 140px;
             }
 
             &:hover .user__name {
@@ -336,16 +349,6 @@
                 }
             }
 
-            .SubMenuItem > div {
-                padding-top: 2px;
-                padding-bottom: 2px;
-            }
-
-            .SubMenu__icon-right {
-                margin-right: -32px;
-                padding-right: 20px;
-            }
-
             #SidebarChannelMenu-moveToDivider {
                 pointer-events: none;
 
@@ -398,6 +401,18 @@
             div {
                 z-index: 2;
             }
+        }
+
+        .scrollbar--verticalTrack {
+            right: 2px;
+            bottom: 2px;
+            top: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        .scrollbar--vertical {
+            pointer-events: all;
         }
     }
 
@@ -539,6 +554,12 @@
         &.SidebarChannelGroupHeader--sticky {
             position: sticky;
         }
+
+        &.muted {
+            .icon-chevron-down, .SidebarChannelGroupHeader_text {
+                opacity: 0.4;
+            }
+        }
     }
 
     .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
@@ -645,7 +666,7 @@
         }
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
@@ -787,6 +808,11 @@
             transform: none !important;
         }
 
+        &.selectedDragging {
+            opacity: 0.25;
+            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+        }
+
         .btn-close {
             @include opacity(0);
             visibility: hidden;
@@ -808,6 +834,25 @@
         .SidebarMenu_menuButton {
             height: 28px;
             width: 28px;
+        }
+
+        .SidebarChannel__selectedCount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            height: 25px;
+            background: var(--center-channel-color);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            border-radius: 20px;
+            padding: 2px 9px 7px 9px;
+
+
+            > span {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 11px;
+                color: var(--center-channel-bg);
+            }
         }
     }
 
@@ -903,6 +948,23 @@
             color: var(--sidebar-text);
         }
 
+        &.selected {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+
+            &:hover {
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+            }
+        }
+
+    }
+
+    .SidebarLink.selected {
+        background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+        color: rgba(var(--sidebar-text-rgb), 1);
+
+        &:hover {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        }
     }
 
     .SidebarChannel.active .SidebarLink::before {

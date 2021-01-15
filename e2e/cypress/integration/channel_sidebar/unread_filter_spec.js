@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 import {
@@ -199,7 +200,7 @@ function enableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is enabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('be.visible');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
 }
 
 function disableUnreadFilter() {
@@ -207,7 +208,7 @@ function disableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is disabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('not.exist');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 }
 
 function createChannel(teamId, channelName, message) {

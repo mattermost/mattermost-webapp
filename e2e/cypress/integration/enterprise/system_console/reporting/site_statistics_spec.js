@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -74,12 +75,12 @@ describe('System Console > Site Statistics', () => {
         });
 
         // # Create a bot and get userID
-        cy.apiCreateBot('bot-' + Date.now(), 'Test Bot', 'test bot for E2E test replying to older bot post').then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             const botUserId = bot.user_id;
             cy.externalRequest({user: sysadmin, method: 'put', path: `users/${botUserId}/roles`, data: {roles: 'system_user system_post_all system_admin'}});
 
             // # Get token from bots id
-            cy.apiAccessToken(botUserId, 'Create token').then((token) => {
+            cy.apiAccessToken(botUserId, 'Create token').then(({token}) => {
                 //# Add bot to team
                 cy.apiAddUserToTeam(newChannel.team_id, botUserId);
 

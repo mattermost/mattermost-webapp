@@ -94,12 +94,15 @@ describe('Slash commands page', () => {
     });
 
     it('MM-T694 Error: trigger word in use', () => {
+        const triggerWord = 'my_trigger_word';
+        const url = 'http://test.com';
+
         // # Add new command
         cy.get('#addSlashCommand').click();
 
         // # Type a trigger word and URL
-        cy.get('#trigger').type('my_trigger_word');
-        cy.get('#url').type('http://');
+        cy.get('#trigger').type(triggerWord);
+        cy.get('#url').type(url);
 
         // # Save
         cy.get('#saveCommand').click();
@@ -117,8 +120,8 @@ describe('Slash commands page', () => {
         cy.get('#addSlashCommand').click();
 
         // # Type same trigger word and URL
-        cy.get('#trigger').type('my_trigger_word');
-        cy.get('#url').type('http://');
+        cy.get('#trigger').type(triggerWord);
+        cy.get('#url').type(url);
 
         // # Save
         cy.get('#saveCommand').click();
@@ -182,19 +185,19 @@ describe('Slash commands page', () => {
     });
 });
 
-function addNewCommand(team, trigger, url) {
+export function addNewCommand(team, trigger, url) {
     // # Add new command
     cy.get('#addSlashCommand').click();
 
     // # Type a trigger word, url and display name
     cy.get('#trigger').type(`${trigger}`);
     cy.get('#displayName').type('Test Message');
-    cy.apiGetChannelByName(team.name, 'town-square').then((res) => {
+    cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
         let urlToType = url;
         if (url === '') {
-            urlToType = `${Cypress.env('webhookBaseUrl')}/send_message_to_channel?channel_id=${res.body.id}`;
+            urlToType = `${Cypress.env('webhookBaseUrl')}/send_message_to_channel?channel_id=${channel.id}`;
         }
-        cy.get('#url').type(`${urlToType}`);
+        cy.get('#url').type(urlToType);
 
         // # Save
         cy.get('#saveCommand').click();
@@ -216,7 +219,7 @@ function runSlashCommand(team, trigger) {
     cy.wait(TIMEOUTS.TWO_SEC);
 
     // # Run slash command
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
+    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);
     cy.wait(TIMEOUTS.TWO_SEC);
 
     // # Get last post message text

@@ -28,11 +28,12 @@ export function makeSelectionEvent(input, start, end) {
     };
 }
 
-function makeMarkdownHotkeyEvent(input, start, end, keycode) {
+function makeMarkdownHotkeyEvent(input, start, end, keycode, altKey = false) {
     return {
         preventDefault: jest.fn(),
         stopPropagation: jest.fn(),
         ctrlKey: true,
+        altKey,
         key: keycode[0],
         keyCode: keycode[1],
         target: {
@@ -61,6 +62,10 @@ export function makeBoldHotkeyEvent(input, start, end) {
  */
 export function makeItalicHotkeyEvent(input, start, end) {
     return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.I);
+}
+
+function makeLinkHotKeyEvent(input, start, end) {
+    return makeMarkdownHotkeyEvent(input, start, end, Constants.KeyCodes.K, true);
 }
 
 /**
@@ -129,5 +134,137 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
         find(instance).props().onKeyDown(e);
         expect(getValue(instance)).toBe('Jalebi **Fafda & Sambharo');
         expect(setSelectionRange).toHaveBeenCalled();
+    });
+
+    test('component adds link markdown when something is selected', () => {
+        // "Fafda" is selected with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 7, 12);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
+    test('component adds link markdown when cursor is before a word', () => {
+        // Cursor is before "Fafda" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 7, 7);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
+    test('component adds link markdown when cursor is in a word', () => {
+        // Cursor is after "Fafda" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 10, 10);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
+    test('component adds link markdown when cursor is after a word', () => {
+        // Cursor is after "Fafda" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 12, 12);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi [Fafda](url) & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(15);
+        expect(selectionEnd).toBe(18);
+    });
+
+    test('component adds link markdown when cursor is at the end of line', () => {
+        // Cursor is after "Sambharo" with ctrl + alt + K hotkey
+        const input = 'Jalebi Fafda & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 23, 23);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi Fafda & Sambharo [](url)');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(25);
+        expect(selectionEnd).toBe(25);
+    });
+
+    test('component removes link markdown', () => {
+        // "Fafda" is selected with ctrl + alt + K hotkey
+        const input = 'Jalebi [Fafda](url) & Sambharo';
+        const e = makeLinkHotKeyEvent(input, 8, 13);
+
+        const instance = shallowWithIntl(generateInstance(input));
+
+        let selectionStart = -1;
+        let selectionEnd = -1;
+        const setSelectionRange = jest.fn((start, end) => {
+            selectionStart = start;
+            selectionEnd = end;
+        });
+        initRefs(instance, setSelectionRange);
+
+        find(instance).props().onKeyDown(e);
+        expect(getValue(instance)).toBe('Jalebi Fafda & Sambharo');
+        expect(setSelectionRange).toHaveBeenCalled();
+        expect(selectionStart).toBe(7);
+        expect(selectionEnd).toBe(12);
     });
 }
