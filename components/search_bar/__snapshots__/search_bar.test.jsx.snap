@@ -45,10 +45,10 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
     handleFocus={[MockFunction]}
     handleSubmit={[MockFunction]}
     isFocus={false}
-    isFocussed={false}
+    isFocused={false}
     isSearchingTerm={false}
     isSideBarRight={false}
-    keepFocussed={false}
+    keepFocused={false}
     searchTerms="test"
     suggestionProviders={
       Array [
@@ -124,10 +124,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
     handleFocus={[MockFunction]}
     handleSubmit={[MockFunction]}
     isFocus={false}
-    isFocussed={false}
+    isFocused={false}
     isSearchingTerm={false}
     isSideBarRight={false}
-    keepFocussed={false}
+    keepFocused={false}
     searchTerms=""
     suggestionProviders={
       Array [
@@ -203,10 +203,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     handleFocus={[MockFunction]}
     handleSubmit={[MockFunction]}
     isFocus={false}
+    isFocused={false}
     isFocussed={true}
     isSearchingTerm={false}
     isSideBarRight={false}
-    keepFocussed={false}
+    keepFocused={false}
     searchTerms=""
     suggestionProviders={
       Array [
@@ -282,10 +283,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
     handleFocus={[MockFunction]}
     handleSubmit={[MockFunction]}
     isFocus={false}
+    isFocused={false}
     isFocussed={true}
     isSearchingTerm={false}
     isSideBarRight={false}
-    keepFocussed={false}
+    keepFocused={false}
     searchTerms=""
     suggestionProviders={
       Array [

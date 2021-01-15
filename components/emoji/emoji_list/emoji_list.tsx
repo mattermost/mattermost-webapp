@@ -51,7 +51,7 @@ interface State {
     loading: boolean;
     page: number;
     nextLoading: boolean;
-    searchEmojis: string[];
+    searchEmojis: string[] | null;
     missingPages: boolean;
 }
 
@@ -65,7 +65,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
             loading: true,
             page: 0,
             nextLoading: false,
-            searchEmojis: [],
+            searchEmojis: null,
             missingPages: true,
         };
     }
@@ -117,7 +117,7 @@ export default class EmojiList extends React.PureComponent<Props, State> {
 
         this.searchTimeout = setTimeout(async () => {
             if (term.trim() === '') {
-                this.setState({searchEmojis: [], page: 0});
+                this.setState({searchEmojis: null, page: 0});
                 return;
             }
 
