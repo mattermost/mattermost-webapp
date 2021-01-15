@@ -84,7 +84,7 @@ describe('Channel sidebar - group unreads seperately setting', () => {
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
     });
 
-    it('Channels marked as unread should appear in the unreads category', () => {
+    it('MM-T3719_3 Channels marked as unread should appear in the unreads category', () => {
         // # Click on the unread channel
         cy.get(`.SidebarChannel.unread .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
 
