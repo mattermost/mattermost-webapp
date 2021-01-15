@@ -106,7 +106,7 @@ describe('Channel sidebar - group unreads seperately setting', () => {
         cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
     });
 
-    it('Read channels should not enter the unreads category', () => {
+    it('MM-T3719_4 Read channels should not enter the unreads category', () => {
         // # Switch to a read channel
         cy.get('.SidebarLink:contains(Off-Topic)').should('be.visible').click();
 
