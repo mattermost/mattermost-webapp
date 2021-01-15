@@ -295,8 +295,10 @@ export async function loadProfilesForSidebar() {
 export function filterGMsDMs(state, channels) {
     const newSideBarPreference = getNewSidebarPreference(state);
 
-    const filteredClosedChannels = newSideBarPreference ? filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES) : legacyFilterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
-    return filterManuallyClosedDMs(state, filteredClosedChannels);
+    let filteredChannels = filterManuallyClosedDMs(state, channels);
+    filteredChannels = newSideBarPreference ? filterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES) : legacyFilterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES);
+
+    return filteredChannels;
 }
 
 export async function loadProfilesForGM() {
