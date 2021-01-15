@@ -846,6 +846,8 @@ const AdminDefinition = {
                 'admin.sql.queryTimeoutDescription',
                 'admin.sql.connMaxLifetimeTitle',
                 'admin.sql.connMaxLifetimeDescription',
+                'admin.sql.connMaxIdleTimeTitle',
+                'admin.sql.connMaxIdleTimeDescription',
                 'admin.sql.traceTitle',
                 'admin.sql.traceDescription',
             ],
