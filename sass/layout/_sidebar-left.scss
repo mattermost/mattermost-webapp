@@ -775,6 +775,7 @@
         opacity: 1;
         visibility: visible;
         align-items: center;
+        overflow-y: hidden;
 
         &:hover {
             .btn-close {
@@ -878,7 +879,6 @@
         padding-bottom: 0;
         border-top: none;
         border-bottom: none;
-        overflow-y: hidden;
     }
 
     /* fade out collapsing list item */
