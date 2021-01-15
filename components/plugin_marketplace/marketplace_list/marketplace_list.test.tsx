@@ -4,10 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
+
+import MarketplaceItem from '../marketplace_item';
+
 import MarketplaceList from './marketplace_list';
+import NavigationRow from './navigation_row';
 
 describe('components/marketplace/marketplace_list', () => {
-    const samplePlugin = {
+    const samplePlugin: MarketplacePlugin = {
         homepage_url: 'https://github.com/mattermost/mattermost-plugin-nps',
         download_url: 'https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
         manifest: {
@@ -15,15 +20,14 @@ describe('components/marketplace/marketplace_list', () => {
             name: 'User Satisfaction Surveys',
             description: 'This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost',
             version: '1.0.3',
-            minServerVersion: '5.14.0',
+            min_server_version: '5.14.0',
         },
         installed_version: '',
     };
 
     it('should render with multiple plugins', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<MarketplaceList>(
             <MarketplaceList
-                theme={{centerChannelColor: '#3d3c40'}}
                 plugins={[
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
@@ -34,18 +38,17 @@ describe('components/marketplace/marketplace_list', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.state('page')).toEqual(0);
-        expect(wrapper.find('Connect(MarketplaceItem)')).toHaveLength(15);
-        expect(wrapper.find('Connect(NavigationRow)')).toHaveLength(1);
-        expect(wrapper.find('Connect(NavigationRow)').props().page).toEqual(0);
-        expect(wrapper.find('Connect(NavigationRow)').props().total).toEqual(17);
-        expect(wrapper.find('Connect(NavigationRow)').props().maximumPerPage).toEqual(15);
+        expect(wrapper.state().page).toEqual(0);
+        expect(wrapper.find(MarketplaceItem)).toHaveLength(15);
+        expect(wrapper.find(NavigationRow)).toHaveLength(1);
+        expect(wrapper.find(NavigationRow).props().page).toEqual(0);
+        expect(wrapper.find(NavigationRow).props().total).toEqual(17);
+        expect(wrapper.find(NavigationRow).props().maximumPerPage).toEqual(15);
     });
 
     it('should set page to 0 when list of plugins changed', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<MarketplaceList>(
             <MarketplaceList
-                theme={{centerChannelColor: '#3d3c40'}}
                 plugins={[samplePlugin, samplePlugin]}
             />,
         );
@@ -53,6 +56,6 @@ describe('components/marketplace/marketplace_list', () => {
         wrapper.setState({page: 10});
         wrapper.setProps({plugins: [samplePlugin]});
 
-        expect(wrapper.state('page')).toEqual(0);
+        expect(wrapper.state().page).toEqual(0);
     });
 });
