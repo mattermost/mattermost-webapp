@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {getEmailUrl} from '../../utils';
-import {spyNotificationAs} from '../../support/notification';
 import {getAdminAccount} from '../../support/env';
 import timeouts from '../../fixtures/timeouts';
 
@@ -18,6 +17,7 @@ const authenticator = require('authenticator');
 
 describe('Authentication', () => {
     let testTeam;
+    let testTeam2;
     let testUser;
     let testUser2;
 
@@ -30,6 +30,12 @@ describe('Authentication', () => {
         cy.apiCreateUser().then(({user: user2}) => {
             testUser2 = user2;
             cy.apiAddUserToTeam(testTeam.id, testUser2.id);
+        });
+
+        cy.apiCreateTeam().then(({team}) => {
+            testTeam2 = team;
+            cy.apiAddUserToTeam(testTeam2.id, testUser.id);
+            cy.apiAddUserToTeam(testTeam2.id, testUser2.id);
         });
 
         cy.apiLogout();
@@ -169,7 +175,17 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.uiOpenMainMenu('Log Out');
+        cy.get('#logout').scrollIntoView().should('be.visible').click();
+
+        // # Login as user B and switch to a different team and channel
+        cy.visit('/login');
+        fillCredentialsForUser(testUser2);
+
+        cy.visit(`/${testTeam2.name}/channels/town-square`).wait(timeouts.ONE_SEC);
+
+        // # Logout
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('#logout').scrollIntoView().should('be.visible').click();
 
         // # Login as user A again, observe you're viewing the team/channel you switched to in step 1
         cy.visit('/login');
@@ -181,21 +197,11 @@ describe('Authentication', () => {
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#logout').should('be.visible').click();
 
-        // # Login as user B and switch to a different team and channel
+        // # Login as user B again, observe you're viewing the team/channel you switched to in step 2
         cy.visit('/login');
         fillCredentialsForUser(testUser2);
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(timeouts.ONE_SEC);
-
-        // # Logout
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').should('be.visible').click();
-
-        // # Login as user B again, observe you're viewing the team/channel you switched to in step 3
-        cy.visit('/login');
-        fillCredentialsForUser(testUser2);
-
-        cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
+        cy.url().should('include', `/${testTeam2.name}/channels/town-square`);
     });
 
     it('MM-T419 Desktop session expires when the focus is on the tab', () => {
