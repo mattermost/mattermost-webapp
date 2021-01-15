@@ -67,7 +67,7 @@ describe('Channel sidebar - group unreads seperately setting', () => {
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get(`.SidebarChannel:contains(${testChannel.display_name})`).should('be.visible');
     });
 
-    it('Unreads category should disappear when the setting is turned off', () => {
+    it('MM-T3719_2 Unreads category should disappear when the setting is turned off', () => {
         // * Verify UNREADS category is shown and that the channel is in there
         cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').within(() => {
             cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
