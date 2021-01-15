@@ -41,7 +41,7 @@ describe('Channel sidebar - group unreads seperately setting', () => {
         });
     });
 
-    it('Unreads category should show only if there is an unread message', () => {
+    it('MM-T3719_1 Unreads category should show only if there is an unread message', () => {
         // * Verify UNREADS category is shown and that the channel is in there
         cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').within(() => {
             cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
