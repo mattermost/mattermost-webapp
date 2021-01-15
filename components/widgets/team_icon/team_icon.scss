@@ -50,6 +50,17 @@
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
         border-color: var(--sidebar-header-bg);
         background-color: rgba(255, 255, 255, 0.32);
+
+        &:before {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            left: -3px;
+            top: -3px;
+        }
     }
 
     &:active {
@@ -62,6 +73,17 @@
         border-color: var(--sidebar-header-bg);
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
         background-color: rgba(255, 255, 255, 0.32);
+        
+        &:before {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            left: -3px;
+            top: -3px;
+        }
     }
 
     &.TeamIcon__lg {
@@ -87,14 +109,24 @@
         &:hover {
             box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
 
+            &:before {
+                left: 0;
+                top: 0;
+            }
+
             .TeamIcon__image {
-                box-shadow: inset 0 0 0 3px var(--sidebar-header-bg);;
+                box-shadow: inset 0 0 0 3px var(--sidebar-header-bg);
             }
         }
     }
 
     &.withImage.active {
         box-shadow:  0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
+
+        &:before {
+            left: 0;
+            top: 0;
+        }
 
         .TeamIcon__image {
             box-shadow: inset 0 0 0 3px var(--sidebar-header-bg);;

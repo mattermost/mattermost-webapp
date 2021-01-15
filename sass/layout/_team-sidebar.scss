@@ -63,6 +63,18 @@
                     box-shadow: 0 0 0 3px var(--sidebar-header-bg);
                     z-index: 1;
                 }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 14px;
+                    height: 14px;
+                    border: 3px solid rgba(0, 0, 0, 0.2);
+                    border-radius: 100%;
+                    top: -5px;
+                    right: 6px;
+                    z-index: 2;
+                }
             }
 
             a {
@@ -117,7 +129,10 @@
 
                 .TeamIcon {
                     background-color: rgba(255, 255, 255, 0.32);
-                    transform: scale(0.9);        
+
+                    .TeamIcon__image {
+                        box-shadow: inset 0 0 0 3px var(--sidebar-header-bg);
+                    }
                 }
             }
         }
