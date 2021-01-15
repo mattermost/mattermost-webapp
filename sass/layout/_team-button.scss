@@ -37,6 +37,10 @@
                 }
             }
 
+            &:before {
+                display: none;
+            }
+
             .icon-plus {
                 font-size: 22px;
             }

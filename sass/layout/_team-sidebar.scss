@@ -50,21 +50,28 @@
             margin-right: auto;
             position: relative;
             text-align: center;
+            transition: transform 0.1s;
+            transform: translate(0, 0);
+            transform-origin: center center;
+        
+            &:active {
+                transform: translate(0, 2px);
+            }
 
             &.unread {
-                &:before {
-                    content: "";
+                .unread-badge {
                     position: absolute;
                     top: -2px;
-                    right: 9px;
+                    right: -3px;
                     border-radius: 100%;
                     width: 8px;
                     height: 8px;
                     box-shadow: 0 0 0 3px var(--sidebar-header-bg);
+                    background: white;
                     z-index: 1;
                 }
 
-                &:after {
+                &:before {
                     content: "";
                     position: absolute;
                     width: 14px;
@@ -154,16 +161,5 @@
 
     .app__content {
         margin-left: 285px;
-    }
-    .team-sidebar {
-        .team-wrapper {
-            .team-container {
-                &::before,
-                &.active::before,
-                &.unread::before {
-                    background: white;
-                }
-            }
-        }
     }
 }

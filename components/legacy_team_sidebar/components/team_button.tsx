@@ -72,6 +72,10 @@ class TeamButton extends React.PureComponent<Props> {
         if (!teamClass) {
             if (unread) {
                 teamClass = 'unread';
+
+                badge = (
+                    <span className={'unread-badge'}/>
+                );
             } else if (isNotCreateTeamButton) {
                 teamClass = '';
             } else {

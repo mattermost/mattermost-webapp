@@ -41,8 +41,7 @@
     border: 3px solid rgba(255, 255, 255, 0);
     border-radius: 8px;
     box-sizing: content-box;
-    transition: transform 0.1s, box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
-    transform: translate(0, 0);
+    transition: box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
     transform-origin: center center;
     position: relative;
 
@@ -66,7 +65,6 @@
     &:active {
         border-color: var(--sidebar-header-bg);
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
-        transform: translate(0, 2px);
     }
 
     &.active {
