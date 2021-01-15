@@ -137,8 +137,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 <React.Fragment>
                     {this.props.children}
                     <AppsForm
-                        form={this.props.post.props.form}
-                        call={this.props.post.props.call}
+                        form={this.props.post.props.app_bindings[0].form}
+                        call={this.props.post.props.app_bindings[0].call}
                         postID={this.props.post.id}
                         isEmbedded={true}
                         onHide={() => { /* Do nothing */ }}
@@ -170,19 +170,23 @@ function hasValidEmbeddedForm(props: Record<string, any>) {
         return false;
     }
 
-    if (!props.form) {
+    if (!props.app_bindings) {
         return false;
     }
 
-    if (!props.call) {
+    if (props.app_bindings.length == 0) {
         return false;
     }
 
-    if (!props.call.context) {
+    if (!props.app_bindings[0].call) {
         return false;
     }
 
-    if (!props.call.context.app_id) {
+    if (!props.app_bindings[0].call.context) {
+        return false;
+    }
+
+    if (!props.app_bindings[0].call.context.app_id) {
         return false;
     }
 
