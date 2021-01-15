@@ -30,7 +30,7 @@ exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = 
         "manifest": Object {
           "description": "This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost",
           "id": "com.mattermost.nps",
-          "minServerVersion": "5.14.0",
+          "min_server_version": "5.14.0",
           "name": "User Satisfaction Surveys",
           "version": "1.0.3",
         },
@@ -51,7 +51,7 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
         "manifest": Object {
           "description": "This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost",
           "id": "com.mattermost.nps",
-          "minServerVersion": "5.14.0",
+          "min_server_version": "5.14.0",
           "name": "User Satisfaction Surveys",
           "version": "1.0.3",
         },
@@ -63,7 +63,7 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
         "manifest": Object {
           "description": "This plugin is to test",
           "id": "com.mattermost.test",
-          "minServerVersion": "5.14.0",
+          "min_server_version": "5.14.0",
           "name": "Test",
           "version": "1.0.3",
         },
@@ -84,7 +84,7 @@ exports[`components/marketplace/ InstalledPlugins should render with multiple pl
         "manifest": Object {
           "description": "This plugin is to test",
           "id": "com.mattermost.test",
-          "minServerVersion": "5.14.0",
+          "min_server_version": "5.14.0",
           "name": "Test",
           "version": "1.0.3",
         },
@@ -96,7 +96,7 @@ exports[`components/marketplace/ InstalledPlugins should render with multiple pl
         "manifest": Object {
           "description": "This plugin is to test",
           "id": "com.mattermost.test",
-          "minServerVersion": "5.14.0",
+          "min_server_version": "5.14.0",
           "name": "Test",
           "version": "1.0.3",
         },
@@ -146,7 +146,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
         "manifest": Object {
           "description": "This plugin is to test",
           "id": "com.mattermost.test",
-          "minServerVersion": "5.14.0",
+          "min_server_version": "5.14.0",
           "name": "Test",
           "version": "1.0.3",
         },
@@ -417,7 +417,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
                   "manifest": Object {
                     "description": "This plugin is to test",
                     "id": "com.mattermost.test",
-                    "minServerVersion": "5.14.0",
+                    "min_server_version": "5.14.0",
                     "name": "Test",
                     "version": "1.0.3",
                   },
