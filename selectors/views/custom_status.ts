@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
-export function getCustomStatus(state: GlobalState, userID: string) {
-    const user = getUser(state, userID);
+export function getCustomStatus(state: GlobalState, userID: string | undefined) {
+    const user = userID ? getUser(state, userID) : getCurrentUser(state);
     const userProps = user.props || {};
     return userProps.customStatus ? JSON.parse(userProps.customStatus) : {};
 }
