@@ -187,7 +187,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.get('.InvitationModal').should('not.exist');
     });
 
-    it('MM-18040 Verify Invite New/Existing Users', () => {
+    it('MM-T1327 Invite Members - Existing Team Guest', () => {
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
@@ -197,12 +197,26 @@ describe('Guest Account - Member Invitation Flow', () => {
 
             // * Verify the content and message in next screen
             verifyInvitationError(sysadmin.username, team, 'This person is already a team member.');
+        });
+    });
+
+    it('MM-T1328 Invite Members - Existing Member not on the team', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
 
             // # Search and add an existing member by email who is not part of the team
             invitePeople(testUser.email, 1, testUser.username);
 
             // * Verify the content and message in next screen
             verifyInvitationSuccess(testUser.username, team, 'This member has been added to the team.');
+        });
+    });
+
+    it('MM-T1329 Invite Members - Invite People - Existing Guest not on the team', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
 
             // # Search and add a new member by email who is not part of the team
             const email = `temp-${getRandomId()}@mattermost.com`;
