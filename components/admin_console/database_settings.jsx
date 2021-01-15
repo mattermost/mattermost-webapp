@@ -25,6 +25,7 @@ export default class DatabaseSettings extends AdminSettings {
         config.SqlSettings.DisableDatabaseSearch = this.state.disableDatabaseSearch;
         config.SqlSettings.QueryTimeout = this.parseIntNonZero(this.state.queryTimeout);
         config.SqlSettings.ConnMaxLifetimeMilliseconds = this.parseIntNonNegative(this.state.connMaxLifetimeMilliseconds);
+        config.SqlSettings.ConnMaxIdleTimeMilliseconds = this.parseIntNonNegative(this.state.connMaxIdleTimeMilliseconds);
         config.ServiceSettings.MinimumHashtagLength = this.parseIntNonZero(this.state.minimumHashtagLength, 3, 2);
 
         return config;
@@ -40,6 +41,7 @@ export default class DatabaseSettings extends AdminSettings {
             disableDatabaseSearch: config.SqlSettings.DisableDatabaseSearch,
             queryTimeout: config.SqlSettings.QueryTimeout,
             connMaxLifetimeMilliseconds: config.SqlSettings.ConnMaxLifetimeMilliseconds,
+            connMaxIdleTimeMilliseconds: config.SqlSettings.ConnMaxIdleTimeMilliseconds,
             minimumHashtagLength: config.ServiceSettings.MinimumHashtagLength,
         };
     }
@@ -240,6 +242,26 @@ export default class DatabaseSettings extends AdminSettings {
                     value={this.state.connMaxLifetimeMilliseconds}
                     onChange={this.handleChange}
                     setByEnv={this.isSetByEnv('SqlSettings.ConnMaxLifetimeMilliseconds')}
+                    disabled={this.props.isDisabled}
+                />
+                <TextSetting
+                    id='connMaxIdleTimeMilliseconds'
+                    label={
+                        <FormattedMessage
+                            id='admin.sql.connMaxIdleTimeTitle'
+                            defaultMessage='Maximum Connection Idle Time:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.sql.connMaxIdleTimeExample', 'E.g.: "300000"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.sql.connMaxIdleTimeDescription'
+                            defaultMessage='Maximum idle time for a connection to the database in milliseconds.'
+                        />
+                    }
+                    value={this.state.connMaxIdleTimeMilliseconds}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('SqlSettings.ConnMaxIdleTimeMilliseconds')}
                     disabled={this.props.isDisabled}
                 />
                 <TextSetting
