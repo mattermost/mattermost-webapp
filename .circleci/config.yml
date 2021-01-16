@@ -13,10 +13,10 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: ddependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
+      key: dddependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
   - &save_cache
     save_cache:
-      key: ddependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
+      key: dddependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
 
@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          npm ci
+          npm install
       - *save_cache
 
   check-deps:
