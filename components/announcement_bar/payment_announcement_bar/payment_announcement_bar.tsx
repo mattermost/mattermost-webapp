@@ -81,7 +81,7 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
 
         return (
             <AnnouncementBar
-                type={AnnouncementBarTypes.CRITICAL_LIGHT}
+                type={AnnouncementBarTypes.CRITICAL}
                 showCloseButton={false}
                 onButtonClick={this.updatePaymentInfo}
                 modalButtonText={t('admin.billing.subscription.updatePaymentInfo')}
