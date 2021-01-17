@@ -70,11 +70,11 @@ export class AppCommandParser {
 
         const values = this.getFormValues(cmdStr, binding);
 
+        let call = binding.call;
         const form = this.getFormFromBinding(binding);
-        if (!form) {
-            return null;
+        if (form && form.call) {
+            call = form.call;
         }
-        const call = form.call || binding.call;
         if (!call) {
             return null;
         }
@@ -276,19 +276,16 @@ export class AppCommandParser {
             return this.getSuggestionsForSubCommands(pretext, binding);
         }
 
-        const form = this.getFormFromBinding(binding);
-        if (form) {
-            const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
-            suggestions = suggestions.concat(argSuggestions);
+        const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
+        suggestions = suggestions.concat(argSuggestions);
 
-            // Add "Execute Current Command" suggestion
-            // TODO get full text from SuggestionBox
-            const fullText = pretext;
-            const missing = this.getMissingFields(fullText, binding);
-            if (missing.length === 0) {
-                const execute = this.getSuggestionForExecute(pretext);
-                suggestions = [execute, ...suggestions];
-            }
+        // Add "Execute Current Command" suggestion
+        // TODO get full text from SuggestionBox
+        const fullText = pretext;
+        const missing = this.getMissingFields(fullText, binding);
+        if (missing.length === 0) {
+            const execute = this.getSuggestionForExecute(pretext);
+            suggestions = [execute, ...suggestions];
         }
 
         return suggestions;
@@ -304,7 +301,8 @@ export class AppCommandParser {
         const missing: AppField[] = [];
 
         const values = this.getFormValues(fullText, binding);
-        for (const field of form.fields) {
+        const fields = form.fields || [];
+        for (const field of fields) {
             if (field.is_required && !values[field.name]) {
                 missing.push(field);
             }
@@ -335,8 +333,9 @@ export class AppCommandParser {
 
         const values: {[name: string]: any} = {};
         resolvedTokens.forEach((token, i) => {
+            const fields = form.fields || [];
             let name = token.name || '';
-            const positionalArg = form.fields.find((field) => field.position === i + 1);
+            const positionalArg = fields.find((field) => field.position === i + 1);
             if (name.length === 0 && token.type === 'positional' && positionalArg) {
                 name = positionalArg.name;
             }
@@ -345,7 +344,7 @@ export class AppCommandParser {
                 return;
             }
 
-            const arg = form.fields.find((a) => a.name === name);
+            const arg = fields.find((a) => a.name === name);
             if (!arg) {
                 return;
             }
@@ -378,7 +377,7 @@ export class AppCommandParser {
     // getSuggestionsForArguments computes suggestions for positional argument values, flag names, and flag argument values
     getSuggestionsForArguments = async (pretext: string, binding: AppBinding): Promise<AutocompleteSuggestion[]> => {
         const form = this.getFormFromBinding(binding) as AppForm;
-        if (!form) {
+        if (!form || !form.fields) {
             return [];
         }
 
@@ -652,47 +651,43 @@ export class AppCommandParser {
 
     // matchSubCommand finds the appropriate nested subcommand
     matchSubCommand = (text: string): AppBinding| null => {
-        const endsInSpace = text[text.length - 1] === ' ';
-
         // Get rid of all whitespace between subcommand words
-        let cmdStr = text.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
-        if (endsInSpace) {
-            cmdStr += ' ';
-        }
-        cmdStr = cmdStr.substring(1);
-
-        const words = cmdStr.split(' ');
-        const base = words[0];
-        const bindings = this.getCommandBindings();
-        const baseCommand = bindings.find((b) => b.app_id === base);
-        if (!baseCommand || words.length < 2) {
+        const cmdStr = text.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
+        let tokens = cmdStr.split(' ');
+        if (!tokens || tokens.length === 0) {
             return null;
         }
 
-        const searchThroughBindings = (binding: AppBinding, pretext: string): AppBinding => {
-            if (!binding.bindings || binding.bindings.length === 0) {
-                return binding;
-            }
+        let bindings = this.getCommandBindings();
+        if (!bindings) {
+            return null;
+        }
+        const base = tokens[0].substring(1);
+        tokens = tokens.slice(1);
+        let root = bindings.find((b) => b.app_id === base);
+        if (!root || !root.bindings) {
+            return null;
+        }
+        bindings = root.bindings;
 
-            const remaining = pretext.split(' ').slice(1);
-            const next = remaining[0];
-            if (!next) {
-                return binding;
-            }
-
-            for (const b of binding.bindings) {
-                if (b.label === next && remaining.length > 1) {
-                    const b2 = searchThroughBindings(b, remaining.join(' '));
-                    if (b2) {
-                        return b2;
-                    }
+        for (const t of tokens) {
+            let matched: AppBinding| null = null;
+            for (const b of bindings) {
+                if (b.label === t) {
+                    matched = b;
+                    break;
                 }
             }
-
-            return binding;
-        };
-
-        return searchThroughBindings(baseCommand, cmdStr);
+            if (!matched) {
+                return root;
+            }
+            if (!matched.bindings) {
+                return matched;
+            }
+            root = matched;
+            bindings = matched.bindings;
+        }
+        return root;
     }
 
     // getFullPretextForSubCommand computes the pretext for a given subcommand

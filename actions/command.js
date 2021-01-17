@@ -106,6 +106,7 @@ export function executeCommand(message, args) {
                 }
                 const binding = await parser.getBindingWithForm(msg);
                 if (!binding) {
+                    // <><> getting Warning: Failed prop type: The prop `error.message` is marked as required in `MessageSubmitError`, but its value is `undefined`.
                     return {error: new Error('Error fetching binding for command')};
                 }
 
