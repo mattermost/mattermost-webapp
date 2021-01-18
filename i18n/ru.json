@@ -3494,8 +3494,6 @@
   "sidebar.morePublicAria": "Больше публичных каналов",
   "sidebar.morePublicDmAria": "Больше публичных каналов и личных сообщений",
   "sidebar.removeList": "Убрать из списка",
-  "sidebar.sortedByAlphabetical": "Упорядочено по алфавиту",
-  "sidebar.sortedByRecency": "Упорядочено по времени",
   "sidebar.team_select": "{siteName} - Присоединиться к команде",
   "sidebar.tutorialScreen1.body": "**Каналы** организуют разговоры на разные темы. Они открыты для всех в вашей команде. Для отправки личных сообщений используйте **Личные сообщения** для одного человека или **Приватные каналы** для нескольких человек.",
   "sidebar.tutorialScreen1.title": "Каналы",
