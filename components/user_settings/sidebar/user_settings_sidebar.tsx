@@ -873,7 +873,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
 
         const channelOrganizationSection = (showChannelOrganization && channelSidebarOrganizationDisabled) ? this.renderChannelOrganizationSection() : null;
         const channelSidebarOrganizationSection = showChannelSidebarOrganization ? this.renderChannelSidebarOrganizationSection() : null;
-        const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
+        const autoCloseDMSection = showUnusedOption && !channelSidebarOrganizationDisabled ? this.renderAutoCloseDMSection() : null;
         const channelSwitcherSection = channelSidebarOrganizationDisabled ? this.renderChannelSwitcherSection() : null;
 
         return (
