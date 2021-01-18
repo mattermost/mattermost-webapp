@@ -99,6 +99,8 @@ export type Props = {
      */
     currentUserID: string;
 
+    isCustomStatusEnabled: boolean;
+
     actions: {
         openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
@@ -199,7 +201,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         const userCustomStatus = this.props.customStatus;
         const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
         const isCurrentUser = this.props.post.user_id && this.props.post.user_id === this.props.currentUserID;
-        if (!isSystemMessage && isCustomStatusSet) {
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCustomStatusSet) {
             customStatus = (
                 <CustomStatusEmoji
                     userID={this.props.post.user_id}
@@ -212,7 +214,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (!isSystemMessage && isCurrentUser && !isCustomStatusSet) {
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet) {
             customStatus = (
                 <div
                     onClick={this.showCustomStatusModal}

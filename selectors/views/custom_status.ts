@@ -19,5 +19,7 @@ export function getRecentCustomStatuses(state: GlobalState, userID: string) {
 
 export function isCustomStatusEnabled(state: GlobalState) {
     const config = getConfig(state);
+
+    // TODO: add EnableCustomUserStatuses property in config.
     return config.EnableCustomUserStatuses === 'true';
 }

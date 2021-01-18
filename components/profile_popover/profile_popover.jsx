@@ -26,6 +26,7 @@ import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import {localizeMessage} from 'utils/utils.jsx';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -434,6 +435,7 @@ class ProfilePopover extends React.PureComponent {
                     <div>
                         <a
                             href='#'
+                            aria-label={localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
                             onClick={this.showCustomStatusModal}
                         >
                             <FormattedMessage
