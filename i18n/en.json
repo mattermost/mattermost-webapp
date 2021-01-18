@@ -3815,6 +3815,7 @@
   "sidebar.show": "Show",
   "sidebar.sort": "Sort",
   "sidebar.sortedByRecencyLabel": "Recent activity",
+  "sidebar.sortedManually": "Manually",
   "sidebar.team_select": "{siteName} - Join a team",
   "sidebar.tutorialScreen1.body": "**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people.",
   "sidebar.tutorialScreen1.title": "Channels",
