@@ -80,7 +80,7 @@ class PaymentAnnouncementBar extends React.PureComponent<Props> {
             <AnnouncementBar
                 type={AnnouncementBarTypes.CRITICAL_LIGHT}
                 showCloseButton={false}
-                showModal={this.updatePaymentInfo}
+                onButtonClick={this.updatePaymentInfo}
                 modalButtonText={t('admin.billing.subscription.updatePaymentInfo')}
                 modalButtonDefaultText={'Update payment info'}
                 message={this.isMostRecentPaymentFailed() ? t('admin.billing.subscription.mostRecentPaymentFailed') : t('admin.billing.subscription.creditCardExpired')}

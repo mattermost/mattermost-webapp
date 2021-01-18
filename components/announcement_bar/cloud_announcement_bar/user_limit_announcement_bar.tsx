@@ -161,7 +161,7 @@ class UserLimitAnnouncementBar extends React.PureComponent<Props> {
                 type={dismissable ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL_LIGHT}
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
-                showModal={this.showModal}
+                onButtonClick={this.showModal}
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}
                 modalButtonDefaultText={'Upgrade Mattermost Cloud'}
                 message={dismissable ? t('upgrade.cloud_banner_reached') : t('upgrade.cloud_banner_over')}
