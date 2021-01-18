@@ -1566,7 +1566,7 @@
   "admin.purge.button": "Purgar Todos los Cachés",
   "admin.purge.purgeDescription": "Esto eliminará toda la memoria caché para cosas como las sesiones, cuentas, canales, etc. Las Implementaciones que utilicen Alta Disponibilidad intentarán purgar todos los servidores en el agrupamiento de servidores. La purga de cachés pueden tener un impacto adverso en el rendimiento.",
   "admin.purge.purgeFail": "Purga sin éxito: {error}",
-  "admin.rate.enableLimiterDescription": "Cuando es verdadero, La APIs son reguladas a tasas especificadas a continuación.",
+  "admin.rate.enableLimiterDescription": "Cuando es verdadero, las API se regulan a las tasas que se especifican a continuación.\n \nAl limitar de velocidad evita la sobrecarga del servidor debido a demasiadas solicitudes. Esto es útil para evitar que aplicaciones de terceros o ataques maliciosos afecten a su servidor.",
   "admin.rate.enableLimiterTitle": "Habilitar el limitador de velocidad: ",
   "admin.rate.httpHeaderDescription": "Al llenar este campo, se limita la velocidad según el encabezado HTTP especificado (e.j. cuando se configura con NGINX asigna \"X-Real-IP\", cuando se configura con AmazonELB asigna \"X-Forwarded-For\").",
   "admin.rate.httpHeaderExample": "Ej.: \"X-Real-IP\", \"X-Forwarded-For\"",
