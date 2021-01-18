@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
@@ -19,12 +19,19 @@ import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import FlagIcon from 'components/widgets/icons/flag_icon';
+import LoadingScreen from 'components/loading_screen';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+
+import MessageOrFileSelector from './messages_or_files_selector';
+
+import './search_results.scss';
 
 import type {Props} from './types';
 
 const GET_MORE_BUFFER = 30;
+const FILES_SEARCH_TYPE = 'files';
+const MESSAGES_SEARCH_TYPE = 'messages';
 
 const renderView = (props: Record<string, unknown>): JSX.Element => (
     <div
@@ -91,9 +98,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
     const {
         results,
+        fileResults,
         searchTerms,
         isCard,
         isSearchAtEnd,
+        isSearchFilesAtEnd,
         isSearchingTerm,
         isFlaggedPosts,
         isSearchingFlaggedPost,
@@ -104,6 +113,10 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         isOpened,
         updateSearchTerms,
         handleSearchHintSelection,
+        searchFilterType,
+        setSearchFilterType,
+        searchType,
+        setSearchType,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
@@ -223,12 +236,20 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     return (
         <div
             id='searchContainer'
-            className='sidebar-right__body'
+            className='SearchResults sidebar-right__body'
         >
             <SearchResultsHeader>
                 {formattedTitle}
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
+            <MessageOrFileSelector
+                selected={searchType}
+                selectedFilter={searchFilterType}
+                messagesCounter={isSearchAtEnd ? `${results.length}` : `${results.length}+`}
+                filesCounter={isSearchFilesAtEnd ? `${fileResults.length}` : `${fileResults.length}+`}
+                onChange={setSearchType}
+                onFilter={setSearchFilterType}
+            />
             <Scrollbars
                 ref={scrollbars}
                 autoHide={true}

@@ -5,6 +5,9 @@ import React from 'react';
 import {Action} from 'redux';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
+export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
+export type SearchType = '' | 'files' | 'messages';
+
 export type OwnProps = {
     isSideBarRight?: boolean;
     isSideBarRightOpen?: boolean;

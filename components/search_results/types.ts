@@ -3,7 +3,10 @@
 
 import React from 'react';
 import {Post} from 'mattermost-redux/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
 import {IntlShape} from 'react-intl';
+
+import {SearchFilterType, SearchType} from '../search/types';
 
 export type OwnProps = {
     [key: string]: any;
@@ -18,10 +21,15 @@ export type OwnProps = {
     isOpened?: boolean;
     channelDisplayName?: string;
     children?: React.ReactNode;
+    searchType: string;
+    setSearchType: (searchType: SearchType) => void;
+    searchFilterType: string;
+    setSearchFilterType: (filterType: SearchFilterType) => void;
 }
 
 export type StateProps = {
     results: Post[];
+    fileResults: FileInfo[];
     matches: Record<string, string[]>;
     searchTerms: string;
     isSearchingTerm: boolean;
@@ -29,6 +37,7 @@ export type StateProps = {
     isSearchingPinnedPost: boolean;
     isSearchGettingMore: boolean;
     isSearchAtEnd: boolean;
+    isSearchFilesAtEnd: boolean;
     compactDisplay: boolean;
 }
 

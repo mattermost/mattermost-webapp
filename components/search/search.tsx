@@ -21,7 +21,7 @@ import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
 
-import type {Props} from './types';
+import type {Props, SearchFilterType, SearchType} from './types';
 
 interface SearchHintOption {
     searchTerm: string;
@@ -71,6 +71,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
         determineVisibleSearchHintOptions(searchTerms),
     );
+    const [searchType, setSearchType] = useState<SearchType>('');
+    const [searchFilterType, setSearchFilterType] = useState<SearchFilterType>('all');
 
     const suggestionProviders = useRef<Provider[]>([
         new SearchDateProvider(),
@@ -316,6 +318,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onMouseDown={handleSearchHintSelection}
                     highlightedIndex={highlightedSearchHintIndex}
                     onOptionHover={setHoverHintIndex}
+                    onSearchTypeSelected={searchType || searchTerms ? undefined : setSearchType}
+                    searchType={searchType}
                 />
             </Popover>
         );
@@ -351,6 +355,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 isFocus={props.isFocus}
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
+                searchType={searchType}
+                clearSearchType={() => setSearchType('')}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>
@@ -388,6 +394,10 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     handleSearchHintSelection={handleSearchHintSelection}
                     isSideBarExpanded={props.isRhsExpanded}
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
+                    setSearchFilterType={setSearchFilterType}
+                    searchFilterType={searchFilterType}
+                    setSearchType={setSearchType}
+                    searchType={searchType || 'messages'}
                 />
             ) : props.children}
         </div>

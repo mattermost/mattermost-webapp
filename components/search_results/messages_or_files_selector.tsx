@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
+import {SearchFilterType, SearchType} from '../search/types';
+
 import './messages_or_files_selector.scss';
 
 type Props = {
@@ -14,11 +16,11 @@ type Props = {
     selectedFilter: string;
     messagesCounter: string;
     filesCounter: string;
-    onChange: (value: string) => void;
-    onFilter: (filter: string) => void;
+    onChange: (value: SearchType) => void;
+    onFilter: (filter: SearchFilterType) => void;
 };
 
-export default function MessagesOrFilesSelector(props: Props): React.ReactNode {
+export default function MessagesOrFilesSelector(props: Props): JSX.Element {
     return (
         <div className='MessagesOrFilesSelector'>
             <div>

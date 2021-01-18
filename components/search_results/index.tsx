@@ -9,6 +9,7 @@ import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/ent
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 import {Post} from 'mattermost-redux/types/posts';
+import {FileInfo} from 'mattermost-redux/types/files';
 
 import {
     getSearchResultsTerms,
@@ -25,6 +26,7 @@ import {StateProps, OwnProps} from './types';
 
 function makeMapStateToProps() {
     let results: Post[];
+    let files: FileInfo[] = [];
     let posts: Post[];
 
     return function mapStateToProps(state: GlobalState) {
@@ -59,6 +61,7 @@ function makeMapStateToProps() {
 
         return {
             results: posts,
+            fileResults: files,
             matches: getSearchMatches(state),
             searchTerms: getSearchResultsTerms(state),
             isSearchingTerm: getIsSearchingTerm(state),
@@ -66,6 +69,8 @@ function makeMapStateToProps() {
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             isSearchGettingMore: getIsSearchGettingMore(state),
             isSearchAtEnd: currentSearch.isEnd,
+            // TODO: Fix this
+            isSearchFilesAtEnd: false,
             searchPage: currentSearch.params?.page,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         };
