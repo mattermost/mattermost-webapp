@@ -860,7 +860,7 @@
     .SidebarChannel.animating {
         transition-property: height, padding, color, opacity, visibility;
         transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
-        transition-timing-function: ease-out, ease-out, ease-out, ease-in, step-start;
+        transition-timing-function: ease, ease, ease, ease-in, step-start;
 
         &.collapsed {
             transition-timing-function: ease-out, ease-out, ease-out, ease-out, step-end;
