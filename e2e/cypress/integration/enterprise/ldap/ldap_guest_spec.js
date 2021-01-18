@@ -122,7 +122,7 @@ describe('LDAP guest', () => {
         gotoLDAPSettings();
         updateGuestFilter(`(uid=${user1.username})`);
 
-        // # Goto Guest access page and disable guest access
+        // # Go to Guest access page and disable guest access
         gotoGuestAccessSettings();
         setGuestAccess(false);
 
