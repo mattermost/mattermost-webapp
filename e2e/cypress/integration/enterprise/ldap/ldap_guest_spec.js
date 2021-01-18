@@ -118,7 +118,7 @@ describe('LDAP guest', () => {
         gotoGuestAccessSettings();
         setGuestAccess(true);
 
-        // # Goto LDAP settings page and update guest filter as user1
+        // # Go to LDAP settings page and update guest filter as user1
         gotoLDAPSettings();
         updateGuestFilter(`(uid=${user1.username})`);
 
