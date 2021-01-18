@@ -126,7 +126,7 @@ describe('LDAP guest', () => {
         gotoGuestAccessSettings();
         setGuestAccess(false);
 
-        // # Goto LDAP settings page
+        // # Go to LDAP settings page
         gotoLDAPSettings();
         cy.findByTestId('LdapSettings.GuestFilterinput').should('have.attr', 'disabled');
 
