@@ -25,7 +25,7 @@ describe('/components/common/hocs/with_get_cloud_subcription', () => {
             <EnhancedComponent
                 isCloud={true}
                 actions={actions}
-                subscription={null}
+                subscription={{}}
             />,
         );
 
@@ -44,7 +44,7 @@ describe('/components/common/hocs/with_get_cloud_subcription', () => {
             <EnhancedComponent
                 isCloud={false}
                 actions={actions}
-                subscription={null}
+                subscription={{}}
             />,
         );
 
