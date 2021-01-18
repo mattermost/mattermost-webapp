@@ -161,11 +161,12 @@
         &.desktop {
             display: block;
             margin: 16px 14px 8px 14px;
-            
-            button:not(.SidebarChannelNavigator_jumpToButton), .SidebarFilters_filterButton {
+
+            & > button:not(.SidebarChannelNavigator_jumpToButton),
+            & > .SidebarFilters_filterButton {
                 background: transparent;
 
-                &:hover { 
+                &:hover {
                     background: rgba(255, 255, 255, 0.08);
                     color: var(--sidebar-text);
                 }
@@ -176,7 +177,8 @@
             display: flex;
             margin: 16px 14px 8px 14px;
 
-            button, .SidebarFilters_filterButton {
+            & > button,
+            & > .SidebarFilters_filterButton {
                 margin: 0 2px;
                 background: rgba(255, 255, 255, 0.08);
 
@@ -187,7 +189,7 @@
             }
         }
 
-        button {
+        & > button {
             font-size: 18px;
             height: 28px;
             min-width: 28px;
@@ -259,7 +261,7 @@
         display: block;
         line-height: 26px;
         height: 28px;
-        width: 28px;      
+        width: 28px;
         text-align: center;
         border-radius: 4px;
         color: rgba(var(--sidebar-text-rgb), 0.6);
@@ -386,13 +388,13 @@
 
             .MenuItem {
                 width: 100%;
-                
+
                 div:hover,
                 div:focus {
                     background: none !important;
                 }
             }
-            
+
             .SubMenu__icon-right {
                 margin-right: 0;
                 padding: 0 9px 0 8px;
@@ -416,7 +418,7 @@
                 i {
                     color: var(--button-bg);
                 }
-            }    
+            }
 
             .SubMenuItemContainer:not(.hasDivider) {
                 display: flex;
