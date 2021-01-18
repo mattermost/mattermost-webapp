@@ -114,7 +114,7 @@ describe('LDAP guest', () => {
     });
 
     it('MM-T1424 LDAP Guest Filter behavior when Guest Access is disabled', () => {
-        // # Goto Guest access page and enable guest access
+        // # Go to Guest access page and enable guest access
         gotoGuestAccessSettings();
         setGuestAccess(true);
 
