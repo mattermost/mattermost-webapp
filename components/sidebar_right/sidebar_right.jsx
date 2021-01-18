@@ -9,6 +9,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
+import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
 import Search from 'components/search/index.tsx';
@@ -168,12 +169,15 @@ export default class SidebarRight extends React.PureComponent {
         switch (true) {
         case postRightVisible:
             content = (
-                <RhsThread
-                    previousRhsState={previousRhsState}
-                    currentUserId={currentUserId}
-                    toggleSize={this.toggleSize}
-                    shrink={this.onShrink}
-                />
+                <div className='post-right__container'>
+                    <FileUploadOverlay overlayType='right'/>
+                    <RhsThread
+                        previousRhsState={previousRhsState}
+                        currentUserId={currentUserId}
+                        toggleSize={this.toggleSize}
+                        shrink={this.onShrink}
+                    />
+                </div>
             );
             break;
         case postCardVisible:
