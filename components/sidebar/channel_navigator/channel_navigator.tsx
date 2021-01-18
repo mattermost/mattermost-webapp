@@ -23,6 +23,7 @@ type Props = {
     handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
     canCreateChannel: boolean;
+    showUnreadsCategory: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -30,11 +31,7 @@ type Props = {
     };
 };
 
-type State = {
-
-};
-
-export default class ChannelNavigator extends React.PureComponent<Props, State> {
+export default class ChannelNavigator extends React.PureComponent<Props> {
     openQuickSwitcher = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -119,8 +116,8 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                     {jumpToButton}
                     <div className='SidebarContainer_filterAddChannel desktop'>
                         <div className='SidebarContainer_rightContainer'>
-                            <ChannelFilter/>
-                            <div className='SidebarChannelNavigator_divider'/>
+                            {!this.props.showUnreadsCategory && <ChannelFilter/>}
+                            {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
                             {historyArrows}
                         </div>
                         {addChannelDropdown}
@@ -130,7 +127,7 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
         } else {
             layout = (
                 <div className={'SidebarChannelNavigator webapp'}>
-                    <ChannelFilter/>
+                    {!this.props.showUnreadsCategory && <ChannelFilter/>}
                     {jumpToButton}
                     {addChannelDropdown}
                 </div>
