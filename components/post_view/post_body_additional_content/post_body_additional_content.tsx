@@ -174,7 +174,7 @@ function hasValidEmbeddedForm(props: Record<string, any>) {
         return false;
     }
 
-    if (props.app_bindings.length == 0) {
+    if (props.app_bindings.length === 0) {
         return false;
     }
 
