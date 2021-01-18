@@ -436,7 +436,7 @@ class ChannelHeader extends React.PureComponent {
                         emojiSize={15}
                         emojiStyle={{
                             verticalAlign: 'top',
-                            margin: '0px 4px',
+                            margin: '0 4px',
                         }}
                     />
                     {this.props.customStatus.text}

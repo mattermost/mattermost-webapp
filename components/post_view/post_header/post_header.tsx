@@ -97,7 +97,7 @@ export type Props = {
     /**
      * User id of logged in user.
      */
-    userID: string;
+    currentUserID: string;
 
     actions: {
         openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
@@ -109,7 +109,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.userID},
+            dialogProps: {userId: this.props.currentUserID},
         };
 
         this.props.actions.openModal(customStatusInputModalData);
@@ -198,7 +198,7 @@ export default class PostHeader extends React.PureComponent<Props> {
 
         const userCustomStatus = this.props.customStatus;
         const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
-        const isCurrentUser = this.props.post.user_id && this.props.post.user_id === this.props.userID
+        const isCurrentUser = this.props.post.user_id && this.props.post.user_id === this.props.currentUserID;
         if (!isSystemMessage && isCustomStatusSet) {
             customStatus = (
                 <CustomStatusEmoji
@@ -206,7 +206,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     showTooltip={true}
                     emojiSize={14}
                     emojiStyle={{
-                        margin: '4px 0px 0px 4px',
+                        margin: '4px 0 0 4px',
                     }}
                 />
             );

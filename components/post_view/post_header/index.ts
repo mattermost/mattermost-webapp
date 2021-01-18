@@ -41,7 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         overwriteIcon,
         isGuest: Boolean(user && isGuest(user)),
         customStatus,
-        userID: currentUser.id,
+        currentUserID: currentUser.id,
     };
 }
 
