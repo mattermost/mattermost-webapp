@@ -83,7 +83,6 @@
 
             &.MenuItem__with-help {
                 height: auto;
-                padding: 0 24px;
 
                 .MenuItem__primary-text {
                     padding: 7px 0 3px;
@@ -140,7 +139,7 @@
 }
 
 .SubMenu__icon-left {
-    color: inherit;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 19px;
     position: relative;
     top: 0;
@@ -155,7 +154,7 @@
 }
 
 .SubMenu__icon-right {
-    color: inherit;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 19px;
     padding-top: 3px;
     float: right;
