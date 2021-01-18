@@ -18,7 +18,6 @@ import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
-import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
 type Props = {
     teamId: string;
@@ -56,13 +55,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentDidMount() {
         if (this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
-        }
-
-        if (!this.props.hasSeenModal && !this.props.isCloud) {
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL,
-                dialogType: SidebarWhatsNewModal,
-            });
         }
 
         window.addEventListener('click', this.handleClickClearChannelSelection);

@@ -19,7 +19,7 @@ describe('Channel switching', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 

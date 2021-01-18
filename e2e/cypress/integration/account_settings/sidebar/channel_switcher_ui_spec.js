@@ -15,7 +15,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // # Update config and visit town-square channel
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                EnableLegacySidebar: true,
             },
         });
 
