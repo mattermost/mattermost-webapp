@@ -213,7 +213,7 @@ describe('LDAP guest', () => {
 
                     cy.wait(TIMEOUTS.TWO_SEC);
 
-                    // # Goto the new team
+                    // # Go to the new team
                     cy.visit(`/${team.name}/channels/town-square`);
 
                     // # Open Invite People
