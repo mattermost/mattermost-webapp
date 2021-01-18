@@ -18,7 +18,6 @@ import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
@@ -742,11 +741,6 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
     };
 
     renderShowUnreadsCategorySection = () => {
-        if (this.props.channelSidebarOrganizationOption === 'false') {
-            // Only render this section when the new sidebar is enabled
-            return null;
-        }
-
         return (
             <ShowUnreadsCategory
                 active={this.props.activeSection === 'showUnreadsCategory'}
