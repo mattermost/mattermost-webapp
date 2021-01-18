@@ -16,3 +16,12 @@ Cypress.Commands.add('uiOpenAccountSettingsModal', (section = '') => {
 
     return accountSettingsModal();
 });
+
+Cypress.Commands.add('verifyAccountNameSettings', (firstname, lastname) => {
+    // # Go to Account Settings
+    cy.uiOpenAccountSettingsModal();
+
+    // * Check name value
+    cy.get('#nameDesc').should('have.text', `${firstname} ${lastname}`);
+    cy.uiClose();
+});

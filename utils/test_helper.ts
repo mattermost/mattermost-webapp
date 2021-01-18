@@ -3,7 +3,7 @@
 import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
 import {Role} from 'mattermost-redux/types/roles';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
 import {FileInfo} from 'mattermost-redux/types/files';
@@ -58,6 +58,17 @@ export class TestHelper {
             bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
+    }
+
+    public static getUserAccessTokenMock(override?: Partial<UserAccessToken>): UserAccessToken {
+        const defaultUserAccessToken: UserAccessToken = {
+            id: 'token_id',
+            token: 'token',
+            user_id: 'user_id',
+            description: 'token_description',
+            is_active: true,
+        };
+        return Object.assign({}, defaultUserAccessToken, override);
     }
 
     public static getBotMock(override: Partial<Bot>): Bot {
