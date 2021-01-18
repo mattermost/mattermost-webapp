@@ -863,7 +863,7 @@
         transition-timing-function: ease, ease, ease, ease-in, step-start;
 
         &.collapsed {
-            transition-timing-function: ease-out, ease-out, ease-out, ease-out, step-end;
+            transition-timing-function: ease, ease, ease, ease-out, step-end;
         }
     }
 
