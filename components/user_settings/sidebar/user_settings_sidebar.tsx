@@ -741,6 +741,11 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
     };
 
     renderShowUnreadsCategorySection = () => {
+        if (this.props.enableLegacySidebar) {
+            // Only render this section when the new sidebar is enabled
+            return null;
+        }
+
         return (
             <ShowUnreadsCategory
                 active={this.props.activeSection === 'showUnreadsCategory'}
