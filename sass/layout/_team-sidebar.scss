@@ -41,15 +41,15 @@
         flex: 1 1 auto;
         position: relative;
 
-        .team-container {
+        .draggable-team-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 12px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
             text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .team-container {
             transition: transform 0.1s;
             transform: translate(0, 0);
             transform-origin: center center;

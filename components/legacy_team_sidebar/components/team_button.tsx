@@ -205,13 +205,18 @@ class TeamButton extends React.PureComponent<Props> {
                 {(provided, snapshot) => {
                     return (
                         <div
+                            className='draggable-team-container'
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={classNames([`team-container ${teamClass}`, {isDragging: snapshot.isDragging}])}
                         >
-                            {teamButton}
-                            {orderIndicator}
+                            <div
+
+                                className={classNames([`team-container ${teamClass}`, {isDragging: snapshot.isDragging}])}
+                            >
+                                {teamButton}
+                                {orderIndicator}
+                            </div>
                         </div>
                     );
                 }}
