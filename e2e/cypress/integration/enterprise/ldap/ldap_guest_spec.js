@@ -66,7 +66,7 @@ describe('LDAP guest', () => {
     });
 
     it('MM-T1422 LDAP Guest Filter', () => {
-        // # Goto LDAP settings page and update guest filter as user1
+        // # Go to LDAP settings page and update guest filter as user1
         gotoLDAPSettings();
         updateGuestFilter(`(uid=${user1.username})`);
 
