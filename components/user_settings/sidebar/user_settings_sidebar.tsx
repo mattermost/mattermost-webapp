@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -19,8 +18,11 @@ import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+
+import ShowUnreadsCategory from './show_unreads_category';
 
 export interface UserSettingsSidebarProps {
     actions: {
@@ -739,6 +741,20 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
         );
     };
 
+    renderShowUnreadsCategorySection = () => {
+        if (this.props.channelSidebarOrganizationOption === 'false') {
+            // Only render this section when the new sidebar is enabled
+            return null;
+        }
+
+        return (
+            <ShowUnreadsCategory
+                active={this.props.activeSection === 'showUnreadsCategory'}
+                updateSection={this.updateSection}
+            />
+        );
+    };
+
     render(): JSX.Element {
         const {showUnusedOption, showChannelOrganization, enableLegacySidebar} = this.props;
 
@@ -759,10 +775,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title'>
                         <div
                             className='modal-back'
                             onClick={this.props.collapseModal}
@@ -791,6 +804,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                     <div className='divider-dark first'/>
                     {channelOrganizationSection}
                     {channelSwitcherSection}
+                    {this.renderShowUnreadsCategorySection()}
                     {showUnusedOption ? <div className='divider-light'/> : <div className='divider-dark'/>}
                     {autoCloseDMSection}
                 </div>
@@ -798,4 +812,3 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
         );
     }
 }
-/* eslint-disable react/no-string-refs */
