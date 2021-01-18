@@ -130,7 +130,7 @@ describe('LDAP guest', () => {
         gotoLDAPSettings();
         cy.findByTestId('LdapSettings.GuestFilterinput').should('have.attr', 'disabled');
 
-        // # Goto SAML settings page
+        // # Go to SAML settings page
         cy.visit('/admin_console/authentication/saml');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'SAML 2.0');
         cy.findByTestId('SamlSettings.GuestAttributeinput').should('be.disabled');
