@@ -106,6 +106,10 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       }
       updateSection={[Function]}
     />
+    <Connect(ShowUnreadsCategory)
+      active={false}
+      updateSection={[Function]}
+    />
     <div
       className="divider-dark"
     />
