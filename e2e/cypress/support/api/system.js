@@ -264,6 +264,13 @@ Cypress.Commands.add('shouldHavePluginUploadEnabled', () => {
     });
 });
 
+Cypress.Commands.add('shouldRunWithSubpath', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);
+        expect(isSubpath, isSubpath ? '' : 'Should run on server running with subpath only').to.equal(true);
+    });
+});
+
 /**
  * Upload a license if it does not exist.
  */
