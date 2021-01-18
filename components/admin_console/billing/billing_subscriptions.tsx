@@ -60,7 +60,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const contactUsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
+    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -202,7 +202,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     />
                 </div>
                 <a
-                    href={contactUsLink}
+                    href={cancelAccountLink}
                     rel='noopener noreferrer'
                     target='_new'
                     className='cancelSubscriptionSection__contactUs'
