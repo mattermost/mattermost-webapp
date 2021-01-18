@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {TestHelper} from 'utils/test_helper';
 
 import SystemRoleUsers from './system_role_users';
@@ -15,10 +16,10 @@ describe('admin_console/system_role_users', () => {
         term: 'asdfasdf',
         currentUserId: '123123',
         usersToRemove: {
-            'userToRemove': TestHelper.getUserMock(),
+            userToRemove: TestHelper.getUserMock(),
         },
         usersToAdd: {
-            'userToAdd': TestHelper.getUserMock(),
+            userToAdd: TestHelper.getUserMock(),
         },
         onAddCallback: jest.fn(),
         onRemoveCallback: jest.fn(),
@@ -29,10 +30,9 @@ describe('admin_console/system_role_users', () => {
             setUserGridSearch: jest.fn(),
         },
         readOnly: false,
-    }
+    };
 
     test('should match snapshot', () => {
-
         const wrapper = shallow(
             <SystemRoleUsers
                 {...props}
@@ -42,7 +42,6 @@ describe('admin_console/system_role_users', () => {
     });
 
     test('should match snapshot with readOnly true', () => {
-
         const wrapper = shallow(
             <SystemRoleUsers
                 {...props}

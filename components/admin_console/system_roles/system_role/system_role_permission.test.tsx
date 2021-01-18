@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
+
 import {readAccess} from './types';
 
 import SystemRolePermission from './system_role_permission';
@@ -30,7 +31,7 @@ describe('admin_console/system_role_permission', () => {
             roles: {
                 system_admin: TestHelper.getRoleMock(),
             },
-        }
+        };
 
         const wrapper = shallow(
             <SystemRolePermission

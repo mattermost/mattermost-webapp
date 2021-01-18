@@ -18,10 +18,9 @@ describe('admin_console/system_role_permission_dropdown', () => {
         access: readAccess,
         updatePermissions: jest.fn(),
         isDisabled: false,
-    }
+    };
 
     test('should match snapshot', () => {
-
         const wrapper = shallow(
             <SystemRolePermissionDropdown
                 {...props}
@@ -31,7 +30,6 @@ describe('admin_console/system_role_permission_dropdown', () => {
     });
 
     test('should match snapshot with isDisabledTrue', () => {
-
         const wrapper = shallow(
             <SystemRolePermissionDropdown
                 {...props}

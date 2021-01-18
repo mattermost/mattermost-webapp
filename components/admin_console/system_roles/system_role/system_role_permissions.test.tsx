@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
+
 import {readAccess, writeAccess} from './types';
 
 import SystemRolePermissions from './system_role_permissions';
@@ -20,7 +21,7 @@ describe('admin_console/system_role_permissions', () => {
             site: writeAccess,
         },
         role: TestHelper.getRoleMock(),
-    }
+    };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -46,15 +47,15 @@ describe('admin_console/system_role_permissions', () => {
             <SystemRolePermissions
                 {...props}
             />);
-        
+
         const expectedLength = 10;
-        let systemRolePermissionLength = wrapper.find(SystemRolePermission).length
+        let systemRolePermissionLength = wrapper.find(SystemRolePermission).length;
         expect(systemRolePermissionLength).toEqual(expectedLength);
-        wrapper.setProps({ permissionToUpdate: {
+        wrapper.setProps({permissionToUpdate: {
             environment: writeAccess,
             plugins: readAccess,
-        }});    
-        systemRolePermissionLength = wrapper.find(SystemRolePermission).length
+        }});
+        systemRolePermissionLength = wrapper.find(SystemRolePermission).length;
         expect(systemRolePermissionLength).toEqual(expectedLength);
     });
 });

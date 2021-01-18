@@ -18,7 +18,7 @@ describe('admin_console/system_role', () => {
             updateUserRoles: jest.fn(),
             setNavigationBlocked: jest.fn(),
         },
-    }
+    };
 
     test('should match snapshot', () => {
         const wrapper = shallow(

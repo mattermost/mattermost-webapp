@@ -14,9 +14,9 @@ describe('admin_console/system_roles', () => {
             system_admin: TestHelper.getRoleMock({
                 id: 'system_admin',
                 name: 'system_admin',
-                permissions: ['some', 'random', 'permissions']
-            })
-        }
+                permissions: ['some', 'random', 'permissions'],
+            }),
+        };
 
         const wrapper = shallow(
             <SystemRoles
