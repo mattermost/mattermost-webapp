@@ -39,8 +39,6 @@
 }
 
 .markdown-image-expand__expand-button {
-  margin-right: 6px;
-  padding: 3px;
   border: none;
 
   font-size: 18px;
@@ -50,22 +48,14 @@
   background: transparent;
   border-radius: 4px;
 
-  --markdown-image-expand-expand-icon-color: var(--center-channel-color-56);
-  --markdown-image-expand-alt-text-color: var(--center-channel-color-64);
-
   &:hover {
-    background-color: var(--center-channel-color-08);
-
-    --markdown-image-expand-expand-icon-color: var(--center-channel-color-72);
-    --markdown-image-expand-alt-text-color: var(--center-channel-color-72);
+    color: var(--center-channel-color-72);
   }
 }
 
 .markdown-image-expand__expand-icon {
   margin-right: 8px;
   vertical-align: middle;
-
-  color: var(--markdown-image-expand-expand-icon-color);
 }
 
 .markdown-image-expand__alt-text {
@@ -73,5 +63,4 @@
 
   font-size: 12px;
   line-height: 16px;
-  color: var(--markdown-image-expand-alt-text-color);
 }
