@@ -278,16 +278,19 @@ export class AppCommandParser {
             return this.getSuggestionsForSubCommands(pretext, binding);
         }
 
-        const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
-        suggestions = suggestions.concat(argSuggestions);
+        const form = this.getFormFromBinding(binding);
+        if (form) {
+            const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
+            suggestions = suggestions.concat(argSuggestions);
 
-        // Add "Execute Current Command" suggestion
-        // TODO get full text from SuggestionBox
-        const fullText = pretext;
-        const missing = this.getMissingFields(fullText, binding);
-        if (missing.length === 0) {
-            const execute = this.getSuggestionForExecute(pretext);
-            suggestions = [execute, ...suggestions];
+            // Add "Execute Current Command" suggestion
+            // TODO get full text from SuggestionBox
+            const fullText = pretext;
+            const missing = this.getMissingFields(fullText, binding);
+            if (missing.length === 0) {
+                const execute = this.getSuggestionForExecute(pretext);
+                suggestions = [execute, ...suggestions];
+            }
         }
 
         return suggestions;
