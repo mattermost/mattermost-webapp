@@ -3,16 +3,18 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
+import {Theme} from 'mattermost-redux/types/preferences';
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
-import {Constants} from 'utils/constants';
 import ActionButton from 'components/post_view/message_attachments/action_button/action_button';
+import {Constants} from 'utils/constants';
 
 describe('components/post_view/message_attachments/action_button.jsx', () => {
     const baseProps = {
         action: {id: 'action_id_1', name: 'action_name_1', cookie: 'cookie-contents'},
         handleAction: jest.fn(),
-        theme: Constants.THEMES.default,
+        theme: Constants.THEMES.default as unknown as Theme,
     };
 
     test('should match snapshot', () => {
@@ -45,7 +47,7 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
     test('should have correct styles when provided color from not default theme', () => {
         const props = {
             ...baseProps,
-            theme: Constants.THEMES.mattermostDark,
+            theme: Constants.THEMES.mattermostDark as unknown as Theme,
             action: {...baseProps.action, style: 'danger'},
         };
 

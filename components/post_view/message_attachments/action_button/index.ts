@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import ActionButton from './action_button';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         theme: getTheme(state),
     };

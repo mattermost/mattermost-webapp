@@ -150,7 +150,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                         disabled={action.disabled}
                         handleAction={this.handleAction}
                         actionExecuting={this.state.actionExecuting}
-                        actionExecutingMessage={this.state.actionExecutingMessage}
+                        actionExecutingMessage={this.state.actionExecutingMessage || undefined}
                     />,
                 );
                 break;
@@ -166,7 +166,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         );
     };
 
-    handleAction = (e: React.MouseEvent, actionOptions: PostActionOption[]) => {
+    handleAction = (e: React.MouseEvent, actionOptions?: PostActionOption[]) => {
         e.preventDefault();
 
         const actionExecutingMessage = this.getActionOption(actionOptions, 'ActionExecutingMessage');
@@ -190,7 +190,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         });
     };
 
-    handleCustomActions = (actionOptions: PostActionOption[]) => {
+    handleCustomActions = (actionOptions?: PostActionOption[]) => {
         const extUrlOption = this.getActionOption(actionOptions, 'WarnMetricMailtoUrl');
         if (extUrlOption) {
             const mailtoPayload = JSON.parse(extUrlOption.value);
@@ -198,7 +198,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         }
     }
 
-    getActionOption = (actionOptions: PostActionOption[], optionName: string) => {
+    getActionOption = (actionOptions: PostActionOption[] | undefined, optionName: string) => {
         let opt = null;
         if (actionOptions) {
             opt = actionOptions.find((option) => option.text === optionName);

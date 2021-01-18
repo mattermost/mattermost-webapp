@@ -1,24 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
+import {Theme} from 'mattermost-redux/types/preferences';
+import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Markdown from 'components/markdown';
 
-export default class ActionButton extends React.PureComponent {
-    static propTypes = {
-        action: PropTypes.object.isRequired,
-        handleAction: PropTypes.func.isRequired,
-        disabled: PropTypes.bool,
-        theme: PropTypes.object.isRequired,
-        actionExecuting: PropTypes.bool,
-        actionExecutingMessage: PropTypes.string,
-    }
+type Props = {
+    action: PostAction;
+    handleAction: (e: React.MouseEvent, options?: PostActionOption[]) => void;
+    disabled?: boolean;
+    theme: Theme;
+    actionExecuting?: boolean;
+    actionExecutingMessage?: string;
+}
 
-    getStatusColors(theme) {
+export default class ActionButton extends React.PureComponent<Props> {
+    getStatusColors(theme: Theme) {
         return {
             good: '#00c100',
             warning: '#dede01',
@@ -26,7 +29,7 @@ export default class ActionButton extends React.PureComponent {
             default: theme.centerChannelColor,
             primary: theme.buttonBg,
             success: theme.onlineIndicator,
-        };
+        } as Dictionary<string>;
     }
 
     render() {
