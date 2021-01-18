@@ -13,10 +13,10 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-5
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-5
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
 
@@ -63,7 +63,7 @@ jobs:
           steps:
             # Taken from https://github.com/entur/owasp-orb/blob/master/src/%40orb.yml#L349-L361
             - owasp/generate_cache_keys:
-                cache_key: commmandline-default-cache-key-v6
+                cache_key: commmandline-default-cache-key-v7
             - owasp/restore_owasp_cache
             - run:
                 name: Update OWASP Dependency-Check Database
@@ -116,6 +116,7 @@ jobs:
           diff /tmp/en.json i18n/en.json
           # Address weblate behavior which does not remove whole translation item when translation string is set to empty
           npm run mmjstool -- i18n clean-empty --webapp-dir . --mobile-dir /tmp/fake-mobile-dir --check
+          npm run mmjstool -- i18n check-empty-src --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
 
           rm -rf tmp
 

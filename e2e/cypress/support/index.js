@@ -19,7 +19,9 @@ import './client';
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';
+import './keycloak_commands';
 import './ldap_commands';
+import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './storybook_commands';
@@ -88,6 +90,11 @@ Cypress.on('test:after:run', (test, runnable) => {
             value: 'screenshots/' + Cypress.spec.name + '/' + filename,
         });
     }
+});
+
+// Turn off all uncaught exception handling
+Cypress.on('uncaught:exception', () => {
+    return false;
 });
 
 before(() => {

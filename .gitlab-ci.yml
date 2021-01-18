@@ -15,8 +15,8 @@ stages:
   - trigger
 
 variables:
-  ONLY_BUILD: "yes"
-  ONLY_TEST: "no"
+  BUILD: "yes"
+  TEST: "yes"
 
 include:
   - project: mattermost/ci/mattermost-webapp
@@ -43,28 +43,29 @@ prepare:
   script:
     - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   rules:
-    - if: '$ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 lint:
   extends: .check
   script:
     - npm run check
   rules:
-    - if: '$ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 test: #todo check on how to create junit.xml, there currently is none
   extends: .check
   script:
     - npm run test-ci
+  timeout: 3 hours
   rules:
-    - if: '$ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 type-check:
   extends: .check
   script:
     - npm run check-types
   rules:
-    - if: '$ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 i18n-check:
   extends: .check
@@ -77,7 +78,8 @@ i18n-check:
     - diff /tmp/en.json i18n/en.json
     # Address weblate behavior which does not remove whole translation item when translation string is set to empty
     - npm run mmjstool -- i18n clean-empty --webapp-dir . --mobile-dir /tmp/fake-mobile-dir --check
+    - npm run mmjstool -- i18n check-empty-src --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
 
     - rm -rf tmp
   rules:
-    - if: '$ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
