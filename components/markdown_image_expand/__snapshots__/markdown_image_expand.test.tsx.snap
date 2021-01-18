@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MarkdownImageExpand should match snapshot for collapseDisplay set to false 1`] = `
+<div
+  className="markdown-image-expand markdown-image-expand--expanded"
+>
+  <button
+    className="markdown-image-expand__collapse-button"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="fa fa-caret-down"
+    />
+  </button>
+  An image to expand
+</div>
+`;
+
+exports[`components/MarkdownImageExpand should match snapshot for collapseDisplay set to true 1`] = `
+<div
+  className="markdown-image-expand "
+>
+  <button
+    className="markdown-image-expand__expand-button"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="fa fa-caret-right markdown-image-expand__expand-icon"
+    />
+    <span
+      className="markdown-image-expand__alt-text"
+    >
+      Some alt text
+    </span>
+  </button>
+</div>
+`;
+
+exports[`components/MarkdownImageExpand should match snapshot for image collapsed with collapse button 1`] = `
+<div
+  className="markdown-image-expand "
+>
+  <button
+    className="markdown-image-expand__expand-button"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="fa fa-caret-right markdown-image-expand__expand-icon"
+    />
+    <span
+      className="markdown-image-expand__alt-text"
+    >
+      Some alt text
+    </span>
+  </button>
+</div>
+`;
+
+exports[`components/MarkdownImageExpand should match snapshot for image expanded with expand button 1`] = `
+<div
+  className="markdown-image-expand markdown-image-expand--expanded"
+>
+  <button
+    className="markdown-image-expand__collapse-button"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="fa fa-caret-down"
+    />
+  </button>
+  An image to expand
+</div>
+`;
