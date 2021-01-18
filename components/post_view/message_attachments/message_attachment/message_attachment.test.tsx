@@ -4,10 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {PostImage} from 'mattermost-redux/types/posts';
+import {PostAction} from 'mattermost-redux/types/integration_actions';
+
 import {Constants} from 'utils/constants';
 
 import ExternalImage from 'components/external_image';
-import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
+import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment';
 
 describe('components/post_view/MessageAttachment', () => {
     const attachment = {
@@ -23,7 +28,7 @@ describe('components/post_view/MessageAttachment', () => {
         color: '#FFF',
         footer: 'footer',
         footer_icon: 'footer_icon',
-    };
+    } as MessageAttachmentType;
 
     const baseProps = {
         postId: 'post_id',
@@ -34,12 +39,12 @@ describe('components/post_view/MessageAttachment', () => {
             image_url: {
                 height: 200,
                 width: 200,
-            },
+            } as PostImage,
             thumb_url: {
                 height: 200,
                 width: 200,
-            },
-        },
+            } as PostImage,
+        } as Dictionary<PostImage>,
     };
 
     test('should match snapshot', () => {
@@ -48,9 +53,8 @@ describe('components/post_view/MessageAttachment', () => {
     });
 
     test('should change checkOverflow state on handleHeightReceived change', () => {
-        const wrapper = shallow(<MessageAttachment {...baseProps}/>);
+        const wrapper = shallow<MessageAttachment>(<MessageAttachment {...baseProps}/>);
         const instance = wrapper.instance();
-        instance.checkAttachmentTextOverflow = jest.fn();
 
         wrapper.setState({checkOverflow: 0});
         instance.handleHeightReceived(1);
@@ -61,7 +65,7 @@ describe('components/post_view/MessageAttachment', () => {
     });
 
     test('should match value on renderPostActions', () => {
-        let wrapper = shallow(<MessageAttachment {...baseProps}/>);
+        let wrapper = shallow<MessageAttachment>(<MessageAttachment {...baseProps}/>);
         expect(wrapper.instance().renderPostActions()).toMatchSnapshot();
 
         const newAttachment = {
@@ -80,36 +84,36 @@ describe('components/post_view/MessageAttachment', () => {
     });
 
     test('should call actions.doPostActionWithCookie on handleAction', () => {
-        const promise = Promise.resolve(123);
+        const promise = Promise.resolve({data: 123});
         const doPostActionWithCookie = jest.fn(() => promise);
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,
-            actions: [{id: actionId, name: 'action_name_1', cookie: 'cookie-contents'}],
+            actions: [{id: actionId, name: 'action_name_1', cookie: 'cookie-contents'}] as PostAction[],
         };
         const props = {...baseProps, actions: {doPostActionWithCookie}, attachment: newAttachment};
-        const wrapper = shallow(<MessageAttachment {...props}/>);
+        const wrapper = shallow<MessageAttachment>(<MessageAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
         wrapper.instance().handleAction({
             preventDefault: () => {}, // eslint-disable-line no-empty-function
             currentTarget: {getAttribute: () => {
                 return 'attr_some_value';
-            }},
-        });
+            }} as any,
+        } as React.MouseEvent, []);
 
         expect(doPostActionWithCookie).toHaveBeenCalledTimes(1);
         expect(doPostActionWithCookie).toBeCalledWith(props.postId, 'attr_some_value', 'attr_some_value');
     });
 
     test('should match value on getFieldsTable', () => {
-        let wrapper = shallow(<MessageAttachment {...baseProps}/>);
+        let wrapper = shallow<MessageAttachment>(<MessageAttachment {...baseProps}/>);
         expect(wrapper.instance().getFieldsTable()).toMatchSnapshot();
 
         const newAttachment = {
             ...attachment,
             fields: [
-                {title: 'title_1', value: 'value_1', short: 'short_1'},
-                {title: 'title_2', value: 'value_2', short: 'short_2'},
+                {title: 'title_1', value: 'value_1', short: false},
+                {title: 'title_2', value: 'value_2', short: false},
             ],
         };
 
@@ -130,7 +134,7 @@ describe('components/post_view/MessageAttachment', () => {
                 // footer_icon is only rendered if footer is provided
                 footer: attachment.footer,
                 footer_icon: 'http://example.com/footer.png',
-            },
+            } as MessageAttachmentType,
         };
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
@@ -147,7 +151,7 @@ describe('components/post_view/MessageAttachment', () => {
             ...baseProps,
             attachment: {
                 title: 'Do you like :pizza:?',
-            },
+            } as MessageAttachmentType,
         };
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
@@ -160,7 +164,7 @@ describe('components/post_view/MessageAttachment', () => {
             ...baseProps,
             attachment: {
                 title: 'Don\'t you like emojis?',
-            },
+            } as MessageAttachmentType,
         };
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
@@ -173,7 +177,7 @@ describe('components/post_view/MessageAttachment', () => {
             ...baseProps,
             attachment: {
                 title: 'Do you like https://mattermost.com?',
-            },
+            } as MessageAttachmentType,
         };
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
@@ -186,8 +190,8 @@ describe('components/post_view/MessageAttachment', () => {
             ...baseProps,
             attachment: {
                 ...attachment,
-                footer: undefined,
-            },
+                footer: '',
+            } as MessageAttachmentType,
         };
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
@@ -201,7 +205,7 @@ describe('components/post_view/MessageAttachment', () => {
             attachment: {
                 title: 'footer',
                 footer: 'a'.repeat(Constants.MAX_ATTACHMENT_FOOTER_LENGTH + 1),
-            },
+            } as MessageAttachmentType,
         };
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
