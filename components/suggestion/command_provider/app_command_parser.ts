@@ -55,9 +55,8 @@ export class AppCommandParser {
     }
 
     // composeCallFromCommandString creates the form submission call
-    public composeCallFromCommandString = async (cmdStr: string): Promise<AppCall | null> => {
-        const binding = await this.getBindingWithForm(cmdStr);
-        if (!binding || !binding.call) {
+    public composeCallFromCommandString = (binding: AppBinding, cmdStr: string): AppCall | null => {
+        if (!binding.call) {
             return null;
         }
 
@@ -265,8 +264,11 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForCursorPosition computes subcommand/form suggestions
+    // TODO we need the full text here, not just the pretext. Rework.
     getSuggestionsForCursorPosition = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
-        const binding = await this.getBindingWithForm(pretext);
+        const text = pretext.substring(0, pretext.lastIndexOf(' '));
+
+        const binding = await this.getBindingWithForm(text);
         if (!binding) {
             return [];
         }

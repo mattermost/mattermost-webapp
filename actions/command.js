@@ -100,14 +100,14 @@ export function executeCommand(message, args) {
         const parser = new AppCommandParser({dispatch, getState}, args.root_id);
         if (parser.isAppCommand(msg)) {
             try {
-                const call = await parser.composeCallFromCommandString(msg);
-                if (!call) {
-                    return {error: new Error('Error composing command submission')};
-                }
                 const binding = await parser.getBindingWithForm(msg);
                 if (!binding) {
                     // <><> getting Warning: Failed prop type: The prop `error.message` is marked as required in `MessageSubmitError`, but its value is `undefined`.
                     return {error: new Error('Error fetching binding for command')};
+                }
+                const call = parser.composeCallFromCommandString(binding, msg);
+                if (!call) {
+                    return {error: new Error('Error composing command submission')};
                 }
 
                 return dispatch(doAppCall({
