@@ -22,6 +22,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
 import ShowUnreadsCategory from './show_unreads_category';
+import LimitVisibleGMsDMs from './limit_visible_gms_dms';
 
 export interface UserSettingsSidebarProps {
     actions: {
@@ -754,6 +755,23 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
         );
     };
 
+    renderLimitVisibleGMsDMsSection = () => {
+        if (this.props.enableLegacySidebar) {
+            // Only render this section when the new sidebar is enabled
+            return null;
+        }
+
+        return (
+            <>
+                <div className='divider-dark'/>
+                <LimitVisibleGMsDMs
+                    active={this.props.activeSection === 'limitVisibleGMsDMs'}
+                    updateSection={this.updateSection}
+                />
+            </>
+        );
+    };
+
     render(): JSX.Element {
         const {showUnusedOption, showChannelOrganization, enableLegacySidebar} = this.props;
 
@@ -804,6 +822,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                     {channelOrganizationSection}
                     {channelSwitcherSection}
                     {this.renderShowUnreadsCategorySection()}
+                    {this.renderLimitVisibleGMsDMsSection()}
                     {showUnusedOption ? <div className='divider-light'/> : <div className='divider-dark'/>}
                     {autoCloseDMSection}
                 </div>
