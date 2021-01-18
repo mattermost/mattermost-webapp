@@ -247,7 +247,7 @@ describe('PostBodyAdditionalContent', () => {
     describe('with a normal link', () => {
         const mp3Url = 'https://example.com/song.mp3';
 
-        const EmbedMP3 = () => (<></>);
+        const EmbedMP3 = () => <></>;
 
         const linkBaseProps = {
             ...baseProps,

@@ -10,7 +10,7 @@ type Props = {
     spinning: boolean;
     spinningText: ReactNode;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+}
 
 export default class SpinnerButton extends PureComponent<Props & React.ButtonHTMLAttributes<HTMLButtonElement>> {
     public static defaultProps: Partial<Props> = {
