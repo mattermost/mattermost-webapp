@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {compose} from 'redux';
 import {injectIntl, FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
@@ -373,7 +372,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default compose(
-    injectIntl,
-    withGetCloudSubscription,
-)(InvitationModalMembersStep);
+export default injectIntl(withGetCloudSubscription((InvitationModalMembersStep)));

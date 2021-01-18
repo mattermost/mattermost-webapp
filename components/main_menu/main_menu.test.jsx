@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import { shallow } from 'enzyme';
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -49,8 +50,11 @@ describe('components/Menu', () => {
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
             unhideNextSteps: jest.fn(),
+            getCloudSubscription: jest.fn(),
         },
         teamIsGroupConstrained: false,
+        isCloud: false,
+        subscription: {},
     };
 
     test('should match snapshot with id', () => {

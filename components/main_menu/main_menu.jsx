@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {compose} from 'redux';
 import {injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -425,7 +424,4 @@ class MainMenu extends React.PureComponent {
     }
 }
 
-export default compose(
-    injectIntl,
-    withGetCloudSubscription,
-)(MainMenu);
+export default injectIntl(withGetCloudSubscription((MainMenu)));

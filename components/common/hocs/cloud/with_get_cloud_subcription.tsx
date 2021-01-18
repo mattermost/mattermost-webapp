@@ -17,8 +17,7 @@ interface UsedHocProps {
     actions: Actions;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): any {
+function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): ComponentType<P & UsedHocProps> {
     return class extends React.Component<P & UsedHocProps> {
         async componentDidMount() {
             const {subscription, actions, isCloud} = this.props;

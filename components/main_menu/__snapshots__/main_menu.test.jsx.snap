@@ -6,6 +6,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -64,12 +65,14 @@ exports[`components/Menu should match snapshot with id 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={false}
   moreTeamsToJoin={false}
   pluginMenuItems={Array []}
   reportAProblemLink={null}
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
@@ -83,6 +86,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -140,12 +144,14 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={false}
   moreTeamsToJoin={false}
   pluginMenuItems={Array []}
   reportAProblemLink={null}
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
@@ -159,6 +165,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -216,12 +223,14 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={true}
   moreTeamsToJoin={false}
   pluginMenuItems={Array []}
   reportAProblemLink={null}
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
@@ -235,6 +244,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -292,12 +302,14 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={false}
   moreTeamsToJoin={true}
   pluginMenuItems={Array []}
   reportAProblemLink="test-report-link"
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
@@ -311,6 +323,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -368,12 +381,14 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={true}
   moreTeamsToJoin={true}
   pluginMenuItems={Array []}
   reportAProblemLink="test-report-link"
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
@@ -387,6 +402,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -444,6 +460,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={false}
   moreTeamsToJoin={false}
@@ -465,6 +482,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
   }
   reportAProblemLink={null}
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
@@ -478,6 +496,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
+      "getCloudSubscription": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -535,6 +554,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  isCloud={false}
   isMentionSearch={false}
   mobile={true}
   moreTeamsToJoin={false}
@@ -556,6 +576,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
   }
   reportAProblemLink={null}
   showGettingStarted={false}
+  subscription={Object {}}
   teamId="team-id"
   teamIsGroupConstrained={false}
   teamName="team_name"
