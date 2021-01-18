@@ -85,7 +85,7 @@ describe('LDAP guest', () => {
             // # Login as admin
             cy.apiAdminLogin();
 
-            // # Goto LDAP settings page and EMPTY guest filter value
+            // # Go to LDAP settings page and EMPTY guest filter value
             gotoLDAPSettings();
             updateGuestFilter('');
 
