@@ -48,6 +48,14 @@
             .SidebarChannelGroupHeader_groupButton, .SidebarLink {
                 opacity: 0.4;
             }
+
+            .SidebarLink {
+                cursor: no-drop !important;
+
+                &:hover {
+                    background: none;
+                }
+            }
         }
 
         .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
@@ -343,6 +351,7 @@
 
             #SidebarChannelMenu-moveToDivider {
                 pointer-events: none;
+                padding: 1px 0;
 
                 .MenuGroup.menu-divider {
                     margin-right: -32px;
@@ -351,6 +360,62 @@
                 span {
                     display: none;
                 }
+            }
+        }
+
+        .styleSelectableItem {
+            text-transform: capitalize;
+
+            .MenuItem {
+                width: 100%;
+                
+                div:hover,
+                div:focus {
+                    background: none !important;
+                }
+            }
+            
+            .SubMenu__icon-right {
+                margin-right: 0;
+                padding: 0 9px 0 8px;
+                &.mobile {
+                    padding: 0 4px 0 9px;
+                }
+            }
+
+            .styleSelectableItemDiv {
+                display: flex;
+                padding: 0 15px;
+                margin: 0;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sorting-menu-checkbox {
+                padding-right: 30px;
+                width: 0;
+
+                i {
+                    color: var(--button-bg);
+                }
+            }    
+
+            .SubMenuItemContainer:not(.hasDivider) {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                &:hover {
+                    background: rgba(0, 0, 0, 0.08);
+                }
+            }
+
+            .selected {
+                text-transform: none;
+                font-size: 12px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                width: 60%;
+                text-align: right;
+                margin-top: 1px;
             }
         }
     }
@@ -537,6 +602,10 @@
             &:hover, &:focus {
                 background-color: rgba(255, 255, 255, 0.08);
             }
+
+            &.additionalClass {
+                margin: 0;
+            }
         }
 
         .SidebarMenu:not(.menuOpen) {
@@ -658,7 +727,7 @@
         }
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
