@@ -147,7 +147,7 @@ describe('LDAP guest', () => {
     });
 
     it('MM-T1425 LDAP Guest Filter Change', () => {
-        // # Goto Guest access page and enable guest access
+        // # Go to Guest access page and enable guest access
         gotoGuestAccessSettings();
         setGuestAccess(true);
 
