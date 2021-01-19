@@ -17,9 +17,9 @@ import FileThumbnail from 'components/file_attachment/file_thumbnail';
 import './file_search_result_item.scss';
 
 type Props = {
-    fileInfo: FileInfo
-    teamName: string
-    onClick: (fileInfo: FileInfo) => void
+    fileInfo: FileInfo;
+    teamName: string;
+    onClick: (fileInfo: FileInfo) => void;
 };
 
 export default class FileSearchResultItem extends React.PureComponent<Props> {

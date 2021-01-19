@@ -25,6 +25,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import FileSearchResultItem from 'components/file_search_results/file_search_result_item';
+import ViewImageModal from 'components/view_image';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -143,6 +144,7 @@ class SearchResultsItem extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            showPreview: null,
         };
     }
 
@@ -237,6 +239,14 @@ class SearchResultsItem extends React.PureComponent {
                     <FileSearchResultItem
                         fileInfo={this.props.fileInfo}
                         teamName={this.props.currentTeamName}
+                        onClick={() => this.setState({showPreview: this.props.fileInfo.postId})}
+                    />
+                    <ViewImageModal
+                        show={this.state.showPreview === this.props.fileInfo.postId}
+                        onModalDismissed={() => this.setState({showPreview: null})}
+                        startIndex={0}
+                        fileInfos={[this.props.fileInfo]}
+                        postId={this.props.fileInfo.postId}
                     />
                 </div>
             );

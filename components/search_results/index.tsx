@@ -6,10 +6,11 @@ import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
+import {getSearchFilesResults} from 'mattermost-redux/selectors/entities/files';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 import {Post} from 'mattermost-redux/types/posts';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileSearchResult} from 'mattermost-redux/types/files';
 
 import {
     getSearchResultsTerms,
@@ -26,7 +27,8 @@ import {StateProps, OwnProps} from './types';
 
 function makeMapStateToProps() {
     let results: Post[];
-    let files: FileInfo[] = [];
+    let fileResults: FileSearchResult[];
+    let files: FileSearchResult[] = [];
     let posts: Post[];
 
     return function mapStateToProps(state: GlobalState) {
@@ -55,6 +57,27 @@ function makeMapStateToProps() {
             });
         }
 
+        const newFilesResults = getSearchFilesResults(state);
+
+        // Cache files and channels
+        if (newFilesResults && newFilesResults !== fileResults) {
+            fileResults = newFilesResults;
+
+            files = [];
+            fileResults.forEach((file) => {
+                if (!file) {
+                    return;
+                }
+
+                const channel = getChannel(state, file.channel_id);
+                if (channel && channel.delete_at !== 0 && !viewArchivedChannels) {
+                    return;
+                }
+
+                files.push(file);
+            });
+        }
+
         // this is basically a hack to make ts compiler happy
         // add correct type when it is known what exactly is returned from the function
         const currentSearch = getCurrentSearchForCurrentTeam(state) as unknown as Record<string, any> || {};
@@ -69,8 +92,7 @@ function makeMapStateToProps() {
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             isSearchGettingMore: getIsSearchGettingMore(state),
             isSearchAtEnd: currentSearch.isEnd,
-            // TODO: Fix this
-            isSearchFilesAtEnd: false,
+            isSearchFilesAtEnd: currentSearch.isFilesEnd,
             searchPage: currentSearch.params?.page,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         };

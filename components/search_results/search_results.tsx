@@ -9,6 +9,8 @@ import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
+import {FileSearchResult} from 'mattermost-redux/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 import * as Utils from 'utils/utils.jsx';
 import {searchHintOptions} from 'utils/constants';
@@ -120,13 +122,14 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
+    const noFileResults = (!fileResults || !Array.isArray(fileResults) || fileResults.length === 0);
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
     const showLoadMore = !isSearchAtEnd && !isFlaggedPosts && !isPinnedPosts;
 
     let contentItems;
     let loadingMorePostsComponent;
 
-    let sortedResults = results;
+    let sortedResults: any = results;
 
     const titleDescriptor: MessageDescriptor = {};
     const noResultsProps: NoResultsProps = {
@@ -149,14 +152,14 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         noResultsProps.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};
 
         sortedResults = [...results];
-        sortedResults.sort((postA, postB) => postB.create_at - postA.create_at);
+        sortedResults.sort((postA: Post|FileSearchResult, postB: Post|FileSearchResult) => postB.create_at - postA.create_at);
 
         titleDescriptor.id = 'search_header.pinnedPosts';
         titleDescriptor.defaultMessage = 'Pinned Posts';
     } else if (isCard) {
         titleDescriptor.id = 'search_header.title5';
         titleDescriptor.defaultMessage = 'Extra information';
-    } else if (!searchTerms && noResults) {
+    } else if (!searchTerms && noResults && noFileResults) {
         titleDescriptor.id = 'search_header.search';
         titleDescriptor.defaultMessage = 'Search';
     } else {
@@ -193,7 +196,19 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case noResults:
+    case noResults && searchType === MESSAGES_SEARCH_TYPE:
+        contentItems = (
+            <div
+                className={classNames([
+                    'sidebar--right__subheader a11y__section',
+                    {'sidebar-expanded': isSideBarExpanded},
+                ])}
+            >
+                <NoResultsIndicator {...noResultsProps}/>
+            </div>
+        );
+        break;
+    case noFileResults && searchType === FILES_SEARCH_TYPE:
         contentItems = (
             <div
                 className={classNames([
@@ -206,13 +221,19 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         );
         break;
     default:
-        contentItems = sortedResults.map((post, index) => {
+        if (searchType === FILES_SEARCH_TYPE) {
+            sortedResults = fileResults;
+        }
+        console.log(sortedResults);
+
+        contentItems = sortedResults.map((item: Post|FileSearchResult, index: number) => {
             return (
                 <SearchResultsItem
-                    key={post.id}
+                    key={item.id}
                     compactDisplay={props.compactDisplay}
-                    post={post}
-                    matches={props.matches[post.id]}
+                    post={searchType === MESSAGES_SEARCH_TYPE ? item : undefined}
+                    fileInfo={searchType === FILES_SEARCH_TYPE ? item : undefined}
+                    matches={props.matches[item.id]}
                     term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                     isMentionSearch={props.isMentionSearch}
                     a11yIndex={index}
@@ -263,7 +284,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <div
                     id='search-items-container'
                     role='application'
-                    className={classNames(['search-items-container post-list__table a11y__region', {'no-results': noResults}])}
+                    className={classNames(['search-items-container post-list__table a11y__region', {'no-results': (noResults && searchType === MESSAGES_SEARCH_TYPE) || (noFileResults && searchType === FILES_SEARCH_TYPE)}])}
                     data-a11y-sort-order='3'
                     data-a11y-focus-child={true}
                     data-a11y-loop-navigation={false}
@@ -285,9 +306,13 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 SearchResults.defaultProps = defaultProps;
 
 export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
-    // Shallow compare for all props except 'results'
+    // Shallow compare for all props except 'results' and 'fileResults'
     for (const key in nextProps) {
         if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'results') {
+            continue;
+        }
+
+        if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'fileResults') {
             continue;
         }
 
@@ -309,6 +334,22 @@ export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
         // Only need a shallow compare on each post
         if (results[i] !== nextResults[i]) {
             return false;
+        }
+    }
+
+    // Here we do a slightly deeper compare on 'fileResults' because it is frequently a new
+    // array but without any actual changes
+    const {fileResults} = props;
+    const {fileResults: nextFileResults} = nextProps;
+
+    if (fileResults.length !== nextFileResults.length) {
+        return false;
+    }
+
+    for (let i = 0; i < fileResults.length; i++) {
+        // Only need a shallow compare on each file
+        if (fileResults[i] !== nextFileResults[i]) {
+            return true;
         }
     }
 
