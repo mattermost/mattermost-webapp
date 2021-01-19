@@ -5584,7 +5584,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
                         label_default: 'Channel Grouping and Sorting',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **On**.',
+                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.licensedForFeature('Cloud'),
@@ -5598,7 +5598,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
                         label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
                         help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
-                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **On**.',
+                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.licensedForFeature('Cloud'),
@@ -5612,7 +5612,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.closeUnusedDirectMessages.title'),
                         label_default: 'Autoclose Direct Messages in Sidebar:',
                         help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
-                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **On**.',
+                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.licensedForFeature('Cloud'),
@@ -5626,7 +5626,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
                         label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
                         help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
-                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **On**.',
+                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.not(it.licensed), // E10 and higher
