@@ -1342,7 +1342,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
               target={null}
             >
               <Popover
-                className="channel-header__popover"
+                className="channel-header__popover chanel-header__popover--new_sidebar"
                 id="header-popover"
                 placement="bottom"
                 popoverSize="lg"

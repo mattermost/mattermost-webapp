@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Team} from 'mattermost-redux/types/teams';
+import {Command} from 'mattermost-redux/types/integrations';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
@@ -15,45 +17,54 @@ const HEADER = {id: t('integrations.edit'), defaultMessage: 'Edit'};
 const FOOTER = {id: t('edit_command.update'), defaultMessage: 'Update'};
 const LOADING = {id: t('edit_command.updating'), defaultMessage: 'Updating...'};
 
-export default class EditCommand extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+    * The current team
+    */
+    team: Team;
+
+    /**
+    * The id of the command to edit
+    */
+    commandId: string | null;
+
+    /**
+    * Installed slash commands to display
+    */
+    commands: RelationOneToOne<Command, Command>;
+    actions: {
 
         /**
-        * The current team
+        * The function to call to fetch team commands
         */
-        team: PropTypes.object.isRequired,
+        getCustomTeamCommands: (teamId: string) => Promise<Command[]>;
 
         /**
-        * The id of the command to edit
+        * The function to call to edit command
         */
-        commandId: PropTypes.string.isRequired,
+        editCommand: (command?: Command) => Promise<{data?: Command; error?: Error}>;
+    };
 
-        /**
-        * Installed slash commands to display
-        */
-        commands: PropTypes.object,
+    /**
+    * Whether or not commands are enabled.
+    */
+    enableCommands: boolean;
+}
 
-        actions: PropTypes.shape({
+type State = {
+    originalCommand: Command | null;
+    showConfirmModal: boolean;
+    serverError: string;
 
-            /**
-            * The function to call to fetch team commands
-            */
-            getCustomTeamCommands: PropTypes.func.isRequired,
+}
 
-            /**
-            * The function to call to edit command
-            */
-            editCommand: PropTypes.func.isRequired,
-        }).isRequired,
+export default class EditCommand extends React.PureComponent<Props, State> {
+    private newCommand?: Command;
 
-        /**
-        * Whether or not commands are enabled.
-        */
-        enableCommands: PropTypes.bool,
-    }
-
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
+        this.newCommand = undefined;
 
         this.state = {
             originalCommand: null,
@@ -62,7 +73,7 @@ export default class EditCommand extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         if (this.props.enableCommands) {
             this.props.actions.getCustomTeamCommands(this.props.team.id).then(
                 () => {
@@ -74,31 +85,31 @@ export default class EditCommand extends React.PureComponent {
         }
     }
 
-    editCommand = async (command) => {
+    public editCommand = async (command: Command): Promise<void> => {
         this.newCommand = command;
 
-        if (this.state.originalCommand.id) {
+        if (this.state.originalCommand?.id) {
             command.id = this.state.originalCommand.id;
         }
 
-        if (this.state.originalCommand.url !== this.newCommand.url ||
-            this.state.originalCommand.trigger !== this.newCommand.trigger ||
-            this.state.originalCommand.method !== this.newCommand.method) {
+        if (this.state.originalCommand?.url !== this.newCommand.url ||
+            this.state.originalCommand?.trigger !== this.newCommand.trigger ||
+            this.state.originalCommand?.method !== this.newCommand.method) {
             this.handleConfirmModal();
         } else {
             await this.submitCommand();
         }
     }
 
-    handleConfirmModal = () => {
+    public handleConfirmModal = (): void => {
         this.setState({showConfirmModal: true});
     }
 
-    confirmModalDismissed = () => {
+    public confirmModalDismissed = (): void => {
         this.setState({showConfirmModal: false});
     }
 
-    submitCommand = async () => {
+    public submitCommand = async (): Promise<void> => {
         this.setState({serverError: ''});
 
         const {data, error} = await this.props.actions.editCommand(this.newCommand);
@@ -115,7 +126,7 @@ export default class EditCommand extends React.PureComponent {
         }
     }
 
-    renderExtra = () => {
+    public renderExtra = (): JSX.Element => {
         const confirmButton = (
             <FormattedMessage
                 id='update_command.update'
@@ -149,7 +160,7 @@ export default class EditCommand extends React.PureComponent {
         );
     }
 
-    render() {
+    public render(): JSX.Element {
         if (!this.state.originalCommand) {
             return <LoadingScreen/>;
         }
