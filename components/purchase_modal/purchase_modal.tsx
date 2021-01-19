@@ -162,7 +162,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                         </div>
-                        <div className='footer-text'>{`Payment begins: ${getNextBillingDate()}`}</div>
+                        <div className='footer-text'>
+                            <FormattedMessage
+                                defaultMessage={'Payment begins: {beginDate}'}
+                                id={'admin.billing.subscription.payamentBegins'}
+                                values={{
+                                    beginDate: getNextBillingDate(),
+                                }}
+                            />
+                        </div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
@@ -194,7 +202,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </a>
                         </div>
                     </div>
-                    <div className='footer-text'>{'Need other billing options?'}</div>
+                    <div className='footer-text'>
+                        <FormattedMessage
+                            defaultMessage={'Need other billing options?'}
+                            id={'admin.billing.subscription.otherBillingOption'}
+                        />
+                    </div>
                     <a
                         className='footer-text'
                         onClick={() => {
