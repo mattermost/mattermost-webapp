@@ -180,7 +180,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
                 >
                     <div className='team-info-block'>
                         <TeamIcon
-                            name={option.display_name}
+                            content={option.display_name}
                             url={imageURLForTeam(option)}
                         />
                         <div className='team-data'>

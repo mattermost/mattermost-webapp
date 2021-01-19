@@ -25,6 +25,8 @@ import {isKeyPressed} from 'utils/utils';
 import SidebarChannel from '../sidebar_channel';
 import {SidebarCategoryHeader} from '../sidebar_category_header';
 
+import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
+
 import SidebarCategoryMenu from './sidebar_category_menu';
 
 type Props = {
@@ -268,40 +270,15 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </Tooltip>
             );
 
-            let sortingIcon: JSX.Element;
-            let sortHelpLabel;
-            if (category.sorting === CategorySorting.Alphabetical) {
-                sortingIcon = (<i className='icon-sort-alphabetical-ascending'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
-            } else {
-                sortingIcon = (<i className='icon-clock-outline'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by most recent');
-            }
-
-            const sortTooltip = (
-                <Tooltip
-                    id='new-group-tooltip'
-                    className='hidden-xs'
-                >
-                    {sortHelpLabel}
-                </Tooltip>
-            );
-
             categoryMenu = (
                 <React.Fragment>
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement='top'
-                        overlay={sortTooltip}
-                    >
-                        <button
-                            className='SidebarChannelGroupHeader_sortButton'
-                            onClick={this.handleSortDirectMessages}
-                            aria-label={sortHelpLabel}
-                        >
-                            {sortingIcon}
-                        </button>
-                    </OverlayTrigger>
+                    <SidebarCategorySortingMenu
+                        category={category}
+                        handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
+                        isCollapsed={this.props.isCollapsed}
+                        isMenuOpen={this.state.isMenuOpen}
+                        onToggleMenu={this.handleMenuToggle}
+                    />
                     <OverlayTrigger
                         delayShow={500}
                         placement='top'
