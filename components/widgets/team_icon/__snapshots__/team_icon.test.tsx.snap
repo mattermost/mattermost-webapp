@@ -2,7 +2,7 @@
 
 exports[`components/widgets/team-icon basic icon 1`] = `
 <div
-  className="TeamIcon no-hover TeamIcon__md"
+  className="TeamIcon TeamIcon__md no-hover"
 >
   <div
     className="TeamIcon__content no-hover"
@@ -20,7 +20,7 @@ exports[`components/widgets/team-icon basic icon 1`] = `
 
 exports[`components/widgets/team-icon icon with hover 1`] = `
 <div
-  className="TeamIcon  TeamIcon__md"
+  className="TeamIcon TeamIcon__md"
 >
   <div
     className="TeamIcon__content "
@@ -38,7 +38,7 @@ exports[`components/widgets/team-icon icon with hover 1`] = `
 
 exports[`components/widgets/team-icon image icon 1`] = `
 <div
-  className="TeamIcon no-hover TeamIcon__md"
+  className="TeamIcon TeamIcon__md withImage no-hover"
 >
   <div
     className="TeamIcon__content no-hover"
@@ -59,7 +59,7 @@ exports[`components/widgets/team-icon image icon 1`] = `
 
 exports[`components/widgets/team-icon small icon 1`] = `
 <div
-  className="TeamIcon no-hover TeamIcon__sm"
+  className="TeamIcon TeamIcon__sm no-hover"
 >
   <div
     className="TeamIcon__content no-hover"
