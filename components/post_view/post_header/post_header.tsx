@@ -222,7 +222,10 @@ export default class PostHeader extends React.PureComponent<Props> {
                 >
                     <EmojiIcon className='post__header-set-custom-status-icon'/>
                     <span className='post__header-set-custom-status-text'>
-                        {'Update your status'}
+                        <FormattedMessage
+                            id='post_header.update_status'
+                            defaultMessage='Update your status'
+                        />
                     </span>
                 </div>
             );

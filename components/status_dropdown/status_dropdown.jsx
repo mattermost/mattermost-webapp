@@ -169,7 +169,10 @@ export default class StatusDropdown extends React.PureComponent {
                             placement='top'
                             overlay={
                                 <Tooltip id='clear-custom-status'>
-                                    {'Clear'}
+                                    <FormattedMessage
+                                        id='status_dropdown.custom_status.tooltip_clear'
+                                        defaultMessage='Clear'
+                                    />
                                 </Tooltip>
                             }
                         >
