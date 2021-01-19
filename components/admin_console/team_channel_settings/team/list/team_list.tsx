@@ -221,7 +221,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                                 <TeamIcon
                                     size='sm'
                                     url={Utils.imageURLForTeam(team)}
-                                    name={team.display_name}
+                                    content={team.display_name}
                                 />
                             </div>
                             <div className='TeamList_nameText'>
