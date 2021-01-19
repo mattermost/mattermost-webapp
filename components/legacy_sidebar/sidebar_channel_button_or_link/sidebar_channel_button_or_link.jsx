@@ -38,6 +38,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         teammateDeletedAt: PropTypes.number,
         teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
+        channelIsShared: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -104,6 +105,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     channelType={this.props.channelType}
                     botIconUrl={this.props.botIconUrl}
                     channelIsArchived={this.props.channelIsArchived}
+                    channelIsShared={this.props.channelIsShared}
                     hasDraft={this.props.hasDraft}
                     membersCount={this.props.membersCount}
                     teammateId={this.props.teammateId}
@@ -133,6 +135,10 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.public', 'public channel')}`;
         } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
             ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.private', 'private channel')}`;
+        }
+
+        if (this.props.channelIsShared) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.shared', 'shared')}`;
         }
 
         if (this.props.unreadMentions === 1) {

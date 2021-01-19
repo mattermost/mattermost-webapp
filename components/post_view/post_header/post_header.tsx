@@ -12,37 +12,38 @@ import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
+import SharedUserIndicator from 'components/shared_user_indicator';
 
 export type Props = {
 
     /*
-    * The post to render the header for
-    */
+     * The post to render the header for
+     */
     post: Post;
 
     /*
-    * Function called when the comment icon is clicked
-    */
+     * Function called when the comment icon is clicked
+     */
     handleCommentClick: EventHandler<MouseEvent>;
 
     /*
-    * Function called when the card icon is clicked
-    */
+     * Function called when the card icon is clicked
+     */
     handleCardClick: (post: Post) => void;
 
     /*
-    * Function called when the post options dropdown is opened
-    */
+     * Function called when the post options dropdown is opened
+     */
     handleDropdownOpened: (opened: boolean) => void;
 
     /*
-    * Set to render compactly
-    */
+     * Set to render compactly
+     */
     compactDisplay?: boolean;
 
     /*
-    * The number of replies in the same thread as this post
-    */
+     * The number of replies in the same thread as this post
+     */
     replyCount?: number;
 
     /**
@@ -56,8 +57,8 @@ export type Props = {
     hover: boolean;
 
     /*
-    * Set to render the post time when not hovering
-    */
+     * Set to render the post time when not hovering
+     */
     showTimeWithoutHover: boolean;
 
     /**
@@ -74,6 +75,11 @@ export type Props = {
      * If the user that made the post is a guest.
      */
     isGuest: boolean;
+
+    /**
+     * If the user that made the post is a shared user.
+     */
+    isSharedUser: boolean;
 
     /**
      * To Check if the current post is last in the list
@@ -101,6 +107,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         );
         let indicator;
         let colon;
+        let sharedIcon;
 
         if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
@@ -168,11 +175,21 @@ export default class PostHeader extends React.PureComponent<Props> {
             colon = (<strong className='colon'>{':'}</strong>);
         }
 
+        if (this.props.isSharedUser) {
+            sharedIcon = (
+                <SharedUserIndicator
+                    className='shared-user-icon'
+                    withTooltip={true}
+                />
+            );
+        }
+
         return (
             <div className='post__header'>
                 <div className='col col__name'>
                     {userProfile}
                     {colon}
+                    {sharedIcon}
                     {indicator}
                 </div>
                 <div className='col'>

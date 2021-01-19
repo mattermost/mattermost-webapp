@@ -799,6 +799,13 @@
         padding-left: 10px;
         text-overflow: ellipsis;
 
+        .shared-channel-icon {
+            font-size: 120%;
+            margin-top: -2px;
+            margin-left: 5px;
+            color: rgba(61, 60, 64, 0.56);
+        }
+
         .more-modal__name {
             margin: 5px 0;
             display: flex;

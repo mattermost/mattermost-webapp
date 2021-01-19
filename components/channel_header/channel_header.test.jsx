@@ -111,6 +111,22 @@ describe('components/ChannelHeader', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should render shared view', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                ...populatedProps.channel,
+                shared: true,
+                type: Constants.OPEN_CHANNEL,
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should render correct menu when muted', () => {
         const props = {
             ...populatedProps,

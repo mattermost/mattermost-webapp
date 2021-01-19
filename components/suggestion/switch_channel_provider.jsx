@@ -31,6 +31,7 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
 
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
@@ -135,6 +136,16 @@ class SwitchChannelSuggestion extends Suggestion {
             );
         }
 
+        let sharedIcon = null;
+        if (channel.shared) {
+            sharedIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                />
+            );
+        }
+
         return (
             <div
                 onClick={this.handleClick}
@@ -151,6 +162,7 @@ class SwitchChannelSuggestion extends Suggestion {
             >
                 {icon}
                 <span>{displayName}</span>
+                {sharedIcon}
                 {tag}
                 {badge}
             </div>
