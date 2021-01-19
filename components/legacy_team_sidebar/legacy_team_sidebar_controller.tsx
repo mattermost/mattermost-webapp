@@ -249,7 +249,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                             defaultMessage='Other teams you can join'
                         />
                     }
-                    content={'+'}
+                    content={<i className='icon icon-plus'/>}
                     switchTeam={this.props.actions.switchTeam}
                 />,
             );
@@ -268,7 +268,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                                 defaultMessage='Create a Team'
                             />
                         }
-                        content={'+'}
+                        content={<i className='icon icon-plus'/>}
                         switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>,
