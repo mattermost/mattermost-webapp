@@ -8,8 +8,11 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {Client4} from 'mattermost-redux/client';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import globalStore from 'stores/redux_store';
+
+import {GlobalState} from 'types/store';
 
 jest.mock('stores/redux_store', () => ({
     dispatch: jest.fn(),
@@ -18,7 +21,7 @@ jest.mock('stores/redux_store', () => ({
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
 
-const mockStore = configureStore([thunk]);
+const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
 const reduxTestState = {
     entities: {
