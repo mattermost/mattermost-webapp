@@ -46,3 +46,13 @@ export function removeRecentCustomStatus(status: CustomStatus) {
         await dispatch(updateMe(user));
     };
 }
+
+export function setFirstTimeUserProperties(property: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const user = {...getCurrentUser(getState())};
+        const userProps = {...user.props};
+        userProps.initialProps = property;
+        user.props = userProps;
+        await dispatch(updateMe(user));
+    };
+}

@@ -1,26 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 
-import {Client4} from 'mattermost-redux/client';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Permissions, Posts} from 'mattermost-redux/constants';
+import { Client4 } from 'mattermost-redux/client';
+import { haveIChannelPermission } from 'mattermost-redux/selectors/entities/roles';
+import { makeGetReactionsForPost, getPost } from 'mattermost-redux/selectors/entities/posts';
+import { get } from 'mattermost-redux/selectors/entities/preferences';
+import { makeGetDisplayName, getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
+import { Permissions, Posts } from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
-import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
+import { canEditPost as canEditPostRedux, isPostEphemeral } from 'mattermost-redux/utils/post_utils';
 
-import {allAtMentions} from 'utils/text_formatting';
+import { allAtMentions } from 'utils/text_formatting';
 
-import {getEmojiMap} from 'selectors/emojis';
+import { getEmojiMap } from 'selectors/emojis';
 
-import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
-import {formatWithRenderer} from 'utils/markdown';
+import Constants, { PostListRowListIds, Preferences } from 'utils/constants';
+import { formatWithRenderer } from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
-import {isMobile} from 'utils/user_agent';
+import { isMobile } from 'utils/user_agent';
 
 import * as Emoticons from './emoticons';
 
@@ -77,9 +77,9 @@ export function canDeletePost(state, post, channel) {
     }
 
     if (isPostOwner(state, post)) {
-        return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
+        return haveIChannelPermission(state, { channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST });
     }
-    return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(state, { channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS });
 }
 
 export function canEditPost(state, post, license, config, channel, userId) {
@@ -184,47 +184,47 @@ function canAutomaticallyCloseBackticks(message) {
         };
     }
 
-    return {allowSending: true};
+    return { allowSending: true };
 }
 
 function sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, isSendMessageOnCtrlEnter, caretPosition) {
     const match = message.substring(0, caretPosition).match(Constants.TRIPLE_BACK_TICKS);
     if (isSendMessageOnCtrlEnter && ctrlOrMetaKeyPressed && (!match || match.length % 2 === 0)) {
-        return {allowSending: true};
+        return { allowSending: true };
     } else if (!isSendMessageOnCtrlEnter && (!match || match.length % 2 === 0)) {
-        return {allowSending: true};
+        return { allowSending: true };
     } else if (ctrlOrMetaKeyPressed && match && match.length % 2 !== 0) {
         return canAutomaticallyCloseBackticks(message);
     }
 
-    return {allowSending: false};
+    return { allowSending: false };
 }
 
 export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, sendCodeBlockOnCtrlEnter, now = 0, lastChannelSwitchAt = 0, caretPosition = 0) {
     if (!event) {
-        return {allowSending: false};
+        return { allowSending: false };
     }
 
     // Typing enter on mobile never sends.
     if (isMobile()) {
-        return {allowSending: false};
+        return { allowSending: false };
     }
 
     // Only ENTER sends, unless shift or alt key pressed.
     if (!Utils.isKeyPressed(event, Constants.KeyCodes.ENTER) || event.shiftKey || event.altKey) {
-        return {allowSending: false};
+        return { allowSending: false };
     }
 
     // Don't send if we just switched channels within a threshold.
     if (lastChannelSwitchAt > 0 && now > 0 && now - lastChannelSwitchAt <= CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS) {
-        return {allowSending: false, ignoreKeyPress: true};
+        return { allowSending: false, ignoreKeyPress: true };
     }
 
     if (
         message.trim() === '' ||
         !(sendMessageOnCtrlEnter || sendCodeBlockOnCtrlEnter)
     ) {
-        return {allowSending: true};
+        return { allowSending: true };
     }
 
     const ctrlOrMetaKeyPressed = event.ctrlKey || event.metaKey;
@@ -235,7 +235,7 @@ export function postMessageOnKeyPress(event, message, sendMessageOnCtrlEnter, se
         return sendOnCtrlEnter(message, ctrlOrMetaKeyPressed, false, caretPosition);
     }
 
-    return {allowSending: false};
+    return { allowSending: false };
 }
 
 export function isErrorInvalidSlashCommand(error) {
@@ -344,7 +344,7 @@ export function makeCreateAriaLabelForPost() {
 }
 
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
-    const {formatMessage, formatTime, formatDate} = intl;
+    const { formatMessage, formatTime, formatDate } = intl;
 
     let message = post.message || '';
     let match;
@@ -367,23 +367,23 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
             id: 'post.ariaLabel.replyMessage',
             defaultMessage: 'At {time} {date}, {authorName} replied, {message}',
         },
-        {
-            authorName: author,
-            time: formatTime(post.create_at),
-            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message,
-        });
+            {
+                authorName: author,
+                time: formatTime(post.create_at),
+                date: formatDate(post.create_at, { weekday: 'long', month: 'long', day: 'numeric' }),
+                message,
+            });
     } else {
         ariaLabel = formatMessage({
             id: 'post.ariaLabel.message',
             defaultMessage: 'At {time} {date}, {authorName} wrote, {message}',
         },
-        {
-            authorName: author,
-            time: formatTime(post.create_at),
-            date: formatDate(post.create_at, {weekday: 'long', month: 'long', day: 'numeric'}),
-            message,
-        });
+            {
+                authorName: author,
+                time: formatTime(post.create_at),
+                date: formatDate(post.create_at, { weekday: 'long', month: 'long', day: 'numeric' }),
+                message,
+            });
     }
 
     let attachmentCount = 0;
@@ -400,9 +400,9 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
                 id: 'post.ariaLabel.attachmentMultiple',
                 defaultMessage: ', {attachmentCount} attachments',
             },
-            {
-                attachmentCount,
-            });
+                {
+                    attachmentCount,
+                });
         } else {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.attachment',
@@ -426,9 +426,9 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
                 id: 'post.ariaLabel.reactionMultiple',
                 defaultMessage: ', {reactionCount} reactions',
             },
-            {
-                reactionCount: emojiNames.length,
-            });
+                {
+                    reactionCount: emojiNames.length,
+                });
         } else {
             ariaLabel += formatMessage({
                 id: 'post.ariaLabel.reaction',
@@ -463,7 +463,7 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl,
 export function splitMessageBasedOnCaretPosition(caretPosition, message) {
     const firstPiece = message.substring(0, caretPosition);
     const lastPiece = message.substring(caretPosition, message.length);
-    return {firstPiece, lastPiece};
+    return { firstPiece, lastPiece };
 }
 
 export function getNewMessageIndex(postListIds) {
@@ -485,4 +485,56 @@ export function makeGetReplyCount() {
             return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
         },
     );
+}
+
+export function areConsecutivePostsBySameUser(post, previousPost) {
+    if (!(post && previousPost)) {
+        return false;
+    }
+    return post.user_id === previousPost.user_id && // The post is by the same user
+        post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
+        !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
+        !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
+}
+
+export function getPostFromId(state, id) {
+    if (isIdNotPost(id)) {
+        //not a post
+        return null;
+    }
+
+    if (PostListUtils.isCombinedUserActivityPost(id)) {
+        // This is a combined post, so this cannot be a valid user post
+        return null;
+    }
+
+    return getPost(state, id);
+}
+
+export function getCurrentUserLastGroupedPostId(state, postListIds) {
+    //This function returns the first post id of the last post group by the current user
+    let currentUserLastPost;
+    
+    postListIds.find(id=>{
+        const post = getPostFromId(state, id);
+        if (!post) {
+            if (currentUserLastPost) return true;
+            return false;
+        }
+
+        if (isPostOwner(state, post) && !isSystemMessage(post)) {
+            console.log(post.message)
+            if (currentUserLastPost) {
+                if (!areConsecutivePostsBySameUser(currentUserLastPost, post)){
+                    return true;
+                }
+            }
+            currentUserLastPost = post;
+        }
+
+        return false;
+    })
+
+    console.log("================")
+    return currentUserLastPost ? currentUserLastPost.id : "";
 }

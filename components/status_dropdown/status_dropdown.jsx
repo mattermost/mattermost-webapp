@@ -37,9 +37,13 @@ export default class StatusDropdown extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
             unsetUserCustomStatus: PropTypes.func.isRequired,
+            toggleStatusDropdown: PropTypes.func.isRequired,
+            setFirstTimeUserProperties: PropTypes.func.isRequired,
         }).isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isStatusDropdownOpen: PropTypes.bool.isRequired,
+        showPulsatingDot: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -106,6 +110,7 @@ export default class StatusDropdown extends React.PureComponent {
             dialogProps: {userId: this.props.userId},
         };
 
+        this.props.actions.setFirstTimeUserProperties(Constants.CustomStatusInitialProps.CLICK_ON_SET_STATUS);
         this.props.actions.openModal(customStatusInputModalData);
     }
 
@@ -154,6 +159,7 @@ export default class StatusDropdown extends React.PureComponent {
         if (open) {
             this.showCustomStatusTextTooltip();
         }
+        this.props.actions.toggleStatusDropdown(open);
     }
 
     render() {
@@ -248,7 +254,7 @@ export default class StatusDropdown extends React.PureComponent {
                         {customStatusEmoji}
                     </div>
                     {customStatusTextComponent}
-                    {clearButton}
+                    {clearButton || pulsatingDot}
                 </div>
             );
         }
@@ -257,6 +263,7 @@ export default class StatusDropdown extends React.PureComponent {
             <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
+                open={this.props.isStatusDropdownOpen}
                 className={'status-dropdown-menu'}
             >
                 <div className='status-wrapper status-selector'>

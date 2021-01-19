@@ -86,6 +86,11 @@ class Post extends React.PureComponent {
         isLastPost: PropTypes.bool,
 
         /**
+         * To Check if the current post is last in the list by the current user
+         */
+        isCurrentUserLastPost: PropTypes.bool,
+
+        /**
          * Whether or not the channel that contains this post is archived
          */
         channelIsArchived: PropTypes.bool.isRequired,
@@ -403,6 +408,7 @@ class Post extends React.PureComponent {
                                 showTimeWithoutHover={!hideProfilePicture}
                                 hover={this.state.hover || this.state.a11yActive}
                                 isLastPost={this.props.isLastPost}
+                                isCurrentUserLastPost={this.props.isCurrentUserLastPost}
                             />
                             <PostBody
                                 post={post}

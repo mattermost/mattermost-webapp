@@ -161,6 +161,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
+    STATUS_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
@@ -880,7 +881,13 @@ export const ZoomSettings = {
     MAX_SCALE: 3.0,
 };
 
+export const CustomStatusInitialProps = {
+    CLICK_ON_SET_STATUS: 'click_on_set_status',
+    CLICK_ON_UPDATE_STATUS_FROM_POST: 'click_on_update_status_from_post',
+};
+
 export const Constants = {
+    CustomStatusInitialProps,
     SettingsTypes,
     JobTypes,
     Preferences,

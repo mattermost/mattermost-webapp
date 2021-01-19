@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
@@ -14,7 +14,6 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import {CustomStatus} from 'types/store/custom_status';
 
 export type Props = {
@@ -85,6 +84,11 @@ export type Props = {
     isLastPost?: boolean;
 
     /**
+     * To Check if the current post is last in the list by the current user
+     */
+    isCurrentUserLastPost?: boolean;
+
+    /**
      * Source of image that should be override current user profile.
      */
     overwriteIcon?: string;
@@ -100,21 +104,18 @@ export type Props = {
     currentUserID: string;
 
     isCustomStatusEnabled: boolean;
+    showUpdateStatusButton: boolean;
 
     actions: {
-        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+        toggleStatusDropdown: (open: boolean) => void;
+        setFirstTimeUserProperties: (property: string) => void;
     };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
-    showCustomStatusModal = () => {
-        const customStatusInputModalData = {
-            modalId: ModalIdentifiers.CUSTOM_STATUS,
-            dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.currentUserID},
-        };
-
-        this.props.actions.openModal(customStatusInputModalData);
+    updateStatus = () => {
+        this.props.actions.toggleStatusDropdown(true);
+        this.props.actions.setFirstTimeUserProperties(Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST);
     }
 
     render(): JSX.Element {
@@ -214,10 +215,10 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet) {
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.isCurrentUserLastPost && this.props.showUpdateStatusButton) {
             customStatus = (
                 <div
-                    onClick={this.showCustomStatusModal}
+                    onClick={this.updateStatus}
                     className='post__header-set-custom-status cursor--pointer'
                 >
                     <EmojiIcon className='post__header-set-custom-status-icon'/>
