@@ -180,7 +180,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#moreDmModal .close').click();
     });
 
-    it('MM-T1379 Verify Guest Badge in DM header and GM header', () => {
+    it('Verify Guest Badge in DM header and GM header', () => {
         // # Open a DM with Guest User
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
         cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
