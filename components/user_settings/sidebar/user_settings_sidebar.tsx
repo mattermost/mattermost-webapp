@@ -18,7 +18,6 @@ import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
@@ -54,19 +53,9 @@ export interface UserSettingsSidebarProps {
     showChannelOrganization: boolean;
 
     /**
-   * Display the setting to toggle the new sidebar
-   */
-    showChannelSidebarOrganization: boolean;
-
-    /**
    * The preferences to show the channel switcher in the sidebar
    */
     channelSwitcherOption: string;
-
-    /**
-   * The preferences to show the channel sidebar organization setting
-   */
-    channelSidebarOrganizationOption: string;
 
     /**
    * Display the unread channels sections options
@@ -84,6 +73,11 @@ export interface UserSettingsSidebarProps {
    */
     favoriteAtTop: string;
 
+    /**
+     * Setting if the legacy sidebar is enabled
+     */
+    enableLegacySidebar: boolean;
+
     updateSection?: (section: string) => void;
     activeSection?: string;
     closeModal: () => void;
@@ -93,7 +87,6 @@ export interface UserSettingsSidebarProps {
 enum Settings {
     CloseUnusedDirectMessages = 'close_unused_direct_messages',
     ChannelSwitcherSection = 'channel_switcher_section',
-    ChannelSidebarOrganization = 'channel_sidebar_organization',
     Grouping = 'grouping',
     UnreadsAtTop = 'unreadsAtTop',
     FavoriteAtTop = 'favoriteAtTop',
@@ -119,7 +112,6 @@ interface GroupingSorting {
 interface SettingType extends GroupingSorting {
     [Settings.CloseUnusedDirectMessages]: string;
     [Settings.ChannelSwitcherSection]: string;
-    [Settings.ChannelSidebarOrganization]: string;
     [Settings.UnreadsAtTop]: string;
     [Settings.FavoriteAtTop]: string;
     [Settings.NewSidebar]?: string;
@@ -142,7 +134,6 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
         const {
             closeUnusedDirectMessages,
             channelSwitcherOption,
-            channelSidebarOrganizationOption,
             sidebarPreference: {
                 grouping,
                 sorting,
@@ -155,7 +146,6 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
                 channel_switcher_section: channelSwitcherOption,
-                channel_sidebar_organization: channelSidebarOrganizationOption,
                 grouping,
                 unreadsAtTop,
                 favoriteAtTop,
@@ -226,13 +216,11 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
     };
 
     getPreviousSection = (sectionName: string): string | null => {
-        const {showChannelOrganization, channelSidebarOrganizationOption} = this.props;
+        const {showChannelOrganization} = this.props;
         switch (sectionName) {
         case 'autoCloseDM':
-            return channelSidebarOrganizationOption === 'true' ? 'channelSidebarOrganization' : 'channelSwitcher';
+            return 'channelSwitcher';
         case 'groupChannels':
-            return 'dummySectionName';
-        case 'channelSidebarOrganization':
             return 'dummySectionName';
         case 'channelSwitcher':
             return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
@@ -447,106 +435,6 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                 id='user.settings.sidebar.off'
                 defaultMessage='Off'
             />
-        );
-    };
-
-    renderChannelSidebarOrganizationSection = (): JSX.Element => {
-        const helpChannelSidebarOrganizationText = (
-            <FormattedMarkdownMessage
-                id={t('user.settings.sidebar.channelSidebarOrganizationSection.desc')}
-                defaultMessage={'When enabled, access experimental channel sidebar features, including collapsible sections and unreads filtering. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)'}
-            />
-        );
-
-        let contents = (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
-                        defaultMessage='Experimental Sidebar Features'
-                    />
-                }
-                describe={this.renderChannelSwitcherLabel(this.props.channelSidebarOrganizationOption)}
-                section={'channelSidebarOrganization'}
-                updateSection={this.updateSection}
-            />
-        );
-
-        if (this.props.activeSection === 'channelSidebarOrganization') {
-            contents = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
-                            defaultMessage='Experimental Sidebar Features'
-                        />
-                    }
-                    inputs={[
-                        <fieldset key='channelSidebarOrganizationSectionSetting'>
-                            <legend className='form-legend hidden-label'>
-                                <FormattedMessage
-                                    id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
-                                    defaultMessage='Experimental Sidebar Features'
-                                />
-                            </legend>
-                            <div
-                                id='channelSidebarOrganizationRadioOn'
-                                className='radio'
-                            >
-                                <label>
-                                    <input
-                                        id='channelSidebarOrganizationSectionEnabled'
-                                        type='radio'
-                                        name='channelSidebarOrganization'
-                                        checked={this.state.settings.channel_sidebar_organization === 'true'}
-                                        onChange={this.updateSetting.bind(this, Settings.ChannelSidebarOrganization, 'true')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.sidebar.on'
-                                        defaultMessage='On'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div
-                                id='channelSidebarOrganizationRadioOff'
-                                className='radio'
-                            >
-                                <label>
-                                    <input
-                                        id='channelSidebarOrganizationSectionOff'
-                                        type='radio'
-                                        name='channelSidebarOrganization'
-                                        checked={this.state.settings.channel_sidebar_organization === 'false'}
-                                        onChange={this.updateSetting.bind(this, Settings.ChannelSidebarOrganization, 'false')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.sidebar.off'
-                                        defaultMessage='Off'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div id='channelSidebarOrganizationelpText'>
-                                <br/>
-                                {helpChannelSidebarOrganizationText}
-                            </div>
-                        </fieldset>,
-                    ]}
-                    setting={'channel_sidebar_organization'}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.updateSection}
-                />
-            );
-        }
-
-        return (
-            <React.Fragment>
-                {contents}
-                <div className='divider-light'/>
-            </React.Fragment>
         );
     };
 
@@ -853,7 +741,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
     };
 
     renderShowUnreadsCategorySection = () => {
-        if (this.props.channelSidebarOrganizationOption === 'false') {
+        if (this.props.enableLegacySidebar) {
             // Only render this section when the new sidebar is enabled
             return null;
         }
@@ -867,14 +755,11 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
     };
 
     render(): JSX.Element {
-        const {showUnusedOption, showChannelOrganization, showChannelSidebarOrganization, channelSidebarOrganizationOption} = this.props;
+        const {showUnusedOption, showChannelOrganization, enableLegacySidebar} = this.props;
 
-        const channelSidebarOrganizationDisabled = channelSidebarOrganizationOption === 'false';
-
-        const channelOrganizationSection = (showChannelOrganization && channelSidebarOrganizationDisabled) ? this.renderChannelOrganizationSection() : null;
-        const channelSidebarOrganizationSection = showChannelSidebarOrganization ? this.renderChannelSidebarOrganizationSection() : null;
-        const autoCloseDMSection = showUnusedOption && !channelSidebarOrganizationDisabled ? this.renderAutoCloseDMSection() : null;
-        const channelSwitcherSection = channelSidebarOrganizationDisabled ? this.renderChannelSwitcherSection() : null;
+        const channelOrganizationSection = (showChannelOrganization && enableLegacySidebar) ? this.renderChannelOrganizationSection() : null;
+        const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
+        const channelSwitcherSection = enableLegacySidebar ? this.renderChannelSwitcherSection() : null;
 
         return (
             <div>
@@ -916,7 +801,6 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
                         />
                     </h3>
                     <div className='divider-dark first'/>
-                    {channelSidebarOrganizationSection}
                     {channelOrganizationSection}
                     {channelSwitcherSection}
                     {this.renderShowUnreadsCategorySection()}

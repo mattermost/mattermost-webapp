@@ -16,7 +16,8 @@ import {
     getChannelMembersInChannels,
     getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getBool, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {legacyMakeFilterAutoclosedDMs, makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
@@ -293,10 +294,10 @@ export async function loadProfilesForSidebar() {
 }
 
 export function filterGMsDMs(state, channels) {
-    const newSideBarPreference = getNewSidebarPreference(state);
+    const config = getConfig(state);
 
     let filteredChannels = filterManuallyClosedDMs(state, channels);
-    filteredChannels = newSideBarPreference ? filterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES) : legacyFilterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES);
+    filteredChannels = config.EnableLegacySidebar === 'true' ? legacyFilterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES) : filterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES);
 
     return filteredChannels;
 }
