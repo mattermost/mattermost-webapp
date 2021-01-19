@@ -776,7 +776,7 @@ export default class UserSettingsSidebar extends React.PureComponent<UserSetting
         const {showUnusedOption, showChannelOrganization, enableLegacySidebar} = this.props;
 
         const channelOrganizationSection = (showChannelOrganization && enableLegacySidebar) ? this.renderChannelOrganizationSection() : null;
-        const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
+        const autoCloseDMSection = (showUnusedOption && enableLegacySidebar) ? this.renderAutoCloseDMSection() : null;
         const channelSwitcherSection = enableLegacySidebar ? this.renderChannelSwitcherSection() : null;
 
         return (
