@@ -39,7 +39,6 @@ prepare:
       prefix: ${CI_COMMIT_REF_SLUG}
     paths:
       - .npm/
-      - node_modules/
   script:
     - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   rules:
