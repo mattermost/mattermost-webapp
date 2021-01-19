@@ -247,7 +247,7 @@
     }
 
     .app__body {
-        .post, .SidebarMenu, .AddChannelDropdown {
+        .post, .SidebarMenu, .AddChannelDropdown, .GlobalThreads {
             .Menu {
                 @include border-radius(0);
                 border: 0px;

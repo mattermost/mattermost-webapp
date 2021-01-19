@@ -94,6 +94,12 @@
         }
     }
 
+    @media screen and (max-width: 768px) {
+        > .Header {
+            border-top: var(--border);
+        }
+    }
+
     @media screen and (min-width: 1021px) {
         --list: minmax(min-content, 350px);
     }

@@ -5579,6 +5579,46 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When this feature is on, replies to threads in channels will be collapsed, and users will have access to Threads in the left hand sidebar. If default on, this enables collapsed reply threads by default for all users on this server. Users can disable the feature in **Account Settings > Display > Collased Reply Threads**. If default off, users may enable the feature in Account Settings. [Learn more](!https://about.mattermost.com/) or [give us feedback](!https://about.mattermost.com/).',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+
+                            /* {
+                                value: 'off',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            }, */
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+
+                            /* {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
+                                display_name_default: 'Always On',
+                            }, */
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalChannelOrganization',
                         label: t('admin.experimental.experimentalChannelOrganization.title'),

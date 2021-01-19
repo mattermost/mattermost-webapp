@@ -3,7 +3,7 @@
 
 import {useCallback} from 'react';
 import {useRouteMatch, useHistory} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {UserThread} from 'mattermost-redux/types/threads';
 import {$ID, $Name} from 'mattermost-redux/types/utilities';
@@ -11,10 +11,6 @@ import {Team} from 'mattermost-redux/types/teams';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
-import {markThreadsRead} from 'mattermost-redux/actions/threads';
-
-import {} from 'utils/url';
 
 export function useThreadRouting() {
     const {params} = useRouteMatch<{team: string; threadIdentifier?: $ID<UserThread>}>();
@@ -29,15 +25,5 @@ export function useThreadRouting() {
         clear: useCallback(() => history.replace(`/${params.team}/threads`), [params]),
         select: useCallback((threadId?: $ID<UserThread>) => history.push(`/${params.team}/threads${threadId ? '/' + threadId : ''}`), [params]),
         goToInChannel: useCallback((threadId?: $ID<UserThread>, teamName?: $Name<Team>) => history.push(`/${teamName ?? params.team}/pl/${threadId ?? params.threadIdentifier}`), [params]),
-    };
-}
-
-export function useThreadActionCallbacks() {
-    const dispatch = useDispatch();
-    const {currentTeamId, currentUserId} = useThreadRouting();
-    return {
-        markThreadsRead: useCallback(() => {
-            dispatch(markThreadsRead(currentUserId, currentTeamId));
-        }, [currentTeamId, currentUserId]),
     };
 }

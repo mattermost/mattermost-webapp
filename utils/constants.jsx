@@ -80,6 +80,10 @@ export const Preferences = {
     MESSAGE_DISPLAY_CLEAN: 'clean',
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
+    COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
+    COLLAPSED_REPLY_THREADS_OFF: 'off',
+    COLLAPSED_REPLY_THREADS_ON: 'on',
+    COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT: 'off',
     LINK_PREVIEW_DISPLAY: 'link_previews',
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
@@ -387,6 +391,7 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    FOLLOW_CHANGED_THREAD: 'follow_changed_thread',
 };
 
 export const TutorialSteps = {

@@ -49,8 +49,6 @@ const ThreadPane = ({
         id: threadId,
         post: {
             channel_id: channelId,
-            edit_at: editAt,
-            create_at: createAt,
         },
     } = thread;
 
@@ -98,7 +96,6 @@ const ThreadPane = ({
                         />
                         <ThreadMenu
                             threadId={threadId}
-                            postTimestamp={editAt || createAt}
                             isFollowing={isFollowing}
                             hasUnreads={hasUnreads}
                         >

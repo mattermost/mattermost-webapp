@@ -6,14 +6,16 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {UserThread} from 'mattermost-redux/types/threads';
+import {$ID} from 'mattermost-redux/types/utilities';
+
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getUser as fetchUser} from 'mattermost-redux/actions/users';
 
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
-import {UserThread} from 'mattermost-redux/types/threads';
-import {$ID} from 'mattermost-redux/types/utilities';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import './thread_item.scss';
 
@@ -55,6 +57,7 @@ const ThreadItem = ({
     const {select, goToInChannel} = useThreadRouting();
     const dispatch = useDispatch();
 
+    const post = useSelector((state: GlobalState) => getPost(state, threadId));
     const thread = useSelector((state: GlobalState) => getThread(state, threadId));
 
     if (!thread) {
@@ -71,13 +74,12 @@ const ThreadItem = ({
         post: {
             channel_id: channelId,
             user_id: userId,
-            message,
-            edit_at: editAt,
-            create_at: createAt,
         },
     } = thread;
+
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
     const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, channelId));
+    const displayName = useSelector((state: GlobalState) => getDisplayName(state, userId, true));
 
     useEffect(() => {
         if (!channel) {
@@ -90,8 +92,6 @@ const ThreadItem = ({
             dispatch(fetchUser(channel.teammate_id));
         }
     }, [channel, directTeammate]);
-
-    const displayName = useSelector((state: GlobalState) => getDisplayName(state, userId, true));
 
     return (
         <article
@@ -136,7 +136,6 @@ const ThreadItem = ({
             <span className='menu-anchor alt-visible'>
                 <ThreadMenu
                     threadId={threadId}
-                    postTimestamp={editAt || createAt}
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
                 >
@@ -157,7 +156,7 @@ const ThreadItem = ({
             </span>
             <div className='preview'>
                 <Markdown
-                    message={message}
+                    message={post?.message ?? '(message deleted)'}
                     options={markdownPreviewOptions}
                 />
             </div>

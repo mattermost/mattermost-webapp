@@ -12,6 +12,8 @@ import {getLastViewedChannelNameByTeamName} from 'selectors/local_storage';
 
 import {GlobalState} from 'types/store';
 
+import {isCollapsedThreadsEnabled} from 'selectors/threads';
+
 import CenterChannel from './center_channel';
 
 type Props = {
@@ -35,6 +37,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         lhsOpen: getIsLhsOpen(state),
         rhsOpen: getIsRhsOpen(state),
         rhsMenuOpen: getIsRhsMenuOpen(state),
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 };
 

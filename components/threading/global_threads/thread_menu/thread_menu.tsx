@@ -31,7 +31,6 @@ import {useThreadRouting} from '../../hooks';
 
 type Props = {
     threadId: $ID<UserThread>;
-    postTimestamp: Post['edit_at'] | Post['create_at'];
     isFollowing: boolean;
     hasUnreads: boolean;
     children: ReactNode;
@@ -39,7 +38,6 @@ type Props = {
 
 function ThreadMenu({
     threadId,
-    postTimestamp,
     isFollowing,
     hasUnreads,
     children,
@@ -108,7 +106,7 @@ function ThreadMenu({
                         defaultMessage: 'Mark as unread',
                     })}
                     onClick={useCallback(() => {
-                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : postTimestamp));
+                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : 0));
                     }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead])}
                 />
 

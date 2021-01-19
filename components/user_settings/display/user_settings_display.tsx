@@ -32,6 +32,7 @@ function getDisplayStateFromProps(props: Props) {
         channelDisplayMode: props.channelDisplayMode,
         messageDisplay: props.messageDisplay,
         collapseDisplay: props.collapseDisplay,
+        collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
     };
 }
@@ -89,6 +90,8 @@ type Props = {
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
+    collapsedReplyThreads: string;
+    collapsedReplyThreadsAllowed: boolean;
     linkPreviewDisplay: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -105,6 +108,7 @@ type State = {
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
+    collapsedReplyThreads: string;
     linkPreviewDisplay: string;
     handleSubmit?: () => void;
     serverError?: string;
@@ -190,6 +194,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay,
         };
+        const collapsedReplyThreadsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.COLLAPSED_REPLY_THREADS,
+            value: this.state.collapsedReplyThreads,
+        };
         const linkPreviewDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -203,6 +213,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             timePreference,
             channelDisplayModePreference,
             messageDisplayPreference,
+            collapsedReplyThreadsPreference,
             collapseDisplayPreference,
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
@@ -231,6 +242,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     handleCollapseRadio(collapseDisplay: string) {
         this.setState({collapseDisplay});
+    }
+
+    handleCollapseReplyThreadsRadio(collapsedReplyThreads: string) {
+        this.setState({collapsedReplyThreads});
     }
 
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
@@ -673,6 +688,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             },
         });
 
+        let collapsedReplyThreads;
+
+        if (this.props.collapsedReplyThreadsAllowed) {
+            collapsedReplyThreads = this.createSection({
+                section: Preferences.COLLAPSED_REPLY_THREADS,
+                display: 'collapsedReplyThreads',
+                value: this.state.collapsedReplyThreads,
+                defaultDisplay: Preferences.COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT,
+                title: {
+                    id: t('user.settings.display.collapsedReplyThreadsTitle'),
+                    message: 'Collapsed Reply Threads (Beta)',
+                },
+                firstOption: {
+                    value: Preferences.COLLAPSED_REPLY_THREADS_ON,
+                    radionButtonText: {
+                        id: t('user.settings.display.collapsedReplyThreadsOn'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: Preferences.COLLAPSED_REPLY_THREADS_OFF,
+                    radionButtonText: {
+                        id: t('user.settings.display.collapsedReplyThreadsOff'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.collapsedReplyThreadsDescription'),
+                    message: 'When enabled, reply messages are not shown in the channel view. You can still read and reply to threads in the right-hand sidebar. You\'ll be notified about threads you\'re following in a new "Threads" item in the channel sidebar.',
+                },
+            });
+        }
+
         const channelDisplayModeSection = this.createSection({
             section: Preferences.CHANNEL_DISPLAY_MODE,
             display: 'channelDisplayMode',
@@ -810,6 +858,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
+                    {collapsedReplyThreads}
                     {channelDisplayModeSection}
                     {languagesSection}
                 </div>

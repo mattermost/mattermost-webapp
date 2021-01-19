@@ -49,10 +49,11 @@ const GlobalThreads = () => {
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
+
     const threadIds = useSelector(getThreadOrderInCurrentTeam);
     const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
-    const numUnread = counts?.total_unread_replies || 0; // TODO incorrect: sum of unreads vs num of unread threads
-    const isLoading = !counts?.total || (counts.total && isEmpty(threadIds));
+    const numUnread = counts?.total_unread_threads || 0;
+    const isLoading = counts?.total == null || (counts.total && isEmpty(threadIds));
 
     useEffect(() => {
         dispatch(selectChannel(''));
@@ -64,7 +65,7 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
-        if (!selectedThread && counts?.total) {
+        if (!selectedThread && !isLoading) {
             clear();
         }
     }, [currentUserId, currentTeamId, threadIdentifier, counts]);
@@ -136,7 +137,6 @@ const GlobalThreads = () => {
                             thread={selectedThread}
                             isFollowing={selectedThread.is_following ?? false}
                             hasUnreads={!isEmpty(unreadThreadIds)}
-                            postTimestamp={selectedThread.post.update_at || selectedThread.post.create_at}
                         >
                             <ThreadViewer
                                 currentUserId={currentUserId}

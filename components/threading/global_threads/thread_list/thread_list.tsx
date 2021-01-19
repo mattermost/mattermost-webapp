@@ -5,7 +5,7 @@ import React, {memo, useCallback, PropsWithChildren} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
-import {markThreadsRead} from 'mattermost-redux/actions/threads';
+import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Header from 'components/widgets/header';
@@ -75,7 +75,7 @@ const ThreadList = ({
                                 className={'Button___large Button___icon'}
                                 disabled={!someUnread}
                                 onClick={useCallback(() => {
-                                    dispatch(markThreadsRead(currentUserId, currentTeamId));
+                                    dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
                                 }, [currentTeamId, currentUserId])}
                             >
                                 <span className='Icon'>

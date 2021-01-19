@@ -13,6 +13,7 @@ import {getThreadCounts} from 'mattermost-redux/actions/threads';
 import {t} from 'utils/i18n';
 
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
+import {isCollapsedThreadsEnabled} from 'selectors/threads';
 
 import {useThreadRouting} from '../hooks';
 
@@ -23,6 +24,7 @@ import './global_threads_link.scss';
 const GlobalThreadsLink = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const isFeatureEnabled = useSelector(isCollapsedThreadsEnabled);
 
     const {url, params: {team}} = useRouteMatch<{team: string}>();
     const {pathname} = useLocation();
@@ -31,7 +33,7 @@ const GlobalThreadsLink = () => {
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const unreadsOnly = useSelector(isUnreadFilterEnabled);
-    const someUnreadThreads = counts?.total_unread_replies;
+    const someUnreadThreads = counts?.total_unread_threads;
 
     useEffect(() => {
         if (!threadsMatch) {
@@ -41,7 +43,7 @@ const GlobalThreadsLink = () => {
         }
     }, [team, Boolean(threadsMatch)]);
 
-    if (unreadsOnly && !threadsMatch && !someUnreadThreads) {
+    if (!isFeatureEnabled || (unreadsOnly && !threadsMatch && !someUnreadThreads)) {
         // hide link if filtering unreads and there are no unread threads
         return null;
     }
