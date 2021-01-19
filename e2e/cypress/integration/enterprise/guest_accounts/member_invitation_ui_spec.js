@@ -213,7 +213,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
-    it('MM-T1329 Invite Members - Invite People - Existing Guest not on the team', () => {
+    it('Invite Members - Invite People - Existing Guest not on the team', () => {
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
