@@ -13,14 +13,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message permalink', () => {
-    function ignoreUncaughtException() {
-        cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('Cannot clear timer: timer created');
-
-            return false;
-        });
-    }
-
     let testTeam;
     let testChannel;
     let testUser;
@@ -75,8 +67,6 @@ describe('Message permalink', () => {
     });
 
     it('Permalink highlight should fade after timeout and change to channel url', () => {
-        ignoreUncaughtException();
-
         // # Post message to use
         const message = 'Hello' + Date.now();
         cy.postMessage(message);

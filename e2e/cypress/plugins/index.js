@@ -13,6 +13,7 @@ const clientRequest = require('./client_request');
 const externalRequest = require('./external_request');
 const fileExist = require('./file_exist');
 const getRecentEmail = require('./get_recent_email');
+const keycloakRequest = require('./keycloak_request');
 const oktaRequest = require('./okta_request');
 const postBotMessage = require('./post_bot_message');
 const postIncomingWebhook = require('./post_incoming_webhook');
@@ -35,6 +36,7 @@ module.exports = (on, config) => {
         externalRequest,
         fileExist,
         getRecentEmail,
+        keycloakRequest,
         log,
         oktaRequest,
         postBotMessage,
