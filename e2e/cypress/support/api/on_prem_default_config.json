@@ -74,7 +74,6 @@
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
         "ExperimentalChannelOrganization": false,
-        "ExperimentalChannelSidebarOrganization": "disabled",
         "EnableAPITeamDeletion": true,
         "ExperimentalEnableHardenedMode": false,
         "DisableLegacyMFA": true,
@@ -83,7 +82,8 @@
         "DisableBotsWhenOwnerIsDeactivated": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false
+        "EnableLatex": false,
+        "EnableLegacySidebar": true
     },
     "TeamSettings": {
         "SiteName": "Mattermost",
