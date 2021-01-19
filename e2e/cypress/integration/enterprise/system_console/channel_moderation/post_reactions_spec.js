@@ -180,7 +180,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
 
     // GUEST PERMISSIONS DON'T EXIST ON TEAM OVERRIDE SCHEMES SO GUEST PORTION NOT IMPLEMENTED!
     // ONLY THE MEMBERS PORTION OF THIS TEST IS IMPLEMENTED
-    it('MM-T1546 Post Reactions option removed for Guests & Members in Team Override Scheme', () => {
+    it('MM-T1546_4 Post Reactions option removed for Guests & Members in Team Override Scheme', () => {
         const teamOverrideSchemeName = `post_reactions_${getRandomId()}`;
 
         // # Create a new team override scheme
