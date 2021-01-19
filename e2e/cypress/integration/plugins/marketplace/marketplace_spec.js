@@ -272,7 +272,7 @@ describe('Plugin Marketplace', () => {
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
         });
 
-        it('MM-T1947 autofocus on search plugin input box', () => {
+        it('MM-T2001 autofocus on search plugin input box', () => {
             cy.uiCloseAnnouncementBar().then(() => {
                 cy.findByLabelText('Close').click();
             });
