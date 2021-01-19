@@ -12,6 +12,7 @@ import {AnnouncementBarTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 type Props = {
     userIsAdmin: boolean;
@@ -24,12 +25,8 @@ type Props = {
     };
 };
 
-export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
+class PaymentAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
-        if (isEmpty(this.props.subscription)) {
-            await this.props.actions.getCloudSubscription();
-        }
-
         if (isEmpty(this.props.customer)) {
             await this.props.actions.getCloudCustomer();
         }
@@ -83,7 +80,7 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
             <AnnouncementBar
                 type={AnnouncementBarTypes.CRITICAL_LIGHT}
                 showCloseButton={false}
-                showModal={this.updatePaymentInfo}
+                onButtonClick={this.updatePaymentInfo}
                 modalButtonText={t('admin.billing.subscription.updatePaymentInfo')}
                 modalButtonDefaultText={'Update payment info'}
                 message={this.isMostRecentPaymentFailed() ? t('admin.billing.subscription.mostRecentPaymentFailed') : t('admin.billing.subscription.creditCardExpired')}
@@ -94,3 +91,5 @@ export default class PaymentAnnouncementBar extends React.PureComponent<Props> {
         );
     }
 }
+
+export default withGetCloudSubscription(PaymentAnnouncementBar);

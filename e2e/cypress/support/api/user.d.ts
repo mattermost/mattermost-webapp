@@ -195,7 +195,6 @@ declare namespace Cypress {
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
          * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
-         * @param {boolean} options.hideWhatsNewModal - true (default) hide or false to show What's New modal
          * @returns {UserProfile} `out.user` as `UserProfile` object
          *
          * @example
@@ -209,7 +208,6 @@ declare namespace Cypress {
          * @param {string} options.activate - true (default) to activate guest user
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
          * @param {boolean} options.hideCloudOnboarding - true (default) to hide or false to show Cloud Onboarding steps
-         * @param {boolean} options.hideWhatsNewModal - true (default) hide or false to show What's New modal
          * @returns {UserProfile} `out.guest` as `UserProfile` object
          *
          * @example
