@@ -134,6 +134,8 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
                             onChange={this.handleChange}
                             value={this.state.limit}
                             isSearchable={false}
+                            menuPortalTarget={document.body}
+                            styles={reactStyles}
                         />
                         <div className='mt-5'>
                             <FormattedMessage
@@ -150,3 +152,10 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
         );
     }
 }
+
+const reactStyles = {
+    menuPortal: (provided: React.CSSProperties) => ({
+        ...provided,
+        zIndex: 9999,
+    }),
+};
