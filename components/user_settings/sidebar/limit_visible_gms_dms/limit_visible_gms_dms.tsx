@@ -10,6 +10,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import {localizeMessage} from 'utils/utils';
 
 type Limit = {
     value: number;
@@ -31,6 +32,7 @@ type State = {
 }
 
 const limits: Limit[] = [
+    {value: 10000, label: localizeMessage('user.settings.sidebar.limitVisibleGMsDMs.allDirectMessages', 'All Direct Messages')},
     {value: 10, label: '10'},
     {value: 15, label: '15'},
     {value: 20, label: '20'},
@@ -52,13 +54,17 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
         if (props.active !== state.active) {
             if (props.active && !state.active) {
                 return {
-                    limit: {value: props.dmGmLimit, label: String(props.dmGmLimit)},
+                    limit: limits.find((l) => l.value === props.dmGmLimit),
                     active: props.active,
                 };
             }
 
             return {
                 active: props.active,
+            };
+        } else if (!props.active) {
+            return {
+                limit: limits.find((l) => l.value === props.dmGmLimit),
             };
         }
 
@@ -88,7 +94,7 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
 
     renderDescription = () => {
         return (
-            <span>{this.props.dmGmLimit}</span>
+            <span>{this.state.limit.label}</span>
         );
     }
 

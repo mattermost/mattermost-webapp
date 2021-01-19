@@ -4343,6 +4343,7 @@
   "user.settings.sidebar.groupChannelsTitle": "Channel grouping",
   "user.settings.sidebar.groupDesc": "Group channels by type, or combine all types into a list.",
   "user.settings.sidebar.icon": "Sidebar Settings Icon",
+  "user.settings.sidebar.limitVisibleGMsDMs.allDirectMessages": "All Direct Messages",
   "user.settings.sidebar.limitVisibleGMsDMsDesc": "You can also change these settings in the direct messages sidebar menu.",
   "user.settings.sidebar.limitVisibleGMsDMsTitle": "Number of direct messages to show",
   "user.settings.sidebar.never": "Never",
