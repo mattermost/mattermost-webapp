@@ -22,6 +22,7 @@
     overflow: hidden;
     height: 20px;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .custom-status-suggestion-emoji > span:first-child {

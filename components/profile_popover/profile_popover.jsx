@@ -8,6 +8,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
+import './profile_popover.scss';
 import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -26,7 +27,6 @@ import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
-import {localizeMessage} from 'utils/utils.jsx';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -148,14 +148,25 @@ class ProfilePopover extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
+        this.customStatusTextRef = React.createRef();
         this.state = {
             loadingDMChannel: -1,
+            showTooltip: false,
         };
     }
 
     componentDidMount() {
         this.props.actions.getMembershipForCurrentEntities(this.props.userId);
+        this.showCustomStatusTextTooltip();
+    }
+
+    showCustomStatusTextTooltip = () => {
+        const element = this.customStatusTextRef.current;
+        if (element && element.offsetWidth < element.scrollWidth) {
+            this.setState({showTooltip: true});
+        } else {
+            this.setState({showTooltip: false});
+        }
     }
 
     handleShowDirectChannel = (e) => {
@@ -420,29 +431,49 @@ class ProfilePopover extends React.PureComponent {
                     </span>
                 );
 
+                let customStatusText = (
+                    <div
+                        className='text-nowrap user-popover__email pb-1'
+                        ref={this.customStatusTextRef}
+                    >
+                        {customStatus.text}
+                    </div>
+                );
+                if (this.state.showTooltip) {
+                    customStatusText = (
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='top'
+                            overlay={
+                                <Tooltip id='custom-status-text-tooltip'>
+                                    {customStatus.text}
+                                </Tooltip>
+                            }
+                        >
+                            {customStatusText}
+                        </OverlayTrigger>
+                    );
+                }
+
                 customStatusContent = (
                     <div className='d-flex'>
                         {customStatusEmoji}
-                        <div
-                            className='text-nowrap user-popover__email pb-1'
-                        >
-                            {customStatus.text}
-                        </div>
+                        {customStatusText}
                     </div>
                 );
             } else if (this.props.user.id === this.props.currentUserId) {
                 customStatusContent = (
                     <div>
-                        <a
-                            href='#'
-                            aria-label={localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
+                        <button
+                            className='user-popover__set-custom-status-btn'
+                            aria-label={Utils.localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
                             onClick={this.showCustomStatusModal}
                         >
                             <FormattedMessage
                                 id='user_profile.custom-status.set-status'
                                 defaultMessage='Set a status'
                             />
-                        </a>
+                        </button>
                     </div>
                 );
             }

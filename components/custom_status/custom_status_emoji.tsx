@@ -4,7 +4,6 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
-import Nbsp from 'components/html_entities/nbsp';
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';

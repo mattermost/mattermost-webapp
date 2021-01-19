@@ -171,8 +171,9 @@
 .statusSuggestion__text{
     font-weight: 600;
     overflow: hidden;
-    text-overflow: ellipsis;
     height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .suggestion-clear{

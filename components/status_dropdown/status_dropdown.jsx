@@ -49,6 +49,15 @@ export default class StatusDropdown extends React.PureComponent {
         customStatus: {},
     }
 
+    constructor(props) {
+        super(props);
+        this.customStatusTextRef = React.createRef();
+    }
+
+    state = {
+        showCustomStatusTooltip: false,
+    }
+
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
@@ -100,6 +109,15 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.openModal(customStatusInputModalData);
     }
 
+    showCustomStatusTextTooltip = () => {
+        const element = this.customStatusTextRef.current;
+        if (element && element.offsetWidth < element.scrollWidth) {
+            this.setState({showCustomStatusTooltip: true});
+        } else {
+            this.setState({showCustomStatusTooltip: false});
+        }
+    }
+
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
             return null;
@@ -132,6 +150,12 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.unsetUserCustomStatus();
     };
 
+    onToggle = (open) => {
+        if (open) {
+            this.showCustomStatusTextTooltip();
+        }
+    }
+
     render() {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
@@ -157,6 +181,31 @@ export default class StatusDropdown extends React.PureComponent {
                     </span>
                 );
                 customStatusText = customStatus.text;
+            }
+
+            let customStatusTextComponent = (
+                <span
+                    className='custom_status__text'
+                    ref={this.customStatusTextRef}
+                >
+                    {customStatusText}
+                </span>
+            );
+
+            if (isStatusSet && this.state.showCustomStatusTooltip) {
+                customStatusTextComponent = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={
+                            <Tooltip id='custom-status-text-tooltip'>
+                                {customStatusText}
+                            </Tooltip>
+                        }
+                    >
+                        {customStatusTextComponent}
+                    </OverlayTrigger>
+                );
             }
 
             const clearButton = isStatusSet &&
@@ -194,9 +243,7 @@ export default class StatusDropdown extends React.PureComponent {
                     <div className='custom_status__icon'>
                         {customStatusEmoji}
                     </div>
-                    <span className='custom_status__text'>
-                        {customStatusText}
-                    </span>
+                    {customStatusTextComponent}
                     {clearButton}
                 </div>
             );
