@@ -187,7 +187,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.get('.InvitationModal').should('not.exist');
     });
 
-    it('MM-T1327 Invite Members - Existing Team Guest', () => {
+    it('MM-18040 Verify Invite New/Existing Users', () => {
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
