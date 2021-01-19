@@ -366,6 +366,12 @@
 
 <glyph glyph-name="magnify-plus" unicode="&#xf034b;" d="M375 767a292 292 0 0 0 292-292c0-65-21-125-58-175l33-33h25l250-250-84-84-250 250v25l-33 33c-50-37-110-58-175-58a292 292 0 0 0-292 292 292 292 0 0 0 292 292m-42-125v-125h-125v-84h125v-125h84v125h125v84h-125v125h-84z" horiz-adv-x="1000" />
 
+<glyph glyph-name="menu-left" unicode="&#xf035e;" d="M583 558l-208-208 208-208v416z" horiz-adv-x="1000" />
+
+<glyph glyph-name="menu-right" unicode="&#xf035f;" d="M417 142l208 208-208 208v-416z" horiz-adv-x="1000" />
+
+<glyph glyph-name="menu-up" unicode="&#xf0360;" d="M292 225l208 208 208-208h-416z" horiz-adv-x="1000" />
+
 <glyph glyph-name="message-text-outline" unicode="&#xf036a;" d="M833 767a83 83 0 0 0 84-84v-500a83 83 0 0 0-84-83h-583l-167-167v750c0 47 38 84 84 84h666m-666-84v-548l48 48h618v500h-666m83-125h500v-83h-500v83m0-166h375v-84h-375v84z" horiz-adv-x="1000" />
 
 <glyph glyph-name="minus" unicode="&#xf0374;" d="M792 308h-584v84h584v-84z" horiz-adv-x="1000" />
