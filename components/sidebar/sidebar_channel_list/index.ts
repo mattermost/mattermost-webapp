@@ -6,6 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {moveCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -42,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
         draggingState: getDraggingState(state),
         newCategoryIds: state.views.channelSidebar.newCategoryIds,
         multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
+        showUnreadsCategory: shouldShowUnreadsCategory(state),
     };
 }
 
