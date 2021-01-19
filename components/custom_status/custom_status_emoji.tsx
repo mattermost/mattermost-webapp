@@ -4,35 +4,38 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
-import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
-
+import Nbsp from 'components/html_entities/nbsp';
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
-
-import Constants from 'utils/constants';
+import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
+import Constants from 'utils/constants';
 
 interface ComponentProps {
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
+    emojiStyle?: React.CSSProperties;
     userID?: string;
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
-    const {emojiSize, showTooltip, tooltipDirection, userID} = props;
-    const currentUser = useSelector((state: GlobalState) => {
-        return userID ? getUser(state, userID) : getCurrentUser(state);
+    const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID} = props;
+    const customStatusEnabled = useSelector((state: GlobalState) => {
+        return isCustomStatusEnabled(state);
     });
-    if (!(currentUser && currentUser.props && currentUser.props.customStatus)) {
+    const customStatus = useSelector((state: GlobalState) => {
+        return getCustomStatus(state, userID);
+    });
+    if (!(customStatusEnabled && customStatus && customStatus.emoji)) {
         return null;
     }
 
-    const customStatus = JSON.parse(currentUser.props.customStatus);
     const statusEmoji = (
         <RenderEmoji
             emoji={customStatus.emoji}
-            size={emojiSize || 16}
+            size={emojiSize}
+            emojiStyle={emojiStyle}
         />
     );
 
@@ -41,11 +44,15 @@ const CustomStatusEmoji = (props: ComponentProps) => {
         status = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement={tooltipDirection || 'top'}
+                placement={tooltipDirection}
                 overlay={
-                    <Tooltip id='custom-status'>
+                    <Tooltip id='custom-status-tooltip'>
                         <div className='custom-status'>
-                            {statusEmoji}
+                            <RenderEmoji
+                                emoji={customStatus.emoji}
+                                size={14}
+                            />
+                            {' '}
                             <span className='custom-status-text'>
                                 {customStatus.text}
                             </span>
@@ -53,7 +60,7 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                     </Tooltip>
                 }
             >
-                <span className='custom-status-emoticon'>
+                <span>
                     {statusEmoji}
                 </span>
             </OverlayTrigger>
@@ -61,6 +68,14 @@ const CustomStatusEmoji = (props: ComponentProps) => {
     }
 
     return status;
+};
+
+CustomStatusEmoji.defaultProps = {
+    userID: '',
+    emojiSize: 16,
+    tooltipDirection: 'top',
+    showTooltip: false,
+    emojiStyle: {},
 };
 
 export default CustomStatusEmoji;

@@ -75,6 +75,10 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         <CustomStatusEmoji
                             showTooltip={true}
                             tooltipDirection='bottom'
+                            emojiStyle={{
+                                verticalAlign: 'top',
+                                marginLeft: 4,
+                            }}
                         />
                     </div>
                     <button

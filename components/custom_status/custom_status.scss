@@ -13,7 +13,7 @@
 
     .modal-body {
         overflow: visible;
-        padding: 12px 12px 0 12px;
+        padding: 12px 0 0 12px;
     }
 
     .modal-footer {
@@ -44,6 +44,7 @@
 
     .StatusModal__input {
         position: relative;
+        width: calc(100% - 15px);
     }
 }
 
@@ -171,6 +172,7 @@
     font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
+    height: 20px;
 }
 
 .suggestion-clear{

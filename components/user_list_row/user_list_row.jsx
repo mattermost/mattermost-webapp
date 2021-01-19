@@ -119,6 +119,7 @@ export default class UserListRow extends React.PureComponent {
                         <Nbsp/>
                         <CustomStatusEmoji
                             userID={this.props.user.id}
+                            emojiSize={15}
                             showTooltip={true}
                         />
                     </div>

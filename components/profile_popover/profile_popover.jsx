@@ -24,6 +24,9 @@ import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import {localizeMessage} from 'utils/utils.jsx';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -80,6 +83,8 @@ class ProfilePopover extends React.PureComponent {
          * @internal
          */
         currentUserId: PropTypes.string.isRequired,
+        customStatus: PropTypes.object,
+        isCustomStatusEnabled: PropTypes.bool.isRequired,
 
         /**
          * @internal
@@ -138,6 +143,7 @@ class ProfilePopover extends React.PureComponent {
         isRHS: false,
         hasMention: false,
         status: UserStatuses.OFFLINE,
+        customStatus: {},
     }
 
     constructor(props) {
@@ -207,6 +213,21 @@ class ProfilePopover extends React.PureComponent {
         }
         this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
         this.handleCloseModals();
+    }
+
+    showCustomStatusModal = (e) => {
+        e.preventDefault();
+
+        if (this.props.hide) {
+            this.props.hide();
+        }
+        const customStatusInputModalData = {
+            ModalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+            dialogProps: {userId: this.props.currentUserId},
+        };
+
+        this.props.actions.openModal(customStatusInputModalData);
     }
 
     handleAddToChannel = (e) => {
@@ -381,6 +402,65 @@ class ProfilePopover extends React.PureComponent {
                     />
                 </div>,
             );
+        }
+
+        if (this.props.isCustomStatusEnabled) {
+            let customStatusContent;
+            const customStatus = this.props.customStatus;
+            if (customStatus.text || customStatus.emoji) {
+                const customStatusEmoji = (
+                    <span className='d-flex'>
+                        <CustomStatusEmoji
+                            userID={this.props.user.id}
+                            showTooltip={false}
+                            emojiStyle={{
+                                marginRight: 4,
+                            }}
+                        />
+                    </span>
+                );
+
+                customStatusContent = (
+                    <div className='d-flex'>
+                        {customStatusEmoji}
+                        <div
+                            className='text-nowrap user-popover__email pb-1'
+                        >
+                            {customStatus.text}
+                        </div>
+                    </div>
+                );
+            } else if (this.props.user.id === this.props.currentUserId) {
+                customStatusContent = (
+                    <div>
+                        <a
+                            href='#'
+                            aria-label={localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
+                            onClick={this.showCustomStatusModal}
+                        >
+                            <FormattedMessage
+                                id='user_profile.custom-status.set-status'
+                                defaultMessage='Set a status'
+                            />
+                        </a>
+                    </div>
+                );
+            }
+
+            if (customStatusContent) {
+                dataContent.push(
+                    <div
+                        key='user-popover-status'
+                        className='pb-1'
+                    >
+                        <FormattedMessage
+                            id='user_profile.custom-status'
+                            defaultMessage='Status: '
+                        />
+                        {customStatusContent}
+                    </div>,
+                );
+            }
         }
 
         if (this.props.user.id === this.props.currentUserId && !haveOverrideProp) {

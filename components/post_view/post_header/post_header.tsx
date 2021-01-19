@@ -6,12 +6,16 @@ import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import {CustomStatus} from 'types/store/custom_status';
 
 export type Props = {
 
@@ -84,9 +88,35 @@ export type Props = {
      * Source of image that should be override current user profile.
      */
     overwriteIcon?: string;
+
+    /**
+     * Custom status of the user
+     */
+    customStatus: CustomStatus;
+
+    /**
+     * User id of logged in user.
+     */
+    currentUserID: string;
+
+    isCustomStatusEnabled: boolean;
+
+    actions: {
+        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+    };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
+    showCustomStatusModal = () => {
+        const customStatusInputModalData = {
+            modalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+            dialogProps: {userId: this.props.currentUserID},
+        };
+
+        this.props.actions.openModal(customStatusInputModalData);
+    }
+
     render(): JSX.Element {
         const {post} = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -101,6 +131,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         );
         let indicator;
         let colon;
+        let customStatus;
 
         if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
@@ -167,12 +198,46 @@ export default class PostHeader extends React.PureComponent<Props> {
             colon = (<strong className='colon'>{':'}</strong>);
         }
 
+        const userCustomStatus = this.props.customStatus;
+        const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
+        const isCurrentUser = this.props.post.user_id && this.props.post.user_id === this.props.currentUserID;
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCustomStatusSet) {
+            customStatus = (
+                <CustomStatusEmoji
+                    userID={this.props.post.user_id}
+                    showTooltip={true}
+                    emojiSize={14}
+                    emojiStyle={{
+                        margin: '4px 0 0 4px',
+                    }}
+                />
+            );
+        }
+
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet) {
+            customStatus = (
+                <div
+                    onClick={this.showCustomStatusModal}
+                    className='post__header-set-custom-status cursor--pointer'
+                >
+                    <EmojiIcon className='post__header-set-custom-status-icon'/>
+                    <span className='post__header-set-custom-status-text'>
+                        <FormattedMessage
+                            id='post_header.update_status'
+                            defaultMessage='Update your status'
+                        />
+                    </span>
+                </div>
+            );
+        }
+
         return (
             <div className='post__header'>
                 <div className='col col__name'>
                     {userProfile}
                     {colon}
                     {indicator}
+                    {customStatus}
                 </div>
                 <div className='col'>
                     <PostInfo

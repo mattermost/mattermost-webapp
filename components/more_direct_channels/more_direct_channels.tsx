@@ -384,6 +384,10 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                         <CustomStatusEmoji
                             userID={option.id}
                             showTooltip={true}
+                            emojiSize={15}
+                            emojiStyle={{
+                                marginLeft: 4,
+                            }}
                         />
                     </div>
                     <div className='more-modal__description'>
