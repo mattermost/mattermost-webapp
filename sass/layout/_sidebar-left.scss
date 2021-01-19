@@ -162,11 +162,13 @@
             display: block;
             margin: 16px 14px 8px 14px;
 
-            & > button:not(.SidebarChannelNavigator_jumpToButton),
-            & > .SidebarFilters_filterButton {
+            .AddChannelDropdown_dropdownButton,
+            .SidebarFilters_filterButton,
+            .SidebarChannelNavigator_backButton,
+            .SidebarChannelNavigator_forwardButton {
                 background: transparent;
 
-                &:hover {
+                &:hover:not(.active) {
                     background: rgba(255, 255, 255, 0.08);
                     color: var(--sidebar-text);
                 }
@@ -177,19 +179,24 @@
             display: flex;
             margin: 16px 14px 8px 14px;
 
-            & > button,
-            & > .SidebarFilters_filterButton {
+            .AddChannelDropdown_dropdownButton,
+            .SidebarChannelNavigator_jumpToButton,
+            .SidebarFilters_filterButton {
                 margin: 0 2px;
                 background: rgba(255, 255, 255, 0.08);
 
-                &:hover {
+                &:hover:not(.active) {
                     background: rgba(255, 255, 255, 0.16);
                     color: var(--sidebar-text);
                 }
             }
         }
 
-        & > button {
+        .AddChannelDropdown_dropdownButton,
+        .SidebarChannelNavigator_jumpToButton,
+        .SidebarFilters_filterButtontton,
+        .SidebarChannelNavigator_backButton,
+        .SidebarChannelNavigator_forwardButton {
             font-size: 18px;
             height: 28px;
             min-width: 28px;
