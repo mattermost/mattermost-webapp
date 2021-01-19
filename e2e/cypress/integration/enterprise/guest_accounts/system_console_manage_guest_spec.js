@@ -129,7 +129,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         verifyGuest();
     });
 
-    it('MM-T1394 Change Email of a Guest User and Verify', () => {
+    it('MM-18048 Change Email of a Guest User and Verify', () => {
         // # Click on the Update Email option
         cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
         cy.wait(TIMEOUTS.HALF_SEC).findByText('Update Email').click();
