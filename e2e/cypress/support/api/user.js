@@ -105,12 +105,15 @@ Cypress.Commands.add('apiGetUserById', (userId) => {
     });
 });
 
-Cypress.Commands.add('apiGetUserByEmail', (email) => {
+Cypress.Commands.add('apiGetUserByEmail', (email, failOnStatusCode = true) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/email/' + email,
+        failOnStatusCode,
     }).then((response) => {
-        expect(response.status).to.equal(200);
+        if (failOnStatusCode) {
+            expect(response.status).to.equal(200);
+        }
         return cy.wrap({user: response.body});
     });
 });
@@ -204,7 +207,6 @@ Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
     hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
     user = null,
 } = {}) => {
     const newUser = user || generateRandomUser(prefix);
@@ -229,10 +231,6 @@ Cypress.Commands.add('apiCreateUser', ({
             cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
         }
 
-        if (hideWhatsNewModal) {
-            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
-        }
-
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
@@ -240,10 +238,9 @@ Cypress.Commands.add('apiCreateUser', ({
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
     hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
     activate = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
+    return cy.apiCreateUser({prefix, hideCloudOnboarding}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
         cy.externalActivateUser(user.id, activate);
 
@@ -313,7 +310,7 @@ Cypress.Commands.add('apiActivateUser', (userId) => {
         },
     };
 
-    // # Deactivate a user account
+    // # Activate a user account
     return cy.request(options).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
