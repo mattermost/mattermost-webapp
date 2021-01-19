@@ -29,7 +29,7 @@ describe('admin_console/system_role', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with isLicnesedForCloud = true', () => {
+    test('should match snapshot with isLicensedForCloud = true', () => {
         const wrapper = shallow(
             <SystemRole
                 {...props}
