@@ -16,7 +16,7 @@ describe('New category badge', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
