@@ -130,7 +130,7 @@ describe('Bots in lists', () => {
     it('MM-T1836_1 Bot accounts display (Legacy Sidebar)', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                EnableLegacySidebar: true,
             },
         });
 
@@ -149,13 +149,13 @@ describe('Bots in lists', () => {
     it('MM-T1836_2 Bot accounts display (New Sidebar)', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'always_on',
+                EnableLegacySidebar: false,
             },
         });
 
         cy.visit(`/${team.name}/messages/@${bots[0].username}`);
 
-        cy.get('.dmCategory .SidebarChannel.active > .SidebarLink').then(($link) => {
+        cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) .SidebarChannel.active > .SidebarLink').then(($link) => {
             // * Verify DM label
             cy.wrap($link).find('.SidebarChannelLinkLabel').should('have.text', bots[0].username);
 
@@ -171,7 +171,7 @@ describe('Bots in lists', () => {
         cy.postMessage('Hello, regular user');
 
         // * Verify Bots and Regular users as siblings in DMs
-        cy.get('.dmCategory .SidebarChannel.active').siblings('.SidebarChannel').then(($siblings) => {
+        cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) .SidebarChannel.active').siblings('.SidebarChannel').then(($siblings) => {
             cy.wrap($siblings).contains('.SidebarChannelLinkLabel', bots[0].username);
         });
     });

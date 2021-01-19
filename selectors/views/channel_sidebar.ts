@@ -16,7 +16,7 @@ import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -44,6 +44,18 @@ export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategor
     return memoizeResult((state: GlobalState) => {
         const currentTeamId = getCurrentTeamId(state);
         return getCategoriesForTeam(state, currentTeamId);
+    });
+})();
+
+export const getAutoSortedCategoryIds: (state: GlobalState) => string[] = (() => {
+    const getCategoriesForTeam = makeGetCategoriesForTeam();
+
+    return memoizeResult((state: GlobalState) => {
+        const currentTeamId = getCurrentTeamId(state);
+        const categories = getCategoriesForTeam(state, currentTeamId);
+        return categories.filter((category) =>
+            category.sorting === CategorySorting.Alphabetical ||
+            category.sorting === CategorySorting.Recency).map((category) => category.id);
     });
 })();
 

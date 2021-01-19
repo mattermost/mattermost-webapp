@@ -116,7 +116,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 isCategoryCollapsed={isCollapsed}
                 isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
                 isDropDisabled={this.isDropDisabled()}
-                isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
+                isAutoSortedCategory={category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency}
             />
         );
     }
@@ -323,7 +323,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
-                                dmCategory: category.type === CategoryTypes.DIRECT_MESSAGES,
+                                autoSortedCategory: category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency,
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,
@@ -367,7 +367,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 >
                                                     {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
                                                     {renderedChannels}
-                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || isNewCategory) ? null : droppableProvided.placeholder}
+                                                    {(category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency || isNewCategory) ? null : droppableProvided.placeholder}
                                                 </ul>
                                             </div>
                                         </div>
