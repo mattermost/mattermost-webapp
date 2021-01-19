@@ -175,7 +175,7 @@ describe('Invite Members', () => {
 
         // By default, member don't have "InviteGuest" permission
         // should go directly to "InviteMembers" modal
-        it('MM-T1328 Invite Members to Team as Member - invitation sent', () => {
+        it('Invite Members to Team as Member - invitation sent', () => {
             inviteUserToTeamAsMember(testUser, testTeam, userToBeInvited);
 
             // * Verify Invitation was created successfully
