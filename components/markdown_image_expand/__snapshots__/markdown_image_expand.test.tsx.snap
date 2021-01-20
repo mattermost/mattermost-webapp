@@ -10,7 +10,7 @@ exports[`components/MarkdownImageExpand should match snapshot for collapseDispla
     type="button"
   >
     <span
-      className="fa fa-caret-down"
+      className="icon icon-menu-down"
     />
   </button>
   An image to expand
@@ -27,7 +27,7 @@ exports[`components/MarkdownImageExpand should match snapshot for collapseDispla
     type="button"
   >
     <span
-      className="fa fa-caret-right markdown-image-expand__expand-icon"
+      className="icon icon-menu-right markdown-image-expand__expand-icon"
     />
     <span
       className="markdown-image-expand__alt-text"
@@ -48,7 +48,7 @@ exports[`components/MarkdownImageExpand should match snapshot for image collapse
     type="button"
   >
     <span
-      className="fa fa-caret-right markdown-image-expand__expand-icon"
+      className="icon icon-menu-right markdown-image-expand__expand-icon"
     />
     <span
       className="markdown-image-expand__alt-text"
@@ -69,7 +69,7 @@ exports[`components/MarkdownImageExpand should match snapshot for image expanded
     type="button"
   >
     <span
-      className="fa fa-caret-down"
+      className="icon icon-menu-down"
     />
   </button>
   An image to expand
