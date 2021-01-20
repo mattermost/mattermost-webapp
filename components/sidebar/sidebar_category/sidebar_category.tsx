@@ -218,6 +218,23 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         );
     }
 
+    showPlaceholder = () => {
+        const {channels, draggingState, category, isNewCategory} = this.props;
+
+        if (category.sorting === CategorySorting.Alphabetical ||
+            category.sorting === CategorySorting.Recency ||
+            isNewCategory) {
+            // Always show the placeholder if the channel being dragged is from the current category
+            if (channels.find((channel) => channel.id === draggingState.id)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
     render() {
         const {
             category,
@@ -367,7 +384,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 >
                                                     {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
                                                     {renderedChannels}
-                                                    {(category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency || isNewCategory) ? null : droppableProvided.placeholder}
+                                                    {this.showPlaceholder() ? droppableProvided.placeholder : null}
                                                 </ul>
                                             </div>
                                         </div>
