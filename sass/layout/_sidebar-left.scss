@@ -857,11 +857,15 @@
 
     /* Channels */
     .SidebarChannel {
-        display: block;
+        display: flex;
         height: 32px; /* height required for transition animation */
         list-style-type: none;
         /* border: solid 2px transparent; */
         color: rgba(var(--sidebar-text-rgb), 0.6);
+        opacity: 1;
+        visibility: visible;
+        align-items: center;
+        overflow-y: hidden;
 
         &:hover {
             .btn-close {
@@ -944,9 +948,13 @@
 
 
     .SidebarChannel.animating {
-        transition-property: height, padding, color;
-        transition-duration: 0.15s; /* collapse animation speed */
-        transition-timing-function: ease-out;
+        transition-property: height, padding, color, opacity, visibility;
+        transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
+        transition-timing-function: ease, ease, ease, ease-in, step-start;
+
+        &.collapsed {
+            transition-timing-function: ease, ease, ease, ease-out, step-end;
+        }
     }
 
     .SidebarChannel.invisible {
@@ -954,12 +962,13 @@
     }
 
     .SidebarChannel.collapsed {
+        opacity: 0;
+        visibility: hidden;
         height: 0 !important;
         padding-top: 0;
         padding-bottom: 0;
         border-top: none;
         border-bottom: none;
-        overflow-y: hidden;
     }
 
     /* fade out collapsing list item */
