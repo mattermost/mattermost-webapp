@@ -5,11 +5,11 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
+import Constants from 'utils/constants';
+
 import MarkdownImage from './markdown_image';
 import SizeAwareImage from './size_aware_image';
 import ViewImageModal from './view_image';
-import Constants from 'utils/constants';
-import MarkdownImageExpand from './markdown_image_expand/markdown_image_expand';
 
 describe('components/MarkdownImage', () => {
     const baseProps = {
@@ -273,13 +273,14 @@ describe('components/MarkdownImage', () => {
         );
         wrapper.instance().setState({loaded: true});
         const childrenNode = wrapper.props().children(props.src);
+
         // using a div as a workaround because shallow doesn't support react fragments
         const childrenWrapper = shallow(<div>{childrenNode}</div>);
 
         expect(childrenWrapper).toMatchSnapshot();
     });
 
-    test(`should provide image src as an alt text for MarkdownImageExpand if image has no own alt text`, () => {
+    test('should provide image src as an alt text for MarkdownImageExpand if image has no own alt text', () => {
         const props = {
             alt: null,
             title: 'test title',
@@ -296,6 +297,7 @@ describe('components/MarkdownImage', () => {
         );
         wrapper.instance().setState({loaded: true});
         const childrenNode = wrapper.props().children(props.src);
+
         // using a div as a workaround because shallow doesn't support react fragments
         const childrenWrapper = shallow(<div>{childrenNode}</div>);
 
