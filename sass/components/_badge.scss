@@ -19,18 +19,9 @@
             right: -4px;
             top: -8px;
             z-index: 5;
-            box-shadow: 0 0 0 3px var(--sidebar-header-bg);
-
-            &:before {
-                content: "";
-                position: absolute;
-                width: 24px;
-                height: 24px;
-                border: 3px solid rgba(0, 0, 0, 0.2);
-                border-radius: 100%;
-                left: -4px;
-                top: -4px;
-            }
+            box-shadow:
+                0 0 0 3px rgba(0, 0, 0, 0.2),
+                0 0 0 3px var(--sidebar-header-bg);
         }
     }
 
