@@ -40,6 +40,7 @@ export type DispatchProps = {
         autocompleteUsersInTeam: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
+        filterFilesSearchByExt: (extensions: string[]) => void;
     };
 }
 

@@ -14,6 +14,7 @@ import {
     closeRightHandSide,
     updateRhsState,
     setRhsExpanded,
+    filterFilesSearchByExt,
 } from 'actions/views/rhs';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
 import {autocompleteUsersInTeam} from 'actions/user_actions';
@@ -53,6 +54,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             autocompleteUsersInTeam,
             updateRhsState,
             getMorePostsForSearch,
+            filterFilesSearchByExt,
         }, dispatch),
     };
 }

@@ -75,6 +75,9 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
 
     useEffect(() => {
+        if (props.searchFilterType !== 'all') {
+            props.setSearchFilterType('all');
+        }
         scrollbars.current?.scrollToTop();
     }, [props.searchTerms]);
 
@@ -224,7 +227,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         if (searchType === FILES_SEARCH_TYPE) {
             sortedResults = fileResults;
         }
-        console.log(sortedResults);
 
         contentItems = sortedResults.map((item: Post|FileSearchResult, index: number) => {
             return (

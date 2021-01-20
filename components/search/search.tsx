@@ -230,6 +230,36 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         props.actions.setRhsExpanded(false);
     };
 
+    const handleSetSearchFilter = (filterType: SearchFilterType): void => {
+        switch (filterType) {
+        case 'documents':
+            props.actions.filterFilesSearchByExt(['doc', 'pdf', 'docx', 'odt', 'rtf']);
+            break;
+        case 'spreadsheets':
+            props.actions.filterFilesSearchByExt(['xls', 'xlsx', 'ods']);
+            break;
+        case 'presentations':
+            props.actions.filterFilesSearchByExt(['ppt', 'pptx', 'odp']);
+            break;
+        case 'code':
+            props.actions.filterFilesSearchByExt(['py', 'go', 'java', 'kt', 'c', 'cpp', 'h', 'html', 'js', 'ts', 'cs', 'vb', 'php', 'pl', 'r', 'rb', 'sql', 'swift', 'json']);
+            break;
+        case 'images':
+            props.actions.filterFilesSearchByExt(['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'svg', 'psd', 'xcf']);
+            break;
+        case 'audio':
+            props.actions.filterFilesSearchByExt(['ogg', 'mp3', 'wav', 'flac']);
+            break;
+        case 'video':
+            props.actions.filterFilesSearchByExt(['ogm', 'mp4', 'avi', 'webm', 'mov', 'mkv', 'mpeg', 'mpg']);
+            break;
+        default:
+            props.actions.filterFilesSearchByExt([]);
+        }
+        setSearchFilterType(filterType);
+        props.actions.showSearchResults(false);
+    };
+
     const setHoverHintIndex = (_highlightedSearchHintIndex: number): void => {
         setHighlightedSearchHintIndex(_highlightedSearchHintIndex);
         setIndexChangedViaKeyPress(false);
@@ -394,7 +424,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     handleSearchHintSelection={handleSearchHintSelection}
                     isSideBarExpanded={props.isRhsExpanded}
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
-                    setSearchFilterType={setSearchFilterType}
+                    setSearchFilterType={handleSetSearchFilter}
                     searchFilterType={searchFilterType}
                     setSearchType={setSearchType}
                     searchType={searchType || 'messages'}
