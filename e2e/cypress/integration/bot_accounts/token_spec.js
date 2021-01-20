@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // ******************************************************************
-// !!! THIS IS A DUPLICATE IMPLIMENTATION OF THE TEST IN bot_api_spec.js.
+// !!! THIS IS A DUPLICATE IMPLEMENTATION OF THE TEST IN bot_api_spec.js.
 // HOWEVER, PROMOTING THIS TO PROD UNTIL THE OTHER FILE IS STABLE
 // ENOUGH, SO THAT MANUAL TESTING ON THIS TEST CASE CAN BE ELIMINATED.
 // ONCE THAT FILE IS STABLE, THIS ONE SHOULD BE DELETED. !!!
