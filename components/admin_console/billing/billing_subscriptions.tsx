@@ -21,7 +21,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
 import {
     Preferences,
@@ -60,6 +60,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -185,6 +186,37 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </div>
     );
 
+    const cancelSubscription = () => (
+        <div className='cancelSubscriptionSection'>
+            <div className='cancelSubscriptionSection__text'>
+                <div className='cancelSubscriptionSection__text-title'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.title'
+                        defaultMessage='Cancel your subscription'
+                    />
+                </div>
+                <div className='cancelSubscriptionSection__text-description'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.description'
+                        defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
+                    />
+                </div>
+                <a
+                    href={cancelAccountLink}
+                    rel='noopener noreferrer'
+                    target='_new'
+                    className='cancelSubscriptionSection__contactUs'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.contactUs'
+                        defaultMessage='Contact Us'
+                    />
+                </a>
+            </div>
+        </div>
+    );
+
     if (!subscription || !products) {
         return null;
     }
@@ -278,6 +310,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
                     {privateCloudCard()}
+                    {cancelSubscription()}
                 </div>
             </div>
         </div>
