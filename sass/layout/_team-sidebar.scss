@@ -82,6 +82,12 @@
                 }
             }
 
+            &.active {
+                .TeamIcon__content {
+                    @include opacity(1);
+                }
+            }
+
             button {
                 border: none;
                 padding: 0;
