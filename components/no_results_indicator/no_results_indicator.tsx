@@ -25,6 +25,7 @@ const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
     [NoResultsVariant.FlaggedPosts]: <FlagIcon className='no-results__icon'/>,
     [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
+    [NoResultsVariant.ChannelFiles]: <i className='icon icon-file-document-outline no-results__icon'/>,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
@@ -40,6 +41,9 @@ const titleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     [NoResultsVariant.PinnedPosts]: {
         id: t('no_results.pinned_posts.title'),
     },
+    [NoResultsVariant.ChannelFiles]: {
+        id: t('no_results.channel_files.title'),
+    },
 };
 
 const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
@@ -54,6 +58,9 @@ const subtitleMap: {[key in NoResultsVariant]: MessageDescriptor } = {
     },
     [NoResultsVariant.PinnedPosts]: {
         id: t('no_results.pinned_posts.subtitle'),
+    },
+    [NoResultsVariant.ChannelFiles]: {
+        id: t('no_results.channel_files.subtitle'),
     },
 };
 

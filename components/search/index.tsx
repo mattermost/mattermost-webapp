@@ -37,6 +37,7 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
+        isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
     };
 }
 

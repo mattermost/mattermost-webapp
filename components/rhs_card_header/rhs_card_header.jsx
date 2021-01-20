@@ -28,6 +28,9 @@ export default class RhsCardHeader extends React.PureComponent {
         e.preventDefault();
 
         switch (this.props.previousRhsState) {
+        case RHSStates.CHANNEL_FILES:
+            this.props.actions.showSearchResults();
+            break;
         case RHSStates.SEARCH:
             this.props.actions.showSearchResults();
             break;

@@ -21,7 +21,6 @@ import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import FlagIcon from 'components/widgets/icons/flag_icon';
-import LoadingScreen from 'components/loading_screen';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
@@ -86,12 +85,14 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             const scrollHeight = scrollbars.current?.getScrollHeight() || 0;
             const scrollTop = scrollbars.current?.getScrollTop() || 0;
             const clientHeight = scrollbars.current?.getClientHeight() || 0;
+            // TODO: Check if this is for messages or for files and do it accordingly
             if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
                 loadMorePosts();
             }
         }
     };
 
+    // TODO: Create another function to load more files
     const loadMorePosts = debounce(
         () => {
             props.getMorePostsForSearch();
@@ -112,6 +113,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         isFlaggedPosts,
         isSearchingFlaggedPost,
         isPinnedPosts,
+        isChannelFiles,
         isSearchingPinnedPost,
         isSideBarExpanded,
         isMentionSearch,
@@ -159,6 +161,15 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
         titleDescriptor.id = 'search_header.pinnedPosts';
         titleDescriptor.defaultMessage = 'Pinned Posts';
+    } else if (isChannelFiles) {
+        noResultsProps.variant = NoResultsVariant.ChannelFiles;
+        noResultsProps.subtitleValues = {text: <strong>{'Channel files'}</strong>};
+
+        sortedResults = [...results];
+        sortedResults.sort((postA: Post|FileSearchResult, postB: Post|FileSearchResult) => postB.create_at - postA.create_at);
+
+        titleDescriptor.id = 'search_header.channelFiles';
+        titleDescriptor.defaultMessage = 'Channel Files';
     } else if (isCard) {
         titleDescriptor.id = 'search_header.title5';
         titleDescriptor.defaultMessage = 'Extra information';
@@ -199,7 +210,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case noResults && searchType === MESSAGES_SEARCH_TYPE:
+    case noResults && (searchType === MESSAGES_SEARCH_TYPE && !isChannelFiles):
         contentItems = (
             <div
                 className={classNames([
@@ -211,7 +222,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case noFileResults && searchType === FILES_SEARCH_TYPE:
+    case noFileResults && (searchType === FILES_SEARCH_TYPE || isChannelFiles):
         contentItems = (
             <div
                 className={classNames([
@@ -224,7 +235,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         );
         break;
     default:
-        if (searchType === FILES_SEARCH_TYPE) {
+        if (searchType === FILES_SEARCH_TYPE || isChannelFiles) {
             sortedResults = fileResults;
         }
 
@@ -233,10 +244,10 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <SearchResultsItem
                     key={item.id}
                     compactDisplay={props.compactDisplay}
-                    post={searchType === MESSAGES_SEARCH_TYPE ? item : undefined}
-                    fileInfo={searchType === FILES_SEARCH_TYPE ? item : undefined}
+                    post={searchType === MESSAGES_SEARCH_TYPE && !props.isChannelFiles ? item : undefined}
+                    fileInfo={searchType === FILES_SEARCH_TYPE || props.isChannelFiles ? item : undefined}
                     matches={props.matches[item.id]}
-                    term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
+                    term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch && !props.isChannelFiles) ? searchTerms : ''}
                     isMentionSearch={props.isMentionSearch}
                     a11yIndex={index}
                     isFlaggedPosts={props.isFlaggedPosts}
@@ -265,14 +276,15 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 {formattedTitle}
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
-            <MessageOrFileSelector
-                selected={searchType}
-                selectedFilter={searchFilterType}
-                messagesCounter={isSearchAtEnd ? `${results.length}` : `${results.length}+`}
-                filesCounter={isSearchFilesAtEnd ? `${fileResults.length}` : `${fileResults.length}+`}
-                onChange={setSearchType}
-                onFilter={setSearchFilterType}
-            />
+            {!isChannelFiles &&
+                <MessageOrFileSelector
+                    selected={searchType}
+                    selectedFilter={searchFilterType}
+                    messagesCounter={isSearchAtEnd ? `${results.length}` : `${results.length}+`}
+                    filesCounter={isSearchFilesAtEnd ? `${fileResults.length}` : `${fileResults.length}+`}
+                    onChange={setSearchType}
+                    onFilter={setSearchFilterType}
+                />}
             <Scrollbars
                 ref={scrollbars}
                 autoHide={true}

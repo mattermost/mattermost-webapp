@@ -417,6 +417,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     isMentionSearch={props.isMentionSearch}
                     isFlaggedPosts={props.isFlaggedPosts}
                     isPinnedPosts={props.isPinnedPosts}
+                    isChannelFiles={props.isChannelFiles}
                     shrink={handleShrink}
                     channelDisplayName={props.channelDisplayName}
                     isOpened={props.isSideBarRightOpen}

@@ -648,6 +648,7 @@ export const RHSStates = {
     FLAG: 'flag',
     PIN: 'pin',
     PLUGIN: 'plugin',
+    CHANNEL_FILES: 'channel-files',
 };
 
 export const UploadStatuses = {

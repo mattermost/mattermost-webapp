@@ -273,6 +273,46 @@ export function showPinnedPosts(channelId?: string) {
     };
 }
 
+export function showChannelFiles(channelId?: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const currentChannelId = getCurrentChannelId(state);
+        const teamId = getCurrentTeamId(state);
+
+        dispatch(batchActions([
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                channelId: channelId || currentChannelId,
+                state: RHSStates.CHANNEL_FILES,
+            },
+        ]));
+
+        const results = await dispatch(performSearch('channel:' + (channelId || currentChannelId)));
+
+        let data: any;
+        if ('data' in results) {
+            data = results.data;
+        }
+
+        dispatch(batchActions([
+            {
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data,
+            },
+            {
+                type: SearchTypes.RECEIVED_SEARCH_TERM,
+                data: {
+                    teamId,
+                    terms: null,
+                    isOrSearch: false,
+                },
+            },
+        ]));
+
+        return {data: true};
+    };
+}
+
 export function showMentions() {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const termKeys = getCurrentUserMentionKeys(getState()).filter(({key}) => {

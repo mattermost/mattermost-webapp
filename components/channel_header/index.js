@@ -34,6 +34,7 @@ import {openModal, closeModal} from 'actions/views/modals';
 import {
     showFlaggedPosts,
     showPinnedPosts,
+    showChannelFiles,
     showMentions,
     openRHSSearch,
     closeRightHandSide,
@@ -95,6 +96,7 @@ const mapDispatchToProps = (dispatch) => ({
         unfavoriteChannel,
         showFlaggedPosts,
         showPinnedPosts,
+        showChannelFiles,
         showMentions,
         openRHSSearch,
         closeRightHandSide,
