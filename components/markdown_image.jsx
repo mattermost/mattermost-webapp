@@ -174,8 +174,9 @@ export default class MarkdownImage extends React.PureComponent {
                             }
                         </>
                     );
-
-                    if (imageMetadata.height >= Constants.MAX_INLINE_IMAGE_HEIGHT) {
+ 
+                    const availableHeight = height ?? imageMetadata.height;
+                    if (availableHeight >= Constants.MAX_INLINE_IMAGE_HEIGHT) {
                         return (
                             <MarkdownImageExpand alt={alt || safeSrc}>
                                 {imageElement}
