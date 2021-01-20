@@ -5,9 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
+
+import {GlobalState} from 'types/store';
 
 import ChannelNavigator from './channel_navigator';
 
@@ -26,10 +29,11 @@ function goForward() {
     };
 }
 
-function mapStateToProps() {
+function mapStateToProps(state: GlobalState) {
     return {
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
+        showUnreadsCategory: shouldShowUnreadsCategory(state),
     };
 }
 

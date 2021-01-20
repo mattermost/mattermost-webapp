@@ -168,5 +168,13 @@ declare namespace Cypress {
          *   cy.shouldHavePluginUploadEnabled();
          */
         shouldHavePluginUploadEnabled(): Chainable;
+
+        /**
+         * Allow test for server running with subpath.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunWithSubpath();
+         */
+        shouldRunWithSubpath(): Chainable;
     }
 }
