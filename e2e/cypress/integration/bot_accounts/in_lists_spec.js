@@ -130,7 +130,7 @@ describe('Bots in lists', () => {
     it('MM-T1836_1 Bot accounts display (Legacy Sidebar)', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                EnableLegacySidebar: 'disabled',
             },
         });
 
@@ -149,7 +149,7 @@ describe('Bots in lists', () => {
     it('MM-T1836_2 Bot accounts display (New Sidebar)', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'always_on',
+                EnableLegacySidebar: 'always_on',
             },
         });
 

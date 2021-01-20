@@ -617,10 +617,7 @@ export default class SuggestionBox extends React.PureComponent {
         const items = suggestions.items;
         let selection = this.state.selection;
         if (terms.length > 0) {
-            // if the current selection is no longer in the map, select the first term in the list
-            if (!this.state.selection || terms.indexOf(this.state.selection) === -1) {
-                selection = terms[0];
-            }
+            selection = terms[0];
         } else if (this.state.selection) {
             selection = '';
         }

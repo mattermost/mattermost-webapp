@@ -19,7 +19,9 @@ import './client';
 import './common_login_commands';
 import './db_commands';
 import './fetch_commands';
+import './keycloak_commands';
 import './ldap_commands';
+import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './storybook_commands';
@@ -90,6 +92,11 @@ Cypress.on('test:after:run', (test, runnable) => {
     }
 });
 
+// Turn off all uncaught exception handling
+Cypress.on('uncaught:exception', () => {
+    return false;
+});
+
 before(() => {
     // # Try to login using existing sysadmin account
     cy.apiAdminLogin({failOnStatusCode: false}).then((response) => {
@@ -156,7 +163,6 @@ function sysadminSetup(user) {
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
     cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
-    cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',
