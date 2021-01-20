@@ -42,9 +42,8 @@ export default class PDFPreview extends React.PureComponent {
 
     componentDidMount() {
         this.getPdfDocument();
-        this.parentNode = document.querySelector('.modal .modal-image .modal-image__content');
-        if (this.parentNode) {
-            this.parentNode.addEventListener('scroll', this.handleScroll);
+        if (this.container.current) {
+            this.parentNode = this.container.current.parentElement.parentElement;
         }
     }
 
@@ -104,7 +103,10 @@ export default class PDFPreview extends React.PureComponent {
 
     renderPDFPage = async (pageIndex) => {
         const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
-        if (!this.isInViewport(canvas)) {
+
+        // Always render the first 3 pages to avoid problems detecting
+        // isInViewport during the open animation
+        if (pageIndex > 3 && !this.isInViewport(canvas)) {
             return;
         }
 
@@ -187,7 +189,10 @@ export default class PDFPreview extends React.PureComponent {
     render() {
         if (this.state.loading) {
             return (
-                <div className='view-image__loading'>
+                <div
+                    ref={this.container}
+                    className='view-image__loading'
+                >
                     <LoadingSpinner/>
                 </div>
             );
