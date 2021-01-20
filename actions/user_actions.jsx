@@ -16,10 +16,11 @@ import {
     getChannelMembersInChannels,
     getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {legacyMakeFilterAutoclosedDMs, makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
@@ -32,6 +33,7 @@ export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
 
+export const legacyFilterAutoclosedDMs = legacyMakeFilterAutoclosedDMs();
 export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
 export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
@@ -292,8 +294,12 @@ export async function loadProfilesForSidebar() {
 }
 
 export function filterGMsDMs(state, channels) {
-    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
-    return filterManuallyClosedDMs(state, filteredClosedChannels);
+    const config = getConfig(state);
+
+    let filteredChannels = filterManuallyClosedDMs(state, channels);
+    filteredChannels = config.EnableLegacySidebar === 'true' ? legacyFilterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES) : filterAutoclosedDMs(state, filteredChannels, CategoryTypes.DIRECT_MESSAGES);
+
+    return filteredChannels;
 }
 
 export async function loadProfilesForGM() {

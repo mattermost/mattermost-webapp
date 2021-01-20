@@ -38,7 +38,7 @@ describe('Teams Suite', () => {
         });
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'true',
+                EnableLegacySidebar: 'true',
             },
         });
     });
