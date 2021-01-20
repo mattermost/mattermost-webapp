@@ -18,6 +18,7 @@
   width: 24px;
   height: 24px;
   border: 1px solid var(--center-channel-color-16);
+  padding: 0;
 
   font-size: 18px;
   line-height: 21px;
@@ -26,6 +27,11 @@
   background-color: var(--center-channel-bg);
   border-radius: 16px;
   @include box-shadow($elevation-1);
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
 
   .markdown-image-expand--expanded:hover & {
     display: block;
@@ -40,6 +46,7 @@
 
 .markdown-image-expand__expand-button {
   border: none;
+  padding: 0;
 
   font-size: 18px;
   line-height: 21px;
@@ -51,10 +58,14 @@
   &:hover {
     color: var(--center-channel-color-72);
   }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .markdown-image-expand__expand-icon {
-  margin-right: 8px;
   vertical-align: middle;
 }
 

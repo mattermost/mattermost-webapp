@@ -30,7 +30,7 @@ const MarkdownImageExpand: React.FC<Props> = ({children, alt, collapseDisplay}: 
           ? (
             <>
               <button className="markdown-image-expand__collapse-button" type="button" onClick={handleToggleButtonClick}>
-                <span className="fa fa-caret-down"></span>
+                <span className="icon icon-menu-down"></span>
               </button>
               {children}
             </>
@@ -38,7 +38,7 @@ const MarkdownImageExpand: React.FC<Props> = ({children, alt, collapseDisplay}: 
           : (
             <>
               <button className="markdown-image-expand__expand-button" type="button" onClick={handleToggleButtonClick}>
-                <span className="fa fa-caret-right markdown-image-expand__expand-icon"></span>
+                <span className="icon icon-menu-right markdown-image-expand__expand-icon"></span>
 
                 <span className="markdown-image-expand__alt-text">
                   {alt}
