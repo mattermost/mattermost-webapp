@@ -148,7 +148,7 @@ describe('CommandProvider', () => {
     const makeStore = async () => {
         const initialState = {
             ...reduxTestState,
-        } as any;
+        } as GlobalState;
         const testStore = await mockStore(initialState);
 
         return testStore;
