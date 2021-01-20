@@ -207,7 +207,6 @@ Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
     hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
     user = null,
 } = {}) => {
     const newUser = user || generateRandomUser(prefix);
@@ -232,10 +231,6 @@ Cypress.Commands.add('apiCreateUser', ({
             cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
         }
 
-        if (hideWhatsNewModal) {
-            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
-        }
-
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
@@ -243,10 +238,9 @@ Cypress.Commands.add('apiCreateUser', ({
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
     hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
     activate = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
+    return cy.apiCreateUser({prefix, hideCloudOnboarding}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
         cy.externalActivateUser(user.id, activate);
 
