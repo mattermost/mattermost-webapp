@@ -23,6 +23,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
 >
   <div
     className="user-popover-image"
+    key="user-popover-email"
   >
     <Memo(Avatar)
       key="user-popover-image"
@@ -111,6 +112,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
 >
   <div
     className="user-popover-image"
+    key="user-popover-image"
   >
     <Memo(Avatar)
       key="user-popover-image"

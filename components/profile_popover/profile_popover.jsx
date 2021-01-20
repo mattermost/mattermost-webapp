@@ -344,7 +344,10 @@ class ProfilePopover extends React.PureComponent {
         const urlSrc = this.props.overwriteIcon ? this.props.overwriteIcon : this.props.src;
 
         dataContent.push(
-            <div className='user-popover-image'>
+            <div
+                className='user-popover-image'
+                key='user-popover-image'
+            >
                 <Avatar
                     size='xxl'
                     username={this.props.user.username}
