@@ -198,23 +198,23 @@
     display: block;
     margin: 0 auto;
     width: 128px;
-}
 
-.user-popover-status {
-    right: 8px;
-    bottom: 0;
-    top: auto;
-    position: absolute;
-    height: 28px;
-    width: 28px;
-    background: #fff;
-    border-radius: 50px;
-    display: flex;
-    padding: 4px;
+    .user-popover-status {
+        right: 8px;
+        bottom: 0;
+        top: auto;
+        position: absolute;
+        height: 28px;
+        width: 28px;
+        background: #fff;
+        border-radius: 50px;
+        display: flex;
+        padding: 4px;
 
-    svg {
-        min-height: 100%;
-        width: 100%;
+        svg {
+            min-height: 100%;
+            width: 100%;
+        }
     }
 }
 
