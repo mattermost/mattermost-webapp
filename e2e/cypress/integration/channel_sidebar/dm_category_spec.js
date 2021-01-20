@@ -21,10 +21,9 @@ describe('MM-T3156 DM category', () => {
     let testUser;
     const usernames = [];
     before(() => {
-        // # Enable channel sidebar organization
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
