@@ -25,7 +25,7 @@ describe('Channel sidebar unread filter', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
@@ -200,7 +200,7 @@ function enableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is enabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('be.visible');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
 }
 
 function disableUnreadFilter() {
@@ -208,7 +208,7 @@ function disableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is disabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('not.exist');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 }
 
 function createChannel(teamId, channelName, message) {
