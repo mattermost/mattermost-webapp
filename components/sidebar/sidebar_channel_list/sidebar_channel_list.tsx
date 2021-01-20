@@ -7,12 +7,13 @@ import Scrollbars from 'react-custom-scrollbars';
 import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
-import throttle from 'lodash/throttle';
 
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
+
+import debounce from 'lodash/debounce';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
@@ -66,6 +67,7 @@ type Props = {
     newCategoryIds: string[];
     draggingState: DraggingState;
     multiSelectedChannelIds: string[];
+    showUnreadsCategory: boolean;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -357,11 +359,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         );
     }
 
-    onScroll = throttle(() => {
+    onScroll = debounce(() => {
         this.updateUnreadIndicators();
     }, 100);
 
-    onTransitionEnd = throttle(() => {
+    onTransitionEnd = debounce(() => {
         this.updateUnreadIndicators();
     }, 100);
 
@@ -440,32 +442,45 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                 />
             );
         } else {
+            let unreadsCategory;
+            if (this.props.showUnreadsCategory) {
+                unreadsCategory = (
+                    <UnreadChannels
+                        getChannelRef={this.getChannelRef}
+                        setChannelRef={this.setChannelRef}
+                    />
+                );
+            }
+
             const renderedCategories = categories.map(this.renderCategory);
 
             channelList = (
-                <DragDropContext
-                    onDragEnd={this.onDragEnd}
-                    onBeforeDragStart={this.onBeforeDragStart}
-                    onBeforeCapture={this.onBeforeCapture}
-                    onDragStart={this.onDragStart}
-                >
-                    <Droppable
-                        droppableId='droppable-categories'
-                        type='SIDEBAR_CATEGORY'
+                <>
+                    {unreadsCategory}
+                    <DragDropContext
+                        onDragEnd={this.onDragEnd}
+                        onBeforeDragStart={this.onBeforeDragStart}
+                        onBeforeCapture={this.onBeforeCapture}
+                        onDragStart={this.onDragStart}
                     >
-                        {(provided) => {
-                            return (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                >
-                                    {renderedCategories}
-                                    {provided.placeholder}
-                                </div>
-                            );
-                        }}
-                    </Droppable>
-                </DragDropContext>
+                        <Droppable
+                            droppableId='droppable-categories'
+                            type='SIDEBAR_CATEGORY'
+                        >
+                            {(provided) => {
+                                return (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {renderedCategories}
+                                        {provided.placeholder}
+                                    </div>
+                                );
+                            }}
+                        </Droppable>
+                    </DragDropContext>
+                </>
             );
         }
 

@@ -15,8 +15,8 @@ stages:
   - trigger
 
 variables:
-  ONLY_BUILD: "no"
-  ONLY_TEST: "no"
+  BUILD: "yes"
+  TEST: "yes"
 
 include:
   - project: mattermost/ci/mattermost-webapp
@@ -43,14 +43,14 @@ prepare:
   script:
     - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 lint:
   extends: .check
   script:
     - npm run check
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 test: #todo check on how to create junit.xml, there currently is none
   extends: .check
@@ -58,14 +58,14 @@ test: #todo check on how to create junit.xml, there currently is none
     - npm run test-ci
   timeout: 3 hours
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 type-check:
   extends: .check
   script:
     - npm run check-types
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
 
 i18n-check:
   extends: .check
@@ -82,4 +82,4 @@ i18n-check:
 
     - rm -rf tmp
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master" && $ONLY_BUILD != "yes"'
+    - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'
