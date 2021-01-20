@@ -18,7 +18,7 @@ Cypress.Commands.add('doSamlLogin', (settings = {}) => {
     cy.checkLoginPage(settings);
 
     //click the login button
-    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
 });
 
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {

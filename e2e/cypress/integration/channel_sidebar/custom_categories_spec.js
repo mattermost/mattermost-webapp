@@ -17,10 +17,9 @@ import {clickCategoryMenuItem} from './helpers';
 
 describe('Channel sidebar', () => {
     before(() => {
-        // # Enable channel sidebar organization
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 

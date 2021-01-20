@@ -48,6 +48,14 @@
             .SidebarChannelGroupHeader_groupButton, .SidebarLink {
                 opacity: 0.4;
             }
+
+            .SidebarLink {
+                cursor: no-drop !important;
+
+                &:hover {
+                    background: none;
+                }
+            }
         }
 
         .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
@@ -95,7 +103,11 @@
     .SidebarContainer_filterAddChannel {
         display: flex;
         flex-direction: row;
-        width: 240px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .SidebarContainer_rightContainer {
+        display: flex;
     }
 
     .SidebarHeader {
@@ -146,23 +158,51 @@
     }
 
     .SidebarChannelNavigator {
-        display: flex;
-        margin: 18px 16px 11px 16px;
+        &.desktop {
+            display: block;
+            margin: 16px 14px 8px 14px;
 
-        button {
-            font-size: 16px;
-            line-height: 15px;
+            .AddChannelDropdown_dropdownButton,
+            .SidebarFilters_filterButton,
+            .SidebarChannelNavigator_backButton,
+            .SidebarChannelNavigator_forwardButton {
+                background: transparent;
+
+                &:hover:not(.active) {
+                    background: rgba(255, 255, 255, 0.08);
+                    color: var(--sidebar-text);
+                }
+            }
+        }
+
+        &.webapp {
+            display: flex;
+            margin: 16px 14px 8px 14px;
+
+            .AddChannelDropdown_dropdownButton,
+            .SidebarChannelNavigator_jumpToButton,
+            .SidebarFilters_filterButton {
+                margin: 0 2px;
+                background: rgba(255, 255, 255, 0.08);
+
+                &:hover:not(.active) {
+                    background: rgba(255, 255, 255, 0.16);
+                    color: var(--sidebar-text);
+                }
+            }
+        }
+
+        .AddChannelDropdown_dropdownButton,
+        .SidebarChannelNavigator_jumpToButton,
+        .SidebarFilters_filterButtontton,
+        .SidebarChannelNavigator_backButton,
+        .SidebarChannelNavigator_forwardButton {
+            font-size: 18px;
             height: 28px;
             min-width: 28px;
             vertical-align: middle;
             border: 0;
-            background: rgba(255, 255, 255, 0.16);
             color: rgba(var(--sidebar-text-rgb), 0.72);
-
-            &:hover:not(.disabled) {
-                color: var(--sidebar-text);
-                background: rgba(255, 255, 255, 0.24);
-            }
 
             &.disabled {
                 background: rgba(255, 255, 255, 0.08);
@@ -170,82 +210,77 @@
         }
 
         .SidebarChannelNavigator_jumpToButton {
-            display: flex;
-            flex: 1 1 auto;
+            background: rgba(255, 255, 255, 0.08);
+            width: 100%;
+            text-align: left;
             border-radius: 4px;
             font-family: 'Open Sans';
-            font-size: 14px;
-            line-height: 19px;
-            padding: 3px 8px 6px 8px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 0 5px 0 2px;
+
+            .icon-magnify {
+                font-size: 18px;
+                margin-right: 2px;
+                display: inline-flex;
+            }
 
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
+                padding-right: 3px;
                 display: none;
-                margin-top: 1px;
             }
 
             &:hover {
+                background: rgba(255, 255, 255, 0.16);
+                color: var(--sidebar-text);
                 .SidebarChannelNavigator_shortcutText {
                     display: inherit;
                 }
             }
         }
+        .SidebarChannelNavigator_divider {
+            border-right: 1px solid rgba(255, 255, 255, 0.16);
+            height: 28px;
+            margin-left: 8px;
+        }
 
         .SidebarChannelNavigator_backButton {
-            border-radius: 4px 0px 0px 4px;
+            border-radius: 4px;
             padding: 0;
-            margin-left: 4px;
+            margin-left: 8px;
+            background: transparent;
         }
 
         .SidebarChannelNavigator_forwardButton {
-            border-radius: 0px 4px 4px 0px;
+            border-radius: 4px;
             padding: 0;
+            background: transparent;
         }
     }
 
     .SidebarFilters {
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        padding: 7px 16px;
         align-items: center;
-        margin-bottom: 8px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
         display: block;
-        line-height: 28px;
+        line-height: 26px;
         height: 28px;
         width: 28px;
-        background: rgba(255, 255, 255, 0.16);
         text-align: center;
         border-radius: 4px;
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: 400;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
         color: rgba(var(--sidebar-text-rgb), 0.8);
-        background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
         color: var(--sidebar-bg);
         background: var(--sidebar-text);
-    }
-
-    .SidebarFilters .SidebarFilters_filterTitle {
-        color: rgba(var(--sidebar-text-rgb), 0.72);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 12px;
-        margin-left: 8px;
-    }
-
-    .SidebarFilters .SidebarFilters_filterDescription {
-        color: var(--sidebar-text);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 14px;
-        margin-left: 8px;
     }
 
     .AddChannelDropdown {
@@ -258,6 +293,8 @@
 
             span {
                 white-space: nowrap;
+                font-size: 14px;
+                color: rgba(var(--center-channel-color-rgb), 0.9);
             }
 
             button {
@@ -274,8 +311,6 @@
 
     .AddChannelDropdown_dropdownButton {
         padding: 0;
-        margin-right: 16px;
-        margin-top: 7px;
         z-index: 1;
         background: transparent;
         border: none;
@@ -343,6 +378,7 @@
 
             #SidebarChannelMenu-moveToDivider {
                 pointer-events: none;
+                padding: 1px 0;
 
                 .MenuGroup.menu-divider {
                     margin-right: -32px;
@@ -351,6 +387,62 @@
                 span {
                     display: none;
                 }
+            }
+        }
+
+        .styleSelectableItem {
+            text-transform: capitalize;
+
+            .MenuItem {
+                width: 100%;
+
+                div:hover,
+                div:focus {
+                    background: none !important;
+                }
+            }
+
+            .SubMenu__icon-right {
+                margin-right: 0;
+                padding: 0 9px 0 8px;
+                &.mobile {
+                    padding: 0 4px 0 9px;
+                }
+            }
+
+            .styleSelectableItemDiv {
+                display: flex;
+                padding: 0 15px;
+                margin: 0;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sorting-menu-checkbox {
+                padding-right: 30px;
+                width: 0;
+
+                i {
+                    color: var(--button-bg);
+                }
+            }
+
+            .SubMenuItemContainer:not(.hasDivider) {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                &:hover {
+                    background: rgba(0, 0, 0, 0.08);
+                }
+            }
+
+            .selected {
+                text-transform: none;
+                font-size: 12px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                width: 60%;
+                text-align: right;
+                margin-top: 1px;
             }
         }
     }
@@ -447,12 +539,6 @@
             margin-left: 8px;
         }
 
-        &.isDraggingOver {
-            transition-property: opacity;
-            transition-duration: 0.15s; /* collapse animation speed */
-            transition-timing-function: ease-out;
-            opacity: 0;
-        }
 
         &.animating {
             transition-property: height, padding, color;
@@ -536,6 +622,10 @@
 
             &:hover, &:focus {
                 background-color: rgba(255, 255, 255, 0.08);
+            }
+
+            &.additionalClass {
+                margin: 0;
             }
         }
 
@@ -658,7 +748,7 @@
         }
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
