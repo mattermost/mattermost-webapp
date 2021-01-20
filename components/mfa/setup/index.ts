@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import { GlobalState } from 'mattermost-redux/types/store';
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {activateMfa, generateMfaSecret} from 'actions/views/mfa';
 
-import Setup from './setup.jsx';
+import Setup from './setup';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const siteName = config.SiteName;
@@ -24,9 +26,14 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+type Actions = {
+    activateMfa: (code: string) => Promise<{ error: { server_error_id: string; message: string; } }>;
+    generateMfaSecret: () => Promise<{data: { secret: string; qr_code: string; }; error?: { message: string }}>;
+};
+
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             activateMfa,
             generateMfaSecret,
         }, dispatch),

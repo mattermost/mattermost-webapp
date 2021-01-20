@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
+import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
@@ -11,18 +11,43 @@ import {t} from 'utils/i18n.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class Setup extends React.PureComponent {
-    static propTypes = {
-        currentUser: PropTypes.object,
-        siteName: PropTypes.string,
-        enforceMultifactorAuthentication: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            activateMfa: PropTypes.func.isRequired,
-            generateMfaSecret: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    currentUser: UserProfile;
+    siteName?: string;
+    enforceMultifactorAuthentication: boolean;
+    actions: {
+        activateMfa: (code: string) => Promise<{
+            error: {
+                server_error_id: string;
+                message: string;
+            }
+        }>;
+        generateMfaSecret: () => Promise<{
+            data: {
+                secret: string;
+                qr_code: string;
+            };
+            error: {
+                message: string;
+            };
+        }>;
+    };
+    history: {
+        push(path: string): void;
+    };
+}
 
-    constructor(props) {
+type State = {
+    secret: string;
+    qrCode: string;
+    error?: any | null;
+    serverError?: string;
+}
+
+export default class Setup extends React.PureComponent<Props, State> {
+    private input: React.RefObject<HTMLInputElement>;
+
+    public constructor(props: Props) {
         super(props);
 
         this.state = {secret: '', qrCode: ''};
@@ -30,7 +55,7 @@ export default class Setup extends React.PureComponent {
         this.input = React.createRef();
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         const user = this.props.currentUser;
         if (!user || user.mfa_active) {
             this.props.history.push('/');
@@ -52,9 +77,9 @@ export default class Setup extends React.PureComponent {
         });
     }
 
-    submit = (e) => {
+    submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const code = this.input.current.value.replace(/\s/g, '');
+        const code = this.input?.current?.value.replace(/\s/g, '');
         if (!code || code.length === 0) {
             this.setState({error: Utils.localizeMessage('mfa.setup.codeError', 'Please enter the code from Google Authenticator.')});
             return;
@@ -81,7 +106,7 @@ export default class Setup extends React.PureComponent {
         });
     }
 
-    render() {
+    public render() {
         let formClass = 'form-group';
         let errorContent;
         if (this.state.error) {
