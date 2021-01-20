@@ -940,6 +940,10 @@
                 color: var(--center-channel-bg);
             }
         }
+
+        > span {
+            flex-grow: 1;
+        }
     }
 
     .SidebarChannel:hover {
