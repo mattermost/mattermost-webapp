@@ -53,12 +53,6 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            transition: transform 0.1s;
-            transform-origin: center center;
-
-            &:active {
-                transform: translate(0, 2px);
-            }
 
             &.unread {
                 .unread-badge {
@@ -68,32 +62,23 @@
                     border-radius: 100%;
                     width: 8px;
                     height: 8px;
-                    box-shadow: 0 0 0 3px var(--sidebar-header-bg);
+                    box-shadow:
+                        0 0 0 3px rgba(0, 0, 0, 0.2),
+                        0 0 0 3px var(--sidebar-header-bg);
                     background: white;
                     z-index: 1;
-                }
-
-                &:before {
-                    content: "";
-                    position: absolute;
-                    width: 14px;
-                    height: 14px;
-                    border: 3px solid rgba(0, 0, 0, 0.2);
-                    border-radius: 100%;
-                    top: -5px;
-                    right: 6px;
-                    z-index: 2;
                 }
             }
 
             a {
                 display: block;
                 text-decoration: none;
-            }
+                transition: transform 0.1s;
+                transform: translate(0, 0);
+                transform-origin: center center;
 
-            &.active {
-                .TeamIcon__content {
-                    @include opacity(1);
+                &:active {
+                    transform: translate(0, 2px);
                 }
             }
 
