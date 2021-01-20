@@ -57,7 +57,7 @@ describe('Guest Account - Guest User Experience', () => {
         });
     });
 
-    it('MM-18043 Verify Guest User Restrictions', () => {
+    it('MM-T1354 Verify Guest User Restrictions', () => {
         // * Verify Reduced Options in Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];

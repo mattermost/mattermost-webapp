@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on FlagIcon 1`] = `
-<div
-  className="flex-child"
->
+<div>
   <OverlayTrigger
     defaultOverlayShown={false}
     delayShow={400}
@@ -42,9 +40,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on MentionsIcon 1`] = `
-<div
-  className="flex-child"
->
+<div>
   <OverlayTrigger
     defaultOverlayShown={false}
     delayShow={400}
@@ -83,16 +79,14 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on PinIcon 1`] = `
-<div
-  className="flex-child"
->
+<div>
   <OverlayTrigger
     defaultOverlayShown={false}
     delayShow={400}
     overlay={
       <Tooltip
         bsClass="tooltip"
-        className=""
+        className="pinned-posts"
         id="pinnedPostTooltip"
         placement="right"
       >
@@ -124,9 +118,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on PluginIcon with tooltipText 1`] = `
-<div
-  className="flex-child"
->
+<div>
   <OverlayTrigger
     defaultOverlayShown={false}
     delayShow={400}
@@ -179,9 +171,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on SearchIcon 1`] = `
-<div
-  className="flex-child"
->
+<div>
   <OverlayTrigger
     defaultOverlayShown={false}
     delayShow={400}

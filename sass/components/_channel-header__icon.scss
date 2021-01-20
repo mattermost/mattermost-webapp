@@ -44,6 +44,12 @@
         background: rgba(var(--button-bg-rgb), 0.08);
         fill: v(button-bg);
         color: v(button-bg);
+        .icon__text {
+            color: v(button-bg);
+        }
+        .icon {
+            color: v(button-bg);
+        }
     }
 
     .icon__text {
@@ -59,6 +65,21 @@
 .channel-header__icon--wide {
     width: auto;
     padding: 0 6px;
+    min-width: unset;
+}
+
+.channel-header__icon--left {
+    padding: 4px;
+    margin: 0 4px 0 0;
+    height: unset;
+    .icon {
+        width: 16px;
+        height: 16px;
+    }
+    svg {
+        width: 12px;
+        height: 12px;
+    }
 }
 
 .userGuideHelp {
