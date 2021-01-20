@@ -21,12 +21,21 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     </span>
   }
 >
-  <Memo(Avatar)
-    key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="some_username"
-  />
+  <div
+    className="user-popover-image"
+  >
+    <Memo(Avatar)
+      key="user-popover-image"
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -100,12 +109,21 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     </span>
   }
 >
-  <Memo(Avatar)
-    key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="some_username"
-  />
+  <div
+    className="user-popover-image"
+  >
+    <Memo(Avatar)
+      key="user-popover-image"
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
