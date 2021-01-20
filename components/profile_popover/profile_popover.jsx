@@ -352,7 +352,6 @@ class ProfilePopover extends React.PureComponent {
                     size='xxl'
                     username={this.props.user.username}
                     url={urlSrc}
-                    key='user-popover-image'
                 />
                 <StatusIcon
                     className='status user-popover-status'
