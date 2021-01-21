@@ -28,6 +28,10 @@
             background: var(--mention-bg);
             -webkit-font-smoothing: subpixel-antialiased;
             -moz-osx-font-smoothing: grayscale;
+
+            &.badge-max-number {
+                padding: 0 4px 0 5px;
+            }
         }
     }
 
