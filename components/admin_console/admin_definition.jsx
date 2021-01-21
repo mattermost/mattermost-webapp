@@ -4062,7 +4062,7 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: (license) => license.IsLicensed && license['OpenId'] === 'true'
+                shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
                 it.not(it.licensed),
