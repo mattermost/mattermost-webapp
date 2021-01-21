@@ -17,7 +17,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    getFilePublicLink: (code: string) => Promise<{ error: { server_error_id: string; message: string; } }>;
+    getFilePublicLink: (code: string) => Promise<{ error: { server_error_id: string; message: string } }>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
