@@ -28,7 +28,7 @@ type Props = {
     sendEmailNotifications: boolean;
     enableEmailBatching: boolean;
     actions: {
-        savePreferences: (currentUserId: string, emailIntervalPreference: Array<PreferenceType>) =>
+        savePreferences: (currentUserId: string, emailIntervalPreference: PreferenceType[]) =>
         Promise<{data: boolean}>;
     };
 };

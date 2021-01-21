@@ -7,36 +7,37 @@ exports[`components/sidebar/sidebar_menu should match snapshot 1`] = `
   onToggle={[MockFunction]}
   stopPropagationOnToggle={true}
 >
-  <button
-    aria-label="some aria label"
-    className="SidebarMenu_menuButton"
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    disabled={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="hidden-xs"
+        id="new-group-tooltip"
+        placement="right"
+      >
+        some tooltip text
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          some tooltip text
-        </Tooltip>
-      }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <button
+      aria-label="some aria label"
+      className="SidebarMenu_menuButton"
     >
       <i
         className="icon-dots-vertical"
       />
-    </OverlayTrigger>
-  </button>
+    </button>
+  </OverlayTrigger>
   <Menu
     ariaLabel="some other aria label"
     id="SidebarMenu-menu_id"

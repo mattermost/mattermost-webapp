@@ -48,6 +48,14 @@
             .SidebarChannelGroupHeader_groupButton, .SidebarLink {
                 opacity: 0.4;
             }
+
+            .SidebarLink {
+                cursor: no-drop !important;
+
+                &:hover {
+                    background: none;
+                }
+            }
         }
 
         .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
@@ -64,26 +72,6 @@
         height: calc(100% - 40px)
     }
 
-    .badge {
-        display: inline-block;
-        flex-shrink: 0;
-        margin-left: 6px;
-        margin-right: 3px;
-        padding: 0 6px;
-        min-width: 22px;
-        height: auto;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 18px;
-        letter-spacing: 0px;
-        text-align: center;
-        color: var(--mention-color);
-        border-radius: 9px;
-        background: var(--mention-bg);
-        -webkit-font-smoothing: subpixel-antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
     .a11y--focused {
         box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text) !important;
 
@@ -95,7 +83,11 @@
     .SidebarContainer_filterAddChannel {
         display: flex;
         flex-direction: row;
-        width: 240px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .SidebarContainer_rightContainer {
+        display: flex;
     }
 
     .SidebarHeader {
@@ -106,6 +98,11 @@
 
             .user__name {
                 color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
+            }
+
+            .team__name,
+            .user__name {
+                max-width: 140px;
             }
 
             &:hover .user__name {
@@ -141,23 +138,51 @@
     }
 
     .SidebarChannelNavigator {
-        display: flex;
-        margin: 18px 16px 11px 16px;
+        &.desktop {
+            display: block;
+            margin: 16px 14px 8px 14px;
 
-        button {
-            font-size: 16px;
-            line-height: 15px;
+            .AddChannelDropdown_dropdownButton,
+            .SidebarFilters_filterButton,
+            .SidebarChannelNavigator_backButton,
+            .SidebarChannelNavigator_forwardButton {
+                background: transparent;
+
+                &:hover:not(.active) {
+                    background: rgba(255, 255, 255, 0.08);
+                    color: var(--sidebar-text);
+                }
+            }
+        }
+
+        &.webapp {
+            display: flex;
+            margin: 16px 14px 8px 14px;
+
+            .AddChannelDropdown_dropdownButton,
+            .SidebarChannelNavigator_jumpToButton,
+            .SidebarFilters_filterButton {
+                margin: 0 2px;
+                background: rgba(255, 255, 255, 0.08);
+
+                &:hover:not(.active) {
+                    background: rgba(255, 255, 255, 0.16);
+                    color: var(--sidebar-text);
+                }
+            }
+        }
+
+        .AddChannelDropdown_dropdownButton,
+        .SidebarChannelNavigator_jumpToButton,
+        .SidebarFilters_filterButtontton,
+        .SidebarChannelNavigator_backButton,
+        .SidebarChannelNavigator_forwardButton {
+            font-size: 18px;
             height: 28px;
             min-width: 28px;
             vertical-align: middle;
             border: 0;
-            background: rgba(255, 255, 255, 0.16);
             color: rgba(var(--sidebar-text-rgb), 0.72);
-
-            &:hover:not(.disabled) {
-                color: var(--sidebar-text);
-                background: rgba(255, 255, 255, 0.24);
-            }
 
             &.disabled {
                 background: rgba(255, 255, 255, 0.08);
@@ -165,82 +190,77 @@
         }
 
         .SidebarChannelNavigator_jumpToButton {
-            display: flex;
-            flex: 1 1 auto;
+            background: rgba(255, 255, 255, 0.08);
+            width: 100%;
+            text-align: left;
             border-radius: 4px;
             font-family: 'Open Sans';
-            font-size: 14px;
-            line-height: 19px;
-            padding: 3px 8px 6px 8px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 0 5px 0 2px;
+
+            .icon-magnify {
+                font-size: 18px;
+                margin-right: 2px;
+                display: inline-flex;
+            }
 
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
+                padding-right: 3px;
                 display: none;
-                margin-top: 1px;
             }
 
             &:hover {
+                background: rgba(255, 255, 255, 0.16);
+                color: var(--sidebar-text);
                 .SidebarChannelNavigator_shortcutText {
                     display: inherit;
                 }
             }
         }
+        .SidebarChannelNavigator_divider {
+            border-right: 1px solid rgba(255, 255, 255, 0.16);
+            height: 28px;
+            margin-left: 8px;
+        }
 
         .SidebarChannelNavigator_backButton {
-            border-radius: 4px 0px 0px 4px;
+            border-radius: 4px;
             padding: 0;
-            margin-left: 4px;
+            margin-left: 8px;
+            background: transparent;
         }
 
         .SidebarChannelNavigator_forwardButton {
-            border-radius: 0px 4px 4px 0px;
+            border-radius: 4px;
             padding: 0;
+            background: transparent;
         }
     }
 
     .SidebarFilters {
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        padding: 7px 16px;
         align-items: center;
-        margin-bottom: 8px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
         display: block;
-        line-height: 28px;
+        line-height: 26px;
         height: 28px;
         width: 28px;
-        background: rgba(255, 255, 255, 0.16);
         text-align: center;
         border-radius: 4px;
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: 400;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
         color: rgba(var(--sidebar-text-rgb), 0.8);
-        background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
         color: var(--sidebar-bg);
         background: var(--sidebar-text);
-    }
-
-    .SidebarFilters .SidebarFilters_filterTitle {
-        color: rgba(var(--sidebar-text-rgb), 0.72);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 12px;
-        margin-left: 8px;
-    }
-
-    .SidebarFilters .SidebarFilters_filterDescription {
-        color: var(--sidebar-text);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 14px;
-        margin-left: 8px;
     }
 
     .AddChannelDropdown {
@@ -253,6 +273,8 @@
 
             span {
                 white-space: nowrap;
+                font-size: 14px;
+                color: rgba(var(--center-channel-color-rgb), 0.9);
             }
 
             button {
@@ -269,8 +291,6 @@
 
     .AddChannelDropdown_dropdownButton {
         padding: 0;
-        margin-right: 16px;
-        margin-top: 7px;
         z-index: 1;
         background: transparent;
         border: none;
@@ -336,18 +356,9 @@
                 }
             }
 
-            .SubMenuItem > div {
-                padding-top: 2px;
-                padding-bottom: 2px;
-            }
-
-            .SubMenu__icon-right {
-                margin-right: -32px;
-                padding-right: 20px;
-            }
-
             #SidebarChannelMenu-moveToDivider {
                 pointer-events: none;
+                padding: 1px 0;
 
                 .MenuGroup.menu-divider {
                     margin-right: -32px;
@@ -356,6 +367,62 @@
                 span {
                     display: none;
                 }
+            }
+        }
+
+        .styleSelectableItem {
+            text-transform: capitalize;
+
+            .MenuItem {
+                width: 100%;
+
+                div:hover,
+                div:focus {
+                    background: none !important;
+                }
+            }
+
+            .SubMenu__icon-right {
+                margin-right: 0;
+                padding: 0 9px 0 8px;
+                &.mobile {
+                    padding: 0 4px 0 9px;
+                }
+            }
+
+            .styleSelectableItemDiv {
+                display: flex;
+                padding: 0 15px;
+                margin: 0;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sorting-menu-checkbox {
+                padding-right: 30px;
+                width: 0;
+
+                i {
+                    color: var(--button-bg);
+                }
+            }
+
+            .SubMenuItemContainer:not(.hasDivider) {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                &:hover {
+                    background: rgba(0, 0, 0, 0.08);
+                }
+            }
+
+            .selected {
+                text-transform: none;
+                font-size: 12px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                width: 60%;
+                text-align: right;
+                margin-top: 1px;
             }
         }
     }
@@ -384,70 +451,6 @@
         outline-style: none;
     }
 
-    .nav-pills__unread-indicator {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        margin-left: 50%;
-        width: 188px;
-        font-size: 14px;
-        line-height: 28px;
-        text-align: center;
-        @include border-radius(14px);
-        z-index: 2;
-        cursor: pointer;
-        transform: translateX(-50%);
-        opacity: 0;
-        visibility: hidden;
-        background: var(--mention-bg);
-        color: var(--mention-color);
-
-        .icon {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: 5px;
-        }
-
-        body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in, step-end);
-        }
-
-        svg {
-            fill: var(--mention-color);
-        }
-    }
-
-    .nav-pills__unread-indicator-top {
-        top: 32px;
-
-        .icon {
-            svg {
-                @include transform(rotate(180deg));
-            }
-        }
-    }
-
-    .nav-pills__unread-indicator-bottom {
-        bottom: 16px;
-    }
-
-    .nav-pills__unread-indicator--visible {
-        opacity: 1;
-        visibility: visible;
-
-        body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
-        }
-    }
-
     .SidebarNavContainer {
         flex: 1 1 auto;
         position: relative;
@@ -462,6 +465,18 @@
             div {
                 z-index: 2;
             }
+        }
+
+        .scrollbar--verticalTrack {
+            right: 2px;
+            bottom: 2px;
+            top: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        .scrollbar--vertical {
+            pointer-events: all;
         }
     }
 
@@ -504,12 +519,6 @@
             margin-left: 8px;
         }
 
-        &.isDraggingOver {
-            transition-property: opacity;
-            transition-duration: 0.15s; /* collapse animation speed */
-            transition-timing-function: ease-out;
-            opacity: 0;
-        }
 
         &.animating {
             transition-property: height, padding, color;
@@ -594,56 +603,66 @@
             &:hover, &:focus {
                 background-color: rgba(255, 255, 255, 0.08);
             }
+
+            &.additionalClass {
+                margin: 0;
+            }
         }
 
         .SidebarMenu:not(.menuOpen) {
             display: none;
         }
 
-        &.draggingOverHeader:hover {
-            //background: radial-gradient(60.83% 3421.87% at 50% 50%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-            border-radius: 4px;
-
-            .SidebarChannelGroupHeader_groupButton {
-                background-color: inherit;
-            }
+        &.SidebarChannelGroupHeader--sticky {
+            position: sticky;
         }
 
+        &.muted {
+            .icon-chevron-down, .SidebarChannelGroupHeader_text {
+                opacity: 0.4;
+            }
+        }
     }
-    .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+
+    .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
+        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
+        border-radius: 4px;
+
+        .SidebarChannelGroupHeader_groupButton {
+            background-color: inherit;
+        }
+    }
+
+    .SidebarChannelGroupHeader_groupButton {
         height: 32px;
         padding: 0;
         font-size: 12px;
         font-family: 'Open Sans', sans-serif;
         font-weight: 600;
         text-transform: uppercase;
-        overflow: hidden;
-        text-overflow: ellipsis;
         white-space: nowrap;
         text-align: left;
         border: none;
         color: rgba(var(--sidebar-text-rgb), 0.6);
         background-color: var(--sidebar-bg);
-        position: sticky;
         top: 0;
         box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
-        width: 100%;
+        flex: 1 1 auto;
+        min-width: 0;
         align-items: center;
 
         .emoji {
             color: var(--sidebar-text);
         }
 
-        > div:not(.SidebarCategory_newLabel) {
+        .SidebarChannelGroupHeader_text {
             flex: 0 1 auto;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            cursor: pointer;
         }
 
         &.dragging {
@@ -659,6 +678,15 @@
                 visibility: hidden;
             }
         }
+    }
+
+    .SidebarChannelGroupHeader--static {
+        margin-left: 16px;
+    }
+
+    button.SidebarChannelGroupHeader_groupButton > div {
+        // This overrides react-beautiful-dnd's grab cursor
+        cursor: pointer;
     }
 
     .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
@@ -700,7 +728,7 @@
         }
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
@@ -724,7 +752,7 @@
         animation-timing-function: linear;
     }
 
-    .SidebarChannelGroup .draggingOverDMCategory {
+    .SidebarChannelGroup.dmCategory .draggingOver {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
@@ -732,6 +760,7 @@
             background-color: inherit;
         }
     }
+
     .SidebarChannelGroup.capture .SidebarChannelGroup_content {
         margin-bottom: 0;
         padding-bottom: 14px;
@@ -808,11 +837,15 @@
 
     /* Channels */
     .SidebarChannel {
-        display: block;
+        display: flex;
         height: 32px; /* height required for transition animation */
         list-style-type: none;
         /* border: solid 2px transparent; */
         color: rgba(var(--sidebar-text-rgb), 0.6);
+        opacity: 1;
+        visibility: visible;
+        align-items: center;
+        overflow: hidden;
 
         &:hover {
             .btn-close {
@@ -841,6 +874,11 @@
             transform: none !important;
         }
 
+        &.selectedDragging {
+            opacity: 0.25;
+            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+        }
+
         .btn-close {
             @include opacity(0);
             visibility: hidden;
@@ -863,6 +901,29 @@
             height: 28px;
             width: 28px;
         }
+
+        .SidebarChannel__selectedCount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            height: 25px;
+            background: var(--center-channel-color);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            border-radius: 20px;
+            padding: 2px 9px 7px 9px;
+
+
+            > span {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 11px;
+                color: var(--center-channel-bg);
+            }
+        }
+
+        > span {
+            flex-grow: 1;
+        }
     }
 
     .SidebarChannel:hover {
@@ -871,9 +932,13 @@
 
 
     .SidebarChannel.animating {
-        transition-property: height, padding, color;
-        transition-duration: 0.15s; /* collapse animation speed */
-        transition-timing-function: ease-out;
+        transition-property: height, padding, color, opacity, visibility;
+        transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
+        transition-timing-function: ease, ease, ease, ease-in, step-start;
+
+        &.collapsed {
+            transition-timing-function: ease, ease, ease, ease-out, step-end;
+        }
     }
 
     .SidebarChannel.invisible {
@@ -881,12 +946,13 @@
     }
 
     .SidebarChannel.collapsed {
+        opacity: 0;
+        visibility: hidden;
         height: 0 !important;
         padding-top: 0;
         padding-bottom: 0;
         border-top: none;
         border-bottom: none;
-        overflow-y: hidden;
     }
 
     /* fade out collapsing list item */
@@ -905,7 +971,7 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         align-items: center;
         margin-right: 0;
-        width: 100%;
+        width: 240px;
         border-top: 0;
         border-bottom: 0;
         height: 32px;
@@ -957,6 +1023,23 @@
             color: var(--sidebar-text);
         }
 
+        &.selected {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+
+            &:hover {
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+            }
+        }
+
+    }
+
+    .SidebarLink.selected {
+        background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+        color: rgba(var(--sidebar-text-rgb), 1);
+
+        &:hover {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        }
     }
 
     .SidebarChannel.active .SidebarLink::before {

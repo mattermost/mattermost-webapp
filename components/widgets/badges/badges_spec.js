@@ -33,7 +33,7 @@ describe('Widgets - Badges', () => {
             // * Verify .Badge is visible and its CSS properties
             cy.get('.Badge').should('be.visible').
                 and('have.css', 'margin', '0px 0px 0px 4px').
-                and('have.css', 'display', 'flex').
+                and('have.css', 'display', 'inline-flex').
                 and('have.css', 'align-items', 'center');
 
             // * Verify .Badge__box is visible, text and its CSS properties
@@ -44,7 +44,7 @@ describe('Widgets - Badges', () => {
                 and('have.css', 'font-weight', '600').
                 and('have.css', 'padding', '1px 4px').
                 and('have.css', 'line-height', '14px').
-                and('have.css', 'background-color', 'rgba(61, 60, 64, 0.15)');
+                and('have.css', 'background-color', 'rgba(61, 60, 64, 0.16)');
         });
     });
 

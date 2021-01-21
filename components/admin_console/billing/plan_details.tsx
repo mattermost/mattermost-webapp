@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getCurrentLocale} from 'selectors/i18n';
@@ -27,6 +28,20 @@ const features = [
     localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
     localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
 ];
+
+const howBillingWorksLink = (
+    <a
+        target='_new'
+        rel='noopener noreferrer'
+        href={CloudLinks.BILLING_DOCS}
+        onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'payment'})}
+    >
+        <FormattedMessage
+            id='admin.billing.subscription.planDetails.howBillingWorks'
+            defaultMessage='See how billing works'
+        />
+    </a>
+);
 
 const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSeats: number, startDate: Date, endDate: Date) => {
     return (
@@ -70,16 +85,7 @@ const seatsAndSubscriptionDates = (locale: string, userCount: number, numberOfSe
                                             id='admin.billing.subscription.planDetails.prolongedOverages'
                                             defaultMessage='Prolonged overages may result in additional charges.'
                                         />
-                                        <a
-                                            target='_new'
-                                            rel='noopener noreferrer'
-                                            href={CloudLinks.BILLING_DOCS}
-                                        >
-                                            <FormattedMarkdownMessage
-                                                id='admin.billing.subscription.planDetails.howBillingWorks'
-                                                defaultMessage='See how billing works'
-                                            />
-                                        </a>
+                                        {howBillingWorksLink}
                                     </div>
                                 </Tooltip>
                             )}
@@ -121,6 +127,7 @@ const PlanDetails: React.FC = () => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
+    const aboveUserLimit = userLimit + 1;
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
@@ -134,9 +141,11 @@ const PlanDetails: React.FC = () => {
     }
 
     let planPricing;
+    let planDetailsDescription;
+    let userCountDisplay;
 
     const showSeatsAndSubscriptionDates = false;
-    let userCountDisplay;
+    const goneBackUnderThreshold = userCount <= userLimit;
     switch (subscription.is_paid_tier) {
     case 'false':
         planPricing = (
@@ -170,6 +179,21 @@ const PlanDetails: React.FC = () => {
                 />
             </div>
         );
+        planDetailsDescription = (
+            <div className='PlanDetails__description'>
+                <div className='PlanDetails__planDetailsName'>
+                    {`$${product.price_per_seat.toFixed(2)}`}
+                </div>
+                <div className='PlanDetails__planDetailsName'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers'
+                        defaultMessage='/user/month for {aboveUserLimit} or more users.'
+                        values={{aboveUserLimit}}
+                    />
+                </div>
+                {howBillingWorksLink}
+            </div>
+        );
         break;
     case 'true':
         planPricing = (
@@ -194,6 +218,18 @@ const PlanDetails: React.FC = () => {
                 />
             </div>
         );
+        planDetailsDescription = goneBackUnderThreshold ? (
+            <div className='PlanDetails__description'>
+                <div className='PlanDetails__planDetailsName'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.planDetails.planDetailsName.freeUpTo'
+                        defaultMessage='Free for up to {userLimit} users.'
+                        values={{userLimit}}
+                    />
+                </div>
+                {howBillingWorksLink}
+            </div>
+        ) : null;
         break;
 
     // case 'annual':
@@ -244,6 +280,7 @@ const PlanDetails: React.FC = () => {
             </div>
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
+            {planDetailsDescription}
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
                     id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'

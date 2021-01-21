@@ -22,6 +22,8 @@ declare namespace Cypress {
          * Get a subset of the server license needed by the client.
          * See https://api.mattermost.com/#tag/system/paths/~1license~1client/get
          * @returns {ClientLicense} `out.license` as `ClientLicense`
+         * @returns {Boolean} `out.isLicensed`
+         * @returns {Boolean} `out.isCloudLicensed`
          *
          * @example
          *   cy.apiGetClientLicense().then(({license}) => {
@@ -64,6 +66,16 @@ declare namespace Cypress {
         apiUploadLicense(filePath: string): Chainable<Response>;
 
         /**
+         * Request and install a trial license for your server.
+         * See https://api.mattermost.com/#tag/system/paths/~1trial-license/post
+         * @returns {Object} `out.data` as response status
+         *
+         * @example
+         *   cy.apiInstallTrialLicense();
+         */
+        apiInstallTrialLicense(): Chainable<Record<string, any>>;
+
+        /**
          * Remove the license file from the server. This will disable all enterprise features.
          * See https://api.mattermost.com/#tag/system/paths/~1license/delete
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
@@ -101,6 +113,7 @@ declare namespace Cypress {
         /**
          * Get configuration.
          * See https://api.mattermost.com/#tag/system/paths/~1config/get
+         * @param {Boolean} old - false (default) or true to return old format of client config
          * @returns {AdminConfig} `out.config` as `AdminConfig`
          *
          * @example
@@ -131,5 +144,37 @@ declare namespace Cypress {
          *   cy.apiInvalidateCache();
          */
         apiInvalidateCache(): Chainable<Record<string, any>>;
+
+        /**
+         * Allow test for server other than Cloud edition or with Cloud license.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldNotRunOnCloudEdition();
+         */
+        shouldNotRunOnCloudEdition(): Chainable;
+
+        /**
+         * Allow test for server on Team edition or without license.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunOnTeamEdition();
+         */
+        shouldRunOnTeamEdition(): Chainable;
+
+        /**
+         * Allow test for server with Plugin upload enabled.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldHavePluginUploadEnabled();
+         */
+        shouldHavePluginUploadEnabled(): Chainable;
+
+        /**
+         * Allow test for server running with subpath.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunWithSubpath();
+         */
+        shouldRunWithSubpath(): Chainable;
     }
 }

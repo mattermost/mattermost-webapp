@@ -2,9 +2,14 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import OverlayTrigger from 'components/overlay_trigger';
+import {Constants, ZoomSettings} from 'utils/constants';
 
 export default class PopoverBar extends React.PureComponent {
     static propTypes = {
@@ -17,6 +22,11 @@ export default class PopoverBar extends React.PureComponent {
         canDownloadFiles: PropTypes.bool.isRequired,
         isExternalFile: PropTypes.bool.isRequired,
         onGetPublicLink: PropTypes.func,
+        scale: PropTypes.number,
+        showZoomControls: PropTypes.bool,
+        handleZoomIn: PropTypes.func,
+        handleZoomOut: PropTypes.func,
+        handleZoomReset: PropTypes.func,
     };
 
     static defaultProps = {
@@ -31,7 +41,7 @@ export default class PopoverBar extends React.PureComponent {
         var publicLink = '';
         if (this.props.enablePublicLink && this.props.showPublicLink) {
             publicLink = (
-                <div>
+                <span>
                     <a
                         href='#'
                         className='public-link text'
@@ -44,7 +54,7 @@ export default class PopoverBar extends React.PureComponent {
                         />
                     </a>
                     <span className='text'>{' | '}</span>
-                </div>
+                </span>
             );
         }
 
@@ -71,7 +81,7 @@ export default class PopoverBar extends React.PureComponent {
             }
 
             downloadLinks = (
-                <div className='image-links'>
+                <span className='modal-bar-links'>
                     {publicLink}
                     <a
                         href={this.props.fileURL}
@@ -82,6 +92,127 @@ export default class PopoverBar extends React.PureComponent {
                     >
                         {downloadLinkText}
                     </a>
+                </span>
+            );
+        }
+
+        let zoomControls = [];
+        if (this.props.showZoomControls) {
+            let zoomResetButton;
+            let zoomOutButton;
+            let zoomInButton;
+
+            if (this.props.scale > ZoomSettings.MIN_SCALE) {
+                zoomOutButton = (
+                    <span className='modal-zoom-btn'>
+                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
+                            <i className='icon icon-minus'/>
+                        </a>
+                    </span>
+                );
+            } else {
+                zoomOutButton = (
+                    <span className='btn-inactive'>
+                        <i className='icon icon-minus'/>
+                    </span>
+                );
+            }
+            zoomControls.push(
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    key='zoomOut'
+                    placement='top'
+                    overlay={
+                        <Tooltip id='zoom-out-icon-tooltip'>
+                            <FormattedMessage
+                                id='view_image.zoom_out'
+                                defaultMessage='Zoom Out'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    {zoomOutButton}
+                </OverlayTrigger>,
+            );
+
+            if (this.props.scale > ZoomSettings.DEFAULT_SCALE) {
+                zoomResetButton = (
+                    <span className='modal-zoom-btn'>
+                        <a onClick={this.props.handleZoomReset}>
+                            <i className='icon icon-magnify-minus'/>
+                        </a>
+                    </span>
+                );
+            } else if (this.props.scale < ZoomSettings.DEFAULT_SCALE) {
+                zoomResetButton = (
+                    <span className='modal-zoom-btn'>
+                        <a onClick={this.props.handleZoomReset}>
+                            <i className='icon icon-magnify-plus'/>
+                        </a>
+                    </span>
+                );
+            } else {
+                zoomResetButton = (
+                    <span className='btn-inactive'>
+                        <i className='icon icon-magnify-minus'/>
+                    </span>
+                );
+            }
+            zoomControls.push(
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    key='zoomReset'
+                    placement='top'
+                    overlay={
+                        <Tooltip id='zoom-reset-icon-tooltip'>
+                            <FormattedMessage
+                                id='view_image.zoom_reset'
+                                defaultMessage='Reset Zoom'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    {zoomResetButton}
+                </OverlayTrigger>,
+            );
+
+            if (this.props.scale < ZoomSettings.MAX_SCALE) {
+                zoomInButton = (
+                    <span className='modal-zoom-btn'>
+                        <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
+                            <i className='icon icon-plus'/>
+                        </a>
+                    </span>
+
+                );
+            } else {
+                zoomInButton = (
+                    <span className='btn-inactive'>
+                        <i className='icon icon-plus'/>
+                    </span>
+                );
+            }
+            zoomControls.push(
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    key='zoomIn'
+                    placement='top'
+                    overlay={
+                        <Tooltip id='zoom-in-icon-tooltip'>
+                            <FormattedMessage
+                                id='view_image.zoom_in'
+                                defaultMessage='Zoom In'
+                            />
+                        </Tooltip>
+                    }
+                >
+                    {zoomInButton}
+                </OverlayTrigger>,
+            );
+
+            zoomControls = (
+                <div className='modal-column'>
+                    {zoomControls}
                 </div>
             );
         }
@@ -92,17 +223,22 @@ export default class PopoverBar extends React.PureComponent {
                 ref='imageFooter'
                 className='modal-button-bar'
             >
-                <span className='pull-left text'>
-                    <FormattedMessage
-                        id='view_image_popover.file'
-                        defaultMessage='File {count, number} of {total, number}'
-                        values={{
-                            count: (this.props.fileIndex + 1),
-                            total: this.props.totalFiles,
-                        }}
-                    />
-                </span>
-                {downloadLinks}
+                <div className='modal-column text'>
+                    <span className='modal-bar-file-count'>
+                        <FormattedMessage
+                            id='view_image_popover.file'
+                            defaultMessage='File {count, number} of {total, number}'
+                            values={{
+                                count: (this.props.fileIndex + 1),
+                                total: this.props.totalFiles,
+                            }}
+                        />
+                    </span>
+                </div>
+                {zoomControls}
+                <div className='modal-column text'>
+                    {downloadLinks}
+                </div>
             </div>
         );
     }

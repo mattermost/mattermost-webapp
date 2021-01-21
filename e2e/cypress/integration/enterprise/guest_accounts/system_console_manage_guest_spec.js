@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @guest_account
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
@@ -66,7 +66,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.get('#searchUsers').should('be.visible').type(guestUser.username);
     });
 
-    it('MM-18048 Verify the manage options displayed for Guest User', () => {
+    it('MM-T1391 Verify the manage options displayed for Guest User', () => {
         // * Verify Guest user
         verifyGuest();
 

@@ -29,6 +29,7 @@ export default class RevokeTokenButton extends React.PureComponent<RevokeTokenBu
     render() {
         return (
             <button
+                type='button'
                 className='btn btn-danger'
                 onClick={this.handleClick}
             >

@@ -5,7 +5,8 @@ import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {loadStripe} from '@stripe/stripe-js';
+import {Stripe} from '@stripe/stripe-js';
+import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
@@ -19,12 +20,13 @@ import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe'
 import SaveButton from 'components/save_button';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 import {GlobalState} from 'types/store';
+import {CloudLinks} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import './payment_info_edit.scss';
 import AlertBanner from 'components/alert_banner';
 
-const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+let stripePromise: Promise<Stripe | null>;
 
 const PaymentInfoEdit: React.FC = () => {
     const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const PaymentInfoEdit: React.FC = () => {
 
     const [showCreditCardWarning, setShowCreditCardWarning] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    const [isValid, setIsValid] = useState(false);
+    const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
     const [isServerError, setIsServerError] = useState(false);
     const [billingDetails, setBillingDetails] = useState<BillingDetails>({
         address: paymentInfo?.billing_address?.line1 || '',
@@ -70,6 +72,10 @@ const PaymentInfoEdit: React.FC = () => {
         setIsSaving(false);
     };
 
+    if (!stripePromise) {
+        stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+    }
+
     return (
         <div className='wrapper--fixed PaymentInfoEdit'>
             <div className='admin-console__header with-back'>
@@ -96,10 +102,22 @@ const PaymentInfoEdit: React.FC = () => {
                                 />
                             }
                             message={
-                                <FormattedMarkdownMessage
-                                    id='admin.billing.payment_info_edit.creditCardWarningDescription'
-                                    defaultMessage='Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. [See how billing works](!https://www.google.com)'
-                                />
+                                <>
+                                    <FormattedMarkdownMessage
+                                        id='admin.billing.payment_info_edit.creditCardWarningDescription'
+                                        defaultMessage='Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. '
+                                    />
+                                    <a
+                                        target='_new'
+                                        rel='noopener noreferrer'
+                                        href={CloudLinks.BILLING_DOCS}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.billing.subscription.planDetails.howBillingWorks'
+                                            defaultMessage='See how billing works'
+                                        />
+                                    </a>
+                                </>
                             }
                             onDismiss={() => setShowCreditCardWarning(false)}
                         />
@@ -139,7 +157,7 @@ const PaymentInfoEdit: React.FC = () => {
                         defaultMessage='Cancel'
                     />
                 </BlockableLink>
-                {!isValid &&
+                {isValid === false &&
                     <span className='PaymentInfoEdit__error'>
                         <i className='icon icon-alert-outline'/>
                         <FormattedMessage

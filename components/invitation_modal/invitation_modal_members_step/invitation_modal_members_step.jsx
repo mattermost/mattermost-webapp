@@ -15,6 +15,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
@@ -37,8 +38,10 @@ class InvitationModalMembersStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         analytics: PropTypes.object.isRequired,
+        subscription: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -149,7 +152,14 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     shouldShowPickerError = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud} = this.props;
+        const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
+
+        if (subscription === null) {
+            return false;
+        }
+        if (subscription.is_paid_tier === 'true') {
+            return false;
+        }
 
         if (userLimit === '0' || !userIsAdmin || !isCloud) {
             return false;
@@ -362,4 +372,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(InvitationModalMembersStep);
+export default injectIntl(withGetCloudSubscription((InvitationModalMembersStep)));

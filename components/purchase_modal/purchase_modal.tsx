@@ -3,7 +3,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Stripe, loadStripe} from '@stripe/stripe-js';
+import {Stripe} from '@stripe/stripe-js';
+import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
 import {Product} from 'mattermost-redux/types/cloud';
@@ -30,7 +31,7 @@ import ProcessPaymentSetup from './process_payment_setup';
 import './purchase.scss';
 import 'components/payment_form/payment_form.scss';
 
-const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+let stripePromise: Promise<Stripe | null>;
 
 type Props = {
     show: boolean;
@@ -43,6 +44,7 @@ type Props = {
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
         getClientConfig: () => void;
+        getCloudSubscription: () => void;
     };
 }
 
@@ -160,7 +162,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                         </div>
-                        <div className='footer-text'>{`Payment begins: ${getNextBillingDate()}`}</div>
+                        <div className='footer-text'>
+                            <FormattedMessage
+                                defaultMessage={'Payment begins: {beginDate}'}
+                                id={'admin.billing.subscription.payamentBegins'}
+                                values={{
+                                    beginDate: getNextBillingDate(),
+                                }}
+                            />
+                        </div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
@@ -192,7 +202,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </a>
                         </div>
                     </div>
-                    <div className='footer-text'>{'Need other billing options?'}</div>
+                    <div className='footer-text'>
+                        <FormattedMessage
+                            defaultMessage={'Need other billing options?'}
+                            id={'admin.billing.subscription.otherBillingOption'}
+                        />
+                    </div>
                     <a
                         className='footer-text'
                         onClick={() => {
@@ -222,6 +237,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
+        if (!stripePromise) {
+            stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+        }
         return (
             <Elements
                 options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
@@ -235,6 +253,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                                 'click_close_purchasing_screen',
                             );
+                            this.props.actions.getCloudSubscription();
                             this.props.actions.closeModal();
                         }}
                         ref={this.modal}
@@ -250,7 +269,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
                                         isDevMode={this.props.isDevMode}
-                                        onClose={this.props.actions.closeModal}
+                                        onClose={() => {
+                                            this.props.actions.getCloudSubscription();
+                                            this.props.actions.closeModal();
+                                        }}
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
