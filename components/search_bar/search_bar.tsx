@@ -77,7 +77,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
             Utils.isKeyPressed(e, Constants.KeyCodes.F)
         ) {
             e.preventDefault();
-            searchRef.current?.focus();
+            e.stopImmediatePropagation();
+            props.handleFocus();
 
             // To prevent event from executing on holding down.
             // https://stackoverflow.com/a/38241109
