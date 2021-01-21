@@ -254,9 +254,11 @@ const AdminDefinition = {
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
             it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
-            it.not(it.userHasReadPermissionOnResource('billing.subscription')),
-            it.not(it.userHasReadPermissionOnResource('billing.billing_history')),
-            it.not(it.userHasReadPermissionOnResource('billing.company_information')),
+            it.all(
+                it.not(it.userHasReadPermissionOnResource('billing.subscription')),
+                it.not(it.userHasReadPermissionOnResource('billing.billing_history')),
+                it.not(it.userHasReadPermissionOnResource('billing.company_information')),
+            ),
         ),
         subscription: {
             url: 'billing/subscription',
@@ -338,7 +340,11 @@ const AdminDefinition = {
         icon: 'fa-bar-chart',
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
-        isHidden: it.not(it.userHasReadPermissionOnResource('reporting')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource('reporting.site_statistics')),
+            it.not(it.userHasReadPermissionOnResource('reporting.team_statistics')),
+            it.not(it.userHasReadPermissionOnResource('reporting.server_logs')),
+        ),
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -366,6 +372,8 @@ const AdminDefinition = {
                 id: 'SystemAnalytics',
                 component: SystemAnalytics,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('reporting.site_statistics')),
+            isHidden: it.not(it.userHasReadPermissionOnResource('reporting.site_statistics')),
         },
         team_statistics: {
             url: 'reporting/team_statistics',
@@ -386,6 +394,8 @@ const AdminDefinition = {
                 id: 'TeamAnalytics',
                 component: TeamAnalytics,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('reporting.team_statistics')),
+            isHidden: it.not(it.userHasReadPermissionOnResource('reporting.team_statistics')),
         },
         server_logs: {
             url: 'reporting/server_logs',
@@ -402,6 +412,8 @@ const AdminDefinition = {
                 id: 'ServerLogs',
                 component: ServerLogs,
             },
+            isDisabled: it.not(it.userHasWritePermissionOnResource('reporting.server_logs')),
+            isHidden: it.not(it.userHasReadPermissionOnResource('reporting.server_logs')),
         },
     },
     user_management: {
@@ -580,7 +592,21 @@ const AdminDefinition = {
         icon: 'fa-server',
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
-        isHidden: it.not(it.userHasReadPermissionOnResource('environment')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource('environment.web_server')),
+            it.not(it.userHasReadPermissionOnResource('environment.database')),
+            it.not(it.userHasReadPermissionOnResource('environment.elasticsearch')),
+            it.not(it.userHasReadPermissionOnResource('environment.file_storage')),
+            it.not(it.userHasReadPermissionOnResource('environment.image_proxy')),
+            it.not(it.userHasReadPermissionOnResource('environment.smtp')),
+            it.not(it.userHasReadPermissionOnResource('environment.push_notification_server')),
+            it.not(it.userHasReadPermissionOnResource('environment.high_availability')),
+            it.not(it.userHasReadPermissionOnResource('environment.rate_limiting')),
+            it.not(it.userHasReadPermissionOnResource('environment.logging')),
+            it.not(it.userHasReadPermissionOnResource('environment.session_lengths')),
+            it.not(it.userHasReadPermissionOnResource('environment.performance_monitoring')),
+            it.not(it.userHasReadPermissionOnResource('environment.developer')),
+        ),
         web_server: {
             url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
