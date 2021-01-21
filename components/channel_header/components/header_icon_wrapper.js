@@ -30,7 +30,7 @@ export default function HeaderIconWrapper({
             message: 'Saved posts',
         },
         pinnedPosts: {
-            class: '',
+            class: 'pinned-posts',
             id: 'pinnedPostTooltip',
             messageID: t('channel_header.pinnedPosts'),
             message: 'Pinned posts',
@@ -88,7 +88,7 @@ export default function HeaderIconWrapper({
 
     if (tooltip) {
         return (
-            <div className='flex-child'>
+            <div>
                 <OverlayTrigger
                     trigger={['hover']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}

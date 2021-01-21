@@ -17,7 +17,7 @@ storiesOf('Widgets/Team Icon', module).
         () => {
             return (
                 <TeamIcon
-                    name='Team A'
+                    content='Team A'
                     withHover={hoverKnob()}
                     size={sizeKnob()}
                 />
@@ -29,7 +29,7 @@ storiesOf('Widgets/Team Icon', module).
             return (
                 <TeamIcon
                     url='https://mattermost.com/wp-content/themes/mattermostv3/favicon-32x32.png'
-                    name='Team B'
+                    content='Team B'
                     withHover={hoverKnob()}
                     size={sizeKnob()}
                 />

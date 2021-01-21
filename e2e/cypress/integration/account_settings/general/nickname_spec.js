@@ -130,7 +130,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('body').type('{esc}');
 
             // # Go to manage members modal
-            cy.get('#channelMemberIcon').click();
+            cy.get('#channelMember').click();
             cy.get('#member-list-popover').should('be.visible').within(() => {
                 cy.findByTestId('membersModal').click();
             });

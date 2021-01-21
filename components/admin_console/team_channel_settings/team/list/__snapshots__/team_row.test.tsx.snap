@@ -12,7 +12,7 @@ exports[`admin_console/team_channel_settings/team/TeamRow should match snapshot 
       className="group-name adjusted center-row row-content"
     >
       <TeamIcon
-        name="team"
+        content="team"
         size="sm"
         url={null}
       />
