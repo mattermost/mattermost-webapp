@@ -44,6 +44,7 @@ export default class PDFPreview extends React.PureComponent {
         this.getPdfDocument();
         if (this.container.current) {
             this.parentNode = this.container.current.parentElement.parentElement;
+            this.parentNode.addEventListener('scroll', this.handleScroll);
         }
     }
 
@@ -106,7 +107,7 @@ export default class PDFPreview extends React.PureComponent {
 
         // Always render the first 3 pages to avoid problems detecting
         // isInViewport during the open animation
-        if (pageIndex > 3 && !this.isInViewport(canvas)) {
+        if (pageIndex >= 3 && !this.isInViewport(canvas)) {
             return;
         }
 
