@@ -200,7 +200,7 @@ exports[`components/ClusterSettings should match snapshot, compression disabled 
         }
         helpText={
           <FormattedMessage
-            defaultMessage="When true, all communication through the gossip protocol will be compressed."
+            defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
@@ -504,7 +504,7 @@ exports[`components/ClusterSettings should match snapshot, compression enabled 1
         }
         helpText={
           <FormattedMessage
-            defaultMessage="When true, all communication through the gossip protocol will be compressed."
+            defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
@@ -808,7 +808,7 @@ exports[`components/ClusterSettings should match snapshot, encryption disabled 1
         }
         helpText={
           <FormattedMessage
-            defaultMessage="When true, all communication through the gossip protocol will be compressed."
+            defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }
@@ -1112,7 +1112,7 @@ exports[`components/ClusterSettings should match snapshot, encryption enabled 1`
         }
         helpText={
           <FormattedMessage
-            defaultMessage="When true, all communication through the gossip protocol will be compressed."
+            defaultMessage="When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled."
             id="admin.cluster.EnableGossipCompressionDesc"
           />
         }

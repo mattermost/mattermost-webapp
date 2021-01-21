@@ -57,24 +57,24 @@ describe('Cluster', () => {
             cy.get('.control-label').should('be.visible').and('have.text', 'Enable Gossip compression:');
 
             // * Verify that the help setting is visible and matches text content
-            const contents = 'When true, all communication through the gossip protocol will be compresssed.';
+            const contents = 'When true, all communication through the gossip protocol will be compresssed. It is recommended to keep this flag disabled.';
             cy.get('.help-text').should('be.visible').and('have.text', contents);
 
-            // * Verify that Gossip Compression is set to false by default
-            cy.get('#EnableGossipCompressionfalse').should('have.attr', 'checked');
+            // * Verify that Gossip Compression is set to true by default
+            cy.get('#EnableGossipCompressiontrue').should('have.attr', 'checked');
         });
 
-        // # Enable Gossip Compression
+        // # Disable Gossip Compression
         cy.apiUpdateConfig({ClusterSettings: {
             Enable: true,
             UseExperimentalGossip: true,
-            EnableGossipCompression: true,
+            EnableGossipCompression: false,
         }});
         cy.reload();
 
         cy.findByTestId('EnableGossipCompression').scrollIntoView().should('be.visible').within(() => {
-            // * Verify that Gossip Compression is set to true
-            cy.get('#EnableGossipCompressiontrue').should('have.attr', 'checked');
+            // * Verify that Gossip Compression is set to false
+            cy.get('#EnableGossipCompressionfalse').should('have.attr', 'checked');
         });
     });
 });

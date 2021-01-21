@@ -24,7 +24,7 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
         config.ClusterSettings.UseExperimentalGossip = this.state.UseExperimentalGossip;
         config.ClusterSettings.EnableExperimentalGossipEncryption = this.state.EnableExperimentalGossipEncryption;
-        config.ClusterSettings.EnableGossipCompression = this.state.EnableGossipCompression
+        config.ClusterSettings.EnableGossipCompression = this.state.EnableGossipCompression;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
         config.ClusterSettings.StreamingPort = this.parseIntNonZero(this.state.StreamingPort, 8075);
         return config;
@@ -250,7 +250,7 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.EnableGossipCompressionDesc'
-                            defaultMessage='When true, all communication through the gossip protocol will be compressed.'
+                            defaultMessage='When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled.'
                         />
                     }
                     value={this.state.EnableGossipCompression}
