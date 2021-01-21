@@ -5,9 +5,10 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {getFilePublicLink} from 'mattermost-redux/actions/files';
 import * as Selectors from 'mattermost-redux/selectors/entities/files';
 
-import GetPublicLinkModal from './get_public_link_modal';
-import { GlobalState } from 'mattermost-redux/types/store';
+import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+
+import GetPublicLinkModal from './get_public_link_modal';
 
 function mapStateToProps(state: GlobalState) {
     return {

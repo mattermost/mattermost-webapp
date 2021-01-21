@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
 import GetPublicLinkModal from 'components/get_public_link_modal/get_public_link_modal.jsx';
+
 import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetPublicLinkModal', () => {
