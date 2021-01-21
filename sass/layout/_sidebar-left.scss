@@ -845,7 +845,7 @@
         opacity: 1;
         visibility: visible;
         align-items: center;
-        overflow-y: hidden;
+        overflow: hidden;
 
         &:hover {
             .btn-close {
@@ -920,6 +920,10 @@
                 color: var(--center-channel-bg);
             }
         }
+
+        > span {
+            flex-grow: 1;
+        }
     }
 
     .SidebarChannel:hover {
@@ -967,7 +971,7 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         align-items: center;
         margin-right: 0;
-        width: 100%;
+        width: 240px;
         border-top: 0;
         border-bottom: 0;
         height: 32px;
