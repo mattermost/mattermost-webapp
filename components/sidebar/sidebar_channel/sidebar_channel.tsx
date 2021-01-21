@@ -83,7 +83,7 @@ type Props = {
 
     multiSelectedChannelIds: string[];
 
-    autoSortedCategoryIds: string[];
+    autoSortedCategoryIds: Set<string>;
 };
 
 type State = {
@@ -191,7 +191,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                     active: isCurrentChannel,
                                     dragging: snapshot.isDragging,
                                     selectedDragging: isChannelSelected && draggingState.state && draggingState.id !== channel.id,
-                                    fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.includes(snapshot.draggingOver),
+                                    fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.has(snapshot.draggingOver),
                                     noFloat: isAutoSortedCategory && !snapshot.isDragging,
                                 })}
                                 onTransitionEnd={this.removeAnimation}

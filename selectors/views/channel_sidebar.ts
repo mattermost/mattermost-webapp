@@ -47,17 +47,14 @@ export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategor
     });
 })();
 
-export const getAutoSortedCategoryIds: (state: GlobalState) => string[] = (() => {
-    const getCategoriesForTeam = makeGetCategoriesForTeam();
-
-    return memoizeResult((state: GlobalState) => {
-        const currentTeamId = getCurrentTeamId(state);
-        const categories = getCategoriesForTeam(state, currentTeamId);
-        return categories.filter((category) =>
+export const getAutoSortedCategoryIds: (state: GlobalState) => Set<string> = (() => createSelector(
+    (state: GlobalState) => getCategoriesForCurrentTeam(state),
+    (categories) => {
+        return new Set(categories.filter((category) =>
             category.sorting === CategorySorting.Alphabetical ||
-            category.sorting === CategorySorting.Recency).map((category) => category.id);
-    });
-})();
+            category.sorting === CategorySorting.Recency).map((category) => category.id));
+    },
+))();
 
 export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => RelationOneToOne<ChannelCategory, Channel[]> = (() => {
     const getChannelsByCategory = makeGetChannelsByCategory();

@@ -77,7 +77,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
 
 exports[`components/sidebar/sidebar_category should match snapshot when collapsed 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section autoSortedCategory"
+  className="SidebarChannelGroup a11y__section autoSortedCategory isCollapsed"
 >
   <Connect(Droppable)
     direction="vertical"
