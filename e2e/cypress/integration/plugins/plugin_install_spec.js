@@ -34,7 +34,7 @@ describe('Plugins Management', () => {
 
     it('MM-T2400 Plugins Management', () => {
         // Visit the plugin management page
-        cy.visit('/admin_console/plugins/plugin_management');
+        cy.visitAndWait('/admin_console/plugins/plugin_management');
 
         const mimeType = 'application/gzip';
         cy.fixture(pluginFile, 'binary').

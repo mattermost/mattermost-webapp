@@ -58,12 +58,12 @@ describe('Messaging', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T200 Focus move to main input box when a character key is selected', () => {

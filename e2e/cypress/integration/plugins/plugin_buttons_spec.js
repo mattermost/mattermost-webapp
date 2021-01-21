@@ -48,7 +48,7 @@ describe('collapse on 5 plugin buttons', () => {
 
     it('MM-T1649 Greater than 5 plugin buttons collapse to one icon in top nav', () => {
         // # Go to town square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Upload and enable test plugin with 5 channel header icons
         cy.apiUploadPlugin('com.mattermost.test-plugin-0.1.0.tar.gz').then(() => {

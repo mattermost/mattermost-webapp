@@ -20,7 +20,7 @@ describe('Environment', () => {
         // * Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
-        cy.visit('/admin_console/environment/elasticsearch');
+        cy.visitAndWait('/admin_console/environment/elasticsearch');
 
         // * Verify the ElasticSearch fields are disabled
         cy.findByTestId('connectionUrlinput').should('be.disabled');
@@ -34,7 +34,7 @@ describe('Environment', () => {
         cy.findByTestId('enableAutocompletetrue').should('be.disabled');
         cy.findByTestId('enableAutocompletefalse').should('be.disabled');
 
-        cy.visit('/admin_console/environment/elasticsearch');
+        cy.visitAndWait('/admin_console/environment/elasticsearch');
 
         // # Enable Elasticsearch
         cy.findByTestId('enableIndexingtrue').check();

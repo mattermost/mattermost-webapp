@@ -10,14 +10,14 @@ Cypress.Commands.add('doLDAPExistingLogin', () => {
 
 Cypress.Commands.add('visitLDAPSettings', () => {
     // # Go to LDAP settings Page
-    cy.visit('/admin_console/authentication/ldap');
+    cy.visitAndWait('/admin_console/authentication/ldap');
     cy.get('.admin-console__header').should('be.visible').and('have.text', 'AD/LDAP');
 });
 
 Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
     // # Go to login page
     cy.apiLogout();
-    cy.visit('/login');
+    cy.visitAndWait('/login');
     cy.checkLoginPage(settings);
     cy.performLDAPLogin(settings, useEmail);
 });

@@ -55,7 +55,7 @@ describe('/poll', () => {
     beforeEach(() => {
         cy.apiLogout();
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
     });
 
     after(() => {
@@ -107,7 +107,7 @@ describe('/poll', () => {
 
         cy.apiLogout();
         cy.apiLogin(user2);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
 
         // # Another user clicks Yes or No
         cy.getNthPostId(-3).then((postId) => {
@@ -118,7 +118,7 @@ describe('/poll', () => {
 
         cy.apiLogout();
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.getNthPostId(-3).then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.findByText('End Poll').click();
@@ -165,7 +165,7 @@ describe('/poll', () => {
         });
         cy.apiLogout();
         cy.apiLogin(user2);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 cy.findByText('Yes').click();
@@ -173,7 +173,7 @@ describe('/poll', () => {
         });
         cy.apiLogout();
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 // # Click "End Poll"

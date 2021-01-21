@@ -17,7 +17,7 @@ describe('Settings', () => {
     });
 
     it('MM-T1161: Data retention - Settings are saved', () => {
-        cy.visit('/admin_console/compliance/data_retention');
+        cy.visitAndWait('/admin_console/compliance/data_retention');
 
         // # Change dropdown
         cy.findByTestId('enableMessageDeletiondropdown').select('Keep messages for a set amount of time');
@@ -52,7 +52,7 @@ describe('Settings', () => {
     });
 
     it('MM-T1181: Compliance and Auditing: Run a report, it appears in the job table', () => {
-        cy.visit('/admin_console/compliance/monitoring');
+        cy.visitAndWait('/admin_console/compliance/monitoring');
 
         // # Enable compliance reporting
         cy.findByTestId('ComplianceSettings.Enabletrue').click();
@@ -81,7 +81,7 @@ describe('Settings', () => {
 
     it('MM-T1635: Channel listing is displayed correctly with proper team name', () => {
         let teamName;
-        cy.visit('/admin_console/user_management/channels').wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait('/admin_console/user_management/channels');
 
         // # Get the team name
         cy.get('#channels .DataGrid .DataGrid_rows > :nth-child(1)').

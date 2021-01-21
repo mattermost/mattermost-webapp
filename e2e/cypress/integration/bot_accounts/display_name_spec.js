@@ -27,7 +27,7 @@ describe('Bot display name', () => {
             cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
                 townsquareChannel = channel;
             });
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

@@ -38,7 +38,7 @@ describe('Group Message', () => {
                 users.push(newUser);
                 if (i === groupUsersCount - 1) {
                     cy.apiLogin(testUser);
-                    cy.visit(townsquareLink);
+                    cy.visitAndWait(townsquareLink);
                 }
             });
         });
@@ -202,10 +202,9 @@ describe('Group Message', () => {
             });
 
             cy.postMessageAs({sender: participants[0], message: 'Hello all', channelId}).then(() => {
-                cy.visit(townsquareLink);
+                cy.visitAndWait(townsquareLink);
 
                 // * Assert that user does not receives a notification
-                cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('not.have.been.called');
 
                 // * Should not have unread mentions indicator.
@@ -218,10 +217,9 @@ describe('Group Message', () => {
 
             cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId}).then(() => {
                 cy.apiLogin(testUser);
-                cy.visit(townsquareLink);
+                cy.visitAndWait(townsquareLink);
 
                 // * Assert that user does not receives a notification
-                cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('not.have.been.called');
 
                 // * Should have unread mentions indicator.

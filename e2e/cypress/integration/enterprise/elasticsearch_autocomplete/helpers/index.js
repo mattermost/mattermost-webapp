@@ -29,7 +29,7 @@ module.exports = {
         });
 
         // Navigate to the elastic search setting page
-        cy.visit('/admin_console/environment/elasticsearch');
+        cy.visitAndWait('/admin_console/environment/elasticsearch');
 
         // Test the connection and verify that we are successful
         cy.contains('button', 'Test Connection').click();

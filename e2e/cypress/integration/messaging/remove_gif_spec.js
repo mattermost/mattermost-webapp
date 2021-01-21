@@ -31,7 +31,7 @@ describe('Messaging', () => {
             testUser = user;
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -47,10 +47,7 @@ describe('Messaging', () => {
 
         // # Change user and go to Town Square
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
-        // # Wait for the page to be loaded
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Click Reply button to open the RHS
         cy.clickPostCommentIcon();
@@ -93,7 +90,7 @@ describe('Messaging', () => {
 
             // # Log in as the other user and go to town square
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // * The post should not exist
             cy.get(`#post_${postId}`).should('not.exist');
@@ -114,7 +111,7 @@ describe('Messaging', () => {
 
         // # Change user and go to Town Square
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Change viewport so it has mobile view
         cy.viewport('iphone-6');
@@ -150,7 +147,7 @@ describe('Messaging', () => {
 
             // # Log in as the other user and go to town square
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // * The post should not exist
             cy.get(`#post_${postId}`).should('not.exist');
