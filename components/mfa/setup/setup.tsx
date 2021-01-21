@@ -20,7 +20,7 @@ type Props = {
             error?: {
                 server_error_id: string;
                 message: string;
-            }
+            };
         }>;
         generateMfaSecret: () => Promise<{
             data: {
