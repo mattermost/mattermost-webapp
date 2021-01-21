@@ -42,7 +42,7 @@ describe('components/sidebar/sidebar_channel', () => {
         isDropDisabled: false,
         draggingState: {},
         multiSelectedChannelIds: [],
-        autoSortedCategoryIds: [],
+        autoSortedCategoryIds: new Set<string>(),
         isChannelSelected: false,
     };
 
