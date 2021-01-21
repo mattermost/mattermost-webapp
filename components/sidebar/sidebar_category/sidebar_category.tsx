@@ -344,6 +344,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,
+                                isCollapsed,
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}

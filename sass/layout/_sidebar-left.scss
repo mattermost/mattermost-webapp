@@ -746,11 +746,6 @@
     .SidebarChannelGroup .SidebarChannelGroupHeader > i {
         font-size: 12px;
     }
-    .SidebarChannelGroup__is-collapsed {
-        animation-name: menuAnimation;
-        animation-duration: 0.25s;
-        animation-timing-function: linear;
-    }
 
     .SidebarChannelGroup.autoSortedCategory .draggingOver {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
@@ -764,6 +759,11 @@
                 box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
             }
         }
+    }
+
+    .SidebarChannelGroup.autoSortedCategory.isCollapsed .draggingOver .SidebarChannelGroupHeader_groupButton {
+        border-radius: 4px;
+        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
     }
 
     .SidebarChannelGroup.capture .SidebarChannelGroup_content {
