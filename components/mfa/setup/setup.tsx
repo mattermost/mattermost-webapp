@@ -17,7 +17,7 @@ type Props = {
     enforceMultifactorAuthentication: boolean;
     actions: {
         activateMfa: (code: string) => Promise<{
-            error: {
+            error?: {
                 server_error_id: string;
                 message: string;
             }
@@ -27,7 +27,7 @@ type Props = {
                 secret: string;
                 qr_code: string;
             };
-            error: {
+            error?: {
                 message: string;
             };
         }>;

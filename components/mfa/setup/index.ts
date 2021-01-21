@@ -27,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    activateMfa: (code: string) => Promise<{ error: { server_error_id: string; message: string; } }>;
+    activateMfa: (code: string) => Promise<{ error?: { server_error_id: string; message: string; } }>;
     generateMfaSecret: () => Promise<{data: { secret: string; qr_code: string; }; error?: { message: string }}>;
 };
 
