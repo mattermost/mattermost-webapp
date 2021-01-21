@@ -38,14 +38,14 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
             if (status === 'OK' && renewalLink !== '') {
                 window.open(renewalLink, '_blank');
             } else {
-                showConnetionErrorModal();
+                showConnectionErrorModal();
             }
         } catch (error) {
-            showConnetionErrorModal();
+            showConnectionErrorModal();
         }
     };
 
-    const showConnetionErrorModal = () => {
+    const showConnectionErrorModal = () => {
         trackEvent('renew_license', 'renew_license_banner_fail');
         props.actions.openModal({
             modalId: ModalIdentifiers.NO_INTERNET_CONNECTION,
