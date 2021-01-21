@@ -25,20 +25,20 @@ const NoInternetConnection: React.FC<NoInternetConnectionProps> = (props: NoInte
                 </div>
                 <span className='noInternetConnection__noAccessToInternet'>
                     <FormattedMessage
-                        id='announcement_bar.warn.contact_support'
+                        id='announcement_bar.warn.no_internet_connection'
                         defaultMessage='Looks like you do not have access to the internet.'
                     />
                 </span>
                 <span className='noInternetConnection__contactSupport'>
                     <FormattedMessage
-                        id='announcement_bar.warn.no_internet_connection'
+                        id='announcement_bar.warn.contact_support'
                         defaultMessage='In order to renew, you need to contact support.'
                     />
                 </span>
                 <span className='noInternetConnection__emailUs'>
                     <FormattedMarkdownMessage
                         id='announcement_bar.warn.email_us'
-                        defaultMessage='Please [email Us](!{email}).'
+                        defaultMessage='Please [email us](!{email}).'
                         values={{email: 'mailto:support@mattermost.com'}}
                     />
                 </span>

@@ -20,11 +20,11 @@ export interface RenewalLinkProps {
 }
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
-    const [renewalLink, setRenewalLink] = useState('https://mattermost.com/renew/');
+    const [renewalLink, setRenewalLink] = useState('');
 
     useEffect(() => {
         Client4.getRenewalLink().then(({renewal_link: renewalLinkParam}) => {
-            if (renewalLinkParam && (/^http[s]?:\/\/customers\.mattermost\.com\/subscribe\/renew/).test(renewalLinkParam)) {
+            if (renewalLinkParam && (/^http[s]?:\/\//).test(renewalLinkParam)) {
                 setRenewalLink(renewalLinkParam);
             }
         });
@@ -32,20 +32,21 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
 
     const handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        trackEvent('announcement_bar', 'renew_license');
+        trackEvent('renew_license', 'renew_license_banner_success');
         try {
             const {status} = await Client4.ping();
-            if (status === 'OK') {
+            if (status === 'OK' && renewalLink !== '') {
                 window.open(renewalLink, '_blank');
             } else {
-                showModal();
+                showConnetionErrorModal();
             }
         } catch (error) {
-            showModal();
+            showConnetionErrorModal();
         }
     };
 
-    const showModal = () => {
+    const showConnetionErrorModal = () => {
+        trackEvent('renew_license', 'renew_license_banner_fail');
         props.actions.openModal({
             modalId: ModalIdentifiers.NO_INTERNET_CONNECTION,
             dialogType: NoInternetConnection,
