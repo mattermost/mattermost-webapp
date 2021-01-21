@@ -37,6 +37,10 @@
         height: 62px;
         fill: v(button-bg);
     }
+    &.icon {
+        font-size: 62px;
+        color: v(button-bg);
+    }
 }
 
 .no-results__mini_icon {
