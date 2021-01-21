@@ -18,10 +18,18 @@
         display: flex;
         flex: 1 1 0;
         min-width: 0;
+        padding: 4px 4px;
+        height: 24px;
+        @include border-radius(4px);
 
         &:hover {
-            .header-dropdown__icon {
-                opacity: 1;
+            background: rgba(v(center-channel-color-rgb), 0.08);
+        }
+
+        &.active {
+            background: rgba(v(button-bg-rgb), 0.08);
+            .heading, .header-dropdown-chevron-icon {
+                color: v(button-bg);
             }
         }
 
@@ -31,18 +39,34 @@
         }
     }
 
+    .icon::before {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
     .channel-header__favorites {
         float: left;
-        height: 20px;
-        margin: 0 5px 0 0;
-        padding-top: 2px;
+        height: 24px;
+        margin-left: 4px;
+        padding: 4px;
         position: relative;
         z-index: 1;
+        @include border-radius(4px);
+        color: v(center-channel-color);
+
+        &:hover {
+            background: rgba(v(center-channel-color-rgb), 0.08);
+            i {
+                @include opacity(.72);
+            }
+        }
 
         &.inactive {
-            color: inherit;
+            .icon {
+                color: v(center-channel-color);
+            }
         }
+
 
         &.active {
             i {
@@ -51,34 +75,65 @@
         }
 
         i {
-            @include opacity(.5);
-            font-size: 16px;
+            @include opacity(.56);
+            font-size: 18px;
             position: relative;
             top: -1px;
         }
     }
 
     .channel-header__mute {
-        @include opacity(.5);
-        flex: 0;
         float: left;
-        height: 20px;
-        margin: 0 7px;
+        height: 24px;
+        margin-left: 4px;
+        padding: 4px;
         position: relative;
         z-index: 1;
+        @include border-radius(4px);
+        color: v(center-channel-color);
 
-        &.inactive {
-            color: inherit;
+        &:hover {
+            background: rgba(v(center-channel-color-rgb), 0.08);
+            i {
+                @include opacity(.72);
+            }
         }
 
+        &.inactive {
+            .icon {
+                color: v(center-channel-color);
+            }
+        }
+
+
         &.active {
-            @include opacity(1);
+            i {
+               @include opacity(1);
+            }
+        }
+
+        i {
+            @include opacity(.56);
+            font-size: 16px;
+            position: relative;
+            top: -2px;
+        }
+    }
+
+    .channel-header__icon {
+        line-height: 16px;
+        .channel-header__members {
+            font-size: 14.4px;
+        }
+
+        .channel-header__pin {
+            font-size: 14.4px;
         }
     }
 
     .flex-parent {
         display: flex;
-        padding: 0 16px;
+        padding: 0 16px 0 8px;
     }
 
     .flex-child {
@@ -89,7 +144,7 @@
         }
 
         .markdown__paragraph-inline {
-            margin: 0 0 8px;
+            margin: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -159,6 +214,8 @@
 
     .heading {
         font-size: 14px;
+        line-height: 16px;
+        margin: 0 0 0 2px;
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -193,8 +250,9 @@
 
 .header-dropdown__icon {
     color: inherit;
-    font-size: 19px;
-    margin: 0 0 0 8px;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0 0 0 4px;
     position: relative;
     top: 0;
 }
@@ -205,8 +263,12 @@
     min-width: 0;
 }
 
+.channel-header__bot {
+    margin-left: 4px;
+}
+
 .channel-header__info {
-    margin-top: 13px;
+    margin-top: 8px;
     white-space: nowrap;
 
     .dropdown-toggle {
@@ -217,9 +279,7 @@
     }
 
     .header-dropdown__icon {
-        opacity: .6;
         flex: 0 0 auto;
-        color: $dark-gray;
     }
 
     .channel-header__title {
@@ -259,11 +319,11 @@
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
-        margin: 2px 0 0;
-        height: 27px;
+        margin: 0;
+        height: 24px;
         width: 100%;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
 
         span[data-emoticon] {
             .emoticon {
@@ -289,15 +349,26 @@
         .header-placeholder {
             display: flex;
             overflow: hidden;
+            align-items: center;
+            margin-left: 4px;
+            line-height: 16px;
             span {
                 overflow: hidden;
                 text-overflow: ellipsis;
+            }
+            .icon {
+                margin-left: 4px;
             }
         }
 
         .header-description__text {
             overflow: hidden;
-            display: block;
+            display: flex;
+            margin-left: 4px;
+            margin-top: 1px;
+            align-self: start;
+            flex-direction: column;
+            line-height: 20px;
 
             ul {
                 &:first-child {
@@ -333,23 +404,19 @@
             button {
                 color: rgba(var(--center-channel-color-rgb), 0.64);
 
-                .button__edit {
-                    color: v(link-color);
+                .edit-icon {
                     display: none;
-
-                    &:hover {
-                        text-decoration: underline;
-                    }
                 }
 
                 &:focus,
                 &:hover {
                     text-decoration: none;
+                    color: v(center-channel-color-72);
                 }
 
                 &:hover {
-                    .button__edit {
-                        display: inline;
+                    .edit-icon {
+                        display: block;
                     }
                 }
             }
@@ -357,6 +424,15 @@
 
         .markdown-inline-img {
             max-height: 45px;
+        }
+
+        .edit-icon {
+            font-size: 14px;
+        }
+
+        .status {
+            margin-left: 6px;
+            line-height: 16px;
         }
     }
 
@@ -372,18 +448,12 @@
     }
 
     .header-status__text {
-        margin-right: 3px;
-
-        &:after {
-            content: '\2022';
-            margin: 0 2px 0 5px;
-            position: relative;
-            top: 1px;
-        }
+        margin-right: 7px;
+        line-height: 16px;
     }
 
     .status {
-        margin: -1px 4px 0 0;
+        margin: 0 4px 0 0;
         width: auto;
 
         svg {

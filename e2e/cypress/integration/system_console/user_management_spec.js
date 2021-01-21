@@ -249,7 +249,7 @@ describe('User Management', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.TEN_SEC);
 
         // # Click Channel Members
-        cy.get('#channelMemberIcon').should('be.visible').click();
+        cy.get('#channelMember').should('be.visible').click();
 
         // # Click View Members
         cy.get('#member-list-popover').within(() => {
