@@ -606,7 +606,6 @@ export function applyTheme(theme) {
         changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .modal-tabs .nav-tabs > li', `background:${theme.centerChannelBg}`);
 
         // Fade out effect for collapsed posts (not hovered, not from current user)
         changeCss(
