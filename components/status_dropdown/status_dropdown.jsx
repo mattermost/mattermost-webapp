@@ -235,6 +235,10 @@ export default class StatusDropdown extends React.PureComponent {
                     </div>
                 );
 
+            const pulsatingDot = !isStatusSet && (
+                <div className='pulsating_dot'/>
+            );
+
             customStatusComponent = (
                 <div
                     className='custom_status__row cursor--pointer a11y--active'
@@ -244,7 +248,7 @@ export default class StatusDropdown extends React.PureComponent {
                         {customStatusEmoji}
                     </div>
                     {customStatusTextComponent}
-                    {clearButton}
+                    {clearButton || pulsatingDot}
                 </div>
             );
         }

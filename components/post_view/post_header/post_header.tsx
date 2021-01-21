@@ -214,7 +214,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet) {
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.isLastPost) {
             customStatus = (
                 <div
                     onClick={this.showCustomStatusModal}
