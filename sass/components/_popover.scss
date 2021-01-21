@@ -75,7 +75,6 @@
 
             &:after {
                 border-color: transparent;
-                border-left-color: var(--center-channel-bg);
             }
         }
     }
@@ -85,6 +84,14 @@
         > .arrow {
             &:after {
                 border-bottom-color: var(--center-channel-bg);
+            }
+        }
+    }
+
+    &.left {
+        > .arrow {
+            &:after {
+                border-left-color: var(--center-channel-bg);
             }
         }
     }
