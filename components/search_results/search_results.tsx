@@ -164,8 +164,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         titleDescriptor.id = 'search_header.pinnedPosts';
         titleDescriptor.defaultMessage = 'Pinned Posts';
     } else if (isChannelFiles) {
-        noResultsProps.variant = NoResultsVariant.ChannelFiles;
-        noResultsProps.subtitleValues = {text: <strong>{'Channel files'}</strong>};
+        if (searchFilterType === 'all') {
+            noResultsProps.variant = NoResultsVariant.ChannelFiles;
+        } else {
+            noResultsProps.variant = NoResultsVariant.ChannelFilesFiltered;
+        }
 
         titleDescriptor.id = 'search_header.channelFiles';
         titleDescriptor.defaultMessage = 'Channel Files';

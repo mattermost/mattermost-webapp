@@ -6,4 +6,5 @@ export enum NoResultsVariant {
     FlaggedPosts = 'FlaggedPosts',
     PinnedPosts = 'PinnedPosts',
     ChannelFiles = 'ChannelFiles',
+    ChannelFilesFiltered = 'ChannelFilesFiltered',
 }
