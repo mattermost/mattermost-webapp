@@ -4067,8 +4067,8 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensed),
                 it.all(
-                    it.not(usesLegacyOauth),
                     it.licensedForFeature('OpenId'),
+                    it.not(usesLegacyOauth),
                 ),
             ),
             schema: {
@@ -4121,8 +4121,8 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: it.all(
-                            it.licensedForFeature('OpenId'),
+                        isHidden: it.any(
+                            it.not(it.licensedForFeature('OpenId')),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
