@@ -38,6 +38,16 @@ describe('User Management', () => {
     });
 
     it('MM-T924 Users - Page through users list', () => {
+        cy.apiGetUsers().then(({users}) => {
+            const minimumNumberOfUsers = 60;
+
+            if (users.length < minimumNumberOfUsers) {
+                Cypress._.times(minimumNumberOfUsers - users.length, () => {
+                    cy.apiCreateUser();
+                });
+            }
+        });
+
         cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#searchableUserListTotal').then((el) => {
@@ -249,7 +259,7 @@ describe('User Management', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.TEN_SEC);
 
         // # Click Channel Members
-        cy.get('#channelMemberIcon').should('be.visible').click();
+        cy.get('#channelMember').should('be.visible').click();
 
         // # Click View Members
         cy.get('#member-list-popover').within(() => {

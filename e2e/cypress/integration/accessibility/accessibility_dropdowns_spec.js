@@ -47,7 +47,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     it('MM-T1464 Accessibility Support in Channel Menu Dropdown', () => {
         // # Press tab from the Channel Favorite button
-        cy.get('#toggleFavorite').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
+        cy.get('#toggleFavorite').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab({shift: true});
 
         // * Verify the aria-label in channel menu button
         cy.get('#channelHeaderDropdownButton button').should('have.attr', 'aria-label', 'channel menu').and('have.class', 'a11y--active a11y--focused').click();
