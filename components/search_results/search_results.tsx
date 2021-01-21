@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React, {useEffect, useRef, useState} from 'react';
-import {MessageDescriptor, useIntl} from 'react-intl';
+import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
 import classNames from 'classnames';
@@ -25,6 +25,7 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import MessageOrFileSelector from './messages_or_files_selector';
+import FilesFilterMenu from './files_filter_menu';
 
 import './search_results.scss';
 
@@ -130,6 +131,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const noFileResults = (!fileResults || !Array.isArray(fileResults) || fileResults.length === 0);
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
     const showLoadMore = !isSearchAtEnd && !isFlaggedPosts && !isPinnedPosts;
+    const isMessagesSearch = (!isFlaggedPosts && !isMentionSearch && !isCard && !isPinnedPosts && !isChannelFiles);
 
     let contentItems;
     let loadingMorePostsComponent;
@@ -165,9 +167,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         noResultsProps.variant = NoResultsVariant.ChannelFiles;
         noResultsProps.subtitleValues = {text: <strong>{'Channel files'}</strong>};
 
-        sortedResults = [...results];
-        sortedResults.sort((postA: Post|FileSearchResult, postB: Post|FileSearchResult) => postB.create_at - postA.create_at);
-
         titleDescriptor.id = 'search_header.channelFiles';
         titleDescriptor.defaultMessage = 'Channel Files';
     } else if (isCard) {
@@ -200,7 +199,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case (noResults && !searchTerms && !isMentionSearch && !isPinnedPosts && !isFlaggedPosts):
+    case (noResults && !searchTerms && !isMentionSearch && !isPinnedPosts && !isFlaggedPosts && !isChannelFiles):
         contentItems = (
             <div className='sidebar--right__subheader search__hints a11y__section'>
                 <SearchHint
@@ -276,7 +275,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 {formattedTitle}
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
-            {!isChannelFiles &&
+            {isMessagesSearch &&
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
@@ -285,6 +284,20 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
+            {isChannelFiles &&
+                <div className='channel-files__header'>
+                    <div className='channel-files__title'>
+                        <FormattedMessage
+                            id='search_results.channel-files-header'
+                            defaultMessage='Recent files'
+                        />
+                    </div>
+                    <FilesFilterMenu
+                        selectedFilter={searchFilterType}
+                        onFilter={setSearchFilterType}
+                    />
+                </div>
+            }
             <Scrollbars
                 ref={scrollbars}
                 autoHide={true}

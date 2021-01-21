@@ -257,7 +257,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             props.actions.filterFilesSearchByExt([]);
         }
         setSearchFilterType(filterType);
-        props.actions.showSearchResults(false);
+        if (props.isChannelFiles) {
+            props.actions.showChannelFiles();
+        } else {
+            props.actions.showSearchResults(false);
+        }
     };
 
     const setHoverHintIndex = (_highlightedSearchHintIndex: number): void => {

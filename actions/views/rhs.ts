@@ -70,7 +70,7 @@ export function updateRhsState(rhsState: string, channelId?: string) {
             state: rhsState,
         } as GenericAction;
 
-        if (rhsState === RHSStates.PIN) {
+        if (rhsState === RHSStates.PIN || rhsState === RHSStates.CHANNEL_FILES) {
             action.channelId = channelId || getCurrentChannelId(getState());
         }
 
@@ -290,8 +290,8 @@ export function showChannelFiles(channelId?: string) {
         const results = await dispatch(performSearch('channel:' + (channelId || currentChannelId)));
 
         let data: any;
-        if ('data' in results) {
-            data = results.data;
+        if (results && results.length === 2 && 'data' in results[1]) {
+            data = results[1].data;
         }
 
         dispatch(batchActions([

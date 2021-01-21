@@ -26,12 +26,14 @@ export type StateProps = {
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
+    isChannelFiles: boolean;
 }
 
 export type DispatchProps = {
     actions: {
         updateSearchTerms: (term: string) => Action;
         showSearchResults: (isMentionSearch: boolean) => Record<string, any>;
+        showChannelFiles: (channelId?: string) => void;
         showMentions: () => void;
         showFlaggedPosts: () => void;
         setRhsExpanded: (expanded: boolean) => Action;

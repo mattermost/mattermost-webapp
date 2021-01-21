@@ -13,6 +13,7 @@ import {
     showSearchResults,
     showFlaggedPosts,
     showPinnedPosts,
+    showChannelFiles,
     closeRightHandSide,
     toggleRhsExpanded,
 } from 'actions/views/rhs';
@@ -35,6 +36,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             showMentions,
             showFlaggedPosts,
             showPinnedPosts,
+            showChannelFiles,
             closeRightHandSide,
             toggleRhsExpanded,
         }, dispatch),

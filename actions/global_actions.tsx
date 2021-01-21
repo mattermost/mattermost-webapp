@@ -65,6 +65,7 @@ export function emitChannelClickEvent(channel: Channel) {
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
+        const isChannelFilesShowing = getRhsState(state) === RHSStates.CHANNEL_FILES;
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
@@ -79,6 +80,10 @@ export function emitChannelClickEvent(channel: Channel) {
         // Update the RHS state to reflect the pinned post of the selected channel
         if (isRHSOpened && isPinnedPostsShowing) {
             dispatch(updateRhsState(RHSStates.PIN, chan.id));
+        }
+
+        if (isRHSOpened && isChannelFilesShowing) {
+            dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id));
         }
 
         if (currentChannelId) {
