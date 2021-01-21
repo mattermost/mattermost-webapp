@@ -36,24 +36,6 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
       />
     </a>
   </OverlayTrigger>
-  <div>
-    <div
-      className="SidebarFilters_filterTitle"
-    >
-      <FormattedMessage
-        defaultMessage="VIEWING:"
-        id="sidebar_left.channel_filter.viewing"
-      />
-    </div>
-    <div
-      className="SidebarFilters_filterDescription"
-    >
-      <FormattedMessage
-        defaultMessage="All channels"
-        id="sidebar_left.channel_filter.allChannels"
-      />
-    </div>
-  </div>
 </div>
 `;
 
@@ -93,23 +75,5 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
       />
     </a>
   </OverlayTrigger>
-  <div>
-    <div
-      className="SidebarFilters_filterTitle"
-    >
-      <FormattedMessage
-        defaultMessage="FILTERED BY:"
-        id="sidebar_left.channel_filter.filteredBy"
-      />
-    </div>
-    <div
-      className="SidebarFilters_filterDescription"
-    >
-      <FormattedMessage
-        defaultMessage="Unread"
-        id="sidebar_left.channel_filter.unread"
-      />
-    </div>
-  </div>
 </div>
 `;
