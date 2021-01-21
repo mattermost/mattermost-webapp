@@ -32,8 +32,8 @@ type Props = {
     handleClear: () => void;
     handleFocus: () => void;
     handleBlur: () => void;
-    keepFocused: boolean;
-    isFocused: boolean;
+    keepFocussed: boolean;
+    isFocussed: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
     isFocus: boolean;
@@ -55,14 +55,15 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
 
     const searchRef = useRef<SuggestionBox>();
     const intl = useIntl();
+
     useEffect(() => {
-        if (!Utils.isMobile()) {
+        if (!Utils.isMobile() && currentChannel?.display_name) {
             document.addEventListener('keydown', searchCurrentChannel);
         }
         return () => {
             document.removeEventListener('keydown', searchCurrentChannel);
         };
-    }, [currentChannel]);
+    }, [currentChannel?.display_name]);
 
     /**
       * On HotKey CMD/Ctrl + Shift + F prefill the search box with "in: {current channel}" or "in: @username"
@@ -75,9 +76,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
             e.shiftKey &&
             Utils.isKeyPressed(e, Constants.KeyCodes.F)
         ) {
-            props.handleFocus();
-            e.stopPropagation();
             e.preventDefault();
+            searchRef.current?.focus();
 
             // To prevent event from executing on holding down.
             // https://stackoverflow.com/a/38241109
@@ -92,25 +92,25 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                 searchKey = `in: ${currentChannel.display_name} `;
             } else if (currentChannel.type === 'G') {
                 // For group we need to remove the whitespaces in displayname and append the currentUsername
-                searchKey = `in:@${currentChannel.display_name.replace(/\s/g, '')},${userName} `;
+                searchKey = `in: @${currentChannel.display_name.replace(/\s/g, '')},${userName} `;
             } else {
-                searchKey = `in:@${currentChannel.display_name} `;
+                searchKey = `in: @${currentChannel.display_name} `;
             }
             props.updateSearchTerms(searchKey);
         }
     };
     useEffect((): void => {
-        const shouldFocus = isFocused || keepFocused;
+        const shouldFocus = isFocussed || keepFocussed;
         if (shouldFocus) {
             // let redux handle changes before focussing the input
             setTimeout(() => searchRef.current?.focus(), 0);
         } else {
             setTimeout(() => searchRef.current?.blur(), 0);
         }
-    }, [isFocused, keepFocused]);
+    }, [isFocussed, keepFocussed]);
 
     useEffect((): void => {
-        if (isFocused && !keepFocused && searchTerms.endsWith('""')) {
+        if (isFocussed && !keepFocussed && searchTerms.endsWith('""')) {
             setTimeout(() => searchRef.current?.focus(), 0);
         }
     }, [searchTerms]);
@@ -151,7 +151,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         >
             <form
                 role='application'
-                className={classNames(['search__form', {'search__form--focused': isFocused}])}
+                className={classNames(['search__form', {'search__form--focused': isFocussed}])}
                 onSubmit={props.handleSubmit}
                 style={style.searchForm}
                 autoComplete='off'
