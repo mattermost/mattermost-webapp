@@ -379,21 +379,43 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             optionsToDisplay = options;
         }
 
-        const multiSelectList = (
-            <MultiSelectList
-                ref={this.listRef}
-                options={optionsToDisplay}
-                optionRenderer={this.props.optionRenderer}
-                ariaLabelRenderer={this.props.ariaLabelRenderer}
-                page={this.state.page}
-                perPage={this.props.perPage}
-                onPageChange={this.props.handlePageChange}
-                onAdd={this.onAdd}
-                onSelect={this.onSelect}
-                loading={this.props.loading}
-                selectedItemRef={this.props.selectedItemRef}
-            />
-        );
+        let multiSelectList;
+
+        if (this.props.valueWithImage) {
+            if (this.state.input) {
+                multiSelectList = (
+                    <MultiSelectList
+                        ref={this.listRef}
+                        options={optionsToDisplay}
+                        optionRenderer={this.props.optionRenderer}
+                        ariaLabelRenderer={this.props.ariaLabelRenderer}
+                        page={this.state.page}
+                        perPage={this.props.perPage}
+                        onPageChange={this.props.handlePageChange}
+                        onAdd={this.onAdd}
+                        onSelect={this.onSelect}
+                        loading={this.props.loading}
+                        selectedItemRef={this.props.selectedItemRef}
+                    />
+                );
+            }
+        } else {
+            multiSelectList = (
+                <MultiSelectList
+                    ref={this.listRef}
+                    options={optionsToDisplay}
+                    optionRenderer={this.props.optionRenderer}
+                    ariaLabelRenderer={this.props.ariaLabelRenderer}
+                    page={this.state.page}
+                    perPage={this.props.perPage}
+                    onPageChange={this.props.handlePageChange}
+                    onAdd={this.onAdd}
+                    onSelect={this.onSelect}
+                    loading={this.props.loading}
+                    selectedItemRef={this.props.selectedItemRef}
+                />
+            );
+        }
 
         let memberCount;
         if (users && users.length && totalCount) {
