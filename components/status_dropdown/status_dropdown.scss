@@ -39,7 +39,7 @@
 .pulsating_dot, .pulsating_dot:before, .pulsating_dot:after {
     height: 12px;
     width : 12px;
-    background-color : var(--online-indicator-rgb);
+    background-color : var(--online-indicator);
     border-radius : 50%;
 }
 
