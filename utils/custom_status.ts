@@ -1,6 +1,10 @@
-import { GlobalState } from "types/store";
-import { getCurrentUser } from 'mattermost-redux/selectors/entities/users';
-import Constants from "./constants";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import {GlobalState} from 'types/store';
+
+import Constants from './constants';
 
 export function showPulsatingDot(state: GlobalState) {
     const user = getCurrentUser(state);
@@ -10,8 +14,8 @@ export function showPulsatingDot(state: GlobalState) {
     }
 
     const hasClickedOnUpdateStatusBefore = userProps.initialProps === Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST;
-    
-    const hasClickedOnDropdownIconBefore =userProps.initialProps === Constants.CustomStatusInitialProps.CLICK_ON_SIDEBAR_HEADER_DROPDOWN_ICON;
+
+    const hasClickedOnDropdownIconBefore = userProps.initialProps === Constants.CustomStatusInitialProps.CLICK_ON_SIDEBAR_HEADER_DROPDOWN_ICON;
     return true;
 }
 

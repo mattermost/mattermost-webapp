@@ -11,7 +11,7 @@
 
     &:active {
         background-color: rgba(var(--button-bg-rgb), 0.08);
-        color: v(button-bg);
+        color: var(--button-bg);
     }
 }
 .custom_status__icon{

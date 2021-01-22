@@ -157,6 +157,7 @@ export default class StatusDropdown extends React.PureComponent {
     onToggle = (open) => {
         if (open) {
             this.showCustomStatusTextTooltip();
+
             // this.props.actions.setCustomStatusInitialProps(Constants.CustomStatusInitialProps.CLICK_ON_SIDEBAR_HEADER_DROPDOWN_ICON)
         }
         this.props.actions.setStatusDropdown(open);

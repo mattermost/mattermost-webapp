@@ -45,7 +45,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         customStatus,
         currentUserID: currentUser.id,
         isCustomStatusEnabled: isCustomStatusEnabled(state),
-        showUpdateStatusButton : showUpdateStatusButton(state),
+        showUpdateStatusButton: showUpdateStatusButton(state),
     };
 }
 
