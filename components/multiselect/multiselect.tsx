@@ -381,7 +381,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
 
         let multiSelectList;
 
-        if (this.props.valueWithImage) {
+        if (this.props.saveButtonPosition === 'bottom') {
             if (this.state.input) {
                 multiSelectList = (
                     <MultiSelectList
