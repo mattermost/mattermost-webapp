@@ -8,7 +8,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Preferences} from 'mattermost-redux/constants';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {Post} from 'mattermost-redux/types/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
@@ -29,16 +28,20 @@ import {GlobalState} from 'types/store';
 
 import {useThreadRouting} from '../../hooks';
 
+import './thread_menu.scss';
+
 type Props = {
     threadId: $ID<UserThread>;
     isFollowing: boolean;
     hasUnreads: boolean;
     children: ReactNode;
+    unreadTimestamp: number;
 };
 
 function ThreadMenu({
     threadId,
     isFollowing,
+    unreadTimestamp,
     hasUnreads,
     children,
 }: Props) {
@@ -106,7 +109,7 @@ function ThreadMenu({
                         defaultMessage: 'Mark as unread',
                     })}
                     onClick={useCallback(() => {
-                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : 0));
+                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : unreadTimestamp));
                     }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead])}
                 />
 

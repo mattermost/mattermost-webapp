@@ -91,7 +91,7 @@ type Props = {
     messageDisplay: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
-    collapsedReplyThreadsAllowed: boolean;
+    collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -690,7 +690,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
         let collapsedReplyThreads;
 
-        if (this.props.collapsedReplyThreadsAllowed) {
+        if (this.props.collapsedReplyThreadsAllowUserPreference) {
             collapsedReplyThreads = this.createSection({
                 section: Preferences.COLLAPSED_REPLY_THREADS,
                 display: 'collapsedReplyThreads',

@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
-import {getThreadCounts} from 'mattermost-redux/actions/threads';
+import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
@@ -37,9 +37,9 @@ const GlobalThreadsLink = () => {
 
     useEffect(() => {
         if (!threadsMatch) {
-            // load initial counts when not in /:team/threads
+            // only load initial 5 unread threads when not in /:team/threads
             // else, /:team/threads will take care of first counts on initial load of threads
-            dispatch(getThreadCounts(currentUserId, currentTeamId));
+            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5, unread: true}));
         }
     }, [team, Boolean(threadsMatch)]);
 

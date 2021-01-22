@@ -63,11 +63,6 @@
             'header header'
             'main main';
 
-        grid-template-rows: 0 1fr;
-        > .Header {
-            display: none;
-        }
-
         &:not(.thread-selected) {
             .ThreadList {
                 grid-area: main;
@@ -95,7 +90,11 @@
     }
 
     @media screen and (max-width: 768px) {
+        grid-template-rows: 0 1fr;
         > .Header {
+            display: none;
+        }
+        .Header {
             border-top: var(--border);
         }
     }

@@ -9,6 +9,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {t} from 'utils/i18n';
 
@@ -53,6 +54,7 @@ const ThreadPane = ({
     } = thread;
 
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
+    const post = useSelector((state: GlobalState) => getPost(state, thread.id));
 
     return (
         <div className='ThreadPane'>
@@ -98,6 +100,7 @@ const ThreadPane = ({
                             threadId={threadId}
                             isFollowing={isFollowing}
                             hasUnreads={hasUnreads}
+                            unreadTimestamp={post.edit_at || post.create_at}
                         >
                             <SimpleTooltip
                                 id='threadActionMenu'

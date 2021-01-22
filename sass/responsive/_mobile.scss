@@ -216,7 +216,7 @@
         }
     }
 
-    .post__header {
+    .post__header, .GlobalThreads {
         .dropdown-menu {
             >li {
                 >div {
@@ -230,7 +230,7 @@
                 >div,
                 >button {
                     @include border-radius(0);
-                    border-top: 1px solid;
+                    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
                     padding: 15px 20px;
                     height: auto;
                 }

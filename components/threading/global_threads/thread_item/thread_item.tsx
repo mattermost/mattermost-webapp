@@ -57,8 +57,8 @@ const ThreadItem = ({
     const {select, goToInChannel} = useThreadRouting();
     const dispatch = useDispatch();
 
-    const post = useSelector((state: GlobalState) => getPost(state, threadId));
     const thread = useSelector((state: GlobalState) => getThread(state, threadId));
+    const post = useSelector((state: GlobalState) => getPost(state, threadId));
 
     if (!thread) {
         return null;
@@ -138,6 +138,7 @@ const ThreadItem = ({
                     threadId={threadId}
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
+                    unreadTimestamp={post.edit_at || post.create_at}
                 >
                     <SimpleTooltip
                         id='threadActionMenu'

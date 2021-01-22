@@ -60,7 +60,7 @@ const GlobalThreads = () => {
         loadProfilesForSidebar();
     }, []);
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId));
+        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 2}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
