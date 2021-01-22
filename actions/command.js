@@ -15,7 +15,7 @@ import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName, shouldProcessApps} from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -97,24 +97,26 @@ export function executeCommand(message, args) {
             dispatch(PostActions.resetEmbedVisibility());
         }
 
-        const parser = new AppCommandParser({dispatch, getState}, args.root_id);
-        if (parser.isAppCommand(msg)) {
-            try {
-                const call = await parser.composeCallFromCommandString(msg);
-                if (!call) {
-                    return {error: new Error('Error composing command submission')};
-                }
-                const binding = await parser.getBindingWithForm(msg);
-                if (!binding) {
-                    return {error: new Error('Error fetching binding for command')};
-                }
+        if (shouldProcessApps(state)) {
+            const parser = new AppCommandParser({dispatch, getState}, args.root_id);
+            if (parser.isAppCommand(msg)) {
+                try {
+                    const call = await parser.composeCallFromCommandString(msg);
+                    if (!call) {
+                        return {error: new Error('Error composing command submission')};
+                    }
+                    const binding = await parser.getBindingWithForm(msg);
+                    if (!binding) {
+                        return {error: new Error('Error fetching binding for command')};
+                    }
 
-                return dispatch(doAppCall({
-                    ...call,
-                    type: AppCallTypes.SUBMIT,
-                }));
-            } catch (err) {
-                return {error: err};
+                    return dispatch(doAppCall({
+                        ...call,
+                        type: AppCallTypes.SUBMIT,
+                    }));
+                } catch (err) {
+                    return {error: err};
+                }
             }
         }
 

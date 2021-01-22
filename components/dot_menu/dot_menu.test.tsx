@@ -43,6 +43,7 @@ describe('components/dot_menu/DotMenu', () => {
         canDelete: false,
         appBindings: [],
         pluginMenuItems: [],
+        shouldProcessApps: false,
     };
 
     test('should match snapshot, on Center', () => {

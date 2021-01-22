@@ -46,6 +46,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             canDelete: false,
             appBindings: [],
             pluginMenuItems: [],
+            shouldProcessApps: false,
         };
 
         const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(

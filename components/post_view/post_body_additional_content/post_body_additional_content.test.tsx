@@ -44,6 +44,7 @@ describe('PostBodyAdditionalContent', () => {
         actions: {
             toggleEmbedVisibility: jest.fn(),
         },
+        shouldProcessApps: false,
     };
 
     describe('with an image preview', () => {

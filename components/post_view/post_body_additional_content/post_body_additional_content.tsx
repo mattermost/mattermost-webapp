@@ -21,6 +21,7 @@ export type Props = {
     children?: JSX.Element;
     isEmbedVisible?: boolean;
     options?: unknown;
+    shouldProcessApps: boolean;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -131,20 +132,22 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     render() {
         const embed = this.getEmbed();
 
-        if (hasValidEmbeddedForm(this.props.post.props)) {
-            // TODO Put some log / message if the form is not valid?
-            return (
-                <React.Fragment>
-                    {this.props.children}
-                    <AppsForm
-                        form={this.props.post.props.form}
-                        call={this.props.post.props.call}
-                        postID={this.props.post.id}
-                        isEmbedded={true}
-                        onHide={() => { /* Do nothing */ }}
-                    />
-                </React.Fragment>
-            );
+        if (this.props.shouldProcessApps) {
+            if (hasValidEmbeddedForm(this.props.post.props)) {
+                // TODO Put some log / message if the form is not valid?
+                return (
+                    <React.Fragment>
+                        {this.props.children}
+                        <AppsForm
+                            form={this.props.post.props.form}
+                            call={this.props.post.props.call}
+                            postID={this.props.post.id}
+                            isEmbedded={true}
+                            onHide={() => { /* Do nothing */ }}
+                        />
+                    </React.Fragment>
+                );
+            }
         }
 
         if (embed) {
