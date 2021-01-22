@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
 import {AppBindingLocations, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
@@ -35,6 +37,7 @@ import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
 import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
+import StateSelector from 'components/payment_form/state_selector';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -43,11 +46,48 @@ export type Store = {
     getState: () => GlobalState;
 }
 
+enum ParseState {
+    Start = 0,
+    Command,
+    EndCommand,
+    CommandSeparator,
+    Parameter,
+    ParameterSeparator,
+    Flag1,
+    Flag,
+    FlagValueSeparator,
+    StartValue,
+    NonspaceValue,
+    QuotedValue,
+    TickValue,
+    EndValue,
+}
+
+interface ParsedCommand {
+    text: string;
+    state: ParseState;
+    incomplete: string;
+    incompleteStart: number;
+    binding: AppBinding | null;
+    form: AppForm;
+    field: AppField;
+    values: {[name: string]: string};
+    location: string;
+    error: string;
+}
+
+const isSpace = (c: string): boolean => {
+    return c === ' ' || c === '\t';
+};
+const parseError = (txt: string): ParsedCommand => {
+    return <ParsedCommand>{error: txt};
+};
+
 export class AppCommandParser {
     private store: Store;
     private rootPostID: string;
 
-    fetchedForms: {[fullPretext: string]: AppForm} = {};
+    forms: {[location: string]: AppForm} = {};
 
     constructor(store: Store, rootPostID = '') {
         this.store = store;
@@ -55,24 +95,23 @@ export class AppCommandParser {
     }
 
     // composeCallFromCommandString creates the form submission call
-    public composeCallFromCommandString = (binding: AppBinding, cmdStr: string): AppCall | null => {
-        if (!binding.call) {
+    public composeCallFromCommandString = async (command: string): Promise<AppCall | null> => {
+        const parsed = await this.parseCommand(command);
+        if (parsed.error || !parsed.binding) {
+            this.displayError(parsed.error);
             return null;
         }
 
-        const missing = this.getMissingFields(cmdStr, binding);
+        const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
             this.displayError('Required fields missing: ' + missingStr);
             return null;
         }
 
-        const values = this.getFormValues(cmdStr, binding);
-
-        let call = binding.call;
-        const form = this.getFormFromBinding(binding);
-        if (form && form.call) {
-            call = form.call;
+        let call = parsed.binding.call;
+        if (parsed.form && parsed.form.call) {
+            call = parsed.form.call;
         }
         if (!call) {
             return null;
@@ -83,12 +122,349 @@ export class AppCommandParser {
             type: AppCallTypes.SUBMIT,
             context: {
                 ...this.getAppContext(),
-                app_id: binding.app_id,
+                app_id: parsed.binding.app_id,
             },
-            values,
-            raw_command: cmdStr,
+            values: parsed.values,
+            raw_command: command,
         };
         return payload;
+    }
+
+    // getSuggestionsForSubCommandsAndArguments returns suggestions for subcommands and/or form arguments
+    public getSuggestionsForSubCommandsAndArguments = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
+        const suggestions = await this.getSuggestionsForCursorPosition(pretext);
+        return suggestions.map((suggestion) => this.decorateSuggestionComplete(pretext, suggestion));
+    }
+
+    // getSuggestionsForBaseCommands is a synchronous function that returns results for base commands
+    public getSuggestionsForBaseCommands = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+        const result: AutocompleteSuggestionWithComplete[] = [];
+
+        const bindings = this.getCommandBindings();
+        for (const binding of bindings) {
+            let base = binding.app_id;
+            if (!base) {
+                continue;
+            }
+
+            if (base[0] !== '/') {
+                base = '/' + base;
+            }
+            if (base.startsWith(pretext)) {
+                result.push({
+                    suggestion: base,
+                    complete: base,
+                    description: binding.description,
+                    hint: binding.hint || '',
+                });
+            }
+        }
+
+        return result;
+    }
+
+    parseCommand = async (text: string, autocompleteMode = false): Promise<ParsedCommand> => {
+        const commandBindings = this.getCommandBindings();
+        if (!commandBindings) {
+            return parseError('no command bindings');
+        }
+
+        const parsed = this.matchBinding(text, commandBindings, autocompleteMode);
+        if (parsed.error) {
+            return parsed;
+        }
+        parsed.form = await this.getFormForBinding(parsed);
+        if (!parsed.incomplete) {
+            return parsed;
+        }
+
+        return this.parseForm(parsed);
+    }
+
+    // matchBinding finds the closest matching command binding.
+    matchBinding = (text: string, commandBindings: AppBinding[], autocompleteMode = false): ParsedCommand => {
+        const parsed = <ParsedCommand>{
+            text,
+            state: ParseState.Start,
+        };
+        let bindings = commandBindings;
+        let i = 0;
+        let done = false;
+
+        while (!done) {
+            let c = '';
+            if (i < text.length) {
+                c = text[i];
+            }
+
+            switch (Number(parsed.state)) {
+            case ParseState.Start: {
+                if (c !== '/') {
+                    return parseError('command must start with a /: ' + i);
+                }
+                if (bindings.length === 0) {
+                    return parseError('no command bindings: ' + i);
+                }
+                i++;
+                parsed.incomplete = '';
+                parsed.incompleteStart = i;
+                parsed.state = ParseState.Command;
+                break;
+            }
+            case ParseState.Command: {
+                if (isSpace(c)) {
+                    parsed.state = ParseState.EndCommand;
+                } else if (c === '') {
+                    if (autocompleteMode) {
+                        // Finish in the command state, 'incomplete' will have the query string
+                        done = true;
+                    } else {
+                        parsed.state = ParseState.EndCommand;
+                    }
+                } else {
+                    parsed.incomplete += c;
+                    i++;
+                }
+                break;
+            }
+            case ParseState.EndCommand: {
+                const binding = bindings.find((b: AppBinding) => b.label === parsed.incomplete);
+                if (!binding) {
+                    // gone as far as we could, this token doesn't match a sub-command.
+                    // return the state from the last matching binding
+                    done = true;
+                    break;
+                }
+                parsed.binding = binding;
+                parsed.location += '/' + binding.location;
+                if (binding.bindings) {
+                    bindings = binding.bindings;
+                } else {
+                    bindings = <AppBinding[]>{};
+                }
+                parsed.state = ParseState.CommandSeparator;
+                break;
+            }
+            case ParseState.CommandSeparator: {
+                switch (c) {
+                case '': {
+                    // Reached the end of input.
+                    parsed.incomplete = '';
+                    parsed.incompleteStart = i;
+                    done = true;
+                    break;
+                }
+                case ' ':
+                case '\t': {
+                    i++;
+                    break;
+                }
+                case '"':
+                case '\\':
+                case '`':
+                case '-':
+                case '=': {
+                    return parseError('(sub-)command can not start with a ' + c + ': ' + i);
+                    break;
+                }
+                default: {
+                    parsed.incomplete = '';
+                    parsed.incompleteStart = i;
+                    parsed.state = ParseState.Command;
+                    break;
+                }
+                }
+                break;
+            }
+            }
+        }
+
+        if (!parsed.binding) {
+            return parseError('"' + text + '" is not a valid command');
+        }
+        return parsed;
+    }
+
+    /* eslint-disable no-loop-func */
+    // parseForm parses the rest of the command using the specified form.
+    parseForm = (parsed: ParsedCommand, autompleteMode = false): ParsedCommand => {
+        let fields = <AppField[]>{};
+        if (parsed.form && parsed.form.fields) {
+            fields = parsed.form.fields;
+        }
+
+        parsed.state = ParseState.Parameter;
+        let i = parsed.incompleteStart;
+        let flagEqualsUsed = false;
+        let positional = 0;
+        let escaped = false;
+
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            let c = '';
+            if (i < parsed.text.length) {
+                c = parsed.text[i];
+            } else if (autompleteMode) {
+                return parsed;
+            }
+
+            switch (Number(parsed.state)) {
+            case ParseState.Parameter: {
+                if (c === '-') {
+                    // Named parameter.
+                    parsed.state = ParseState.Flag1;
+                    i++;
+                    break;
+                }
+
+                // Positional parameter.
+                positional++;
+                const field = fields.find((f: AppField) => f.position === positional);
+                if (!field) {
+                    return parseError('command does not accept ' + positional + ' positional arguments: ' + i);
+                }
+                parsed.field = field;
+                parsed.state = ParseState.StartValue;
+                break;
+            }
+            case ParseState.ParameterSeparator: {
+                if (c === '') {
+                    // Reached the end of input.
+                    return parsed;
+                } else if (isSpace(c)) {
+                    i++;
+                } else {
+                    parsed.state = ParseState.Parameter;
+                }
+                break;
+            }
+            case ParseState.Flag1: {
+                // consume the optional second '-'
+                if (c === '-') {
+                    i++;
+                }
+                parsed.state = ParseState.Flag;
+                parsed.incomplete = '';
+                parsed.incompleteStart = i;
+                flagEqualsUsed = false;
+                break;
+            }
+            case ParseState.Flag: {
+                if (isSpace(c) || (c === '' && !autompleteMode)) {
+                    const field = fields.find((f) => f.label === parsed.incomplete);
+                    if (!field) {
+                        return parseError('command does not accept flag ' + parsed.incomplete + ': ' + i);
+                    }
+                    parsed.state = ParseState.FlagValueSeparator;
+                    break;
+                } else if (c === '') {
+                    return parsed;
+                }
+                parsed.incomplete += c;
+                i++;
+                break;
+            }
+            case ParseState.FlagValueSeparator: {
+                if (isSpace(c)) {
+                    i++;
+                    break;
+                } else if (c === '=') {
+                    if (flagEqualsUsed) {
+                        return parseError('multiple = signs are not allowed: ' + i);
+                    }
+                    flagEqualsUsed = true;
+                    i++;
+                    break;
+                }
+                parsed.state = ParseState.StartValue;
+                break;
+            }
+            case ParseState.StartValue: {
+                parsed.incomplete = '';
+                parsed.incompleteStart = i;
+                if (c === '"') {
+                    parsed.state = ParseState.QuotedValue;
+                    i++;
+                } else if (c === '`') {
+                    parsed.state = ParseState.TickValue;
+                    i++;
+                } else if (isSpace(c) || !c) {
+                    return parseError('internal error: unexpected whitespace or end of input: ' + i);
+                } else {
+                    parsed.state = ParseState.NonspaceValue;
+                }
+                break;
+            }
+            case ParseState.NonspaceValue: {
+                if (isSpace(c) || (!c && !autompleteMode)) {
+                    parsed.state = ParseState.EndValue;
+                } else if (!c && autompleteMode) {
+                    return parsed;
+                } else {
+                    parsed.incomplete += c;
+                    i++;
+                }
+                break;
+            }
+            case ParseState.QuotedValue: {
+                if (c === '') {
+                    if (autompleteMode) {
+                        return parsed;
+                    }
+                    return parseError('matching double quote expected before end of input: ' + i);
+                } else if (escaped) {
+                    //TODO: handle \n, \t, other escaped chars
+                    parsed.incomplete += c;
+                    escaped = false;
+                    i++;
+                } else if (c === '"') {
+                    parsed.state = ParseState.EndValue;
+                    i++;
+                } else if (c === '\\') {
+                    escaped = true;
+                    i++;
+                } else {
+                    parsed.incomplete += c;
+                    i++;
+                }
+                break;
+            }
+            case ParseState.TickValue: {
+                if (c === '') {
+                    if (autompleteMode) {
+                        return parsed;
+                    }
+                    return parseError('matching tick quote expected before end of input: ' + i);
+                } else if (c === '`') {
+                    parsed.state = ParseState.EndValue;
+                    i++;
+                } else {
+                    parsed.incomplete += c;
+                    i++;
+                }
+                break;
+            }
+            case ParseState.EndValue: {
+                if (!parsed.field) {
+                    return parseError('field value expected: ' + i);
+                }
+                if (parsed.field.type === AppFieldTypes.BOOL && parsed.incomplete !== 'true' && parsed.incomplete !== 'false') {
+                    // in case of a boolean flag followed by not-a-boolean
+                    // value, treat the value as a new parameter.
+                    i = parsed.incompleteStart;
+                    parsed.values[parsed.field.name] = 'true';
+                    parsed.state = ParseState.Parameter;
+                } else {
+                    parsed.values[parsed.field.name] = parsed.incomplete;
+                    parsed.state = ParseState.ParameterSeparator;
+                }
+                parsed.incomplete = '';
+                break;
+            }
+            }
+        }
+
+        return parsed;
     }
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
@@ -184,18 +560,18 @@ export class AppCommandParser {
         };
     }
 
-    // fetchAppForm retrieves the form for the given subcommand
-    fetchAppForm = async (subCommand: AppBinding): Promise<AppForm | null> => {
-        if (!subCommand.call) {
+    // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
+    fetchForm = async (binding: AppBinding): Promise<AppForm | null> => {
+        if (!binding.call) {
             return null;
         }
 
         const payload: AppCall = {
-            ...subCommand.call,
+            ...binding.call,
             type: AppCallTypes.FORM,
             context: {
                 ...this.getAppContext(),
-                app_id: subCommand.app_id,
+                app_id: binding.app_id,
             },
         };
 
@@ -219,6 +595,24 @@ export class AppCommandParser {
         return null;
     }
 
+    getFormForBinding = async (parsed: ParsedCommand): Promise<AppForm> => {
+        const defaultForm = {
+            fields: [],
+        };
+        if (this.forms[parsed.location]) {
+            return this.forms[parsed.location];
+        }
+        if (!parsed.binding) {
+            return defaultForm;
+        }
+        const form = await this.fetchForm(parsed.binding);
+        if (!form) {
+            return defaultForm;
+        }
+        this.forms[parsed.location] = form;
+        return form;
+    }
+
     // displayError shows an error that was caught by the parser
     displayError = (err: any): void => {
         let errStr = err as string;
@@ -230,82 +624,49 @@ export class AppCommandParser {
         // TODO display error under the command line
     }
 
-    // getSuggestionsForSubCommandsAndArguments returns suggestions for subcommands and/or form arguments
-    public getSuggestionsForSubCommandsAndArguments = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
-        const suggestions = await this.getSuggestionsForCursorPosition(pretext);
-        return suggestions.map((suggestion) => this.decorateSuggestionComplete(pretext, suggestion));
-    }
-
-    // getSuggestionsForBaseCommands is a synchronous function that returns results for base commands
-    public getSuggestionsForBaseCommands = (pretext: string): AutocompleteSuggestionWithComplete[] => {
-        const result: AutocompleteSuggestionWithComplete[] = [];
-
-        const bindings = this.getCommandBindings();
-        for (const binding of bindings) {
-            let base = binding.app_id;
-            if (!base) {
-                continue;
-            }
-
-            if (base[0] !== '/') {
-                base = '/' + base;
-            }
-            if (base.startsWith(pretext)) {
-                result.push({
-                    suggestion: base,
-                    complete: base,
-                    description: binding.description,
-                    hint: binding.hint || '',
-                });
-            }
-        }
-
-        return result;
-    }
-
     // getSuggestionsForCursorPosition computes subcommand/form suggestions
     // TODO we need the full text here, not just the pretext. Rework.
     getSuggestionsForCursorPosition = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
         const text = pretext.substring(0, pretext.lastIndexOf(' '));
 
-        const binding = await this.getBindingWithForm(text);
-        if (!binding) {
+        const parsed = await this.parseCommand(text);
+        if (parsed.error || !parsed.binding) {
             return [];
         }
 
         let suggestions: AutocompleteSuggestion[] = [];
-        if (binding.bindings && binding.bindings.length) {
-            return this.getSuggestionsForSubCommands(pretext, binding);
+        if (parsed.state === ParseState.Command) {
+            suggestions = this.getCommandSuggestions(parsed);
         }
 
-        const form = this.getFormFromBinding(binding);
-        if (form) {
-            const argSuggestions = await this.getSuggestionsForArguments(pretext, binding);
-            suggestions = suggestions.concat(argSuggestions);
+        if (!parsed.form) {
+            return suggestions;
+        }
 
-            // Add "Execute Current Command" suggestion
-            // TODO get full text from SuggestionBox
-            const fullText = pretext;
-            const missing = this.getMissingFields(fullText, binding);
-            if (missing.length === 0) {
-                const execute = this.getSuggestionForExecute(pretext);
-                suggestions = [execute, ...suggestions];
-            }
+        const argSuggestions = await this.getParameterSuggestions(parsed);
+        suggestions = suggestions.concat(argSuggestions);
+
+        // Add "Execute Current Command" suggestion
+        // eslint-disable-next-line no-warning-comments
+        // TODO get full text from SuggestionBox
+        if (this.getMissingFields(parsed).length === 0) {
+            const execute = this.getSuggestionForExecute(pretext);
+            suggestions = [execute, ...suggestions];
         }
 
         return suggestions;
     }
 
     // getMissingFields collects the required fields that were not supplied in a submission
-    getMissingFields = (fullText: string, binding: AppBinding): AppField[] => {
-        const form = this.getFormFromBinding(binding);
+    getMissingFields = (parsed: ParsedCommand): AppField[] => {
+        const form = parsed.form;
         if (!form) {
             return [];
         }
 
         const missing: AppField[] = [];
 
-        const values = this.getFormValues(fullText, binding);
+        const values = parsed.values || [];
         const fields = form.fields || [];
         for (const field of fields) {
             if (field.is_required && !values[field.name]) {
@@ -316,62 +677,15 @@ export class AppCommandParser {
         return missing;
     }
 
-    // getFormValues parses the typed command and
-    getFormValues = (text: string, binding: AppBinding): {[name: string]: string} => {
-        if (!binding) {
-            this.displayError(new Error('No binding found'));
-        }
-
-        const form = this.getFormFromBinding(binding);
-        if (!form) {
-            return {};
-        }
-
-        let cmdStr = text.substring(1);
-
-        const fullPretext = this.getFullPretextForSubCommand(binding);
-        cmdStr = cmdStr.substring(fullPretext.length).trim();
-
-        const tokens = this.getTokens(cmdStr);
-
-        const resolvedTokens = this.resolveNamedArguments(tokens);
-
-        const values: {[name: string]: any} = {};
-        resolvedTokens.forEach((token, i) => {
-            const fields = form.fields || [];
-            let name = token.name || '';
-            const positionalArg = fields.find((field) => field.position === i + 1);
-            if (name.length === 0 && token.type === 'positional' && positionalArg) {
-                name = positionalArg.name;
-            }
-
-            if (name.length === 0) {
-                return;
-            }
-
-            const arg = fields.find((a) => a.name === name);
-            if (!arg) {
-                return;
-            }
-
-            values[arg.name] = token.value;
-        });
-
-        return {
-            ...binding?.call?.values,
-            ...values,
-        };
-    }
-
     // getSuggestionForExecute returns the "Execute Current Command" suggestion
-    getSuggestionForExecute = (pretext: string): AutocompleteSuggestion => {
+    getSuggestionForExecute = (parsed: ParsedCommand): AutocompleteSuggestion => {
         let key = 'Ctrl';
         if (Utils.isMac()) {
             key = '⌘';
         }
 
         return {
-            complete: pretext + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            complete: parsed.text + EXECUTE_CURRENT_COMMAND_ITEM_ID,
             suggestion: '/Execute Current Command',
             hint: '',
             description: 'Select this option or use ' + key + '+Enter to execute the current command.',
@@ -379,53 +693,30 @@ export class AppCommandParser {
         };
     }
 
-    // getSuggestionsForArguments computes suggestions for positional argument values, flag names, and flag argument values
-    getSuggestionsForArguments = async (pretext: string, binding: AppBinding): Promise<AutocompleteSuggestion[]> => {
-        const form = this.getFormFromBinding(binding) as AppForm;
-        if (!form || !form.fields) {
+    // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
+    getParameterSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        switch (Number(parsed.state)) {
+        case ParseState.Flag:
+            return this.getFlagNameSuggestions(parsed);
+        
+        case ParseState.NonspaceValue:
+        case ParseState.QuotedValue:
+        case ParseState.TickValue:
+            return this.getValueSuggestions(parsed);
+        }
+        return [];
+    }
+
+    // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
+    getFlagNameSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        if (!parsed.form || !parsed.form.fields || !parsed.form.fields.length) {
             return [];
         }
 
-        let tokens = this.getTokens(pretext);
+        const applicable = parsed.form.fields.filter((field) => { field.label && field.label.startsWith(parsed.incomplete)});
 
-        const fullPretext = this.getFullPretextForSubCommand(binding);
-        tokens = tokens.slice(fullPretext.split(' ').length);
-        const lastToken = tokens.pop();
 
-        const position = tokens.length;
-        if (!lastToken) {
-            return [{suggestion: 'Could not find last token'}];
-        }
 
-        const positionalField = form.fields.find((f) => f.position === position + 1);
-        if (positionalField) {
-            return this.getSuggestionsForField(positionalField, lastToken.value, pretext);
-        }
-
-        const previousToken = tokens[position - 1];
-        if (previousToken && previousToken.type === 'flag') {
-            const flagField = form.fields.find((a) => a.name === previousToken.name);
-            if (flagField) {
-                return this.getSuggestionsForField(flagField, lastToken.value, pretext);
-            }
-            return [];
-        }
-
-        // '', '-', or '--' (show named args)
-        if ('--'.startsWith(lastToken.value.trim())) {
-            const available = form.fields.filter((arg) => {
-                if (arg.position) {
-                    return false;
-                }
-                if (tokens.find((t) => t.type === 'flag' && t.name === arg.name)) {
-                    return false;
-                }
-                if (arg.name.startsWith(lastToken.name)) {
-                    return true;
-                }
-
-                return false;
-            });
             return this.getSuggestionsFromFlags(available);
         }
 
@@ -588,17 +879,15 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name
-    getSuggestionsForSubCommands = (cmdStr: string, binding: AppBinding): AutocompleteSuggestion[] => {
-        if (!binding.bindings || !binding.bindings.length) {
+    getCommandSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        if (!parsed.binding || !parsed.binding.bindings || !parsed.binding.bindings.length) {
             return [];
         }
-
+        const bindings = parsed.binding.bindings;
         const result: AutocompleteSuggestion[] = [];
 
-        const fullPretext = this.getFullPretextForSubCommand(binding);
-        const rest = cmdStr.substring((fullPretext + ' ').length).toLowerCase().trim();
-        for (const sub of binding.bindings) {
-            if (sub.label.toLowerCase().startsWith(rest)) {
+        for (const sub of bindings) {
+            if (sub.label.toLowerCase().startsWith(parsed.incomplete)) {
                 result.push({
                     complete: sub.label,
                     suggestion: sub.label,
@@ -610,211 +899,4 @@ export class AppCommandParser {
 
         return result;
     }
-
-    // getBindingWithForm returns a subcommand with its corresponding form, if the command is a leaf node
-    getBindingWithForm = async (pretext: string): Promise<AppBinding | null> => {
-        const binding = this.matchSubCommand(pretext);
-        if (!binding) {
-            return null;
-        }
-
-        if (this.getFormFromBinding(binding)) {
-            return binding;
-        }
-        if (!binding.call) {
-            return binding;
-        }
-
-        const form = await this.fetchAppForm(binding);
-
-        if (form) {
-            this.saveForm(binding, form);
-        }
-        return binding;
-    }
-
-    // saveForm saves the command's form to be used as the user continues typing
-    saveForm = (binding: AppBinding, form: AppForm) => {
-        const fullPretext = this.getFullPretextForSubCommand(binding);
-        this.fetchedForms[fullPretext] = form;
-    }
-
-    // getFormFromBinding returns a subcommand's form if it has been fetched already
-    getFormFromBinding = (binding: AppBinding): AppForm | null => {
-        if (binding.form) {
-            return binding.form;
-        }
-
-        const fullPretext = this.getFullPretextForSubCommand(binding);
-        if (this.fetchedForms[fullPretext]) {
-            // TODO make sure the form is correct for the given channel id
-            return this.fetchedForms[fullPretext];
-        }
-
-        return null;
-    }
-
-    // matchSubCommand finds the appropriate nested subcommand
-    matchSubCommand = (text: string): AppBinding| null => {
-        // Get rid of all whitespace between subcommand words
-        const cmdStr = text.split(' ').map((t) => t.trim()).filter(Boolean).join(' ');
-        let tokens = cmdStr.split(' ');
-        if (!tokens || tokens.length === 0) {
-            return null;
-        }
-
-        let bindings = this.getCommandBindings();
-        if (!bindings) {
-            return null;
-        }
-        const base = tokens[0].substring(1);
-        tokens = tokens.slice(1);
-        let root = bindings.find((b) => b.app_id === base);
-        if (!root || !root.bindings) {
-            return null;
-        }
-        bindings = root.bindings;
-
-        for (const t of tokens) {
-            let matched: AppBinding| null = null;
-            for (const b of bindings) {
-                if (b.label === t) {
-                    matched = b;
-                    break;
-                }
-            }
-            if (!matched) {
-                return root;
-            }
-            if (!matched.bindings) {
-                return matched;
-            }
-            root = matched;
-            bindings = matched.bindings;
-        }
-        return root;
-    }
-
-    // getFullPretextForSubCommand computes the pretext for a given subcommand
-    // For instance, `/jira issue view` would be the full pretext for the view command
-    getFullPretextForSubCommand = (binding: AppBinding): string => {
-        let result = '';
-
-        const search = (bindings: AppBinding[], pretext: string) => {
-            for (const b of bindings) {
-                if (b.app_id === binding.app_id && b.label === binding.label) {
-                    result = pretext + b.label;
-                }
-
-                if (b.bindings) {
-                    search(b.bindings, pretext + b.label + ' ');
-                }
-            }
-        };
-
-        const bindings = this.getCommandBindings();
-        search(bindings, '');
-
-        return result;
-    }
-
-    // resolveNamedArguments pairs named flags with values, to help with form parsing
-    resolveNamedArguments = (tokens: Token[]): Token[] => {
-        const result = [];
-
-        let namedArg = '';
-        for (const token of tokens) {
-            if (token.type === 'flag') {
-                namedArg = token.name;
-                continue;
-            }
-
-            if (namedArg.length) {
-                result.push(makeNamedArgumentToken(namedArg, token.value));
-                namedArg = '';
-            } else {
-                result.push(makePositionalArgumentToken('', token.value));
-            }
-        }
-
-        return result;
-    }
-
-    // getTokens parses the command string into discrete tokens to be processed
-    getTokens = (cmdString: string): Token[] => {
-        const tokens: Token[] = [];
-        const words = cmdString.split(' ');
-
-        let quotedArg = '';
-
-        words.forEach((word, index) => {
-            if (word.trim().length === 0) {
-                if (quotedArg.length) {
-                    quotedArg += word;
-                }
-
-                if (index === words.length - 1) {
-                    tokens.push(makePositionalArgumentToken('', quotedArg));
-                }
-                return;
-            }
-
-            if (quotedArg.length) {
-                quotedArg += ` ${word}`;
-                if (word.endsWith('"')) {
-                    const trimmed = quotedArg.substring(1, quotedArg.length - 1);
-                    tokens.push(makePositionalArgumentToken('', trimmed));
-                    quotedArg = '';
-                } else if (index === words.length - 1) {
-                    tokens.push(makePositionalArgumentToken('', quotedArg));
-                }
-                return;
-            }
-
-            if (word.startsWith('"')) {
-                quotedArg = word;
-                return;
-            }
-
-            if (word.startsWith('--')) {
-                // if there is a named argument before this, it will be ignored
-                tokens.push(makeNamedFlagToken(word.substring(2), ''));
-                return;
-            }
-
-            tokens.push(makePositionalArgumentToken('', word));
-        });
-
-        return tokens;
-    }
 }
-
-type Token = {
-    type: string;
-    name: string;
-    value: string;
-}
-
-const makeNamedFlagToken = (name: string, value: string): Token => {
-    return {
-        type: 'flag',
-        name,
-        value,
-    };
-};
-
-const makeNamedArgumentToken = (name: string, value: string): Token => {
-    return {
-        type: 'named',
-        name,
-        value,
-    };
-};
-
-const makePositionalArgumentToken = (name: string, value: string): Token => {
-    return {
-        type: 'positional',
-        name,
-        value,
-    };
-};
