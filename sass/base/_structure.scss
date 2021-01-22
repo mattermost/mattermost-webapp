@@ -84,6 +84,9 @@ body {
     @include clearfix;
     height: 100%;
     position: relative;
+}
+
+#channel_view.channel-view {
     background: var(--center-channel-bg);
 }
 
