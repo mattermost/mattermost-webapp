@@ -3,7 +3,7 @@
 exports[`components/MaxLengthInput should match snapshot 1`] = `
 <Fragment>
   <input
-    className="input"
+    className="MaxLengthInput input"
   />
 </Fragment>
 `;
@@ -11,7 +11,7 @@ exports[`components/MaxLengthInput should match snapshot 1`] = `
 exports[`components/MaxLengthInput should match snapshot 2`] = `
 <Fragment>
   <input
-    className="input"
+    className="MaxLengthInput input"
     defaultValue="less than 20"
   />
 </Fragment>
@@ -20,11 +20,11 @@ exports[`components/MaxLengthInput should match snapshot 2`] = `
 exports[`components/MaxLengthInput should match snapshot 3`] = `
 <Fragment>
   <input
-    className="input has-error"
+    className="MaxLengthInput input has-error"
     defaultValue="Where is Jessica Hyde?"
   />
   <span
-    className="max-length"
+    className="MaxLengthInput__validation"
   >
     -
     2

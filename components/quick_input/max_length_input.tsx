@@ -11,13 +11,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     maxLength: number;
 }
 
-export type Ref = HTMLInputElement;
-
-const MaxLengthInput: FC<InputProps> = forwardRef<Ref, InputProps>(
+// An input component that renders a validation message (-{number of exceeding characters})
+// when the characters length of the value exceeds maxLength prop
+// to be used with QuickInput as an inputComponent
+const MaxLengthInput: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     ({className, defaultValue, maxLength, ...props}: InputProps, ref) => {
         const excess: number = defaultValue ? defaultValue.length - maxLength : 0;
 
-        const styles: string = classNames({
+        const classes: string = classNames({
+            MaxLengthInput: true,
             [className]: Boolean(className),
             'has-error': excess > 0,
         });
@@ -25,13 +27,13 @@ const MaxLengthInput: FC<InputProps> = forwardRef<Ref, InputProps>(
         return (
             <Fragment>
                 <input
-                    className={styles}
+                    className={classes}
                     defaultValue={defaultValue}
                     ref={ref}
                     {...props}
                 />
                 {excess > 0 && (
-                    <span className='max-length'>
+                    <span className='MaxLengthInput__validation'>
                         {'-'}
                         {excess}
                     </span>

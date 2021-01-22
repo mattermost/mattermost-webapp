@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MaxLengthInput from 'components/maxlength_input';
+import {MaxLengthInput} from 'components/quick_input';
 
 describe('components/MaxLengthInput', () => {
     const requiredProps = {
@@ -30,7 +30,7 @@ describe('components/MaxLengthInput', () => {
         [undefined, false, false],
         ['less than 20', false, false],
         ['Where is Jessica Hyde?', true, true],
-    ])('defaultValue: %s .has-error: %s, .max-length: %s', (defaultValue, hasError, maxLengthExists) => {
+    ])('defaultValue: %s .has-error: %s, .MaxLengthInput__validation: %s', (defaultValue, hasError, maxLengthExists) => {
         const wrapper = shallow(
             <MaxLengthInput
                 {...requiredProps}
@@ -39,7 +39,7 @@ describe('components/MaxLengthInput', () => {
         );
 
         expect(wrapper.find('input').hasClass('has-error')).toBe(hasError);
-        expect(wrapper.exists('.max-length')).toBe(maxLengthExists);
+        expect(wrapper.exists('.MaxLengthInput__validation')).toBe(maxLengthExists);
     });
 
     test('should display the number of times value length exceeds maxLength', () => {
@@ -52,6 +52,6 @@ describe('components/MaxLengthInput', () => {
             <MaxLengthInput {...props}/>,
         );
 
-        expect(wrapper.find('.max-length').text()).toBe('-2');
+        expect(wrapper.find('.MaxLengthInput__validation').text()).toBe('-2');
     });
 });

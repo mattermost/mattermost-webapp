@@ -7,8 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import QuickInput from 'components/quick_input';
-import MaxLengthInput from 'components/maxlength_input';
+import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {localizeMessage} from 'utils/utils';
 
 import '../category_modal.scss';
