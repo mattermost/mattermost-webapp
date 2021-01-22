@@ -14,7 +14,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import {CustomStatus} from 'types/store/custom_status';
+import {CustomStatus, CustomStatusInitialProps} from 'types/store/custom_status';
 
 export type Props = {
 
@@ -108,14 +108,14 @@ export type Props = {
 
     actions: {
         setStatusDropdown: (open: boolean) => void;
-        setCustomStatusInitialProps: (property: string) => void;
+        setCustomStatusInitialProps: (prop: Partial<CustomStatusInitialProps>) => void;
     };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
     updateStatus = () => {
         this.props.actions.setStatusDropdown(true);
-        this.props.actions.setCustomStatusInitialProps(Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST);
+        this.props.actions.setCustomStatusInitialProps({menuOpenedOnClick: Constants.CustomStatusInitialProps.MENU_OPENED_BY_POST_HEADER});
     }
 
     render(): JSX.Element {

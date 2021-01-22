@@ -5,3 +5,9 @@ export type CustomStatus = {
     emoji: string;
     text: string;
 }
+
+export type CustomStatusInitialProps = {
+    hasClickedUpdateStatusBefore: boolean;
+    hasClickedSidebarHeaderFirstTime: boolean;
+    menuOpenedOnClick: string;
+}
