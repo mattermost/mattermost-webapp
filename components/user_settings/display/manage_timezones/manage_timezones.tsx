@@ -4,15 +4,15 @@
 import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
+import ReactSelect, {ValueType} from 'react-select';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import TimezoneProvider from 'components/suggestion/timezone_provider.jsx';
+import {isKeyPressed} from 'utils/utils.jsx';
+import Constants from 'utils/constants';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
@@ -26,7 +26,13 @@ type Props ={
     manualTimezone: string;
     timezones: string[];
     actions: Actions;
+    times:string[];
 }
+type SelectedOption = {
+    value: string;
+    label: string;
+}
+
 
 type State ={
     useAutomaticTimezone: boolean;
@@ -35,11 +41,14 @@ type State ={
     manualTimezoneInput: string;
     isSaving: boolean;
     serverError?: string;
+    openMenu: boolean;
+    selectedOption: SelectedOption;
 }
 
 export default class ManageTimezones extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
+        
 
         this.state = {
             useAutomaticTimezone: props.useAutomaticTimezone,
@@ -47,12 +56,20 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
             manualTimezone: props.manualTimezone,
             manualTimezoneInput: props.manualTimezone,
             isSaving: false,
+            openMenu: false,
+            selectedOption: {label:props.manualTimezone, value: props.manualTimezone},
         };
     }
 
-    onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        this.setState({manualTimezoneInput: e.target.value});
+    onChange = (selectedOption:ValueType<SelectedOption>) => {
+        if (selectedOption && 'value' in selectedOption) {
+            this.setState({
+                manualTimezoneInput: selectedOption.value,
+                manualTimezone:selectedOption.value,
+                selectedOption,
+            });
     };
+    }
 
     handleTimezoneSelected = (selected: string) => {
         if (!selected) {
@@ -147,9 +164,48 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
     handleManualTimezone = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({manualTimezone: e.target.value});
     };
+    handleContainerKeyDown = (e: KeyboardEvent) => {
+        const modalBody = document.querySelector('.modal-body');
+        if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.state.openMenu) {
+            modalBody?.classList.remove('no-scroll');
+            this.setState({openMenu: false});
+            e.stopPropagation();
+        }
+    };
+
+    handleKeyDown = (e: React.KeyboardEvent) => {
+        const modalBody = document.querySelector('.modal-body');
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            modalBody?.classList.add('no-scroll');
+            this.setState({openMenu: true});
+        }
+    };
+    handleMenuClose = () => {
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.classList.remove('no-scroll');
+        }
+        this.setState({openMenu: false});
+    };
+
+    handleMenuOpen = () => {
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.classList.add('no-scroll');
+        }
+        this.setState({openMenu: true});
+    };
 
     render() {
+        const timeOptions = this.props.times.map((timeString) => {
+            return {
+                value: timeString,
+                label: timeString
+              }
+            }
+          );
         const {timezones} = this.props;
+        console.log(this.props.times);
         const {
             useAutomaticTimezone,
             automaticTimezone,
@@ -169,6 +225,14 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                 {useAutomaticTimezone && getTimezoneRegion(automaticTimezone)}
             </div>
         );
+        const reactStyles = {
+            
+            menuPortal: (provided: React.CSSProperties) => ({
+                ...provided,
+                zIndex: 9999,
+            }),
+          
+        };
 
         const noTimezonesFromServer = timezones.length === 0;
         const automaticTimezoneInput = (
@@ -185,47 +249,36 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                         id='user.settings.timezones.automatic'
                         defaultMessage='Set automatically'
                     />
-                    {timezoneRegion}
+                
                 </label>
             </div>
         );
 
-        const providers = [new TimezoneProvider()];
-        const manualTimezoneInput = (
-            <div key='changeTimezone'>
-                <label className='control-label'>
-                    <FormattedMessage
-                        id='user.settings.timezones.change'
-                        defaultMessage='Change timezone'
+        const TimeInput=(
+            <div>
+                <ReactSelect
+                         className='react-select react-select-top'
+                         classNamePrefix='react-select'
+                         id='displayLanguage'
+                         menuIsOpen={this.state.openMenu}
+                         menuPortalTarget={document.body}
+                         styles={reactStyles}
+                         options={timeOptions}
+                         clearable={false}
+                         onChange={this.onChange}
+                         onKeyDown={this.handleKeyDown}
+                         value={useAutomaticTimezone? {label:this.state.automaticTimezone, value:this.state.automaticTimezone}:this.state.selectedOption}
+                         onMenuClose={this.handleMenuClose}
+                         onMenuOpen={this.handleMenuOpen}
+                         aria-labelledby='changeInterfaceLanguageLabel'
+                         isDisabled={useAutomaticTimezone}
                     />
-                </label>
-                <div className='pt-2'>
-                    <SuggestionBox
-                        className='form-control focused'
-                        type='search'
-                        onChange={this.onChange}
-                        value={this.state.manualTimezoneInput}
-                        onItemSelected={this.handleTimezoneSelected}
-                        listComponent={SuggestionList}
-                        maxLength='64'
-                        requiredCharacters={0}
-                        providers={providers}
-                        listStyle='bottom'
-                        completeOnTab={false}
-                        renderDividers={false}
-                        openOnFocus={true}
-                        disabled={noTimezonesFromServer}
-                    />
-                    {serverError}
-                </div>
             </div>
-        );
+        )
 
         inputs.push(automaticTimezoneInput);
-
-        if (!useAutomaticTimezone) {
-            inputs.push(manualTimezoneInput);
-        }
+    
+        inputs.push(TimeInput);       
 
         inputs.push(
             <div>
