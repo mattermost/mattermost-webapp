@@ -100,7 +100,7 @@ class TeamButton extends React.PureComponent<Props> {
                 });
 
                 badge = (
-                    <span className={'badge pull-right small'}>{mentions}</span>
+                    <span className={'badge badge-max-number pull-right small'}>{mentions > 99 ? '99+' : mentions}</span>
                 );
             }
         }

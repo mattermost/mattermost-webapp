@@ -38,6 +38,16 @@ describe('User Management', () => {
     });
 
     it('MM-T924 Users - Page through users list', () => {
+        cy.apiGetUsers().then(({users}) => {
+            const minimumNumberOfUsers = 60;
+
+            if (users.length < minimumNumberOfUsers) {
+                Cypress._.times(minimumNumberOfUsers - users.length, () => {
+                    cy.apiCreateUser();
+                });
+            }
+        });
+
         cy.visitAndWait('/admin_console/user_management/users');
 
         cy.get('#searchableUserListTotal').then((el) => {

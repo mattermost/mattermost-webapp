@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -16,7 +17,7 @@ describe('Settings', () => {
         cy.apiRequireLicense();
     });
 
-    it('MM-T1161: Data retention - Settings are saved', () => {
+    it('MM-T1161 Data retention - Settings are saved', () => {
         cy.visitAndWait('/admin_console/compliance/data_retention');
 
         // # Change dropdown
