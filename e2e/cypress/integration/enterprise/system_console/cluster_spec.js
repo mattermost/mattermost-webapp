@@ -70,7 +70,7 @@ describe('Cluster', () => {
                 Enable: true,
                 UseExperimentalGossip: true,
                 EnableGossipCompression: false,
-            }
+            },
         });
         cy.reload();
 
