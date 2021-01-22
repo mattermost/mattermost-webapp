@@ -35,7 +35,7 @@ export type PostListRowProps = {
     /**
      * To Check if the current post is last in the list by the current user
      */
-    isCurrentUserLastPost: boolean;
+    isCurrentUserLastPostGroupFirstPost: boolean;
 
     /**
      * To check if the state of emoji for last message and from where it was emitted
@@ -150,7 +150,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
             shouldHighlight: this.props.shouldHighlight,
             togglePostMenu: this.props.togglePostMenu,
             isLastPost: this.props.isLastPost,
-            isCurrentUserLastPost: this.props.isCurrentUserLastPost,
+            isCurrentUserLastPostGroupFirstPost: this.props.isCurrentUserLastPostGroupFirstPost,
         };
 
         if (PostListUtils.isCombinedUserActivityPost(listId)) {

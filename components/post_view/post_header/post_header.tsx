@@ -14,7 +14,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import {CustomStatus, CustomStatusInitialisationState} from 'types/store/custom_status';
+import {CustomStatus, CustomStatusInitialisationStates} from 'types/store/custom_status';
 
 export type Props = {
 
@@ -86,7 +86,7 @@ export type Props = {
     /**
      * To Check if the current post is last in the list by the current user
      */
-    isCurrentUserLastPost?: boolean;
+    isCurrentUserLastPostGroupFirstPost?: boolean;
 
     /**
      * Source of image that should be override current user profile.
@@ -108,14 +108,14 @@ export type Props = {
 
     actions: {
         setStatusDropdown: (open: boolean) => void;
-        setCustomStatusInitialisationState: (prop: Partial<CustomStatusInitialisationState>) => void;
+        setCustomStatusInitialisationState: (prop: Partial<CustomStatusInitialisationStates>) => void;
     };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
     updateStatus = () => {
         this.props.actions.setStatusDropdown(true);
-        this.props.actions.setCustomStatusInitialisationState({menuOpenedOnClick: Constants.CustomStatusInitialisationState.MENU_OPENED_BY_POST_HEADER});
+        this.props.actions.setCustomStatusInitialisationState({menuOpenedOnClick: Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_POST_HEADER});
     }
 
     render(): JSX.Element {
@@ -215,7 +215,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.isCurrentUserLastPost && this.props.showUpdateStatusButton) {
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.isCurrentUserLastPostGroupFirstPost && this.props.showUpdateStatusButton) {
             customStatus = (
                 <div
                     onClick={this.updateStatus}

@@ -6,7 +6,7 @@ import {GlobalState} from 'types/store';
 
 import Constants from './constants';
 
-export function showPulsatingDot(state: GlobalState) {
+export function showCustomStatusPulsatingDot(state: GlobalState) {
     const user = getCurrentUser(state);
     const userProps = user.props;
     if (!(userProps && userProps.customStatusInitialisationState)) {
@@ -15,7 +15,7 @@ export function showPulsatingDot(state: GlobalState) {
 
     const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
     const hasClickedSidebarHeaderFirstTime = initialState?.hasClickedSidebarHeaderFirstTime;
-    const menuOpenedFromPostHeader = initialState?.menuOpenedOnClick === Constants.CustomStatusInitialisationState.MENU_OPENED_BY_POST_HEADER;
+    const menuOpenedFromPostHeader = initialState?.menuOpenedOnClick === Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_POST_HEADER;
 
     return hasClickedSidebarHeaderFirstTime || menuOpenedFromPostHeader;
 }

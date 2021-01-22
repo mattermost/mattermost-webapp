@@ -511,7 +511,7 @@ export function getPostFromId(state, id) {
     return getPost(state, id);
 }
 
-export function getCurrentUserLastGroupedPostId(state, postListIds) {
+export function getCurrentUserLastPostGroupFirstPostId(state, postListIds) {
     //This function returns the first post id of the last post group by the current user
     let currentUserLastPost;
 

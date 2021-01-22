@@ -5,7 +5,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {updateMe} from 'mattermost-redux/actions/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {CustomStatus, CustomStatusInitialisationState} from 'types/store/custom_status';
+import {CustomStatus, CustomStatusInitialisationStates} from 'types/store/custom_status';
 import Constants from 'utils/constants';
 
 export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
@@ -48,13 +48,13 @@ export function removeRecentCustomStatus(status: CustomStatus) {
     };
 }
 
-export function setCustomStatusInitialisationState(props: Partial<CustomStatusInitialisationState>) {
+export function setCustomStatusInitialisationState(props: Partial<CustomStatusInitialisationStates>) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
         const userProps = {...user.props};
         let initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
         initialState = {...initialState, ...props};
-        if (initialState.menuOpenedOnClick === Constants.CustomStatusInitialisationState.MENU_OPENED_BY_SIDEBAR_HEADER) {
+        if (initialState.menuOpenedOnClick === Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_SIDEBAR_HEADER) {
             if (initialState.hasClickedSidebarHeaderFirstTime === undefined) {
                 initialState.hasClickedSidebarHeaderFirstTime = true;
             } else {
@@ -62,7 +62,7 @@ export function setCustomStatusInitialisationState(props: Partial<CustomStatusIn
             }
         }
 
-        initialState.hasClickedUpdateStatusBefore = initialState.hasClickedUpdateStatusBefore || initialState.menuOpenedOnClick === Constants.CustomStatusInitialisationState.MENU_OPENED_BY_POST_HEADER;
+        initialState.hasClickedUpdateStatusBefore = initialState.hasClickedUpdateStatusBefore || initialState.menuOpenedOnClick === Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_POST_HEADER;
         userProps.customStatusInitialisationState = JSON.stringify(initialState);
         user.props = userProps;
         await dispatch(updateMe(user));

@@ -43,7 +43,7 @@ export default class StatusDropdown extends React.PureComponent {
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isStatusDropdownOpen: PropTypes.bool.isRequired,
-        showPulsatingDot: PropTypes.bool.isRequired,
+        showCustomStatusPulsatingDot: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -157,7 +157,7 @@ export default class StatusDropdown extends React.PureComponent {
     onToggle = (open) => {
         if (open) {
             this.showCustomStatusTextTooltip();
-            this.props.actions.setCustomStatusInitialisationState({menuOpenedOnClick: Constants.CustomStatusInitialisationState.MENU_OPENED_BY_SIDEBAR_HEADER});
+            this.props.actions.setCustomStatusInitialisationState({menuOpenedOnClick: Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_SIDEBAR_HEADER});
         }
         this.props.actions.setStatusDropdown(open);
     }
@@ -241,7 +241,7 @@ export default class StatusDropdown extends React.PureComponent {
                     </div>
                 );
 
-            const pulsatingDot = !isStatusSet && this.props.showPulsatingDot && (
+            const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
                 <div className='pulsating_dot'/>
             );
 

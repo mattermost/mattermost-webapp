@@ -6,7 +6,7 @@ export type CustomStatus = {
     text: string;
 }
 
-export type CustomStatusInitialisationState = {
+export type CustomStatusInitialisationStates = {
     hasClickedUpdateStatusBefore: boolean;
     hasClickedSidebarHeaderFirstTime: boolean;
     menuOpenedOnClick: string;
