@@ -1,6 +1,10 @@
-import { GlobalState } from "types/store";
-import { getCurrentUser } from 'mattermost-redux/selectors/entities/users';
-import Constants from "./constants";
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import {GlobalState} from 'types/store';
+
+import Constants from './constants';
 
 export function showPulsatingDot(state: GlobalState) {
     const user = getCurrentUser(state);
@@ -9,10 +13,11 @@ export function showPulsatingDot(state: GlobalState) {
         return true;
     }
 
-    const hasClickedOnUpdateStatusBefore = userProps.initialProps === Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST;
-    
-    const hasClickedOnDropdownIconBefore =userProps.initialProps === Constants.CustomStatusInitialProps.CLICK_ON_SIDEBAR_HEADER_DROPDOWN_ICON;
-    return true;
+    const initialProps = userProps.initialProps ? JSON.parse(userProps.initialProps) : {};
+    const hasClickedSidebarHeaderFirstTime = initialProps?.hasClickedSidebarHeaderFirstTime;
+    const menuOpenedFromPostHeader = initialProps?.menuOpenedOnClick === Constants.CustomStatusInitialProps.MENU_OPENED_BY_POST_HEADER;
+
+    return hasClickedSidebarHeaderFirstTime || menuOpenedFromPostHeader;
 }
 
 export function showUpdateStatusButton(state: GlobalState) {
@@ -23,6 +28,6 @@ export function showUpdateStatusButton(state: GlobalState) {
     }
 
     const hasSetCustomStatusBefore = userProps && userProps.recentCustomStatuses;
-    const hasClickedOnUpdateStatusBefore = userProps.initialProps === Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST;
-    return !(hasSetCustomStatusBefore || hasClickedOnUpdateStatusBefore);
+    const initialProps = userProps.initialProps ? JSON.parse(userProps.initialProps) : {};
+    return !(hasSetCustomStatusBefore || initialProps.hasClickedUpdateStatusBefore);
 }

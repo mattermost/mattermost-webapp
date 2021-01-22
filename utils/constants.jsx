@@ -882,8 +882,8 @@ export const ZoomSettings = {
 };
 
 export const CustomStatusInitialProps = {
-    CLICK_ON_UPDATE_STATUS_FROM_POST: 'click_on_update_status_from_post',
-    CLICK_ON_SIDEBAR_HEADER_DROPDOWN_ICON: 'click_on_sidebar_header_dropdown_icon',
+    MENU_OPENED_BY_POST_HEADER: 'post_header',
+    MENU_OPENED_BY_SIDEBAR_HEADER: 'sidebar_header',
 };
 
 export const Constants = {
