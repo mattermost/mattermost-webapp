@@ -65,11 +65,13 @@ describe('Cluster', () => {
         });
 
         // # Disable Gossip Compression
-        cy.apiUpdateConfig({ClusterSettings: {
-            Enable: true,
-            UseExperimentalGossip: true,
-            EnableGossipCompression: false,
-        }});
+        cy.apiUpdateConfig({
+            ClusterSettings: {
+                Enable: true,
+                UseExperimentalGossip: true,
+                EnableGossipCompression: false,
+            }
+        });
         cy.reload();
 
         cy.findByTestId('EnableGossipCompression').scrollIntoView().should('be.visible').within(() => {
