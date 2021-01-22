@@ -320,7 +320,7 @@
         position: relative;
         text-overflow: ellipsis;
         margin: 0;
-        height: 24px;
+        height: 25px;
         width: 100%;
         display: flex;
         align-items: center;
@@ -365,10 +365,10 @@
             overflow: hidden;
             display: flex;
             margin-left: 4px;
-            margin-top: 1px;
+            margin-top: 3px;
             align-self: start;
             flex-direction: column;
-            line-height: 20px;
+            line-height: 19px;
 
             ul {
                 &:first-child {
