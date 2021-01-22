@@ -107,15 +107,15 @@ export type Props = {
     showUpdateStatusButton: boolean;
 
     actions: {
-        toggleStatusDropdown: (open: boolean) => void;
-        setFirstTimeUserProperties: (property: string) => void;
+        setStatusDropdown: (open: boolean) => void;
+        setCustomStatusInitialProps: (property: string) => void;
     };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
     updateStatus = () => {
-        this.props.actions.toggleStatusDropdown(true);
-        this.props.actions.setFirstTimeUserProperties(Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST);
+        this.props.actions.setStatusDropdown(true);
+        this.props.actions.setCustomStatusInitialProps(Constants.CustomStatusInitialProps.CLICK_ON_UPDATE_STATUS_FROM_POST);
     }
 
     render(): JSX.Element {

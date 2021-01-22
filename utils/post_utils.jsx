@@ -523,18 +523,18 @@ export function getCurrentUserLastGroupedPostId(state, postListIds) {
         }
 
         if (isPostOwner(state, post) && !isSystemMessage(post)) {
-            console.log(post.message)
             if (currentUserLastPost) {
                 if (!areConsecutivePostsBySameUser(currentUserLastPost, post)){
                     return true;
                 }
             }
             currentUserLastPost = post;
+        }else{
+            return Boolean(currentUserLastPost)
         }
-
+        
         return false;
     })
 
-    console.log("================")
     return currentUserLastPost ? currentUserLastPost.id : "";
 }

@@ -47,11 +47,11 @@ export function removeRecentCustomStatus(status: CustomStatus) {
     };
 }
 
-export function setFirstTimeUserProperties(property: string) {
+export function setCustomStatusInitialProps(prop: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
         const userProps = {...user.props};
-        userProps.initialProps = property;
+        userProps.initialProps = prop;
         user.props = userProps;
         await dispatch(updateMe(user));
     };

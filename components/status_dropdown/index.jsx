@@ -10,11 +10,12 @@ import {Preferences} from 'mattermost-redux/constants';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
-import {toggleStatusDropdown} from 'actions/views/status_dropdown';
+import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
-import {unsetUserCustomStatus, setFirstTimeUserProperties} from 'actions/views/custom_status';
-import {getCustomStatus, isCustomStatusEnabled, hasClickedOnSetStatusBefore} from 'selectors/views/custom_status';
+import {unsetUserCustomStatus, setCustomStatusInitialProps} from 'actions/views/custom_status';
+import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {showPulsatingDot} from 'utils/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 
 function mapStateToProps(state) {
@@ -33,7 +34,7 @@ function mapStateToProps(state) {
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
         isStatusDropdownOpen: isStatusDropdownOpen(state),
-        showPulsatingDot: !hasClickedOnSetStatusBefore(state, userId),
+        showPulsatingDot: showPulsatingDot(state),
     };
 }
 
@@ -43,8 +44,8 @@ function mapDispatchToProps(dispatch) {
             openModal,
             setStatus,
             unsetUserCustomStatus,
-            toggleStatusDropdown,
-            setFirstTimeUserProperties,
+            setStatusDropdown,
+            setCustomStatusInitialProps,
         }, dispatch),
     };
 }

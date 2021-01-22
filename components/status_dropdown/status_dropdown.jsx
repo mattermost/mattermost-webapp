@@ -37,8 +37,8 @@ export default class StatusDropdown extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
             unsetUserCustomStatus: PropTypes.func.isRequired,
-            toggleStatusDropdown: PropTypes.func.isRequired,
-            setFirstTimeUserProperties: PropTypes.func.isRequired,
+            setStatusDropdown: PropTypes.func.isRequired,
+            setCustomStatusInitialProps: PropTypes.func.isRequired,
         }).isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
@@ -110,7 +110,6 @@ export default class StatusDropdown extends React.PureComponent {
             dialogProps: {userId: this.props.userId},
         };
 
-        this.props.actions.setFirstTimeUserProperties(Constants.CustomStatusInitialProps.CLICK_ON_SET_STATUS);
         this.props.actions.openModal(customStatusInputModalData);
     }
 
@@ -158,8 +157,9 @@ export default class StatusDropdown extends React.PureComponent {
     onToggle = (open) => {
         if (open) {
             this.showCustomStatusTextTooltip();
+            // this.props.actions.setCustomStatusInitialProps(Constants.CustomStatusInitialProps.CLICK_ON_SIDEBAR_HEADER_DROPDOWN_ICON)
         }
-        this.props.actions.toggleStatusDropdown(open);
+        this.props.actions.setStatusDropdown(open);
     }
 
     render() {
@@ -241,7 +241,7 @@ export default class StatusDropdown extends React.PureComponent {
                     </div>
                 );
 
-            const pulsatingDot = !isStatusSet && (
+            const pulsatingDot = !isStatusSet && this.props.showPulsatingDot && (
                 <div className='pulsating_dot'/>
             );
 

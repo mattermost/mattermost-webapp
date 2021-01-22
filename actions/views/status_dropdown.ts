@@ -4,7 +4,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
-export function toggleStatusDropdown(open: boolean) {
+export function setStatusDropdown(open: boolean) {
     return (dispatch: DispatchFunc) => {
         dispatch({
             type: ActionTypes.STATUS_DROPDOWN_TOGGLE,

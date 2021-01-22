@@ -14,9 +14,10 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 import {isGuest} from 'utils/utils.jsx';
 
-import {getCustomStatus, isCustomStatusEnabled, hasSetCustomStatusBefore, hasClickedOnUpdateStatusBefore} from 'selectors/views/custom_status';
-import {toggleStatusDropdown} from 'actions/views/status_dropdown';
-import {setFirstTimeUserProperties} from 'actions/views/custom_status';
+import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {showUpdateStatusButton} from 'utils/custom_status';
+import {setStatusDropdown} from 'actions/views/status_dropdown';
+import {setCustomStatusInitialProps} from 'actions/views/custom_status';
 
 import PostHeader, {Props} from './post_header';
 
@@ -34,7 +35,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const user = getUser(state, ownProps.post.user_id);
     const currentUser = getCurrentUser(state);
     const customStatus = user ? getCustomStatus(state, user.id) : {};
-    const showUpdateStatusButton = !(hasSetCustomStatusBefore(state, currentUser.id) || hasClickedOnUpdateStatusBefore(state, currentUser.id));
     const isBot = Boolean(user && user.is_bot);
 
     return {
@@ -45,15 +45,15 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         customStatus,
         currentUserID: currentUser.id,
         isCustomStatusEnabled: isCustomStatusEnabled(state),
-        showUpdateStatusButton,
+        showUpdateStatusButton : showUpdateStatusButton(state),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            toggleStatusDropdown,
-            setFirstTimeUserProperties,
+            setStatusDropdown,
+            setCustomStatusInitialProps,
         }, dispatch),
     };
 }
