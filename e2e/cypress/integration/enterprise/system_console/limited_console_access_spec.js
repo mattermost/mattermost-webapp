@@ -75,7 +75,7 @@ describe('Limited console access', () => {
         cy.findByRole('button', {name: 'Add People'}).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Type in user name
-        cy.findByText('Search and add members').type(`${testUsers[role].email}`);
+        cy.findByText('Search for people').type(`${testUsers[role].email}`);
 
         // # Find the user and click on him
         cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});

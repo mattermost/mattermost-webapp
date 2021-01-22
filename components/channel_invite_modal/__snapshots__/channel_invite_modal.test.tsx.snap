@@ -35,7 +35,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
-    id="quickSwitchModalLabel"
+    id="channelInviteModalLabel"
   />
   <ModalBody
     bsClass="modal-body"
@@ -142,7 +142,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
-    id="quickSwitchModalLabel"
+    id="channelInviteModalLabel"
   />
   <ModalBody
     bsClass="modal-body"

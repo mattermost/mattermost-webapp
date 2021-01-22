@@ -395,6 +395,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                         onAdd={this.onAdd}
                         onSelect={this.onSelect}
                         loading={this.props.loading}
+                        query={this.state.input}
                         selectedItemRef={this.props.selectedItemRef}
                     />
                 );

@@ -96,7 +96,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search for people').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
             cy.get('#selectItems input').type('s', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
@@ -184,7 +184,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         });
     });
 
-    it('MM-T1468 Accessibility Support in Add New Members to Channel Dialog screen', () => {
+    it('MM-T1468 Accessibility Support in Add people to Channel Dialog screen', () => {
         // # Add atleast 5 users
         for (let i = 0; i < 5; i++) {
             cy.apiCreateUser().then(({user}) => { // eslint-disable-line
@@ -199,13 +199,13 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         cy.get('#channelHeaderDropdownIcon').click();
         cy.findByText('Add Members').click();
 
-        // * Verify the accessibility support in Add New Members Dialog`
+        // * Verify the accessibility support in Add people Dialog`
         cy.get('#addUsersToChannelModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'channelInviteModalLabel').within(() => {
-            cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add New Members to ${testChannel.display_name}`);
+            cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add people to ${testChannel.display_name}`);
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search for people').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
             cy.get('#selectItems input').type('u', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});

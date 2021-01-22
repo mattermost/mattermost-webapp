@@ -325,7 +325,7 @@ export default class ChannelInviteModal<T extends Value> extends React.PureCompo
                 aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header
-                    id='quickSwitchModalLabel'
+                    id='channelInviteModalLabel'
                     closeButton={true}
                 />
                 <Modal.Body

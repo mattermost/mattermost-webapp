@@ -3351,7 +3351,7 @@
   "multiselect.adding": "Adding...",
   "multiselect.addTeamsPlaceholder": "Search and add teams",
   "multiselect.go": "Go",
-  "multiselect.list.notFound": "No items found",
+  "multiselect.list.notFound": "No results found matching **{searchQuery}**",
   "multiselect.loading": "Loading...",
   "multiselect.numGroupsRemaining": "Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {group} other {groups}}. ",
   "multiselect.numMembers": "{memberOptions, number} of {totalCount, number} members",
