@@ -17,7 +17,7 @@ import {isGuest} from 'utils/utils.jsx';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {showUpdateStatusButton} from 'utils/custom_status';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
-import {setCustomStatusInitialProps} from 'actions/views/custom_status';
+import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 
 import PostHeader, {Props} from './post_header';
 
@@ -53,7 +53,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             setStatusDropdown,
-            setCustomStatusInitialProps,
+            setCustomStatusInitialisationState,
         }, dispatch),
     };
 }

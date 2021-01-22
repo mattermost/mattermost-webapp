@@ -9,13 +9,13 @@ import Constants from './constants';
 export function showPulsatingDot(state: GlobalState) {
     const user = getCurrentUser(state);
     const userProps = user.props;
-    if (!userProps) {
+    if (!(userProps && userProps.customStatusInitialisationState)) {
         return true;
     }
 
-    const initialProps = userProps.initialProps ? JSON.parse(userProps.initialProps) : {};
-    const hasClickedSidebarHeaderFirstTime = initialProps?.hasClickedSidebarHeaderFirstTime;
-    const menuOpenedFromPostHeader = initialProps?.menuOpenedOnClick === Constants.CustomStatusInitialProps.MENU_OPENED_BY_POST_HEADER;
+    const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
+    const hasClickedSidebarHeaderFirstTime = initialState?.hasClickedSidebarHeaderFirstTime;
+    const menuOpenedFromPostHeader = initialState?.menuOpenedOnClick === Constants.CustomStatusInitialisationState.MENU_OPENED_BY_POST_HEADER;
 
     return hasClickedSidebarHeaderFirstTime || menuOpenedFromPostHeader;
 }
@@ -28,6 +28,6 @@ export function showUpdateStatusButton(state: GlobalState) {
     }
 
     const hasSetCustomStatusBefore = userProps && userProps.recentCustomStatuses;
-    const initialProps = userProps.initialProps ? JSON.parse(userProps.initialProps) : {};
-    return !(hasSetCustomStatusBefore || initialProps.hasClickedUpdateStatusBefore);
+    const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
+    return !(hasSetCustomStatusBefore || initialState.hasClickedUpdateStatusBefore);
 }

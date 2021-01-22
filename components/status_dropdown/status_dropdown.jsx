@@ -38,7 +38,7 @@ export default class StatusDropdown extends React.PureComponent {
             setStatus: PropTypes.func.isRequired,
             unsetUserCustomStatus: PropTypes.func.isRequired,
             setStatusDropdown: PropTypes.func.isRequired,
-            setCustomStatusInitialProps: PropTypes.func.isRequired,
+            setCustomStatusInitialisationState: PropTypes.func.isRequired,
         }).isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
@@ -157,7 +157,7 @@ export default class StatusDropdown extends React.PureComponent {
     onToggle = (open) => {
         if (open) {
             this.showCustomStatusTextTooltip();
-            this.props.actions.setCustomStatusInitialProps({menuOpenedOnClick: Constants.CustomStatusInitialProps.MENU_OPENED_BY_SIDEBAR_HEADER});
+            this.props.actions.setCustomStatusInitialisationState({menuOpenedOnClick: Constants.CustomStatusInitialisationState.MENU_OPENED_BY_SIDEBAR_HEADER});
         }
         this.props.actions.setStatusDropdown(open);
     }

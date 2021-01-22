@@ -6,7 +6,7 @@ export type CustomStatus = {
     text: string;
 }
 
-export type CustomStatusInitialProps = {
+export type CustomStatusInitialisationState = {
     hasClickedUpdateStatusBefore: boolean;
     hasClickedSidebarHeaderFirstTime: boolean;
     menuOpenedOnClick: string;
