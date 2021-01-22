@@ -35,7 +35,7 @@ type OwnProps = {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
-    const config = getConfig(state);
+    const config: any = getConfig(state);
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
 

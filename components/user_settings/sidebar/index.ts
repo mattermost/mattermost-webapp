@@ -14,7 +14,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import UserSettingsSidebar from './user_settings_sidebar';
 
 function mapStateToProps(state: GlobalState) {
-    const config = getConfig(state);
+    const config: any = getConfig(state);
 
     const closeUnusedDirectMessages = getPreference(
         state,
