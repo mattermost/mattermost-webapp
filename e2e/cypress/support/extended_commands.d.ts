@@ -7,7 +7,7 @@ declare namespace Cypress {
     interface Chainable<Subject = any> {
 
         /**
-         * Visit the given url, same as cy.visit but extended with explicit wait to allow page load freely
+         * Visit the given url, same as cy.visit but extended with explicit wait to allow page to load freely
          * @param url — The URL to visit. If relative uses baseUrl
          * @param options — Pass in an options object to change the default behavior of cy.visit()
          * @param duration — wait duration with 3 seconds by default
