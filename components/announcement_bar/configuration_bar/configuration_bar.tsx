@@ -203,7 +203,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
             );
         }
 
-        if (isLicenseExpiring(props.license) && !props.dismissedExpiringLicense) {
+        if (true) {
             return (
                 <AnnouncementBar
                     showCloseButton={true}

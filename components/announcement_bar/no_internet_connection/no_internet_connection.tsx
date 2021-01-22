@@ -31,14 +31,14 @@ const NoInternetConnection: React.FC<NoInternetConnectionProps> = (props: NoInte
                 </span>
                 <span className='noInternetConnection__contactSupport'>
                     <FormattedMessage
-                        id='announcement_bar.warn.contact_support'
-                        defaultMessage='In order to renew, you need to contact support.'
+                        id='announcement_bar.warn.contact_support_text'
+                        defaultMessage='To renew your license, contact support at support@mattermost.com.'
                     />
                 </span>
                 <span className='noInternetConnection__emailUs'>
                     <FormattedMarkdownMessage
-                        id='announcement_bar.warn.email_us'
-                        defaultMessage='Please [email us](!{email}).'
+                        id='announcement_bar.warn.email_support'
+                        defaultMessage='[Contact support](!{email}).'
                         values={{email: 'mailto:support@mattermost.com'}}
                     />
                 </span>
