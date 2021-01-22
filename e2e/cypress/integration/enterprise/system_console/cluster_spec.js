@@ -14,11 +14,13 @@ describe('Cluster', () => {
         cy.apiRequireLicense();
 
         // # Reset Experimental Gossip Encryption
-        cy.apiUpdateConfig({ClusterSettings: {
-            Enable: null,
-            UseExperimentalGossip: null,
-            EnableExperimentalGossipEncryption: null,
-        }});
+        cy.apiUpdateConfig({
+            ClusterSettings: {
+                Enable: null,
+                UseExperimentalGossip: null,
+                EnableExperimentalGossipEncryption: null,
+            },
+        });
 
         // # Visit high availability system console page
         cy.visit('/admin_console/environment/high_availability');
@@ -38,11 +40,13 @@ describe('Cluster', () => {
         });
 
         // # Enable Experimental Gossip Encryption
-        cy.apiUpdateConfig({ClusterSettings: {
-            Enable: true,
-            UseExperimentalGossip: true,
-            EnableExperimentalGossipEncryption: true,
-        }});
+        cy.apiUpdateConfig({
+            ClusterSettings: {
+                Enable: true,
+                UseExperimentalGossip: true,
+                EnableExperimentalGossipEncryption: true,
+            },
+        });
         cy.reload();
 
         cy.findByTestId('EnableExperimentalGossipEncryption').scrollIntoView().should('be.visible').within(() => {
