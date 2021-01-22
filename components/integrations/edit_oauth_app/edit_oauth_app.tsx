@@ -2,8 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
+import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {Team} from 'mattermost-redux/types/teams';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen';
@@ -14,50 +17,35 @@ const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
 const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};
 const LOADING = {id: 'update_incoming_webhook.updating', defaultMessage: 'Updating...'};
 
-export default class EditOAuthApp extends React.PureComponent {
-    static propTypes = {
+type Actions = {
+    getOAuthApp: (id: string) => OAuthApp;
+    editOAuthApp: (app: OAuthApp) => Promise<ActionResult>;
+};
 
-        /**
-        * The current team
-        */
-        team: PropTypes.object.isRequired,
+type Props = {
+    team: Team;
+    oauthAppId: string;
+    oauthApp: OAuthApp;
+    actions: Actions;
+    enableOAuthServiceProvider: boolean;
+};
 
-        /**
-        * The id of the OAuthApp to edit
-        */
-        oauthAppId: PropTypes.string.isRequired,
+type State = {
+    showConfirmModal: boolean;
+    serverError: string;
+};
 
-        /**
-        * The OAuthApp data
-        */
-        oauthApp: PropTypes.object,
+export default class EditOAuthApp extends React.PureComponent<Props, State> {
+    newApp: OAuthApp;
 
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call to get OAuthApp
-            */
-            getOAuthApp: PropTypes.func.isRequired,
-
-            /**
-            * The function to call to edit OAuthApp
-            */
-            editOAuthApp: PropTypes.func.isRequired,
-        }).isRequired,
-
-        /**
-        * Whether or not OAuth applications are enabled.
-        */
-        enableOAuthServiceProvider: PropTypes.bool,
-    }
-
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             showConfirmModal: false,
             serverError: '',
         };
+        this.newApp = this.props.oauthApp;
     }
 
     componentDidMount() {
@@ -66,15 +54,11 @@ export default class EditOAuthApp extends React.PureComponent {
         }
     }
 
-    editOAuthApp = async (app) => {
+    editOAuthApp = async (app: OAuthApp) => {
         this.newApp = app;
 
         if (this.props.oauthApp.id) {
             app.id = this.props.oauthApp.id;
-        }
-
-        if (this.props.oauthApp.token) {
-            app.token = this.props.oauthApp.token;
         }
 
         const callbackUrlsSame = (this.props.oauthApp.callback_urls.length === app.callback_urls.length) &&
@@ -98,17 +82,18 @@ export default class EditOAuthApp extends React.PureComponent {
     submitOAuthApp = async () => {
         this.setState({serverError: ''});
 
-        const {data, error} = await this.props.actions.editOAuthApp(this.newApp);
+        const res = await this.props.actions.editOAuthApp(this.newApp);
 
-        if (data) {
+        if ('data' in res && res.data) {
             browserHistory.push(`/${this.props.team.name}/integrations/oauth2-apps`);
             return;
         }
 
         this.setState({showConfirmModal: false});
 
-        if (error) {
-            this.setState({serverError: error.message});
+        if ('error' in res) {
+            const {error: err} = res;
+            this.setState({serverError: err.message});
         }
     }
 

@@ -16,7 +16,7 @@ const uniqueUserId = getRandomId();
 
 function signupWithEmail(name, pw) {
     // # Go to /login
-    cy.visit('/login');
+    cy.visitAndWait('/login');
 
     // # Click on sign up button
     cy.get('#signup').click();

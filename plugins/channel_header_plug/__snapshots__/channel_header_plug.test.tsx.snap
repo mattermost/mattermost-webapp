@@ -42,9 +42,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
-    <div
-      className="flex-child"
-    >
+    <div>
       <OverlayTrigger
         defaultOverlayShown={false}
         delayShow={400}

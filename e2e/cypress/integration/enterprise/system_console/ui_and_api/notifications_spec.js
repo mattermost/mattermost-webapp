@@ -23,7 +23,7 @@ describe('System Console', () => {
         });
 
         // #  Visit Notifications admin console page
-        cy.visit('/admin_console/environment/notifications');
+        cy.visitAndWait('/admin_console/environment/notifications');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Notifications');
     });
 

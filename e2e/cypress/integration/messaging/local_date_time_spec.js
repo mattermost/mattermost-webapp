@@ -25,7 +25,7 @@ describe('Messaging', () => {
 
         // # Create and visit new channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
             // # Post messages from the past
             [

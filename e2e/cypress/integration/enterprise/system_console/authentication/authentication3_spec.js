@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console @authentication
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -62,7 +63,7 @@ describe('Authentication Part 3', () => {
             cy.apiLogout();
 
             // # Go to front page
-            cy.visit('/login');
+            cy.visitAndWait('/login');
 
             let expectedPlaceholderText;
             if (option[0] && option[1]) {
@@ -82,7 +83,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
-        cy.visit('/admin_console/authentication/password');
+        cy.visitAndWait('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('88');
 
@@ -104,7 +105,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1772 - Change minimum password length, verify help text and error message', () => {
-        cy.visit('/admin_console/authentication/password');
+        cy.visitAndWait('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('7');
 
@@ -115,7 +116,7 @@ describe('Authentication Part 3', () => {
         cy.apiLogout();
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visitAndWait('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -137,7 +138,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1773 - Minimum password length field resets to default after saving invalid value', () => {
-        cy.visit('/admin_console/authentication/password');
+        cy.visitAndWait('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('10');
 
@@ -168,7 +169,7 @@ describe('Authentication Part 3', () => {
         cy.apiLogout();
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visitAndWait('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -184,7 +185,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1775 - Maximum Login Attempts field resets to default after saving invalid value', () => {
-        cy.visit('/admin_console/authentication/password');
+        cy.visitAndWait('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('ten');
 
@@ -195,7 +196,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1776 - Maximum Login Attempts field successfully saves valid change', () => {
-        cy.visit('/admin_console/authentication/password');
+        cy.visitAndWait('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('2');
 
@@ -212,7 +213,7 @@ describe('Authentication Part 3', () => {
             },
         });
 
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         cy.toAccountSettingsModal();
 
@@ -229,7 +230,7 @@ describe('Authentication Part 3', () => {
             },
         });
 
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         cy.toAccountSettingsModal();
 
@@ -252,7 +253,7 @@ describe('Authentication Part 3', () => {
 
         cy.apiLogin(testUser);
 
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // * Assert that we are not shown a MFA scren and instead a Teams You Can join page
         cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

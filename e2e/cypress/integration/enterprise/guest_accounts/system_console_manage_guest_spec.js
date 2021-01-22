@@ -55,7 +55,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         });
 
         // # Visit System Console Users page
-        cy.visit('/admin_console/user_management/users');
+        cy.visitAndWait('/admin_console/user_management/users');
     });
 
     beforeEach(() => {
@@ -66,7 +66,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.get('#searchUsers').should('be.visible').type(guestUser.username);
     });
 
-    it('MM-18048 Verify the manage options displayed for Guest User', () => {
+    it('MM-T1391 Verify the manage options displayed for Guest User', () => {
         // * Verify Guest user
         verifyGuest();
 
@@ -168,14 +168,14 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         // # Logout sysadmin and login as Guest User to verify if Revoke Session works
         cy.apiLogout();
         cy.apiLogin(guestUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         // # Issue a Request to Revoke All Sessions as SysAdmin
         const baseUrl = Cypress.config('baseUrl');
         cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${guestUser.id}/sessions/revoke/all`}).then(() => {
             // # Initiate browser activity like visit on test channel
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
             // * Verify if the regular member is logged out and redirected to login page
             cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');

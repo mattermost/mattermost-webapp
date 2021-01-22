@@ -7,6 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// ******************************************************************
+// !!! THIS IS A DUPLICATE IMPLEMENTATION OF THE TEST IN bot_api_spec.js.
+// HOWEVER, PROMOTING THIS TO PROD UNTIL THE OTHER FILE IS STABLE
+// ENOUGH, SO THAT MANUAL TESTING ON THIS TEST CASE CAN BE ELIMINATED.
+// ONCE THAT FILE IS STABLE, THIS ONE SHOULD BE DELETED. !!!
+// ******************************************************************
+
+// Stage: @prod
 // Group: @bot_accounts
 
 describe('Bot Tokens', () => {
@@ -25,7 +33,7 @@ describe('Bot Tokens', () => {
             cy.apiGetChannelByName(team.name, 'town-square').then((out) => {
                 townsquareChannel = out.channel;
             });
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

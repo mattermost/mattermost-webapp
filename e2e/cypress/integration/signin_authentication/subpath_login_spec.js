@@ -24,7 +24,7 @@ describe('Cookie with Subpath', () => {
             // Logout current session and try to visit town-square
             cy.apiLogout().then(() => {
                 townsquareLink = `/${team.name}/channels/town-square`;
-                cy.visit(townsquareLink);
+                cy.visitAndWait(townsquareLink);
             });
         });
     });

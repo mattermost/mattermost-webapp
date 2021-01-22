@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @files_and_attachments
 
 describe('YouTube Video', () => {
@@ -23,7 +24,7 @@ describe('YouTube Video', () => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 

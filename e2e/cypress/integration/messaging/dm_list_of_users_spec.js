@@ -32,7 +32,7 @@ describe('Messaging', () => {
 
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // # Click on '+' sign to open DM modal
             cy.findByLabelText('write a direct message').should('be.visible').click();
@@ -55,7 +55,7 @@ describe('Messaging', () => {
 
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/messages/@${deactivatedUser.username}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/@${deactivatedUser.username}`);
 
             // # Post first message in case it is a new Channel
             cy.postMessage(`Hello ${deactivatedUser.username}`);
