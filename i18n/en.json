@@ -4409,7 +4409,7 @@
   "user.settings.sidebar.unreadsDesc": "Group unread channels separately until read.",
   "user.settings.sidebar.unreadsFavoritesShort": "Unreads and favorites grouped separately",
   "user.settings.sidebar.unreadsShort": "Unreads grouped separately",
-  "user.settings.timezones.automatic": "Set automatically",
+  "user.settings.timezones.automatic": "Automatic",
   "user.settings.timezones.change": "Change timezone",
   "user.settings.timezones.promote": "Select the timezone used for timestamps in the user interface and email notifications.",
   "user.settings.tokens.activate": "Enable",

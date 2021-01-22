@@ -247,7 +247,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     />
                     <FormattedMessage
                         id='user.settings.timezones.automatic'
-                        defaultMessage='Set automatically'
+                        defaultMessage='Automatic'
                     />
                 
                 </label>
