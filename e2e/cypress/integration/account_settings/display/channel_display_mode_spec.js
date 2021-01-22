@@ -14,7 +14,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
     before(() => {
         // # Login as new user, visit town-square and post a message
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
             cy.postMessage('Test for channel display mode');
         });
     });

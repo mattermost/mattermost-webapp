@@ -35,7 +35,7 @@ describe('Channel routing', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -48,7 +48,7 @@ describe('Channel routing', () => {
         // # Create a private channel
         cy.apiCreateChannel(testTeam.id, 'private-channel', 'Private channel', 'P').then(({channel}) => {
             // # Go to the newly created channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');
@@ -62,25 +62,25 @@ describe('Channel routing', () => {
         // # Create a self direct channel
         cy.apiCreateDirectChannel([testUser.id, testUser.id]).then(({channel: ownDMChannel}) => {
             // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${testUser.id}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testUser.id}__${testUser.id}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', `${testUser.username} (you)`);
 
             // # Visit the channel using the channel id
-            cy.visit(`/${testTeam.name}/channels/${ownDMChannel.id}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${ownDMChannel.id}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', `${testUser.username} (you)`);
 
             // # Visit the channel using the username
-            cy.visit(`/${testTeam.name}/messages/@${testUser.username}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/@${testUser.username}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', `${testUser.username} (you)`);
 
             // # Visit the channel using the user email
-            cy.visit(`/${testTeam.name}/messages/${testUser.email}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/${testUser.email}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', `${testUser.username} (you)`);
@@ -91,25 +91,25 @@ describe('Channel routing', () => {
         // # Create a direct channel between two users
         cy.apiCreateDirectChannel([testUser.id, otherUser1.id]).then(({channel: dmChannel}) => {
             // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser1.id}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testUser.id}__${otherUser1.id}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', otherUser1.username);
 
             // # Visit the channel using the channel id
-            cy.visit(`/${testTeam.name}/channels/${dmChannel.id}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${dmChannel.id}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', otherUser1.username);
 
             // # Visit the channel using the target username
-            cy.visit(`/${testTeam.name}/messages/@${otherUser1.username}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/@${otherUser1.username}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', otherUser1.username);
 
             // # Visit the channel using the target user email
-            cy.visit(`/${testTeam.name}/messages/${otherUser1.email}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/${otherUser1.email}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', otherUser1.username);
@@ -122,14 +122,14 @@ describe('Channel routing', () => {
         // # Create a group channel for 3 users
         cy.apiCreateGroupChannel(userGroupIds).then(({channel: gmChannel}) => {
             // # Visit the channel using the name using the channels route
-            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${gmChannel.name}`);
 
             // * Check you can go to the channel without problem
             const displayName = gmChannel.display_name.split(', ').filter(((username) => username !== testUser.username)).join(', ');
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', displayName);
 
             // # Visit the channel using the name using the messages route
-            cy.visit(`/${testTeam.name}/messages/${gmChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/${gmChannel.name}`);
 
             // * Check you can go to the channel without problem
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', displayName);

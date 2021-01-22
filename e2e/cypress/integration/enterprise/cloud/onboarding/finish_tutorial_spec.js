@@ -27,7 +27,7 @@ describe('Onboarding', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -51,7 +51,7 @@ describe('Onboarding', () => {
         cy.apiLogout();
 
         // # Visit the team url
-        cy.visit(`/${testTeam.name}`);
+        cy.visitAndWait(`/${testTeam.name}`);
 
         // # Attempt to create a new account
         cy.get('#signup', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();

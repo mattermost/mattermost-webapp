@@ -43,7 +43,7 @@ describe('Team members test', () => {
 
     it('MM-23938 - Team members block is only visible when team is not group synced', () => {
         // # Visit the team page
-        cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        cy.visitAndWait(`/admin_console/user_management/teams/${testTeam.id}`);
 
         // * Assert that the members block is visible on non group synced team
         cy.get('#teamMembers').scrollIntoView().should('be.visible');
@@ -57,7 +57,7 @@ describe('Team members test', () => {
 
     it('MM-23938 - Team members block can search for users, remove users, add users and modify their roles', () => {
         // # Visit the team page
-        cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        cy.visitAndWait(`/admin_console/user_management/teams/${testTeam.id}`);
 
         // * Assert that the members block is visible on non group synced team
         cy.get('#teamMembers').scrollIntoView().should('be.visible');
@@ -98,7 +98,7 @@ describe('Team members test', () => {
         cy.get('#teamMembers').should('not.be.visible');
 
         // # Visit the team page
-        cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        cy.visitAndWait(`/admin_console/user_management/teams/${testTeam.id}`);
 
         // # Search for user1 that we know is no longer in the team
         searchFor(user1.email);
@@ -152,7 +152,7 @@ describe('Team members test', () => {
         saveConfig();
 
         // # Visit the team page
-        cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
+        cy.visitAndWait(`/admin_console/user_management/teams/${testTeam.id}`);
 
         // # Search user1 that we know is now in the team again
         searchFor(user1.email);

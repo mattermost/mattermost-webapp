@@ -18,7 +18,7 @@ import {
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console');
+    cy.visitAndWait('/admin_console');
 };
 
 describe('System console', () => {
@@ -33,19 +33,19 @@ describe('System console', () => {
         const verifyCreatePublicChannel = (testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel) => {
             // * Login as system admin and go the channel we created earlier and expect the create public channel button is visible
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
             cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * Login as team admin and go the channel we created earlier and expect the create public channel button is visible
             cy.apiLogin(testUserTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
             cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * Login as non-team admin and go the channel we created earlier and expect the create public channel button is not visible
             cy.apiLogin(testUserNonTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
             cy.wait(TIMEOUTS.FIVE_SEC);
         };
@@ -53,19 +53,19 @@ describe('System console', () => {
         const verifyRenamePrivateChannel = (testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel) => {
             // * Click drop down and ensure the channel rename is visible for a system admin
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
             cy.get('#channelRename').should('be.visible');
 
             cy.apiLogin(testUserTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // * Click drop down and ensure the channel rename is visible for a team admin
             cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
             cy.get('#channelRename').should('be.visible');
 
             cy.apiLogin(testUserNonTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // * Click drop down and ensure the channel rename is not visible for a non team admin
             cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
@@ -74,7 +74,7 @@ describe('System console', () => {
 
         // # Go to admin console and set permissions as listed in the test
         goToAdminConsole();
-        cy.visit('admin_console/user_management/permissions/system_scheme');
+        cy.visitAndWait('admin_console/user_management/permissions/system_scheme');
         cy.findByTestId('resetPermissionsToDefault').click();
         cy.get('#confirmModalButton').click();
         cy.findByTestId('all_users-public_channel-create_public_channel-checkbox').click();
@@ -99,7 +99,7 @@ describe('System console', () => {
 
                     // # Login as a Admin and visit the channel
                     cy.apiAdminLogin();
-                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                    cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
                     // # Click the channel header dropdown
                     cy.get('#channelHeaderDropdownIcon').click();

@@ -66,7 +66,7 @@ describe('Limited console access', () => {
         cy.apiAdminLogin();
 
         // # Go the system console.
-        cy.visit('/admin_console/user_management/system_roles');
+        cy.visitAndWait('/admin_console/user_management/system_roles');
         cy.contains('System Roles', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
 
         // # Click on edit for the role
@@ -109,7 +109,7 @@ describe('Limited console access', () => {
         const {disabledInputs} = disabledTests.find((item) => item.section === section);
         Cypress._.forEach(disabledInputs, ({path, selector}) => {
             if (path.length && selector.length) {
-                cy.visit(path, {timeout: TIMEOUTS.HALF_MIN});
+                cy.visitAndWait(path, {timeout: TIMEOUTS.HALF_MIN});
                 cy.findByTestId(selector, {timeout: TIMEOUTS.ONE_MIN}).should(shouldString);
             }
         });
@@ -122,7 +122,7 @@ describe('Limited console access', () => {
         cy.apiLogin(user);
 
         // # Go the system console.
-        cy.visit('/admin_console');
+        cy.visitAndWait('/admin_console');
         cy.get('.admin-sidebar', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         accessRules.forEach((rule) => {
