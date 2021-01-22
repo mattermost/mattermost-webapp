@@ -36,28 +36,27 @@
     color: rgba(var(--center-channel-color-rgb), 0.52);
 }
 
+.pulsating_dot, .pulsating_dot:before, .pulsating_dot:after {
+    height: 12px;
+    width : 12px;
+    background-color : var(--online-indicator-rgb);
+    border-radius : 50%;
+}
+
 .pulsating_dot {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: auto;
     position: relative;
-    height: 12px;
-    width : 12px;
-    background-color : rgba(var(--online-indicator-rgb), 1);
-    border-radius : 50%;
 }
 
 .pulsating_dot:before, .pulsating_dot:after {
     content:"";
+    display:block;
     position: absolute;
     left: 0;
     top: 0;
-    height: 12px;
-    width : 12px;
-    border-radius: 50%;
-    background-color : rgba(var(--online-indicator-rgb), 1);
-    display:block;
 }
 
 .pulsating_dot:after {
