@@ -12,7 +12,7 @@ import GetPublicLinkModal from './get_public_link_modal';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        link: Selectors.getFilePublicLink(state),
+        link: Selectors.getFilePublicLink(state)?.link,
     };
 }
 
