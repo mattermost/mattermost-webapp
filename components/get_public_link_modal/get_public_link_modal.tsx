@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 import GetLinkModal from 'components/get_link_modal';
 
 type Props = {
-    link?: string;
+    link: string;
     actions: {
         getFilePublicLink: (fileId: string) => void;
     };
@@ -68,7 +68,7 @@ export default class GetPublicLinkModal extends React.PureComponent<Props, State
                 onHide={this.onHide}
                 title={Utils.localizeMessage('get_public_link_modal.title', 'Copy Public Link')}
                 helpText={Utils.localizeMessage('get_public_link_modal.help', 'The link below allows anyone to see this file without being registered on this server.')}
-                link={this.props.link || ''}
+                link={this.props.link}
             />
         );
     }
