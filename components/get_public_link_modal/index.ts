@@ -11,8 +11,9 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import GetPublicLinkModal from './get_public_link_modal';
 
 function mapStateToProps(state: GlobalState) {
+    const filePublicLink: unknown = Selectors.getFilePublicLink(state)?.link;
     return {
-        link: Selectors.getFilePublicLink(state)?.link,
+        link: filePublicLink as string,
     };
 }
 
