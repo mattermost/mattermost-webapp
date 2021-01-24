@@ -21,7 +21,7 @@ import {addReaction} from 'actions/post_actions.jsx';
 import * as Emoji from 'utils/emoji.jsx';
 import {getSortedUsers} from 'utils/utils.jsx';
 
-import Reaction from './reaction.jsx';
+import Reaction from './reaction';
 
 function makeMapStateToProps() {
     const getProfilesForReactions = makeGetProfilesForReactions();

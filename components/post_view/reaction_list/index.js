@@ -10,7 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {addReaction} from 'actions/post_actions.jsx';
 
-import ReactionList from './reaction_list.jsx';
+import ReactionList from './reaction_list';
 
 function makeMapStateToProps() {
     const getReactionsForPost = makeGetReactionsForPost();

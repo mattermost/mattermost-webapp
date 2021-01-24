@@ -2,11 +2,13 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
+import {Post} from 'mattermost-redux/types/posts';
+import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
@@ -19,66 +21,71 @@ import {localizeMessage} from 'utils/utils.jsx';
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
 
-export default class ReactionList extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+     * The post to render reactions for
+     */
+    post: Post;
+
+    /*
+     * The id of the team which belongs the post
+     */
+    teamId: string;
+
+    /**
+     * The reactions to render
+     */
+    reactions: { [x: string]: ReactionType } | undefined | null;
+
+    /**
+     * Whether to show the emoji picker.
+     */
+    enableEmojiPicker: boolean;
+
+    actions: {
 
         /**
-         * The post to render reactions for
+         * Function to add a reaction to the post
          */
-        post: PropTypes.object.isRequired,
+        addReaction: (postId: string, emojiName: string) => void;
+    };
+};
 
-        /*
-         * The id of the team which belongs the post
-         */
-        teamId: PropTypes.string,
+type State = {
+    showEmojiPicker: boolean;
+};
 
-        /**
-         * The reactions to render
-         */
-        reactions: PropTypes.object,
+export default class ReactionList extends React.PureComponent<Props, State> {
+    private addReactionButtonRef = React.createRef<HTMLButtonElement>();
 
-        /**
-         * Whether to show the emoji picker.
-         */
-        enableEmojiPicker: PropTypes.bool.isRequired,
-
-        actions: PropTypes.shape({
-
-            /**
-             * Function to add a reaction to the post
-             */
-            addReaction: PropTypes.func.isRequired,
-        }),
-    }
-
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             showEmojiPicker: false,
         };
-        this.addReactionButtonRef = React.createRef();
     }
 
-    getTarget = () => {
+    getTarget = (): HTMLButtonElement | null => {
         return this.addReactionButtonRef.current;
     }
 
-    handleEmojiClick = (emoji) => {
+    handleEmojiClick = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
-        const emojiName = emoji.name || emoji.aliases[0];
+        const emojiName = 'name' in emoji ? emoji.name : emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
     }
 
-    hideEmojiPicker = () => {
+    hideEmojiPicker = (): void => {
         this.setState({showEmojiPicker: false});
     }
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (): void => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
-    render() {
+    render(): React.ReactNode {
         const reactionsByName = new Map();
         const emojiNames = [];
 
