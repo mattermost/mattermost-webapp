@@ -16,11 +16,7 @@ import {
     AppContext,
     AppForm,
     AutocompleteSuggestion,
-    AutocompleteElement,
-    AutocompleteDynamicSelect,
     AutocompleteStaticSelect,
-    AutocompleteUserSelect,
-    AutocompleteChannelSelect,
     AutocompleteSuggestionWithComplete,
     AppLookupCallValues,
 } from 'mattermost-redux/types/apps';
@@ -37,7 +33,6 @@ import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
 import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
-import StateSelector from 'components/payment_form/state_selector';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -101,7 +96,7 @@ export class AppCommandParser {
     }
 
     // composeCallFromParsed creates the form submission call
-    composeCallFromParsed =  (parsed: ParsedCommand): AppCall | null => {
+    composeCallFromParsed = (parsed: ParsedCommand): AppCall | null => {
         if (parsed.error || !parsed.binding) {
             this.displayError(parsed.error);
             return null;
@@ -660,7 +655,7 @@ export class AppCommandParser {
     }
 
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
-    getParameterSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getParameterSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
         switch (Number(parsed.state)) {
         case ParseState.Flag:
             return this.getFlagNameSuggestions(parsed);
@@ -785,7 +780,7 @@ export class AppCommandParser {
 
         const values: AppLookupCallValues = {
             name: f.name,
-            user_input: parsed.text,
+            user_input: parsed.incomplete,
             values: parsed.values,
         };
 
@@ -799,7 +794,7 @@ export class AppCommandParser {
         type ResponseType = {items: AppSelectOption[]};
         let res: {data?: AppCallResponse<ResponseType>; error?: any};
         try {
-            res = await this.store.dispatch(doAppCall<ResponseType>(fullCall));
+            res = await this.store.dispatch(doAppCall<ResponseType>(payload));
         } catch (e) {
             return [{suggestion: `Error: ${e.message}`}];
         }
@@ -818,12 +813,12 @@ export class AppCommandParser {
     }
 
     // getUserSuggestions returns a suggestion with `@` if the user has not started typing
-    getUserSuggestions = (field: AutocompleteUserSelect, userInput: string): AutocompleteSuggestion[] => {
-        if (userInput.trim().length === 0) {
+    getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        if (parsed.incomplete.trim().length === 0) {
             return [{
                 suggestion: '@',
-                description: field.description || '',
-                hint: field.hint || '',
+                description: parsed.field.description || '',
+                hint: parsed.field.hint || '',
             }];
         }
 
@@ -831,12 +826,12 @@ export class AppCommandParser {
     }
 
     // getChannelSuggestions returns a suggestion with `~` if the user has not started typing
-    getChannelSuggestions = (field: AutocompleteChannelSelect, userInput: string): AutocompleteSuggestion[] => {
-        if (userInput.trim().length === 0) {
+    getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        if (parsed.incomplete.trim().length === 0) {
             return [{
                 suggestion: '~',
-                description: field.description || '',
-                hint: field.hint || '',
+                description: parsed.field.description || '',
+                hint: parsed.field.hint || '',
             }];
         }
 
@@ -844,16 +839,16 @@ export class AppCommandParser {
     }
 
     // getBooleanSuggestions returns true/false suggestions
-    getBooleanSuggestions = (userInput: string): AutocompleteSuggestion[] => {
+    getBooleanSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         const suggestions: AutocompleteSuggestion[] = [];
 
-        if ('true'.startsWith(userInput)) {
+        if ('true'.startsWith(parsed.incomplete)) {
             suggestions.push({
                 complete: 'true',
                 suggestion: 'true',
             });
         }
-        if ('false'.startsWith(userInput)) {
+        if ('false'.startsWith(parsed.incomplete)) {
             suggestions.push({
                 complete: 'false',
                 suggestion: 'false',
