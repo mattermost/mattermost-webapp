@@ -97,11 +97,15 @@ export class AppCommandParser {
     // composeCallFromCommandString creates the form submission call
     public composeCallFromCommandString = async (command: string): Promise<AppCall | null> => {
         const parsed = await this.parseCommand(command);
+        return this.composeCallFromParsed(parsed);
+    }
+
+    // composeCallFromParsed creates the form submission call
+    composeCallFromParsed =  (parsed: ParsedCommand): AppCall | null => {
         if (parsed.error || !parsed.binding) {
             this.displayError(parsed.error);
             return null;
         }
-
         const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
@@ -125,7 +129,7 @@ export class AppCommandParser {
                 app_id: parsed.binding.app_id,
             },
             values: parsed.values,
-            raw_command: command,
+            raw_command: parsed.text,
         };
         return payload;
     }
@@ -626,9 +630,7 @@ export class AppCommandParser {
 
     // getSuggestionsForCursorPosition computes subcommand/form suggestions
     // TODO we need the full text here, not just the pretext. Rework.
-    getSuggestionsForCursorPosition = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
-        const text = pretext.substring(0, pretext.lastIndexOf(' '));
-
+    getSuggestionsForCursorPosition = async (text: string): Promise<AutocompleteSuggestion[]> => {
         const parsed = await this.parseCommand(text);
         if (parsed.error || !parsed.binding) {
             return [];
@@ -650,11 +652,41 @@ export class AppCommandParser {
         // eslint-disable-next-line no-warning-comments
         // TODO get full text from SuggestionBox
         if (this.getMissingFields(parsed).length === 0) {
-            const execute = this.getSuggestionForExecute(pretext);
+            const execute = this.getExecuteSuggestion(parsed);
             suggestions = [execute, ...suggestions];
         }
 
         return suggestions;
+    }
+
+    // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
+    getParameterSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        switch (Number(parsed.state)) {
+        case ParseState.Flag:
+            return this.getFlagNameSuggestions(parsed);
+
+        case ParseState.NonspaceValue:
+        case ParseState.QuotedValue:
+        case ParseState.TickValue:
+            return this.getValueSuggestions(parsed);
+        }
+        return [];
+    }
+
+    // getExecuteSuggestion returns the "Execute Current Command" suggestion
+    getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion => {
+        let key = 'Ctrl';
+        if (Utils.isMac()) {
+            key = '⌘';
+        }
+
+        return {
+            complete: parsed.text + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            suggestion: '/Execute Current Command',
+            hint: '',
+            description: 'Select this option or use ' + key + '+Enter to execute the current command.',
+            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+        };
     }
 
     // getMissingFields collects the required fields that were not supplied in a submission
@@ -677,78 +709,65 @@ export class AppCommandParser {
         return missing;
     }
 
-    // getSuggestionForExecute returns the "Execute Current Command" suggestion
-    getSuggestionForExecute = (parsed: ParsedCommand): AutocompleteSuggestion => {
-        let key = 'Ctrl';
-        if (Utils.isMac()) {
-            key = '⌘';
-        }
-
-        return {
-            complete: parsed.text + EXECUTE_CURRENT_COMMAND_ITEM_ID,
-            suggestion: '/Execute Current Command',
-            hint: '',
-            description: 'Select this option or use ' + key + '+Enter to execute the current command.',
-            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
-        };
-    }
-
-    // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
-    getParameterSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        switch (Number(parsed.state)) {
-        case ParseState.Flag:
-            return this.getFlagNameSuggestions(parsed);
-        
-        case ParseState.NonspaceValue:
-        case ParseState.QuotedValue:
-        case ParseState.TickValue:
-            return this.getValueSuggestions(parsed);
-        }
-        return [];
-    }
-
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
     getFlagNameSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (!parsed.form || !parsed.form.fields || !parsed.form.fields.length) {
             return [];
         }
 
-        const applicable = parsed.form.fields.filter((field) => { field.label && field.label.startsWith(parsed.incomplete)});
-
-
-
-            return this.getSuggestionsFromFlags(available);
+        const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete));
+        if (applicable) {
+            return applicable.map((f) => {
+                let suffix = '';
+                if (f.type === AppFieldTypes.USER) {
+                    suffix = ' @';
+                } else if (f.type === AppFieldTypes.CHANNEL) {
+                    suffix = ' ~';
+                }
+                return {
+                    complete: '--' + (f.label || f.name) + suffix,
+                    suggestion: '--' + (f.label || f.name),
+                    description: f.description,
+                    hint: f.hint,
+                };
+            });
         }
 
         return [{suggestion: 'Could not find any suggestions'}];
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
-    getSuggestionsForField = async (field: AutocompleteElement, userInput: string, pretext: string): Promise<AutocompleteSuggestion[]> => {
-        switch (field.type) {
+    getValueSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+        if (!parsed || !parsed.field) {
+            return [];
+        }
+        const f = parsed.field;
+
+        switch (f.type) {
         case AppFieldTypes.USER:
-            return this.getUserSuggestions(field as AutocompleteUserSelect, userInput);
+            return this.getUserSuggestions(parsed);
         case AppFieldTypes.CHANNEL:
-            return this.getChannelSuggestions(field as AutocompleteChannelSelect, userInput);
+            return this.getChannelSuggestions(parsed);
         case AppFieldTypes.BOOL:
-            return this.getBooleanSuggestions(userInput);
+            return this.getBooleanSuggestions(parsed);
         case AppFieldTypes.DYNAMIC_SELECT:
-            return this.getDynamicSelectSuggestions(field as AutocompleteDynamicSelect, userInput, pretext);
+            return this.getDynamicSelectSuggestions(parsed);
         case AppFieldTypes.STATIC_SELECT:
-            return this.getStaticSelectSuggestions(field as AutocompleteStaticSelect, userInput);
+            return this.getStaticSelectSuggestions(parsed);
         }
 
         return [{
-            complete: userInput,
+            complete: parsed.text,
             suggestion: '',
-            description: field.description,
-            hint: field.hint,
+            description: f.description,
+            hint: f.hint,
         }];
     }
 
     // getStaticSelectSuggestions returns suggestions specified in the field's options property
-    getStaticSelectSuggestions = (field: AutocompleteStaticSelect, userInput: string): AutocompleteSuggestion[] => {
-        const opts = field.options.filter((opt) => opt.label.toLowerCase().startsWith(userInput.toLowerCase()));
+    getStaticSelectSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+        const f = parsed.field as AutocompleteStaticSelect;
+        const opts = f.options.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
         return opts.map((opt) => ({
             complete: opt.label,
             suggestion: opt.label,
@@ -758,40 +777,24 @@ export class AppCommandParser {
     }
 
     // getDynamicSelectSuggestions fetches and returns suggestions from the server
-    getDynamicSelectSuggestions = async (field: AppField, userInput: string, cmdStr: string): Promise<AutocompleteSuggestion[]> => {
-        const binding = await this.getBindingWithForm(cmdStr);
-        if (!binding) {
+    getDynamicSelectSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+        const f = parsed.field;
+        if (!f) {
             return [];
         }
-
-        const form = this.getFormFromBinding(binding);
-        if (!form) {
-            return [];
-        }
-
-        const call = form.call || binding.call;
-        if (!call) {
-            return [];
-        }
-
-        const formValues = this.getFormValues(cmdStr, binding);
 
         const values: AppLookupCallValues = {
-            name: field.name,
-            user_input: userInput,
-            values: formValues,
+            name: f.name,
+            user_input: parsed.text,
+            values: parsed.values,
         };
 
-        const fullCall: AppCall = {
-            ...call,
-            type: 'lookup',
-            context: {
-                ...this.getAppContext(),
-                app_id: binding.app_id,
-            },
-            values,
-            raw_command: cmdStr,
-        };
+        const payload = this.composeCallFromParsed(parsed);
+        if (!payload) {
+            return [];
+        }
+        payload.type = AppCallTypes.LOOKUP;
+        payload.values = values;
 
         type ResponseType = {items: AppSelectOption[]};
         let res: {data?: AppCallResponse<ResponseType>; error?: any};
@@ -857,25 +860,6 @@ export class AppCommandParser {
             });
         }
         return suggestions;
-    }
-
-    // getSuggestionsFromFlags returns suggestions for a flag name.
-    // If it is a user or channel field, the `@` or `~` will be placed after the flag is chosen, so the user/channel suggestions show immediately.
-    getSuggestionsFromFlags = (flags: AutocompleteElement[]): AutocompleteSuggestion[] => {
-        return flags.map((flag) => {
-            let suffix = '';
-            if (flag.type === AppFieldTypes.USER) {
-                suffix = ' @';
-            } else if (flag.type === AppFieldTypes.CHANNEL) {
-                suffix = ' ~';
-            }
-            return {
-                complete: '--' + (flag.label || flag.name) + suffix,
-                suggestion: '--' + (flag.label || flag.name),
-                description: flag.description,
-                hint: flag.hint,
-            };
-        });
     }
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name
