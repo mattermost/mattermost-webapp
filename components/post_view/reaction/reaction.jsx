@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import './reaction.scss';
 
-export default class Reaction extends React.Component {
+export default class Reaction extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -93,19 +93,13 @@ export default class Reaction extends React.Component {
 
         if (currentUserReacted) {
             this.state = {
-                userReacted: currentUserReacted,
                 reactedClass: 'Reaction--reacted',
                 displayNumber: reactionCount,
-                reactedNumber: reactionCount,
-                unreactedNumber: reactionCount - 1,
             };
         } else {
             this.state = {
-                userReacted: currentUserReacted,
                 reactedClass: 'Reaction--unreacted',
                 displayNumber: reactionCount,
-                reactedNumber: reactionCount + 1,
-                unreactedNumber: reactionCount,
             };
         }
 
@@ -114,26 +108,17 @@ export default class Reaction extends React.Component {
         this.reactedNumeralRef = React.createRef();
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        // reaction count has changed, but not by current user
-        if (nextProps.reactionCount !== prevState.displayNumber && nextProps.sortedUsers.currentUserReacted === prevState.userReacted) {
-            // set counts relative to current user having reacted
-            if (prevState.userReacted) {
-                return {
-                    displayNumber: nextProps.reactionCount,
-                    reactedNumber: nextProps.reactionCount,
-                    unreactedNumber: nextProps.reactionCount - 1,
-                };
-            }
+    componentDidUpdate(prevProps) {
+        if (prevProps.reactionCount !== this.props.reactionCount) {
+            const {currentUserReacted} = this.props.sortedUsers;
+            const reactedClass = currentUserReacted ? 'Reaction--reacted' : 'Reaction--unreacted';
 
-            // set counts relative to current user having NOT reacted
-            return {
-                displayNumber: nextProps.reactionCount,
-                reactedNumber: nextProps.reactionCount + 1,
-                unreactedNumber: nextProps.reactionCount,
-            };
+            /* eslint-disable-next-line react/no-did-update-set-state */
+            this.setState({
+                displayNumber: this.props.reactionCount,
+                reactedClass,
+            });
         }
-        return null;
     }
 
     handleClick = () => {
@@ -141,39 +126,44 @@ export default class Reaction extends React.Component {
         if (!(this.props.canAddReaction && this.props.canRemoveReaction)) {
             return;
         }
+        const {currentUserReacted} = this.props.sortedUsers;
+
         this.setState((state) => {
-            if (state.userReacted) {
+            if (currentUserReacted) {
                 return {
-                    userReacted: false,
+                    displayNumber: state.displayNumber - 1,
                     reactedClass: 'Reaction--unreacting',
                 };
             }
+
             return {
-                userReacted: true,
+                displayNumber: state.displayNumber + 1,
                 reactedClass: 'Reaction--reacting',
             };
         });
     }
 
     handleAnimationEnded = () => {
-        const {reactedNumber, unreactedNumber} = this.state;
         const {actions, post, emojiName} = this.props;
+        const {currentUserReacted} = this.props.sortedUsers;
+
         this.setState((state) => {
-            if (state.userReacted) {
+            if (state.reactedClass === 'Reaction--reacting') {
                 return {
                     reactedClass: 'Reaction--reacted',
-                    displayNumber: reactedNumber,
+                };
+            } else if (state.reactedClass === 'Reaction--unreacting') {
+                return {
+                    reactedClass: 'Reaction--unreacted',
                 };
             }
-            return {
-                reactedClass: 'Reaction--unreacted',
-                displayNumber: unreactedNumber,
-            };
+            return state;
         });
-        if (this.state.userReacted) {
-            actions.addReaction(post.id, emojiName);
-        } else {
+
+        if (currentUserReacted) {
             actions.removeReaction(post.id, emojiName);
+        } else {
+            actions.addReaction(post.id, emojiName);
         }
     }
 
@@ -187,8 +177,10 @@ export default class Reaction extends React.Component {
             return null;
         }
         const {currentUserReacted, users} = this.props.sortedUsers;
-        const {otherUsersCount, canAddReaction, canRemoveReaction} = this.props;
-        const {unreactedNumber, reactedNumber, displayNumber} = this.state;
+        const {reactionCount, otherUsersCount, canAddReaction, canRemoveReaction} = this.props;
+        const {displayNumber} = this.state;
+        const reactedNumber = currentUserReacted ? reactionCount : reactionCount + 1;
+        const unreactedNumber = currentUserReacted ? reactionCount - 1 : reactionCount;
         const unreacted = (unreactedNumber > 0) ? unreactedNumber : '';
         const reacted = (reactedNumber > 0) ? reactedNumber : '';
         const display = (displayNumber > 0) ? displayNumber : '';
