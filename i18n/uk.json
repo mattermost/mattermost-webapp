@@ -2654,7 +2654,6 @@
   "sidebar_header.tutorial.body3": "Системні адміністратори знайдуть опцію **System Console** для адміністрування всієї системи.",
   "sidebar_header.tutorial.title": "Головне меню",
   "sidebar_left.add_channel_dropdown.createNewChannel": "Створити новий канал ",
-  "sidebar_left.channel_filter.viewing": "VIEWING:",
   "sidebar_left.channel_navigator.channelSwitcherLabel": "Перемикач каналів",
   "sidebar_left.channel_navigator.goBackLabel": "Назад",
   "sidebar_left.channel_navigator.jumpTo": "Перейти до ...",

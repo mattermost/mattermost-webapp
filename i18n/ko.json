@@ -623,7 +623,6 @@
   "admin.experimental.enableXToLeaveChannelsFromLHS.desc": "이 설정이 활성화되면 사용자는 공개 그리고 비공개 채널에서 채널 이름 옆에 있는 “x”를 클릭하여 채널에서 나올 수 있습니다. 이 설정이 비활성화되면 사용자는 채널 메뉴의 **채널 떠나기**를 통해서만 채널에서 나올 수 있습니다. ",
   "admin.experimental.enableXToLeaveChannelsFromLHS.title": "좌측 사이드바에서 X 버튼을 통해서 채널 떠나는 기능 활성화",
   "admin.experimental.experimentalChannelOrganization.title": "채널 그룹 및 정렬",
-  "admin.experimental.experimentalChannelSidebarOrganization.title": "실험적인 사이드바 기능",
   "admin.experimental.experimentalEnableAuthenticationTransfer.desc": "활성화 시, 사용자는 계정 설정 또는 API를 통해 서버에서 사용 가능한 방법으로 로그인 방식을 변경할 수 있습니다. 비활성화 시, 사용자는 활성화된 인증옵 션과 관계없이 로그인 방식을 변경할 수 없습니다.",
   "admin.experimental.experimentalEnableAuthenticationTransfer.title": "인증 전송 허용 :",
   "admin.experimental.experimentalEnableAutomaticReplies.desc": "이 설정을 활성화하면 사용자는 **계정 설정 > 알림**에서 자동 응답을 활성화할 수 있게 됩니다.",

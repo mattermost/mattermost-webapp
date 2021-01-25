@@ -3175,7 +3175,6 @@
   "sidebar_header.tutorial.body3": "Administratorzy systemu znajdą opcję **Konsola systemowa**, aby zarządzać całym systemem.",
   "sidebar_header.tutorial.title": "Menu główne",
   "sidebar_left.add_channel_dropdown.createNewChannel": "Utwórz Nowy Kanał",
-  "sidebar_left.channel_filter.unread": "nieodczytane",
   "sidebar_left.channel_navigator.channelSwitcherLabel": "Przełącznik Kanałów",
   "sidebar_left.channel_navigator.goBackLabel": "Wstecz",
   "sidebar_left.channel_navigator.jumpTo": "Przejdź do...",
