@@ -611,7 +611,10 @@ const AdminDefinition = {
             url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
             title_default: 'Web Server',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource('environment.web_server')),
+            ),
             schema: {
                 id: 'ServiceSettings',
                 name: t('admin.environment.webServer'),
@@ -633,7 +636,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.service.siteURLExample'),
                         placeholder_default: 'E.g.: "http://example.com:8065"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -647,7 +650,7 @@ const AdminDefinition = {
                         error_message_default: 'Test unsuccessful: {error}',
                         success_message: t('admin.service.testSiteURLSuccess'),
                         success_message_default: 'Test successful. This is a valid URL.',
-                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -658,7 +661,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: ":8065"',
                         help_text: t('admin.service.listenDescription'),
                         help_text_default: 'The address and port to which to bind and listen. Specifying ":8065" will bind to all network interfaces. Specifying "127.0.0.1:8065" will only bind to the network interface having that IP address. If you choose a port of a lower level (called "system ports" or "well-known ports", in the range of 0-1023), you must have permissions to bind to that port. On Linux you can use: "sudo setcap cap_net_bind_service=+ep ./bin/mattermost" to allow Mattermost to bind to well-known ports.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -671,7 +674,7 @@ const AdminDefinition = {
                         disabled_help_text_default: 'Forwards all insecure traffic from port 80 to secure port 443. Not recommended when using a proxy server.\n \nThis setting cannot be enabled until your server is [listening](#ListenAddress) on port 443.',
                         disabled_help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                             it.not(it.stateMatches('ServiceSettings.ListenAddress', /:443$/)),
                         ),
                     },
@@ -693,7 +696,7 @@ const AdminDefinition = {
                                 display_name_default: 'TLS (Recommended)',
                             },
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -703,7 +706,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.tlsCertFileDescription'),
                         help_text_default: 'The certificate file to use.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                             it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
                         ),
                     },
@@ -715,7 +718,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.tlsKeyFileDescription'),
                         help_text_default: 'The private key file to use.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                             it.stateIsTrue('ServiceSettings.UseLetsEncrypt'),
                         ),
                     },
@@ -730,7 +733,7 @@ const AdminDefinition = {
                         disabled_help_text_default: 'Enable the automatic retrieval of certificates from Let\'s Encrypt. The certificate will be retrieved when a client attempts to connect from a new domain. This will work with multiple domains.\n \nThis setting cannot be enabled unless the [Forward port 80 to 443](#Forward80To443) setting is set to true.',
                         disabled_help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                             it.stateIsFalse('ServiceSettings.Forward80To443'),
                         ),
                     },
@@ -742,7 +745,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.letsEncryptCertificateCacheFileDescription'),
                         help_text_default: 'Certificates retrieved and other data about the Let\'s Encrypt service will be stored in this file.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                             it.stateIsFalse('ServiceSettings.UseLetsEncrypt'),
                         ),
                     },
@@ -753,7 +756,7 @@ const AdminDefinition = {
                         label_default: 'Read Timeout:',
                         help_text: t('admin.service.readTimeoutDescription'),
                         help_text_default: 'Maximum time allowed from when the connection is accepted to when the request body is fully read.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -762,7 +765,7 @@ const AdminDefinition = {
                         label_default: 'Write Timeout:',
                         help_text: t('admin.service.writeTimeoutDescription'),
                         help_text_default: 'If using HTTP (insecure), this is the maximum time allowed from the end of reading the request headers until the response is written. If using HTTPS, it is the total time from when the connection is accepted until the response is written.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -787,7 +790,7 @@ const AdminDefinition = {
                                 display_name_default: 'Disabled',
                             },
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -796,7 +799,7 @@ const AdminDefinition = {
                         label_default: 'Enable Insecure Outgoing Connections: ',
                         help_text: t('admin.service.insecureTlsDesc'),
                         help_text_default: 'When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -806,7 +809,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.managedResourcePathsDescription'),
                         help_text_default: 'A comma-separated list of paths on the Mattermost server that are managed by another service. See [here](!https://docs.mattermost.com/install/desktop-managed-resources.html) for more information.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -838,7 +841,7 @@ const AdminDefinition = {
                         },
                         error_message: t('admin.reload.reloadFail'),
                         error_message_default: 'Reload unsuccessful: {error}',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -850,7 +853,7 @@ const AdminDefinition = {
                         help_text_default: 'This will purge all the in-memory caches for things like sessions, accounts, channels, etc. Deployments using High Availability will attempt to purge all the servers in the cluster.  Purging the caches may adversely impact performance.',
                         error_message: t('admin.purge.purgeFail'),
                         error_message_default: 'Purging unsuccessful: {error}',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.web_server')),
                     },
                 ],
             },
@@ -883,8 +886,11 @@ const AdminDefinition = {
                 'admin.sql.traceTitle',
                 'admin.sql.traceDescription',
             ],
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+            isHidden: it.any(
+                it.not(it.userHasReadPermissionOnResource('environment.database')),
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment.database')),
             schema: {
                 id: 'DatabaseSettings',
                 component: DatabaseSettings,
@@ -897,7 +903,9 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('Elasticsearch')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource('environment.elasticsearch')),
             ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource('environment.elasticsearch')),
             searchableStrings: [
                 'admin.elasticsearch.title',
                 'admin.elasticsearch.enableIndexingTitle',
@@ -924,7 +932,6 @@ const AdminDefinition = {
                 'admin.elasticsearch.enableSearchingTitle',
                 'admin.elasticsearch.enableSearchingDescription',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
             schema: {
                 id: 'ElasticSearchSettings',
                 component: ElasticSearchSettings,
@@ -934,7 +941,10 @@ const AdminDefinition = {
             url: 'environment/file_storage',
             title: t('admin.sidebar.fileStorage'),
             title_default: 'File Storage',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource('environment.file_storage'))
+            ),
             schema: {
                 id: 'FileSettings',
                 name: t('admin.environment.fileStorage'),
@@ -960,7 +970,7 @@ const AdminDefinition = {
                                 display_name_default: 'Amazon S3',
                             },
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -972,7 +982,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.localExample'),
                         placeholder_default: 'E.g.: "./data/"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_LOCAL)),
                         ),
                     },
@@ -987,7 +997,7 @@ const AdminDefinition = {
                         placeholder_default: '50',
                         onConfigLoad: (configVal) => configVal / MEBIBYTE,
                         onConfigSave: (displayVal) => displayVal * MEBIBYTE,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -999,7 +1009,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.amazonS3BucketExample'),
                         placeholder_default: 'E.g.: "mattermost-media"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1012,7 +1022,10 @@ const AdminDefinition = {
                         help_text_default: 'Prefix you selected for your S3 bucket in AWS.',
                         placeholder: t('admin.image.amazonS3PathPrefixExample'),
                         placeholder_default: 'E.g.: "subdir1/" or you can leave it .',
-                        isDisabled: it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                        isDisabled: it.any(
+                            it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1024,7 +1037,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.amazonS3RegionExample'),
                         placeholder_default: 'E.g.: "us-east-1"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1039,7 +1052,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1053,7 +1066,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.amazonS3EndpointExample'),
                         placeholder_default: 'E.g.: "s3.amazonaws.com"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1067,7 +1080,7 @@ const AdminDefinition = {
                         placeholder: t('admin.image.amazonS3SecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1079,7 +1092,7 @@ const AdminDefinition = {
                         help_text: t('admin.image.amazonS3SSLDescription'),
                         help_text_default: 'When false, allow insecure connections to Amazon S3. Defaults to secure connections only.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1093,7 +1106,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://about.mattermost.com/default-server-side-encryption) to learn more.',
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1105,7 +1118,7 @@ const AdminDefinition = {
                         help_text: t('admin.image.amazonS3TraceDescription'),
                         help_text_default: '(Development Mode) When true, log additional debugging information to the system logs.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource('environment.file_storage')),
                             it.not(it.stateEquals('FileSettings.DriverName', FILE_STORAGE_DRIVER_S3)),
                         ),
                     },
@@ -1121,7 +1134,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.s3.s3Success'),
                         success_message_default: 'Connection was successful',
-                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment')),
+                        isDisabled: it.not(it.userHasReadPermissionOnResource('environment.file_storage')),
                     },
                 ],
             },
