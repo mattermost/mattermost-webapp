@@ -30,7 +30,7 @@ describe('Channel sidebar - group unreads seperately setting', () => {
                 testTeam = team;
                 testChannel = channel;
 
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visitAndWait(`/${team.name}/channels/town-square`);
 
                 // # Toggle the unreads category setting
                 enableOrDisableUnreadsCategory();

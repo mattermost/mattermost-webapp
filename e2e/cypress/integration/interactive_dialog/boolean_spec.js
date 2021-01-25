@@ -28,7 +28,7 @@ describe('Interactive Dialog', () => {
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
-            cy.visit(`/${team.name}`);
+            cy.visitAndWait(`/${team.name}`);
 
             const webhookBaseUrl = Cypress.env().webhookBaseUrl;
 

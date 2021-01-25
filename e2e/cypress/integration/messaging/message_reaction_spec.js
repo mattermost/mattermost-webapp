@@ -27,7 +27,7 @@ describe('Emoji reactions to posts/messages', () => {
 
                 // # Login as userOne and town-square
                 cy.apiLogin(userOne);
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
             });
         });
     });
@@ -59,7 +59,7 @@ describe('Emoji reactions to posts/messages', () => {
 
         // # Login as userTwo and town-square
         cy.apiLogin(userTwo);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         cy.getLastPostId().then((postId) => {
             // * userOne's reaction "slightly_frowning_face" is visible and is equal to 1

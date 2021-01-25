@@ -39,7 +39,7 @@ describe('Authentication', () => {
         cy.apiLogin(mfaSysAdmin);
 
         // # Navigate to System Console -> Authentication -> MFA Page.
-        cy.visit('/admin_console/authentication/mfa');
+        cy.visitAndWait('/admin_console/authentication/mfa');
         cy.findByText('Multi-factor Authentication', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
 
         // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
@@ -74,7 +74,7 @@ describe('Authentication', () => {
         });
 
         // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
+        cy.visitAndWait('/admin_console/user_management/users');
         cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
 
         // * Remove MFA option not available for the user
@@ -84,7 +84,7 @@ describe('Authentication', () => {
 
         // # Login as test user
         cy.apiLogin(testUser);
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // * MFA page is shown
         cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
@@ -94,8 +94,7 @@ describe('Authentication', () => {
     it('MM-T1781 - MFA - Admin removes another users MFA', () => {
         // # Login as test user
         cy.apiLogin(testUser);
-        cy.visit('/');
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/');
 
         let token;
         cy.url().then((url) => {
@@ -120,7 +119,7 @@ describe('Authentication', () => {
         cy.apiLoginWithMFA(mfaSysAdmin, token);
 
         // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
+        cy.visitAndWait('/admin_console/user_management/users');
         cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
 
         // * Remove MFA option available for the user and click it
@@ -129,7 +128,7 @@ describe('Authentication', () => {
         cy.findByText('Remove MFA').should('be.visible').click();
 
         // # Navigate to System Console -> Authentication -> MFA Page.
-        cy.visit('/admin_console/authentication/mfa');
+        cy.visitAndWait('/admin_console/authentication/mfa');
         cy.findByText('Multi-factor Authentication', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
 
         // # Also ensure that this MFA setting is enforced.
@@ -140,7 +139,7 @@ describe('Authentication', () => {
 
         // # Login as test user
         cy.apiLogin(testUser);
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // * No MFA page is shown
         cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible').and('not.exist');
@@ -153,7 +152,7 @@ describe('Authentication', () => {
         cy.apiLoginWithMFA(mfaSysAdmin, token);
 
         // # Navigate to System Console -> User Management -> Users
-        cy.visit('/admin_console/user_management/users');
+        cy.visitAndWait('/admin_console/user_management/users');
         cy.get('#searchUsers', {timeout: TIMEOUTS.ONE_MIN}).type(`${testUser.email}`);
 
         // * Remove MFA option available for the user and click it

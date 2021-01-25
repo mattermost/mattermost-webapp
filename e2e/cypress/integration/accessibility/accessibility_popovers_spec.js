@@ -27,7 +27,7 @@ describe('Verify Accessibility Support in Popovers', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/off-topic`);
+            cy.visitAndWait(`/${team.name}/channels/off-topic`);
 
             // # Post a message
             cy.postMessage(`hello from test user: ${Date.now()}`);

@@ -15,7 +15,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console');
+    cy.visitAndWait('/admin_console');
 };
 
 describe('System console', () => {
@@ -52,8 +52,7 @@ describe('System console', () => {
 
         // # A bug with the endpoint used for downloading plugins which doesn't send websocket events out so state is not updated
         // # Therefore, we visit town-square to update the state of our app then re-visit admin console
-        cy.visit('ad-1/channels/town-square');
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait('ad-1/channels/town-square');
         goToAdminConsole();
 
         // # Type first plugin name

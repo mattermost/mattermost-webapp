@@ -15,7 +15,7 @@ describe('Messaging', () => {
         // # Login as test user and visit the newly created test channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             // # Visit a test channel
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
     });
 

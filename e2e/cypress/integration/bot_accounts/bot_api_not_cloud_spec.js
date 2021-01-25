@@ -48,7 +48,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.apiDeactivateUser(sysadmin.id);
 
                 // # Get bot list
-                cy.visit(`/${newTeam.name}/integrations/bots`);
+                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
                 // # Search for the other bot
                 cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(bot.username);
@@ -62,7 +62,7 @@ describe('Bot accounts ownership and API', () => {
                 // # Repeat the test to confirm it stays disabled
 
                 // # Get bot list
-                cy.visit(`/${newTeam.name}/integrations/bots`);
+                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
                 // # Search for the other bot
                 cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(bot.username);
