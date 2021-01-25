@@ -51,7 +51,7 @@ describe('Join an open team from a direct message link', () => {
 
     it('MM-T452 User with no teams should be able to join an open team from a link in direct messages', () => {
         // # View 'off-topic' channel
-        cy.visit(`/${openTeam.name}/channels/${publicChannelInOpenTeam.name}`);
+        cy.visitAndWait(`/${openTeam.name}/channels/${publicChannelInOpenTeam.name}`);
 
         // * Expect channel title to match title passed in argument
         cy.get('#channelHeaderTitle').
@@ -78,7 +78,7 @@ describe('Join an open team from a direct message link', () => {
                 and('have.text', `@${testUserOutsideOpenTeam.username}`);
 
             // # Open direct message from the user in the open team (testUserInOpenTeam)
-            cy.visit(`/${secondTestTeam.name}/messages/@${testUserInOpenTeam.username}`);
+            cy.visitAndWait(`/${secondTestTeam.name}/messages/@${testUserInOpenTeam.username}`);
 
             // * Expect channel title to contain the username (ensures we opened the right DM)
             cy.get('#channelHeaderTitle').
@@ -109,7 +109,7 @@ describe('Join an open team from a direct message link', () => {
 
 const sendDirectMessageToUser = (user, team, message) => {
     // # Open the the direct messages channel with the target user
-    cy.visit(`/${team.name}/messages/@${user.username}`);
+    cy.visitAndWait(`/${team.name}/messages/@${user.username}`);
 
     // * Expect the channel title to be the user's username
     // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text

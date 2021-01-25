@@ -43,7 +43,7 @@ describe('Onboarding', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visit(`/${team.name}`);
+            cy.visitAndWait(`/${team.name}`);
         });
     });
 
@@ -62,7 +62,7 @@ describe('Onboarding', () => {
 
             // # Logout from admin account and visit the invite url
             cy.apiLogout();
-            cy.visit(inviteLink);
+            cy.visitAndWait(inviteLink);
         });
 
         // # Click Email and Password link
@@ -93,7 +93,7 @@ describe('Onboarding', () => {
             cy.url().should('not.include', 'undefined');
 
             // # Visit permalink (e.g. click on email link)
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');

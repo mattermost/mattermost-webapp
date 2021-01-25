@@ -50,7 +50,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
             // # Login as regular user and go to town square
             cy.apiLogin(regularUser);
-            cy.visit(`/${team.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
         });
     });
 
@@ -107,7 +107,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
     });
 
     it('MM-T1372 Verify Guest Badge in Posts in Center Channel, RHS and User Profile Popovers', () => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
@@ -231,7 +231,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('MM-T1419 Deactivating a Guest removes "This channel has guests" message from channel header', () => {
         // Visit the channel which has guests
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify the text 'This channel has guests' is displayed in the header
         cy.get('#channelHeaderDescription').within(($el) => {

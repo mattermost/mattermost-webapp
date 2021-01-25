@@ -55,7 +55,7 @@ describe('Channels', () => {
         cy.apiLogin(testUser);
 
         // # Visit the channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click channel header to open channel menu
         cy.get('#channelHeaderTitle').should('contain', testChannel.display_name).click();

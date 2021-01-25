@@ -17,7 +17,7 @@ describe('Unsaved Changes', () => {
 
     it('MM-T955 Warning leaving changed page without saving: Leave page, discard changes', () => {
         // # Make a change on any page.
-        cy.visit('/admin_console/environment/file_storage');
+        cy.visitAndWait('/admin_console/environment/file_storage');
         cy.findByTestId('FileSettings.MaxFileSizelabel').type('1');
 
         // # Click a navigation item in left nav.
@@ -29,13 +29,13 @@ describe('Unsaved Changes', () => {
 
         // * Opens other page, changes discarded.
         cy.url().should('include', '/environment/database');
-        cy.visit('/admin_console/environment/file_storage');
+        cy.visitAndWait('/admin_console/environment/file_storage');
         cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', '50');
     });
 
     it('MM-T956 Warning leaving changed page without saving: Cancel leaving page', () => {
         // # Make a change on any page.
-        cy.visit('/admin_console/environment/file_storage');
+        cy.visitAndWait('/admin_console/environment/file_storage');
         cy.findByTestId('FileSettings.MaxFileSizelabel').type('1');
 
         // # Click a navigation item in left nav.

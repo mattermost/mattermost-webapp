@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -35,7 +36,7 @@ describe('Archived channels', () => {
 
     it('are present in the channels list view', () => {
         // # Go to the channels list view
-        cy.visit('/admin_console/user_management/channels');
+        cy.visitAndWait('/admin_console/user_management/channels');
 
         // * Verify the archived channel is visible
         cy.findByText(testChannel.display_name, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -46,7 +47,7 @@ describe('Archived channels', () => {
 
     it('appear in the search results of the channels list view', () => {
         // # Go to the channels list view
-        cy.visit('/admin_console/user_management/channels');
+        cy.visitAndWait('/admin_console/user_management/channels');
 
         // # Search for the archived channel
         cy.findByTestId('searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(`${testChannel.display_name}{enter}`);
@@ -57,7 +58,7 @@ describe('Archived channels', () => {
 
     it('display an unarchive button and a limited set of other UI elements', () => {
         // # Go to the channel details view
-        cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        cy.visitAndWait(`/admin_console/user_management/channels/${testChannel.id}`);
 
         // * Verify the Unarchive Channel button is visible
         cy.get('button.ArchiveButton', {timeout: TIMEOUTS.ONE_MIN}).findByText('Unarchive Channel').should('be.visible');
@@ -68,7 +69,7 @@ describe('Archived channels', () => {
 
     it('can be unarchived', () => {
         // # Go to the channel details view
-        cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
+        cy.visitAndWait(`/admin_console/user_management/channels/${testChannel.id}`);
 
         // # Click Unarchive Channel button
         cy.get('button.ArchiveButton', {timeout: TIMEOUTS.ONE_MIN}).findAllByText('Unarchive Channel').click();
