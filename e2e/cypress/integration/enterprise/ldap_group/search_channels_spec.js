@@ -29,7 +29,7 @@ describe('Search channels', () => {
     });
 
     beforeEach(() => {
-        cy.visit('/admin_console/user_management/channels');
+        cy.visitAndWait('/admin_console/user_management/channels');
     });
 
     it('loads with no search text', () => {

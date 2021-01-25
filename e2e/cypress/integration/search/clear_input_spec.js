@@ -17,7 +17,7 @@ describe('Search', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -52,7 +52,8 @@ describe('Search', () => {
 
         // * Verify search input field exists and not search button, as inputs contains placeholder not buttons/icons
         // and then type in a search text
-        cy.findByPlaceholderText('Search').should('be.visible').and('exist').click().type(searchText).as('searchInput');
+        cy.get('#searchBox').should('be.visible').as('searchInput');
+        cy.get('@searchInput').click().wait(TIMEOUTS.HALF_SEC).type(searchText);
 
         // # Click on the pinned post button from the header
         cy.get('#channel-header').within(() => {
@@ -60,7 +61,7 @@ describe('Search', () => {
         });
 
         // * Verify the pinned post RHS is open
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts');
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts');
 
         // * Check that search input value remains the same as we entered before
         cy.get('@searchInput').should('have.value', searchText);

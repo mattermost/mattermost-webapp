@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 import {getAdminAccount} from '../../support/env';
@@ -37,7 +38,7 @@ describe('Leave an archived channel', () => {
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
             });
-            cy.visit(`/${team.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
             cy.postMessageAs({sender: testUser, message: testArchivedMessage, channelId: testChannel.id});
         });
     });
@@ -48,7 +49,7 @@ describe('Leave an archived channel', () => {
         cy.uiArchiveChannel();
 
         // # Switch to another channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Use CTRL / CMD+K shortcut to open channel switcher.
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -77,7 +78,7 @@ describe('Leave an archived channel', () => {
         // # As a user with appropriate permission, archive a public channel:
         cy.apiLogin(adminUser);
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
 
         const messageText = `archived text ${getRandomId()}`;
@@ -103,7 +104,7 @@ describe('Leave an archived channel', () => {
         // # As a user with appropriate permission, archive a private channel:
         cy.apiLogin(adminUser);
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
 
         const messageText = `archived text ${getRandomId()}`;

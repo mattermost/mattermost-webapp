@@ -26,7 +26,7 @@ describe('Archived channels', () => {
         // # Login as test user and visit create channel
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
@@ -63,7 +63,7 @@ describe('Archived channels', () => {
         // # Create a channel that will be archived
         cy.apiCreateChannel(testTeam.id, 'archived-channel', 'Archived Channel').then(({channel}) => {
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Post message
             cy.postMessage('Test');
@@ -84,7 +84,7 @@ describe('Archived channels', () => {
             });
 
             // # Archive the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
         });
 
@@ -92,7 +92,7 @@ describe('Archived channels', () => {
         cy.apiLogout();
         cy.reload();
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // # Read the message and save post
         cy.get('a.markdown__link').click();

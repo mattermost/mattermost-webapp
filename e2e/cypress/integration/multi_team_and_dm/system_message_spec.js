@@ -31,7 +31,7 @@ describe('System message', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
             // # Post a regular message
             cy.postMessage('Test for no status of a system message');

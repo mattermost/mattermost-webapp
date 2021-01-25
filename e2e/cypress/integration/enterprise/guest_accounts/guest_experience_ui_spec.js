@@ -50,14 +50,14 @@ describe('Guest Account - Guest User Experience', () => {
                 cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guestUser.id).then(() => {
                         cy.apiLogin(guestUser);
-                        cy.visit(`/${team.name}/channels/${channel.name}`);
+                        cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
                     });
                 });
             });
         });
     });
 
-    it('MM-18043 Verify Guest User Restrictions', () => {
+    it('MM-T1354 Verify Guest User Restrictions', () => {
         // * Verify Reduced Options in Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];
@@ -234,7 +234,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Wait for page to load and then logout
         cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
         cy.apiLogout();
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // # Login with guest user credentials and check the error message
         cy.get('#loginId').type(guestUser.username);

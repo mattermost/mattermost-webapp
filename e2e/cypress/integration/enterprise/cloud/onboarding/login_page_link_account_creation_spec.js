@@ -35,7 +35,7 @@ describe('Onboarding', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -65,7 +65,7 @@ describe('Onboarding', () => {
         cy.apiLogout();
 
         // # Visit the team url
-        cy.visit(`/${testTeam.name}`);
+        cy.visitAndWait(`/${testTeam.name}`);
 
         // # Attempt to create a new account
         cy.get('#login_section', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
@@ -111,7 +111,7 @@ describe('Onboarding', () => {
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
         });
     }
 

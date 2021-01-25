@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -31,7 +32,7 @@ describe('Edit bot username', () => {
 
     it('MM-T2923 Edit bot username.', () => {
         // # Visit bot config
-        cy.visit('/admin_console/integrations/bot_accounts');
+        cy.visitAndWait('/admin_console/integrations/bot_accounts');
 
         // # Verify that the setting is enabled
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue', {timeout: TIMEOUTS.ONE_MIN}).should('be.checked');
@@ -131,7 +132,7 @@ describe('Edit bot username', () => {
     }
 
     function goToCreateBot() {
-        cy.visit(`/${team.name}/integrations/bots`);
+        cy.visitAndWait(`/${team.name}/integrations/bots`);
 
         // * Assert that adding bots possible
         cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();

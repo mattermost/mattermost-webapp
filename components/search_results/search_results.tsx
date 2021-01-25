@@ -170,7 +170,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case (noResults && !searchTerms && !isMentionSearch):
+    case (noResults && !searchTerms && !isMentionSearch && !isPinnedPosts && !isFlaggedPosts):
         contentItems = (
             <div className='sidebar--right__subheader search__hints a11y__section'>
                 <SearchHint

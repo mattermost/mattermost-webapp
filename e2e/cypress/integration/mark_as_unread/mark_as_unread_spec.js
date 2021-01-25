@@ -70,7 +70,7 @@ describe('Mark as Unread', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

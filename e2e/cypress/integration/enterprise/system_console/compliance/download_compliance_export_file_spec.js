@@ -73,7 +73,7 @@ describe('Compliance Export', () => {
 
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
         // # Goto file storage settings Page
-        cy.visit('/admin_console/environment/file_storage');
+        cy.visitAndWait('/admin_console/environment/file_storage');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
 
         // # Get AWS credentials
@@ -127,7 +127,7 @@ function enableComplianceExport() {
 }
 
 function gotoCompliancePage() {
-    cy.visit('/admin_console/compliance/export');
+    cy.visitAndWait('/admin_console/compliance/export');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
 }
 
@@ -135,7 +135,7 @@ function gotoTeamAndPostImage() {
     // # Get user teams
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
+        cy.visitAndWait(`/${team.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 

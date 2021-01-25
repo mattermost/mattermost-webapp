@@ -17,16 +17,15 @@ import {clickCategoryMenuItem} from './helpers';
 
 describe('Channel sidebar', () => {
     before(() => {
-        // # Enable channel sidebar organization
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

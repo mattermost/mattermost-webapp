@@ -34,11 +34,11 @@ describe('Draw Plugin - Upload', () => {
 
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // #If draw plugin is already enabled , unInstall it
             cy.apiRemovePluginById(pluginId);
-            cy.visit('/admin_console/plugins/plugin_management');
+            cy.visitAndWait('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });
@@ -76,10 +76,10 @@ describe('Draw Plugin - Upload', () => {
         // # Disable draw plugin
         doTaskOnDrawPlugin(() => {
             // * Verify plugin is starting
-            waitForAlert('This plugin is starting.');
+            waitForAlert('This plugin is starting.', '.alert-success');
 
             // * Verify plugin is running
-            waitForAlert('This plugin is running.');
+            waitForAlert('This plugin is running.', '.alert-success');
 
             // # Click on Disable link
             cy.findByText('Disable').click();
@@ -88,7 +88,7 @@ describe('Draw Plugin - Upload', () => {
         // # Attempt to remove draw plugin
         doTaskOnDrawPlugin(() => {
             // * Verify plugin is not enabled
-            waitForAlert('This plugin is not enabled.');
+            waitForAlert('This plugin is not enabled.', '.alert-info');
 
             // # Click on Remove link
             cy.findByText('Remove').click();
@@ -113,8 +113,8 @@ describe('Draw Plugin - Upload', () => {
     });
 });
 
-function waitForAlert(message) {
-    cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
+function waitForAlert(message, type) {
+    cy.waitUntil(() => cy.get(type).scrollIntoView().should('be.visible').then((alert) => {
         return alert[0].innerText === message;
     }));
 }
