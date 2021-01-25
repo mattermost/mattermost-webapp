@@ -182,8 +182,10 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
       }
       perPage={50}
       placeholderText="Search and add members"
+      saveButtonPosition="top"
       saving={false}
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
