@@ -32,6 +32,10 @@ const messages = defineMessages({
         id: t('user.settings.custom_theme.sidebarHeaderBg'),
         defaultMessage: 'Sidebar Header BG',
     },
+    sidebarTeamBarColor: {
+        id: t('user.settings.custom_theme.sidebarTeamBarColor'),
+        defaultMessage: 'Sidebar Team Bar Color',
+    },
     sidebarHeaderTextColor: {
         id: t('user.settings.custom_theme.sidebarHeaderTextColor'),
         defaultMessage: 'Sidebar Header Text',

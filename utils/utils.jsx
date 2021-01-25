@@ -542,7 +542,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .modal .modal-header .modal-title, .app__body .modal .modal-header .modal-title .name', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar_wrapper .navbar-default .navbar-brand', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar_wrapper .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn__content, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn__content', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
+        changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-container a:hover .team-btn__content, .app__body .multi-teams .team-container.active .team-btn__content', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('.app__body .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
@@ -872,6 +872,7 @@ export function applyTheme(theme) {
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
             'sidebar-header-bg-rgb': toRgbValues(theme.sidebarHeaderBg),
+            'sidebar-teambar-color': toRgbValues(theme.sidebarTeamBarColor),
             'sidebar-header-text-color-rgb': toRgbValues(theme.sidebarHeaderTextColor),
             'sidebar-text-rgb': toRgbValues(theme.sidebarText),
             'sidebar-text-active-border-rgb': toRgbValues(theme.sidebarTextActiveBorder),
@@ -896,6 +897,7 @@ export function applyTheme(theme) {
             'sidebar-text-active-border': theme.sidebarTextActiveBorder,
             'sidebar-text-active-color': theme.sidebarTextActiveColor,
             'sidebar-header-bg': theme.sidebarHeaderBg,
+            'sidebar-teambar-color': theme.sidebarTeamBarColor,
             'sidebar-header-text-color': theme.sidebarHeaderTextColor,
             'sidebar-header-text-color-80': changeOpacity(theme.sidebarHeaderTextColor, 0.8),
             'online-indicator': theme.onlineIndicator,
