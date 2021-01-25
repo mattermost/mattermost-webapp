@@ -64,7 +64,7 @@ describe('Integrations', () => {
 
             cy.apiLogout();
             cy.apiLogin(userToInvite);
-            cy.visit(`${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`${testTeam.name}/channels/town-square`);
 
             // * Added user sees channel added to LHS, mention badge
             cy.get('#sidebarChannelContainer', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {

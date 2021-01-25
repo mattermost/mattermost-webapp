@@ -31,7 +31,7 @@ describe('Login page', () => {
             testUser = user;
 
             cy.apiLogout();
-            cy.visit('/login');
+            cy.visitAndWait('/login');
         });
     });
 

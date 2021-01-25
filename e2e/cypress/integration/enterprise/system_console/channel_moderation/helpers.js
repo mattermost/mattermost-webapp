@@ -9,7 +9,7 @@ import {checkBoxes} from './constants';
 // # Visits the channel configuration for a channel with channelName
 export const visitChannelConfigPage = (channel) => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/channels');
+    cy.visitAndWait('/admin_console/user_management/channels');
     cy.get('.DataGrid_searchBar').within(() => {
         cy.findByPlaceholderText('Search').type(`${channel.name}{enter}`);
     });
@@ -64,7 +64,7 @@ export const saveConfigForChannel = (channelName = false, clickConfirmationButto
 // # Visits a channel as the member specified
 export const visitChannel = (user, channel, team) => {
     cy.apiLogin(user);
-    cy.visit(`/${team.name}/channels/${channel.name}`);
+    cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 };
 
@@ -173,14 +173,14 @@ export const saveConfigForScheme = (waitUntilConfigSaved = true, clickConfirmati
 // # Goes to the System Scheme page as System Admin
 export const goToSystemScheme = () => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions/system_scheme');
+    cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
 };
 
 // # Goes to the permissions page and creates a new team override scheme with schemeName
 export const goToPermissionsAndCreateTeamOverrideScheme = (schemeName, team) => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions');
+    cy.visitAndWait('/admin_console/user_management/permissions');
     cy.findByTestId('team-override-schemes-link').click();
     cy.get('#scheme-name').type(schemeName);
     cy.findByTestId('add-teams').click();
@@ -194,7 +194,7 @@ export const goToPermissionsAndCreateTeamOverrideScheme = (schemeName, team) => 
 // # Goes to the permissions page and clicks edit or delete for a team override scheme
 export const deleteOrEditTeamScheme = (schemeDisplayName, editOrDelete) => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions');
+    cy.visitAndWait('/admin_console/user_management/permissions');
     cy.findByTestId(`${schemeDisplayName}-${editOrDelete}`).click();
     if (editOrDelete === 'delete') {
         cy.get('#confirmModalButton').click();
@@ -256,7 +256,7 @@ export const enableDisableAllChannelModeratedPermissionsViaAPI = (channel, enabl
 // # This goes to the system scheme and clicks the reset permissions to default and then saves the setting
 export const resetSystemSchemePermissionsToDefault = () => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions/system_scheme');
+    cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
     cy.findByTestId('resetPermissionsToDefault').click();
     cy.get('#confirmModalButton').click();
     saveConfigForScheme();

@@ -9,6 +9,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Send a DM', () => {
@@ -49,17 +50,17 @@ describe('Send a DM', () => {
         cy.apiLogin(userA);
 
         // # On an account on two teams, view Team A
-        cy.visit(`/${teamA.name}/channels/town-square`);
+        cy.visitAndWait(`/${teamA.name}/channels/town-square`);
     });
 
     it('MM-T433 Switch teams', () => {
         // # Open several DM channels, including accounts that are not on Team B.
         cy.apiCreateDirectChannel([userA.id, userB.id]).wait(TIMEOUTS.ONE_SEC).then(() => {
-            cy.visit(`/${teamA.name}/channels/${userA.id}__${userB.id}`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visitAndWait(`/${teamA.name}/channels/${userA.id}__${userB.id}`);
             cy.postMessage(':)');
             return cy.apiCreateDirectChannel([userA.id, userC.id]).wait(TIMEOUTS.ONE_SEC);
         }).then(() => {
-            cy.visit(`/${teamA.name}/channels/${userA.id}__${userC.id}`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visitAndWait(`/${teamA.name}/channels/${userA.id}__${userC.id}`);
             cy.postMessage(':(');
         });
 
@@ -102,13 +103,13 @@ describe('Send a DM', () => {
         // # Have another user also on those two teams post two at-mentions for you on Team B
         cy.apiLogin(userB);
 
-        cy.visit(`/${teamB.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${teamB.name}/channels/town-square`);
         cy.postMessage(`@${userA.username}`);
         cy.postMessage(`@${userA.username}`);
         cy.apiLogout();
 
         cy.apiLogin(userA);
-        cy.visit(`/${teamA.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${teamA.name}/channels/town-square`);
 
         // * Observe a mention badge with "2" on Team B on your team sidebar
         cy.get(`#${teamB.name}TeamButton`).should('be.visible').within(() => {
@@ -118,8 +119,8 @@ describe('Send a DM', () => {
 
     it('MM-T438 Multi-team unreads', () => {
         // # Go to team B, and make sure all mentions are read
-        cy.visit(`/${teamB.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
-        cy.visit(`/${teamA.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${teamB.name}/channels/town-square`);
+        cy.visitAndWait(`/${teamA.name}/channels/${testChannel.name}`);
 
         // * No dot appears for you on Team B since there are no more mentions
         cy.get(`#${teamB.name}TeamButton`).should('be.visible').within(() => {
@@ -129,13 +130,13 @@ describe('Send a DM', () => {
         // # Have the other user switch to Team A and post (a message, not a mention) in a channel you're a member of
         cy.apiLogin(userB);
 
-        cy.visit(`/${teamA.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${teamA.name}/channels/town-square`);
         cy.postMessage('Hey all');
         cy.apiLogout();
 
         // * Dot appears, with no number (just unread, not a mention)
         cy.apiLogin(userA);
-        cy.visit(`/${teamB.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${teamB.name}/channels/town-square`);
         cy.get(`#${teamA.name}TeamButton`).parent('.unread').should('be.visible');
         cy.get(`#${teamA.name}TeamButton`).should('be.visible').within(() => {
             cy.get('.badge').should('not.exist');
