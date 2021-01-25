@@ -24,7 +24,7 @@ describe('Handle removed user - old sidebar', () => {
 
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
     });
 

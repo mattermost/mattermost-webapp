@@ -32,7 +32,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
 
         // # Visit System Console Users page
-        cy.visit('/admin_console/authentication/guest_access');
+        cy.visitAndWait('/admin_console/authentication/guest_access');
     });
 
     it('MM-18046 Verify Guest Access Screen', () => {
@@ -62,7 +62,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
 
         // # Visit System Console Users page
-        cy.visit('/admin_console/authentication/guest_access');
+        cy.visitAndWait('/admin_console/authentication/guest_access');
 
         // * Verify Guest MFA field when System MFA is enabled
         cy.findByTestId('GuestAccountsSettings.EnforceMultifactorAuthenticationhelp-text').should('be.visible').and('have.text', 'Multi-factor authentication is currently not enforced.');

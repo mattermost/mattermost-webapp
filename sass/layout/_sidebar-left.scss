@@ -72,26 +72,6 @@
         height: calc(100% - 40px)
     }
 
-    .badge {
-        display: inline-block;
-        flex-shrink: 0;
-        margin-left: 6px;
-        margin-right: 3px;
-        padding: 0 6px;
-        min-width: 22px;
-        height: auto;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 18px;
-        letter-spacing: 0px;
-        text-align: center;
-        color: var(--mention-color);
-        border-radius: 9px;
-        background: var(--mention-bg);
-        -webkit-font-smoothing: subpixel-antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
     .a11y--focused {
         box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text) !important;
 
@@ -245,12 +225,12 @@
             border-right: 1px solid rgba(255, 255, 255, 0.16);
             height: 28px;
             margin-left: 8px;
+            margin-right: 8px;
         }
 
         .SidebarChannelNavigator_backButton {
             border-radius: 4px;
             padding: 0;
-            margin-left: 8px;
             background: transparent;
         }
 
@@ -644,7 +624,7 @@
         }
     }
 
-    .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
+    .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
@@ -766,20 +746,26 @@
     .SidebarChannelGroup .SidebarChannelGroupHeader > i {
         font-size: 12px;
     }
-    .SidebarChannelGroup__is-collapsed {
-        animation-name: menuAnimation;
-        animation-duration: 0.25s;
-        animation-timing-function: linear;
-    }
 
-    .SidebarChannelGroup.dmCategory .draggingOver {
+    .SidebarChannelGroup.autoSortedCategory .draggingOver {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
-        .SidebarChannelGroupHeader_groupButton {
-            background-color: inherit;
+        .SidebarChannelGroupHeader {
+            background-color: var(--sidebar-bg);
+
+            .SidebarChannelGroupHeader_groupButton {
+                border-radius: 4px 4px 0 0;
+                box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
+            }
         }
     }
+
+    // .SidebarChannelGroup.autoSortedCategory.isCollapsed .draggingOver {
+    //     .SidebarChannelGroupHeader {
+    //         background-color: transparent;
+    //     }
+    // }
 
     .SidebarChannelGroup.capture .SidebarChannelGroup_content {
         margin-bottom: 0;
@@ -839,6 +825,7 @@
     /* Content */
     .SidebarChannelGroup_content {
         margin-bottom: 14px;
+        min-height: 2px;
     }
 
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
@@ -885,7 +872,7 @@
             }
         }
 
-        &.fadeDMs {
+        &.fadeOnDrop {
             opacity: 0;
             transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
         }

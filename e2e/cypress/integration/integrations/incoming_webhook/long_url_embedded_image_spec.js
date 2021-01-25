@@ -46,7 +46,7 @@ describe('Integrations', () => {
                         });
 
                         // # Visit the test channel
-                        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
                     });
                 });
             });
