@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @onboarding @smoke
 
 describe('Test Tutorial Navigation', () => {
@@ -34,7 +35,7 @@ describe('Test Tutorial Navigation', () => {
                 cy.apiAddUserToTeam(testTeam.id, testUser.id);
 
                 cy.apiLogin(testUser);
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
             });
         });
     });
@@ -98,7 +99,7 @@ describe('Test Tutorial Navigation', () => {
 
         // # Log in as another new user with the tutorial bypass flag set to false.
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that the first step of the tutorial displays.
         checkStepOne();

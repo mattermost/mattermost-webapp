@@ -33,7 +33,7 @@ describe('Bot post unread message', () => {
         // # Create and visit new channel
         cy.apiInitSetup().then(({team, channel}) => {
             newChannel = channel;
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
 
         // # Create a bot and get userID

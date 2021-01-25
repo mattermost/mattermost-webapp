@@ -23,7 +23,7 @@ describe('Messaging', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testChannelId = channel.id;
             testChannelLink = `/${team.name}/channels/${channel.name}`;
-            cy.visit(testChannelLink);
+            cy.visitAndWait(testChannelLink);
         });
     });
 
@@ -75,8 +75,7 @@ describe('Messaging', () => {
 
         // # Change to the other user and go to Town Square
         cy.apiAdminLogin();
-        cy.visit(testChannelLink);
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(testChannelLink);
 
         // * Post should not exist
         cy.get('@postId').then((postId) => {

@@ -47,7 +47,7 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         });
     });
 
-    it('Channel Mentions option for Guests', () => {
+    it('MM-T1551 Channel Mentions option for Guests', () => {
         // # Uncheck the Channel Mentions option for Guests and save
         visitChannelConfigPage(testChannel);
         disablePermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_GUESTS);
@@ -71,7 +71,7 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         postChannelMentionsAndVerifySystemMessageNotExist(testChannel);
     });
 
-    it('Channel Mentions option for Members', () => {
+    it('MM-T1552 Channel Mentions option for Members', () => {
         // # Visit Channel page and Search for the channel.
         visitChannelConfigPage(testChannel);
 
@@ -97,7 +97,7 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         postChannelMentionsAndVerifySystemMessageNotExist(testChannel);
     });
 
-    it('Channel Mentions option removed when Create Post is disabled', () => {
+    it('MM-T1555 Channel Mentions option removed when Create Post is disabled', () => {
         // # Visit Channel page and Search for the channel.
         visitChannelConfigPage(testChannel);
 
@@ -131,7 +131,7 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         cy.findByTestId(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS).should('be.disabled');
     });
 
-    it('Message when user without channel mention permission uses special channel mentions', () => {
+    it('MM-T1556 Message when user without channel mention permission uses special channel mentions', () => {
         visitChannelConfigPage(testChannel);
         disablePermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
         saveConfigForChannel();
@@ -149,14 +149,14 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         postChannelMentionsAndVerifySystemMessageExist(testChannel.name);
     });
 
-    it('Confirm sending notifications while using special channel mentions', () => {
+    it('MM-T1557 Confirm sending notifications while using special channel mentions', () => {
         // # Visit Channel page and Search for the channel.
         visitChannelConfigPage(testChannel);
         disablePermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
         saveConfigForChannel();
 
         // # Set @channel and @all confirmation dialog to true
-        cy.visit('admin_console/environment/notifications');
+        cy.visitAndWait('admin_console/environment/notifications');
         cy.findByTestId('TeamSettings.EnableConfirmNotificationsToChanneltrue').check();
         saveConfigForScheme();
 

@@ -10,17 +10,16 @@ import {AutocompleteSuggestion, AutocompleteSuggestionWithComplete} from 'matter
 import {ServerAutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
 
-import globalStore from 'stores/redux_store.jsx';
+import globalStore from 'stores/redux_store';
 
 import {getSelectedPost} from 'selectors/rhs';
 
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
-
+import * as Utils from 'utils/utils';
 import {Constants} from 'utils/constants';
 
-import Suggestion from '../suggestion.jsx';
-import Provider from '../provider.jsx';
+import Suggestion from '../suggestion';
+import Provider from '../provider';
 
 import {AppCommandParser, Store} from './app_command_parser';
 
@@ -28,7 +27,8 @@ const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_C
 
 export class CommandSuggestion extends Suggestion {
     render() {
-        const {item, isSelection} = this.props;
+        const {isSelection} = this.props;
+        const item = this.props.item as AutocompleteSuggestion;
 
         let className = 'slash-command';
         if (isSelection) {
@@ -72,7 +72,7 @@ export class CommandSuggestion extends Suggestion {
 
 type Props = {
     isInRHS: boolean;
-}
+};
 
 export type Results = {
     matchedPretext: string;
@@ -85,9 +85,8 @@ type ResultsCallback = (results: Results) => void;
 
 export default class CommandProvider extends Provider {
     private isInRHS: boolean;
-
+    private store: Store;
     private parser: AppCommandParser;
-    store: Store;
 
     constructor(props: Props) {
         super();
@@ -158,8 +157,10 @@ export default class CommandProvider extends Provider {
                             }
                             matches.push({
                                 suggestion: s,
+                                complete: '',
                                 hint,
                                 description: cmd.auto_complete_desc,
+                                iconData: '',
                             });
                         }
                     }

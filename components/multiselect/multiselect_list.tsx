@@ -3,10 +3,10 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 import {getOptionValue} from 'react-select/src/builtins';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
 
@@ -26,6 +26,7 @@ export type Props<T extends Value> = {
         onAdd: (value: T) => void,
         onMouseMove: (value: T) => void
     ) => void;
+    query?: string;
     selectedItemRef?: React.RefObject<HTMLDivElement>;
     options: T[];
     page: number;
@@ -177,9 +178,12 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                     className='no-channel-message'
                 >
                     <p className='primary-message'>
-                        <FormattedMessage
+                        <FormattedMarkdownMessage
                             id='multiselect.list.notFound'
-                            defaultMessage='No items found'
+                            defaultMessage='No results found matching **{searchQuery}**'
+                            values={{
+                                searchQuery: this.props.query,
+                            }}
                         />
                     </p>
                 </div>
@@ -209,6 +213,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                     <div
                         ref={this.listRef}
                         id='multiSelectList'
+                        className='more-modal__options'
                         role='presentation'
                         aria-hidden={true}
                     >

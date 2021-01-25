@@ -4,6 +4,8 @@
 import {getRandomId} from '../../utils';
 import {getAdminAccount} from '../env';
 
+import {buildQueryString} from './helpers';
+
 // *****************************************************************************
 // Users
 // https://api.mattermost.com/#tag/users
@@ -80,7 +82,7 @@ Cypress.Commands.add('apiLogout', () => {
     });
 
     // * Verify logged out
-    cy.visit('/login?extra=expired').url().should('include', '/login');
+    cy.visitAndWait('/login?extra=expired').url().should('include', '/login');
 
     // # Ensure we clear out these specific cookies
     ['MMAUTHTOKEN', 'MMUSERID', 'MMCSRF'].forEach((cookie) => {
@@ -207,7 +209,6 @@ Cypress.Commands.add('apiCreateUser', ({
     prefix = 'user',
     bypassTutorial = true,
     hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
     user = null,
 } = {}) => {
     const newUser = user || generateRandomUser(prefix);
@@ -232,10 +233,6 @@ Cypress.Commands.add('apiCreateUser', ({
             cy.apiSaveCloudOnboardingPreference(createdUser.id, 'hide', 'true');
         }
 
-        if (hideWhatsNewModal) {
-            cy.apiHideSidebarWhatsNewModalPreference(createdUser.id, 'true');
-        }
-
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
 });
@@ -243,10 +240,9 @@ Cypress.Commands.add('apiCreateUser', ({
 Cypress.Commands.add('apiCreateGuestUser', ({
     prefix = 'guest',
     hideCloudOnboarding = true,
-    hideWhatsNewModal = true,
     activate = true,
 } = {}) => {
-    return cy.apiCreateUser({prefix, hideCloudOnboarding, hideWhatsNewModal}).then(({user}) => {
+    return cy.apiCreateUser({prefix, hideCloudOnboarding}).then(({user}) => {
         cy.apiDemoteUserToGuest(user.id);
         cy.externalActivateUser(user.id, activate);
 
@@ -269,15 +265,21 @@ Cypress.Commands.add('apiRevokeUserSessions', (userId) => {
     });
 });
 
-Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
+Cypress.Commands.add('apiGetUsers', (queryParams = {}) => {
+    const queryString = buildQueryString(queryParams);
+
     return cy.request({
         method: 'GET',
-        url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
+        url: `/api/v4/users?${queryString}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({users: response.body});
     });
+});
+
+Cypress.Commands.add('apiGetUsersNotInTeam', ({teamId, page = 0, perPage = 60} = {}) => {
+    return cy.apiGetUsers({not_in_team: teamId, page, per_page: perPage});
 });
 
 Cypress.Commands.add('apiPatchUserRoles', (userId, roleNames = ['system_user']) => {

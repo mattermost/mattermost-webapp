@@ -20,7 +20,7 @@ describe('Verify Accessibility Support in Different Images', () => {
             otherUser = user;
 
             // Visit the Off Topic channel
-            cy.visit(`/${team.name}/channels/off-topic`);
+            cy.visitAndWait(`/${team.name}/channels/off-topic`);
         });
     });
 

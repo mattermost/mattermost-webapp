@@ -1485,13 +1485,13 @@ export const Constants = {
     },
     Integrations: {
         COMMAND: 'commands',
-        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         PAGE_SIZE: '10000',
         START_PAGE_NUM: 0,
         INCOMING_WEBHOOK: 'incoming_webhooks',
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
+        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
