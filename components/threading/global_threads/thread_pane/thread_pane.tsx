@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps, useCallback, ReactNode} from 'react';
+import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -28,8 +28,9 @@ const getChannel = makeGetChannel();
 type Props = {
     thread: UserThread;
     isFollowing: boolean;
+    hasUnreads: boolean;
     children: ReactNode;
-} & Omit<ComponentProps<typeof ThreadMenu>, 'children' | 'threadId'>;
+};
 
 const ThreadPane = ({
     thread,
