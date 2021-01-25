@@ -13,7 +13,7 @@
 describe('Archive channel header spec', () => {
     before(() => {
         cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults and confirm
         cy.findByTestId('resetPermissionsToDefault').click();
@@ -40,7 +40,7 @@ describe('Archive channel header spec', () => {
 
         // # Login as test user and visit create channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
     });
 

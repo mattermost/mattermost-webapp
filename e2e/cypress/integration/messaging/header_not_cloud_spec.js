@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @not_cloud @messaging
 
 describe('Header', () => {
@@ -26,7 +27,7 @@ describe('Header', () => {
 
         // # Setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

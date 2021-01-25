@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -49,7 +50,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             });
 
             // # Go to town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -102,7 +103,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // # Visit to newly created team
         cy.reload();
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a Guest by email
         const email = `temp-${getRandomId()}@mattermost.com`;
@@ -115,7 +116,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # From System Console try to update email of guest user
         cy.apiCreateGuestUser().then(({guest}) => {
             // # Navigate to System Console Users listing page
-            cy.visit('/admin_console/user_management/users');
+            cy.visitAndWait('/admin_console/user_management/users');
 
             // # Search for User by username and select the option to update email
             cy.get('#searchUsers').should('be.visible').type(guest.username);

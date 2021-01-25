@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 describe('Bot display name', () => {
@@ -26,7 +27,7 @@ describe('Bot display name', () => {
             cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
                 townsquareChannel = channel;
             });
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

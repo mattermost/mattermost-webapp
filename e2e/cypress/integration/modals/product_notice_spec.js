@@ -17,12 +17,12 @@
 //         cy.apiInitSetup().then(({team, user}) => {
 //             testTeam = team;
 //             testUser = user;
-//             cy.visit(`/${testTeam.name}/channels/town-square`);
+//             cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 //         });
 //     });
 //
 //     it('MM-T3361_1 UI for miltiple notices', () => {
-//         cy.visit(`/${testTeam.name}/channels/town-square`);
+//         cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 //
 //         // * Verify that the notices modal is open
 //         cy.get('[aria-labelledby="genericModalLabel"').should('be.visible').within(() => {
@@ -80,7 +80,7 @@
 //
 //         // # Login as test user and go to town square
 //         cy.apiLogin(testUser);
-//         cy.visit(`/${testTeam.name}/channels/town-square`);
+//         cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 //
 //         // * Verify the end user modal notice title
 //         cy.get('#genericModalLabel').should('be.visible').and('contain', 'End user notice title');

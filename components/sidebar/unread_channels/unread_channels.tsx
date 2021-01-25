@@ -42,7 +42,7 @@ export default function UnreadChannels(props: Props) {
                                 isCategoryDragged={false}
                                 isDraggable={false}
                                 isDropDisabled={true}
-                                isDMCategory={false}
+                                isAutoSortedCategory={true}
                             />
                         );
                     })}

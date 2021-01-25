@@ -65,7 +65,7 @@ describe('Demo plugin - Webhook events', () => {
             });
 
             // # Enable webhook events
-            cy.visit(`/${team1.name}/channels/town-square`);
+            cy.visitAndWait(`/${team1.name}/channels/town-square`);
             cy.postMessage('/demo_plugin true').wait(TIMEOUTS.TWO_SEC);
 
             // * Verify that hooks are enabled
@@ -77,7 +77,7 @@ describe('Demo plugin - Webhook events', () => {
             });
 
             // # Join the demo channel
-            cy.visit(`/${team1.name}/channels/demo_plugin`);
+            cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
 
             // # Create another user
             cy.apiCreateUser().then(({user: otherUser}) => {
@@ -88,43 +88,43 @@ describe('Demo plugin - Webhook events', () => {
                 cy.apiLogin(testUser);
 
                 // # Join the demo channel
-                cy.visit(`/${team1.name}/channels/demo_plugin`);
+                cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
             });
         });
     });
 
     it('MM-T2408/2 - User posts a message Webhook event', () => {
         // # Post message
-        cy.visit(`/${team1.name}/channels/town-square`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team1.name}/channels/town-square`);
         cy.postMessage(MESSAGES.SMALL);
 
         // * Verify message is posted in the demo channel
-        cy.visit(`/${team1.name}/channels/demo_plugin`);
+        cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
         cy.findAllByTestId('postView').should('contain', `MessageHasBeenPosted: @${testUser.username}, ~Town Square`);
     });
 
     it('MM-T2408/3 - User joined a channel Webhook event', () => {
         // # Join channel
-        cy.visit(`/${team1.name}/channels/${testChannel}`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team1.name}/channels/${testChannel}`);
 
         // * Verify message is posted in the demo channel
-        cy.visit(`/${team1.name}/channels/demo_plugin`);
+        cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
         cy.findAllByTestId('postView').should('contain', `UserHasJoinedChannel: @${testUser.username}, ~my_test_channel`);
     });
 
     it('MM-T2408/4 - ​User left a channel Webhook event', () => {
         // # Leave channel
-        cy.visit(`/${team1.name}/channels/${testChannel}`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team1.name}/channels/${testChannel}`);
         cy.uiLeaveChannel(false);
 
         // * Verify message is posted in the demo plugin channel
-        cy.visit(`/${team1.name}/channels/demo_plugin`);
+        cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
         cy.findAllByTestId('postView').should('contain', `UserHasLeftChannel: @${testUser.username}, ~my_test_channel`);
     });
 
     it('MM-T2408/5/6 - User edited a message Webhook event', () => {
         // # Post message
-        cy.visit(`/${team1.name}/channels/town-square`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team1.name}/channels/town-square`);
         cy.postMessage(MESSAGES.SMALL);
 
         // # Get last post ID
@@ -146,7 +146,7 @@ describe('Demo plugin - Webhook events', () => {
             cy.get('#editButton').click();
 
             // # Open demo plugin channel
-            cy.visit(`/${team1.name}/channels/demo_plugin`).wait(TIMEOUTS.TWO_SEC);
+            cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
 
             // * Verify event posted in the channel
             cy.findAllByTestId('postView').should('contain', `MessageHasBeenUpdated: @${testUser.username}, ~Town Square`);
@@ -155,7 +155,7 @@ describe('Demo plugin - Webhook events', () => {
 
     it('MM-T2408/7 - User adds a reaction to a message Webhook event', () => {
         // # Post message
-        cy.visit(`/${team1.name}/channels/town-square`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team1.name}/channels/town-square`);
         cy.postMessage(MESSAGES.SMALL);
 
         cy.getLastPostId().then((postId) => {
@@ -168,7 +168,7 @@ describe('Demo plugin - Webhook events', () => {
             cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
 
             // # Open demo plugin channel
-            cy.visit(`/${team1.name}/channels/demo_plugin`).wait(TIMEOUTS.TWO_SEC);
+            cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
 
             // * Verify event posted in the channel
             cy.findAllByTestId('postView').should('contain', `ReactionHasBeenAdded: @${testUser.username}, `).and('contain', ':slightly_frowning_face:');
@@ -181,7 +181,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.apiAddUserToTeam(team2.id, testUser.id);
 
         // # Open demo plugin channel
-        cy.visit(`/${team2.name}/channels/demo_plugin`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team2.name}/channels/demo_plugin`);
 
         // * Verify event is posted in the channel
         cy.findAllByTestId('postView').should('contain', `UserHasJoinedTeam: @${testUser.username}`);
@@ -190,7 +190,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.apiDeleteUserFromTeam(team2.id, testUser.id);
 
         // # Open demo plugin channel
-        cy.visit(`/${team2.name}/channels/demo_plugin`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team2.name}/channels/demo_plugin`);
 
         // * Verify event is posted in the channel
         cy.findAllByTestId('postView').should('contain', `UserHasLeftTeam: @${testUser.username}`);
@@ -201,7 +201,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.apiLogin(testUser);
 
         // # Open demo plugin channel
-        cy.visit(`/${team1.name}/channels/demo_plugin`).wait(TIMEOUTS.TWO_SEC);
+        cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
 
         // * Verify event is posted in the channel
         cy.findAllByTestId('postView').should('contain', `User @${testUser.username} has logged in`);
@@ -214,7 +214,7 @@ describe('Demo plugin - Webhook events', () => {
         // # Create another user
         cy.apiCreateUser().then(({user: otherUser}) => {
             // # Open demo plugin channel
-            cy.visit(`/${team1.name}/channels/demo_plugin`).wait(TIMEOUTS.TEN_SEC);
+            cy.visitAndWait(`/${team1.name}/channels/demo_plugin`);
 
             // * Verify event is posted in the channel
             cy.findAllByTestId('postView').should('contain', `User_ID @${otherUser.id} has been created in`);

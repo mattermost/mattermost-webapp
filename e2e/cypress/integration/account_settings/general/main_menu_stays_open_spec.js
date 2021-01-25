@@ -29,7 +29,7 @@ describe('Account Settings > General', () => {
             });
 
             // # Go to town square
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

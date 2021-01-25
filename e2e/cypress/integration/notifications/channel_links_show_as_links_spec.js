@@ -37,14 +37,14 @@ describe('Notifications', () => {
             });
 
             // # As otherUser, set status to offline and logout
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
             cy.findByLabelText('set status').should('be.visible').click();
             cy.findByText('Offline').should('be.visible').click();
             cy.apiLogout();
 
             // # Login as sysadmin and go to the Off-Topic channel
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -79,7 +79,7 @@ describe('Notifications', () => {
             const permalink = bodyText[9].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // # Choose the 'View in Browser' option
             cy.findByText('View in Browser', {timeout: TIMEOUTS.HALF_MIN}).click();
