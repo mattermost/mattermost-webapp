@@ -47,8 +47,6 @@ const RenewLicenseLinkCard: React.FC<RenewLicenseLinkCardProps> = ({license, tot
                         id={idTitleText}
                         defaultMessage={defaultTitleText}
                         values={{
-
-                            // date: new Date(parseInt(license?.ExpiresAt, 10)),
                             date: endOfLicense,
                             days: daysToEndLicense,
                         }}
