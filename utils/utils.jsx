@@ -872,7 +872,7 @@ export function applyTheme(theme) {
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
             'sidebar-header-bg-rgb': toRgbValues(theme.sidebarHeaderBg),
-            'sidebar-teambar-color': toRgbValues(theme.sidebarTeamBarColor),
+            'sidebar-teambar-color-rgb': toRgbValues(theme.sidebarTeamBarColor),
             'sidebar-header-text-color-rgb': toRgbValues(theme.sidebarHeaderTextColor),
             'sidebar-text-rgb': toRgbValues(theme.sidebarText),
             'sidebar-text-active-border-rgb': toRgbValues(theme.sidebarTextActiveBorder),
