@@ -22,7 +22,7 @@ describe('System Console', () => {
 
     it('MM-T1100 Lock Teammate Name Display for all users', () => {
         // # Go to system admin page
-        cy.visit('/admin_console/site_config/users_and_teams');
+        cy.visitAndWait('/admin_console/site_config/users_and_teams');
 
         // # Set Temmate Name Display dropdown to 'Show nickname if one exists, otherwise show first and last name' and set Lock Teammate Name Display to false
         cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('nickname_full_name');
@@ -35,7 +35,7 @@ describe('System Console', () => {
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit(townsquareUrl);
+        cy.visitAndWait(townsquareUrl);
 
         // # Go to Account settings
         cy.toAccountSettingsModal();
@@ -56,7 +56,7 @@ describe('System Console', () => {
         cy.get('#name_formatDesc').contains('Show first and last name').should('be.visible');
 
         // # Go back to System Admin console page
-        cy.visit('/admin_console/site_config/users_and_teams');
+        cy.visitAndWait('/admin_console/site_config/users_and_teams');
 
         // # Set Temmate Name Display dropdown to 'Show by username' and set Lock Teammate Name Display to true
         cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('username');
@@ -66,7 +66,7 @@ describe('System Console', () => {
         cy.get('#saveSetting').click();
 
         // # Go to main page
-        cy.visit(townsquareUrl);
+        cy.visitAndWait(townsquareUrl);
 
         // # Go to Account settings
         cy.toAccountSettingsModal();

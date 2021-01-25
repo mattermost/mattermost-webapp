@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel @channel_settings @smoke
 
 function verifyMentionedUserAndProfilePopover(postId) {
@@ -81,7 +82,7 @@ describe('CS15445 Join/leave messages', () => {
     it('Single User: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Add users to channel
             addNumberOfUsersToChannel(1);
@@ -99,7 +100,7 @@ describe('CS15445 Join/leave messages', () => {
     it('Combined Users: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             addNumberOfUsersToChannel(3);
 
@@ -117,7 +118,7 @@ describe('CS15445 Join/leave messages', () => {
 
     it('MM-T856_1 Add existing users to public channel from drop-down > Add Members', () => {
         // # Visit the add users channel
-        cy.visit(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
 
         // # Click 'Add Members'
         cy.get('#channelHeaderTitle').click();
@@ -161,7 +162,7 @@ describe('CS15445 Join/leave messages', () => {
         cy.apiAdminLogin();
 
         // # Visit the add users channel
-        cy.visit(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
 
         // # Verify that the system message for adding users displays
         cy.getLastPostId().then((id) => {
@@ -169,7 +170,7 @@ describe('CS15445 Join/leave messages', () => {
         });
 
         // Visit off topic where all users are added
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // # Click 'Add Members'
         cy.get('#channelHeaderTitle').click();

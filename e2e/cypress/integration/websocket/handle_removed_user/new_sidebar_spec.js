@@ -25,12 +25,12 @@ describe('Handle removed user - new sidebar', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
     });
 

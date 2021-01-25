@@ -22,7 +22,7 @@ describe('Incoming webhook', () => {
 
         cy.apiInitSetup().then(({team}) => {
             // # Go to integrations
-            cy.visit(`/${team.name}/integrations`);
+            cy.visitAndWait(`/${team.name}/integrations`);
 
             // * Validate that incoming webhooks are enabled
             cy.get('#incomingWebhooks').should('be.visible');

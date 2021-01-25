@@ -45,7 +45,7 @@ describe('Archived channels', () => {
                 const permalink = `/${testTeam.name}/pl/${post.id}`;
 
                 // # Visit the channel
-                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
                 // # Archive the channel
                 cy.uiArchiveChannel();
@@ -54,7 +54,7 @@ describe('Archived channels', () => {
                 cy.apiLogin(testUser);
 
                 // # Visit the permalink
-                cy.visit(permalink);
+                cy.visitAndWait(permalink);
 
                 // * Verify that we've logged in as the test user
                 cy.get('#headerUsername').should('contain', '@' + testUser.username);
@@ -73,11 +73,11 @@ describe('Archived channels', () => {
             const channelLink = `/${testTeam.name}/channels/${channel.name}`;
 
             // # Visit the channel and archive it
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
 
             // # Visit Town Square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // # Make a post linking to the archived channel
             const linkText = `link ${getRandomId()}`;
@@ -93,7 +93,7 @@ describe('Archived channels', () => {
             cy.apiLogin(testUser);
 
             // # Visit Town Square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // * Verify that we've logged in as the test user
             cy.get('#headerUsername').should('contain', '@' + testUser.username);

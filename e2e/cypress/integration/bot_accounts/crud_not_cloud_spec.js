@@ -43,7 +43,7 @@ describe('Bot accounts - CRUD Testing', () => {
             newTeam = team;
 
             // # Visit the integrations
-            cy.visit(`/${newTeam.name}/integrations/bots`);
+            cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
         });
     });
 

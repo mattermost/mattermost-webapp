@@ -43,7 +43,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
 
         // # Create and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # Post messages from the past
             [date1, date2, date3, date4].forEach((createAt, index) => {

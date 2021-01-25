@@ -25,7 +25,7 @@ describe('View Members modal', () => {
             // # Visit default channel and verify members modal
             cy.apiLogin(user);
             promoteToSysAdmin(user, sysadmin);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
             verifyMemberDropdownAction(true);
 
             // # Make user a regular member

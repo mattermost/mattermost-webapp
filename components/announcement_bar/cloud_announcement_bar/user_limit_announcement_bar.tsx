@@ -24,6 +24,7 @@ import {
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 type Props = {
     userLimit: number;
@@ -41,14 +42,10 @@ type Props = {
     };
 };
 
-export default class UserLimitAnnouncementBar extends React.PureComponent<Props> {
+class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
         if (isEmpty(this.props.analytics)) {
             await this.props.actions.getStandardAnalytics();
-        }
-
-        if (isEmpty(this.props.subscription)) {
-            await this.props.actions.getCloudSubscription();
         }
 
         if (!isEmpty(this.props.subscription) && !isEmpty(this.props.analytics) && this.shouldShowBanner()) {
@@ -175,3 +172,5 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
         );
     }
 }
+
+export default withGetCloudSubscription(UserLimitAnnouncementBar);

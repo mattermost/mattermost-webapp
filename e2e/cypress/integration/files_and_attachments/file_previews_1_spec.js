@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @files_and_attachments
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -24,7 +25,7 @@ describe('Upload Files', () => {
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });

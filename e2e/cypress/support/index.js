@@ -18,8 +18,12 @@ import './api_commands'; // soon to deprecate
 import './client';
 import './common_login_commands';
 import './db_commands';
+import './external_commands';
+import './extended_commands';
 import './fetch_commands';
+import './keycloak_commands';
 import './ldap_commands';
+import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './storybook_commands';
@@ -27,7 +31,6 @@ import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
-import './external_commands';
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -161,7 +164,6 @@ function sysadminSetup(user) {
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
     cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
-    cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',

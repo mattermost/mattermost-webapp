@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import {getRandomId} from '../../../utils';
@@ -32,7 +33,7 @@ describe('Account Settings > Full Name', () => {
     it('MM-T2046 Full Name - Truncated in popover', () => {
         // # Go to Account Settings -> General -> Full Name -> Edit
         cy.apiLogin(firstUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.toAccountSettingsModal();
 
         // # Click General button
