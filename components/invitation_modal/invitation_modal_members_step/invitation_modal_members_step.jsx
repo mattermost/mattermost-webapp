@@ -40,6 +40,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         analytics: PropTypes.object.isRequired,
         subscription: PropTypes.object.isRequired,
         actions: PropTypes.shape({
+            getFilteredUsersStats: PropTypes.func.isRequired,
             getStandardAnalytics: PropTypes.func.isRequired,
             getCloudSubscription: PropTypes.func.isRequired,
         }).isRequired,
@@ -152,7 +153,8 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     shouldShowPickerError = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
+        const {userLimit, analytics, isCloud, subscription} = this.props;
+        console.log("PROPS", this.props);
 
         if (subscription === null) {
             return false;
@@ -161,7 +163,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             return false;
         }
 
-        if (userLimit === '0' || !userIsAdmin || !isCloud) {
+        if (userLimit === '0' || !isCloud) {
             return false;
         }
 
@@ -177,6 +179,13 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     componentDidMount() {
+        // We need to call getFilteredUsersStats on every mount inorder to set filteredStats in the redux store based on our filters here.
+        // However, this can lead to bugs elsewhere because the total_users_count could change in the state e.g. if elsewhere the count requires
+        // include_bots to be true. COULD CALL THE Client4.getFilteredUsersStats directly?
+        if (!this.props.userIsAdmin) {
+            this.props.actions.getFilteredUsersStats({include_deleted: false, include_bots: false});
+        }
+
         if (!this.props.analytics) {
             this.props.actions.getStandardAnalytics();
         }
