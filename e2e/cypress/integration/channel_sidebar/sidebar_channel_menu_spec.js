@@ -154,7 +154,7 @@ describe('Sidebar channel menu', () => {
         cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
 
         // * Verify that the modal appears and then close it
-        cy.contains('.modal-dialog .modal-header', 'Add New Members to').
+        cy.contains('.modal-dialog .modal-header', 'Add people to').
             parents().
             find('.modal-dialog').
             findByLabelText('Close').
