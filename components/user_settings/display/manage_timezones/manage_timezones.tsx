@@ -255,11 +255,13 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         );
 
         const TimeInput=(
-            <div>
+            <div 
+            className='pt-2'
+            >
                 <ReactSelect
                          className='react-select react-select-top'
                          classNamePrefix='react-select'
-                         id='displayLanguage'
+                         id='displayTimezone'
                          menuIsOpen={this.state.openMenu}
                          menuPortalTarget={document.body}
                          styles={reactStyles}
@@ -270,7 +272,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                          value={useAutomaticTimezone? {label:this.state.automaticTimezone, value:this.state.automaticTimezone}:this.state.selectedOption}
                          onMenuClose={this.handleMenuClose}
                          onMenuOpen={this.handleMenuOpen}
-                         aria-labelledby='changeInterfaceLanguageLabel'
+                         aria-labelledby='changeInterfaceTimezoneLabel'
                          isDisabled={useAutomaticTimezone}
                     />
             </div>

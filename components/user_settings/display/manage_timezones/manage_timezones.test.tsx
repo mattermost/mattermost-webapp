@@ -19,6 +19,7 @@ describe('components/user_settings/display/manage_timezones/manage_timezones', (
         automaticTimezone: '',
         manualTimezone: '',
         timezones: [],
+        times:[],
         updateSection: jest.fn(),
         actions: {
             updateMe: jest.fn(() => Promise.resolve({})),
