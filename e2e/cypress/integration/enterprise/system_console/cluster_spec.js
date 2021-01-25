@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 describe('Cluster', () => {
@@ -21,7 +22,7 @@ describe('Cluster', () => {
         }});
 
         // # Visit high availability system console page
-        cy.visit('/admin_console/environment/high_availability');
+        cy.visitAndWait('/admin_console/environment/high_availability');
     });
 
     it('SC25050 - Can change Experimental Gossip Encryption', () => {

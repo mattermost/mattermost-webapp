@@ -19,7 +19,7 @@ describe('Integrations', () => {
 
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # If Demo plugin is already enabled, uninstall it
             cy.apiRemovePluginById(pluginIdDemo, true);

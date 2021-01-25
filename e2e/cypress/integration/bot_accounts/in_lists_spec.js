@@ -70,7 +70,7 @@ describe('Bots in lists', () => {
     it('MM-T1834 Bots are not listed on “Users” list in System Console > Users', () => {
         cy.makeClient().then(async (client) => {
             // # Go to system console > users
-            cy.visit('/admin_console/user_management/users');
+            cy.visitAndWait('/admin_console/user_management/users');
 
             const {total_users_count: nonBotCount} = await client.getFilteredUsersStats({include_bots: false});
 
@@ -89,7 +89,7 @@ describe('Bots in lists', () => {
 
     it('MM-T1835 Channel Members list for BOTs', () => {
         cy.makeClient().then((client) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
             // # Open channel members
             cy.get('button.member-popover__trigger').click();
@@ -130,11 +130,11 @@ describe('Bots in lists', () => {
     it('MM-T1836_1 Bot accounts display (Legacy Sidebar)', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                EnableLegacySidebar: 'disabled',
             },
         });
 
-        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
+        cy.visitAndWait(`/${team.name}/messages/@${bots[0].username}`);
 
         cy.get('li.active > .sidebar-item').then(($link) => {
             $link[0]?.scrollIntoView();
@@ -149,11 +149,11 @@ describe('Bots in lists', () => {
     it('MM-T1836_2 Bot accounts display (New Sidebar)', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'always_on',
+                EnableLegacySidebar: 'always_on',
             },
         });
 
-        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
+        cy.visitAndWait(`/${team.name}/messages/@${bots[0].username}`);
 
         cy.get('.dmCategory .SidebarChannel.active > .SidebarLink').then(($link) => {
             // * Verify DM label
@@ -167,7 +167,7 @@ describe('Bots in lists', () => {
         cy.postMessage('Bump bot chat recency');
 
         // # Open a new DM
-        cy.visit(`/${team.name}/messages/@${createdUsers[0].username}`);
+        cy.visitAndWait(`/${team.name}/messages/@${createdUsers[0].username}`);
         cy.postMessage('Hello, regular user');
 
         // * Verify Bots and Regular users as siblings in DMs
