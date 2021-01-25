@@ -62,9 +62,8 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         // # Reload current page before each test
         cy.reload();
 
-
         // # Search for Guest User by username
-        cy.get('#searchUsers',{timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(guestUser.username);
+        cy.get('#searchUsers', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(guestUser.username);
     });
 
     it('MM-T1391 Verify the manage options displayed for Guest User', () => {
