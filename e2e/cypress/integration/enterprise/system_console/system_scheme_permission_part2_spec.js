@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -20,7 +21,7 @@ describe('System Scheme', () => {
         cy.apiResetRoles();
 
         // # Go to `User Management / Permissions` section
-        cy.visit('/admin_console/user_management/permissions');
+        cy.visitAndWait('/admin_console/user_management/permissions');
     });
 
     it('MM-T2862 Default permissions set inherited from system scheme', () => {
@@ -36,7 +37,7 @@ describe('System Scheme', () => {
         cy.get('#saveSetting').click().wait(TIMEOUTS.TWO_SEC);
 
         // # Go back to the `Permission Schemes` page
-        cy.visit('/admin_console/user_management/permissions');
+        cy.visitAndWait('/admin_console/user_management/permissions');
 
         // # Click `New Team Override Scheme`
         cy.findByTestId('team-override-schemes-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
@@ -66,7 +67,7 @@ describe('System Scheme', () => {
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Go back to the `Permission Schemes` page
-        cy.visit('/admin_console/user_management/permissions');
+        cy.visitAndWait('/admin_console/user_management/permissions');
 
         // # Click on `Edit Scheme` under `System Scheme`
         cy.findByTestId('systemScheme-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);

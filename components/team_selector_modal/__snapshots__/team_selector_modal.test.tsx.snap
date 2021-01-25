@@ -136,6 +136,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       }
       perPage={50}
       placeholderText="Search and add teams"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -143,6 +144,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>

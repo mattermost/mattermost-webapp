@@ -22,7 +22,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
             cy.apiCreateChannel(team.id, 'channel', 'Channel').then((out) => {
                 testChannel2 = out.channel;
             });
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

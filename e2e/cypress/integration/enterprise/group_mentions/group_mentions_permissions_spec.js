@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -48,7 +49,7 @@ describe('Group Mentions', () => {
         cy.apiLDAPSync();
 
         // # Link the LDAP Group - board
-        cy.visit('/admin_console/user_management/groups');
+        cy.visitAndWait('/admin_console/user_management/groups');
         cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
@@ -93,7 +94,7 @@ describe('Group Mentions', () => {
     after(() => {
         // # Login as sysadmin and navigate to system scheme page
         cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
 
         // # Click reset to defaults and confirm
@@ -112,7 +113,7 @@ describe('Group Mentions', () => {
         enableGroupMention(groupName);
 
         // # Disable Group Mentions for All Users & Channel Admins
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
         disablePermission('all_users-posts-use_group_mentions-checkbox');
         disablePermission('channel_admin-posts-use_group_mentions-checkbox');
@@ -124,7 +125,7 @@ describe('Group Mentions', () => {
         // # Create a new channel so that regular user can be channel admin
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Type the Group Name
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -148,14 +149,14 @@ describe('Group Mentions', () => {
 
             // # Enable Group Mentions for Channel Admins
             cy.apiAdminLogin();
-            cy.visit('/admin_console/user_management/permissions/system_scheme');
+            cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
             enablePermission('channel_admin-posts-use_group_mentions-checkbox');
             saveConfig();
 
             // # Login as a regular user and visit the channel
             cy.apiLogin(regularUser);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Type the Group Name
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -187,7 +188,7 @@ describe('Group Mentions', () => {
         enableGroupMention(groupName);
 
         // # Disable Group Mentions for All Users & Channel Admins & Team Admins
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
         disablePermission('all_users-posts-use_group_mentions-checkbox');
         disablePermission('channel_admin-posts-use_group_mentions-checkbox');
@@ -201,7 +202,7 @@ describe('Group Mentions', () => {
         cy.apiCreateTeam('team', 'Test NoMember').then(({team}) => {
             cy.apiCreateChannel(team.id, 'group-mention', 'Group Mentions').then(({channel}) => {
                 // # Visit the channel
-                cy.visit(`/${team.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
                 // # Type the Group Name
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -225,14 +226,14 @@ describe('Group Mentions', () => {
 
                 // # Enable Group Mentions for Team Admins
                 cy.apiAdminLogin();
-                cy.visit('/admin_console/user_management/permissions/system_scheme');
+                cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
                 cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
                 enablePermission('team_admin-posts-use_group_mentions-checkbox');
                 saveConfig();
 
                 // # Login as a regular user and visit the channel
                 cy.apiLogin(regularUser);
-                cy.visit(`/${team.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
                 // # Type the Group Name
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -268,7 +269,7 @@ describe('Group Mentions', () => {
         enableGroupMention(groupName);
 
         // # Disable Group Mentions for All Users & Guest Users
-        cy.visit('/admin_console/user_management/permissions/system_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
         disablePermission('all_users-posts-use_group_mentions-checkbox');
         disablePermission('guests-guest_use_group_mentions-checkbox');
@@ -289,7 +290,7 @@ describe('Group Mentions', () => {
                 cy.apiLogin(user);
 
                 // # Visit the channel
-                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
                 // # Type the Group Name
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -313,14 +314,14 @@ describe('Group Mentions', () => {
 
                 // # Login as sysadmin and enable group mentions permission for guests
                 cy.apiAdminLogin();
-                cy.visit('/admin_console/user_management/permissions/system_scheme');
+                cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
                 cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
                 enablePermission('guests-guest_use_group_mentions-checkbox');
                 saveConfig();
 
                 // # Login as guest user again and visit the channel
                 cy.apiLogin(user);
-                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
                 // # Type the Group Name
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
@@ -347,7 +348,7 @@ describe('Group Mentions', () => {
 
     function enableGroupMention(groupName) {
         // # Visit Group Configurations page
-        cy.visit(`/admin_console/user_management/groups/${groupID}`);
+        cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
 
         // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
         cy.get('#group_users', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView();

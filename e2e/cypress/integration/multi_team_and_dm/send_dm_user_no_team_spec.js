@@ -35,7 +35,7 @@ describe('Send a DM', () => {
     it('MM-T451 Send a DM to someone on no team', () => {
         // # Log in as UserA and leave all teams
         cy.apiLogin(userA);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
         cy.get('#headerTeamName').click();
         cy.findByText('Leave Team').click();
@@ -45,7 +45,7 @@ describe('Send a DM', () => {
         // # Log in as User B and send User A a direct message
         cy.apiLogout();
         cy.apiLogin(userB);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.get('#addDirectChannel').click();
         cy.get('#selectItems').type(`${userA.username}`);
         cy.findByText('Loading').should('be.visible');
@@ -66,7 +66,7 @@ describe('Send a DM', () => {
         // * After User A rejoins a team, the DM channel is visible to them in their LHS / channel drawer
         cy.apiLogout();
         cy.apiLogin(userA);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.get('#postListContent', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
         cy.get('#directChannelList').findByText(`${userB.username}`).should('be.visible');
     });

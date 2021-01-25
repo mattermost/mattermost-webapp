@@ -38,7 +38,7 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
 
     it('MM-23018 - Create a team override scheme', () => {
         // # Visit the permissions page
-        cy.visit('/admin_console/user_management/permissions/team_override_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/team_override_scheme');
 
         // # Give the new team scheme a name
         cy.get('#scheme-name').type('Test Team Scheme');
@@ -173,7 +173,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
     // * Ensure user can use channel mentions by default
     cy.apiLogin(testUser);
-    cy.visit(channelUrl);
+    cy.visitAndWait(channelUrl);
     hasChannelPermissionCheckFunc();
 
     // # Login as sysadmin again
@@ -191,7 +191,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         const testIds = [usersTestId, channelTestId, teamTestId];
 
         // # Visit the scheme page
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // * Ensure permission is enabled at each scope by default
         testIds.forEach((testId) => {
@@ -201,7 +201,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         // # Remove permission from all users and save
         removePermission(usersTestId);
         cy.get('#saveSetting').click();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // * Ensure that the permission is not removed for channel admins and team admins
         cy.findByTestId(usersTestId).should('not.have.class', 'checked');
@@ -211,7 +211,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         // # Remove permission for channel admins and save
         removePermission(channelTestId);
         cy.get('#saveSetting').click();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // * Ensure that the permission is removed from all roles except team admins
         cy.findByTestId(teamTestId).should('have.class', 'checked');
@@ -221,7 +221,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         // # Enable permission for channel admins and save
         enablePermission(channelTestId);
         cy.get('#saveSetting').click();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // * Ensure that the permission is only removed from all users
         cy.findByTestId(teamTestId).should('have.class', 'checked');
@@ -233,7 +233,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
         // * Ensure user cannot use channel mentions
         cy.apiLogin(testUser);
-        cy.visit(channelUrl);
+        cy.visitAndWait(channelUrl);
         notHasChannelPermissionCheckFunc();
 
         // # Setup user as a channel admin
@@ -241,21 +241,21 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
         // * Ensure user can use channel mentions as channel admin
         cy.apiLogin(testUser);
-        cy.visit(channelUrl);
+        cy.visitAndWait(channelUrl);
         hasChannelPermissionCheckFunc();
 
         // # Navigate back to team scheme as sysadmin
         cy.apiAdminLogin();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // # Remove permission from channel admins and save
         removePermission(channelTestId);
         cy.get('#saveSetting').click();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // # Log back in as regular user
         cy.apiLogin(testUser);
-        cy.visit(channelUrl);
+        cy.visitAndWait(channelUrl);
 
         // * Ensure user cannot use channel mentions as channel admin
         notHasChannelPermissionCheckFunc();
@@ -265,21 +265,21 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
         // * Ensure user can use channel mentions as team admin
         cy.apiLogin(testUser);
-        cy.visit(channelUrl);
+        cy.visitAndWait(channelUrl);
         hasChannelPermissionCheckFunc();
 
         // # Navigate back to system scheme as sysadmin
         cy.apiAdminLogin();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // # Remove permission from team admins and save
         removePermission(teamTestId);
         cy.get('#saveSetting').click();
-        cy.visit(url);
+        cy.visitAndWait(url);
 
         // # Log back in as regular user
         cy.apiLogin(testUser);
-        cy.visit(channelUrl);
+        cy.visitAndWait(channelUrl);
 
         // * Ensure user cannot use channel mentions as team admin
         notHasChannelPermissionCheckFunc();
