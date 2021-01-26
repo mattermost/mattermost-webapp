@@ -5,12 +5,14 @@ import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import {Constants} from 'utils/constants';
 
 type Props = {
     className?: string;
-    channelType: string;
+    channelType: ChannelType;
     withTooltip?: boolean;
 };
 

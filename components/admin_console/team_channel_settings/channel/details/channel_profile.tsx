@@ -41,7 +41,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
     }
 
     let sharedBlock;
-    if (channel.shared) {
+    if (channel.shared && channel.type) {
         sharedBlock = (
             <div className='channel-organizations'>
                 <FormattedMarkdownMessage
