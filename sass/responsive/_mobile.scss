@@ -16,16 +16,16 @@
                 border: none;
             }
         }
-     .modal {
-         .settings-modal {
-             &:not(.settings-modal--tables) {
-                 &:not(.display--content) {
-                     .modal-content {
-                         background: var(--sidebar-bg);
-                     }
-                 }
-             }
-         }
+        .modal {
+            .settings-modal {
+                &:not(.settings-modal--tables) {
+                    &:not(.display--content) {
+                        .modal-content {
+                            background: var(--sidebar-bg);
+                        }
+                    }
+                }
+            }
         }
     }
     .post-right__container {
