@@ -35,7 +35,7 @@ function verifyFocusInAddChannelMemberModal() {
     cy.get('#selectItems input').should('have.value', 'A');
 
     // # Click anywhere in the modal that is not on a field that can take focus
-    cy.get('#channelInviteModalLabel').click();
+    cy.get('.channel-switcher__header').click();
 
     // * Note the focus has been removed from the search box
     cy.get('#selectItems input').should('not.be.focused');
@@ -58,12 +58,12 @@ describe('Messaging', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T200 Focus move to main input box when a character key is selected', () => {

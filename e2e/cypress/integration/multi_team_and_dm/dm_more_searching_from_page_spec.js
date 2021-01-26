@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 describe('Multi Team and DM', () => {
@@ -33,7 +34,7 @@ describe('Multi Team and DM', () => {
 
             // # Login with testUser and visit test channel
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
@@ -46,7 +47,7 @@ describe('Multi Team and DM', () => {
         cy.findByText('Previous').should('exist');
 
         // # Enter a search term
-        cy.findByText('Search and add members').click().type(searchTerm);
+        cy.findByText('Search for people').click().type(searchTerm);
 
         // * Assert that the previous / next links do not appear since there should only be 1 record displayed
         cy.findByText('Next').should('not.exist');

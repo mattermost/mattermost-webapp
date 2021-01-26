@@ -294,7 +294,7 @@ context('Okta', () => {
                                 cy.doSamlLogout(testSettings).then(() => {
                                     testSettings.user = guest1;
                                     cy.oktaGetOrCreateUser(testSettings.user).then((_oktaUserId) => {
-                                        cy.visit(inviteUrl).then(() => {
+                                        cy.visitAndWait(inviteUrl).then(() => {
                                             cy.oktaDeleteSession(_oktaUserId);
 
                                             //login the guest

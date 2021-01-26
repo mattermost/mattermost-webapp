@@ -40,7 +40,7 @@ describe('Team Settings', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -90,7 +90,7 @@ describe('Team Settings', () => {
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
         });
 
         // # Type username and password

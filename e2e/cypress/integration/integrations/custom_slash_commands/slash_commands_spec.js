@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -27,7 +28,7 @@ describe('Slash commands page', () => {
             testTeam = team;
 
             // # Go to integrations
-            cy.visit(`/${team.name}/integrations`);
+            cy.visitAndWait(`/${team.name}/integrations`);
 
             // * Validate that slash command section is enabled
             cy.get('#slashCommands').should('be.visible');
@@ -108,7 +109,7 @@ describe('Slash commands page', () => {
         cy.get('#saveCommand').click();
 
         // # Go to integrations
-        cy.visit(`/${testTeam.name}/integrations`);
+        cy.visitAndWait(`/${testTeam.name}/integrations`);
 
         // * Validate that slash command section is enabled
         cy.get('#slashCommands').should('be.visible');
@@ -139,7 +140,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, 'http://example.com');
 
         // # Go to integrations
-        cy.visit(`/${testTeam.name}/integrations`);
+        cy.visitAndWait(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -164,7 +165,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, '');
 
         // # Go to integrations
-        cy.visit(`/${testTeam.name}/integrations`);
+        cy.visitAndWait(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -215,8 +216,7 @@ export function addNewCommand(team, trigger, url) {
 
 function runSlashCommand(team, trigger) {
     // # Go back to home channel
-    cy.visit(`/${team.name}/channels/town-square`);
-    cy.wait(TIMEOUTS.TWO_SEC);
+    cy.visitAndWait(`/${team.name}/channels/town-square`);
 
     // # Run slash command
     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);

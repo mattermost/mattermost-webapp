@@ -31,7 +31,7 @@ describe('Notifications', () => {
                 townsquareChannelId = channel.id;
             });
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 

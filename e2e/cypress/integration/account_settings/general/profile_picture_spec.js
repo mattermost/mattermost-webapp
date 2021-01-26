@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -14,7 +15,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('Account Settings -> General -> Profile Picture', () => {
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

@@ -86,7 +86,7 @@ describe('System Console', () => {
 
     it('MM-20059 - System Admin can map roles to groups from Team Configuration screen', () => {
         // # Go to system admin page and to team configuration page
-        cy.visit('/admin_console/user_management/teams');
+        cy.visitAndWait('/admin_console/user_management/teams');
 
         // # Search for the team.
         cy.get('.DataGrid_searchBar').within(() => {
@@ -141,7 +141,7 @@ describe('System Console', () => {
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on team configuration page', () => {
         // # Go to system admin page and to team configuration page
-        cy.visit('/admin_console/user_management/teams');
+        cy.visitAndWait('/admin_console/user_management/teams');
 
         // # Search for the team.
         cy.get('.DataGrid_searchBar').within(() => {
@@ -167,7 +167,7 @@ describe('System Console', () => {
 
     it('MM-20646 - System Admin can map roles to groups from Channel Configuration screen', () => {
         // # Go to system admin page and to channel configuration page of channel "autem"
-        cy.visit('/admin_console/user_management/channels');
+        cy.visitAndWait('/admin_console/user_management/channels');
 
         // # Search for the channel.
         cy.get('.DataGrid_searchBar').within(() => {
@@ -199,7 +199,7 @@ describe('System Console', () => {
 
     it('MM-21789 - Add a group and change the role and then save and ensure the role was updated on channel configuration page', () => {
         // # Go to system admin page and to channel configuration page of channel "autem"
-        cy.visit('/admin_console/user_management/channels');
+        cy.visitAndWait('/admin_console/user_management/channels');
 
         // # Search for the channel.
         cy.get('.DataGrid_searchBar').within(() => {

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @modals
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -25,7 +26,7 @@ describe('Quick switcher', () => {
             testUser = user;
             testTeam = team;
             testChannel = channel;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
         cy.apiCreateUser({prefix: 'az1'}).then(({user: user1}) => {
             firstUser = user1;
@@ -46,7 +47,7 @@ describe('Quick switcher', () => {
         // # Login as test user
         cy.apiLogin(testUser);
 
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Type either cmd+K / ctrl+K depending on OS
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
@@ -122,7 +123,7 @@ describe('Quick switcher', () => {
     it('MM-T3447_4 Should not match GM if it is removed from LHS', () => {
         cy.apiCreateGroupChannel([testUser.id, firstUser.id, secondUser.id]).then(({channel}) => {
             // # Visit the newly created group message
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
             cy.focused().type('a');
@@ -148,7 +149,7 @@ describe('Quick switcher', () => {
     it('MM-T3447_5 Should match GM even with space in search term', () => {
         cy.apiCreateGroupChannel([testUser.id, firstUser.id, thirdUser.id]).then(({channel}) => {
             // # Visit the newly created group message
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             cy.get('#post_textbox').cmdOrCtrlShortcut('K');
             cy.focused().type(`${testUser.username} az3`);

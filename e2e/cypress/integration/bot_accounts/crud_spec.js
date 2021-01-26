@@ -43,7 +43,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
     it('MM-T1841 Long description text', () => {
         // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
+        cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
         cy.findByText(testBot.fullDisplayName).then((el) => {
@@ -82,7 +82,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
     it('MM-T1842 Change BOT role', () => {
         // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
+        cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
         cy.findByText(testBot.fullDisplayName).then((el) => {
@@ -138,7 +138,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
     it('MM-T1845 Create a new token via the UI', () => {
         // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
+        cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
         cy.findByText(testBot.fullDisplayName).then((el) => {
@@ -169,7 +169,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
     it('MM-T1848 Delete Token', () => {
         // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
+        cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
         // * Check that the previously created bot is listed
         cy.findByText(testBot.fullDisplayName).then((el) => {
