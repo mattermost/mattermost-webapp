@@ -1,4 +1,4 @@
-.RenewLicenseLinkCard {
+.RenewLicenseCard {
     margin-bottom: 20px;
     padding: 32px 54px 18px 32px;
     display: flex;
@@ -24,7 +24,7 @@
     }
 }
 
-.RenewLicenseLinkCard__text-title {
+.RenewLicenseCard__text-title {
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
@@ -38,7 +38,7 @@
     }
 }
 
-.RenewLicenseLinkCard__text-description {
+.RenewLicenseCard__text-description {
     color: var(----center-channel-color);
     font-family: Open Sans;
     font-style: normal;
@@ -50,11 +50,11 @@
     }
 }
 
-.RenewLicenseLinkCard__licensedUsersNum {
+.RenewLicenseCard__licensedUsersNum {
     display: inline-block;
 }
 
-.RenewLicenseLinkCard__activeUsersNum {
+.RenewLicenseCard__activeUsersNum {
     display: inline-block;
     margin-left: 25px;
 }

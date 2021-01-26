@@ -8,41 +8,35 @@ import moment from 'moment';
 
 import RenewalLink from 'components/announcement_bar/renewal_link/';
 
-import alertIcon from 'images/icons/round-blue-info-icon.svg';
-import warningIcon from 'images/icons/warning-red-icon.svg';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import './renew_license_link_card.scss';
+import './renew_license_card.scss';
 
-export interface RenewLicenseLinkCardProps {
+export interface RenewLicenseCardProps {
     license: any;
     isLicenseExpired: boolean;
     totalUsers: number;
 }
 
-const RenewLicenseLinkCard: React.FC<RenewLicenseLinkCardProps> = ({license, totalUsers, isLicenseExpired}: RenewLicenseLinkCardProps) => {
-    let titleClass = 'RenewLicenseLinkCard__text-title';
-    let icon = alertIcon;
-    let idTitleText = 'admin.license.license_expiring';
+const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers, isLicenseExpired}: RenewLicenseCardProps) => {
+    let titleClass = 'RenewLicenseCard__text-title';
+    let idTitleText = 'admin.license.renewalCard.licenseExpiring';
     let defaultTitleText = 'License expires in {days} days on {date, date, long}.';
+    let iconClass = 'icon-alert-circle-outline';
     const today = moment(Date.now());
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
     const daysToEndLicense = endOfLicense.diff(today, 'days');
     if (isLicenseExpired) {
-        titleClass = 'RenewLicenseLinkCard__text-title critical';
-        icon = warningIcon;
-        idTitleText = 'admin.license.license_expired';
+        titleClass = 'RenewLicenseCard__text-title critical';
+        idTitleText = 'admin.license.renewalCard.licenseExpired';
         defaultTitleText = 'License expired on {date, date, long}.';
+        iconClass = 'icon-alert-outline';
     }
     return (
-        <div className='RenewLicenseLinkCard'>
-            <div className='RenewLicenseLinkCard__text'>
+        <div className='RenewLicenseCard'>
+            <div className='RenewLicenseCard__text'>
                 <div className={titleClass}>
-                    <img
-                        className='advisor-icon'
-                        src={icon}
-                    />
+                    <i className={iconClass}/>
                     <FormattedMessage
                         id={idTitleText}
                         defaultMessage={defaultTitleText}
@@ -52,30 +46,30 @@ const RenewLicenseLinkCard: React.FC<RenewLicenseLinkCardProps> = ({license, tot
                         }}
                     />
                 </div>
-                <div className='RenewLicenseLinkCard__text-description bolder'>
+                <div className='RenewLicenseCard__text-description bolder'>
                     <FormattedMessage
-                        id='admin.license.subscription.privateCloudCard.description'
+                        id='admin.license.renewalCard.description'
                         defaultMessage='Renew your Enterprise license through the Customer Portal to avoid any disruption.'
                     />
                 </div>
-                <div className='RenewLicenseLinkCard__text-description'>
+                <div className='RenewLicenseCard__text-description'>
                     <FormattedMessage
-                        id='admin.license.subscription.privateCloudCard.description'
-                        defaultMessage='Review your numbers below to ensure you renew for theright number of users.'
+                        id='admin.license.renewalCard.reviewNumbers'
+                        defaultMessage='Review your numbers below to ensure you renew for the right number of users.'
                     />
                 </div>
-                <div className='RenewLicenseLinkCard__licensedUsersNum'>
+                <div className='RenewLicenseCard__licensedUsersNum'>
                     <FormattedMarkdownMessage
-                        id='admin.license.subscription.privateCloudCard.licensedUsersNum'
+                        id='admin.license.renewalCard.licensedUsersNum'
                         defaultMessage='**Licensed Users:** {licensedUsersNum}'
                         values={{
                             licensedUsersNum: license.Users,
                         }}
                     />
                 </div>
-                <div className='RenewLicenseLinkCard__activeUsersNum'>
+                <div className='RenewLicenseCard__activeUsersNum'>
                     <FormattedMarkdownMessage
-                        id='admin.license.subscription.privateCloudCard.usersNumbers'
+                        id='admin.license.renewalCard.usersNumbers'
                         defaultMessage='**Active Users:** {activeUsersNum}'
                         values={{
                             activeUsersNum: totalUsers,
@@ -88,4 +82,4 @@ const RenewLicenseLinkCard: React.FC<RenewLicenseLinkCardProps> = ({license, tot
     );
 };
 
-export default RenewLicenseLinkCard;
+export default RenewLicenseCard;

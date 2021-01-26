@@ -17,7 +17,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-import RenewLinkCard from './renew_license_link_card/renew_license_link_card';
+import RenewLinkCard from './renew_license_card/renew_license_card';
 
 export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
@@ -618,7 +618,7 @@ export default class LicenseSettings extends React.PureComponent {
                 <RenewLinkCard
                     license={this.props.license}
                     isLicenseExpired={isLicenseExpired(this.props.license)}
-                    totalUsers={Math.max(this.props.stats.TOTAL_USERS, 30)}
+                    totalUsers={this.props.stats.TOTAL_USERS}
                 />
             );
         }
