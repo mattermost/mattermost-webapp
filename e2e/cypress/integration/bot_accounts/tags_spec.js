@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import {createBotPatch} from '../../support/api/bots';
@@ -51,7 +52,7 @@ describe('Bot tags', () => {
                 postId = id;
                 await client.pinPost(postId);
 
-                cy.visit(`/${team.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
                 cy.clickPostDotMenu(postId);
                 cy.get(`#CENTER_flagIcon_${postId}`).click();
             });
@@ -81,7 +82,7 @@ describe('Bot tags', () => {
         cy.get('#channelHeaderPinButton').click();
 
         // * Verify bot badge
-        cy.get('.sidebar--right__title').should('contain.text', 'Pinned posts');
+        cy.get('.sidebar--right__title').should('contain.text', 'Pinned Posts');
         rhsPostHasBotBadge(postId);
     });
 

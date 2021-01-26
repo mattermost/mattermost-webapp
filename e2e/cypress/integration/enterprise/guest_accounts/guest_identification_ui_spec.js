@@ -32,7 +32,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
             },
             ServiceSettings: {
                 EnableEmailInvitations: true,
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                EnableLegacySidebar: true,
             },
         });
 
@@ -50,11 +50,11 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
             // # Login as regular user and go to town square
             cy.apiLogin(regularUser);
-            cy.visit(`/${team.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
         });
     });
 
-    it('Verify Guest Badge in Channel Members dropdown and dialog', () => {
+    it('MM-T1370 Verify Guest Badge in Channel Members dropdown and dialog', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // # Open Channel Members List
@@ -106,8 +106,8 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
     });
 
-    it('Verify Guest Badge in Posts in Center Channel, RHS and User Profile Popovers', () => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+    it('MM-T1372 Verify Guest Badge in Posts in Center Channel, RHS and User Profile Popovers', () => {
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
@@ -165,7 +165,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#quickSwitchModalLabel > .close').click();
     });
 
-    it('Verify Guest Badge in DM Search dialog', () => {
+    it('MM-T1377 Verify Guest Badge in DM Search dialog', () => {
         // #Click on plus icon of Direct Messages
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
 
@@ -231,7 +231,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('MM-T1419 Deactivating a Guest removes "This channel has guests" message from channel header', () => {
         // Visit the channel which has guests
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify the text 'This channel has guests' is displayed in the header
         cy.get('#channelHeaderDescription').within(($el) => {

@@ -35,7 +35,7 @@ describe('Channels', () => {
         // # Create new test channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Click the channel header dropdown
             cy.get('#channelHeaderDropdownIcon').click();
@@ -60,7 +60,7 @@ describe('Channels', () => {
         // # Create new test channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Click the channel header dropdown
             cy.get('#channelHeaderDropdownIcon').click();
@@ -85,7 +85,7 @@ describe('Channels', () => {
         // # Create new test channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Click the channel header dropdown
             cy.get('#channelHeaderDropdownIcon').click();
@@ -103,7 +103,7 @@ describe('Channels', () => {
         // # Create new test channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Click the channel header dropdown
             cy.get('#channelHeaderDropdownIcon').click();
@@ -147,7 +147,7 @@ const removePermission = (permissionCheckBoxTestId) => {
 const resetPermissionsToDefault = () => {
     // # Login as sysadmin and navigate to system scheme page
     cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions/system_scheme');
+    cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
 
     // # Click reset to defaults and confirm
     cy.findByTestId('resetPermissionsToDefault').click();

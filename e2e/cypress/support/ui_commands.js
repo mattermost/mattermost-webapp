@@ -107,6 +107,10 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
+    // Add explicit wait to let the page load freely since `cy.get` seemed to block
+    // some operation which caused to prolong complete page loading.
+    cy.wait(TIMEOUTS.THREE_SEC);
+
     cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
@@ -398,10 +402,10 @@ Cypress.Commands.add('closeRHS', () => {
 // ***********************************************************
 
 Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
-    cy.visit('/create_team');
+    cy.visitAndWait('/create_team');
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
-    cy.visit(`/${teamURL}`);
+    cy.visitAndWait(`/${teamURL}`);
 });
 
 Cypress.Commands.add('getCurrentTeamId', () => {
@@ -541,7 +545,7 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
         if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
             // # Go to system admin LDAP page and run the group sync
-            cy.visit('/admin_console/authentication/ldap');
+            cy.visitAndWait('/admin_console/authentication/ldap');
 
             // # Click on AD/LDAP Synchronize Now button and verify if succesful
             cy.findByText('AD/LDAP Test').click();

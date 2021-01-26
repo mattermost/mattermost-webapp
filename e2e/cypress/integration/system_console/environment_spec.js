@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Environment', () => {
@@ -22,7 +24,7 @@ describe('Environment', () => {
     });
 
     it('MM-T959 - Web server mode - Webserver gzip', () => {
-        cy.visit('/admin_console/environment/web_server');
+        cy.visitAndWait('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
@@ -31,7 +33,7 @@ describe('Environment', () => {
         cy.get('#saveSetting').click();
 
         // # Navigate to a channel
-        cy.visit(townsquareLink);
+        cy.visitAndWait(townsquareLink);
 
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
@@ -74,7 +76,7 @@ describe('Environment', () => {
     });
 
     it('MM-T960 - Web server mode - Webserver Uncompressed', () => {
-        cy.visit('/admin_console/environment/web_server');
+        cy.visitAndWait('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Uncompressed');
@@ -83,7 +85,7 @@ describe('Environment', () => {
         cy.get('#saveSetting').click();
 
         // # Navigate to a channel
-        cy.visit(townsquareLink);
+        cy.visitAndWait(townsquareLink);
 
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
@@ -126,7 +128,7 @@ describe('Environment', () => {
     });
 
     it('MM-T961 - Web server mode - Webserver Disabled', () => {
-        cy.visit('/admin_console/environment/web_server');
+        cy.visitAndWait('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Disabled');
@@ -135,7 +137,7 @@ describe('Environment', () => {
         cy.get('#saveSetting').click();
 
         // # Navigate to a channel
-        cy.visit(townsquareLink);
+        cy.visitAndWait(townsquareLink);
 
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
@@ -178,7 +180,7 @@ describe('Environment', () => {
     });
 
     it('MM-T991 - Database fields can be edited and saved', () => {
-        cy.visit('/admin_console/environment/database');
+        cy.visitAndWait('/admin_console/environment/database');
 
         const queryTimeoutValue = 100;
         const maxOpenConnsValue = 1000;
@@ -197,7 +199,7 @@ describe('Environment', () => {
     });
 
     it('MM-T993 - Minimum hashtag length at least 2', () => {
-        cy.visit('/admin_console/environment/database');
+        cy.visitAndWait('/admin_console/environment/database');
 
         const minimumHashtagOrig = 3;
         const minimumHashtagLength1 = 2;
@@ -227,7 +229,7 @@ describe('Environment', () => {
     });
 
     it('MM-T995 - Amazon S3 settings', () => {
-        cy.visit('/admin_console/environment/file_storage');
+        cy.visitAndWait('/admin_console/environment/file_storage');
 
         // # CLick dropdown to open selection
         cy.findByTestId('FileSettings.DriverNamedropdown').select('Amazon S3');
@@ -259,7 +261,7 @@ describe('Environment', () => {
     });
 
     it('MM-T996 - Amazon S3 connection error messaging', () => {
-        cy.visit('/admin_console/environment/file_storage');
+        cy.visitAndWait('/admin_console/environment/file_storage');
 
         // # CLick dropdown to open selection
         cy.findByTestId('FileSettings.DriverNamedropdown').select('Amazon S3');

@@ -15,13 +15,13 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // # Update config and visit town-square channel
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'disabled',
+                EnableLegacySidebar: true,
             },
         });
 
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

@@ -38,7 +38,7 @@ describe('Channels', () => {
                 });
 
                 // # Go to town square
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visitAndWait(`/${team.name}/channels/town-square`);
             });
         });
     });
@@ -58,7 +58,7 @@ describe('Channels', () => {
 
         // # Login as new user and go to "/"
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Go to LHS and click "More..." under Public Channels group
         cy.get('#publicChannelList').should('be.visible').within(() => {
@@ -88,7 +88,7 @@ describe('Channels', () => {
 
         // # Login as channel admin and go directly to the channel
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click channel header to open channel menu
         cy.get('#channelHeaderTitle').should('contain', testChannel.display_name).click();
@@ -157,7 +157,7 @@ describe('Channels', () => {
 
         cy.apiCreateChannel(testTeam.id, 'not-archived-channel', 'Not Archived Channel').then(({channel}) => {
             newChannel = channel;
-            cy.visit(`/${testTeam.name}/channels/${newChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${newChannel.name}`);
 
             // # Leave the channel
             cy.uiLeaveChannel();
@@ -170,7 +170,7 @@ describe('Channels', () => {
             testArchivedChannel = channel;
 
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${testArchivedChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testArchivedChannel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -186,11 +186,11 @@ describe('Channels', () => {
             testPrivateArchivedChannel = channel;
 
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${testPrivateArchivedChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testPrivateArchivedChannel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
 
         // # Go to LHS and click "More..." under Public Channels group
@@ -237,12 +237,12 @@ function verifyMoreChannelsModalWithArchivedSelection(isEnabled, testUser, testT
     });
 
     // * Verify more channels modal
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     verifyMoreChannelsModal(isEnabled);
 
     // # Login as regular user and verify more channels modal
     cy.apiLogin(testUser);
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     verifyMoreChannelsModal(isEnabled);
 }
 

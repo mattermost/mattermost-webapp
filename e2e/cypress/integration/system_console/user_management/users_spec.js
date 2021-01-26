@@ -10,19 +10,6 @@
 // Group: @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import * as MESSAGES from '../../../fixtures/messages';
-
-import {getRandomId} from '../../../utils';
-
-function apiLogin(username, password) {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/login',
-        method: 'POST',
-        body: {login_id: username, password},
-        failOnStatusCode: false,
-    });
-}
 
 describe('System Console > User Management > Users', () => {
     let testUser;
@@ -44,7 +31,7 @@ describe('System Console > User Management > Users', () => {
         cy.apiLogin(otherAdmin);
 
         // # Visit the system console.
-        cy.visit('/admin_console').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console');
 
         // # Go to the Server Logs section.
         cy.get('#user_management\\/users').click().wait(TIMEOUTS.ONE_SEC);
@@ -222,190 +209,12 @@ describe('System Console > User Management > Users', () => {
     });
 });
 
-describe('System Console > User Management > Deactivation', () => {
-    let team1;
-    before(() => {
-        // # Do initial setup
-        cy.apiInitSetup().then(({team}) => {
-            team1 = team;
-        });
+function apiLogin(username, password) {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/login',
+        method: 'POST',
+        body: {login_id: username, password},
+        failOnStatusCode: false,
     });
-
-    beforeEach(() => {
-        // # Visit town-square
-        cy.visit(`/${team1.name}`);
-    });
-
-    // # Create two users
-    it('MM-T946 GM: User deactivated in System Console still displays', () => {
-        cy.apiCreateUser({prefix: 'first'}).then(({user: user1}) => {
-            cy.apiCreateUser({prefix: 'second'}).then(({user: user2}) => {
-                const message = MESSAGES.SMALL;
-
-                // # Send a GM to them
-                cy.sendDirectMessageToUsers([user1, user2], message);
-
-                // * Verify names on the LHS are still ordered alphabetically
-                cy.get('#directChannelList .active .sidebar-item__name').should('contain', user1.username + ', ' + user2.username);
-
-                // # Deactivate user 1
-                cy.apiDeactivateUser(user1.id);
-
-                // * Verify names on the LHS are still ordered alphabetically
-                cy.get('#directChannelList .active .sidebar-item__name').should('contain', user1.username + ', ' + user2.username);
-
-                // # Search for the message send in the GM
-                cy.uiSearchPosts(message);
-
-                // * Verify GM message is returned in RHS
-                cy.get('#search-items-container').children().should('have.length', 1).get('#search-items-container .post-message__text-container').should('have.text', message);
-            });
-        });
-    });
-
-    it('MM-T948 DM posts searchable in DM More... and channel switcher DM channel re-openable', () => {
-        cy.apiCreateUser({prefix: 'other'}).then(({user: other}) => {
-            // # Open DM
-            cy.sendDirectMessageToUser(other, MESSAGES.SMALL);
-
-            // # Close DM
-            cy.get('#channelHeaderDropdownIcon').click();
-            cy.findByText('Close Direct Message').click();
-
-            // # Deactivate the user
-            cy.apiDeactivateUser(other.id);
-
-            // # Open Channel Switcher
-            cy.get('#sidebarSwitcherButton').click();
-
-            // # Type the user name on Channel switcher input
-            cy.get('#quickSwitchInput').type(other.username).wait(TIMEOUTS.HALF_SEC);
-
-            // * Verify user is marked as deactivated
-            cy.get('[data-testid="' + other.username + '"]').contains('Deactivated');
-
-            // # Close Channel Switcher
-            cy.get('#quickSwitchModalLabel .close').click();
-
-            // # Open DM More... Modal
-            cy.get('#moreDirectMessage').click();
-
-            // # Type the guest user name on Channel switcher input
-            cy.get('.more-direct-channels #selectItems').type(other.username).wait(TIMEOUTS.HALF_SEC);
-
-            // * Verify user is marked as deactivated
-            cy.get('#displayedUserName' + other.username).parent().contains('Deactivated');
-
-            // # Click on the user
-            cy.get('#displayedUserName' + other.username).click();
-
-            // * Confirm DM More... Modal is closed
-            cy.get('#moreDmModal').should('not.be.visible');
-        });
-    });
-
-    it('MM-T949 If an active user is selected in DM More... or channel switcher, deactivated users disappear so they can\'t be added to a GM together', () => {
-        // # Create two users
-        cy.apiCreateUser({prefix: 'first'}).then(({user: user1}) => {
-            cy.apiCreateUser({prefix: 'second_'}).then(({user: user2}) => {
-                // # Send a DM to user1 so they show up in the DM modal
-                cy.sendDirectMessageToUser(user1, MESSAGES.SMALL);
-
-                // # Send a DM to user2 so they show up in the DM modal
-                cy.sendDirectMessageToUser(user2, MESSAGES.SMALL);
-
-                // # Deactivate user 2
-                cy.apiDeactivateUser(user2.id);
-
-                // # Open DM More... Modal
-                cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
-
-                // # Type the user name of user1 on Channel switcher input
-                cy.get('.more-direct-channels #selectItems').type(user1.username).wait(TIMEOUTS.HALF_SEC);
-
-                // # Click on the user
-                cy.get('#displayedUserName' + user1.username).click();
-
-                // # Type the user name of user2 on Channel switcher input
-                cy.get('.more-direct-channels #selectItems').type(user2.username).wait(TIMEOUTS.HALF_SEC);
-
-                // * Confirm user2 can't be added to the DM
-                cy.get('#displayedUserName' + user2.username).should('not.be.visible');
-            });
-        });
-    });
-
-    it('MM-T951 Reopened DM shows archived icon in LHS No status indicator in channel header Message box replaced with "You are viewing an archived channel with a deactivated user." in center and RHS', () => {
-        // # Create other user
-        cy.apiCreateUser({prefix: 'other'}).then(({user}) => {
-            // # Send a DM to the other user
-            cy.sendDirectMessageToUser(user, MESSAGES.SMALL);
-
-            // # Open RHS
-            cy.clickPostCommentIcon();
-
-            // * Verify status indicator is shown in channel header
-            cy.get('#channelHeaderDescription .status').should('be.visible');
-
-            // # Deactivate other user
-            cy.apiDeactivateUser(user.id);
-
-            // * Verify center channel message box is replace with warning
-            cy.get('.channel-archived__message').contains('You are viewing an archived channel with a deactivated user. New messages cannot be posted.');
-
-            // * Verify RHS message box is replace with warning
-            cy.get('#rhsContainer .post-create-message').contains('You are viewing an archived channel with a deactivated user. New messages cannot be posted.');
-
-            // * Verify status indicator is not shown in channel header
-            cy.get('#channelHeaderDescription .status').should('not.be.visible');
-
-            // * Verify archived icon is shown in LHS
-            cy.get('#directChannelList .active .icon__archive').scrollIntoView().should('be.visible');
-        });
-    });
-
-    it('MM-T952 Reactivating a user results in them showing up in the normal spot in the list, without the `Deactivated` label.', () => {
-        // # Create two users with same random prefix
-        const id = getRandomId();
-
-        cy.apiCreateUser({prefix: id + '_a_'}).then(({user: user1}) => {
-            cy.apiCreateUser({prefix: id + '_b_'}).then(({user: user2}) => {
-                // # Send a DM to user1 so they show up in the DM modal
-                cy.sendDirectMessageToUser(user1, MESSAGES.SMALL);
-
-                // # Send a DM to user2 so they show up in the DM modal
-                cy.sendDirectMessageToUser(user2, MESSAGES.SMALL);
-
-                // # Open DM More... Modal
-                cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
-
-                // # Type the user name of the other user on Channel switcher input
-                cy.get('.more-direct-channels #selectItems').type(id).wait(TIMEOUTS.HALF_SEC);
-
-                // * Verify user 1 is shown first and doesn't have deactivated text
-                cy.get('#moreDmModal .more-modal__row').siblings().its(0).get('#displayedUserName' + user1.username).parent().should('not.contain', 'Deactivated');
-
-                // * Verify user 2 is shown second
-                cy.get('#moreDmModal .more-modal__row').siblings().its(1).get('#displayedUserName' + user2.username);
-
-                // # Deactivate user1
-                cy.apiDeactivateUser(user1.id);
-
-                // * Verify user 1 is shown second and does have deactivated text
-                cy.get('#moreDmModal .more-modal__row').siblings().its(1).get('#displayedUserName' + user1.username).parent().should('contain', 'Deactivated');
-
-                // * Verify user 2 is shown first
-                cy.get('#moreDmModal .more-modal__row').siblings().its(0).get('#displayedUserName' + user2.username);
-
-                // # Reactivate user1
-                cy.apiActivateUser(user1.id);
-
-                // * Verify user 1 is shown first and doesn't have deactivated text
-                cy.get('#moreDmModal .more-modal__row').siblings().its(0).get('#displayedUserName' + user1.username).parent().should('not.contain', 'Deactivated');
-
-                // * Verify user 2 is shown second
-                cy.get('#moreDmModal .more-modal__row').siblings().its(1).get('#displayedUserName' + user2.username);
-            });
-        });
-    });
-});
+}

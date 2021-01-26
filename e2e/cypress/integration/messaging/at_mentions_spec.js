@@ -104,11 +104,11 @@ describe('at-mention', () => {
 
             // # Login as receiver and visit off-topic channel
             cy.apiLogin(receiver);
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
-    it('N14571 still triggers notification if username is not listed in words that trigger mentions', () => {
+    it('MM-T547 still triggers notification if username is not listed in words that trigger mentions', () => {
         // # Set Notification settings
         setNotificationSettings({first: false, username: true, shouts: true, custom: true}, otherChannel);
 
@@ -157,7 +157,7 @@ describe('at-mention', () => {
             and('have.text', `@${receiver.username}`);
     });
 
-    it('N14570 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
+    it('MM-T545 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: true, custom: true}, otherChannel);
 
@@ -195,7 +195,7 @@ describe('at-mention', () => {
             should('not.exist');
     });
 
-    it('N14572 does not trigger notifications with "channel-wide mentions" unchecked', () => {
+    it('MM-T548 does not trigger notifications with "channel-wide mentions" unchecked', () => {
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: false, custom: true}, otherChannel);
 

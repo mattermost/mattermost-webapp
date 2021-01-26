@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const timeouts = require('../../../fixtures/timeouts');
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. #. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -29,7 +27,7 @@ describe('Guest Accounts', () => {
 
     it('MM-T1411 Update Guest Users in User Management when Guest feature is disabled', () => {
         // # Navigate to Guest Access page.
-        cy.visit('/admin_console/authentication/guest_access');
+        cy.visitAndWait('/admin_console/authentication/guest_access');
 
         // # Enable guest accounts.
         cy.findByTestId('GuestAccountsSettings.Enabletrue').check();
@@ -49,7 +47,7 @@ describe('Guest Accounts', () => {
         checkUserListStatus(guestUser, 'Guest');
 
         // # Navigate to System Console ➜ Guest Access.
-        cy.visit('/admin_console/authentication/guest_access');
+        cy.visitAndWait('/admin_console/authentication/guest_access');
 
         // # Set Enable Guest Access to false.
         cy.findByTestId('GuestAccountsSettings.Enablefalse').check();
@@ -64,7 +62,7 @@ describe('Guest Accounts', () => {
         checkUserListStatus(guestUser, 'Inactive');
 
         // # Navigate to Guest Access page.
-        cy.visit('/admin_console/authentication/guest_access');
+        cy.visitAndWait('/admin_console/authentication/guest_access');
 
         // # Enable guest accounts.
         cy.findByTestId('GuestAccountsSettings.Enabletrue').check();
@@ -82,8 +80,7 @@ describe('Guest Accounts', () => {
 
     function checkUserListStatus(user, status) {
         // # Go to System Console ➜ Users.
-        cy.visit('/admin_console/user_management/users');
-        cy.wait(timeouts.HALF_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         cy.get('#searchUsers').should('be.visible').type(user.username);
         cy.get('#selectUserStatus').select(status);

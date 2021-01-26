@@ -20,7 +20,7 @@ describe('Channel user count', () => {
             testTeam = team;
 
             // # Visit 'off-topic' channel for this team, as sysadmin
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
+            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
         }),
     );
 

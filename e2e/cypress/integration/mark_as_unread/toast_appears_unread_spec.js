@@ -31,7 +31,7 @@ describe('Verify unread toast appears after repeated manual marking post as unre
 
                     // Toast only seems to appear after first visiting the channel
                     // So we need to visit the channel then navigate away
-                    cy.visit(`/${team.name}/channels/town-square`);
+                    cy.visitAndWait(`/${team.name}/channels/town-square`);
                     switchToChannel(offTopicChannel);
 
                     cy.postMessageAs({

@@ -151,20 +151,20 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func;
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) : !func;
     },
-    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) : !func) {
                 return false;
             }
         }
         return true;
     },
-    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud) : func) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) : func) {
                 return true;
             }
         }
@@ -188,6 +188,7 @@ export const it = {
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
+    isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -1367,7 +1368,8 @@ const AdminDefinition = {
                         label: t('admin.rate.enableLimiterTitle'),
                         label_default: 'Enable Rate Limiting:',
                         help_text: t('admin.rate.enableLimiterDescription'),
-                        help_text_default: 'When true, APIs are throttled at rates specified below.',
+                        help_text_default: 'When true, APIs are throttled at rates specified below.\n \nRate limiting prevents server overload from too many requests. This is useful to prevent third-party applications or malicous attacks from impacting your server.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -2942,7 +2944,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.enableAdminFilterTitle'),
                         label_default: 'Enable Admin Filter:',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2960,7 +2962,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.adminFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.stateIsFalse('LdapSettings.EnableAdminFilter'),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
@@ -3806,7 +3808,7 @@ const AdminDefinition = {
                         label: t('admin.saml.enableAdminAttrTitle'),
                         label_default: 'Enable Admin Attribute:',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3821,7 +3823,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The attribute in the SAML Assertion for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths.** It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
                         help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.EnableAdminAttribute'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
@@ -4060,11 +4062,10 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: () => true,
+                shouldDisplay: () => false,
             },
             isHidden: it.any(
                 it.not(it.licensed),
-                it.not(usesLegacyOauth),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4116,11 +4117,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: it.any(
-                            it.not(it.licensedForFeature('GoogleOAuth')),
-                            it.not(it.licensedForFeature('Office365OAuth')),
-                            it.not(usesLegacyOauth),
-                        ),
+                        isHidden: () => true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -4372,7 +4369,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.not(it.licensedForFeature('OpenId')),
+            isHidden: () => true,
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
@@ -5245,16 +5242,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.CloseUnusedDirectMessages',
-                        label: t('admin.experimental.closeUnusedDirectMessages.title'),
-                        label_default: 'Autoclose Direct Messages in Sidebar:',
-                        help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
-                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed.',
-                        help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'ExperimentalSettings.LinkMetadataTimeoutMilliseconds',
                         label: t('admin.experimental.linkMetadataTimeoutMilliseconds.title'),
@@ -5525,16 +5512,6 @@ const AdminDefinition = {
                         ),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
-                        label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
-                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
-                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels.',
-                        help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'TeamSettings.ExperimentalPrimaryTeam',
                         label: t('admin.experimental.experimentalPrimaryTeam.title'),
@@ -5591,35 +5568,14 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
-                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
-                        label_default: 'Experimental Sidebar Features',
-                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
-                        help_text_default: 'When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)',
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLegacySidebar',
+                        label: t('admin.experimental.enableLegacySidebar.title'),
+                        label_default: 'Enable Legacy Sidebar',
+                        help_text: t('admin.experimental.enableLegacySidebar.desc'),
+                        help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
                         help_text_markdown: true,
-                        options: [
-                            {
-                                value: 'disabled',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
-                                display_name_default: 'Disabled',
-                            },
-                            {
-                                value: 'default_on',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
-                                display_name_default: 'Enabled (Default On)',
-                            },
-                            {
-                                value: 'default_off',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
-                                display_name_default: 'Enabled (Default Off)',
-                            },
-                            {
-                                value: 'always_on',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.always_on'),
-                                display_name_default: 'Always On',
-                            },
-                        ],
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
@@ -5628,8 +5584,55 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
                         label_default: 'Channel Grouping and Sorting',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
+                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
                         help_text_markdown: true,
+                        isHidden: it.any(
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
+                        label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
+                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
+                        help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
+                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
+                        help_text_markdown: true,
+                        isHidden: it.any(
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.CloseUnusedDirectMessages',
+                        label: t('admin.experimental.closeUnusedDirectMessages.title'),
+                        label_default: 'Autoclose Direct Messages in Sidebar:',
+                        help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
+                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
+                        help_text_markdown: true,
+                        isHidden: it.any(
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
+                        label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
+                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
+                        help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
+                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
+                        help_text_markdown: true,
+                        isHidden: it.any(
+                            it.not(it.licensed), // E10 and higher
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
@@ -5640,17 +5643,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
-                        label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
-                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
-                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read.',
-                        help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {

@@ -22,7 +22,7 @@ describe('Notifications', () => {
             testTeam = team;
             otherUser = user;
 
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
 
             // # Open 'Notifications' of 'Account Settings' modal
             cy.uiOpenAccountSettingsModal('Notifications').within(() => {
@@ -41,7 +41,7 @@ describe('Notifications', () => {
 
             // # Login as sysadmin
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
         });
     });
 
@@ -62,7 +62,7 @@ describe('Notifications', () => {
 
         // # Login as otherUser and visit the team
         cy.apiLogin(otherUser);
-        cy.visit(`${testTeam.name}`);
+        cy.visitAndWait(`${testTeam.name}`);
 
         // # Click on the @ button
         cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();

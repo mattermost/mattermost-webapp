@@ -14,11 +14,11 @@ Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
 Cypress.Commands.add('doSamlLogin', (settings = {}) => {
     // # Go to login page
     cy.apiLogout();
-    cy.visit('/login');
+    cy.visitAndWait('/login');
     cy.checkLoginPage(settings);
 
     //click the login button
-    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
 });
 
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {

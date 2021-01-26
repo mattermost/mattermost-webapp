@@ -13,7 +13,7 @@ export function enableUsernameAndIconOverride(enable) {
 
 export function enableUsernameAndIconOverrideInt(enableUsername, enableIcon) {
     // # Visit integration management at system console and change override values
-    cy.visit('/admin_console/integrations/integration_management');
+    cy.visitAndWait('/admin_console/integrations/integration_management');
     cy.findByTestId('ServiceSettings.EnablePostUsernameOverride' + enableUsername).check({force: true});
     cy.findByTestId('ServiceSettings.EnablePostIconOverride' + enableIcon).check({force: true});
 
