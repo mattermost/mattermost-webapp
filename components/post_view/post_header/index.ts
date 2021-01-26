@@ -29,7 +29,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     return {
         enablePostUsernameOverride,
         isBot,
-        isSharedUser,
         overwriteIcon,
         isGuest: Boolean(user && isGuest(user)),
         isSharedUser: Boolean(user && user.remote_id),
