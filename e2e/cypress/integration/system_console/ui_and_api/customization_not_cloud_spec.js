@@ -24,7 +24,7 @@ describe('Customization', () => {
         });
 
         // # Visit customization system console page
-        cy.visit('/admin_console/site_config/customization');
+        cy.visitAndWait('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 

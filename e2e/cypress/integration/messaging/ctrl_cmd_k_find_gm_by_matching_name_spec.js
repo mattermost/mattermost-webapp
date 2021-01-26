@@ -41,7 +41,7 @@ describe('Messaging', () => {
         // # Create a group channel and add the three users created in the 'before' hook
         cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then(({channel}) => {
             // # Visit the newly created group message
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Go to town square
             cy.get('#sidebarItem_town-square').click();

@@ -24,7 +24,7 @@ describe('Channel Switcher', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(user);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -76,7 +76,7 @@ describe('Channel Switcher', () => {
     });
 
     it('MM-T2031_4 - should close on esc and outside click', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});

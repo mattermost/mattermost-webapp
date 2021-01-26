@@ -66,7 +66,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         // # Login as test user and visit the Town Square channel
         cy.apiLogin(testUser);
         cy.apiSaveSidebarSettingPreference();
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.get('#postListContent').should('be.visible');
     });
 

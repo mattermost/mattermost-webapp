@@ -37,7 +37,7 @@ describe('Keyboard Shortcuts', () => {
     beforeEach(() => {
         // # Login as admin and visit town-square
         cy.apiAdminLogin();
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1239 - CTRL+/ and CMD+/ and /shortcuts', () => {
@@ -216,7 +216,7 @@ describe('Keyboard Shortcuts', () => {
         // Step #1
         cy.apiLogout();
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         for (let index = 0; index < count; index++) {
             teamNames.push('team' + index);
@@ -230,7 +230,7 @@ describe('Keyboard Shortcuts', () => {
                 cy.apiCreateChannel(team.id, channelNames[index], channelDisplayNames[index]).then(({channel}) => {
                     channelNames[index] = channel.name;
                     channelDisplayNames[index] = channel.display_name;
-                    cy.visit(`/${team.name}/channels/${channel.name}`).wait(TIMEOUTS.HALF_SEC);
+                    cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
                 });
             });
         }

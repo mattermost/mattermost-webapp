@@ -20,7 +20,7 @@ describe('Identical Message Drafts', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 

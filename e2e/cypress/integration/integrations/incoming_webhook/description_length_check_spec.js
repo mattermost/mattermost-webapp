@@ -22,7 +22,7 @@ describe('Integrations', () => {
             testTeam = team;
 
             // # Visit the Incoming Webhooks add page
-            cy.visit(`/${team.name}/integrations/incoming_webhooks/add`);
+            cy.visitAndWait(`/${team.name}/integrations/incoming_webhooks/add`);
         });
     });
 
@@ -32,7 +32,7 @@ describe('Integrations', () => {
         cy.get('#description').clear().type(overMaxDescription).should('have.value', maxDescription);
 
         // * Check outgoing description field only accepts 500 characters
-        cy.visit(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
+        cy.visitAndWait(`/${testTeam.name}/integrations/outgoing_webhooks/add`);
         cy.get('#description').clear().type(maxDescription).should('have.value', maxDescription);
         cy.get('#description').clear().type(overMaxDescription).should('have.value', maxDescription);
     });

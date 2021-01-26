@@ -37,7 +37,7 @@ describe('Direct messages: redirections', () => {
 
     beforeEach(() => {
         // # View 'off-topic' channel
-        cy.visit(offTopicChannelUrl);
+        cy.visitAndWait(offTopicChannelUrl);
     });
 
     it('MM-T453_1 Closing a direct message should redirect to last viewed channel', () => {
@@ -82,7 +82,7 @@ describe('Direct messages: redirections', () => {
         sendDirectMessageToUser(firstDMUser, 'hi');
 
         // # Visit root url
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // * Expect channel title and url to firstDMUser's username
         expectActiveChannelToBe(firstDMUser.username, `/messages/@${firstDMUser.username}`);

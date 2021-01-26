@@ -32,7 +32,7 @@ describe('Account Settings > Sidebar > General', () => {
 
             // # Login as test user, visit town-square and go to the Account Settings
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
             cy.toAccountSettingsModal();
 
             // # Click General button
@@ -51,7 +51,7 @@ describe('Account Settings > Sidebar > General', () => {
 
     it('MM-T183 Filtering by first name with Korean characters', () => {
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # type in user`s firstName substring
         cy.get('#post_textbox').clear().type(`@정트리나${randomId}`);
@@ -91,7 +91,7 @@ describe('Account Settings -> General -> Full Name', () => {
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

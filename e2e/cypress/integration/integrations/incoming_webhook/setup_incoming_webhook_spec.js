@@ -33,7 +33,7 @@ describe('Incoming webhook', () => {
         enableUsernameAndIconOverride(true);
 
         // # Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Incoming Webhooks"

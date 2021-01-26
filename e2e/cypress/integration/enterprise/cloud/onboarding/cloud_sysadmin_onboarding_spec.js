@@ -19,7 +19,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
@@ -44,7 +44,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         };
 
         cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
-        cy.visit(townSquarePage);
+        cy.visitAndWait(townSquarePage);
     });
 
     /*
@@ -376,7 +376,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
 
     it('MM-T3333 Sysadmin - Copy Invite Link', () => {
         cy.apiCreateTeam('team').then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # Stub out clipboard
             const clipboard = {link: '', wasCalled: false};
