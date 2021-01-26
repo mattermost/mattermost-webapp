@@ -217,5 +217,12 @@
         .online--icon{
             fill: var(--online-indicator);
         }
+
+        &.status--away {
+            color: var(--away-indicator);
+        }
+        .away--icon {
+            fill: var(--away-indicator);
+        }
     }
 }

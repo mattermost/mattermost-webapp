@@ -40,7 +40,7 @@ describe('Upload Files', () => {
                 });
             });
 
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 
@@ -121,7 +121,7 @@ describe('Upload Files', () => {
                 });
 
                 // # Open the deleted link in the browser
-                cy.visit(publicLinkOfAttachment, {failOnStatusCode: false});
+                cy.visitAndWait(publicLinkOfAttachment, {failOnStatusCode: false});
             });
 
             // * Verify that we land on attachment not found page

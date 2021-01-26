@@ -39,7 +39,7 @@ describe('Toast', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiLogin(user);
-                    cy.visit(`/${testTeam.name}/channels/town-square`);
+                    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
                 });
             });
         });
