@@ -45,7 +45,7 @@ describe('Search', () => {
     it('S14673 - Search "in:[username]" returns results in GMs', () => {
         const groupMembers = [testUser, userOne, userTwo, userThree];
         cy.apiCreateGroupChannel(groupMembers.map((member) => member.id)).then(({channel}) => {
-            cy.visit(`/${testTeam.name}/messages/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/messages/${channel.name}`);
 
             const message = `hello${Date.now()}`;
 

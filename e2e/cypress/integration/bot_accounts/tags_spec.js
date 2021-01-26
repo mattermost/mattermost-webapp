@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import {createBotPatch} from '../../support/api/bots';
@@ -51,7 +52,7 @@ describe('Bot tags', () => {
                 postId = id;
                 await client.pinPost(postId);
 
-                cy.visit(`/${team.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
                 cy.clickPostDotMenu(postId);
                 cy.get(`#CENTER_flagIcon_${postId}`).click();
             });

@@ -24,7 +24,7 @@ describe('Edit Message', () => {
 
     beforeEach(() => {
         // # Visit town-square
-        cy.visit(townsquareLink);
+        cy.visitAndWait(townsquareLink);
     });
 
     it('MM-T121 Escape should not close modal when an autocomplete drop down is in use', () => {

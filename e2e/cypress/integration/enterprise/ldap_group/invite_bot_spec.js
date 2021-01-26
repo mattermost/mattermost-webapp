@@ -46,7 +46,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         cy.apiLogin({username: 'test.one', password: 'Password1'});
 
         // # Visit the group constrained team
-        cy.visit(`/${groupConstrainedTeam.name}`);
+        cy.visitAndWait(`/${groupConstrainedTeam.name}`);
 
         // # Click 'Invite People' at main menu
         cy.uiOpenMainMenu('Invite People');
@@ -69,7 +69,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         cy.get('.InvitationModalConfirmStepRow').find('.reason').should('not.contain', 'Error');
 
         // # Visit the group constrained team
-        cy.visit(`/${groupConstrainedTeam.name}`);
+        cy.visitAndWait(`/${groupConstrainedTeam.name}`);
 
         // # Click 'Manage Members' at main menu
         cy.uiOpenMainMenu('Manage Members');

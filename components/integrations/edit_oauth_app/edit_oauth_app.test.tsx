@@ -4,11 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {OAuthApp} from 'mattermost-redux/types/integrations';
+
+import {Team} from 'mattermost-redux/types/teams';
+
 import {browserHistory} from 'utils/browser_history';
-import EditOAuthApp from 'components/integrations/edit_oauth_app/edit_oauth_app.jsx';
+
+import EditOAuthApp from 'components/integrations/edit_oauth_app/edit_oauth_app';
 
 describe('components/integrations/EditOAuthApp', () => {
-    const oauthApp = {
+    const oauthApp: OAuthApp = {
         id: 'facxd9wpzpbpfp8pad78xj75pr',
         name: 'testApp',
         client_secret: '88cxd9wpzpbpfp8pad78xj75pr',
@@ -21,10 +26,10 @@ describe('components/integrations/EditOAuthApp', () => {
         update_at: 1501365458934,
         callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
     };
-    const team = {
+    const team: Team = {
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
         name: 'test',
-    };
+    } as Team;
     const editOAuthAppRequest = {
         status: 'not_started',
         error: null,
@@ -42,8 +47,9 @@ describe('components/integrations/EditOAuthApp', () => {
     };
 
     test('should match snapshot, loading', () => {
+        const props = {...baseProps, oauthApp};
         const wrapper = shallow(
-            <EditOAuthApp {...baseProps}/>,
+            <EditOAuthApp {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -71,7 +77,7 @@ describe('components/integrations/EditOAuthApp', () => {
 
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
@@ -82,7 +88,7 @@ describe('components/integrations/EditOAuthApp', () => {
 
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
@@ -93,7 +99,7 @@ describe('components/integrations/EditOAuthApp', () => {
 
     test('should have match renderExtra', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
@@ -102,14 +108,14 @@ describe('components/integrations/EditOAuthApp', () => {
 
     test('should have match when editOAuthApp is called', () => {
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
         const instance = wrapper.instance();
         instance.handleConfirmModal = jest.fn();
         instance.submitOAuthApp = jest.fn();
-        wrapper.instance().editOAuthApp(oauthApp);
+        instance.editOAuthApp(oauthApp);
 
         expect(instance.handleConfirmModal).not.toBeCalled();
         expect(instance.submitOAuthApp).toBeCalled();
@@ -129,7 +135,7 @@ describe('components/integrations/EditOAuthApp', () => {
 
         browserHistory.push = jest.fn();
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 
@@ -153,7 +159,7 @@ describe('components/integrations/EditOAuthApp', () => {
             },
         );
         const props = {...baseProps, oauthApp};
-        const wrapper = shallow(
+        const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
         );
 

@@ -37,7 +37,7 @@ describe('Sidebar channel menu', () => {
             teamName = team.name;
             userName = user.username;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -154,7 +154,7 @@ describe('Sidebar channel menu', () => {
         cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
 
         // * Verify that the modal appears and then close it
-        cy.contains('.modal-dialog .modal-header', 'Add New Members to').
+        cy.contains('.modal-dialog .modal-header', 'Add people to').
             parents().
             find('.modal-dialog').
             findByLabelText('Close').
