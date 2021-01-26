@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {Preferences, General} from 'mattermost-redux/constants';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import * as UserActions from 'actions/user_actions';
@@ -155,6 +156,17 @@ describe('Actions.User', () => {
                 },
             },
         },
+        storage: {
+            storage: {},
+        },
+        views: {
+            channel: {
+                lastViewedChannel: null,
+            },
+            channelSidebar: {
+                unreadFilterEnabled: false,
+            },
+        },
     };
 
     test('loadProfilesAndStatusesInChannel', async () => {
@@ -294,14 +306,25 @@ describe('Actions.User', () => {
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
     });
 
-    describe('filterGMsDMs', () => {
-        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL};
-        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL};
+    describe('getGMsForLoading', () => {
+        const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, delete_at: 0};
+        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL, delete_at: 0};
+
+        const dmsCategory = {id: 'dmsCategory', type: CategoryTypes.DIRECT_MESSAGES, channel_ids: [gmChannel1.id, gmChannel2.id]};
 
         const baseState = {
             ...initialState,
             entities: {
                 ...initialState.entities,
+                channelCategories: {
+                    ...initialState.entities.channelCategories,
+                    byId: {
+                        dmsCategory,
+                    },
+                    orderByTeam: {
+                        [initialState.entities.teams.currentTeamId]: [dmsCategory.id],
+                    },
+                },
                 channels: {
                     ...initialState.entities.channels,
                     channels: {
@@ -334,10 +357,10 @@ describe('Actions.User', () => {
             },
         };
 
-        test('should filter out autoclosed GMs', () => {
+        test('should not return autoclosed GMs', () => {
             let state = baseState;
 
-            expect(UserActions.filterGMsDMs(state, [gmChannel1, gmChannel2])).toEqual([gmChannel1, gmChannel2]);
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel1, gmChannel2]);
 
             state = {
                 ...state,
@@ -353,7 +376,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.filterGMsDMs(state, [gmChannel1, gmChannel2])).toEqual([gmChannel2]);
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel2]);
 
             state = {
                 ...state,
@@ -369,13 +392,13 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.filterGMsDMs(state, [gmChannel1, gmChannel2])).toEqual([gmChannel1]);
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel1]);
         });
 
-        test('should filter out manually closed GMs', () => {
+        test('should not return manually closed GMs', () => {
             let state = baseState;
 
-            expect(UserActions.filterGMsDMs(state, [gmChannel1, gmChannel2])).toEqual([gmChannel1, gmChannel2]);
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel1, gmChannel2]);
 
             state = {
                 ...state,
@@ -391,7 +414,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.filterGMsDMs(state, [gmChannel1, gmChannel2])).toEqual([gmChannel2]);
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel2]);
 
             state = {
                 ...state,
@@ -407,12 +430,87 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.filterGMsDMs(state, [gmChannel1, gmChannel2])).toEqual([]);
+            expect(UserActions.getGMsForLoading(state)).toEqual([]);
+        });
+
+        test('should return GMs that are in custom categories, even if they would be automatically hidden in the DMs category', () => {
+            const gmChannel3 = {id: 'gmChannel3', type: General.GM_CHANNEL, delete_at: 0};
+            const customCategory = {id: 'customCategory', type: CategoryTypes.CUSTOM, channel_ids: [gmChannel3.id]};
+
+            let state = {
+                ...baseState,
+                entities: {
+                    ...baseState.entities,
+                    channelCategories: {
+                        ...baseState.entities.channelCategories,
+                        byId: {
+                            ...baseState.entities.channelCategories.byId,
+                            customCategory,
+                        },
+                        orderByTeam: {
+                            ...baseState.entities.channelCategories.orderByTeam,
+                            [baseState.entities.teams.currentTeamId]: [customCategory.id, dmsCategory.id],
+                        },
+                    },
+                    channels: {
+                        ...baseState.entities.channels,
+                        channels: {
+                            ...baseState.entities.channels.channels,
+                            gmChannel3,
+                        },
+                        myMembers: {
+                            ...baseState.entities.channels.myMembers,
+                            [gmChannel3.id]: {last_viewed_at: 500},
+                        },
+                    },
+                    preferences: {
+                        ...baseState.entities.preferences,
+                        myPreferences: {
+                            ...baseState.entities.preferences.myPreferences,
+                            [getPreferenceKey(Preferences.CATEGORY_GROUP_CHANNEL_SHOW, gmChannel3.id)]: {value: 'true'},
+                        },
+                    },
+                },
+            };
+
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel3, gmChannel1, gmChannel2]);
+
+            state = {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    preferences: {
+                        ...state.entities.preferences,
+                        myPreferences: {
+                            ...state.entities.preferences.myPreferences,
+                            [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS)]: {value: '1'},
+                        },
+                    },
+                },
+            };
+
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel3, gmChannel2]);
+
+            state = {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    preferences: {
+                        ...state.entities.preferences,
+                        myPreferences: {
+                            ...state.entities.preferences.myPreferences,
+                            [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS)]: {value: '0'},
+                        },
+                    },
+                },
+            };
+
+            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel3]);
         });
     });
 
     test('Should call p-queue APIs on loadProfilesForGM', async () => {
-        const gmChannel = {id: 'gmChannel', type: General.GM_CHANNEL, team_id: ''};
+        const gmChannel = {id: 'gmChannel', type: General.GM_CHANNEL, team_id: '', delete_at: 0};
         UserActions.queue.add = jest.fn().mockReturnValue(jest.fn());
         UserActions.queue.onEmpty = jest.fn();
 
@@ -434,6 +532,8 @@ describe('Actions.User', () => {
             [gmChannel.id]: {},
         };
 
+        const dmsCategory = {id: 'dmsCategory', type: CategoryTypes.DIRECT_MESSAGES, channel_ids: [gmChannel.id]};
+
         const state = {
             entities: {
                 users: {
@@ -453,6 +553,14 @@ describe('Actions.User', () => {
                     },
                     postsInChannel: {},
                 },
+                channelCategories: {
+                    byId: {
+                        dmsCategory,
+                    },
+                    orderByTeam: {
+                        team_1: [dmsCategory.id],
+                    },
+                },
                 channels: {
                     channels,
                     channelsInTeam,
@@ -465,6 +573,17 @@ describe('Actions.User', () => {
                 },
                 general: {
                     config: {},
+                },
+            },
+            storage: {
+                storage: {},
+            },
+            views: {
+                channel: {
+                    lastViewedChannel: null,
+                },
+                channelSidebar: {
+                    unreadFilterEnabled: false,
                 },
             },
         };
