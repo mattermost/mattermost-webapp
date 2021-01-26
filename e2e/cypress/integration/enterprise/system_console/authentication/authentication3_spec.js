@@ -49,17 +49,17 @@ describe('Authentication Part 3', () => {
 
     const testCases = [
         {
-            title: 'MM-T1767 Email signin false Username signin true',
+            title: 'MM-T1767 - Email signin false Username signin true',
             signinWithEmail: false,
             signinWithUsername: true,
         },
         {
-            title: 'MM-T1768 Email signin true Username signin true',
+            title: 'MM-T1768 - Email signin true Username signin true',
             signinWithEmail: true,
             signinWithUsername: true,
         },
         {
-            title: 'MM-T1769 Email signin true Username signin false',
+            title: 'MM-T1769 - Email signin true Username signin false',
             signinWithEmail: true,
             signinWithUsername: false,
         },
