@@ -2,70 +2,66 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import GetLinkModal from 'components/get_link_modal';
 
-export default class GetPublicLinkModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    link: string;
+    actions: {
+        getFilePublicLink: (fileId: string) => void;
+    };
+}
 
-        /**
-         * Public link of the file
-         */
-        link: PropTypes.string,
+type State = {
+    show: boolean;
+    fileId: string;
+}
 
-        actions: PropTypes.shape({
-
-            /**
-             * An action to get public link
-             */
-            getFilePublicLink: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    static defaultProps = {
+export default class GetPublicLinkModal extends React.PureComponent<Props, State> {
+    public static defaultProps: Partial<Props> = {
         link: '',
-    }
+    };
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
+
         this.state = {
             show: false,
             fileId: '',
         };
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL, this.handleToggle);
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL, this.handleToggle);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    public componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.show && !prevState.show) {
             this.props.actions.getFilePublicLink(this.state.fileId);
         }
     }
 
-    handleToggle = (value, args) => {
+    handleToggle = (value: boolean, args: State) => {
         this.setState({
             show: value,
             fileId: args.fileId,
         });
     }
 
-    onHide = () => {
+    public onHide = () => {
         this.setState({
             show: false,
         });
     }
 
-    render() {
+    public render() {
         return (
             <GetLinkModal
                 show={this.state.show}
