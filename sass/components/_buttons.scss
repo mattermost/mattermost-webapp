@@ -120,7 +120,6 @@ button {
     &--active,
     &--active:hover {
         background: rgba(var(--button-bg-rgb), 0.08);
-
         fill: v(button-bg);
         color: v(button-bg);
     }
