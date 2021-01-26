@@ -163,15 +163,13 @@ describe('Post search display', () => {
         cy.postMessage('hello');
 
         // # Click on searchbox
-        cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('input#searchBox').should('be.visible').click();
-        });
+        cy.get('input#searchBox').should('be.visible').click();
 
         // * Check the contents in search options
         assertSearchHint();
 
         // # Search for search term in:
-        cy.get('#searchBox').type('in:');
+        cy.get('#searchBox').click().type('in:');
 
         // # Select option from suggestion list
         cy.get('.search-autocomplete__item').first().click({force: true});
@@ -183,7 +181,7 @@ describe('Post search display', () => {
         cy.get('.input-clear-x').first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
 
         // # Search for search term in:town-square{space}
-        cy.get('#searchBox').type('in:town-square ').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchBox').click().type('in:town-square ').wait(TIMEOUTS.HALF_SEC);
 
         // * Check the hint contents are now visible
         assertSearchHint();
@@ -192,7 +190,7 @@ describe('Post search display', () => {
         cy.get('.input-clear-x').first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
 
         // # Search for search term in:town-square{enter}
-        cy.get('#searchBox').type('in:town-square').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchBox').click().type('in:town-square').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert that channel name displays appropriately
         cy.get('.search-autocomplete__item').first().should('contain.text', 'Town Square~town-square');
@@ -240,8 +238,8 @@ describe('Post search display', () => {
         // # Post message
         cy.postMessage(testMessage);
 
-        // # Search for search term in:town-square{space}
-        cy.get('input#searchBox').type('Hell*{enter}').wait(TIMEOUTS.HALF_SEC);
+        // # Search for search term Hell*
+        cy.get('input#searchBox').click().type('Hell*{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // # RHS should be visible with search results
         cy.get('#search-items-container').should('be.visible');
@@ -254,15 +252,15 @@ describe('Post search display', () => {
     it('MM-T2293 - Jump link shows archived view in center', () => {
         const testMessage = 'Hello World!!!';
 
-        // # Post messages that can offset the initial mesage
+        // # Post messages that can offset the initial message
         cy.postMessage(testMessage);
 
         for (let i = 0; i < 5; i++) {
             cy.postMessage('other Message');
         }
 
-        // # Search for search term in:town-square{space}
-        cy.get('input#searchBox').type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+        // # Search for search term Hello
+        cy.get('input#searchBox').click().type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // # RHS should be visible with search results
         cy.get('#search-items-container').should('be.visible');
@@ -280,7 +278,7 @@ describe('Post search display', () => {
     it('MM-T2294 - `in:` only returns results from specified channel Click to select auto-complete option', () => {
         const testMessage = 'inchannel';
 
-        // # Post messages that can offset the initial mesage
+        // # Post messages that can offset the initial message
         cy.postMessage(testMessage + ' #verify');
 
         cy.apiCreateUser().then(({user}) => {
@@ -294,7 +292,7 @@ describe('Post search display', () => {
         });
 
         // # Search for search term
-        cy.get('input#searchBox').type(`${testMessage} in:town-square{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
+        cy.get('input#searchBox').click().type(`${testMessage} in:town-square{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
 
         // # RHS should be visible with search results
         cy.get('#search-items-container').should('be.visible');
@@ -308,7 +306,7 @@ describe('Post search display', () => {
     it('MM-T2295 - `from:` only returns results posted by specified user Combine with search term Click to select auto-complete option', () => {
         const testMessage = 'fromuser';
 
-        // # Post messages that can offset the initial mesage
+        // # Post messages that can offset the initial message
         cy.postMessage(testMessage + ' #verify');
 
         cy.apiCreateUser().then(({user}) => {
@@ -322,7 +320,7 @@ describe('Post search display', () => {
         });
 
         // # Search for search term
-        cy.get('input#searchBox').type(`fromuser from:${adminUser.username}{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
+        cy.get('input#searchBox').click().type(`fromuser from:${adminUser.username}{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
 
         // # RHS should be visible with search results
         cy.get('#search-items-container').should('be.visible');
@@ -392,16 +390,14 @@ describe('Post search display', () => {
 
         cy.apiLogin(testUser).then(() => {
             // # Search for search term
-            cy.get('#searchbarContainer').should('be.visible').within(() => {
-                cy.get('input#searchBox').type('This is{enter}').wait(TIMEOUTS.HALF_SEC);
+            cy.get('input#searchBox').click().type('This is{enter}').wait(TIMEOUTS.HALF_SEC);
 
-                // # RHS should be visible with search results
-                cy.get('#search-items-container').should('be.visible');
+            // # RHS should be visible with search results
+            cy.get('#search-items-container').should('be.visible');
 
-                // * Assert that results include only the verify message
-                cy.get('.search-item__container .post.post--thread').each(($item) => {
-                    cy.wrap($item).should('contain.text', 'This is direct');
-                });
+            // * Assert that results include only the verify message
+            cy.get('.search-item__container .post.post--thread').each(($item) => {
+                cy.wrap($item).should('contain.text', 'This is direct');
             });
         });
     });
@@ -410,15 +406,13 @@ describe('Post search display', () => {
         cy.postMessage('hello to the whole world');
 
         // # Search for search term
-        cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('input#searchBox').type('"hello world"{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('input#searchBox').click().type('"hello world"{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // # RHS should be visible with search results
-            cy.get('#search-items-container').should('be.visible');
+        // # RHS should be visible with search results
+        cy.get('#search-items-container').should('be.visible');
 
-            // * Assert that results are not present
-            cy.get('.search-item__container .post.post--thread').should('not.be.visible');
-        });
+        // * Assert that results are not present
+        cy.get('.search-item__container .post.post--thread').should('not.be.visible');
     });
 
     it('MM-T1450 - Autocomplete behaviour', () => {
@@ -426,15 +420,13 @@ describe('Post search display', () => {
         cy.postMessage('hello');
 
         // # Click on searchbox
-        cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('input#searchBox').should('be.visible').click();
-        });
+        cy.get('input#searchBox').should('be.visible').click();
 
         // * Check the contents in search options
         assertSearchHint();
 
-        // # Search for search term in:
-        cy.get('#searchBox').click().type('in:');
+        // # Search for term in:
+        cy.get('#searchBox').type('in:');
 
         // # Select option from suggestion list
         cy.get('.search-autocomplete__item').first().click({force: true});
@@ -461,7 +453,7 @@ describe('Post search display', () => {
         cy.get('.search-autocomplete__item').first().should('contain.text', 'Town Square~town-square');
 
         // # Press enter to register search term
-        cy.get('#searchBox').click().type('{enter}');
+        cy.get('#searchBox').type('{enter}');
 
         // * Check the hint contents are now visible
         assertSearchHint();
@@ -470,7 +462,7 @@ describe('Post search display', () => {
         cy.get('#searchBox').should('have.value', 'in:town-square ');
 
         // # Perform the search
-        cy.get('#searchBox').click().type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchBox').type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert autocomplete list is gone
         cy.get('.search-autocomplete__item').should('not.be.visible');
